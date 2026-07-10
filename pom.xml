@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.casehub</groupId>
+    <artifactId>casehub-qhorus-parent</artifactId>
+    <version>0.2-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>casehub-qhorus-examples</artifactId>
+  <packaging>pom</packaging>
+  <name>CaseHub Qhorus - Examples</name>
+  <description>Usage examples showing the Qhorus message taxonomy, store injection, and in-memory testing.</description>
+
+  <!--
+    Default build: type-system module runs in CI (fast, no LLM, no model download).
+    LLM examples: activate with -Pwith-llm-examples (requires model in ~/.jlama/).
+  -->
+  <modules>
+    <module>type-system</module>
+    <module>normative-layout</module>
+  </modules>
+
+  <profiles>
+    <profile>
+      <id>with-llm-examples</id>
+      <modules>
+        <module>agent-communication</module>
+      </modules>
+    </profile>
+  </profiles>
+</project>
