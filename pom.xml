@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.casehub</groupId>
+  <artifactId>casehub-examples</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>CaseHub Examples</name>
+  <description>
+    Aggregated examples from all CaseHub repos. Clone this single repo
+    to browse and run every CaseHub example.
+  </description>
+
+  <modules>
+    <!-- Repos with aggregator POMs — one entry each -->
+    <module>work-examples</module>
+    <module>qhorus-examples</module>
+    <module>eidos-examples</module>
+
+    <!-- Repos without aggregator POMs — list each example individually.
+         These will collapse to one entry per repo once aggregator POMs
+         are added to the source repos. -->
+    <module>ledger-examples/order-processing</module>
+    <module>ledger-examples/art12-compliance</module>
+    <module>ledger-examples/art22-decision-snapshot</module>
+    <module>ledger-examples/aws-kms-signing</module>
+    <module>ledger-examples/azure-keyvault-signing</module>
+    <module>ledger-examples/eigentrust-mesh</module>
+    <module>ledger-examples/gcp-kms-signing</module>
+    <module>ledger-examples/merkle-verification</module>
+    <module>ledger-examples/otel-trace-wiring</module>
+    <module>ledger-examples/privacy-pseudonymisation</module>
+    <module>ledger-examples/prov-dm-export</module>
+    <module>ledger-examples/trust-score-routing</module>
+    <module>ledger-examples/vault-transit-signing</module>
+    <module>ledger-examples/verifiable-credentials</module>
+
+    <module>desiredstate-examples/dungeon</module>
+    <module>desiredstate-examples/expansion</module>
+    <module>desiredstate-examples/pipeline</module>
+    <module>desiredstate-examples/spatial</module>
+
+    <module>neocortex-examples/example-cbr</module>
+    <module>neocortex-examples/example-rag-pipeline</module>
+    <module>neocortex-examples/example-text-analysis</module>
+
+    <!-- Non-Maven example sets are NOT listed here.
+         openclaw (Docker Compose), blocks-ui (TypeScript), pages (TypeScript)
+         are present in the repo but have standalone run instructions. -->
+  </modules>
+
+  <repositories>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/casehubio/*</url>
+    </repository>
+  </repositories>
+</project>
