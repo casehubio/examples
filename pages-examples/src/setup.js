@@ -1,0 +1,1 @@
+casehubPages = { allowExternal: true, mode: "CLIENT" };
