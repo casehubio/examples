@@ -4,10 +4,10 @@
     {"name": "work",         "org": "casehubio", "type": "maven"},
     {"name": "qhorus",       "org": "casehubio", "type": "maven"},
     {"name": "eidos",        "org": "casehubio", "type": "maven"},
-    {"name": "desiredstate", "org": "casehubio", "type": "maven"},
+    {"name": "desiredstate", "org": "casehubio", "type": "maven", "repo": "casehub-desiredstate"},
     {"name": "neocortex",    "org": "casehubio", "type": "maven"},
     {"name": "openclaw",     "org": "casehubio", "type": "docker"},
     {"name": "blocks-ui",    "org": "casehubio", "type": "typescript"},
-    {"name": "pages",        "org": "casehubio", "type": "typescript"}
+    {"name": "pages",        "org": "casehubio", "type": "typescript", "repo": "casehub-pages"}
   ]
 }

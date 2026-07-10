@@ -16,9 +16,10 @@ python3 -c "
 import json, sys
 config = json.load(open('$CONFIG'))
 for r in config['repos']:
-    print(f\"{r['name']} {r['org']}\")
-" | while read -r name org; do
-  repo_url="https://github.com/$org/$name.git"
+    repo = r.get('repo', r['name'])
+    print(f\"{r['name']} {r['org']} {repo}\")
+" | while read -r name org repo; do
+  repo_url="https://github.com/$org/$repo.git"
   clone_dir="$TMPDIR/$name"
   prefix="${name}-examples"
 
