@@ -1,0 +1,54 @@
+name: Sync Examples
+
+on:
+  repository_dispatch:
+    types: [ecosystem-build-succeeded]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-examples
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync example subtrees
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git
+        run: |
+          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions"
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+
+      - name: Sync subtrees
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          SHAS_JSON: ${{ toJson(github.event.client_payload.shas) }}
+          TRIGGER: ${{ github.event.client_payload.trigger || 'manual' }}
+        run: python3 .github/scripts/sync-subtrees.py
+
+      - name: Verify Maven build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: mvn test --batch-mode --fail-at-end || exit 1
+
+      - name: Push
+        run: git push
