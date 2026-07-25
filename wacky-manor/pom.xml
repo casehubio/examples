@@ -45,11 +45,21 @@
       <version>${casehub.version}</version>
     </dependency>
 
-    <!-- LLM -->
+    <!-- LLM — platform agent stack (Claude Code SDK via Vertex) -->
     <dependency>
-      <groupId>io.quarkiverse.langchain4j</groupId>
-      <artifactId>quarkus-langchain4j-anthropic</artifactId>
-      <version>${quarkus-langchain4j.version}</version>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-platform-agent-api</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-platform-agent-claude</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-platform-agent-langchain4j</artifactId>
+      <version>${casehub.version}</version>
     </dependency>
     <dependency>
       <groupId>dev.langchain4j</groupId>
