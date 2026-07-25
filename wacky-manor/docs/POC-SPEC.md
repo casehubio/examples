@@ -702,7 +702,7 @@ scenes:
         prompt:
           hooded-claw: "You're pouring tea. Secretly slip the poison
             into Penelope's cup while making small talk."
-        aside: true  # HC's response goes to observe channel
+        aside: true  # HC's response goes to audience channel
 
       - id: foil
         alternatives:
@@ -759,7 +759,7 @@ scenes:
    checks for `sceneContext` at the top of its loop — if present, the loop
    blocks on a `CountDownLatch` until the scene releases it.
 2. **Execute beats sequentially.** For each beat:
-   a. Dispatch narration to `/manor/observe` as EVENT
+   a. Dispatch narration to `/manor/audience` as STATUS
    b. Send beat-specific prompts to participating characters' LLMs
       (directly, not through the agent loop)
    c. Dispatch character responses as dialogue/asides via Qhorus
@@ -876,7 +876,7 @@ A separate LLM agent that consumes events and produces commentary.
 scene beats, trigger firings.
 
 **Output:** Breathless, alliterative, dramatic narration dispatched
-to `/manor/observe` topic `narrator`.
+to `/manor/audience` topic `narrator`.
 
 For the POC, the narrator is simpler — triggered per scene beat with a
 narrative prompt, rather than the full summarisation pipeline. The full
@@ -1054,7 +1054,7 @@ topic. Each `<room-chat-panel>` filters by its room topic.
 
 `<narrator-panel>` — right sidebar.
 
-- Observe channel messages
+- Audience channel messages
 - Narrator text: serif font, parchment-tinted background, italic
 - Villain asides: dark background, red text, monospace
   ("Hooded Claw [aside]:")
@@ -1077,8 +1077,8 @@ topic. Each `<room-chat-panel>` filters by its room topic.
 ├────────────────────────────────┬─────────────────┤
 │                                │                 │
 │  <room-chat-columns>           │ <narrator-panel>│
-│  (newspaper layout)            │ (observe channel│
-│                                │  + asides)      │
+│  (newspaper layout)            │ (audience channel│
+│                                │  + asides)       │
 │                                │                 │
 └────────────────────────────────┴─────────────────┘
 ```
