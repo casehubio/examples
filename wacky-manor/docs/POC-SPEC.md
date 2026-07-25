@@ -561,7 +561,7 @@ public class CharacterAgentLoop {
 - `thinking` — internal reasoning, not shown to other characters
   or audience (used for debugging)
 - `dialogue` — spoken aloud, dispatched to room's Qhorus topic
-- `aside` — whispered to audience only, dispatched to observe channel
+- `aside` — whispered to audience only, dispatched to `/manor/audience`
   (Hooded Claw villain monologues, Ant Hill Mob suspicions)
 - `action` — structured action for the game engine
 
@@ -777,8 +777,15 @@ scenes:
 
 ### 1.5 Qhorus Channel Structure
 
-Follows the normative 3-channel layout (`NormativeChannelLayout` in
-`casehub-engine-api`, PP-20260604-a7ad99):
+**Departure from normative layout:** The normative 3-channel layout
+(`NormativeChannelLayout`, PP-20260604-a7ad99) defines `/observe` as
+EVENT-only. But `MessageDispatch` enforces that EVENT messages must not
+carry content (`IllegalArgumentException` in the builder). Narrator
+commentary and villain asides are prose content — they cannot be sent
+as EVENT. This makes the normative observe channel unsuitable for
+content-bearing audience broadcasts.
+
+The POC uses a purpose-built 3-channel layout:
 
 ```
 Space: doily-manor (tenancyId: wacky-manor)
@@ -787,14 +794,20 @@ Space: doily-manor (tenancyId: wacky-manor)
 │   ├── Topic: kitchen        (dialogue in kitchen)
 │   └── Topic: ballroom       (dialogue in ballroom)
 │
-├── Channel: /manor/observe (EVENT-only, ChannelSemantic.APPEND)
+├── Channel: /manor/audience (no type constraints, ChannelSemantic.APPEND)
 │   ├── Topic: narrator       (narrator commentary)
-│   ├── Topic: asides         (villain monologues, character thoughts)
-│   └── Topic: telemetry      (position updates, scene transitions)
+│   └── Topic: asides         (villain monologues, character thoughts)
 │
 └── Channel: /manor/oversight (denies EVENT, ChannelSemantic.APPEND)
     └── Topic: control        (scenario start/stop, human-in-the-loop)
 ```
+
+**Why no `/manor/observe`:** The POC has no telemetry flowing through
+Qhorus. Position updates and scene transitions go directly to the
+WebSocket as game engine events — they aren't Qhorus messages. Phase 3
+adds `/manor/observe` (EVENT-only) when the summarisation pipeline needs
+telemetry flow, using the `telemetry` field on `MessageDispatch` (which
+IS permitted on EVENT messages, unlike `content`).
 
 **MessageType mapping:**
 
@@ -802,16 +815,58 @@ Space: doily-manor (tenancyId: wacky-manor)
 |---|---|---|---|
 | Scenario start | COMMAND | /manor/work | Orchestrator commands characters to participate |
 | Character dialogue | STATUS | /manor/work | Progress updates on the open scenario command |
-| Narrator commentary | EVENT | /manor/observe | Audience-only, not agent-visible (`isAgentVisible() == false`) |
-| Villain asides | EVENT | /manor/observe | Audience-only — other characters must not see these |
-| Position updates | EVENT | /manor/observe | Telemetry — no obligations created |
-| Scene transitions | EVENT | /manor/observe | Telemetry — no obligations created |
+| Narrator commentary | STATUS | /manor/audience | Prose content — EVENT cannot carry content |
+| Villain asides | STATUS | /manor/audience | Prose content for audience; characters don't read this channel |
 | Human intervention | COMMAND | /manor/oversight | Phase 3 human-in-the-loop governance |
 
-Characters in a room see STATUS messages from that room's topic only
-(agent-visible). EVENTs on observe are excluded from agent context by
-design — they reach the audience (UI) but not the characters. When
-a character moves rooms, they subscribe to the new room's topic.
+Characters get world state from `ObservationBuilder`, not from Qhorus
+directly. They never subscribe to `/manor/audience` — the channel
+exists for the UI and for ledger recording (replay in Phase 3).
+`isAgentVisible()` is irrelevant because characters don't consume
+Qhorus messages for their observations. When a character moves rooms,
+`ObservationBuilder` reads the new room's state from `WorldState`.
+
+**Channel initialization:** `ScenarioOrchestrator` creates Qhorus
+infrastructure before launching the game loop:
+
+```java
+private void initChannels(SpaceService spaceService,
+                          ChannelService channelService) {
+    var space = spaceService.create(new SpaceCreateRequest(
+        "doily-manor", TENANCY_ID));
+
+    channelService.create(new ChannelCreateRequest(
+        "/manor/work", "Character dialogue",
+        ChannelSemantic.APPEND,
+        null, null, null, null, null,
+        null,  // allowedTypes: all
+        null,  // deniedTypes: none
+        space.id(), null, null, null, null,
+        null, null, null, null));
+
+    channelService.create(new ChannelCreateRequest(
+        "/manor/audience", "Audience broadcasts",
+        ChannelSemantic.APPEND,
+        null, null, null, null, null,
+        null, null,
+        space.id(), null, null, null, null,
+        null, null, null, null));
+
+    channelService.create(new ChannelCreateRequest(
+        "/manor/oversight", "Governance",
+        ChannelSemantic.APPEND,
+        null, null, null, null, null,
+        null,
+        Set.of(MessageType.EVENT),  // deniedTypes: EVENT
+        space.id(), null, null, null, null,
+        null, null, null, null));
+}
+```
+
+Topics (`entrance-hall`, `kitchen`, `ballroom`, `narrator`, `asides`)
+are auto-created by `MessageDispatch` on first use — the builder
+defaults null topics to `"general"`, but when a topic string is
+provided, the runtime creates the topic if it doesn't exist.
 
 ### 1.6 Narrator
 
@@ -827,6 +882,84 @@ For the POC, the narrator is simpler — triggered per scene beat with a
 narrative prompt, rather than the full summarisation pipeline. The full
 `casehub-blocks` pipeline (`ChannelEventAdapter` → `KeyedAccumulator` →
 `Summariser` → `ChannelEventPublisher`) is a Phase 3 addition.
+
+### 1.7 Observation Format
+
+`ObservationBuilder.buildObservation(character, world)` produces a
+structured text prompt that is the LLM's only source of world
+information. The format determines the quality of emergent character
+behavior — characters can only act on what they can see.
+
+**Observation template:**
+
+```
+== Current Location ==
+{room.name}: {room.description}
+
+== Visible Objects ==
+{for each object visible to this character:}
+- {object.name} (at position {object.x}): {object.description}
+  {if object.interactable:} [interactable{if object.interactionRequires:}, requires: {item}{/if}]
+  {if object.portable:} [can be picked up]
+{/for}
+{if no visible objects:} Nothing notable here.
+
+== Characters Present ==
+{for each other character in the same room:}
+- {character.name} (at position {character.x})
+{/for}
+{if alone:} You are alone.
+
+== Your Inventory ==
+{for each item in character.inventory:}
+- {item.name}: {item.description}
+{/for}
+{if empty:} You are carrying nothing.
+
+== Recent Activity ==
+{last 5 dialogue/action events from this room, newest first:}
+- {character.name}: "{dialogue}"
+- {character.name} {action description}
+{if no recent activity:} The room is quiet.
+
+== Last Action Result ==
+{result of this character's previous action:}
+{e.g., "You moved to the Kitchen.", "Failed: the cabinet is locked.",
+ "You picked up the brass key."}
+{if first turn:} You have just arrived at Doily Manor.
+```
+
+**Example** (Hooded Claw in Kitchen, after discovering poison):
+
+```
+== Current Location ==
+Kitchen: A large Victorian kitchen with copper pots, a wood-burning
+stove, and a long preparation table.
+
+== Visible Objects ==
+- Locked Cabinet (at position 0.3): A sturdy cabinet with a brass
+  lock. [interactable, requires: brass-key]
+- Rat Poison (at position 0.7): A dusty bottle of rat poison on a
+  high shelf. [can be picked up]
+- Wood-Burning Stove (at position 0.5): A cast-iron stove, still warm.
+
+== Characters Present ==
+You are alone.
+
+== Your Inventory ==
+You are carrying nothing.
+
+== Recent Activity ==
+The room is quiet.
+
+== Last Action Result ==
+You moved to the Kitchen.
+```
+
+The observation is rebuilt every loop iteration — it always reflects
+current world state. Visibility filtering ensures each character sees
+only objects in their visible set (e.g., only the Hooded Claw sees
+the rat poison until a `revealObject` trigger widens visibility).
 
 ---
 
