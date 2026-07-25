@@ -22,7 +22,7 @@
     <langchain4j.version>1.14.1</langchain4j.version>
     <quarkus-langchain4j.version>1.9.2</quarkus-langchain4j.version>
     <assertj.version>3.27.3</assertj.version>
-    <surefire.version>3.7.2</surefire.version>
+    <surefire.version>3.5.2</surefire.version>
   </properties>
 
   <dependencyManagement>
@@ -38,20 +38,10 @@
   </dependencyManagement>
 
   <dependencies>
-    <!-- CaseHub Eidos -->
+    <!-- CaseHub Eidos API — descriptor types only, no runtime/JPA -->
     <dependency>
       <groupId>io.casehub</groupId>
-      <artifactId>casehub-eidos</artifactId>
-      <version>${casehub.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.casehub</groupId>
-      <artifactId>casehub-eidos-memory</artifactId>
-      <version>${casehub.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.casehub</groupId>
-      <artifactId>casehub-eidos-vocab</artifactId>
+      <artifactId>casehub-eidos-api</artifactId>
       <version>${casehub.version}</version>
     </dependency>
 
@@ -71,10 +61,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-jdbc-h2</artifactId>
     </dependency>
 
     <!-- YAML parsing -->
