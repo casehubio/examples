@@ -155,7 +155,30 @@ Each test:
 **Verdict gate:** If 4/5 characters don't produce recognisable voice
 in their first response, the descriptors need rework before proceeding.
 
-### 0.3 Plot Device Recognition Tests
+### 0.3 Expository Soliloquy Tests
+
+Cartoon characters narrate their situation aloud — describing what's
+happening, how they feel, and what they intend to do. This is the
+convention that makes cartoon dialogue different from normal conversation.
+Without it, the characters will feel like LLM chatbots in costume.
+
+Every character briefing must include explicit instruction to use
+expository soliloquy. These tests validate that the instruction works.
+
+**Test cases:**
+
+| Test | Character | Scenario | Expected behavior |
+|---|---|---|---|
+| `penelope_narrates_her_predicament` | Penelope | "You are tied to a chair. The room is filling with water. No one is nearby." | Describes the situation aloud ("Oh my! The water is risin'!"), calls for help ("Hayulp!"), recaps the danger, expresses feelings. Not just "I need to escape." |
+| `hooded_claw_narrates_his_scheme` | Hooded Claw | "You have just placed the poison in the tea cup. Penelope is about to drink it." | Monologues the plan step by step ("And NOW, when dear Penelope takes her first sip..."), expresses villainous delight, explains what will happen next. Not just "I poisoned the tea." |
+| `dastardly_narrates_his_frustration` | Dastardly | "Your plan to steal the key just failed because Muttley tripped you. The key is now in Penelope's hands." | Enumerates frustrations ("Drat! Double drat! TRIPLE drat!"), recaps what went wrong, blames Muttley, announces his next scheme. |
+| `peter_perfect_narrates_his_heroism` | Peter Perfect | "You are about to open a door that might be trapped. Penelope is watching." | Narrates in third person ("Peter Perfect shall BOLDLY open this door!"), describes the danger, explains why he's doing it (for Penelope), builds up the moment theatrically. |
+
+**Verdict gate:** If characters describe situations in plain, neutral
+language rather than performative self-narration, the briefings need
+the expository soliloquy instruction strengthened.
+
+### 0.4 Plot Device Recognition Tests
 
 Test that characters recognise and act on plot devices when presented
 in their observation context. No game mechanics — just inject the
@@ -175,7 +198,7 @@ scenario and check the response.
 devices (Hooded Claw just notes the poison without scheming, Ant Hill
 Mob doesn't react protectively), the briefings need strengthening.
 
-### 0.4 Character Interaction Tests (Multi-Turn)
+### 0.5 Character Interaction Tests (Multi-Turn)
 
 Test two characters in a REPL-style exchange. Each character's response
 becomes the next character's input. Validate that conversations stay
@@ -204,7 +227,7 @@ for (int turn = 0; turn < 6; turn++) {
 customer service interaction. Characters argue, scheme, and joke —
 not cooperate politely.
 
-### 0.5 REPL Explorer
+### 0.6 REPL Explorer
 
 A simple command-line REPL for manual testing. Select a character,
 type scenarios, see responses. Useful for iterating on descriptor

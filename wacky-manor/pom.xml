@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.casehub</groupId>
+  <artifactId>wacky-manor</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <name>Wacky Manor - Feasibility POC</name>
+  <description>
+    Multi-agent LLM demo: Wacky Races characters in a haunted mansion.
+    Exercises Eidos personality descriptors, Qhorus channels, and
+    blocks summarisation.
+  </description>
+
+  <properties>
+    <maven.compiler.release>21</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <quarkus.version>3.32.2</quarkus.version>
+    <casehub.version>0.2-SNAPSHOT</casehub.version>
+    <langchain4j.version>1.14.1</langchain4j.version>
+    <quarkus-langchain4j.version>1.9.2</quarkus-langchain4j.version>
+    <assertj.version>3.27.3</assertj.version>
+    <surefire.version>3.7.2</surefire.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-bom</artifactId>
+        <version>${quarkus.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <!-- CaseHub Eidos -->
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-eidos</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-eidos-memory</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-eidos-vocab</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+
+    <!-- LLM -->
+    <dependency>
+      <groupId>io.quarkiverse.langchain4j</groupId>
+      <artifactId>quarkus-langchain4j-anthropic</artifactId>
+      <version>${quarkus-langchain4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>dev.langchain4j</groupId>
+      <artifactId>langchain4j-core</artifactId>
+      <version>${langchain4j.version}</version>
+    </dependency>
+
+    <!-- Quarkus core -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-arc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-h2</artifactId>
+    </dependency>
+
+    <!-- YAML parsing -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-yaml</artifactId>
+    </dependency>
+
+    <!-- Test -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-maven-plugin</artifactId>
+        <version>${quarkus.version}</version>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.version}</version>
+        <configuration>
+          <excludedGroups>llm-eval</excludedGroups>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>llm-eval</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>${surefire.version}</version>
+            <configuration>
+              <groups>llm-eval</groups>
+              <excludedGroups combine.self="override"/>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <repositories>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/casehubio/*</url>
+    </repository>
+  </repositories>
+</project>

@@ -50,6 +50,9 @@
     <!-- Non-Maven example sets are NOT listed here.
          openclaw (Docker Compose), blocks-ui (TypeScript), pages (TypeScript)
          are present in the repo but have standalone run instructions. -->
+
+    <!-- Standalone examples (not synced from source repos) -->
+    <module>wacky-manor</module>
   </modules>
 
   <repositories>

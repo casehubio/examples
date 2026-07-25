@@ -42,11 +42,36 @@ exists in a room because triggering the interaction is funny, not because it
 serves the plot. Sam & Max is the reference: the world-building serves the
 jokes, not the other way around.
 
+## Scenario Premise
+
+Each character has received a mysterious invitation:
+
+> "You are cordially invited to Doily Manor for a most EXTRAORDINARY
+> evening. Survive the night, solve the mansion's puzzles, and the last
+> one standing wins ONE MILLION DOLLARS. But beware — the mansion has a
+> mind of its own..."
+
+This framing gives every character a reason to be there, a reason to
+cooperate (some puzzles need multiple people), and a reason to compete
+(only one winner). It also provides:
+
+- **Elimination justification** — voted out characters "didn't survive
+  the night"
+- **Hooded Claw's cover story** — he's there for the money, like everyone
+  else (or so they think). His real mission is Penelope, but the
+  competition gives him a plausible reason to be in every room.
+- **Character-specific motivations layered on top:**
+  - Penelope wants to solve the puzzles — the money is nice but the
+    adventure is the real draw
+  - Dastardly wants the million and will cheat for it
+  - Peter Perfect wants to win so he can give the money to Penelope
+  - Pat Pending doesn't care about the money — the mechanisms are the prize
+  - Ant Hill Mob are there because Penelope is there
+  - Hooded Claw uses the competition as cover for his real mission
+
 ## The Setting: Doily Manor
 
-A haunted Victorian mansion. Multiple floors, interconnected rooms. Characters
-have been invited to a treasure hunt weekend. The legendary Doily Diamond is
-hidden somewhere in the mansion.
+A haunted Victorian mansion. Multiple floors, interconnected rooms.
 
 ### Visual Style
 
@@ -166,6 +191,123 @@ is wearing the missing spring from the Lab machine as a bracelet because
 Fixing a broken chair. Sawtooth has gnawed through a crucial wire on the
 machine. Rufus can fix it, but only with "a proper wrench, not these fancy
 city tools." The wrench is in the Kitchen.
+
+## Cartoon Character Communication: Expository Soliloquy
+
+Cartoon characters — especially Hanna-Barbera characters — don't just talk
+to each other. They narrate their situation aloud. This is called
+**expository soliloquy** (or **performative self-narration**). It's distinct
+from narration, internal monologue, and normal dialogue. It's a fourth mode
+where the character verbalizes their situation, emotions, and intentions
+aloud — technically to themselves or whoever's nearby, but really for the
+audience.
+
+**Penelope (victim exposition):** "Oh my! That dreadful Hooded Claw has
+tied me to this here conveyor belt, and it's headin' straight for that big
+ol' buzzsaw! Hayulp! Hayulp! Won't someone please save little ol' me?"
+
+**Hooded Claw (villain plan narration):** "And NOW, when dear Penelope
+steps on THAT tile, it shall trigger THIS trapdoor, sending her plummeting
+into the crocodile pit below! NOTHING can save her now! Nyah-ha-ha-HA!"
+
+**Dastardly (frustrated recap):** "Drat! Double drat! Those goody-two-shoes
+have won AGAIN! Come, Muttley, we must devise an even MORE dastardly plan!"
+
+This convention is critical for the demo. Without it, the characters will
+either be silent (just taking actions) or have normal conversations.
+Neither feels like a cartoon. Every character briefing must explicitly
+instruct this mode:
+
+> You frequently narrate your situation aloud — describing what's
+> happening to you, how you feel about it, and what you intend to do
+> next. You do this in your character voice, often to yourself, to nearby
+> characters, or to no one in particular. When in danger, describe the
+> danger. When scheming, explain your scheme. When frustrated, enumerate
+> your frustrations. You repeat and reinforce key plot points through
+> your dialogue.
+
+This also solves a practical problem: **it makes the transcript self-
+documenting.** The audience doesn't need to read game state — the
+characters TELL you what's happening through their performative self-
+narration. The narrator adds dramatic flair on top, but the characters
+themselves carry the exposition.
+
+**Phase 0 must validate this.** If characters don't do expository soliloquy
+naturally from the descriptor, the whole demo will feel like LLM chatbots
+in costume rather than cartoon characters.
+
+## Eidos Enhancement: Libraries and Templates
+
+The Wacky Manor demo surfaces a gap in Eidos's descriptor model. Currently,
+behavioral instructions live in a single `briefing` text field per
+descriptor. But cartoon characters share genre-level conventions (expository
+soliloquy, emotional telegraphing, catchphrase repetition) and role-level
+conventions (villain monologues, hero gallantry, sidekick reactions). Putting
+all of these in every briefing creates duplication and drift.
+
+### Libraries — Reusable Prose Fragments
+
+Shared behavioral instructions referenced by ID. Multiple descriptors share
+them. No variable substitution — same text everywhere it's used.
+
+```yaml
+# META-INF/eidos/resources/hanna-barbera-cartoon-style.yaml
+id: hanna-barbera-cartoon-style
+name: Hanna-Barbera Cartoon Character Style
+content: |
+  You are a character in a Hanna-Barbera cartoon. You follow these
+  conventions:
+
+  EXPOSITORY SOLILOQUY: You frequently narrate your situation aloud...
+  EMOTIONAL TELEGRAPHING: State your emotions explicitly and with
+  exaggeration...
+  SITUATION RECAP: When something significant happens, restate it aloud...
+  CATCHPHRASE REPETITION: Use your signature phrases regularly...
+```
+
+### Templates — Parameterized Prose
+
+Variable substitution for role-level conventions:
+
+```yaml
+# META-INF/eidos/resources/cartoon-villain.yaml
+id: cartoon-villain
+parameters: [catchphrase, nemesis, scheme_style]
+content: |
+  As a villain, your catchphrase is "${catchphrase}". Your nemesis is
+  ${nemesis}. You monologue your plans in a ${scheme_style} manner.
+  You explain your scheme step by step, especially when you believe
+  you are about to succeed.
+```
+
+### Descriptor References
+
+```yaml
+descriptors:
+  - agentId: hooded-claw
+    resources:
+      - ref: hanna-barbera-cartoon-style    # genre layer
+      - ref: cartoon-villain                 # role layer
+        args:
+          catchphrase: "Nyah-ha-ha-HA!"
+          nemesis: Penelope Pitstop
+          scheme_style: grandiose and theatrical
+    briefing: >-                             # character layer
+      You are The Hooded Claw...
+```
+
+The `SystemPromptRenderer` composes: libraries (in order) → templates
+(with substitution) → briefing → disposition axes. Each layer adds
+specificity. This is a separate Eidos epic, not part of the Wacky Manor
+POC, but the POC is what surfaced the need. For the POC, we inline
+everything in the briefing.
+
+### Beyond Wacky Manor
+
+This pattern is useful in professional contexts too:
+- A "regulatory communication" library shared across 20 compliance agents
+- A "clinical communication" template parameterized per specialty
+- A "customer service tone" library referenced by all support agents
 
 ## The Plot
 
