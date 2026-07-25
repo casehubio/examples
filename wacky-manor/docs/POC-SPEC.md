@@ -294,7 +294,7 @@ rooms:
         x: 0.3
         interactable: true
         interactionRequires: brass-key
-        yields: recipe-cards
+        yields: old-recipe-cards
       poison:
         name: "Rat Poison"
         description: "A dusty bottle of rat poison on a high shelf."
@@ -395,13 +395,26 @@ threads, and runs the game loop.
 @ApplicationScoped
 public class ScenarioOrchestrator {
 
-    void runScenario(WorldState world, ChatModel model,
-                     MessageDispatcher dispatcher) {
+    @Inject SceneDirector sceneDirector;
+
+    Thread startScenario(WorldState world, ChatModel model,
+                         MessageDispatcher dispatcher) {
+        return Thread.ofVirtual().name("scenario-loop")
+            .start(() -> runScenario(world, model, dispatcher));
+    }
+
+    private void runScenario(WorldState world, ChatModel model,
+                             MessageDispatcher dispatcher) {
         var actionQueue = new LinkedBlockingQueue<PendingAction>();
 
         // Launch character agent loops on virtual threads
         var threads = world.characters().stream()
             .map(c -> Thread.ofVirtual().name(c.agentId())
+                .uncaughtExceptionHandler((t, e) -> {
+                    log.error("Character {} crashed: {}",
+                        t.getName(), e.getMessage(), e);
+                    world.markCharacterInactive(t.getName());
+                })
                 .start(() -> new CharacterAgentLoop()
                     .run(c, world, model, dispatcher, actionQueue)))
             .toList();
@@ -412,13 +425,63 @@ public class ScenarioOrchestrator {
             if (pending != null) {
                 ActionResult result = world.resolveAction(
                     pending.character(), pending.action());
-                world.evaluateTriggers();  // deterministic
+
+                // Evaluate triggers — may start a scene
+                TriggerResult triggers = world.evaluateTriggers();
+                if (triggers.hasSceneStart()) {
+                    sceneDirector.runScene(
+                        triggers.sceneId(), world, model,
+                        dispatcher, actionQueue);
+                }
+
                 pending.complete(result);
+            }
+        }
+
+        // Join threads and report failures
+        for (var t : threads) {
+            t.join(Duration.ofSeconds(5));
+            if (t.isAlive()) {
+                log.warn("Character {} did not terminate", t.getName());
+                t.interrupt();
             }
         }
     }
 }
 ```
+
+**Async launch:** `startScenario()` returns immediately — the game loop
+runs on its own virtual thread. The "Start" button calls this method
+via a REST endpoint that returns `202 Accepted` without blocking. The
+WebSocket `scenario` event signals when the scenario starts and completes.
+
+**Thread failure handling:** Each character virtual thread has an
+`UncaughtExceptionHandler` that logs the failure and marks the character
+inactive via `world.markCharacterInactive()`. Inactive characters are
+excluded from trigger evaluation and their position is frozen in the UI.
+After the game loop exits, all threads are joined with a timeout and
+stragglers are interrupted.
+
+**Scenario completion:** `WorldState.isScenarioComplete()` returns true
+when a `completeScenario` trigger fires. Defined in `triggers.yaml`:
+
+```yaml
+  - id: scenario-complete
+    condition:
+      sceneCompleted: tea-poisoning
+    effect:
+      completeScenario: true
+    once: true
+```
+
+For the POC, the scenario completes when the tea-poisoning scene's
+aftermath beat finishes. Phase 3 adds more conditions (all three devices
+foiled, diamond found). The trigger system is the uniform mechanism for
+both.
+
+**Scene integration:** When a trigger fires `startScene`, the game loop
+delegates to `SceneDirector.runScene()` — which runs synchronously on
+the game loop thread, maintaining the single-writer invariant.
 
 Each character runs an independent async loop on a virtual thread:
 
@@ -429,6 +492,11 @@ public class CharacterAgentLoop {
              ChatModel model, MessageDispatcher dispatcher,
              BlockingQueue<PendingAction> actionQueue) {
         while (!world.isScenarioComplete()) {
+            // 0. If in a scene, block until scene releases us
+            if (character.sceneContext() != null) {
+                character.sceneContext().awaitRelease();
+            }
+
             // 1. Build observation from character's perspective
             String observation = buildObservation(character, world);
 
@@ -552,18 +620,28 @@ interaction). On success, item transfers between inventories.
 **Item dependency graph:** Classic adventure-game logic.
 
 ```
-fake-medal (Dastardly's starting inventory)
-    → give to Muttley
-    → brass-key (Muttley was sitting on it)
-        → open cabinet (Kitchen)
-        → recipe-cards
-            → safe combination
-            → Key 2
+POC-resolvable chain:
+  fake-medal (Dastardly's starting inventory)
+      → give to Muttley
+      → brass-key (Muttley was sitting on it)
+          → open cabinet (Kitchen)
+          → old-recipe-cards (flavor item — no mechanical use in POC)
 
-rat-poison (Kitchen, Hooded Claw only)
-    → use on tea-service (Ballroom)
-    → poisoned-tea (triggers tea scene)
+  rat-poison (Kitchen, Hooded Claw only)
+      → use on tea-service (Ballroom)
+      → poisoned-tea (triggers tea scene)
+
+Phase 3 additions:
+  recipe-cards → safe combination → Key 2 (requires safe in Kitchen)
+  dynamite → rig staircase → staircase-trap trigger
+  blade → rig treasure chest → chest-trap trigger
 ```
+
+The cabinet yields `old-recipe-cards` in the POC — a flavor discovery
+("yellowed recipe cards for Doily family recipes") with no game-mechanical
+use. Characters who find them see descriptive text but the observation
+builder does not suggest a use. The full recipe-cards → safe chain is a
+Phase 3 addition when the Kitchen gains a safe object.
 
 ### 1.4 Triggers and Scenes
 
@@ -672,6 +750,30 @@ scenes:
           ant-hill-mob: "You just knocked over the tea cup. You're
             not entirely sure why you did it — just a gut feeling."
 ```
+
+**Scene/game-loop integration:** When a trigger fires `startScene`, the
+`SceneDirector` runs on the game loop thread (maintaining single-writer):
+
+1. **Pause participating characters.** Sets `character.sceneContext` on
+   each character named in the scene's beat prompts. The `CharacterAgentLoop`
+   checks for `sceneContext` at the top of its loop — if present, the loop
+   blocks on a `CountDownLatch` until the scene releases it.
+2. **Execute beats sequentially.** For each beat:
+   a. Dispatch narration to `/manor/observe` as EVENT
+   b. Send beat-specific prompts to participating characters' LLMs
+      (directly, not through the agent loop)
+   c. Dispatch character responses as dialogue/asides via Qhorus
+   d. Apply `mechanicalEffect` directly on `WorldState` (same thread
+      as game loop — no queue needed)
+   e. For beats with `alternatives`, try each in order; if none match
+      and `waitIfNoneMatch`, release the game loop to process normal
+      actions until a condition is met, then resume the scene
+3. **Release characters.** Clear `sceneContext`, count down the latch.
+   Character loops resume autonomous behavior.
+4. **Non-participating characters continue.** Only characters named in
+   beat prompts are paused. Others keep submitting actions to the queue.
+   The game loop interleaves normal action resolution with scene beats
+   when `waitIfNoneMatch` is active.
 
 ### 1.5 Qhorus Channel Structure
 
@@ -809,8 +911,8 @@ Each column:
 - Messages styled per character (avatar, name, colored bubble)
 - Character-specific colors (Penelope: pink, Dastardly: purple,
   Hooded Claw: dark green, Ant Hill Mob: brown, Peter: blue)
-- Narrator interjections inline in italics when they reference
-  that room
+- Narrator interjections inline in italics when the narrator event's
+  `room` field matches this column's room
 
 **Data flow:** WebSocket pushes Qhorus messages tagged with room
 topic. Each `<room-chat-panel>` filters by its room topic.
@@ -865,7 +967,7 @@ type ManorEvent =
   | { type: 'dialogue', characterId: string, room: string,
       speechAct: string, content: string }
   | { type: 'aside', characterId: string, content: string }
-  | { type: 'narrator', content: string }
+  | { type: 'narrator', room?: string, content: string }
   | { type: 'object', objectId: string, room: string,
       visible: boolean, visibleTo?: string }
   | { type: 'scene', sceneId: string, status: 'started' | 'ended' }
@@ -930,7 +1032,7 @@ examples/wacky-manor/
 │   │   │   │   ├── ActionResolver.java     ← validate + resolve actions
 │   │   │   │   ├── ActionType.java         ← action vocabulary enum
 │   │   │   │   ├── TriggerEvaluator.java   ← condition → effect
-│   │   │   │   ├── SceneDirector.java      ← scripted beat sequences
+│   │   │   │   ├── SceneDirector.java      ← scripted beat sequences (runs on game loop thread)
 │   │   │   │   └── ProximityChecker.java   ← x-distance gating
 │   │   │   ├── agent/
 │   │   │   │   ├── ScenarioOrchestrator.java ← lifecycle + game loop
