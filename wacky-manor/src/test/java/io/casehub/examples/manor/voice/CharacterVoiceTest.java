@@ -1,5 +1,7 @@
 package io.casehub.examples.manor.voice;
 
+import io.casehub.eidos.api.AgentRegistry;
+import io.casehub.eidos.api.SystemPromptRenderer;
 import io.casehub.platform.agent.AgentProvider;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -13,14 +15,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Tag("llm-eval")
 class CharacterVoiceTest {
 
-    @Inject
-    AgentProvider agentProvider;
+    @Inject AgentRegistry registry;
+    @Inject SystemPromptRenderer renderer;
+    @Inject AgentProvider agentProvider;
 
     LlmTestSupport support;
 
     @BeforeEach
     void setUp() {
-        support = new LlmTestSupport(agentProvider);
+        support = new LlmTestSupport(registry, renderer, agentProvider);
     }
 
     @Test

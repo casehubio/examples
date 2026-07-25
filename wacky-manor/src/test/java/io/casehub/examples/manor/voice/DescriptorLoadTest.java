@@ -1,67 +1,83 @@
 package io.casehub.examples.manor.voice;
 
-import io.casehub.examples.manor.CharacterProfileLoader;
+import io.casehub.eidos.api.AgentPromptContext;
+import io.casehub.eidos.api.AgentQuery;
+import io.casehub.eidos.api.AgentRegistry;
+import io.casehub.eidos.api.SystemPromptRenderer;
+import io.casehub.eidos.api.SystemPromptRenderer.RenderFormat;
 import io.casehub.examples.manor.ManorConstants;
+import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@QuarkusTest
 class DescriptorLoadTest {
 
-    @Test
-    void five_characters_loaded_from_yaml() {
-        var profiles = CharacterProfileLoader.load();
-        assertThat(profiles).hasSize(5);
-        assertThat(profiles.keySet())
-                .containsExactlyInAnyOrder(
-                        "penelope-pitstop", "hooded-claw", "ant-hill-mob",
-                        "dick-dastardly", "peter-perfect");
-    }
+    @Inject
+    AgentRegistry registry;
+
+    @Inject
+    SystemPromptRenderer renderer;
 
     @Test
-    void all_characters_have_tenancy_id() {
-        var profiles = CharacterProfileLoader.load();
-        profiles.values().forEach(p ->
-                                          assertThat(p.tenancyId())
-                                                  .as("tenancyId for %s", p.agentId())
-                                                  .isEqualTo(ManorConstants.TENANCY_ID));
+    void five_characters_registered_at_startup() {
+        var all = registry.find(AgentQuery.all(ManorConstants.TENANCY_ID));
+        assertThat(all).hasSize(5);
+        assertThat(all).extracting(m -> m.descriptor().agentId())
+                       .containsExactlyInAnyOrder(
+                               "penelope-pitstop", "hooded-claw", "ant-hill-mob",
+                               "dick-dastardly", "peter-perfect");
     }
 
     @Test
     void hooded_claw_has_villain_disposition() {
-        var profiles = CharacterProfileLoader.load();
-        var hc       = profiles.get("hooded-claw");
-        assertThat(hc).isNotNull();
-        assertThat(hc.disposition().riskAppetite()).isEqualTo("extreme");
-        assertThat(hc.disposition().conflictMode()).isEqualTo("competing");
-        assertThat(hc.briefing()).containsIgnoringCase("Nyah-ha-ha");
-    }
+        var desc = registry.findById("hooded-claw", ManorConstants.TENANCY_ID).orElseThrow();
+        assertThat(desc.disposition().riskAppetite()).isEqualTo("extreme");
+        assertThat(desc.disposition().conflictMode()).isEqualTo("competing");
+        assertThat(desc.briefing()).containsIgnoringCase("Hooded Claw");
+        assertThat(desc.templates()).extracting(t -> t.templateId())
+                                    .contains("cartoon-villain");}
 
     @Test
     void penelope_has_collaborative_disposition() {
-        var profiles = CharacterProfileLoader.load();
-        var penelope = profiles.get("penelope-pitstop");
-        assertThat(penelope).isNotNull();
-        assertThat(penelope.disposition().socialOrient()).isEqualTo("collaborative");
-        assertThat(penelope.briefing()).containsIgnoringCase("Southern");
+        var desc = registry.findById("penelope-pitstop", ManorConstants.TENANCY_ID).orElseThrow();
+        assertThat(desc.disposition().socialOrient()).isEqualTo("collaborative");
+        assertThat(desc.briefing()).containsIgnoringCase("Southern");
     }
 
     @Test
-    void all_characters_have_briefing_with_soliloquy_instruction() {
-        var profiles = CharacterProfileLoader.load();
-        profiles.values().forEach(p ->
-                                          assertThat(p.briefing())
-                                                  .as("briefing for %s should include soliloquy instruction", p.agentId())
-                                                  .containsIgnoringCase("narrate your situation aloud"));
+    void hooded_claw_has_villain_template() {
+        var desc = registry.findById("hooded-claw", ManorConstants.TENANCY_ID).orElseThrow();
+        assertThat(desc.templates()).isNotEmpty();
+        assertThat(desc.templates()).extracting(t -> t.templateId())
+                                    .contains("hanna-barbera-cartoon-style", "cartoon-villain");
     }
 
     @Test
-    void system_prompt_includes_personality_and_briefing() {
-        var profiles = CharacterProfileLoader.load();
-        var prompt   = profiles.get("hooded-claw").buildSystemPrompt();
-        assertThat(prompt)
-                .contains("The Hooded Claw")
-                .contains("Risk appetite: extreme")
-                .contains("Nyah-ha-ha");
+    void rendered_prompt_includes_template_content() {
+        var desc     = registry.findById("hooded-claw", ManorConstants.TENANCY_ID).orElseThrow();
+        var ctx      = AgentPromptContext.forFormat(RenderFormat.MARKDOWN);
+        var rendered = renderer.render(desc, ctx);
+        assertThat(rendered.content())
+                .as("Rendered prompt should include template content (expository soliloquy)")
+                .containsIgnoringCase("expository soliloquy")
+                .containsIgnoringCase("emotional telegraphing");
+        assertThat(rendered.content())
+                .as("Rendered prompt should include villain template with substituted args")
+                .containsIgnoringCase("Nyah-ha-ha-HA!")
+                .containsIgnoringCase("Penelope Pitstop");
+    }
+
+    @Test
+    void all_characters_share_hanna_barbera_template() {
+        var all = registry.find(AgentQuery.all(ManorConstants.TENANCY_ID));
+        for (var match : all) {
+            assertThat(match.descriptor().templates())
+                    .as("Character %s should reference hanna-barbera-cartoon-style", match.descriptor().name())
+                    .extracting(t -> t.templateId())
+                    .contains("hanna-barbera-cartoon-style");
+        }
     }
 }

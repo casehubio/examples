@@ -38,11 +38,27 @@
   </dependencyManagement>
 
   <dependencies>
-    <!-- CaseHub Eidos API — descriptor types only, no runtime/JPA -->
+    <!-- CaseHub Eidos — full runtime with templates + SystemPromptRenderer -->
     <dependency>
       <groupId>io.casehub</groupId>
-      <artifactId>casehub-eidos-api</artifactId>
+      <artifactId>casehub-eidos</artifactId>
       <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-eidos-memory</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-eidos-vocab</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+
+    <!-- Eidos runtime needs a datasource -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-h2</artifactId>
     </dependency>
 
     <!-- LLM — platform agent stack (Claude Code SDK via Vertex) -->
