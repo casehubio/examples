@@ -3,8 +3,10 @@ package io.casehub.examples.manor.voice;
 import io.casehub.eidos.api.AgentPromptContext;
 import io.casehub.eidos.api.AgentQuery;
 import io.casehub.eidos.api.AgentRegistry;
+import io.casehub.eidos.api.GoalPriority;
 import io.casehub.eidos.api.SystemPromptRenderer;
 import io.casehub.eidos.api.SystemPromptRenderer.RenderFormat;
+import io.casehub.eidos.api.Visibility;
 import io.casehub.examples.manor.ManorConstants;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -79,5 +81,32 @@ class DescriptorLoadTest {
                     .extracting(t -> t.templateId())
                     .contains("hanna-barbera-cartoon-style");
         }
+    }
+
+    @Test
+    void hooded_claw_has_private_elimination_goal() {
+        var desc = registry.findById("hooded-claw", ManorConstants.TENANCY_ID).orElseThrow();
+        assertThat(desc.goals()).isNotEmpty();
+        var eliminateGoal = desc.goals().stream()
+                                .filter(g -> g.name().equals("eliminate-penelope"))
+                                .findFirst().orElseThrow();
+        assertThat(eliminateGoal.priority()).isEqualTo(GoalPriority.PRIMARY);
+        assertThat(eliminateGoal.visibility()).isEqualTo(Visibility.PRIVATE);
+    }
+
+    @Test
+    void penelope_goals_are_public() {
+        var desc = registry.findById("penelope-pitstop", ManorConstants.TENANCY_ID).orElseThrow();
+        assertThat(desc.publicGoals()).isNotEmpty();
+        assertThat(desc.publicGoals()).allSatisfy(g ->
+                                                          assertThat(g.visibility()).isEqualTo(Visibility.PUBLIC));
+    }
+
+    @Test
+    void hooded_claw_has_never_break_cover_constraint() {
+        var desc = registry.findById("hooded-claw", ManorConstants.TENANCY_ID).orElseThrow();
+        assertThat(desc.constraints()).isNotEmpty();
+        assertThat(desc.constraints()).extracting(c -> c.name())
+                                      .contains("never-break-cover");
     }
 }
