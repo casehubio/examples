@@ -57,7 +57,7 @@ class ScenarioIntegrationTest {
         assertThat(hc.hasItem("rat-poison")).isTrue();
 
         // -- Act 3: Move Penelope and Ant Hill Mob to ballroom --
-        world.moveCharacter("penelope", "ballroom");
+        world.moveCharacter("penelope-pitstop", "ballroom");
         world.moveCharacter("ant-hill-mob", "ballroom");
 
         // -- Act 4: Hooded Claw enters ballroom — tea scene triggers --
@@ -98,7 +98,7 @@ class ScenarioIntegrationTest {
         hc.setX(0.7);
         actionResolver.resolve(hc, new Action(ActionType.TAKE, "poison", null), world);
 
-        world.moveCharacter("penelope", "ballroom");
+        world.moveCharacter("penelope-pitstop", "ballroom");
         world.moveCharacter("hooded-claw", "ballroom");
 
         var teaTrigger = triggerEvaluator.evaluate(world);
@@ -141,15 +141,15 @@ class ScenarioIntegrationTest {
         world.moveCharacter("hooded-claw", "kitchen");
         triggerEvaluator.evaluate(world);
 
-        world.moveCharacter("penelope", "kitchen");
-        var penelopeObjects = world.visibleObjects("kitchen", "penelope");
+        world.moveCharacter("penelope-pitstop", "kitchen");
+        var penelopeObjects = world.visibleObjects("kitchen", "penelope-pitstop");
         assertThat(penelopeObjects).noneMatch(o -> o.id().equals("poison"));
     }
 
     @Test
     void trigger_does_not_fire_without_full_conditions() {
         world.character("hooded-claw").addItem("rat-poison");
-        world.moveCharacter("penelope", "ballroom");
+        world.moveCharacter("penelope-pitstop", "ballroom");
 
         var result = triggerEvaluator.evaluate(world);
         assertThat(result.hasSceneStart()).isFalse();

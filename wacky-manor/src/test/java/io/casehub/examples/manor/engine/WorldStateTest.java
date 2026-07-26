@@ -32,7 +32,7 @@ class WorldStateTest {
     void loads_five_characters() {
         assertThat(world.characters()).hasSize(5);
         assertThat(world.characters()).containsKeys(
-            "penelope", "hooded-claw", "ant-hill-mob", "dick-dastardly", "peter-perfect");
+            "penelope-pitstop", "hooded-claw", "ant-hill-mob", "dick-dastardly", "peter-perfect");
     }
 
     @Test
@@ -53,30 +53,30 @@ class WorldStateTest {
         var hcVisible = world.visibleObjects("kitchen", "hooded-claw");
         assertThat(hcVisible).anyMatch(o -> o.id().equals("poison"));
 
-        var penelopeVisible = world.visibleObjects("kitchen", "penelope");
+        var penelopeVisible = world.visibleObjects("kitchen", "penelope-pitstop");
         assertThat(penelopeVisible).noneMatch(o -> o.id().equals("poison"));
     }
 
     @Test
     void reveal_object_makes_it_visible_to_character() {
-        world.revealObject("poison", "penelope");
-        var penelopeVisible = world.visibleObjects("kitchen", "penelope");
+        world.revealObject("poison", "penelope-pitstop");
+        var penelopeVisible = world.visibleObjects("kitchen", "penelope-pitstop");
         assertThat(penelopeVisible).anyMatch(o -> o.id().equals("poison"));
     }
 
     @Test
     void move_character_updates_room() {
-        world.moveCharacter("penelope", "kitchen");
-        assertThat(world.character("penelope").currentRoom()).isEqualTo("kitchen");
+        world.moveCharacter("penelope-pitstop", "kitchen");
+        assertThat(world.character("penelope-pitstop").currentRoom()).isEqualTo("kitchen");
     }
 
     @Test
     void add_and_remove_inventory() {
-        world.addToInventory("penelope", "brass-key");
-        assertThat(world.character("penelope").inventory()).contains("brass-key");
+        world.addToInventory("penelope-pitstop", "brass-key");
+        assertThat(world.character("penelope-pitstop").inventory()).contains("brass-key");
 
-        world.removeFromInventory("penelope", "brass-key");
-        assertThat(world.character("penelope").inventory()).doesNotContain("brass-key");
+        world.removeFromInventory("penelope-pitstop", "brass-key");
+        assertThat(world.character("penelope-pitstop").inventory()).doesNotContain("brass-key");
     }
 
     @Test
@@ -94,7 +94,7 @@ class WorldStateTest {
 
     @Test
     void recent_events_returns_most_recent_first() {
-        world.addEvent("dialogue", "penelope", "entrance-hall", "Why, how delightful!");
+        world.addEvent("dialogue", "penelope-pitstop", "entrance-hall", "Why, how delightful!");
         world.addEvent("action", "hooded-claw", "entrance-hall", "moved to kitchen");
         world.addEvent("dialogue", "dastardly", "entrance-hall", "Mehehehe!");
 
@@ -106,7 +106,7 @@ class WorldStateTest {
 
     @Test
     void objects_with_no_visibleTo_are_visible_to_everyone() {
-        var objects = world.visibleObjects("entrance-hall", "penelope");
+        var objects = world.visibleObjects("entrance-hall", "penelope-pitstop");
         assertThat(objects).anyMatch(o -> o.id().equals("coat-rack"));
         assertThat(objects).anyMatch(o -> o.id().equals("guest-book"));
     }

@@ -19,7 +19,7 @@ class ActionResolverTest {
 
     @Test
     void move_to_adjacent_room_succeeds() {
-        var penelope = world.character("penelope");
+        var penelope = world.character("penelope-pitstop");
         var result = resolver.resolve(penelope,
             new Action(ActionType.MOVE, "kitchen", null), world);
         assertThat(result).isInstanceOf(ActionResult.MovedToRoom.class);
@@ -28,7 +28,7 @@ class ActionResolverTest {
 
     @Test
     void move_to_non_adjacent_room_fails() {
-        var penelope = world.character("penelope");
+        var penelope = world.character("penelope-pitstop");
         var result = resolver.resolve(penelope,
             new Action(ActionType.MOVE, "ballroom", null), world);
         assertThat(result).isInstanceOf(ActionResult.Failed.class);
@@ -49,7 +49,7 @@ class ActionResolverTest {
 
     @Test
     void take_non_portable_object_fails() {
-        var penelope = world.character("penelope");
+        var penelope = world.character("penelope-pitstop");
         penelope.setX(0.5);
         var result = resolver.resolve(penelope,
             new Action(ActionType.TAKE, "guest-book", null), world);
@@ -58,7 +58,7 @@ class ActionResolverTest {
 
     @Test
     void interact_without_required_item_fails() {
-        var penelope = world.character("penelope");
+        var penelope = world.character("penelope-pitstop");
         penelope.setX(0.8);
         var result = resolver.resolve(penelope,
             new Action(ActionType.INTERACT, "muttley", null), world);
@@ -79,12 +79,12 @@ class ActionResolverTest {
     @Test
     void give_transfers_item_to_character_in_same_room() {
         var dastardly = world.character("dick-dastardly");
-        var penelope = world.character("penelope");
+        var penelope = world.character("penelope-pitstop");
         dastardly.setX(0.3);
         penelope.setX(0.3);
 
         var result = resolver.resolve(dastardly,
-            new Action(ActionType.GIVE, "penelope", "fake-medal"), world);
+            new Action(ActionType.GIVE, "penelope-pitstop", "fake-medal"), world);
         assertThat(result).isInstanceOf(ActionResult.Success.class);
         assertThat(dastardly.hasItem("fake-medal")).isFalse();
         assertThat(penelope.hasItem("fake-medal")).isTrue();
@@ -93,10 +93,10 @@ class ActionResolverTest {
     @Test
     void give_to_character_in_different_room_fails() {
         var dastardly = world.character("dick-dastardly");
-        world.moveCharacter("penelope", "kitchen");
+        world.moveCharacter("penelope-pitstop", "kitchen");
 
         var result = resolver.resolve(dastardly,
-            new Action(ActionType.GIVE, "penelope", "fake-medal"), world);
+            new Action(ActionType.GIVE, "penelope-pitstop", "fake-medal"), world);
         assertThat(result).isInstanceOf(ActionResult.Failed.class);
     }
 
@@ -126,7 +126,7 @@ class ActionResolverTest {
 
     @Test
     void look_always_succeeds() {
-        var penelope = world.character("penelope");
+        var penelope = world.character("penelope-pitstop");
         var result = resolver.resolve(penelope,
             new Action(ActionType.LOOK, "coat-rack", null), world);
         assertThat(result).isInstanceOf(ActionResult.Success.class);
@@ -134,7 +134,7 @@ class ActionResolverTest {
 
     @Test
     void wait_always_succeeds() {
-        var penelope = world.character("penelope");
+        var penelope = world.character("penelope-pitstop");
         var result = resolver.resolve(penelope,
             new Action(ActionType.WAIT, null, null), world);
         assertThat(result).isInstanceOf(ActionResult.Success.class);
@@ -142,8 +142,8 @@ class ActionResolverTest {
 
     @Test
     void proximity_check_rejects_distant_interaction() {
-        var penelope = world.character("penelope");
-        world.moveCharacter("penelope", "kitchen");
+        var penelope = world.character("penelope-pitstop");
+        world.moveCharacter("penelope-pitstop", "kitchen");
         penelope.setX(0.1);
 
         var result = resolver.resolve(penelope,
@@ -154,7 +154,7 @@ class ActionResolverTest {
 
     @Test
     void look_at_room_without_target() {
-        var penelope = world.character("penelope");
+        var penelope = world.character("penelope-pitstop");
         var result = resolver.resolve(penelope,
             new Action(ActionType.LOOK, null, null), world);
         assertThat(result).isInstanceOf(ActionResult.Success.class);
@@ -163,7 +163,7 @@ class ActionResolverTest {
 
     @Test
     void give_item_not_in_inventory_fails() {
-        var penelope = world.character("penelope");
+        var penelope = world.character("penelope-pitstop");
         var result = resolver.resolve(penelope,
             new Action(ActionType.GIVE, "dick-dastardly", "nonexistent"), world);
         assertThat(result).isInstanceOf(ActionResult.Failed.class);

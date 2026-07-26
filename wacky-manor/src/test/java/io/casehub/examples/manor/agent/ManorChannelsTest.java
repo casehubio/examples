@@ -103,11 +103,11 @@ class ManorChannelsTest {
 
     @Test
     void dialogue_dispatched_as_status_to_work_channel_with_room_topic() {
-        manorChannels.dispatchDialogue("penelope", "entrance-hall",
+        manorChannels.dispatchDialogue("penelope-pitstop", "entrance-hall",
             "Why, how delightful!");
 
         var msgs = observer.messages().stream()
-            .filter(m -> "penelope".equals(m.senderId()))
+            .filter(m -> "penelope-pitstop".equals(m.senderId()))
             .toList();
         assertThat(msgs).hasSize(1);
         var msg = msgs.get(0);
@@ -152,7 +152,7 @@ class ManorChannelsTest {
 
     @Test
     void position_event_dispatched_as_event_to_observe_channel_without_content() {
-        manorChannels.dispatchPositionEvent("penelope", "kitchen");
+        manorChannels.dispatchPositionEvent("penelope-pitstop", "kitchen");
 
         var msgs = observer.messages().stream()
             .filter(m -> m.channelId().equals(manorChannels.observeChannelId()))
@@ -240,7 +240,7 @@ class ManorChannelsTest {
 
     @Test
     void dialogue_from_different_rooms_routed_to_correct_topics() {
-        manorChannels.dispatchDialogue("penelope", "kitchen", "What a lovely stove!");
+        manorChannels.dispatchDialogue("penelope-pitstop", "kitchen", "What a lovely stove!");
         manorChannels.dispatchDialogue("hooded-claw", "ballroom", "How delightful...");
 
         var kitchenMsgs = observer.messages().stream()
@@ -251,7 +251,7 @@ class ManorChannelsTest {
             .toList();
 
         assertThat(kitchenMsgs).hasSize(1);
-        assertThat(kitchenMsgs.get(0).senderId()).isEqualTo("penelope");
+        assertThat(kitchenMsgs.get(0).senderId()).isEqualTo("penelope-pitstop");
         assertThat(ballroomMsgs).hasSize(1);
         assertThat(ballroomMsgs.get(0).senderId()).isEqualTo("hooded-claw");
     }

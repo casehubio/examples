@@ -126,7 +126,7 @@ class SceneDirectorTest {
     }
 
     private void setupTeaSceneConditions() {
-        world.moveCharacter("penelope", "ballroom");
+        world.moveCharacter("penelope-pitstop", "ballroom");
         world.moveCharacter("hooded-claw", "ballroom");
         world.character("hooded-claw").addItem("rat-poison");
     }

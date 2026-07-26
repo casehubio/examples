@@ -5,7 +5,7 @@ scenes:
         narration: "The Hooded Claw, with a smile that could FREEZE mercury, volunteers to pour the tea!"
         prompts:
           hooded-claw: "You have the poison. The tea service is right here. Penelope is sitting at the table. Offer to pour her tea. Stay in character as Sneekly."
-          penelope: "Sneekly is offering to pour you tea. How kind!"
+          penelope-pitstop: "Sneekly is offering to pour you tea. How kind!"
 
       - id: pour-poison
         narration: "With TREMBLING hands of EVIL anticipation, Sneekly reaches for the poison!"
@@ -46,4 +46,4 @@ scenes:
         narration: "The cup CRASHES to the floor! Tea, secrets, and VILLAINY scatter across the marble!"
         prompts:
           hooded-claw: "Your poison plan just failed. The cup is on the floor. React in character — furious internally, gracious as Sneekly."
-          penelope: "Your tea cup just got knocked over. React in character."
+          penelope-pitstop: "Your tea cup just got knocked over. React in character."

@@ -18,7 +18,7 @@ class TriggerEvaluatorTest {
 
     @Test
     void poison_revealed_when_hooded_claw_enters_kitchen() {
-        assertThat(world.visibleObjects("kitchen", "penelope"))
+        assertThat(world.visibleObjects("kitchen", "penelope-pitstop"))
             .noneMatch(o -> o.id().equals("poison"));
 
         world.moveCharacter("hooded-claw", "kitchen");
@@ -45,7 +45,7 @@ class TriggerEvaluatorTest {
 
         world.character("hooded-claw").addItem("rat-poison");
         world.moveCharacter("hooded-claw", "ballroom");
-        world.moveCharacter("penelope", "ballroom");
+        world.moveCharacter("penelope-pitstop", "ballroom");
 
         var result = evaluator.evaluate(world);
         assertThat(result.hasSceneStart()).isTrue();
@@ -55,7 +55,7 @@ class TriggerEvaluatorTest {
     @Test
     void tea_scene_does_not_trigger_without_poison() {
         world.moveCharacter("hooded-claw", "ballroom");
-        world.moveCharacter("penelope", "ballroom");
+        world.moveCharacter("penelope-pitstop", "ballroom");
 
         var result = evaluator.evaluate(world);
         assertThat(result.hasSceneStart()).isFalse();
@@ -78,7 +78,7 @@ class TriggerEvaluatorTest {
     @Test
     void tea_scene_requires_all_three_conditions() {
         world.character("hooded-claw").addItem("rat-poison");
-        world.moveCharacter("penelope", "ballroom");
+        world.moveCharacter("penelope-pitstop", "ballroom");
 
         var result = evaluator.evaluate(world);
         assertThat(result.hasSceneStart()).isFalse();
