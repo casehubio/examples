@@ -138,12 +138,7 @@
       <artifactId>quarkus-rest-jackson</artifactId>
     </dependency>
 
-    <!-- Quinoa — serves Lit frontend via Vite -->
-    <dependency>
-      <groupId>io.quarkiverse.quinoa</groupId>
-      <artifactId>quarkus-quinoa</artifactId>
-      <version>2.6.2</version>
-    </dependency>
+    <!-- Frontend: run Vite dev server separately (npm run dev in src/main/webui) -->
 
     <!-- YAML parsing -->
     <dependency>
@@ -172,6 +167,13 @@
         <artifactId>quarkus-maven-plugin</artifactId>
         <version>${quarkus.version}</version>
         <extensions>true</extensions>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
