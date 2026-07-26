@@ -1,0 +1,35 @@
+triggers:
+  - id: poison-discovery
+    condition:
+      characterInRoom:
+        character: hooded-claw
+        room: kitchen
+    effects:
+      - revealObject:
+          object: poison
+          room: kitchen
+      - narratorEvent: "The Hooded Claw's eyes GLEAM with malicious delight as he spots a most DIABOLICAL substance on the shelf!"
+    once: true
+
+  - id: tea-scene-start
+    condition:
+      allOf:
+        - characterHasItem:
+            character: hooded-claw
+            item: rat-poison
+        - characterInRoom:
+            character: penelope
+            room: ballroom
+        - characterInRoom:
+            character: hooded-claw
+            room: ballroom
+    effects:
+      - startScene: tea-poisoning
+    once: true
+
+  - id: scenario-complete
+    condition:
+      sceneCompleted: tea-poisoning
+    effects:
+      - completeScenario: true
+    once: true
