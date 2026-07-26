@@ -1,0 +1,61 @@
+rooms:
+  entrance-hall:
+    name: "Entrance Hall"
+    description: "A grand but dusty foyer with a sweeping staircase. A chandelier hangs precariously. Portraits of stern ancestors line the walls."
+    adjacentRooms: [kitchen]
+    objects:
+      coat-rack:
+        name: "Coat Rack"
+        description: "A wobbly wooden coat rack by the door."
+        x: 0.2
+      guest-book:
+        name: "Guest Book"
+        description: "A leather-bound guest book on a side table."
+        x: 0.5
+      muttley:
+        name: "Muttley"
+        description: "Dastardly's snickering dog, sitting on a small brass key."
+        x: 0.8
+        interactable: true
+        interactionRequires: fake-medal
+        yields: brass-key
+
+  kitchen:
+    name: "Kitchen"
+    description: "A large Victorian kitchen with copper pots, a wood-burning stove, and a long preparation table."
+    adjacentRooms: [entrance-hall, ballroom]
+    objects:
+      cabinet:
+        name: "Locked Cabinet"
+        description: "A sturdy cabinet with a brass lock."
+        x: 0.3
+        interactable: true
+        interactionRequires: brass-key
+        yields: old-recipe-cards
+      poison:
+        name: "Rat Poison"
+        description: "A dusty bottle of rat poison on a high shelf."
+        x: 0.7
+        visibleTo: [hooded-claw]
+        portable: true
+      stove:
+        name: "Wood-Burning Stove"
+        description: "A cast-iron stove, still warm."
+        x: 0.5
+
+  ballroom:
+    name: "Ballroom"
+    description: "A grand ballroom with a cracked marble floor and dusty curtains. A long dining table is set for tea."
+    adjacentRooms: [kitchen]
+    objects:
+      tea-service:
+        name: "Tea Service"
+        description: "A silver tea set with cups for everyone."
+        x: 0.5
+        interactable: true
+        usableWith: [rat-poison]
+      lazy-luke:
+        name: "Lazy Luke & Blubber Bear"
+        description: "A lanky hillbilly asleep in an armchair. A large bear is using a folded paper as a blanket."
+        x: 0.8
+        interactable: true

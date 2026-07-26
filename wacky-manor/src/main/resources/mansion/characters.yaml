@@ -1,0 +1,31 @@
+characters:
+  penelope:
+    name: "Penelope Pitstop"
+    startRoom: entrance-hall
+    startX: 0.3
+    inventory: []
+
+  hooded-claw:
+    name: "The Hooded Claw (as Sneekly)"
+    startRoom: entrance-hall
+    startX: 0.7
+    inventory: []
+
+  ant-hill-mob:
+    name: "The Ant Hill Mob"
+    startRoom: entrance-hall
+    startX: 0.5
+    inventory: []
+
+  dick-dastardly:
+    name: "Dick Dastardly"
+    startRoom: entrance-hall
+    startX: 0.4
+    inventory:
+      - fake-medal
+
+  peter-perfect:
+    name: "Peter Perfect"
+    startRoom: entrance-hall
+    startX: 0.6
+    inventory: []
