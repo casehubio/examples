@@ -35,32 +35,36 @@ public final class CharacterAgentLoop {
 
     public void run(CharacterState character, WorldState world,
                     AgentProvider agentProvider, String systemPrompt,
-                    BlockingQueue<PendingAction> actionQueue) {
+                    BlockingQueue<PendingAction> actionQueue,
+                    ManorChannels manorChannels) {
         while (!world.isScenarioComplete() && character.isActive()) {
             try {
                 if (character.sceneContext() != null) {
                     character.sceneContext().awaitRelease();
-                    if (world.isScenarioComplete()) break;
+                    if (world.isScenarioComplete()) {break;}
                 }
 
                 String observation = ObservationBuilder.buildObservation(character, world);
-                String userPrompt = observation + RESPONSE_FORMAT_INSTRUCTION;
+                String userPrompt  = observation + RESPONSE_FORMAT_INSTRUCTION;
 
                 AgentResponse response = callAgentWithRetry(
-                    agentProvider, systemPrompt, userPrompt, character);
+                        agentProvider, systemPrompt, userPrompt, character);
 
                 if (response.dialogue() != null) {
                     world.addEvent("dialogue", character.agentId(),
-                        character.currentRoom(),
-                        character.name() + ": " + response.dialogue());
+                                   character.currentRoom(),
+                                   character.name() + ": " + response.dialogue());
+                    manorChannels.dispatchDialogue(
+                            character.agentId(), character.currentRoom(), response.dialogue());
                 }
                 if (response.aside() != null) {
                     world.addEvent("aside", character.agentId(),
-                        character.currentRoom(), response.aside());
+                                   character.currentRoom(), response.aside());
+                    manorChannels.dispatchAside(character.agentId(), response.aside());
                 }
 
                 if (response.action() != null &&
-                        response.action().type() != ActionType.WAIT) {
+                    response.action().type() != ActionType.WAIT) {
                     var pending = new PendingAction(character, response.action());
                     actionQueue.put(pending);
                     pending.awaitResult();

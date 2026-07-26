@@ -83,6 +83,25 @@
       <version>${langchain4j.version}</version>
     </dependency>
 
+    <!-- CaseHub Qhorus — channels + message dispatch -->
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-qhorus</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-qhorus-persistence-memory</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+
+    <!-- CaseHub Platform — CurrentPrincipal, ActorType -->
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-platform</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+
     <!-- CaseHub Blocks — ObservationAccumulator for event batching -->
     <dependency>
       <groupId>io.casehub</groupId>
