@@ -36,7 +36,8 @@ public final class CharacterAgentLoop {
     public void run(CharacterState character, WorldState world,
                     AgentProvider agentProvider, String systemPrompt,
                     BlockingQueue<PendingAction> actionQueue,
-                    ManorChannels manorChannels) {
+                    ManorChannels manorChannels,
+                    io.casehub.examples.manor.web.ManorEventBus webEventBus) {
         while (!world.isScenarioComplete() && character.isActive()) {
             try {
                 if (character.sceneContext() != null) {
@@ -56,11 +57,19 @@ public final class CharacterAgentLoop {
                                    character.name() + ": " + response.dialogue());
                     manorChannels.dispatchDialogue(
                             character.agentId(), character.currentRoom(), response.dialogue());
+                    if (webEventBus != null) {
+                        webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.dialogue(
+                                character.agentId(), character.currentRoom(), response.dialogue()));
+                    }
                 }
                 if (response.aside() != null) {
                     world.addEvent("aside", character.agentId(),
                                    character.currentRoom(), response.aside());
                     manorChannels.dispatchAside(character.agentId(), response.aside());
+                    if (webEventBus != null) {
+                        webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.aside(
+                                character.agentId(), response.aside()));
+                    }
                 }
 
                 if (response.action() != null &&

@@ -34,6 +34,8 @@ public class ScenarioOrchestrator {
     @Inject SystemPromptRenderer renderer;
     @Inject
             ManorChannels        manorChannels;
+    @Inject
+    io.casehub.examples.manor.web.ManorEventBus webEventBus;
 
 
     public Thread startScenario(WorldState world) {
@@ -54,6 +56,8 @@ public class ScenarioOrchestrator {
                               ActionResolver actionResolver) {
         manorChannels.initChannels();
         manorChannels.dispatchScenarioStart();
+        webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scenario("started"));
+        webEventBus.broadcast(webEventBus.buildSnapshot(world));
 
         var actionQueue = new LinkedBlockingQueue<PendingAction>();
 
@@ -66,7 +70,7 @@ public class ScenarioOrchestrator {
                                            .start(() -> {
                                                String systemPrompt = renderPrompt(c.agentId());
                                                new CharacterAgentLoop().run(
-                                                       c, world, agentProvider, systemPrompt, actionQueue, manorChannels);
+                                                       c, world, agentProvider, systemPrompt, actionQueue, manorChannels, webEventBus);
                                            }))
                            .toList();
 
@@ -88,6 +92,8 @@ public class ScenarioOrchestrator {
                 if (result instanceof ActionResult.MovedToRoom moved) {
                     manorChannels.dispatchPositionEvent(
                             pending.character().agentId(), moved.roomId());
+                    webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.position(
+                            pending.character().agentId(), moved.roomId(), pending.character().x()));
                 }
 
                 var triggerResult = triggerEvaluator.evaluate(world);
@@ -95,18 +101,22 @@ public class ScenarioOrchestrator {
                 for (String narratorText : triggerResult.narratorEvents()) {
                     world.addEvent("narrator", null, null, narratorText);
                     manorChannels.dispatchNarration(narratorText);
+                    webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.narrator(narratorText));
                 }
 
                 if (triggerResult.hasSceneStart()) {
                     manorChannels.dispatchSceneEvent(triggerResult.sceneId(), "started");
+                    webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scene(triggerResult.sceneId(), "started"));
                     sceneDirector.runScene(
                             triggerResult.sceneId(), world,
                             this::callAgentForScene,
                             narration -> {
                                 world.addEvent("narrator", null, null, narration);
                                 manorChannels.dispatchNarration(narration);
+                                webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.narrator(narration));
                             });
                     manorChannels.dispatchSceneEvent(triggerResult.sceneId(), "ended");
+                    webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scene(triggerResult.sceneId(), "ended"));
                 }
 
                 pending.complete(result);
@@ -117,6 +127,7 @@ public class ScenarioOrchestrator {
         }
 
         manorChannels.dispatchScenarioComplete();
+        webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scenario("completed"));
 
         for (var t : threads) {
             try {

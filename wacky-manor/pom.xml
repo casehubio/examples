@@ -122,6 +122,29 @@
       <artifactId>quarkus-arc</artifactId>
     </dependency>
 
+    <!-- WebSocket for real-time UI updates -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-websockets-next</artifactId>
+    </dependency>
+
+    <!-- REST endpoint for scenario control -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest-jackson</artifactId>
+    </dependency>
+
+    <!-- Quinoa — serves Lit frontend via Vite -->
+    <dependency>
+      <groupId>io.quarkiverse.quinoa</groupId>
+      <artifactId>quarkus-quinoa</artifactId>
+      <version>2.6.2</version>
+    </dependency>
+
     <!-- YAML parsing -->
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
