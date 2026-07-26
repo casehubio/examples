@@ -158,8 +158,10 @@ export class ManorApp extends LitElement {
   private async startScenario() {
     this.messages = [];
     this.narratorEntries = [];
-    this.scenarioStatus = 'running';
-    await fetch('/manor/start', { method: 'POST' });
+    const resp = await fetch('/manor/start', { method: 'POST' });
+    if (resp.ok) {
+      this.scenarioStatus = 'running';
+    }
   }
 
   render() {
