@@ -9,6 +9,8 @@ import io.casehub.examples.manor.model.Room;
 import io.casehub.examples.manor.model.Trigger;
 import io.casehub.examples.manor.model.TriggerCondition;
 import io.casehub.examples.manor.model.TriggerEffect;
+import io.casehub.examples.manor.model.Beat;
+import io.casehub.examples.manor.model.Scene;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -157,5 +159,68 @@ public final class MansionLoader {
         }
         throw new IllegalArgumentException("Unknown trigger effect: " + map);
     }
+
+    @SuppressWarnings("unchecked")
+    public static Map<String, Scene> loadScenes() {
+        return loadScenes("/mansion/scenes.yaml");
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Map<String, Scene> loadScenes(String path) {
+        try (var stream = MansionLoader.class.getResourceAsStream(path)) {
+            if (stream == null) {throw new IllegalStateException("Resource not found: " + path);}
+            Map<String, Object> root = YAML.readValue(stream,
+                                                      new com.fasterxml.jackson.core.type.TypeReference<>() {});
+            var sceneDefs = (Map<String, Map<String, Object>>) root.get("scenes");
+            var scenes    = new LinkedHashMap<String, Scene>();
+            sceneDefs.forEach((id, def) -> scenes.put(id, parseScene(id, def)));
+            return Map.copyOf(scenes);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Scene parseScene(String id, Map<String, Object> map) {
+        var beatDefs = (List<Map<String, Object>>) map.get("beats");
+        var beats    = beatDefs.stream().map(MansionLoader::parseBeat).toList();
+        return new Scene(id, beats);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Beat parseBeat(Map<String, Object> map) {
+        String beatId    = (String) map.get("id");
+        String narration = (String) map.get("narration");
+        var prompts = map.containsKey("prompts")
+                      ? (Map<String, String>) map.get("prompts") : Map.<String, String>of();
+        boolean aside           = Boolean.TRUE.equals(map.get("aside"));
+        boolean waitIfNoneMatch = Boolean.TRUE.equals(map.get("waitIfNoneMatch"));
+        var mechanicalEffect = map.containsKey("mechanicalEffect")
+                               ? (Map<String, Object>) map.get("mechanicalEffect") : null;
+
+        List<Beat.BeatAlternative> alternatives = List.of();
+        if (map.containsKey("alternatives")) {
+            var altDefs = (List<Map<String, Object>>) map.get("alternatives");
+            alternatives = altDefs.stream().map(MansionLoader::parseAlternative).toList();
+        }
+
+        return new Beat(beatId, narration, prompts, aside, alternatives,
+                        mechanicalEffect, waitIfNoneMatch);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Beat.BeatAlternative parseAlternative(Map<String, Object> map) {
+        String altId     = (String) map.get("id");
+        var    condMap   = (Map<String, Object>) map.get("condition");
+        String narration = (String) map.get("narration");
+        var prompts = map.containsKey("prompts")
+                      ? (Map<String, String>) map.get("prompts") : Map.<String, String>of();
+        var mechanicalEffect = map.containsKey("mechanicalEffect")
+                               ? (Map<String, Object>) map.get("mechanicalEffect") : null;
+
+        return new Beat.BeatAlternative(altId, parseCondition(condMap),
+                                        narration, prompts, mechanicalEffect);
+    }
+
 
 }

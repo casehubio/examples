@@ -1,0 +1,49 @@
+scenes:
+  tea-poisoning:
+    beats:
+      - id: offer-tea
+        narration: "The Hooded Claw, with a smile that could FREEZE mercury, volunteers to pour the tea!"
+        prompts:
+          hooded-claw: "You have the poison. The tea service is right here. Penelope is sitting at the table. Offer to pour her tea. Stay in character as Sneekly."
+          penelope: "Sneekly is offering to pour you tea. How kind!"
+
+      - id: pour-poison
+        narration: "With TREMBLING hands of EVIL anticipation, Sneekly reaches for the poison!"
+        prompts:
+          hooded-claw: "You're pouring tea. Secretly slip the poison into Penelope's cup while making small talk."
+        aside: true
+
+      - id: foil
+        alternatives:
+          - id: mob-foil
+            condition:
+              characterInRoom:
+                character: ant-hill-mob
+                room: ballroom
+            narration: "But WAIT! Can it be? The Ant Hill Mob are here!"
+            prompts:
+              ant-hill-mob: "You notice Sneekly putting something in Penelope's tea cup. React — but remember, you're bumbling, not clever."
+            mechanicalEffect:
+              removeItem:
+                character: hooded-claw
+                item: rat-poison
+
+          - id: blubber-foil
+            condition:
+              objectInRoom:
+                object: lazy-luke
+                room: ballroom
+            narration: "SUDDENLY, Blubber Bear LURCHES awake!"
+            prompts: {}
+            mechanicalEffect:
+              removeItem:
+                character: hooded-claw
+                item: rat-poison
+
+        waitIfNoneMatch: true
+
+      - id: aftermath
+        narration: "The cup CRASHES to the floor! Tea, secrets, and VILLAINY scatter across the marble!"
+        prompts:
+          hooded-claw: "Your poison plan just failed. The cup is on the floor. React in character — furious internally, gracious as Sneekly."
+          penelope: "Your tea cup just got knocked over. React in character."
