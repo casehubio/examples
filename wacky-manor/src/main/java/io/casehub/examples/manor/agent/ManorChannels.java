@@ -23,13 +23,13 @@ import java.util.UUID;
  * Four channels following the normative pattern with a purpose-built
  * audience channel for content-bearing broadcasts (narrator commentary
  * and villain asides). The normative /observe channel is EVENT-only and
- * EVENT cannot carry content — /manor/audience uses STATUS instead.
+ * EVENT cannot carry content — manor/audience uses STATUS instead.
  *
  * Channel layout:
- *   /manor/work      — character dialogue + coordination (APPEND, open types)
- *   /manor/observe   — telemetry events: positions, scene lifecycle (APPEND, EVENT only)
- *   /manor/audience  — narrator + villain asides (APPEND, STATUS only)
- *   /manor/oversight — human governance gate (APPEND, denies EVENT)
+ *   manor/work      — character dialogue + coordination (APPEND, open types)
+ *   manor/observe   — telemetry events: positions, scene lifecycle (APPEND, EVENT only)
+ *   manor/audience  — narrator + villain asides (APPEND, STATUS only)
+ *   manor/oversight — human governance gate (APPEND, denies EVENT)
  */
 @ApplicationScoped
 public class ManorChannels {
@@ -47,49 +47,45 @@ public class ManorChannels {
     private String scenarioCorrelationId;
 
     public void initChannels() {
-        var space = spaceService.create(
-            new SpaceCreateRequest("doily-manor", "Doily Manor scenario space", null));
+        var space = spaceService.findByName("doily-manor")
+                                .orElseGet(() -> spaceService.create(
+                                        new SpaceCreateRequest("doily-manor", "Doily Manor scenario space", null)));
 
-        var workChannel = channelService.create(
-            ChannelCreateRequest.builder("/manor/work")
-                .description("Character dialogue and coordination")
-                .semantic(ChannelSemantic.APPEND)
-                .spaceId(space.id())
-                .build());
-        workChannelId = workChannel.id();
+        workChannelId = channelService.findOrCreate(
+                ChannelCreateRequest.builder("manor/work")
+                                    .description("Character dialogue and coordination")
+                                    .semantic(ChannelSemantic.APPEND)
+                                    .spaceId(space.id())
+                                    .build()).channel().id();
 
-        var observeChannel = channelService.create(
-            ChannelCreateRequest.builder("/manor/observe")
-                .description("Telemetry — position changes, scene lifecycle")
-                .semantic(ChannelSemantic.APPEND)
-                .spaceId(space.id())
-                .allowedTypes(Set.of(MessageType.EVENT))
-                .build());
-        observeChannelId = observeChannel.id();
+        observeChannelId = channelService.findOrCreate(
+                ChannelCreateRequest.builder("manor/observe")
+                                    .description("Telemetry — position changes, scene lifecycle")
+                                    .semantic(ChannelSemantic.APPEND)
+                                    .spaceId(space.id())
+                                    .allowedTypes(Set.of(MessageType.EVENT))
+                                    .build()).channel().id();
 
-        var audienceChannel = channelService.create(
-            ChannelCreateRequest.builder("/manor/audience")
-                .description("Narrator commentary and villain asides")
-                .semantic(ChannelSemantic.APPEND)
-                .spaceId(space.id())
-                .allowedTypes(Set.of(MessageType.STATUS))
-                .build());
-        audienceChannelId = audienceChannel.id();
+        audienceChannelId = channelService.findOrCreate(
+                ChannelCreateRequest.builder("manor/audience")
+                                    .description("Narrator commentary and villain asides")
+                                    .semantic(ChannelSemantic.APPEND)
+                                    .spaceId(space.id())
+                                    .allowedTypes(Set.of(MessageType.STATUS))
+                                    .build()).channel().id();
 
-        var oversightChannel = channelService.create(
-            ChannelCreateRequest.builder("/manor/oversight")
-                .description("Human governance gate")
-                .semantic(ChannelSemantic.APPEND)
-                .spaceId(space.id())
-                .deniedTypes(Set.of(MessageType.EVENT))
-                .build());
-        oversightChannelId = oversightChannel.id();
+        oversightChannelId = channelService.findOrCreate(
+                ChannelCreateRequest.builder("manor/oversight")
+                                    .description("Human governance gate")
+                                    .semantic(ChannelSemantic.APPEND)
+                                    .spaceId(space.id())
+                                    .deniedTypes(Set.of(MessageType.EVENT))
+                                    .build()).channel().id();
 
         scenarioCorrelationId = UUID.randomUUID().toString();
 
         log.infof("Manor channels initialized — work=%s, observe=%s, audience=%s, oversight=%s",
-            workChannelId, observeChannelId, audienceChannelId, oversightChannelId);
-    }
+                  workChannelId, observeChannelId, audienceChannelId, oversightChannelId);}
 
     public void dispatchScenarioStart() {
         messageDispatcher.dispatch(MessageDispatch.builder()
