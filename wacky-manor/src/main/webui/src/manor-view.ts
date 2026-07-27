@@ -147,31 +147,61 @@ function renderCharacterAtOrigin(id: string) {
   }
 }
 
-interface CharPos { id: string; name: string; absX: number; baseY: number; yOffset: number; }
+interface CharPos { id: string; name: string; absX: number; baseY: number; labelRow: number; }
 
 function layoutCharacters(
   characters: CharacterSnapshot[], roomW: number, roomY: number, roomH: number
 ): CharPos[] {
   const baseY = roomY + roomH - 15;
-  const positions: CharPos[] = characters.filter(c => c.active).map(c => {
+  const minSpacing = OVERLAP_THRESHOLD;
+
+  const byRoom = new Map<number, { c: CharacterSnapshot; origX: number }[]>();
+  for (const c of characters.filter(c => c.active)) {
     const roomIdx = ROOMS.indexOf(c.room as typeof ROOMS[number]);
-    if (roomIdx < 0) return null;
+    if (roomIdx < 0) continue;
+    if (!byRoom.has(roomIdx)) byRoom.set(roomIdx, []);
+    byRoom.get(roomIdx)!.push({ c, origX: c.x });
+  }
+
+  const positions: CharPos[] = [];
+
+  for (const [roomIdx, chars] of byRoom) {
     const rx = roomIdx * roomW + 4;
     const rw = roomW - 8;
-    const absX = rx + c.x * (rw - 40) + 20;
-    return { id: c.id, name: c.name, absX, baseY, yOffset: 0 };
-  }).filter(Boolean) as CharPos[];
+    const margin = 15;
 
-  positions.sort((a, b) => a.absX - b.absX);
+    chars.sort((a, b) => a.origX - b.origX);
 
-  for (let i = 1; i < positions.length; i++) {
-    for (let j = i - 1; j >= 0; j--) {
-      const a = positions[j];
-      const b = positions[i];
-      if (Math.abs(a.absX - b.absX) < OVERLAP_THRESHOLD &&
-          Math.abs(a.yOffset - b.yOffset) < OVERLAP_THRESHOLD) {
-        b.yOffset = a.yOffset - 25;
+    const displayXs: number[] = chars.map(ch => rx + ch.origX * (rw - 2 * margin) + margin);
+
+    for (let i = 1; i < displayXs.length; i++) {
+      if (displayXs[i] - displayXs[i - 1] < minSpacing) {
+        displayXs[i] = displayXs[i - 1] + minSpacing;
       }
+    }
+
+    const maxX = rx + rw - margin;
+    if (displayXs.length > 0 && displayXs[displayXs.length - 1] > maxX) {
+      const overflow = displayXs[displayXs.length - 1] - maxX;
+      for (let i = 0; i < displayXs.length; i++) {
+        displayXs[i] -= overflow * (i + 1) / displayXs.length;
+      }
+    }
+
+    for (let i = 0; i < chars.length; i++) {
+      let labelRow = 0;
+      for (let j = 0; j < i; j++) {
+        if (Math.abs(displayXs[i] - displayXs[j]) < minSpacing) {
+          labelRow = Math.max(labelRow, positions[positions.length - (i - j)].labelRow + 1);
+        }
+      }
+      positions.push({
+        id: chars[i].c.id,
+        name: chars[i].c.name,
+        absX: displayXs[i],
+        baseY,
+        labelRow,
+      });
     }
   }
 
@@ -234,9 +264,9 @@ export class ManorView extends LitElement {
         })}
 
         ${charPositions.map(p => svg`
-          <g class="char-group" style="transform: translate(${p.absX}px, ${p.baseY + p.yOffset}px)">
+          <g class="char-group" style="transform: translate(${p.absX}px, ${p.baseY}px)">
             ${renderCharacterAtOrigin(p.id)}
-            <text x="0" y="12" class="char-name">${CHARACTER_LABELS[p.id] || p.name}</text>
+            <text x="0" y="${12 + p.labelRow * 8}" class="char-name">${CHARACTER_LABELS[p.id] || p.name}</text>
           </g>
         `)}
 
