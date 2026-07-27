@@ -210,10 +210,11 @@ export class ManorView extends LitElement {
     .title { fill: #daa520; font-size: 14px; font-weight: 700; text-anchor: middle; font-family: Georgia, serif; letter-spacing: 2px; }
     .subtitle { fill: #666; font-size: 8px; text-anchor: middle; font-style: italic; }
     .floor-line { stroke: #444; stroke-width: 2; }
+    .legend-name { fill: #bbb; font-size: 7px; font-weight: 500; }
   `;
 
   render() {
-    const w = 720, h = 240;
+    const w = 720, h = 275;
     const roomW = w / 3;
     const roomY = 50, roomH = 170;
 
@@ -255,6 +256,18 @@ export class ManorView extends LitElement {
             `;
           });
         })}
+
+        <!-- Legend -->
+        ${this.characters.length > 0 ? svg`
+          ${this.characters.filter(c => c.active).map((c, i) => {
+            const lx = 10 + i * 144;
+            const ly = roomY + roomH + 16;
+            return svg`
+              ${renderCharacterSvg(c.id, lx + 8, ly + 8)}
+              <text x="${lx + 22}" y="${ly + 6}" class="legend-name">${c.name}</text>
+            `;
+          })}
+        ` : nothing}
       </svg>
     `;
   }
