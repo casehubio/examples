@@ -41,10 +41,9 @@ class ActionResolverTest {
     void take_portable_object_adds_to_inventory() {
         var hc = world.character("hooded-claw");
         world.moveCharacter("hooded-claw", "kitchen");
-        hc.setX(0.7);
 
         var result = resolver.resolve(hc,
-            new Action(ActionType.TAKE, "poison", null), world);
+                                      new Action(ActionType.TAKE, "poison", null), world);
         assertThat(result).isInstanceOf(ActionResult.ItemReceived.class);
         assertThat(hc.hasItem("rat-poison")).isTrue();
     }
@@ -143,15 +142,16 @@ class ActionResolverTest {
     }
 
     @Test
-    void proximity_check_rejects_distant_interaction() {
+    void interact_auto_positions_to_distant_object() {
         var penelope = world.character("penelope-pitstop");
         world.moveCharacter("penelope-pitstop", "kitchen");
         penelope.setX(0.1);
+        penelope.addItem("brass-key");
 
         var result = resolver.resolve(penelope,
-            new Action(ActionType.INTERACT, "cabinet", "brass-key"), world);
-        assertThat(result).isInstanceOf(ActionResult.Failed.class);
-        assertThat(((ActionResult.Failed) result).reason()).contains("too far");
+                                      new Action(ActionType.INTERACT, "cabinet", "brass-key"), world);
+        assertThat(result).isInstanceOf(ActionResult.ItemReceived.class);
+        assertThat(penelope.x()).isEqualTo(0.3);
     }
 
     @Test
@@ -177,5 +177,75 @@ class ActionResolverTest {
         assertThat(new ActionResult.Failed("nope").text()).isEqualTo("nope");
         assertThat(new ActionResult.MovedToRoom("kitchen", "You moved.").text()).isEqualTo("You moved.");
         assertThat(new ActionResult.ItemReceived("key", "Got key.").text()).isEqualTo("Got key.");
+    }
+
+    @Test
+    void take_auto_positions_character_to_object() {
+        var hc = world.character("hooded-claw");
+        world.moveCharacter("hooded-claw", "kitchen");
+        assertThat(hc.x()).isEqualTo(0.5);
+
+        resolver.resolve(hc, new Action(ActionType.TAKE, "poison", null), world);
+        assertThat(hc.x()).isEqualTo(0.7);
+    }
+
+    @Test
+    void interact_auto_positions_character_to_object() {
+        var dastardly = world.character("dick-dastardly");
+        assertThat(dastardly.x()).isNotEqualTo(0.8);
+
+        resolver.resolve(dastardly, new Action(ActionType.INTERACT, "muttley", "fake-medal"), world);
+        assertThat(dastardly.x()).isEqualTo(0.8);
+    }
+
+    @Test
+    void take_marks_object_as_taken() {
+        var hc = world.character("hooded-claw");
+        world.moveCharacter("hooded-claw", "kitchen");
+
+        resolver.resolve(hc, new Action(ActionType.TAKE, "poison", null), world);
+        assertThat(world.isObjectTaken("poison")).isTrue();
+        assertThat(hc.hasItem("rat-poison")).isTrue();
+    }
+
+    @Test
+    void take_same_object_twice_fails() {
+        var hc = world.character("hooded-claw");
+        world.moveCharacter("hooded-claw", "kitchen");
+
+        resolver.resolve(hc, new Action(ActionType.TAKE, "poison", null), world);
+        var secondTake = resolver.resolve(hc, new Action(ActionType.TAKE, "poison", null), world);
+        assertThat(secondTake).isInstanceOf(ActionResult.Failed.class);
+        assertThat(secondTake.text()).contains("no longer here");
+    }
+
+    @Test
+    void use_consumes_item_from_inventory() {
+        var hc = world.character("hooded-claw");
+        world.moveCharacter("hooded-claw", "ballroom");
+        hc.addItem("rat-poison");
+
+        resolver.resolve(hc, new Action(ActionType.USE, "tea-service", "rat-poison"), world);
+        assertThat(hc.hasItem("rat-poison")).isFalse();
+    }
+
+    @Test
+    void use_applies_effect_to_world_state() {
+        var hc = world.character("hooded-claw");
+        world.moveCharacter("hooded-claw", "ballroom");
+        hc.addItem("rat-poison");
+
+        resolver.resolve(hc, new Action(ActionType.USE, "tea-service", "rat-poison"), world);
+        assertThat(world.hasEffect("tea-service", "rat-poison")).isTrue();
+    }
+
+    @Test
+    void actions_on_taken_objects_fail() {
+        var hc = world.character("hooded-claw");
+        world.moveCharacter("hooded-claw", "kitchen");
+        world.markObjectTaken("stove");
+
+        var result = resolver.resolve(hc, new Action(ActionType.LOOK, "stove", null), world);
+        assertThat(result).isInstanceOf(ActionResult.Failed.class);
     }
 }

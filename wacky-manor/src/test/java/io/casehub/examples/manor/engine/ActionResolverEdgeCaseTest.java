@@ -1,6 +1,8 @@
 package io.casehub.examples.manor.engine;
 
-import io.casehub.examples.manor.model.*;
+import io.casehub.examples.manor.model.Action;
+import io.casehub.examples.manor.model.ActionResult;
+import io.casehub.examples.manor.model.ActionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,13 +31,14 @@ class ActionResolverEdgeCaseTest {
     }
 
     @Test
-    void interact_just_beyond_proximity_threshold_fails() {
+    void interact_auto_positions_from_far_away() {
         var penelope = world.character("penelope-pitstop");
         penelope.setX(0.0);
+        penelope.addItem("fake-medal");
         var result = resolver.resolve(penelope,
-            new Action(ActionType.INTERACT, "muttley", "fake-medal"), world);
-        assertThat(result).isInstanceOf(ActionResult.Failed.class);
-        assertThat(((ActionResult.Failed) result).reason()).contains("too far");
+                                      new Action(ActionType.INTERACT, "muttley", "fake-medal"), world);
+        assertThat(result).isInstanceOf(ActionResult.ItemReceived.class);
+        assertThat(penelope.x()).isEqualTo(0.8);
     }
 
     @Test
@@ -115,15 +118,15 @@ class ActionResolverEdgeCaseTest {
     }
 
     @Test
-    void give_to_character_too_far_away() {
+    void give_auto_positions_to_distant_character() {
         var dastardly = world.character("dick-dastardly");
-        var penelope = world.character("penelope-pitstop");
+        var penelope  = world.character("penelope-pitstop");
         dastardly.setX(0.0);
         penelope.setX(1.0);
         var result = resolver.resolve(dastardly,
-            new Action(ActionType.GIVE, "penelope-pitstop", "fake-medal"), world);
-        assertThat(result).isInstanceOf(ActionResult.Failed.class);
-        assertThat(((ActionResult.Failed) result).reason()).contains("too far");
+                                      new Action(ActionType.GIVE, "penelope-pitstop", "fake-medal"), world);
+        assertThat(result).isInstanceOf(ActionResult.Success.class);
+        assertThat(dastardly.x()).isEqualTo(1.0);
     }
 
     @Test
