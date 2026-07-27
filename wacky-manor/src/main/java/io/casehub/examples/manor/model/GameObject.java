@@ -16,11 +16,13 @@ public record GameObject(
         boolean interactable,
         String interactionRequires,
         String yields,
-        List<String> usableWith) {
+        List<String> usableWith,
+        String itemId) {
 
     public GameObject {
-        visibleTo = visibleTo != null ? Set.copyOf(visibleTo) : Set.of();
+        visibleTo  = visibleTo != null ? Set.copyOf(visibleTo) : Set.of();
         usableWith = usableWith != null ? List.copyOf(usableWith) : List.of();
+        if (itemId == null) {itemId = id;}
     }
 
     public boolean isVisibleToAll() {

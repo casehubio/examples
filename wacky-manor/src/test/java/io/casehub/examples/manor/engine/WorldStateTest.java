@@ -131,4 +131,16 @@ class WorldStateTest {
         world.markSceneCompleted("tea-poisoning");
         assertThat(world.isSceneCompleted("tea-poisoning")).isTrue();
     }
+
+    @Test
+    void poison_object_has_item_id() {
+        var poison = world.findObject("poison");
+        assertThat(poison.itemId()).isEqualTo("rat-poison");
+    }
+
+    @Test
+    void object_without_item_id_defaults_to_key() {
+        var coatRack = world.findObject("coat-rack");
+        assertThat(coatRack.itemId()).isEqualTo("coat-rack");
+    }
 }

@@ -3,14 +3,14 @@ package io.casehub.examples.manor.engine;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import io.casehub.examples.manor.model.Beat;
 import io.casehub.examples.manor.model.CharacterState;
 import io.casehub.examples.manor.model.GameObject;
 import io.casehub.examples.manor.model.Room;
+import io.casehub.examples.manor.model.Scene;
 import io.casehub.examples.manor.model.Trigger;
 import io.casehub.examples.manor.model.TriggerCondition;
 import io.casehub.examples.manor.model.TriggerEffect;
-import io.casehub.examples.manor.model.Beat;
-import io.casehub.examples.manor.model.Scene;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -47,26 +47,26 @@ public final class MansionLoader {
 
     private static Map<String, Room> loadRooms(String path) {
         try (var stream = MansionLoader.class.getResourceAsStream(path)) {
-            if (stream == null) throw new IllegalStateException("Resource not found: " + path);
-            var file = YAML.readValue(stream, RoomsFile.class);
+            if (stream == null) {throw new IllegalStateException("Resource not found: " + path);}
+            var file  = YAML.readValue(stream, RoomsFile.class);
             var rooms = new LinkedHashMap<String, Room>();
             file.rooms().forEach((id, def) -> {
                 var objectsWithIds = new LinkedHashMap<String, GameObject>();
                 if (def.objects() != null) {
                     def.objects().forEach((objId, obj) ->
-                        objectsWithIds.put(objId, new GameObject(
-                            objId, obj.name(), obj.description(), obj.x(),
-                            obj.visibleTo(), obj.portable(), obj.interactable(),
-                            obj.interactionRequires(), obj.yields(), obj.usableWith())));
+                                                  objectsWithIds.put(objId, new GameObject(
+                                                          objId, obj.name(), obj.description(), obj.x(),
+                                                          obj.visibleTo(), obj.portable(), obj.interactable(),
+                                                          obj.interactionRequires(), obj.yields(), obj.usableWith(),
+                                                          obj.itemId())));
                 }
                 rooms.put(id, new Room(id, def.name(), def.description(),
-                    def.adjacentRooms(), objectsWithIds));
+                                       def.adjacentRooms(), objectsWithIds));
             });
             return Map.copyOf(rooms);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
-        }
-    }
+        }}
 
     private static Map<String, CharacterState> loadCharacters(String path) {
         try (var stream = MansionLoader.class.getResourceAsStream(path)) {
