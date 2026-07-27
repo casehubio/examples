@@ -26,13 +26,45 @@ game mechanics.
 ## Phased Approach
 
 ```
-Phase 0: Character behavior tests     ← Are the LLMs entertaining?
-Phase 1: Game engine + action loop    ← Can they navigate a world?
-Phase 2: UI + visualization           ← Can an audience watch it?
-Phase 3: Full scenario integration    ← Does the whole thing work?
+Phase 0:   Character behavior tests        ← Are the LLMs entertaining?              ✅ PASSED
+Phase 1:   Game engine + action loop       ← Can they navigate a world?               ✅ PASSED
+Phase 2:   UI + visualization              ← Can an audience watch it?                ✅ PASSED
+Phase 2.5: Autonomous character validation ← Do characters drive the plot themselves? 
+Phase 2.6: Observation batching            ← Can we scale event context for LLMs?
+Phase 2.7: Live LLM narrator              ← Does the narrator generate commentary?
+Phase 2.8: NPC system                      ← Do scripted NPCs drive quests?
+Phase 2.9: Scale to 6 rooms               ← Does the full mansion work?
+Phase 3:   Platform integration            ← Memory, trust, human-in-the-loop, replay
 ```
 
 Each phase has a verdict gate. Don't proceed if the current phase fails.
+
+### Design evolution (2026-07-27)
+
+Phases 0–2 revealed that the original spec over-scripted the plot — triggers
+and scenes drive events TO characters rather than characters driving events
+autonomously. This makes characters feel like actors reading a script, not
+autonomous agents.
+
+The RPG framing: **player characters** (Penelope, Hooded Claw, Peter Perfect)
+act autonomously based on goals in their observation. **NPC characters**
+(Dastardly, Slag Brothers, Lazy Luke) provide scripted quests and triggers.
+Triggers become guardrails ("if HC hasn't taken poison after N turns, nudge")
+rather than drivers.
+
+Phase 2.5 validates this by removing scripted triggers and testing whether
+the Hooded Claw discovers poison and schemes on his own — same 3 rooms,
+same 5 characters. If autonomy fails, fix descriptors and observations
+before scaling up.
+
+| Phase | Verdict gate |
+|---|---|
+| 2.5 | HC discovers poison and schemes without scripted triggers |
+| 2.6 | Characters act on batched context, not raw event tails |
+| 2.7 | Narrator panel shows entertaining LLM-generated running commentary |
+| 2.8 | Players interact with NPCs who provide quests and items |
+| 2.9 | Full mansion navigable, all 3 acts playable |
+| 3 | Characters remember cross-room events, audience participates live |
 
 ---
 
