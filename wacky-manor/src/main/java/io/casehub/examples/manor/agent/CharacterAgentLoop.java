@@ -45,7 +45,7 @@ public final class CharacterAgentLoop {
                     if (world.isScenarioComplete()) {break;}
                 }
 
-                String observation = ObservationBuilder.buildObservation(character, world);
+                String observation = ObservationBuilder.buildObservation(character, world, java.util.List.of());
                 String userPrompt  = observation + RESPONSE_FORMAT_INSTRUCTION;
 
                 AgentResponse response = callAgentWithRetry(

@@ -12,7 +12,8 @@ public final class ObservationBuilder {
 
     private static final int RECENT_EVENT_LIMIT = 5;
 
-    public static String buildObservation(CharacterState character, WorldState world) {
+    public static String buildObservation(CharacterState character, WorldState world,
+                                          java.util.List<io.casehub.eidos.api.AgentGoal> goals) {
         var  sb   = new StringBuilder();
         Room room = world.room(character.currentRoom());
 
@@ -21,9 +22,12 @@ public final class ObservationBuilder {
         appendVisibleObjects(sb, character, world);
         appendCharactersPresent(sb, character, world);
         appendInventory(sb, character);
+        appendGoals(sb, goals);
         appendRecentActivity(sb, character, world);
+        appendLastActionResult(sb, character);
 
-        return sb.toString();}
+        return sb.toString();
+    }
 
     private static void appendLocation(StringBuilder sb, Room room) {
         sb.append("== Current Location ==\n");
@@ -110,4 +114,25 @@ public final class ObservationBuilder {
             }
         }
     }
+
+    private static void appendGoals(StringBuilder sb,
+                                    java.util.List<io.casehub.eidos.api.AgentGoal> goals) {
+        sb.append("== Your Goals ==\n");
+        if (goals.isEmpty()) {
+            sb.append("No specific goals.\n");
+        } else {
+            goals.stream()
+                 .sorted(java.util.Comparator.comparing(io.casehub.eidos.api.AgentGoal::priority)
+                                             .thenComparing(io.casehub.eidos.api.AgentGoal::name))
+                 .forEach(g -> sb.append("- [").append(g.priority().name()).append("] ")
+                                 .append(g.description()).append("\n"));
+        }
+        sb.append("\n");
+    }
+
+    private static void appendLastActionResult(StringBuilder sb, CharacterState character) {
+        sb.append("== Last Action Result ==\n");
+        sb.append(character.lastActionResult()).append("\n");
+    }
+
 }

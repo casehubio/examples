@@ -142,7 +142,7 @@ class LiveScenarioTest {
     private AgentResponse askCharacter(String agentId) {
         String sysPrompt = renderPrompt(agentId);
         String observation = ObservationBuilder.buildObservation(
-            world.character(agentId), world) + RESPONSE_FORMAT;
+            world.character(agentId), world, java.util.List.of()) + RESPONSE_FORMAT;
         String text = callLlm(sysPrompt, observation);
         return AgentResponse.parse(text);
     }
