@@ -41,7 +41,7 @@ public final class TriggerEvaluator {
                     case TriggerEffect.NarratorEvent n ->
                         narratorEvents.add(n.text());
                     case TriggerEffect.CompleteScenario ignored ->
-                        world.setScenarioComplete();
+                        world.setScenarioComplete(null);
                     case TriggerEffect.RemoveItem r ->
                         world.removeFromInventory(r.character(), r.item());
                 }

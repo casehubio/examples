@@ -1,6 +1,7 @@
 package io.casehub.examples.manor.engine;
 
 import io.casehub.examples.manor.model.CharacterState;
+import io.casehub.examples.manor.model.CompletionReason;
 import io.casehub.examples.manor.model.Room;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -88,7 +89,7 @@ class WorldStateTest {
     @Test
     void scenario_complete_lifecycle() {
         assertThat(world.isScenarioComplete()).isFalse();
-        world.setScenarioComplete();
+        world.setScenarioComplete(null);
         assertThat(world.isScenarioComplete()).isTrue();
     }
 
@@ -142,5 +143,40 @@ class WorldStateTest {
     void object_without_item_id_defaults_to_key() {
         var coatRack = world.findObject("coat-rack");
         assertThat(coatRack.itemId()).isEqualTo("coat-rack");
+    }
+
+    @Test
+    void mark_object_taken_hides_from_visible_objects() {
+        var before = world.visibleObjects("kitchen", "hooded-claw");
+        assertThat(before).anyMatch(o -> o.id().equals("poison"));
+
+        world.markObjectTaken("poison");
+
+        var after = world.visibleObjects("kitchen", "hooded-claw");
+        assertThat(after).noneMatch(o -> o.id().equals("poison"));
+        assertThat(world.isObjectTaken("poison")).isTrue();
+    }
+
+    @Test
+    void is_object_taken_returns_false_for_untaken() {
+        assertThat(world.isObjectTaken("poison")).isFalse();
+    }
+
+    @Test
+    void apply_effect_and_query() {
+        assertThat(world.hasEffect("tea-service", "rat-poison")).isFalse();
+        world.applyEffect("tea-service", "rat-poison");
+        assertThat(world.hasEffect("tea-service", "rat-poison")).isTrue();
+    }
+
+    @Test
+    void scenario_complete_with_reason() {
+        assertThat(world.isScenarioComplete()).isFalse();
+        assertThat(world.completionReason()).isNull();
+
+        world.setScenarioComplete(CompletionReason.POISONED);
+
+        assertThat(world.isScenarioComplete()).isTrue();
+        assertThat(world.completionReason()).isEqualTo(CompletionReason.POISONED);
     }
 }

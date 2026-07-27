@@ -6,7 +6,12 @@ import io.casehub.examples.manor.model.ManorEvent;
 import io.casehub.examples.manor.model.Room;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public final class WorldState {
 
@@ -17,6 +22,10 @@ public final class WorldState {
     private final List<ManorEvent> eventLog = new ArrayList<>();
     private final Set<String> completedScenes = new HashSet<>();
     private volatile boolean scenarioComplete = false;
+    private final    Set<String> takenObjects = new java.util.HashSet<>();
+    private final    Map<String, Set<String>> appliedEffects = new java.util.HashMap<>();
+    private volatile io.casehub.examples.manor.model.CompletionReason completionReason;
+
 
     public WorldState(Map<String, Room> rooms, Map<String, CharacterState> characters) {
         this.rooms = rooms;
@@ -29,13 +38,10 @@ public final class WorldState {
     public CharacterState character(String id) { return characters.get(id); }
 
     public List<GameObject> visibleObjects(String roomId, String characterId) {
-        Room room = rooms.get(roomId);
-        if (room == null) return List.of();
-        return room.objects().entrySet().stream()
-                .filter(e -> isObjectVisible(e.getKey(), e.getValue(), characterId))
-                .map(Map.Entry::getValue)
-                .toList();
-    }
+        return room(roomId).objects().values().stream()
+                           .filter(obj -> !takenObjects.contains(obj.id()))
+                           .filter(obj -> isObjectVisible(obj.id(), obj, characterId))
+                           .toList();}
 
     private boolean isObjectVisible(String objectId, GameObject obj, String characterId) {
         if (obj.isVisibleToAll()) return true;
@@ -74,7 +80,30 @@ public final class WorldState {
     }
 
     public boolean isScenarioComplete() { return scenarioComplete; }
-    public void setScenarioComplete() { this.scenarioComplete = true; }
+
+    public void setScenarioComplete(io.casehub.examples.manor.model.CompletionReason reason) {
+        this.completionReason = reason;
+        this.scenarioComplete = true;
+    }
+
+    public void markObjectTaken(String objectId) {
+        takenObjects.add(objectId);
+    }
+
+    public boolean isObjectTaken(String objectId) {
+        return takenObjects.contains(objectId);
+    }
+
+    public void applyEffect(String objectId, String itemId) {
+        appliedEffects.computeIfAbsent(objectId, k -> new java.util.HashSet<>()).add(itemId);
+    }
+
+    public boolean hasEffect(String objectId, String itemId) {
+        return appliedEffects.getOrDefault(objectId, Set.of()).contains(itemId);
+    }
+
+    public io.casehub.examples.manor.model.CompletionReason completionReason() {return completionReason;}
+
 
     public boolean hasTriggerFired(String triggerId) { return firedTriggers.contains(triggerId); }
     public void markTriggerFired(String triggerId) { firedTriggers.add(triggerId); }
