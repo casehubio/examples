@@ -11,6 +11,8 @@ public final class CharacterState {
     private final List<String> inventory;
     private volatile boolean active = true;
     private volatile SceneContext sceneContext;
+    private          String       lastActionResult = "You have just arrived at Doily Manor.";
+
 
     public CharacterState(String agentId, String name, String startRoom,
                           double startX, List<String> inventory) {
@@ -28,6 +30,11 @@ public final class CharacterState {
     public List<String> inventory() { return List.copyOf(inventory); }
     public boolean isActive() { return active; }
     public SceneContext sceneContext() { return sceneContext; }
+
+    public String lastActionResult()   {return lastActionResult;}
+
+    public void setLastActionResult(String result) {this.lastActionResult = result;}
+
 
     public void setCurrentRoom(String room) { this.currentRoom = room; }
     public void setX(double x) { this.x = x; }
