@@ -11,8 +11,13 @@ import jakarta.ws.rs.core.Response;
 @Path("/manor")
 public class ManorResource {
 
-    @Inject ScenarioOrchestrator orchestrator;
-    @Inject ManorEventBus eventBus;
+    @Inject
+    ScenarioOrchestrator orchestrator;
+    @Inject
+    ManorEventBus        eventBus;
+
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.scenario.mode", defaultValue = "scripted")
+    String scenarioModeConfig;
 
     private volatile WorldState activeWorld;
 
@@ -30,9 +35,11 @@ public class ManorResource {
         eventBus.broadcast(ManorWebSocketEvent.scenario("started"));
         eventBus.broadcast(eventBus.buildSnapshot(activeWorld));
 
-        orchestrator.startScenario(activeWorld);
+        var mode = io.casehub.examples.manor.model.ScenarioMode.valueOf(scenarioModeConfig.toUpperCase());
+        orchestrator.startScenario(activeWorld, mode);
 
         return Response.accepted()
-                       .entity("{\"status\":\"started\"}")
-                       .build();}
+                       .entity("{\"status\":\"started\",\"mode\":\"" + mode.name().toLowerCase() + "\"}")
+                       .build();
+    }
 }

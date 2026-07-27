@@ -37,7 +37,8 @@ public final class CharacterAgentLoop {
                     AgentProvider agentProvider, String systemPrompt,
                     BlockingQueue<PendingAction> actionQueue,
                     ManorChannels manorChannels,
-                    io.casehub.examples.manor.web.ManorEventBus webEventBus) {
+                    io.casehub.examples.manor.web.ManorEventBus webEventBus,
+                    java.util.List<io.casehub.eidos.api.AgentGoal> goals) {
         while (!world.isScenarioComplete() && character.isActive()) {
             try {
                 if (character.sceneContext() != null) {
@@ -45,7 +46,7 @@ public final class CharacterAgentLoop {
                     if (world.isScenarioComplete()) {break;}
                 }
 
-                String observation = ObservationBuilder.buildObservation(character, world, java.util.List.of());
+                String observation = ObservationBuilder.buildObservation(character, world, goals);
                 String userPrompt  = observation + RESPONSE_FORMAT_INSTRUCTION;
 
                 AgentResponse response = callAgentWithRetry(
@@ -77,6 +78,8 @@ public final class CharacterAgentLoop {
                     var pending = new PendingAction(character, response.action());
                     actionQueue.put(pending);
                     pending.awaitResult();
+                } else {
+                    character.setLastActionResult("You waited and observed.");
                 }
 
                 Thread.sleep(thinkDelay(character));

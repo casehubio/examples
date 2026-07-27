@@ -29,49 +29,59 @@ public class ScenarioOrchestrator {
 
     private static final Logger log = Logger.getLogger(ScenarioOrchestrator.class);
 
-    @Inject AgentProvider agentProvider;
-    @Inject AgentRegistry agentRegistry;
-    @Inject SystemPromptRenderer renderer;
     @Inject
-            ManorChannels        manorChannels;
+    AgentProvider                               agentProvider;
+    @Inject
+    AgentRegistry                               agentRegistry;
+    @Inject
+    SystemPromptRenderer                        renderer;
+    @Inject
+    ManorChannels                               manorChannels;
     @Inject
     io.casehub.examples.manor.web.ManorEventBus webEventBus;
 
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.scenario.max-turns", defaultValue = "60")
+    int maxTurns;
 
-    public Thread startScenario(WorldState world) {
-        var triggers = MansionLoader.loadTriggers();
-        var scenes = MansionLoader.loadScenes();
+    public Thread startScenario(WorldState world, io.casehub.examples.manor.model.ScenarioMode mode) {
+        var triggers         = MansionLoader.loadTriggers();
+        var scenes           = MansionLoader.loadScenes();
         var triggerEvaluator = new TriggerEvaluator(triggers);
-        var sceneDirector = new SceneDirector(scenes);
-        var actionResolver = new ActionResolver();
+        var sceneDirector    = new SceneDirector(scenes);
+        var actionResolver   = new ActionResolver();
 
         return Thread.ofVirtual().name("scenario-loop")
-            .start(() -> runScenario(world, triggerEvaluator,
-                sceneDirector, actionResolver));
+                     .start(() -> runScenario(world, triggerEvaluator,
+                                              sceneDirector, actionResolver, mode));
     }
 
     private void runScenario(WorldState world,
-                              TriggerEvaluator triggerEvaluator,
-                              SceneDirector sceneDirector,
-                              ActionResolver actionResolver) {
+                             TriggerEvaluator triggerEvaluator,
+                             SceneDirector sceneDirector,
+                             ActionResolver actionResolver,
+                             io.casehub.examples.manor.model.ScenarioMode mode) {
         manorChannels.initChannels();
         manorChannels.dispatchScenarioStart();
         webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scenario("started"));
         webEventBus.broadcast(webEventBus.buildSnapshot(world));
 
         var actionQueue = new LinkedBlockingQueue<PendingAction>();
+        int turnCount   = 0;
 
         var threads = world.characters().values().stream()
-                           .map(c -> Thread.ofVirtual().name(c.agentId())
-                                           .uncaughtExceptionHandler((t, e) -> {
-                                               log.errorf(e, "Character %s crashed", t.getName());
-                                               world.markCharacterInactive(t.getName());
-                                           })
-                                           .start(() -> {
-                                               String systemPrompt = renderPrompt(c.agentId());
-                                               new CharacterAgentLoop().run(
-                                                       c, world, agentProvider, systemPrompt, actionQueue, manorChannels, webEventBus);
-                                           }))
+                           .map(c -> {
+                               var goals = resolveGoals(c.agentId());
+                               return Thread.ofVirtual().name(c.agentId())
+                                            .uncaughtExceptionHandler((t, e) -> {
+                                                log.errorf(e, "Character %s crashed", t.getName());
+                                                world.markCharacterInactive(t.getName());
+                                            })
+                                            .start(() -> {
+                                                String systemPrompt = renderPrompt(c.agentId());
+                                                new CharacterAgentLoop().run(
+                                                        c, world, agentProvider, systemPrompt, actionQueue, manorChannels, webEventBus, goals);
+                                            });
+                           })
                            .toList();
 
         while (!world.isScenarioComplete()) {
@@ -82,12 +92,14 @@ public class ScenarioOrchestrator {
                 ActionResult result = actionResolver.resolve(
                         pending.character(), pending.action(), world);
 
-                world.addEvent("action", pending.character().agentId(),
-                               pending.character().currentRoom(),
-                               pending.character().name() + " " +
-                               pending.action().type().name().toLowerCase() +
-                               (pending.action().target() != null ?
-                                " " + pending.action().target() : ""));
+                String narrative = NarrativeEventBuilder.describe(
+                        pending.character(), pending.action(), result);
+                if (narrative != null) {
+                    world.addEvent("action", pending.character().agentId(),
+                                   pending.character().currentRoom(), narrative);
+                }
+
+                pending.character().setLastActionResult(result.text());
 
                 if (result instanceof ActionResult.MovedToRoom moved) {
                     manorChannels.dispatchPositionEvent(
@@ -96,27 +108,38 @@ public class ScenarioOrchestrator {
                             pending.character().agentId(), moved.roomId(), pending.character().x()));
                 }
 
-                var triggerResult = triggerEvaluator.evaluate(world);
+                if (mode == io.casehub.examples.manor.model.ScenarioMode.SCRIPTED) {
+                    var triggerResult = triggerEvaluator.evaluate(world);
 
-                for (String narratorText : triggerResult.narratorEvents()) {
-                    world.addEvent("narrator", null, null, narratorText);
-                    manorChannels.dispatchNarration(narratorText);
-                    webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.narrator(narratorText));
+                    for (String narratorText : triggerResult.narratorEvents()) {
+                        world.addEvent("narrator", null, null, narratorText);
+                        manorChannels.dispatchNarration(narratorText);
+                        webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.narrator(narratorText));
+                    }
+
+                    if (triggerResult.hasSceneStart()) {
+                        manorChannels.dispatchSceneEvent(triggerResult.sceneId(), "started");
+                        webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scene(triggerResult.sceneId(), "started"));
+                        sceneDirector.runScene(
+                                triggerResult.sceneId(), world,
+                                this::callAgentForScene,
+                                narration -> {
+                                    world.addEvent("narrator", null, null, narration);
+                                    manorChannels.dispatchNarration(narration);
+                                    webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.narrator(narration));
+                                });
+                        manorChannels.dispatchSceneEvent(triggerResult.sceneId(), "ended");
+                        webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scene(triggerResult.sceneId(), "ended"));
+                    }
                 }
 
-                if (triggerResult.hasSceneStart()) {
-                    manorChannels.dispatchSceneEvent(triggerResult.sceneId(), "started");
-                    webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scene(triggerResult.sceneId(), "started"));
-                    sceneDirector.runScene(
-                            triggerResult.sceneId(), world,
-                            this::callAgentForScene,
-                            narration -> {
-                                world.addEvent("narrator", null, null, narration);
-                                manorChannels.dispatchNarration(narration);
-                                webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.narrator(narration));
-                            });
-                    manorChannels.dispatchSceneEvent(triggerResult.sceneId(), "ended");
-                    webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scene(triggerResult.sceneId(), "ended"));
+                if (mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
+                    turnCount++;
+                    if (world.hasEffect("tea-service", "rat-poison")) {
+                        world.setScenarioComplete(io.casehub.examples.manor.model.CompletionReason.POISONED);
+                    } else if (turnCount >= maxTurns) {
+                        world.setScenarioComplete(io.casehub.examples.manor.model.CompletionReason.TURN_LIMIT);
+                    }
                 }
 
                 pending.complete(result);
@@ -126,8 +149,9 @@ public class ScenarioOrchestrator {
             }
         }
 
+        String reason = world.completionReason() != null ? world.completionReason().name().toLowerCase() : null;
         manorChannels.dispatchScenarioComplete();
-        webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scenario("completed"));
+        webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scenario("completed", reason));
 
         for (var t : threads) {
             try {
@@ -141,17 +165,24 @@ public class ScenarioOrchestrator {
             }
         }
 
-        log.info("Scenario complete");}
+        log.info("Scenario complete" + (reason != null ? " — " + reason : ""));
+    }
+
+    private java.util.List<io.casehub.eidos.api.AgentGoal> resolveGoals(String agentId) {
+        return agentRegistry.findById(agentId, ManorConstants.TENANCY_ID)
+                            .map(desc -> desc.goals())
+                            .orElse(java.util.List.of());
+    }
 
     private String callAgentForScene(String characterId, String prompt) {
         String systemPrompt = renderPrompt(characterId);
         try {
             return agentProvider.invoke(
-                    AgentSessionConfig.of(systemPrompt, prompt))
-                .filter(e -> e instanceof AgentEvent.TextDelta)
-                .map(e -> ((AgentEvent.TextDelta) e).text())
-                .collect().with(Collectors.joining())
-                .await().atMost(Duration.ofSeconds(120));
+                                        AgentSessionConfig.of(systemPrompt, prompt))
+                                .filter(e -> e instanceof AgentEvent.TextDelta)
+                                .map(e -> ((AgentEvent.TextDelta) e).text())
+                                .collect().with(Collectors.joining())
+                                .await().atMost(Duration.ofSeconds(120));
         } catch (Exception e) {
             log.warnf("Scene LLM call failed for %s: %s", characterId, e.getMessage());
             return "[" + characterId + " is speechless]";
@@ -160,7 +191,7 @@ public class ScenarioOrchestrator {
 
     private String renderPrompt(String agentId) {
         var desc = agentRegistry.findById(agentId, ManorConstants.TENANCY_ID)
-            .orElseThrow(() -> new IllegalArgumentException("No descriptor: " + agentId));
+                                .orElseThrow(() -> new IllegalArgumentException("No descriptor: " + agentId));
         var ctx = AgentPromptContext.forFormat(RenderFormat.MARKDOWN);
         return renderer.render(desc, ctx).content();
     }
