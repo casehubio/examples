@@ -1,6 +1,5 @@
-package io.casehub.examples.manor.agent;
+package io.casehub.examples.manor;
 
-import io.casehub.examples.manor.ManorConstants;
 import io.casehub.platform.api.identity.CurrentPrincipal;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
