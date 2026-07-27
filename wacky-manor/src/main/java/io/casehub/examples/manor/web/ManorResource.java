@@ -21,18 +21,18 @@ public class ManorResource {
     public Response startScenario() {
         if (activeWorld != null && !activeWorld.isScenarioComplete()) {
             return Response.status(Response.Status.CONFLICT)
-                .entity("{\"error\":\"Scenario already running\"}")
-                .build();
+                           .entity("{\"error\":\"Scenario already running\"}")
+                           .build();
         }
 
         activeWorld = MansionLoader.loadWorld();
+        eventBus.setActiveWorld(activeWorld);
         eventBus.broadcast(ManorWebSocketEvent.scenario("started"));
         eventBus.broadcast(eventBus.buildSnapshot(activeWorld));
 
         orchestrator.startScenario(activeWorld);
 
         return Response.accepted()
-            .entity("{\"status\":\"started\"}")
-            .build();
-    }
+                       .entity("{\"status\":\"started\"}")
+                       .build();}
 }

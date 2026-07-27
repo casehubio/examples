@@ -13,22 +13,33 @@ public final class ObservationBuilder {
     private static final int RECENT_EVENT_LIMIT = 5;
 
     public static String buildObservation(CharacterState character, WorldState world) {
-        var sb = new StringBuilder();
+        var  sb   = new StringBuilder();
         Room room = world.room(character.currentRoom());
 
         appendLocation(sb, room);
+        appendAdjacentRooms(sb, room, world);
         appendVisibleObjects(sb, character, world);
         appendCharactersPresent(sb, character, world);
         appendInventory(sb, character);
         appendRecentActivity(sb, character, world);
 
-        return sb.toString();
-    }
+        return sb.toString();}
 
     private static void appendLocation(StringBuilder sb, Room room) {
         sb.append("== Current Location ==\n");
         sb.append(room.name()).append(": ").append(room.description()).append("\n\n");
     }
+
+    private static void appendAdjacentRooms(StringBuilder sb, Room room, WorldState world) {
+        sb.append("== Exits ==\n");
+        sb.append("You can MOVE to: ");
+        var names = room.adjacentRooms().stream()
+                        .map(id -> world.room(id).name() + " (" + id + ")")
+                        .toList();
+        sb.append(String.join(", ", names));
+        sb.append("\nExplore other rooms to discover objects and advance the story.\n\n");
+    }
+
 
     private static void appendVisibleObjects(StringBuilder sb, CharacterState character,
                                               WorldState world) {
