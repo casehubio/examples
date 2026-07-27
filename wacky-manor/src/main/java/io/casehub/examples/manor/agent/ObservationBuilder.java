@@ -54,40 +54,41 @@ public final class ObservationBuilder {
         } else {
             for (GameObject obj : objects) {
                 sb.append("- ").append(obj.name())
-                  .append(" (at position ").append(obj.x()).append("): ")
-                  .append(obj.description());
+                  .append(" [id: ").append(obj.id()).append("]")
+                  .append(": ").append(obj.description());
                 if (obj.interactable()) {
-                    sb.append(" [interactable");
+                    sb.append(" [INTERACT");
                     if (obj.interactionRequires() != null) {
                         sb.append(", requires: ").append(obj.interactionRequires());
                     }
                     sb.append("]");
                 }
                 if (obj.portable()) {
-                    sb.append(" [can be picked up]");
+                    sb.append(" [TAKE to pick up]");
+                }
+                if (!obj.usableWith().isEmpty()) {
+                    sb.append(" [USE with: ").append(String.join(", ", obj.usableWith())).append("]");
                 }
                 sb.append("\n");
             }
         }
-        sb.append("\n");
-    }
+        sb.append("\n");}
 
     private static void appendCharactersPresent(StringBuilder sb, CharacterState character,
                                                  WorldState world) {
         sb.append("== Characters Present ==\n");
         List<CharacterState> others = world.charactersInRoom(character.currentRoom()).stream()
-            .filter(c -> !c.agentId().equals(character.agentId()))
-            .toList();
+                                           .filter(c -> !c.agentId().equals(character.agentId()))
+                                           .toList();
         if (others.isEmpty()) {
             sb.append("You are alone.\n");
         } else {
             for (CharacterState other : others) {
                 sb.append("- ").append(other.name())
-                  .append(" (at position ").append(other.x()).append(")\n");
+                  .append(" [id: ").append(other.agentId()).append("]\n");
             }
         }
-        sb.append("\n");
-    }
+        sb.append("\n");}
 
     private static void appendInventory(StringBuilder sb, CharacterState character) {
         sb.append("== Your Inventory ==\n");

@@ -19,19 +19,30 @@ public final class CharacterAgentLoop {
     private static final Logger log = Logger.getLogger(CharacterAgentLoop.class);
 
     private static final String RESPONSE_FORMAT_INSTRUCTION = """
-
-        You MUST respond with ONLY a JSON object in this exact format:
-        {
-          "thinking": "your internal reasoning (not shown to others)",
-          "dialogue": "what you say aloud (or null if silent)",
-          "aside": "private thoughts for the audience only (or null)",
-          "action": {
-            "type": "MOVE|INTERACT|TAKE|GIVE|USE|LOOK|WAIT",
-            "target": "room-id or object-id or character-id (or null for WAIT)",
-            "withItem": "inventory-item-id to use (or null)"
-          }
-        }
-        Respond with ONLY the JSON. No other text.""";
+                                                              
+                                                              You MUST respond with ONLY a JSON object in this exact format:
+                                                              {
+                                                                "thinking": "your internal reasoning (not shown to others)",
+                                                                "dialogue": "what you say aloud (or null if silent)",
+                                                                "aside": "private thoughts for the audience only (or null)",
+                                                                "action": {
+                                                                  "type": "one of the action types below",
+                                                                  "target": "room-id or object-id or character-id (or null for WAIT)",
+                                                                  "withItem": "inventory-item-id to use (or null)"
+                                                                }
+                                                              }
+                                                              
+                                                              ACTION TYPES — use the right one for your intent:
+                                                                MOVE      — walk to an adjacent room. target = room-id
+                                                                TAKE      — pick up a portable object into your inventory. target = object-id
+                                                                USE       — apply an inventory item to an object. target = object-id, withItem = item from your inventory
+                                                                GIVE      — hand an inventory item to another character. target = character-id, withItem = item from your inventory
+                                                                INTERACT  — activate an object's built-in mechanism (levers, locks, puzzles). target = object-id, withItem = required item if any
+                                                                LOOK      — examine an object or room closely. target = object-id or null for room
+                                                                WAIT      — do nothing this turn
+                                                              
+                                                              To get an object, use TAKE. To apply an item you're carrying, use USE.
+                                                              Respond with ONLY the JSON. No other text.""";
 
     public void run(CharacterState character, WorldState world,
                     AgentProvider agentProvider, String systemPrompt,

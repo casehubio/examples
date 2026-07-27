@@ -37,9 +37,9 @@ class ObservationBuilderTest {
     void hooded_claw_sees_poison_in_kitchen() {
         world.moveCharacter("hooded-claw", "kitchen");
         var obs = ObservationBuilder.buildObservation(
-            world.character("hooded-claw"), world, java.util.List.of());
+                world.character("hooded-claw"), world, java.util.List.of());
         assertThat(obs).contains("Rat Poison");
-        assertThat(obs).contains("[can be picked up]");
+        assertThat(obs).contains("[TAKE to pick up]");
     }
 
     @Test
@@ -103,8 +103,8 @@ class ObservationBuilderTest {
     @Test
     void observation_shows_interactable_hints() {
         var obs = ObservationBuilder.buildObservation(
-            world.character("penelope-pitstop"), world, java.util.List.of());
-        assertThat(obs).contains("[interactable, requires: fake-medal]");
+                world.character("penelope-pitstop"), world, java.util.List.of());
+        assertThat(obs).contains("[INTERACT, requires: fake-medal]");
     }
 
     @Test

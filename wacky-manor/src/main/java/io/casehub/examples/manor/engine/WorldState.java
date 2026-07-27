@@ -122,6 +122,11 @@ public final class WorldState {
                 .toList();
     }
 
+    public List<ManorEvent> allEvents() {
+        return List.copyOf(eventLog);
+    }
+
+
     public List<CharacterState> charactersInRoom(String roomId) {
         return characters.values().stream()
                 .filter(c -> c.isActive() && roomId.equals(c.currentRoom()))

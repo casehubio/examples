@@ -42,4 +42,27 @@ public class ManorResource {
                        .entity("{\"status\":\"started\",\"mode\":\"" + mode.name().toLowerCase() + "\"}")
                        .build();
     }
+
+    @jakarta.ws.rs.GET
+    @jakarta.ws.rs.Path("/events")
+    @jakarta.ws.rs.Produces("application/json")
+    public Response getEvents() {
+        if (activeWorld == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("{\"error\":\"No scenario\"}").build();
+        }
+        var events = activeWorld.allEvents();
+        var sb     = new StringBuilder("[");
+        for (int i = 0; i < events.size(); i++) {
+            var e = events.get(i);
+            if (i > 0) {sb.append(",");}
+            sb.append("{\"type\":\"").append(e.type())
+              .append("\",\"character\":\"").append(e.characterId() != null ? e.characterId() : "")
+              .append("\",\"room\":\"").append(e.room() != null ? e.room() : "")
+              .append("\",\"desc\":\"").append(e.description().replace("\"", "\\\"")).append("\"}");
+        }
+        sb.append("]");
+        String reason   = activeWorld.completionReason() != null ? activeWorld.completionReason().name() : "running";
+        String complete = activeWorld.isScenarioComplete() ? "true" : "false";
+        return Response.ok("{\"complete\":" + complete + ",\"reason\":\"" + reason + "\",\"events\":" + sb + "}").build();
+    }
 }
