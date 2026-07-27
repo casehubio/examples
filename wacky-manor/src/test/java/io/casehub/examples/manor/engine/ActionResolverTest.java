@@ -1,6 +1,8 @@
 package io.casehub.examples.manor.engine;
 
-import io.casehub.examples.manor.model.*;
+import io.casehub.examples.manor.model.Action;
+import io.casehub.examples.manor.model.ActionResult;
+import io.casehub.examples.manor.model.ActionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -167,5 +169,13 @@ class ActionResolverTest {
         var result = resolver.resolve(penelope,
             new Action(ActionType.GIVE, "dick-dastardly", "nonexistent"), world);
         assertThat(result).isInstanceOf(ActionResult.Failed.class);
+    }
+
+    @Test
+    void action_result_text_returns_description_for_all_variants() {
+        assertThat(new ActionResult.Success("ok").text()).isEqualTo("ok");
+        assertThat(new ActionResult.Failed("nope").text()).isEqualTo("nope");
+        assertThat(new ActionResult.MovedToRoom("kitchen", "You moved.").text()).isEqualTo("You moved.");
+        assertThat(new ActionResult.ItemReceived("key", "Got key.").text()).isEqualTo("Got key.");
     }
 }
