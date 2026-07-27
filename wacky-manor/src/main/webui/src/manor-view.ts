@@ -9,6 +9,14 @@ const ROOM_LABELS: Record<string, string> = {
   'ballroom': 'Ballroom',
 };
 
+const CHARACTER_LABELS: Record<string, string> = {
+  'penelope-pitstop': 'Penelope',
+  'hooded-claw':      'Sneekly',
+  'ant-hill-mob':     'Ant Hill Mob',
+  'dick-dastardly':   'Dastardly',
+  'peter-perfect':    'Peter',
+};
+
 function renderCharacterSvg(id: string, cx: number, cy: number) {
   const scale = 0.55;
   const tx = cx - 12 * scale;
@@ -243,7 +251,7 @@ export class ManorView extends LitElement {
             const cy = roomY + roomH - 15;
             return svg`
               ${renderCharacterSvg(c.id, cx, cy)}
-              <text x="${cx}" y="${cy + 12}" class="char-name">${c.name.split(' ')[0]}</text>
+              <text x="${cx}" y="${cy + 12}" class="char-name">${CHARACTER_LABELS[c.id] || c.name.split(' ')[0]}</text>
             `;
           });
         })}
