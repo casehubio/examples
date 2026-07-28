@@ -41,13 +41,12 @@ public final class ObservationBuilder {
                         .map(id -> {
                             Room target = world.room(id);
                             return new io.casehub.blocks.summarisation.observation.affordance.ObservableEntity(
-                                    id, target.name(), null,
+                                    id, target.name(), target.description(),
                                     java.util.List.of(new io.casehub.blocks.summarisation.observation.affordance.Affordance("MOVE", "to walk here")));
                         })
                         .toList();
         return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.entities(
-                "Exits", "No exits.", exits);
-    }
+                "Exits", "No exits.", exits);}
 
     private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection objectsSection(
             CharacterState character, WorldState world) {
