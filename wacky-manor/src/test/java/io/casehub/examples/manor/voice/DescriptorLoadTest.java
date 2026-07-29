@@ -36,8 +36,8 @@ class DescriptorLoadTest {
     @Test
     void hooded_claw_has_villain_disposition() {
         var desc = registry.findById("hooded-claw", ManorConstants.TENANCY_ID).orElseThrow();
-        assertThat(desc.disposition().riskAppetite()).isEqualTo("extreme");
-        assertThat(desc.disposition().conflictMode()).isEqualTo("competing");
+        assertThat(desc.disposition().primaryTerm(io.casehub.eidos.api.DispositionAxis.RISK_APPETITE)).isEqualTo("extreme");
+        assertThat(desc.disposition().primaryTerm(io.casehub.eidos.api.DispositionAxis.CONFLICT_MODE)).isEqualTo("competing");
         assertThat(desc.briefing()).containsIgnoringCase("Hooded Claw");
         assertThat(desc.templates()).extracting(t -> t.templateId())
                                     .contains("cartoon-villain");}
@@ -45,7 +45,7 @@ class DescriptorLoadTest {
     @Test
     void penelope_has_collaborative_disposition() {
         var desc = registry.findById("penelope-pitstop", ManorConstants.TENANCY_ID).orElseThrow();
-        assertThat(desc.disposition().socialOrient()).isEqualTo("collaborative");
+        assertThat(desc.disposition().primaryTerm(io.casehub.eidos.api.DispositionAxis.SOCIAL_ORIENTATION)).isEqualTo("collaborative");
         assertThat(desc.briefing()).containsIgnoringCase("Southern");
     }
 
