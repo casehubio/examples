@@ -18,7 +18,7 @@ public final class CharacterAgentLoop {
 
     private static final Logger log = Logger.getLogger(CharacterAgentLoop.class);
 
-    private static final java.util.List<io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor> ACTION_DESCRIPTORS = java.util.List.of(
+    public static final java.util.List<io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor> ACTION_DESCRIPTORS = java.util.List.of(
             new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("MOVE", "walk to an adjacent room", "target = room-id"),
             new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("TAKE", "pick up a portable object into your inventory", "target = object-id"),
             new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("USE", "apply an inventory item to an object", "target = object-id, withItem = item from your inventory"),
@@ -28,7 +28,7 @@ public final class CharacterAgentLoop {
             new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("WAIT", "do nothing this turn", null)
                                                                                                                                                        );
 
-    private static final String RESPONSE_FORMAT_INSTRUCTION = "\n" +
+    public static final String RESPONSE_FORMAT_INSTRUCTION = "\n" +
                                                               new io.casehub.blocks.summarisation.observation.affordance.AffordanceRenderer().renderActionVocabulary(
                                                                       """
                                                                       You MUST respond with ONLY a JSON object in this exact format:

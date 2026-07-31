@@ -49,4 +49,4 @@ JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn quarkus:dev -pl wacky-manor
 POC spec: `wacky-manor/docs/POC-SPEC.md`
 Vision: `wacky-manor/docs/VISION.md`
 
-Phase 0–2 complete. Phase 2.5 next: autonomous character validation.
+Phase 0–2.5b complete. Phase 2.6 next: ObservationAccumulator wiring with casehub-blocks.
