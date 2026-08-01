@@ -3,19 +3,18 @@ package io.casehub.examples.manor.agent;
 import io.casehub.examples.manor.engine.WorldState;
 import io.casehub.examples.manor.model.CharacterState;
 import io.casehub.examples.manor.model.GameObject;
-import io.casehub.examples.manor.model.ManorEvent;
 import io.casehub.examples.manor.model.Room;
 
 import java.util.List;
 
 public final class ObservationBuilder {
 
-    private static final int                                                                       RECENT_EVENT_LIMIT = 5;
     private static final io.casehub.blocks.summarisation.observation.affordance.AffordanceRenderer RENDERER           =
             new io.casehub.blocks.summarisation.observation.affordance.AffordanceRenderer();
 
     public static String buildObservation(CharacterState character, WorldState world,
-                                          java.util.List<io.casehub.eidos.api.AgentGoal> goals) {
+                                          java.util.List<io.casehub.eidos.api.AgentGoal> goals,
+                                          ObservationDrain drain) {
         Room room     = world.room(character.currentRoom());
         var  sections = new java.util.ArrayList<io.casehub.blocks.summarisation.observation.affordance.ObservationSection>();
 
@@ -25,7 +24,10 @@ public final class ObservationBuilder {
         sections.add(charactersSection(character, world));
         sections.add(inventorySection(character));
         sections.add(goalsSection(goals));
-        sections.add(recentActivitySection(character, world));
+        sections.add(recentActivitySection(drain));
+        if (!drain.rememberedRooms().isEmpty()) {
+            sections.add(rememberedSection(drain, world));
+        }
         sections.add(lastActionResultSection(character));
 
         return RENDERER.renderObservation(sections);
@@ -118,14 +120,44 @@ public final class ObservationBuilder {
     }
 
     private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection recentActivitySection(
-            CharacterState character, WorldState world) {
-        List<ManorEvent> events = world.recentEvents(character.currentRoom(), RECENT_EVENT_LIMIT);
-        var items = events.stream()
-                          .map(ManorEvent::description)
-                          .toList();
-        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
-                "Recent Activity", "The room is quiet.", items);
+            ObservationDrain drain) {
+        String text = drain.currentRoom().renderedText();
+        if (text == null || text.isBlank()) {
+            return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
+                    "Recent Activity", "The room is quiet.", java.util.List.of());
+        }
+        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.text(
+                "Recent Activity", text.strip());
     }
+
+    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection rememberedSection(
+            ObservationDrain drain, WorldState world) {
+        var items   = new java.util.ArrayList<String>();
+        var entries = new java.util.ArrayList<>(drain.rememberedRooms().entrySet());
+        java.util.Collections.reverse(entries);
+        long now = System.currentTimeMillis();
+        for (var entry : entries) {
+            String         roomId     = entry.getKey();
+            RememberedRoom remembered = entry.getValue();
+            Room           room       = world.room(roomId);
+            long           elapsed    = now - remembered.cachedAt();
+            String         timeAgo    = formatElapsed(elapsed);
+            String         text       = remembered.result().renderedText();
+            if (text != null && !text.isBlank()) {
+                items.add(room.name() + " (" + timeAgo + " ago): " + text.strip());
+            }
+        }
+        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
+                "Remembered", null, items);
+    }
+
+    private static String formatElapsed(long millis) {
+        long seconds = millis / 1000;
+        if (seconds < 60) {return seconds + "s";}
+        long minutes = seconds / 60;
+        return minutes + " minute" + (minutes == 1 ? "" : "s");
+    }
+
 
     private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection lastActionResultSection(
             CharacterState character) {

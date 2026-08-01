@@ -115,6 +115,11 @@ public final class WorldState {
         eventLog.add(new ManorEvent(Instant.now(), type, characterId, room, description));
     }
 
+    public void addEvent(ManorEvent event) {
+        eventLog.add(event);
+    }
+
+
     public List<ManorEvent> recentEvents(String roomId, int limit) {
         return eventLog.reversed().stream()
                 .filter(e -> roomId.equals(e.room()))

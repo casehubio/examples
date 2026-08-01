@@ -6,7 +6,7 @@ import java.util.List;
 public final class CharacterState {
     private final String agentId;
     private final String name;
-    private String currentRoom;
+    private volatile String currentRoom;
     private double x;
     private final List<String> inventory;
     private volatile boolean active = true;

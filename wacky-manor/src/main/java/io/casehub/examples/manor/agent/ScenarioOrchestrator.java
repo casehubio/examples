@@ -42,6 +42,12 @@ public class ScenarioOrchestrator {
 
     @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.scenario.max-turns", defaultValue = "60")
     int maxTurns;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.observation.verbatim-threshold", defaultValue = "10")
+    int verbatimThreshold;
+
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.observation.grouped-threshold", defaultValue = "15")
+    int groupedThreshold;
+
 
     public Thread startScenario(WorldState world, io.casehub.examples.manor.model.ScenarioMode mode) {
         var triggers         = MansionLoader.loadTriggers();
@@ -65,6 +71,12 @@ public class ScenarioOrchestrator {
         webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scenario("started"));
         webEventBus.broadcast(webEventBus.buildSnapshot(world));
 
+        var compactor          = new MechanicalCompactor();
+        var summariser         = new ManorLlmSummariser(agentProvider);
+        var obsRenderer        = new ManorObservationRenderer(compactor, verbatimThreshold, groupedThreshold, summariser);
+        var observationService = new ObservationService(obsRenderer);
+        observationService.init(world);
+
         var actionQueue = new LinkedBlockingQueue<PendingAction>();
         int turnCount   = 0;
 
@@ -79,7 +91,8 @@ public class ScenarioOrchestrator {
                                             .start(() -> {
                                                 String systemPrompt = renderPrompt(c.agentId());
                                                 new CharacterAgentLoop().run(
-                                                        c, world, agentProvider, systemPrompt, actionQueue, manorChannels, webEventBus, goals);
+                                                        c, world, agentProvider, systemPrompt, actionQueue,
+                                                        manorChannels, webEventBus, goals, observationService);
                                             });
                            })
                            .toList();
@@ -89,14 +102,22 @@ public class ScenarioOrchestrator {
                 PendingAction pending = actionQueue.poll(5, TimeUnit.SECONDS);
                 if (pending == null) {continue;}
 
+                String departureRoom = pending.character().currentRoom();
                 ActionResult result = actionResolver.resolve(
                         pending.character(), pending.action(), world);
 
                 String narrative = NarrativeEventBuilder.describe(
                         pending.character(), pending.action(), result);
                 if (narrative != null) {
-                    world.addEvent("action", pending.character().agentId(),
-                                   pending.character().currentRoom(), narrative);
+                    var enrichedEvent = new io.casehub.examples.manor.model.ManorEvent(
+                            java.time.Instant.now(), "action",
+                            pending.character().agentId(), pending.character().currentRoom(),
+                            narrative,
+                            pending.action().type(), pending.action().target(),
+                            pending.action().withItem(),
+                            pending.action().type() == io.casehub.examples.manor.model.ActionType.MOVE ? departureRoom : null);
+                    world.addEvent(enrichedEvent);
+                    observationService.publishEvent(enrichedEvent);
                 }
 
                 pending.character().setLastActionResult(result.text());

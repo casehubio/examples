@@ -29,8 +29,8 @@ game mechanics.
 Phase 0:   Character behavior tests        ← Are the LLMs entertaining?              ✅ PASSED
 Phase 1:   Game engine + action loop       ← Can they navigate a world?               ✅ PASSED
 Phase 2:   UI + visualization              ← Can an audience watch it?                ✅ PASSED
-Phase 2.5: Autonomous character validation ← Do characters drive the plot themselves? 
-Phase 2.6: Observation batching            ← Can we scale event context for LLMs?
+Phase 2.5: Autonomous character validation ← Do characters drive the plot themselves? ✅ PASSED
+Phase 2.6: Observation batching            ← Can we scale event context for LLMs?     ✅ PASSED
 Phase 2.7: Live LLM narrator              ← Does the narrator generate commentary?
 Phase 2.8: NPC system                      ← Do scripted NPCs drive quests?
 Phase 2.9: Scale to 6 rooms               ← Does the full mansion work?

@@ -7,4 +7,15 @@ public record ManorEvent(
         String type,
         String characterId,
         String room,
-        String description) {}
+        String description,
+        ActionType actionType,
+        String target,
+        String withItem,
+        String departureRoom) {
+
+    public ManorEvent(Instant timestamp, String type, String characterId,
+                      String room, String description) {
+        this(timestamp, type, characterId, room, description,
+             null, null, null, null);
+    }
+}
