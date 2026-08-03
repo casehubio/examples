@@ -19,8 +19,9 @@ class WorldStateTest {
 
     @Test
     void loads_three_rooms() {
-        assertThat(world.rooms()).hasSize(3);
-        assertThat(world.rooms()).containsKeys("entrance-hall", "kitchen", "ballroom");
+        assertThat(world.rooms()).hasSize(6);
+        assertThat(world.rooms()).containsKeys("entrance-hall", "kitchen", "ballroom",
+                                               "library", "laboratory", "cellar");
     }
 
     @Test
@@ -31,16 +32,25 @@ class WorldStateTest {
 
     @Test
     void loads_five_characters() {
-        assertThat(world.characters()).hasSize(5);
-        assertThat(world.characters()).containsKeys(
-            "penelope-pitstop", "hooded-claw", "ant-hill-mob", "dick-dastardly", "peter-perfect");
+        assertThat(world.characters()).hasSize(17);
     }
 
     @Test
-    void characters_start_in_entrance_hall() {
-        for (CharacterState c : world.characters().values()) {
-            assertThat(c.currentRoom()).isEqualTo("entrance-hall");
-        }
+    void characters_start_in_correct_rooms() {
+        assertThat(world.character("penelope-pitstop").currentRoom()).isEqualTo("entrance-hall");
+        assertThat(world.character("hooded-claw").currentRoom()).isEqualTo("entrance-hall");
+        assertThat(world.character("muttley").currentRoom()).isEqualTo("entrance-hall");
+        assertThat(world.character("pat-pending").currentRoom()).isEqualTo("entrance-hall");
+        assertThat(world.character("sergeant-blast").currentRoom()).isEqualTo("entrance-hall");
+        assertThat(world.character("private-meekly").currentRoom()).isEqualTo("entrance-hall");
+        assertThat(world.character("lazy-luke").currentRoom()).isEqualTo("ballroom");
+        assertThat(world.character("blubber-bear").currentRoom()).isEqualTo("ballroom");
+        assertThat(world.character("rock-slag").currentRoom()).isEqualTo("library");
+        assertThat(world.character("gravel-slag").currentRoom()).isEqualTo("library");
+        assertThat(world.character("rufus-ruffcut").currentRoom()).isEqualTo("laboratory");
+        assertThat(world.character("sawtooth").currentRoom()).isEqualTo("laboratory");
+        assertThat(world.character("big-gruesome").currentRoom()).isEqualTo("cellar");
+        assertThat(world.character("little-gruesome").currentRoom()).isEqualTo("cellar");
     }
 
     @Test
@@ -114,9 +124,9 @@ class WorldStateTest {
 
     @Test
     void characters_in_room_excludes_inactive() {
-        assertThat(world.charactersInRoom("entrance-hall")).hasSize(5);
+        int entranceCount = world.charactersInRoom("entrance-hall").size();
         world.markCharacterInactive("peter-perfect");
-        assertThat(world.charactersInRoom("entrance-hall")).hasSize(4);
+        assertThat(world.charactersInRoom("entrance-hall")).hasSize(entranceCount - 1);
     }
 
     @Test
@@ -178,5 +188,22 @@ class WorldStateTest {
 
         assertThat(world.isScenarioComplete()).isTrue();
         assertThat(world.completionReason()).isEqualTo(CompletionReason.POISONED);
+    }
+
+    @Test
+    void six_rooms_load_with_adjacency() {
+        var world = MansionLoader.loadWorld();
+        assertThat(world.rooms()).hasSize(6);
+        assertThat(world.room("library")).isNotNull();
+        assertThat(world.room("library").adjacentRooms())
+                .contains("entrance-hall", "laboratory");
+        assertThat(world.room("laboratory")).isNotNull();
+        assertThat(world.room("laboratory").adjacentRooms())
+                .contains("library", "cellar");
+        assertThat(world.room("cellar")).isNotNull();
+        assertThat(world.room("cellar").adjacentRooms())
+                .contains("laboratory");
+        assertThat(world.room("entrance-hall").adjacentRooms())
+                .contains("library");
     }
 }

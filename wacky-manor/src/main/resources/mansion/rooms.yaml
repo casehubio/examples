@@ -2,7 +2,7 @@ rooms:
   entrance-hall:
     name: "Entrance Hall"
     description: "A grand but dusty foyer with a sweeping staircase. A chandelier hangs precariously. Portraits of stern ancestors line the walls."
-    adjacentRooms: [kitchen]
+    adjacentRooms: [kitchen, library]
     objects:
       coat-rack:
         name: "Coat Rack"
@@ -12,13 +12,6 @@ rooms:
         name: "Guest Book"
         description: "A leather-bound guest book on a side table."
         x: 0.5
-      muttley:
-        name: "Muttley"
-        description: "Dastardly's snickering dog, sitting on a small brass key."
-        x: 0.8
-        interactable: true
-        interactionRequires: fake-medal
-        yields: brass-key
 
   kitchen:
     name: "Kitchen"
@@ -55,8 +48,55 @@ rooms:
         x: 0.5
         interactable: true
         usableWith: [rat-poison]
-      lazy-luke:
-        name: "Lazy Luke & Blubber Bear"
-        description: "A lanky hillbilly asleep in an armchair. A large bear is using a folded paper as a blanket."
-        x: 0.8
+
+  library:
+    name: "Library"
+    description: "A tall-ceilinged library with floor-to-ceiling bookshelves, a carved stone mantelpiece with an inscription, and leather reading chairs covered in dust."
+    adjacentRooms: [entrance-hall, laboratory]
+    objects:
+      mantelpiece:
+        name: "Stone Mantelpiece"
+        description: "A carved stone mantelpiece with an inscription: 'I have cities but no houses, forests but no trees, water but no fish. What am I?'"
+        x: 0.5
         interactable: true
+      bookshelves:
+        name: "Bookshelves"
+        description: "Floor-to-ceiling bookshelves crammed with dusty leather-bound volumes. Several are upside down."
+        x: 0.2
+      reading-chairs:
+        name: "Reading Chairs"
+        description: "Two enormous leather armchairs facing the mantelpiece."
+        x: 0.8
+
+  laboratory:
+    name: "Laboratory"
+    description: "A cluttered Victorian laboratory with brass instruments, bubbling flasks, and a large machine with many levers and dials. A wire on the machine has been gnawed through."
+    adjacentRooms: [library, cellar]
+    objects:
+      machine:
+        name: "Large Machine"
+        description: "A complex brass-and-copper machine with levers, dials, and a gauge. One wire has been gnawed clean through. A sign reads: 'Requires 3 operators.'"
+        x: 0.5
+        interactable: true
+      workbench:
+        name: "Workbench"
+        description: "A sturdy workbench covered in tools — but no wrench."
+        x: 0.2
+      crates:
+        name: "Wooden Crates"
+        description: "A stack of old wooden crates in the corner."
+        x: 0.8
+
+  cellar:
+    name: "Cellar"
+    description: "A damp stone cellar with cobwebs, old furniture, and surprisingly cheerful decorations — someone has been redecorating. Air vents line the upper walls."
+    adjacentRooms: [laboratory]
+    objects:
+      air-vents:
+        name: "Air Vents"
+        description: "A network of air vents along the upper walls. They look just big enough for something very small to explore."
+        x: 0.3
+      old-furniture:
+        name: "Old Furniture"
+        description: "Assorted Victorian furniture in various states of repair. Some pieces have been rearranged with surprising care."
+        x: 0.6

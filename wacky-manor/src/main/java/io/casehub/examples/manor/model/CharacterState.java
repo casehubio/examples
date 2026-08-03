@@ -1,6 +1,5 @@
 package io.casehub.examples.manor.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class CharacterState {
@@ -8,20 +7,29 @@ public final class CharacterState {
     private final String name;
     private volatile String currentRoom;
     private double x;
-    private final List<String> inventory;
+    private final java.util.concurrent.CopyOnWriteArrayList<String> inventory;
     private volatile boolean active = true;
     private volatile SceneContext sceneContext;
     private          String       lastActionResult = "You have just arrived at Doily Manor.";
+    private final    long         thinkDelayMs;
 
 
     public CharacterState(String agentId, String name, String startRoom,
                           double startX, List<String> inventory) {
-        this.agentId = agentId;
-        this.name = name;
-        this.currentRoom = startRoom;
-        this.x = startX;
-        this.inventory = new ArrayList<>(inventory != null ? inventory : List.of());
+        this(agentId, name, startRoom, startX, inventory,
+             io.casehub.examples.manor.ManorConstants.THINK_DELAY_DEFAULT_MS);}
+
+    public CharacterState(String agentId, String name, String startRoom,
+                          double startX, List<String> inventory, long thinkDelayMs) {
+        this.agentId      = agentId;
+        this.name         = name;
+        this.currentRoom  = startRoom;
+        this.x            = startX;
+        this.inventory    = new java.util.concurrent.CopyOnWriteArrayList<>(
+                inventory != null ? inventory : List.of());
+        this.thinkDelayMs = thinkDelayMs;
     }
+
 
     public String agentId() { return agentId; }
     public String name() { return name; }
@@ -29,6 +37,9 @@ public final class CharacterState {
     public double x() { return x; }
     public List<String> inventory() { return List.copyOf(inventory); }
     public boolean isActive() { return active; }
+
+    public long thinkDelayMs() {return thinkDelayMs;}
+
     public SceneContext sceneContext() { return sceneContext; }
 
     public String lastActionResult()   {return lastActionResult;}

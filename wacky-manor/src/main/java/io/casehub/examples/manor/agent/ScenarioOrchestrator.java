@@ -40,7 +40,7 @@ public class ScenarioOrchestrator {
     @Inject
     io.casehub.examples.manor.web.ManorEventBus webEventBus;
 
-    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.scenario.max-turns", defaultValue = "60")
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.scenario.max-turns", defaultValue = "300")
     int maxTurns;
     @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.observation.verbatim-threshold", defaultValue = "10")
     int verbatimThreshold;
@@ -94,6 +94,12 @@ public class ScenarioOrchestrator {
         var dispatcher = new ManorEventDispatcher(
                 world, observationService, narratorAgent,
                 manorChannels, webEventBus);
+
+        for (var entry : world.characters().entrySet()) {
+            if (agentRegistry.findById(entry.getKey(), ManorConstants.TENANCY_ID).isEmpty()) {
+                throw new IllegalStateException("No Eidos descriptor for character: " + entry.getKey());
+            }
+        }
 
         var actionQueue = new LinkedBlockingQueue<PendingAction>();
         int turnCount   = 0;

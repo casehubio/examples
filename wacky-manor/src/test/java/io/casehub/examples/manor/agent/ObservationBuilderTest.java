@@ -122,9 +122,10 @@ class ObservationBuilderTest {
 
     @Test
     void observation_shows_interactable_hints() {
+        world.moveCharacter("penelope-pitstop", "kitchen");
         var obs = ObservationBuilder.buildObservation(
                 world.character("penelope-pitstop"), world, java.util.List.of(), emptyDrain);
-        assertThat(obs).contains("[INTERACT, requires: fake-medal]");
+        assertThat(obs).contains("[INTERACT, requires: brass-key]");
     }
 
     @Test

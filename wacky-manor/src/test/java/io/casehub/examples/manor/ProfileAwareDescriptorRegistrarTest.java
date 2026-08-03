@@ -12,13 +12,13 @@ class ProfileAwareDescriptorRegistrarTest {
     @ParameterizedTest
     @EnumSource(ProfileMode.class)
     void each_profile_mode_loads_five_descriptors(ProfileMode mode) {
-        var registrar = new ProfileAwareDescriptorRegistrar(mode);
-        var descriptors = registrar.descriptors();
-        assertThat(descriptors).hasSize(5);
+        var registrar    = new ProfileAwareDescriptorRegistrar(mode);
+        var descriptors  = registrar.descriptors();
+        int expectedSize = mode == ProfileMode.COMPOSITE ? 17 : 5;
+        assertThat(descriptors).hasSize(expectedSize);
         assertThat(descriptors).extracting("agentId")
-                .containsExactlyInAnyOrder(
-                        "penelope-pitstop", "hooded-claw", "ant-hill-mob",
-                        "dick-dastardly", "peter-perfect");
+                               .contains("penelope-pitstop", "hooded-claw", "ant-hill-mob",
+                                         "dick-dastardly", "peter-perfect");
     }
 
     @Test

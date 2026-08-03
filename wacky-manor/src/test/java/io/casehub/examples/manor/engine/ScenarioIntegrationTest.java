@@ -118,19 +118,16 @@ class ScenarioIntegrationTest {
     @Test
     void full_item_chain_medal_to_key_to_cabinet() {
         var dastardly = world.character("dick-dastardly");
-        dastardly.setX(0.8);
 
-        var interact = actionResolver.resolve(dastardly,
-            new Action(ActionType.INTERACT, "muttley", "fake-medal"), world);
-        assertThat(interact).isInstanceOf(ActionResult.ItemReceived.class);
-        assertThat(dastardly.hasItem("brass-key")).isTrue();
-        assertThat(dastardly.hasItem("fake-medal")).isFalse();
+        // Muttley is now a character — brass-key exchange is LLM-driven.
+        // Test the mechanical part: brass-key → cabinet → recipe-cards.
+        dastardly.addItem("brass-key");
 
         world.moveCharacter("dick-dastardly", "kitchen");
         dastardly.setX(0.3);
 
         var cabinet = actionResolver.resolve(dastardly,
-            new Action(ActionType.INTERACT, "cabinet", "brass-key"), world);
+                                             new Action(ActionType.INTERACT, "cabinet", "brass-key"), world);
         assertThat(cabinet).isInstanceOf(ActionResult.ItemReceived.class);
         assertThat(dastardly.hasItem("old-recipe-cards")).isTrue();
         assertThat(dastardly.hasItem("brass-key")).isFalse();
@@ -157,14 +154,14 @@ class ScenarioIntegrationTest {
 
     @Test
     void inactive_character_excluded_from_room_queries() {
-        assertThat(world.charactersInRoom("entrance-hall")).hasSize(5);
+        int entranceCount = world.charactersInRoom("entrance-hall").size();
 
         world.markCharacterInactive("peter-perfect");
         world.markCharacterInactive("dick-dastardly");
 
-        assertThat(world.charactersInRoom("entrance-hall")).hasSize(3);
+        assertThat(world.charactersInRoom("entrance-hall")).hasSize(entranceCount - 2);
         assertThat(world.charactersInRoom("entrance-hall"))
-            .noneMatch(c -> c.agentId().equals("peter-perfect"))
-            .noneMatch(c -> c.agentId().equals("dick-dastardly"));
+                .noneMatch(c -> c.agentId().equals("peter-perfect"))
+                .noneMatch(c -> c.agentId().equals("dick-dastardly"));
     }
 }

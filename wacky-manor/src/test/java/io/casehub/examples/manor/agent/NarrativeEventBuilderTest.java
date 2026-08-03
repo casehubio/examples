@@ -1,6 +1,9 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.examples.manor.model.*;
+import io.casehub.examples.manor.model.Action;
+import io.casehub.examples.manor.model.ActionResult;
+import io.casehub.examples.manor.model.ActionType;
+import io.casehub.examples.manor.model.CharacterState;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -55,9 +58,9 @@ class NarrativeEventBuilderTest {
     @Test
     void interact_produces_narrative() {
         var result = NarrativeEventBuilder.describe(hc,
-            new Action(ActionType.INTERACT, "muttley", "fake-medal"),
-            new ActionResult.ItemReceived("brass-key", "You received brass-key."));
-        assertThat(result).isEqualTo("The Hooded Claw (as Sneekly) interacted with the muttley.");
+                                                    new Action(ActionType.INTERACT, "cabinet", "brass-key"),
+                                                    new ActionResult.ItemReceived("old-recipe-cards", "You received old-recipe-cards."));
+        assertThat(result).isEqualTo("The Hooded Claw (as Sneekly) interacted with the cabinet.");
     }
 
     @Test

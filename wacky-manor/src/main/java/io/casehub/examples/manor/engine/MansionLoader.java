@@ -33,7 +33,8 @@ public final class MansionLoader {
     record CharactersFile(Map<String, CharacterDef> characters) {}
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    record CharacterDef(String name, String startRoom, double startX, List<String> inventory) {}
+    record CharacterDef(String name, String startRoom, double startX,
+                        List<String> inventory, Long thinkDelayMs) {}
 
     public static WorldState loadWorld() {
         return loadWorld("/mansion/rooms.yaml", "/mansion/characters.yaml");
@@ -70,17 +71,18 @@ public final class MansionLoader {
 
     private static Map<String, CharacterState> loadCharacters(String path) {
         try (var stream = MansionLoader.class.getResourceAsStream(path)) {
-            if (stream == null) throw new IllegalStateException("Resource not found: " + path);
-            var file = YAML.readValue(stream, CharactersFile.class);
+            if (stream == null) {throw new IllegalStateException("Resource not found: " + path);}
+            var file       = YAML.readValue(stream, CharactersFile.class);
             var characters = new LinkedHashMap<String, CharacterState>();
             file.characters().forEach((id, def) ->
-                characters.put(id, new CharacterState(
-                    id, def.name(), def.startRoom(), def.startX(), def.inventory())));
+                                              characters.put(id, new CharacterState(
+                                                      id, def.name(), def.startRoom(), def.startX(), def.inventory(),
+                                                      def.thinkDelayMs() != null ? def.thinkDelayMs()
+                                                                                 : io.casehub.examples.manor.ManorConstants.THINK_DELAY_DEFAULT_MS)));
             return characters;
         } catch (IOException e) {
             throw new UncheckedIOException(e);
-        }
-    }
+        }}
 
     @SuppressWarnings("unchecked")
     public static List<Trigger> loadTriggers() {

@@ -89,15 +89,14 @@ public final class NarratorAgent {
                 break;
             }
         }
-        runner.flush()
+        runner.tick(Long.MAX_VALUE)
               .toCompletableFuture()
               .orTimeout(90, java.util.concurrent.TimeUnit.SECONDS)
               .exceptionally(ex -> {
-                  log.warn("Narrator flush timed out");
+                  log.warn("Narrator final drain timed out");
                   return null;
               })
-              .join();
-    }
+              .join();}
 
     void testSubscribe(java.util.function.Consumer<String> callback) {
         outputBus.subscribe(s -> true, event -> callback.accept(event.payload()));
@@ -112,7 +111,5 @@ public final class NarratorAgent {
         runner.tick(timestamp).toCompletableFuture().join();
     }
 
-    void flushNow() {
-        runner.flush().toCompletableFuture().join();
-    }
+    void flushNow() {runner.tick(Long.MAX_VALUE).toCompletableFuture().join();}
 }

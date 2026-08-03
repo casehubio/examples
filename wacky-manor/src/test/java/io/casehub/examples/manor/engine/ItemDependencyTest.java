@@ -1,6 +1,8 @@
 package io.casehub.examples.manor.engine;
 
-import io.casehub.examples.manor.model.*;
+import io.casehub.examples.manor.model.Action;
+import io.casehub.examples.manor.model.ActionResult;
+import io.casehub.examples.manor.model.ActionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,19 +22,14 @@ class ItemDependencyTest {
     @Test
     void full_item_chain_fake_medal_to_recipe_cards() {
         var dastardly = world.character("dick-dastardly");
-        dastardly.setX(0.8);
-
-        var result1 = resolver.resolve(dastardly,
-            new Action(ActionType.INTERACT, "muttley", "fake-medal"), world);
-        assertThat(result1).isInstanceOf(ActionResult.ItemReceived.class);
-        assertThat(dastardly.hasItem("brass-key")).isTrue();
+        dastardly.addItem("brass-key");
 
         world.moveCharacter("dick-dastardly", "kitchen");
         dastardly.setX(0.3);
 
-        var result2 = resolver.resolve(dastardly,
-            new Action(ActionType.INTERACT, "cabinet", "brass-key"), world);
-        assertThat(result2).isInstanceOf(ActionResult.ItemReceived.class);
+        var result = resolver.resolve(dastardly,
+                                      new Action(ActionType.INTERACT, "cabinet", "brass-key"), world);
+        assertThat(result).isInstanceOf(ActionResult.ItemReceived.class);
         assertThat(dastardly.hasItem("old-recipe-cards")).isTrue();
     }
 

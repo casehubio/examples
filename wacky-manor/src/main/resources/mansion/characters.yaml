@@ -29,3 +29,90 @@ characters:
     startRoom: entrance-hall
     startX: 0.6
     inventory: []
+
+  lazy-luke:
+    name: "Lazy Luke"
+    startRoom: ballroom
+    startX: 0.8
+    inventory: []
+    thinkDelayMs: 8000
+
+  blubber-bear:
+    name: "Blubber Bear"
+    startRoom: ballroom
+    startX: 0.85
+    inventory:
+      - treasure-map
+    thinkDelayMs: 6000
+
+  muttley:
+    name: "Muttley"
+    startRoom: entrance-hall
+    startX: 0.8
+    inventory:
+      - brass-key
+    thinkDelayMs: 2000
+
+  pat-pending:
+    name: "Professor Pat Pending"
+    startRoom: entrance-hall
+    startX: 0.2
+    inventory: []
+    thinkDelayMs: 4000
+
+  sergeant-blast:
+    name: "Sergeant Blast"
+    startRoom: entrance-hall
+    startX: 0.35
+    inventory: []
+    thinkDelayMs: 1000
+
+  private-meekly:
+    name: "Private Meekly"
+    startRoom: entrance-hall
+    startX: 0.4
+    inventory: []
+    thinkDelayMs: 3000
+
+  rock-slag:
+    name: "Rock Slag"
+    startRoom: library
+    startX: 0.6
+    inventory: []
+    thinkDelayMs: 2000
+
+  gravel-slag:
+    name: "Gravel Slag"
+    startRoom: library
+    startX: 0.7
+    inventory: []
+    thinkDelayMs: 2500
+
+  rufus-ruffcut:
+    name: "Rufus Ruffcut"
+    startRoom: laboratory
+    startX: 0.3
+    inventory: []
+    thinkDelayMs: 3000
+
+  sawtooth:
+    name: "Sawtooth"
+    startRoom: laboratory
+    startX: 0.4
+    inventory: []
+    thinkDelayMs: 2000
+
+  big-gruesome:
+    name: "Big Gruesome"
+    startRoom: cellar
+    startX: 0.5
+    inventory:
+      - lab-spring
+    thinkDelayMs: 3000
+
+  little-gruesome:
+    name: "Little Gruesome"
+    startRoom: cellar
+    startX: 0.4
+    inventory: []
+    thinkDelayMs: 1500

@@ -30,8 +30,8 @@ scenes:
 
           - id: blubber-foil
             condition:
-              objectInRoom:
-                object: lazy-luke
+              characterInRoom:
+                character: blubber-bear
                 room: ballroom
             narration: "SUDDENLY, Blubber Bear LURCHES awake!"
             prompts: {}

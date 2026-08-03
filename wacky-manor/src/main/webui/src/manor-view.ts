@@ -2,12 +2,33 @@ import { LitElement, html, css, svg, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { CharacterSnapshot, RoomSnapshot } from './types.js';
 
-const ROOMS = ['entrance-hall', 'kitchen', 'ballroom'] as const;
+interface RoomLayout { row: number; col: number; }
+
+const ROOM_GRID: Record<string, RoomLayout> = {
+  'entrance-hall': { row: 0, col: 0 },
+  'kitchen':       { row: 0, col: 1 },
+  'ballroom':      { row: 0, col: 2 },
+  'library':       { row: 1, col: 0 },
+  'laboratory':    { row: 1, col: 1 },
+  'cellar':        { row: 1, col: 2 },
+};
+
 const ROOM_LABELS: Record<string, string> = {
   'entrance-hall': 'Entrance Hall',
-  'kitchen': 'Kitchen',
-  'ballroom': 'Ballroom',
+  'kitchen':       'Kitchen',
+  'ballroom':      'Ballroom',
+  'library':       'Library',
+  'laboratory':    'Laboratory',
+  'cellar':        'Cellar',
 };
+
+const ADJACENCIES: [string, string][] = [
+  ['entrance-hall', 'kitchen'],
+  ['kitchen', 'ballroom'],
+  ['entrance-hall', 'library'],
+  ['library', 'laboratory'],
+  ['laboratory', 'cellar'],
+];
 
 const CHARACTER_LABELS: Record<string, string> = {
   'penelope-pitstop': 'Penelope',
@@ -15,6 +36,18 @@ const CHARACTER_LABELS: Record<string, string> = {
   'ant-hill-mob':     'Ant Hill Mob',
   'dick-dastardly':   'Dastardly',
   'peter-perfect':    'Peter',
+  'muttley':          'Muttley',
+  'pat-pending':      'Pat Pending',
+  'sergeant-blast':   'Sgt. Blast',
+  'private-meekly':   'Pvt. Meekly',
+  'lazy-luke':        'Lazy Luke',
+  'blubber-bear':     'Blubber Bear',
+  'rock-slag':        'Rock',
+  'gravel-slag':      'Gravel',
+  'rufus-ruffcut':    'Rufus',
+  'sawtooth':         'Sawtooth',
+  'big-gruesome':     'Big Gruesome',
+  'little-gruesome':  'Lil Gruesome',
 };
 
 const OVERLAP_THRESHOLD = 30;
@@ -150,24 +183,24 @@ function renderCharacterAtOrigin(id: string) {
 interface CharPos { id: string; name: string; absX: number; baseY: number; labelRow: number; }
 
 function layoutCharacters(
-  characters: CharacterSnapshot[], roomW: number, roomY: number, roomH: number
+  characters: CharacterSnapshot[], roomW: number, roomH: number, rowGap: number, topY: number
 ): CharPos[] {
-  const baseY = roomY + roomH - 15;
   const minSpacing = OVERLAP_THRESHOLD;
-
-  const byRoom = new Map<number, { c: CharacterSnapshot; origX: number }[]>();
-  for (const c of characters.filter(c => c.active)) {
-    const roomIdx = ROOMS.indexOf(c.room as typeof ROOMS[number]);
-    if (roomIdx < 0) continue;
-    if (!byRoom.has(roomIdx)) byRoom.set(roomIdx, []);
-    byRoom.get(roomIdx)!.push({ c, origX: c.x });
-  }
-
   const positions: CharPos[] = [];
 
-  for (const [roomIdx, chars] of byRoom) {
-    const rx = roomIdx * roomW + 4;
+  const byRoom = new Map<string, { c: CharacterSnapshot; origX: number }[]>();
+  for (const c of characters.filter(c => c.active)) {
+    if (!ROOM_GRID[c.room]) continue;
+    if (!byRoom.has(c.room)) byRoom.set(c.room, []);
+    byRoom.get(c.room)!.push({ c, origX: c.x });
+  }
+
+  for (const [roomId, chars] of byRoom) {
+    const layout = ROOM_GRID[roomId];
+    const rx = layout.col * roomW + 4;
     const rw = roomW - 8;
+    const roomY = topY + layout.row * (roomH + rowGap);
+    const baseY = roomY + roomH - 15;
     const margin = 15;
 
     chars.sort((a, b) => a.origX - b.origX);
@@ -191,7 +224,7 @@ function layoutCharacters(
     for (let i = 0; i < chars.length; i++) {
       let labelRow = 0;
       for (let j = 0; j < i; j++) {
-        if (Math.abs(displayXs[i] - displayXs[j]) < minSpacing) {
+        if (Math.abs(displayXs[i] - positions[positions.length - (i - j)].absX) < minSpacing) {
           labelRow = Math.max(labelRow, positions[positions.length - (i - j)].labelRow + 1);
         }
       }
@@ -222,6 +255,7 @@ export class ManorView extends LitElement {
     .room-label { fill: #999; font-size: 10px; font-weight: 600; text-anchor: middle; text-transform: uppercase; letter-spacing: 1px; }
     .door { fill: #554433; rx: 2; }
     .door-arrow { fill: #776655; font-size: 10px; text-anchor: middle; }
+    .passage-line { stroke: #554433; stroke-width: 2; stroke-dasharray: 4 3; }
     .char-group { transition: transform 1.5s ease-in-out; }
     .char-name { font-size: 6px; text-anchor: middle; fill: #aaa; }
     .object-dot { fill: #665; }
@@ -229,38 +263,62 @@ export class ManorView extends LitElement {
     .title { fill: #daa520; font-size: 14px; font-weight: 700; text-anchor: middle; font-family: Georgia, serif; letter-spacing: 2px; }
     .subtitle { fill: #666; font-size: 8px; text-anchor: middle; font-style: italic; }
     .floor-line { stroke: #444; stroke-width: 2; }
-    .legend-name { fill: #bbb; font-size: 7px; font-weight: 500; }
   `;
 
   render() {
-    const w = 720, h = 275;
+    const w = 720, roomH = 150, rowGap = 30, topY = 50;
+    const h = topY + 2 * roomH + rowGap + 20;
     const roomW = w / 3;
-    const roomY = 50, roomH = 170;
 
-    const charPositions = layoutCharacters(this.characters, roomW, roomY, roomH);
+    const charPositions = layoutCharacters(this.characters, roomW, roomH, rowGap, topY);
+    const roomIds = Object.keys(ROOM_GRID);
 
     return html`
       <svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
         ${svg`<text x="${w / 2}" y="18" class="title">DOILY MANOR</text>`}
         ${svg`<text x="${w / 2}" y="32" class="subtitle">A Most EXTRAORDINARY Evening</text>`}
-        ${svg`<line x1="4" y1="${roomY + roomH + 2}" x2="${w - 4}" y2="${roomY + roomH + 2}" class="floor-line" />`}
 
-        ${ROOMS.map((roomId, i) => {
-          const rx = i * roomW + 4;
+        ${svg`<line x1="4" y1="${topY + roomH + 2}" x2="${w - 4}" y2="${topY + roomH + 2}" class="floor-line" />`}
+        ${svg`<line x1="4" y1="${topY + 2 * roomH + rowGap + 2}" x2="${w - 4}" y2="${topY + 2 * roomH + rowGap + 2}" class="floor-line" />`}
+
+        ${roomIds.map(roomId => {
+          const layout = ROOM_GRID[roomId];
+          const rx = layout.col * roomW + 4;
           const rw = roomW - 8;
+          const ry = topY + layout.row * (roomH + rowGap);
           const isActive = this.activeRoom === roomId;
           return svg`
-            <rect x="${rx}" y="${roomY}" width="${rw}" height="${roomH}"
+            <rect x="${rx}" y="${ry}" width="${rw}" height="${roomH}"
                   class="room-bg ${isActive ? 'active' : ''}" />
-            <text x="${rx + rw / 2}" y="${roomY + 14}" class="room-label">
+            <text x="${rx + rw / 2}" y="${ry + 14}" class="room-label">
               ${ROOM_LABELS[roomId]}
             </text>
-            ${i < ROOMS.length - 1 ? svg`
-              <rect x="${rx + rw - 2}" y="${roomY + roomH / 2 - 15}" width="12" height="30" class="door" />
-              <text x="${rx + rw + 4}" y="${roomY + roomH / 2 + 4}" class="door-arrow">⇔</text>
-            ` : nothing}
-            ${this.renderObjects(roomId, rx, roomY, rw)}
+            ${this.renderObjects(roomId, rx, ry, rw)}
           `;
+        })}
+
+        ${ADJACENCIES.map(([a, b]) => {
+          const la = ROOM_GRID[a], lb = ROOM_GRID[b];
+          const ax = la.col * roomW + 4, ay = topY + la.row * (roomH + rowGap);
+          const bx = lb.col * roomW + 4, by = topY + lb.row * (roomH + rowGap);
+          const aw = roomW - 8;
+
+          if (la.row === lb.row) {
+            const doorX = Math.min(ax, bx) + aw - 2;
+            const doorY = ay + roomH / 2 - 15;
+            return svg`
+              <rect x="${doorX}" y="${doorY}" width="12" height="30" class="door" />
+              <text x="${doorX + 6}" y="${doorY + 19}" class="door-arrow">⇔</text>
+            `;
+          } else {
+            const cx = Math.min(ax, bx) + aw / 2;
+            const topBot = Math.min(ay, by) + roomH;
+            const botTop = Math.max(ay, by);
+            return svg`
+              <line x1="${cx}" y1="${topBot}" x2="${cx}" y2="${botTop}" class="passage-line" />
+              <text x="${cx}" y="${topBot + (botTop - topBot) / 2 + 4}" class="door-arrow">⇕</text>
+            `;
+          }
         })}
 
         ${charPositions.map(p => svg`
@@ -269,20 +327,6 @@ export class ManorView extends LitElement {
             <text x="0" y="${12 + p.labelRow * 8}" class="char-name">${CHARACTER_LABELS[p.id] || p.name}</text>
           </g>
         `)}
-
-        <!-- Legend -->
-        ${this.characters.length > 0 ? svg`
-          ${this.characters.filter(c => c.active).map((c, i) => {
-            const lx = 10 + i * 144;
-            const ly = roomY + roomH + 16;
-            return svg`
-              <g style="transform: translate(${lx + 8}px, ${ly + 8}px)">
-                ${renderCharacterAtOrigin(c.id)}
-              </g>
-              <text x="${lx + 22}" y="${ly + 6}" class="legend-name">${c.name}</text>
-            `;
-          })}
-        ` : nothing}
       </svg>
     `;
   }

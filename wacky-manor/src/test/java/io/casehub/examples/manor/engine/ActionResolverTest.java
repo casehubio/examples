@@ -60,21 +60,24 @@ class ActionResolverTest {
     @Test
     void interact_without_required_item_fails() {
         var penelope = world.character("penelope-pitstop");
-        penelope.setX(0.8);
+        world.moveCharacter("penelope-pitstop", "kitchen");
+        penelope.setX(0.3);
         var result = resolver.resolve(penelope,
-            new Action(ActionType.INTERACT, "muttley", null), world);
+                                      new Action(ActionType.INTERACT, "cabinet", null), world);
         assertThat(result).isInstanceOf(ActionResult.Failed.class);
     }
 
     @Test
     void interact_with_required_item_succeeds_and_yields() {
         var dastardly = world.character("dick-dastardly");
-        dastardly.setX(0.8);
+        world.moveCharacter("dick-dastardly", "kitchen");
+        dastardly.setX(0.3);
+        dastardly.addItem("brass-key");
         var result = resolver.resolve(dastardly,
-            new Action(ActionType.INTERACT, "muttley", "fake-medal"), world);
+                                      new Action(ActionType.INTERACT, "cabinet", "brass-key"), world);
         assertThat(result).isInstanceOf(ActionResult.ItemReceived.class);
-        assertThat(dastardly.hasItem("brass-key")).isTrue();
-        assertThat(dastardly.hasItem("fake-medal")).isFalse();
+        assertThat(dastardly.hasItem("old-recipe-cards")).isTrue();
+        assertThat(dastardly.hasItem("brass-key")).isFalse();
     }
 
     @Test
@@ -192,10 +195,12 @@ class ActionResolverTest {
     @Test
     void interact_auto_positions_character_to_object() {
         var dastardly = world.character("dick-dastardly");
-        assertThat(dastardly.x()).isNotEqualTo(0.8);
+        world.moveCharacter("dick-dastardly", "kitchen");
+        dastardly.addItem("brass-key");
+        assertThat(dastardly.x()).isNotEqualTo(0.3);
 
-        resolver.resolve(dastardly, new Action(ActionType.INTERACT, "muttley", "fake-medal"), world);
-        assertThat(dastardly.x()).isEqualTo(0.8);
+        resolver.resolve(dastardly, new Action(ActionType.INTERACT, "cabinet", "brass-key"), world);
+        assertThat(dastardly.x()).isEqualTo(0.3);
     }
 
     @Test

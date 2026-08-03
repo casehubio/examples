@@ -33,12 +33,13 @@ class ActionResolverEdgeCaseTest {
     @Test
     void interact_auto_positions_from_far_away() {
         var penelope = world.character("penelope-pitstop");
+        world.moveCharacter("penelope-pitstop", "kitchen");
         penelope.setX(0.0);
-        penelope.addItem("fake-medal");
+        penelope.addItem("brass-key");
         var result = resolver.resolve(penelope,
-                                      new Action(ActionType.INTERACT, "muttley", "fake-medal"), world);
+                                      new Action(ActionType.INTERACT, "cabinet", "brass-key"), world);
         assertThat(result).isInstanceOf(ActionResult.ItemReceived.class);
-        assertThat(penelope.x()).isEqualTo(0.8);
+        assertThat(penelope.x()).isEqualTo(0.3);
     }
 
     @Test
@@ -132,9 +133,10 @@ class ActionResolverEdgeCaseTest {
     @Test
     void interact_with_required_item_but_wrong_item() {
         var dastardly = world.character("dick-dastardly");
-        dastardly.setX(0.8);
+        world.moveCharacter("dick-dastardly", "kitchen");
+        dastardly.setX(0.3);
         var result = resolver.resolve(dastardly,
-            new Action(ActionType.INTERACT, "muttley", "brass-key"), world);
+                                      new Action(ActionType.INTERACT, "cabinet", "fake-medal"), world);
         assertThat(result).isInstanceOf(ActionResult.Failed.class);
         assertThat(((ActionResult.Failed) result).reason()).contains("requires");
     }

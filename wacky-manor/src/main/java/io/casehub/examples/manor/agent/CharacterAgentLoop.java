@@ -1,6 +1,5 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.examples.manor.ManorConstants;
 import io.casehub.examples.manor.engine.WorldState;
 import io.casehub.examples.manor.model.ActionType;
 import io.casehub.examples.manor.model.CharacterState;
@@ -128,11 +127,5 @@ public final class CharacterAgentLoop {
         return AgentResponse.idle();
     }
 
-    private long thinkDelay(CharacterState character) {
-        return switch (character.agentId()) {
-            case "lazy-luke" -> ManorConstants.THINK_DELAY_LAZY_LUKE_MS;
-            case "sergeant-blast" -> ManorConstants.THINK_DELAY_SERGEANT_BLAST_MS;
-            default -> ManorConstants.THINK_DELAY_DEFAULT_MS;
-        };
-    }
+    private long thinkDelay(CharacterState character) {return character.thinkDelayMs();}
 }
