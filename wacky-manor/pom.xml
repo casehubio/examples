@@ -204,6 +204,10 @@
             <configuration>
               <groups>llm-eval</groups>
               <excludedGroups combine.self="override"/>
+              <systemPropertyVariables>
+                <eval.characters>${eval.characters}</eval.characters>
+                <eval.layers>${eval.layers}</eval.layers>
+              </systemPropertyVariables>
             </configuration>
           </plugin>
         </plugins>
