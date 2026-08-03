@@ -10,11 +10,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/ws/manor': {
-        target: 'ws://localhost:8080',
+        target: 'ws://localhost:8180',
         ws: true,
       },
       '/manor': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:8180',
       },
     },
   },

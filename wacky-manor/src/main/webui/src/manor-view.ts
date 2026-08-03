@@ -1,17 +1,7 @@
 import { LitElement, html, css, svg, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { CharacterSnapshot, RoomSnapshot } from './types.js';
-
-interface RoomLayout { row: number; col: number; }
-
-const ROOM_GRID: Record<string, RoomLayout> = {
-  'entrance-hall': { row: 0, col: 0 },
-  'kitchen':       { row: 0, col: 1 },
-  'ballroom':      { row: 0, col: 2 },
-  'library':       { row: 1, col: 0 },
-  'laboratory':    { row: 1, col: 1 },
-  'cellar':        { row: 1, col: 2 },
-};
+import { ROOM_GRID, layoutCharacters } from './layout.js';
 
 const ROOM_LABELS: Record<string, string> = {
   'entrance-hall': 'Entrance Hall',
@@ -50,7 +40,7 @@ const CHARACTER_LABELS: Record<string, string> = {
   'little-gruesome':  'Lil Gruesome',
 };
 
-const OVERLAP_THRESHOLD = 30;
+
 
 function renderCharacterAtOrigin(id: string) {
   const s = 0.55;
@@ -180,67 +170,6 @@ function renderCharacterAtOrigin(id: string) {
   }
 }
 
-interface CharPos { id: string; name: string; absX: number; baseY: number; labelRow: number; }
-
-function layoutCharacters(
-  characters: CharacterSnapshot[], roomW: number, roomH: number, rowGap: number, topY: number
-): CharPos[] {
-  const minSpacing = OVERLAP_THRESHOLD;
-  const positions: CharPos[] = [];
-
-  const byRoom = new Map<string, { c: CharacterSnapshot; origX: number }[]>();
-  for (const c of characters.filter(c => c.active)) {
-    if (!ROOM_GRID[c.room]) continue;
-    if (!byRoom.has(c.room)) byRoom.set(c.room, []);
-    byRoom.get(c.room)!.push({ c, origX: c.x });
-  }
-
-  for (const [roomId, chars] of byRoom) {
-    const layout = ROOM_GRID[roomId];
-    const rx = layout.col * roomW + 4;
-    const rw = roomW - 8;
-    const roomY = topY + layout.row * (roomH + rowGap);
-    const baseY = roomY + roomH - 15;
-    const margin = 15;
-
-    chars.sort((a, b) => a.origX - b.origX);
-
-    const displayXs: number[] = chars.map(ch => rx + ch.origX * (rw - 2 * margin) + margin);
-
-    for (let i = 1; i < displayXs.length; i++) {
-      if (displayXs[i] - displayXs[i - 1] < minSpacing) {
-        displayXs[i] = displayXs[i - 1] + minSpacing;
-      }
-    }
-
-    const maxX = rx + rw - margin;
-    if (displayXs.length > 0 && displayXs[displayXs.length - 1] > maxX) {
-      const overflow = displayXs[displayXs.length - 1] - maxX;
-      for (let i = 0; i < displayXs.length; i++) {
-        displayXs[i] -= overflow * (i + 1) / displayXs.length;
-      }
-    }
-
-    for (let i = 0; i < chars.length; i++) {
-      let labelRow = 0;
-      for (let j = 0; j < i; j++) {
-        if (Math.abs(displayXs[i] - positions[positions.length - (i - j)].absX) < minSpacing) {
-          labelRow = Math.max(labelRow, positions[positions.length - (i - j)].labelRow + 1);
-        }
-      }
-      positions.push({
-        id: chars[i].c.id,
-        name: chars[i].c.name,
-        absX: displayXs[i],
-        baseY,
-        labelRow,
-      });
-    }
-  }
-
-  return positions;
-}
-
 @customElement('manor-view')
 export class ManorView extends LitElement {
   @property({ type: Array }) characters: CharacterSnapshot[] = [];
@@ -324,7 +253,7 @@ export class ManorView extends LitElement {
         ${charPositions.map(p => svg`
           <g class="char-group" style="transform: translate(${p.absX}px, ${p.baseY}px)">
             ${renderCharacterAtOrigin(p.id)}
-            <text x="0" y="${12 + p.labelRow * 8}" class="char-name">${CHARACTER_LABELS[p.id] || p.name}</text>
+            <text x="0" y="${14 + p.labelRow * 10}" class="char-name">${CHARACTER_LABELS[p.id] || p.name}</text>
           </g>
         `)}
       </svg>
