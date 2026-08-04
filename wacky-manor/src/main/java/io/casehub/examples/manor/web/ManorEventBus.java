@@ -21,8 +21,13 @@ public class ManorEventBus {
         listeners.add(listener);
         if (activeWorld != null) {
             listener.accept(buildSnapshot(activeWorld));
-        }
-    }
+            if (!activeWorld.isScenarioComplete()) {
+                listener.accept(ManorWebSocketEvent.scenario("started"));
+                listener.accept(ManorWebSocketEvent.control(
+                        activeWorld.isPaused() ? "paused" : "resumed",
+                        activeWorld.speedMultiplier()));
+            }
+        }}
 
     public void removeListener(Consumer<ManorWebSocketEvent> listener) {
         listeners.remove(listener);
