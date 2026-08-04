@@ -31,8 +31,10 @@ JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn test -pl wacky-manor
 # Run LLM evaluation tests (requires API key, non-deterministic)
 JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn test -pl wacky-manor -Pllm-eval
 
-# Run wacky-manor dev mode
-JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn quarkus:dev -pl wacky-manor
+# Run wacky-manor dev mode (backend on 8180, frontend on 5173)
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn quarkus:dev -pl wacky-manor -Dquarkus.http.port=8180
+npm --prefix wacky-manor/src/main/webui run dev
+# Use curl -4 http://127.0.0.1:8180 for API calls (IPv6 hits Maven launcher, not app)
 ```
 
 **Use `mvn` not `./mvnw`** — maven wrapper not configured on this machine.

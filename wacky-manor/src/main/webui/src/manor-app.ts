@@ -83,6 +83,7 @@ export class ManorApp extends LitElement {
     }
     .chat-columns {
       display: flex;
+      flex-wrap: wrap;
       flex: 1;
       min-width: 0;
       overflow: hidden;
@@ -243,6 +244,9 @@ export class ManorApp extends LitElement {
           <room-chat-panel roomId="entrance-hall" roomName="Entrance Hall" .messages=${this.messages}></room-chat-panel>
           <room-chat-panel roomId="kitchen" roomName="Kitchen" .messages=${this.messages}></room-chat-panel>
           <room-chat-panel roomId="ballroom" roomName="Ballroom" .messages=${this.messages}></room-chat-panel>
+          <room-chat-panel roomId="library" roomName="Library" .messages=${this.messages}></room-chat-panel>
+          <room-chat-panel roomId="laboratory" roomName="Laboratory" .messages=${this.messages}></room-chat-panel>
+          <room-chat-panel roomId="cellar" roomName="Cellar" .messages=${this.messages}></room-chat-panel>
         </div>
         <narrator-panel .entries=${this.narratorEntries}></narrator-panel>
       </div>

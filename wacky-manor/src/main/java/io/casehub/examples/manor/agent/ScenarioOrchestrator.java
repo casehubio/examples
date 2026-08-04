@@ -98,7 +98,13 @@ public class ScenarioOrchestrator {
                 world, observationService, narratorAgent,
                 manorChannels, webEventBus);
 
+        var activeSet = activeCharactersConfig
+                .filter(s -> !s.isBlank())
+                .map(s -> java.util.Set.copyOf(java.util.Arrays.asList(s.split(","))))
+                .orElse(null);
+
         for (var entry : world.characters().entrySet()) {
+            if (activeSet != null && !activeSet.contains(entry.getKey())) {continue;}
             if (agentRegistry.findById(entry.getKey(), ManorConstants.TENANCY_ID).isEmpty()) {
                 throw new IllegalStateException("No Eidos descriptor for character: " + entry.getKey());
             }
@@ -106,11 +112,6 @@ public class ScenarioOrchestrator {
 
         var actionQueue = new LinkedBlockingQueue<PendingAction>();
         int turnCount   = 0;
-
-        var activeSet = activeCharactersConfig
-                .filter(s -> !s.isBlank())
-                .map(s -> java.util.Set.copyOf(java.util.Arrays.asList(s.split(","))))
-                .orElse(null);
 
         var threads = world.characters().values().stream()
                            .filter(c -> activeSet == null || activeSet.contains(c.agentId()))

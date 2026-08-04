@@ -12,12 +12,13 @@ export class RoomChatPanel extends LitElement {
     :host {
       display: flex;
       flex-direction: column;
-      min-width: 200px;
-      flex: 1;
+      width: calc(33.333% - 1px);
+      flex: 0 0 auto;
       border-right: 1px solid #333;
+      border-bottom: 1px solid #333;
       overflow: hidden;
     }
-    :host(:last-child) { border-right: none; }
+    :host(:nth-child(3n)) { border-right: none; }
     .header {
       padding: 8px 12px;
       background: #222;

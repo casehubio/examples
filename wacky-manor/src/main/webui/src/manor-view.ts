@@ -395,7 +395,7 @@ export class ManorView extends LitElement {
   `;
 
   render() {
-    const w = 720, roomH = 150, rowGap = 30, topY = 50;
+    const w = 720, roomH = 100, rowGap = 20, topY = 5;
     const h = topY + 2 * roomH + rowGap + 20;
     const roomW = w / 3;
 
@@ -404,9 +404,6 @@ export class ManorView extends LitElement {
 
     return html`
       <svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
-        ${svg`<text x="${w / 2}" y="18" class="title">DOILY MANOR</text>`}
-        ${svg`<text x="${w / 2}" y="32" class="subtitle">A Most EXTRAORDINARY Evening</text>`}
-
         ${svg`<line x1="4" y1="${topY + roomH + 2}" x2="${w - 4}" y2="${topY + roomH + 2}" class="floor-line" />`}
         ${svg`<line x1="4" y1="${topY + 2 * roomH + rowGap + 2}" x2="${w - 4}" y2="${topY + 2 * roomH + rowGap + 2}" class="floor-line" />`}
 
