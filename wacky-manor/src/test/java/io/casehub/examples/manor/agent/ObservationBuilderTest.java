@@ -132,9 +132,9 @@ class ObservationBuilderTest {
     void observation_includes_goals_section() {
         var goals = java.util.List.of(
                 new io.casehub.eidos.api.AgentGoal("find-diamond", "Find the Doily Diamond",
-                                                   io.casehub.eidos.api.GoalPriority.PRIMARY, io.casehub.eidos.api.Visibility.PUBLIC),
+                                                   io.casehub.eidos.api.GoalPriority.PRIMARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of()),
                 new io.casehub.eidos.api.AgentGoal("solve-puzzles", "Solve puzzles",
-                                                   io.casehub.eidos.api.GoalPriority.SECONDARY, io.casehub.eidos.api.Visibility.PUBLIC)
+                                                   io.casehub.eidos.api.GoalPriority.SECONDARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of())
                                      );
         var obs = ObservationBuilder.buildObservation(
                 world.character("penelope-pitstop"), world, goals, emptyDrain);
@@ -156,9 +156,9 @@ class ObservationBuilderTest {
     void goals_sorted_by_priority_then_name() {
         var goals = java.util.List.of(
                 new io.casehub.eidos.api.AgentGoal("z-secondary", "Z goal",
-                                                   io.casehub.eidos.api.GoalPriority.SECONDARY, io.casehub.eidos.api.Visibility.PUBLIC),
+                                                   io.casehub.eidos.api.GoalPriority.SECONDARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of()),
                 new io.casehub.eidos.api.AgentGoal("a-primary", "A goal",
-                                                   io.casehub.eidos.api.GoalPriority.PRIMARY, io.casehub.eidos.api.Visibility.PUBLIC)
+                                                   io.casehub.eidos.api.GoalPriority.PRIMARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of())
                                      );
         var obs = ObservationBuilder.buildObservation(
                 world.character("penelope-pitstop"), world, goals, emptyDrain);

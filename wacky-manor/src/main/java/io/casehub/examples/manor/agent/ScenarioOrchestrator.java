@@ -2,6 +2,7 @@ package io.casehub.examples.manor.agent;
 
 import io.casehub.eidos.api.AgentPromptContext;
 import io.casehub.eidos.api.AgentRegistry;
+import io.casehub.eidos.api.CoherenceLevel;
 import io.casehub.eidos.api.SystemPromptRenderer;
 import io.casehub.eidos.api.SystemPromptRenderer.RenderFormat;
 import io.casehub.examples.manor.ManorConstants;
@@ -241,7 +242,17 @@ public class ScenarioOrchestrator {
     private String renderPrompt(String agentId) {
         var desc = agentRegistry.findById(agentId, ManorConstants.TENANCY_ID)
                                 .orElseThrow(() -> new IllegalArgumentException("No descriptor: " + agentId));
-        var ctx = AgentPromptContext.forFormat(RenderFormat.MARKDOWN);
-        return renderer.render(desc, ctx).content();
-    }
+        var ctx      = AgentPromptContext.forFormat(RenderFormat.MARKDOWN);
+        var rendered = renderer.render(desc, ctx);
+
+        if (rendered.coherenceReport() != null
+            && rendered.coherenceReport().overall() != CoherenceLevel.ALIGNED) {
+            for (var v : rendered.coherenceReport().violations()) {
+                log.warnf("[%s] %s coherence %s: %s (declared=%s, implied=%s)",
+                          agentId, v.level(), v.axis() != null ? v.axis() : "orientation",
+                          v.description(), v.declaredValue(), v.impliedValue());
+            }
+        }
+
+        return rendered.content();}
 }
