@@ -169,7 +169,9 @@ export class ManorApp extends LitElement {
         this.scenarioStatus = event.status === 'started' ? 'running' : 'completed';
         break;
       case 'control':
-        this.paused = event.status === 'paused';
+        if (event.status === 'paused' || event.status === 'resumed') {
+          this.paused = event.status === 'paused';
+        }
         this.speed = event.speedMultiplier;
         break;
     }
