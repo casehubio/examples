@@ -19,7 +19,8 @@ public record ManorWebSocketEvent(
         String visibleTo,
         List<CharacterSnapshot> characters,
         List<RoomSnapshot> rooms,
-        String reason) {
+        String reason,
+        Double speedMultiplier) {
 
     public record CharacterSnapshot(String id, String name, String room, double x, boolean active) {
         public static CharacterSnapshot from(CharacterState c) {
@@ -32,27 +33,27 @@ public record ManorWebSocketEvent(
     }
 
     public static ManorWebSocketEvent snapshot(List<CharacterSnapshot> characters, List<RoomSnapshot> rooms) {
-        return new ManorWebSocketEvent("snapshot", null, null, null, null, null, null, null, null, null, characters, rooms, null);
+        return new ManorWebSocketEvent("snapshot", null, null, null, null, null, null, null, null, null, characters, rooms, null, null);
     }
 
     public static ManorWebSocketEvent position(String characterId, String room, double x) {
-        return new ManorWebSocketEvent("position", characterId, room, x, null, null, null, null, null, null, null, null, null);
+        return new ManorWebSocketEvent("position", characterId, room, x, null, null, null, null, null, null, null, null, null, null);
     }
 
     public static ManorWebSocketEvent dialogue(String characterId, String room, String content) {
-        return new ManorWebSocketEvent("dialogue", characterId, room, null, content, null, null, null, null, null, null, null, null);
+        return new ManorWebSocketEvent("dialogue", characterId, room, null, content, null, null, null, null, null, null, null, null, null);
     }
 
     public static ManorWebSocketEvent aside(String characterId, String content) {
-        return new ManorWebSocketEvent("aside", characterId, null, null, content, null, null, null, null, null, null, null, null);
+        return new ManorWebSocketEvent("aside", characterId, null, null, content, null, null, null, null, null, null, null, null, null);
     }
 
     public static ManorWebSocketEvent narrator(String content) {
-        return new ManorWebSocketEvent("narrator", null, null, null, content, null, null, null, null, null, null, null, null);
+        return new ManorWebSocketEvent("narrator", null, null, null, content, null, null, null, null, null, null, null, null, null);
     }
 
     public static ManorWebSocketEvent scene(String sceneId, String status) {
-        return new ManorWebSocketEvent("scene", null, null, null, null, sceneId, status, null, null, null, null, null, null);
+        return new ManorWebSocketEvent("scene", null, null, null, null, sceneId, status, null, null, null, null, null, null, null);
     }
 
     public static ManorWebSocketEvent scenario(String status) {
@@ -60,10 +61,15 @@ public record ManorWebSocketEvent(
     }
 
     public static ManorWebSocketEvent scenario(String status, String reason) {
-        return new ManorWebSocketEvent("scenario", null, null, null, null, null, status, null, null, null, null, null, reason);
+        return new ManorWebSocketEvent("scenario", null, null, null, null, null, status, null, null, null, null, null, reason, null);
     }
 
     public static ManorWebSocketEvent object(String objectId, String room, boolean visible, String visibleTo) {
-        return new ManorWebSocketEvent("object", null, room, null, null, null, null, objectId, visible, visibleTo, null, null, null);
+        return new ManorWebSocketEvent("object", null, room, null, null, null, null, objectId, visible, visibleTo, null, null, null, null);
     }
+
+    public static ManorWebSocketEvent control(String status, double speedMultiplier) {
+        return new ManorWebSocketEvent("control", null, null, null, null, null, status, null, null, null, null, null, null, speedMultiplier);
+    }
+
 }

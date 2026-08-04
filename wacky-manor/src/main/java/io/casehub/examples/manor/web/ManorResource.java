@@ -19,7 +19,7 @@ public class ManorResource {
     @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.scenario.mode", defaultValue = "scripted")
     String scenarioModeConfig;
 
-    private volatile WorldState activeWorld;
+    volatile WorldState activeWorld;
 
     @POST
     @Path("/start")
@@ -65,4 +65,41 @@ public class ManorResource {
         String complete = activeWorld.isScenarioComplete() ? "true" : "false";
         return Response.ok("{\"complete\":" + complete + ",\"reason\":\"" + reason + "\",\"events\":" + sb + "}").build();
     }
+
+    @POST
+    @Path("/pause")
+    public Response pauseScenario() {
+        if (activeWorld == null || activeWorld.isScenarioComplete()) {
+            return Response.status(Response.Status.NOT_FOUND)
+                           .entity("{\"error\":\"No active scenario\"}").build();
+        }
+        activeWorld.setPaused(true);
+        eventBus.broadcast(ManorWebSocketEvent.control("paused", activeWorld.speedMultiplier()));
+        return Response.ok("{\"status\":\"paused\"}").build();
+    }
+
+    @POST
+    @Path("/resume")
+    public Response resumeScenario() {
+        if (activeWorld == null || activeWorld.isScenarioComplete()) {
+            return Response.status(Response.Status.NOT_FOUND)
+                           .entity("{\"error\":\"No active scenario\"}").build();
+        }
+        activeWorld.setPaused(false);
+        eventBus.broadcast(ManorWebSocketEvent.control("resumed", activeWorld.speedMultiplier()));
+        return Response.ok("{\"status\":\"resumed\"}").build();
+    }
+
+    @POST
+    @Path("/speed")
+    public Response setSpeed(@jakarta.ws.rs.QueryParam("rate") double rate) {
+        if (activeWorld == null || activeWorld.isScenarioComplete()) {
+            return Response.status(Response.Status.NOT_FOUND)
+                           .entity("{\"error\":\"No active scenario\"}").build();
+        }
+        activeWorld.setSpeedMultiplier(rate);
+        eventBus.broadcast(ManorWebSocketEvent.control("speed", activeWorld.speedMultiplier()));
+        return Response.ok("{\"status\":\"speed\",\"rate\":" + activeWorld.speedMultiplier() + "}").build();
+    }
+
 }
