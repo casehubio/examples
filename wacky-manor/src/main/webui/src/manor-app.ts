@@ -14,6 +14,9 @@ export class ManorApp extends LitElement {
   @state() private scenarioStatus: 'idle' | 'running' | 'completed' = 'idle';
   @state() private activeScene: string | null = null;
   @state() private connected = false;
+  @state() private paused = false;
+  @state() private speed = 1.0;
+  @state() private selectedCharacterId: string | null = null;
 
   private ws: WebSocket | null = null;
 
@@ -69,6 +72,7 @@ export class ManorApp extends LitElement {
       padding: 8px;
       border-bottom: 1px solid #333;
       background: #16162a;
+      position: relative;
     }
     .panels {
       display: flex;
@@ -82,6 +86,10 @@ export class ManorApp extends LitElement {
       min-width: 0;
       overflow: hidden;
     }
+    .transport { display: flex; align-items: center; gap: 4px; }
+    .transport button { padding: 4px 10px; font-size: 12px; }
+    .transport button.active { background: #4a4a6a; border-color: #88a; }
+    .speed-group { display: flex; gap: 2px; }
     .scene-banner {
       padding: 6px 16px;
       background: #3a2a1a;
@@ -97,6 +105,13 @@ export class ManorApp extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.connectWebSocket();
+    this.addEventListener('character-selected', ((e: CustomEvent) => {
+      this.selectedCharacterId =
+        this.selectedCharacterId === e.detail.characterId ? null : e.detail.characterId;
+    }) as EventListener);
+    this.addEventListener('profile-close', () => {
+      this.selectedCharacterId = null;
+    });
   }
 
   disconnectedCallback() {
@@ -152,7 +167,19 @@ export class ManorApp extends LitElement {
       case 'scenario':
         this.scenarioStatus = event.status === 'started' ? 'running' : 'completed';
         break;
+      case 'control':
+        this.paused = event.status === 'paused';
+        this.speed = event.speedMultiplier;
+        break;
     }
+  }
+
+  private async togglePause() {
+    await fetch(this.paused ? '/manor/resume' : '/manor/pause', { method: 'POST' });
+  }
+
+  private async setSpeed(rate: number) {
+    await fetch(`/manor/speed?rate=${rate}`, { method: 'POST' });
   }
 
   private async startScenario() {
@@ -171,6 +198,19 @@ export class ManorApp extends LitElement {
         <div class="controls">
           <span class="dot ${this.connected ? 'on' : 'off'}"></span>
           <span class="status ${this.scenarioStatus}">${this.scenarioStatus}</span>
+          ${this.scenarioStatus === 'running' ? html`
+            <div class="transport">
+              <button @click=${() => this.togglePause()}>
+                ${this.paused ? '▶ Play' : '⏸ Pause'}
+              </button>
+              <div class="speed-group">
+                ${[0.5, 1, 2, 4].map(s => html`
+                  <button class=${this.speed === s ? 'active' : ''}
+                          @click=${() => this.setSpeed(s)}>${s}x</button>
+                `)}
+              </div>
+            </div>
+          ` : ''}
           <button @click=${this.startScenario}
                   ?disabled=${this.scenarioStatus === 'running'}>
             ${this.scenarioStatus === 'completed' ? '▶ Restart' : '▶ Start'}
