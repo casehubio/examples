@@ -4,6 +4,7 @@ import { ManorEvent, CharacterSnapshot, RoomSnapshot, ChatMessage } from './type
 import './manor-view.js';
 import './room-chat-panel.js';
 import './narrator-panel.js';
+import './character-profile.js';
 
 @customElement('manor-app')
 export class ManorApp extends LitElement {
@@ -224,6 +225,9 @@ export class ManorApp extends LitElement {
           .rooms=${this.rooms}
           .activeRoom=${this.activeScene ? null : null}>
         </manor-view>
+        ${this.selectedCharacterId ? html`
+          <character-profile .characterId=${this.selectedCharacterId}></character-profile>
+        ` : ''}
       </div>
 
       ${this.activeScene ? html`

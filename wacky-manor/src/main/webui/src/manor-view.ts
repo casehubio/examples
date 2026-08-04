@@ -451,7 +451,8 @@ export class ManorView extends LitElement {
         })}
 
         ${charPositions.map(p => svg`
-          <g class="char-group" style="transform: translate(${p.absX}px, ${p.baseY}px)">
+          <g class="char-group" style="transform: translate(${p.absX}px, ${p.baseY}px); cursor: pointer"
+             @click=${(e: Event) => { e.stopPropagation(); this.dispatchEvent(new CustomEvent('character-selected', { detail: { characterId: p.id }, bubbles: true, composed: true })); }}>
             ${renderCharacterAtOrigin(p.id)}
             <text x="0" y="${14 + p.labelRow * 10}" class="char-name">${CHARACTER_LABELS[p.id] || p.name}</text>
           </g>
