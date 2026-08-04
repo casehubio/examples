@@ -165,6 +165,206 @@ function renderCharacterAtOrigin(id: string) {
         <rect x="14" y="35" width="5" height="3" rx="1" fill="#333"/>
       </g>`;
 
+    case 'muttley':
+      return svg`<g transform="translate(${ox},${oy}) scale(${s})">
+        <ellipse cx="12" cy="14" rx="8" ry="6" fill="#8B6914"/>
+        <circle cx="12" cy="8" r="6" fill="#A0781E"/>
+        <ellipse cx="8" cy="5" rx="3" ry="5" fill="#8B6914"/>
+        <ellipse cx="16" cy="5" rx="3" ry="5" fill="#8B6914"/>
+        <circle cx="9" cy="8" r="1.2" fill="white"/><circle cx="9.5" cy="8" r="0.6" fill="#333"/>
+        <circle cx="15" cy="8" r="1.2" fill="white"/><circle cx="15.5" cy="8" r="0.6" fill="#333"/>
+        <ellipse cx="12" cy="11" rx="2.5" ry="1.5" fill="#333"/>
+        <path d="M10 13 Q12 15 14 13" stroke="#333" stroke-width="0.5" fill="none"/>
+        <path d="M5 20 L4 35 L9 35 L8 20 Z" fill="#8B6914"/>
+        <path d="M15 20 L16 35 L20 35 L19 20 Z" fill="#8B6914"/>
+        <path d="M18 14 Q22 12 20 8" stroke="#8B6914" stroke-width="2" fill="none"/>
+      </g>`;
+
+    case 'pat-pending':
+      return svg`<g transform="translate(${ox},${oy}) scale(${s})">
+        <circle cx="12" cy="9" r="6.5" fill="#FDDCB5"/>
+        <rect x="4" y="2" width="16" height="5" rx="2" fill="white"/>
+        <rect x="6" y="0" width="12" height="3" rx="1.5" fill="#ddd"/>
+        <circle cx="8" cy="4" r="2.5" fill="#87CEEB" stroke="#666" stroke-width="0.5"/>
+        <circle cx="16" cy="4" r="2.5" fill="#87CEEB" stroke="#666" stroke-width="0.5"/>
+        <ellipse cx="9.5" cy="9" rx="1.5" ry="1.5" fill="white"/>
+        <ellipse cx="14.5" cy="9" rx="1.5" ry="1.5" fill="white"/>
+        <circle cx="10" cy="9.2" r="0.7" fill="#2E8B57"/>
+        <circle cx="15" cy="9.2" r="0.7" fill="#2E8B57"/>
+        <path d="M10 12 Q12 13.5 14 12" stroke="#555" stroke-width="0.5" fill="none"/>
+        <path d="M6 16 L4 35 L20 35 L18 16 Z" fill="white"/>
+        <rect x="7" y="20" width="10" height="1" fill="#ddd"/>
+        <rect x="5" y="35" width="5" height="3" rx="1" fill="#555"/>
+        <rect x="14" y="35" width="5" height="3" rx="1" fill="#555"/>
+      </g>`;
+
+    case 'sergeant-blast':
+      return svg`<g transform="translate(${ox},${oy}) scale(${s})">
+        <rect x="5" y="0" width="14" height="6" rx="1" fill="#556B2F"/>
+        <rect x="8" y="4" width="8" height="2" fill="#333"/>
+        <ellipse cx="12" cy="3" rx="3" ry="1" fill="#DAA520"/>
+        <circle cx="12" cy="10" r="6" fill="#FDDCB5"/>
+        <ellipse cx="9.5" cy="9" rx="1.3" ry="1.5" fill="white"/>
+        <ellipse cx="14.5" cy="9" rx="1.3" ry="1.5" fill="white"/>
+        <circle cx="10" cy="9.3" r="0.7" fill="#333"/>
+        <circle cx="15" cy="9.3" r="0.7" fill="#333"/>
+        <path d="M8 7 L11 7.5" stroke="#333" stroke-width="0.8"/>
+        <path d="M16 7 L13 7.5" stroke="#333" stroke-width="0.8"/>
+        <path d="M9 13 L15 13" stroke="#8B4513" stroke-width="1.5"/>
+        <path d="M6 16 L4 35 L20 35 L18 16 Z" fill="#556B2F"/>
+        <rect x="9" y="18" width="6" height="1" fill="#DAA520"/>
+        <rect x="5" y="35" width="5" height="3" rx="1" fill="#333"/>
+        <rect x="14" y="35" width="5" height="3" rx="1" fill="#333"/>
+      </g>`;
+
+    case 'private-meekly':
+      return svg`<g transform="translate(${ox},${oy}) scale(${s})">
+        <rect x="7" y="2" width="10" height="5" rx="1" fill="#6B8E23"/>
+        <rect x="9" y="5" width="6" height="1.5" fill="#333"/>
+        <circle cx="12" cy="11" r="5" fill="#FDDCB5"/>
+        <ellipse cx="10" cy="10.5" rx="1.2" ry="1.5" fill="white"/>
+        <ellipse cx="14" cy="10.5" rx="1.2" ry="1.5" fill="white"/>
+        <circle cx="10.3" cy="10.8" r="0.6" fill="#333"/>
+        <circle cx="14.3" cy="10.8" r="0.6" fill="#333"/>
+        <path d="M10 13 Q12 14 14 13" stroke="#555" stroke-width="0.4" fill="none"/>
+        <path d="M7 17 L6 32 L18 32 L17 17 Z" fill="#6B8E23"/>
+        <rect x="5" y="32" width="4" height="2.5" rx="1" fill="#333"/>
+        <rect x="14" y="32" width="4" height="2.5" rx="1" fill="#333"/>
+      </g>`;
+
+    case 'lazy-luke':
+      return svg`<g transform="translate(${ox},${oy}) scale(${s})">
+        <ellipse cx="12" cy="4" rx="9" ry="4" fill="#DAA520"/>
+        <rect x="5" y="3" width="14" height="3" fill="#C4944A"/>
+        <circle cx="12" cy="10" r="6" fill="#FDDCB5"/>
+        <ellipse cx="9.5" cy="9" rx="1.5" ry="1.2" fill="white"/>
+        <ellipse cx="14.5" cy="9" rx="1.5" ry="1.2" fill="white"/>
+        <circle cx="10" cy="9" r="0.6" fill="#333"/>
+        <circle cx="15" cy="9" r="0.6" fill="#333"/>
+        <path d="M9 12.5 Q12 14 15 12.5" stroke="#555" stroke-width="0.5" fill="none"/>
+        <path d="M6 16 L3 40 L21 40 L18 16 Z" fill="#8B7355"/>
+        <path d="M10 16 L8 24 L16 24 L14 16 Z" fill="#DAA520"/>
+        <rect x="5" y="40" width="5" height="3" rx="1" fill="#654321"/>
+        <rect x="14" y="40" width="5" height="3" rx="1" fill="#654321"/>
+      </g>`;
+
+    case 'blubber-bear':
+      return svg`<g transform="translate(${ox},${oy}) scale(${s})">
+        <ellipse cx="12" cy="18" rx="10" ry="14" fill="#8B4513"/>
+        <circle cx="12" cy="8" r="7" fill="#A0522D"/>
+        <circle cx="6" cy="3" r="3" fill="#8B4513"/>
+        <circle cx="18" cy="3" r="3" fill="#8B4513"/>
+        <circle cx="6" cy="3" r="1.5" fill="#D2B48C"/>
+        <circle cx="18" cy="3" r="1.5" fill="#D2B48C"/>
+        <ellipse cx="12" cy="12" rx="5" ry="4" fill="#D2B48C"/>
+        <circle cx="9" cy="8" r="1.5" fill="white"/><circle cx="9.5" cy="8" r="0.8" fill="#333"/>
+        <circle cx="15" cy="8" r="1.5" fill="white"/><circle cx="15.5" cy="8" r="0.8" fill="#333"/>
+        <ellipse cx="12" cy="11" rx="2" ry="1.2" fill="#333"/>
+        <path d="M10 14 Q12 15.5 14 14" stroke="#555" stroke-width="0.5" fill="none"/>
+        <path d="M4 30 L3 35 L8 35 L7 30 Z" fill="#8B4513"/>
+        <path d="M17 30 L18 35 L21 35 L20 30 Z" fill="#8B4513"/>
+      </g>`;
+
+    case 'rock-slag':
+      return svg`<g transform="translate(${ox},${oy}) scale(${s})">
+        <ellipse cx="12" cy="20" rx="9" ry="12" fill="#A0522D"/>
+        <circle cx="12" cy="9" r="7" fill="#FDDCB5"/>
+        <rect x="4" y="2" width="16" height="5" rx="2" fill="#A0522D"/>
+        <ellipse cx="9" cy="9" rx="2" ry="1.8" fill="white"/>
+        <ellipse cx="15" cy="9" rx="2" ry="1.8" fill="white"/>
+        <circle cx="9.5" cy="9" r="1" fill="#333"/>
+        <circle cx="15.5" cy="9" r="1" fill="#333"/>
+        <path d="M7 5 L6 4" stroke="#333" stroke-width="1"/>
+        <path d="M17 5 L18 4" stroke="#333" stroke-width="1"/>
+        <path d="M9 13 Q12 15 15 13" stroke="#555" stroke-width="0.7" fill="none"/>
+        <rect x="4" y="32" width="5" height="4" rx="1" fill="#8B4513"/>
+        <rect x="15" y="32" width="5" height="4" rx="1" fill="#8B4513"/>
+      </g>`;
+
+    case 'gravel-slag':
+      return svg`<g transform="translate(${ox},${oy}) scale(${s})">
+        <ellipse cx="12" cy="20" rx="9" ry="12" fill="#708090"/>
+        <circle cx="12" cy="9" r="7" fill="#FDDCB5"/>
+        <rect x="4" y="2" width="16" height="5" rx="2" fill="#708090"/>
+        <ellipse cx="9" cy="9" rx="2" ry="1.8" fill="white"/>
+        <ellipse cx="15" cy="9" rx="2" ry="1.8" fill="white"/>
+        <circle cx="9.5" cy="9" r="1" fill="#333"/>
+        <circle cx="15.5" cy="9" r="1" fill="#333"/>
+        <path d="M7 5 L6 4" stroke="#333" stroke-width="1"/>
+        <path d="M17 5 L18 4" stroke="#333" stroke-width="1"/>
+        <path d="M9 13 Q12 15 15 13" stroke="#555" stroke-width="0.7" fill="none"/>
+        <rect x="4" y="32" width="5" height="4" rx="1" fill="#555"/>
+        <rect x="15" y="32" width="5" height="4" rx="1" fill="#555"/>
+      </g>`;
+
+    case 'rufus-ruffcut':
+      return svg`<g transform="translate(${ox},${oy}) scale(${s})">
+        <circle cx="12" cy="9" r="7" fill="#FDDCB5"/>
+        <path d="M5 6 Q12 2 19 6" fill="#B22222"/>
+        <path d="M6 10 Q4 14 6 16" stroke="#8B4513" stroke-width="2" fill="none"/>
+        <path d="M18 10 Q20 14 18 16" stroke="#8B4513" stroke-width="2" fill="none"/>
+        <ellipse cx="9.5" cy="9" rx="1.5" ry="1.5" fill="white"/>
+        <ellipse cx="14.5" cy="9" rx="1.5" ry="1.5" fill="white"/>
+        <circle cx="10" cy="9" r="0.7" fill="#333"/>
+        <circle cx="15" cy="9" r="0.7" fill="#333"/>
+        <path d="M8 13 Q12 16 16 13" fill="#8B4513"/>
+        <path d="M6 16 L4 35 L20 35 L18 16 Z" fill="#B22222"/>
+        <rect x="8" y="16" width="8" height="4" fill="#228B22"/>
+        <rect x="5" y="35" width="5" height="3" rx="1" fill="#654321"/>
+        <rect x="14" y="35" width="5" height="3" rx="1" fill="#654321"/>
+      </g>`;
+
+    case 'sawtooth':
+      return svg`<g transform="translate(${ox},${oy}) scale(${s})">
+        <ellipse cx="12" cy="16" rx="8" ry="10" fill="#D2691E"/>
+        <circle cx="12" cy="8" r="6" fill="#D2691E"/>
+        <ellipse cx="12" cy="12" rx="4" ry="3" fill="#F5DEB3"/>
+        <circle cx="9" cy="7" r="1.5" fill="white"/><circle cx="9.5" cy="7" r="0.7" fill="#333"/>
+        <circle cx="15" cy="7" r="1.5" fill="white"/><circle cx="15.5" cy="7" r="0.7" fill="#333"/>
+        <rect x="9" y="11" width="6" height="2" rx="0.5" fill="white"/>
+        <line x1="10" y1="11" x2="10" y2="13" stroke="#D2691E" stroke-width="0.5"/>
+        <line x1="12" y1="11" x2="12" y2="13" stroke="#D2691E" stroke-width="0.5"/>
+        <line x1="14" y1="11" x2="14" y2="13" stroke="#D2691E" stroke-width="0.5"/>
+        <path d="M6 26 L4 30 L20 30 L18 26 Z" fill="#D2691E"/>
+        <ellipse cx="12" cy="32" rx="8" ry="3" fill="#8B4513"/>
+      </g>`;
+
+    case 'big-gruesome':
+      return svg`<g transform="translate(${ox},${oy}) scale(${s})">
+        <ellipse cx="12" cy="20" rx="11" ry="16" fill="#9370DB"/>
+        <circle cx="12" cy="7" r="8" fill="#9370DB"/>
+        <circle cx="6" cy="1" r="2.5" fill="#7B68EE"/>
+        <circle cx="18" cy="1" r="2.5" fill="#7B68EE"/>
+        <ellipse cx="9" cy="7" rx="2.5" ry="2" fill="white"/>
+        <ellipse cx="15" cy="7" rx="2.5" ry="2" fill="white"/>
+        <circle cx="9.5" cy="7" r="1.2" fill="#333"/>
+        <circle cx="15.5" cy="7" r="1.2" fill="#333"/>
+        <path d="M8 12 Q12 15 16 12" stroke="#333" stroke-width="0.7" fill="none"/>
+        <path d="M3 18 Q0 24 2 28" stroke="#9370DB" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M21 18 Q24 24 22 28" stroke="#9370DB" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <rect x="4" y="34" width="6" height="4" rx="2" fill="#7B68EE"/>
+        <rect x="14" y="34" width="6" height="4" rx="2" fill="#7B68EE"/>
+      </g>`;
+
+    case 'little-gruesome':
+      return svg`<g transform="translate(${ox},${oy}) scale(${s})">
+        <circle cx="12" cy="10" r="6" fill="#32CD32"/>
+        <path d="M6 6 L4 2 L8 5 Z" fill="#228B22"/>
+        <path d="M18 6 L20 2 L16 5 Z" fill="#228B22"/>
+        <ellipse cx="9.5" cy="9" rx="2" ry="1.8" fill="white"/>
+        <ellipse cx="14.5" cy="9" rx="2" ry="1.8" fill="white"/>
+        <circle cx="10" cy="9" r="1" fill="#333"/>
+        <circle cx="15" cy="9" r="1" fill="#333"/>
+        <path d="M9 13 Q12 14.5 15 13" stroke="#333" stroke-width="0.5" fill="none"/>
+        <ellipse cx="12" cy="18" rx="5" ry="6" fill="#32CD32"/>
+        <path d="M5 12 Q0 8 3 5" stroke="#228B22" stroke-width="1.5" fill="none"/>
+        <path d="M19 12 Q24 8 21 5" stroke="#228B22" stroke-width="1.5" fill="none"/>
+        <path d="M7 10 L3 8" stroke="#228B22" stroke-width="0.8"/>
+        <path d="M17 10 L21 8" stroke="#228B22" stroke-width="0.8"/>
+        <rect x="7" y="24" width="3" height="3" rx="1" fill="#228B22"/>
+        <rect x="14" y="24" width="3" height="3" rx="1" fill="#228B22"/>
+      </g>`;
+
     default:
       return svg`<circle r="8" fill="#888" stroke="#111" stroke-width="1"/>`;
   }
