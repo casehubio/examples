@@ -25,6 +25,8 @@ public final class WorldState {
     private final    Set<String> takenObjects = new java.util.HashSet<>();
     private final    Map<String, Set<String>> appliedEffects = new java.util.HashMap<>();
     private volatile io.casehub.examples.manor.model.CompletionReason completionReason;
+    private volatile boolean                                          paused          = false;
+    private volatile double                                           speedMultiplier = 1.0;
 
 
     public WorldState(Map<String, Room> rooms, Map<String, CharacterState> characters) {
@@ -103,6 +105,16 @@ public final class WorldState {
     }
 
     public io.casehub.examples.manor.model.CompletionReason completionReason() {return completionReason;}
+
+    public boolean isPaused()                                                  {return paused;}
+
+    public void setPaused(boolean paused)                                      {this.paused = paused;}
+
+    public double speedMultiplier()                                            {return speedMultiplier;}
+
+    public void setSpeedMultiplier(double multiplier) {
+        this.speedMultiplier = Math.max(0.25, Math.min(8.0, multiplier));
+    }
 
 
     public boolean hasTriggerFired(String triggerId) { return firedTriggers.contains(triggerId); }

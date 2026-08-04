@@ -58,6 +58,11 @@ public final class CharacterAgentLoop {
                     if (world.isScenarioComplete()) {break;}
                 }
 
+                while (world.isPaused() && !world.isScenarioComplete() && character.isActive()) {
+                    Thread.sleep(200);
+                }
+                if (world.isScenarioComplete()) {break;}
+
                 var    drain       = dispatcher.observationService().drain(character.agentId(), System.currentTimeMillis());
                 String observation = ObservationBuilder.buildObservation(character, world, goals, drain);
                 String userPrompt  = observation + RESPONSE_FORMAT_INSTRUCTION;
@@ -87,7 +92,7 @@ public final class CharacterAgentLoop {
                     character.setLastActionResult("You waited and observed.");
                 }
 
-                Thread.sleep(thinkDelay(character));
+                Thread.sleep((long) (character.thinkDelayMs() / world.speedMultiplier()));
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;
@@ -95,8 +100,7 @@ public final class CharacterAgentLoop {
                 log.errorf(e, "%s: loop error", character.agentId());
                 break;
             }
-        }
-    }
+        }}
 
     private AgentResponse callAgentWithRetry(
             AgentProvider agentProvider, String systemPrompt,
@@ -115,7 +119,7 @@ public final class CharacterAgentLoop {
                 log.warnf("%s: LLM call failed (attempt %d): %s",
                     character.agentId(), attempt + 1, e.getMessage());
                 if (attempt == 0) {
-                    try { Thread.sleep(thinkDelay(character)); }
+                    try { Thread.sleep(character.thinkDelayMs()); }
                     catch (InterruptedException ie) {
                         Thread.currentThread().interrupt();
                         return AgentResponse.idle();
@@ -127,5 +131,4 @@ public final class CharacterAgentLoop {
         return AgentResponse.idle();
     }
 
-    private long thinkDelay(CharacterState character) {return character.thinkDelayMs();}
 }
