@@ -15,6 +15,11 @@ public class ManorResource {
     ScenarioOrchestrator orchestrator;
     @Inject
     ManorEventBus        eventBus;
+    @Inject
+    io.casehub.eidos.api.AgentRegistry agentRegistry;
+    @Inject
+    io.casehub.eidos.api.VocabularyRegistry vocabRegistry;
+
 
     @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.scenario.mode", defaultValue = "scripted")
     String scenarioModeConfig;
@@ -101,5 +106,25 @@ public class ManorResource {
         eventBus.broadcast(ManorWebSocketEvent.control("speed", activeWorld.speedMultiplier()));
         return Response.ok("{\"status\":\"speed\",\"rate\":" + activeWorld.speedMultiplier() + "}").build();
     }
+
+    @jakarta.ws.rs.GET
+    @jakarta.ws.rs.Path("/characters/{id}/profile")
+    @jakarta.ws.rs.Produces("application/json")
+    public Response getCharacterProfile(@jakarta.ws.rs.PathParam("id") String id) {
+        var desc = agentRegistry.findById(id, io.casehub.examples.manor.ManorConstants.TENANCY_ID);
+        if (desc.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND)
+                           .entity("{\"error\":\"Character not found: " + id + "\"}").build();
+        }
+        var    descriptor = desc.get();
+        String slotLabel  = null;
+        if (descriptor.slotVocabulary() != null && descriptor.slot() != null) {
+            slotLabel = vocabRegistry.resolve(descriptor.slotVocabulary(), descriptor.slot())
+                                     .map(io.casehub.eidos.api.VocabularyTerm::label).orElse(descriptor.slot());
+        }
+        var dto = CharacterProfileDTO.from(descriptor, slotLabel, null);
+        return Response.ok(dto).build();
+    }
+
 
 }
