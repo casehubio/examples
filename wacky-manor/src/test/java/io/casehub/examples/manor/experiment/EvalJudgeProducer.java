@@ -2,6 +2,7 @@ package io.casehub.examples.manor.experiment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.langchain4j.model.chat.ChatModel;
+import io.casehub.eidos.eval.BriefingCoherenceJudge;
 import io.casehub.eidos.eval.FunctionActivationJudge;
 import io.casehub.eidos.eval.MbtiAlignmentJudge;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -22,5 +23,11 @@ public class EvalJudgeProducer {
     @ApplicationScoped
     FunctionActivationJudge functionActivationJudge(@Any Instance<ChatModel> models, ObjectMapper mapper) {
         return new FunctionActivationJudge(models, mapper);
+    }
+
+    @Produces
+    @ApplicationScoped
+    BriefingCoherenceJudge briefingCoherenceJudge(@Any Instance<ChatModel> models, ObjectMapper mapper) {
+        return new BriefingCoherenceJudge(models, mapper);
     }
 }
