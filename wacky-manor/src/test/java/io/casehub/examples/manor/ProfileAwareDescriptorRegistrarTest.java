@@ -14,7 +14,7 @@ class ProfileAwareDescriptorRegistrarTest {
     void each_profile_mode_loads_five_descriptors(ProfileMode mode) {
         var registrar    = new ProfileAwareDescriptorRegistrar(mode);
         var descriptors  = registrar.descriptors();
-        int expectedSize = mode == ProfileMode.COMPOSITE ? 17 : 5;
+        int expectedSize = mode == ProfileMode.COMPOSITE ? 18 : 5;
         assertThat(descriptors).hasSize(expectedSize);
         assertThat(descriptors).extracting("agentId")
                                .contains("penelope-pitstop", "hooded-claw", "ant-hill-mob",

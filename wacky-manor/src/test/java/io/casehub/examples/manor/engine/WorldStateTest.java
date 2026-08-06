@@ -32,7 +32,7 @@ class WorldStateTest {
 
     @Test
     void loads_five_characters() {
-        assertThat(world.characters()).hasSize(17);
+        assertThat(world.characters()).hasSize(18);
     }
 
     @Test

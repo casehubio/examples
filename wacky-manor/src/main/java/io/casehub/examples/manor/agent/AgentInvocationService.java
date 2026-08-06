@@ -6,7 +6,6 @@ import io.casehub.platform.agent.AgentSessionConfig;
 import org.jboss.logging.Logger;
 
 import java.time.Duration;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -16,7 +15,6 @@ public class AgentInvocationService {
     private static final Logger log = Logger.getLogger(AgentInvocationService.class);
 
     private final AgentProvider agentProvider;
-    private final Semaphore semaphore;
     private final int timeoutSeconds;
     private final int maxRetries;
     private final long baseRetryDelayMs;
@@ -30,7 +28,6 @@ public class AgentInvocationService {
                                    int maxConcurrent, int timeoutSeconds,
                                    int maxRetries, long baseRetryDelayMs) {
         this.agentProvider = agentProvider;
-        this.semaphore = new Semaphore(maxConcurrent);
         this.timeoutSeconds = timeoutSeconds;
         this.maxRetries = maxRetries;
         this.baseRetryDelayMs = baseRetryDelayMs;
@@ -40,15 +37,7 @@ public class AgentInvocationService {
         totalCalls.incrementAndGet();
         long start = System.currentTimeMillis();
         try {
-            semaphore.acquire();
-            try {
-                return callWithRetry(systemPrompt, userPrompt, agentId);
-            } finally {
-                semaphore.release();
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return AgentResponse.idle();
+            return callWithRetry(systemPrompt, userPrompt, agentId);
         } finally {
             totalLatencyMs.addAndGet(System.currentTimeMillis() - start);
         }

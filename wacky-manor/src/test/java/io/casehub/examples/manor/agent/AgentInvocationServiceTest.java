@@ -7,7 +7,6 @@ import io.casehub.platform.agent.AgentSessionInit;
 import io.smallrye.mutiny.Multi;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -27,24 +26,24 @@ class AgentInvocationServiceTest {
     private static final String WAIT_JSON = "{\"action\":{\"type\":\"WAIT\"}}";
 
     @Test
-    void concurrencyCapLimitsInFlight() throws Exception {
-        var inFlight = new AtomicInteger(0);
-        var maxSeen = new AtomicInteger(0);
+    void concurrentInvocationsAllSucceed() throws Exception {
+        var callCount = new AtomicInteger(0);
         AgentProvider slowProvider = new AgentProvider() {
-            @Override public Multi<AgentEvent> invoke(io.casehub.platform.agent.AgentSessionConfig config) {
-                int current = inFlight.incrementAndGet();
-                maxSeen.updateAndGet(prev -> Math.max(prev, current));
-                try { Thread.sleep(100); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
-                inFlight.decrementAndGet();
+            @Override
+            public Multi<AgentEvent> invoke(io.casehub.platform.agent.AgentSessionConfig config) {
+                callCount.incrementAndGet();
+                try {Thread.sleep(50);} catch (InterruptedException e) {Thread.currentThread().interrupt();}
                 return Multi.createFrom().item((AgentEvent) new AgentEvent.TextDelta(WAIT_JSON));
             }
-            @Override public AgentSession openSession(AgentSessionInit init) { throw new UnsupportedOperationException(); }
+
+            @Override
+            public AgentSession openSession(AgentSessionInit init) {throw new UnsupportedOperationException();}
         };
 
-        var service = new AgentInvocationService(slowProvider, 2, 60, 2, 100);
-        int agents = 6;
+        var service = new AgentInvocationService(slowProvider, 0, 60, 2, 100);
+        int agents  = 6;
         var barrier = new CyclicBarrier(agents);
-        var threads = new ArrayList<Thread>();
+        var threads = new java.util.ArrayList<Thread>();
 
         for (int i = 0; i < agents; i++) {
             int id = i;
@@ -55,9 +54,8 @@ class AgentInvocationServiceTest {
                 } catch (Exception e) { /* ignore */ }
             }));
         }
-        for (var t : threads) t.join();
+        for (var t : threads) {t.join();}
 
-        assertThat(maxSeen.get()).isLessThanOrEqualTo(2);
         assertThat(service.metrics().totalCalls()).isEqualTo(agents);
     }
 
