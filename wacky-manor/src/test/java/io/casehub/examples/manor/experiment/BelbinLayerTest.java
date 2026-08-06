@@ -51,8 +51,9 @@ class BelbinLayerTest {
         var goalsByAgent = resolveGoals();
         String gitHash = resolveGitHash();
 
-        var runner = new AutonomousScenarioRunner(agentProvider, resolveModelId(), gitHash);
-        var result = runner.run(world, PROFILE, runNumber, goalsByAgent, MAX_TURNS, this::renderPrompt);
+        var invocation = new io.casehub.examples.manor.agent.AgentInvocationService(agentProvider, 5, 60, 2, 2000);
+        var runner = new AutonomousScenarioRunner(invocation, null, resolveModelId(), gitHash);
+        var result = runner.run(world, PROFILE, runNumber, goalsByAgent, MAX_TURNS, this::renderPrompt, null);
 
         var outputFile = OUTPUT_DIR.resolve(
                 PROFILE.name().toLowerCase() + "-run-" + runNumber + ".json");

@@ -50,11 +50,12 @@ class AutonomousScenarioRunnerTest {
             @Override public AgentSession openSession(AgentSessionInit init) { throw new UnsupportedOperationException(); }
         };
 
-        var runner = new AutonomousScenarioRunner(stubProvider, "test-model", "test-hash");
+        var invocation = new io.casehub.examples.manor.agent.AgentInvocationService(stubProvider, 5, 60, 2, 100);
+        var runner = new AutonomousScenarioRunner(invocation, null, "test-model", "test-hash");
         var world = MansionLoader.loadWorld();
 
         var result = runner.run(world, ProfileMode.BASELINE, 1,
-                Map.of(), 60, agentId -> "You are " + agentId);
+                Map.of(), 60, agentId -> "You are " + agentId, null);
 
         assertThat(result.verdict()).isEqualTo(CompletionReason.POISONED);
         assertThat(result.totalTurns()).isLessThan(60);
@@ -73,11 +74,12 @@ class AutonomousScenarioRunnerTest {
             @Override public AgentSession openSession(AgentSessionInit init) { throw new UnsupportedOperationException(); }
         };
 
-        var runner = new AutonomousScenarioRunner(stubProvider, "test-model", "test-hash");
+        var invocation = new io.casehub.examples.manor.agent.AgentInvocationService(stubProvider, 5, 60, 2, 100);
+        var runner = new AutonomousScenarioRunner(invocation, null, "test-model", "test-hash");
         var world = MansionLoader.loadWorld();
 
         var result = runner.run(world, ProfileMode.BASELINE, 1,
-                Map.of(), 10, agentId -> "You are " + agentId);
+                Map.of(), 10, agentId -> "You are " + agentId, null);
 
         assertThat(result.verdict()).isEqualTo(CompletionReason.TURN_LIMIT);
         assertThat(result.totalTurns()).isEqualTo(10);
@@ -92,11 +94,12 @@ class AutonomousScenarioRunnerTest {
             @Override public AgentSession openSession(AgentSessionInit init) { throw new UnsupportedOperationException(); }
         };
 
-        var runner = new AutonomousScenarioRunner(stubProvider, "test-model", "test-hash");
+        var invocation = new io.casehub.examples.manor.agent.AgentInvocationService(stubProvider, 5, 60, 2, 100);
+        var runner = new AutonomousScenarioRunner(invocation, null, "test-model", "test-hash");
         var world = MansionLoader.loadWorld();
 
         var result = runner.run(world, ProfileMode.BASELINE, 1,
-                Map.of(), 3, agentId -> "You are " + agentId);
+                Map.of(), 3, agentId -> "You are " + agentId, null);
 
         assertThat(result.verdict()).isEqualTo(CompletionReason.TURN_LIMIT);
     }

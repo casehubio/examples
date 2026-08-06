@@ -75,10 +75,11 @@ public final class ActionResolver {
             return new ActionResult.Failed(obj.name() + " cannot be picked up.");
         }
         character.setX(obj.x());
-        world.markObjectTaken(action.target());
+        if (!world.tryTakeObject(action.target())) {
+            return new ActionResult.Failed(action.target() + " was just taken by someone else.");
+        }
         character.addItem(obj.itemId());
-        return new ActionResult.ItemReceived(obj.itemId(), "You picked up " + obj.name() + ".");
-    }
+        return new ActionResult.ItemReceived(obj.itemId(), "You picked up " + obj.name() + ".");}
 
     private ActionResult resolveGive(CharacterState character, Action action, WorldState world) {
         if (action.withItem() == null || !character.hasItem(action.withItem())) {

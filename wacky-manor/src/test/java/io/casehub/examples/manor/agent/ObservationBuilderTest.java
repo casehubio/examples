@@ -166,4 +166,35 @@ class ObservationBuilderTest {
         int secondaryIdx = obs.indexOf("[SECONDARY]");
         assertThat(primaryIdx).isLessThan(secondaryIdx);
     }
+
+    @Test
+    void pastExperienceSectionRendersMemories() {
+        var memories = java.util.List.of(
+                new io.casehub.neocortex.memory.Memory("m1", "penelope-pitstop",
+                                                       new io.casehub.neocortex.memory.MemoryDomain("manor"), "test",
+                                                       null, "Found a key in the library", java.util.Map.of(),
+                                                       java.time.Instant.now().minusSeconds(300), 0.8),
+                new io.casehub.neocortex.memory.Memory("m2", "penelope-pitstop",
+                                                       new io.casehub.neocortex.memory.MemoryDomain("manor"), "test",
+                                                       null, "Spoke with Dastardly about the mystery", java.util.Map.of(),
+                                                       java.time.Instant.now().minusSeconds(60), 0.6));
+
+        String observation = ObservationBuilder.buildObservation(
+                world.character("penelope-pitstop"), world, java.util.List.of(), emptyDrain, memories);
+
+        assertThat(observation).contains("Past Experience");
+        assertThat(observation).contains("Found a key in the library");
+        assertThat(observation).contains("Spoke with Dastardly about the mystery");
+    }
+
+    @Test
+    void emptyMemoriesOmitsPastExperienceSection() {
+        String observation = ObservationBuilder.buildObservation(
+                world.character("penelope-pitstop"), world, java.util.List.of(),
+                emptyDrain, java.util.List.of());
+
+        assertThat(observation).doesNotContain("Past Experience");
+    }
+
+
 }

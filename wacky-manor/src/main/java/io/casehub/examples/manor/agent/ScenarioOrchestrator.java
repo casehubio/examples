@@ -110,8 +110,11 @@ public class ScenarioOrchestrator {
             }
         }
 
+        var invocationService = new AgentInvocationService(agentProvider, 5, 60, 2, 2000);
+
         var actionQueue = new LinkedBlockingQueue<PendingAction>();
-        int turnCount   = 0;
+        var actedThisCycle = java.util.concurrent.ConcurrentHashMap.<String>newKeySet();
+        int logicalTurns = 0;
 
         var threads = world.characters().values().stream()
                            .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
@@ -125,8 +128,8 @@ public class ScenarioOrchestrator {
                                             .start(() -> {
                                                 String systemPrompt = renderPrompt(c.agentId());
                                                 new CharacterAgentLoop().run(
-                                                        c, world, agentProvider, systemPrompt, actionQueue,
-                                                        dispatcher, goals);
+                                                        c, world, invocationService, null,
+                                                        systemPrompt, actionQueue, dispatcher, goals);
                                             });
                            })
                            .toList();
@@ -135,6 +138,10 @@ public class ScenarioOrchestrator {
             try {
                 PendingAction pending = actionQueue.poll(5, TimeUnit.SECONDS);
                 if (pending == null) {continue;}
+                if (!pending.character().isActive()) {
+                    pending.complete(new ActionResult.Failed("Character is no longer active."));
+                    continue;
+                }
 
                 String departureRoom = pending.character().currentRoom();
                 ActionResult result = actionResolver.resolve(
@@ -181,11 +188,21 @@ public class ScenarioOrchestrator {
                 }
 
                 if (mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
-                    turnCount++;
                     if (world.hasEffect("tea-service", "rat-poison")) {
                         world.setScenarioComplete(io.casehub.examples.manor.model.CompletionReason.POISONED);
-                    } else if (turnCount >= maxTurns) {
-                        world.setScenarioComplete(io.casehub.examples.manor.model.CompletionReason.TURN_LIMIT);
+                    } else {
+                        actedThisCycle.add(pending.character().agentId());
+                        long activeCount = world.characters().values().stream()
+                            .filter(ch -> activeSet == null || activeSet.contains(ch.agentId()))
+                            .filter(io.casehub.examples.manor.model.CharacterState::isActive)
+                            .count();
+                        if (actedThisCycle.size() >= activeCount) {
+                            logicalTurns++;
+                            actedThisCycle.clear();
+                            if (logicalTurns >= maxTurns) {
+                                world.setScenarioComplete(io.casehub.examples.manor.model.CompletionReason.TURN_LIMIT);
+                            }
+                        }
                     }
                 }
 

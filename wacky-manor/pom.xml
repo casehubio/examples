@@ -64,6 +64,17 @@
     <!-- LLM — platform agent stack (Claude Code SDK via Vertex) -->
     <dependency>
       <groupId>io.casehub</groupId>
+      <artifactId>casehub-neocortex-memory-api</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-neocortex-memory</artifactId>
+      <version>${casehub.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
       <artifactId>casehub-platform-agent-api</artifactId>
       <version>${casehub.version}</version>
     </dependency>

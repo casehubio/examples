@@ -16,5 +16,12 @@ public final class PendingAction {
     public Action action() { return action; }
 
     public void complete(ActionResult result) { future.complete(result); }
-    public ActionResult awaitResult() throws Exception { return future.get(); }
+
+    public ActionResult awaitResult(long timeoutSeconds) throws Exception {
+        try {
+            return future.get(timeoutSeconds, java.util.concurrent.TimeUnit.SECONDS);
+        } catch (java.util.concurrent.TimeoutException e) {
+            return new ActionResult.Failed("Your action timed out.");
+        }
+    }
 }

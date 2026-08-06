@@ -4,14 +4,9 @@ import io.casehub.examples.manor.engine.WorldState;
 import io.casehub.examples.manor.model.ActionType;
 import io.casehub.examples.manor.model.CharacterState;
 import io.casehub.examples.manor.model.PendingAction;
-import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentProvider;
-import io.casehub.platform.agent.AgentSessionConfig;
 import org.jboss.logging.Logger;
 
-import java.time.Duration;
 import java.util.concurrent.BlockingQueue;
-import java.util.stream.Collectors;
 
 public final class CharacterAgentLoop {
 
@@ -47,7 +42,9 @@ public final class CharacterAgentLoop {
                                                               "\n\nTo get an object, use TAKE. To apply an item you're carrying, use USE.\nRespond with ONLY the JSON. No other text.";
 
     public void run(CharacterState character, WorldState world,
-                    AgentProvider agentProvider, String systemPrompt,
+                    AgentInvocationService invocationService,
+                    AgentExperienceService experienceService,
+                    String systemPrompt,
                     BlockingQueue<PendingAction> actionQueue,
                     ManorEventDispatcher dispatcher,
                     java.util.List<io.casehub.eidos.api.AgentGoal> goals) {
@@ -63,12 +60,13 @@ public final class CharacterAgentLoop {
                 }
                 if (world.isScenarioComplete()) {break;}
 
-                var    drain       = dispatcher.observationService().drain(character.agentId(), System.currentTimeMillis());
-                String observation = ObservationBuilder.buildObservation(character, world, goals, drain);
+                var drain = dispatcher.observationService().drain(character.agentId(), System.currentTimeMillis());
+                java.util.List<io.casehub.neocortex.memory.Memory> memories = experienceService != null
+                                                                              ? experienceService.recall(character.agentId(), 10) : java.util.List.of();
+                String observation = ObservationBuilder.buildObservation(character, world, goals, drain, memories);
                 String userPrompt  = observation + RESPONSE_FORMAT_INSTRUCTION;
 
-                AgentResponse response = callAgentWithRetry(
-                        agentProvider, systemPrompt, userPrompt, character);
+                AgentResponse response = invocationService.invoke(systemPrompt, userPrompt, character.agentId());
 
                 if (response.dialogue() != null) {
                     var dialogueEvent = new io.casehub.examples.manor.model.ManorEvent(
@@ -83,13 +81,19 @@ public final class CharacterAgentLoop {
                     dispatcher.publishAside(asideEvent, response.aside());
                 }
 
-                if (response.action() != null &&
-                    response.action().type() != ActionType.WAIT) {
+                if (response.action() != null && response.action().type() != ActionType.WAIT) {
                     var pending = new PendingAction(character, response.action());
                     actionQueue.put(pending);
-                    pending.awaitResult();
+                    pending.awaitResult(60);
                 } else {
                     character.setLastActionResult("You waited and observed.");
+                }
+
+                if (experienceService != null) {
+                    String desc = (response.dialogue() != null ? response.dialogue() + " " : "")
+                                  + (response.action() != null ? response.action().type() + " " + response.action().target() : "WAIT");
+                    experienceService.ingest(character.agentId(), character.currentRoom(),
+                                             desc.strip(), response.thinking());
                 }
 
                 Thread.sleep((long) (character.thinkDelayMs() / world.speedMultiplier()));
@@ -100,35 +104,8 @@ public final class CharacterAgentLoop {
                 log.errorf(e, "%s: loop error", character.agentId());
                 break;
             }
-        }}
-
-    private AgentResponse callAgentWithRetry(
-            AgentProvider agentProvider, String systemPrompt,
-            String userPrompt, CharacterState character) {
-        for (int attempt = 0; attempt < 2; attempt++) {
-            try {
-                String text = agentProvider.invoke(
-                        AgentSessionConfig.of(systemPrompt, userPrompt,
-                            Duration.ofSeconds(60)))
-                    .filter(e -> e instanceof AgentEvent.TextDelta)
-                    .map(e -> ((AgentEvent.TextDelta) e).text())
-                    .collect().with(Collectors.joining())
-                    .await().atMost(Duration.ofSeconds(120));
-                return AgentResponse.parse(text);
-            } catch (Exception e) {
-                log.warnf("%s: LLM call failed (attempt %d): %s",
-                    character.agentId(), attempt + 1, e.getMessage());
-                if (attempt == 0) {
-                    try { Thread.sleep(character.thinkDelayMs()); }
-                    catch (InterruptedException ie) {
-                        Thread.currentThread().interrupt();
-                        return AgentResponse.idle();
-                    }
-                }
-            }
         }
-        log.warnf("%s: falling back to idle action", character.agentId());
-        return AgentResponse.idle();
     }
+
 
 }

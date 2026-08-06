@@ -10,59 +10,62 @@ import io.casehub.examples.manor.engine.WorldState;
 import io.casehub.examples.manor.model.ActionType;
 import io.casehub.examples.manor.model.CompletionReason;
 import io.casehub.examples.manor.model.ProfileMode;
-import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentProvider;
-import io.casehub.platform.agent.AgentSessionConfig;
 import org.jboss.logging.Logger;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class AutonomousScenarioRunner {
 
     private static final Logger log = Logger.getLogger(AutonomousScenarioRunner.class);
-    private static final List<String> CHARACTER_ORDER = List.of(
+    private static final List<String> DEFAULT_CHARACTER_ORDER = List.of(
             "penelope-pitstop", "hooded-claw", "ant-hill-mob",
             "dick-dastardly", "peter-perfect");
 
-    private final AgentProvider agentProvider;
+    private final io.casehub.examples.manor.agent.AgentInvocationService invocationService;
+    private final io.casehub.examples.manor.agent.AgentExperienceService experienceService;
     private final String modelIdentifier;
     private final String gitCommitHash;
 
-    public AutonomousScenarioRunner(AgentProvider agentProvider,
+    public AutonomousScenarioRunner(io.casehub.examples.manor.agent.AgentInvocationService invocationService,
+                                     io.casehub.examples.manor.agent.AgentExperienceService experienceService,
                                      String modelIdentifier,
                                      String gitCommitHash) {
-        this.agentProvider = agentProvider;
+        this.invocationService = invocationService;
+        this.experienceService = experienceService;
         this.modelIdentifier = modelIdentifier;
         this.gitCommitHash = gitCommitHash;
     }
 
     public TranscriptRecorder.RunResult run(WorldState world,
-                                             ProfileMode profile,
-                                             int runNumber,
-                                             Map<String, List<AgentGoal>> goalsByAgent,
-                                             int maxTurns,
-                                             Function<String, String> promptRenderer) {
-        var recorder = new TranscriptRecorder(modelIdentifier, gitCommitHash);
-        var resolver = new ActionResolver();
-        long startMs = System.currentTimeMillis();
-        int turnCount = 0;
+                                            ProfileMode profile,
+                                            int runNumber,
+                                            Map<String, List<AgentGoal>> goalsByAgent,
+                                            int maxTurns,
+                                            Function<String, String> promptRenderer,
+                                            List<String> characterOrder) {
+        var  characters = characterOrder != null ? characterOrder : DEFAULT_CHARACTER_ORDER;
+        var  recorder   = new TranscriptRecorder(modelIdentifier, gitCommitHash);
+        var  resolver   = new ActionResolver();
+        long startMs    = System.currentTimeMillis();
+        int  turnCount  = 0;
 
         while (!world.isScenarioComplete() && turnCount < maxTurns) {
             turnCount++;
-            for (String agentId : CHARACTER_ORDER) {
+            for (String agentId : characters) {
                 var character = world.character(agentId);
-                if (character == null || world.isScenarioComplete()) break;
+                if (character == null || world.isScenarioComplete()) {break;}
 
                 var goals = goalsByAgent.getOrDefault(agentId, List.of());
-                String observation = ObservationBuilder.buildObservation(character, world, goals, new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(io.casehub.blocks.summarisation.observation.ObservationResult.empty(0), java.util.Map.of()))
-                        + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
+                String observation = ObservationBuilder.buildObservation(character, world, goals,
+                                                                         new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(
+                                                                                 io.casehub.blocks.summarisation.observation.ObservationResult.empty(0),
+                                                                                 java.util.Map.of()))
+                                     + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
                 String systemPrompt = promptRenderer.apply(agentId);
 
-                AgentResponse response = callAgentWithRetry(systemPrompt, observation, agentId);
+                AgentResponse response = invocationService.invoke(systemPrompt, observation, agentId);
 
                 if (response.dialogue() != null) {
                     recorder.record(new TranscriptRecorder.Event(
@@ -101,6 +104,12 @@ public class AutonomousScenarioRunner {
                             null, null, null, "You waited and observed."));
                 }
 
+                if (experienceService != null) {
+                    String desc = (response.dialogue() != null ? response.dialogue() + " " : "")
+                                  + (response.action() != null ? response.action().type() + " " + response.action().target() : "WAIT");
+                    experienceService.ingest(agentId, character.currentRoom(), desc.strip(), response.thinking());
+                }
+
                 if (world.hasEffect("tea-service", "rat-poison")) {
                     world.setScenarioComplete(CompletionReason.POISONED);
                 }
@@ -113,33 +122,7 @@ public class AutonomousScenarioRunner {
 
         long durationMs = System.currentTimeMillis() - startMs;
         return recorder.toRunResult(profile, runNumber,
-                world.completionReason(), turnCount, durationMs);
+                                    world.completionReason(), turnCount, durationMs);
     }
 
-    private AgentResponse callAgentWithRetry(String systemPrompt,
-                                              String userPrompt,
-                                              String agentId) {
-        for (int attempt = 0; attempt < 2; attempt++) {
-            try {
-                String text = agentProvider.invoke(
-                                AgentSessionConfig.of(systemPrompt, userPrompt,
-                                        Duration.ofSeconds(60)))
-                        .filter(e -> e instanceof AgentEvent.TextDelta)
-                        .map(e -> ((AgentEvent.TextDelta) e).text())
-                        .collect().with(Collectors.joining())
-                        .await().atMost(Duration.ofSeconds(120));
-                return AgentResponse.parse(text);
-            } catch (Exception e) {
-                log.warnf("%s: LLM call failed (attempt %d): %s",
-                        agentId, attempt + 1, e.getMessage());
-                if (attempt == 0) {
-                    try { Thread.sleep(2000); } catch (InterruptedException ie) {
-                        Thread.currentThread().interrupt();
-                    }
-                }
-            }
-        }
-        log.warnf("%s: falling back to idle action", agentId);
-        return AgentResponse.idle();
-    }
 }

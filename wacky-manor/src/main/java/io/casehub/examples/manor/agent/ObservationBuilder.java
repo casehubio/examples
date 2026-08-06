@@ -15,6 +15,13 @@ public final class ObservationBuilder {
     public static String buildObservation(CharacterState character, WorldState world,
                                           java.util.List<io.casehub.eidos.api.AgentGoal> goals,
                                           io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain) {
+        return buildObservation(character, world, goals, drain, java.util.List.of());
+    }
+
+    public static String buildObservation(CharacterState character, WorldState world,
+                                          java.util.List<io.casehub.eidos.api.AgentGoal> goals,
+                                          io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain,
+                                          java.util.List<io.casehub.neocortex.memory.Memory> memories) {
         Room room     = world.room(character.currentRoom());
         var  sections = new java.util.ArrayList<io.casehub.blocks.summarisation.observation.affordance.ObservationSection>();
 
@@ -28,10 +35,14 @@ public final class ObservationBuilder {
         if (!drain.rememberedPartitions().isEmpty()) {
             sections.add(rememberedSection(drain, world));
         }
+        if (memories != null && !memories.isEmpty()) {
+            sections.add(pastExperienceSection(memories));
+        }
         sections.add(lastActionResultSection(character));
 
         return RENDERER.renderObservation(sections);
     }
+
 
     private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection locationSection(Room room) {
         return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.text(
@@ -158,6 +169,16 @@ public final class ObservationBuilder {
         return minutes + " minute" + (minutes == 1 ? "" : "s");
     }
 
+
+    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection pastExperienceSection(
+            java.util.List<io.casehub.neocortex.memory.Memory> memories) {
+        var items = memories.stream()
+                            .map(io.casehub.neocortex.memory.Memory::text)
+                            .filter(t -> t != null && !t.isBlank())
+                            .toList();
+        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
+                "Past Experience", null, items);
+    }
 
     private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection lastActionResultSection(
             CharacterState character) {
