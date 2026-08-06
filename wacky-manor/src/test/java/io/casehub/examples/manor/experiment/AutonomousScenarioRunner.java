@@ -46,13 +46,15 @@ public class AutonomousScenarioRunner {
                                             Function<String, String> promptRenderer,
                                             List<String> characterOrder) {
         var  characters = characterOrder != null ? characterOrder : DEFAULT_CHARACTER_ORDER;
-        var  recorder   = new TranscriptRecorder(modelIdentifier, gitCommitHash);
-        var  resolver   = new ActionResolver();
-        long startMs    = System.currentTimeMillis();
-        int  turnCount  = 0;
+        var  recorder       = new TranscriptRecorder(modelIdentifier, gitCommitHash);
+        var  resolver       = new ActionResolver();
+        var  turnLatencies  = new java.util.ArrayList<Long>();
+        long startMs        = System.currentTimeMillis();
+        int  turnCount      = 0;
 
         while (!world.isScenarioComplete() && turnCount < maxTurns) {
             turnCount++;
+            long turnStart = System.currentTimeMillis();
             for (String agentId : characters) {
                 var character = world.character(agentId);
                 if (character == null || world.isScenarioComplete()) {break;}
@@ -114,6 +116,7 @@ public class AutonomousScenarioRunner {
                     world.setScenarioComplete(CompletionReason.POISONED);
                 }
             }
+            turnLatencies.add(System.currentTimeMillis() - turnStart);
         }
 
         if (!world.isScenarioComplete()) {
@@ -121,8 +124,12 @@ public class AutonomousScenarioRunner {
         }
 
         long durationMs = System.currentTimeMillis() - startMs;
+        lastTurnLatencies = turnLatencies.stream().mapToLong(Long::longValue).toArray();
         return recorder.toRunResult(profile, runNumber,
                                     world.completionReason(), turnCount, durationMs);
     }
+
+    public long[] lastTurnLatencies() { return lastTurnLatencies; }
+    private long[] lastTurnLatencies = new long[0];
 
 }
