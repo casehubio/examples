@@ -55,7 +55,7 @@ class ScaleTest {
 
     @Test
     void tenAgents200Turns() throws Exception {
-        var invocationService = new AgentInvocationService(agentProvider, 5, 60, 2, 2000);
+        var invocationService = new AgentInvocationService(agentProvider, 60, 2, 2000);
 
         var runner = new AutonomousScenarioRunner(
             invocationService, null, resolveModelId(), resolveGitHash());

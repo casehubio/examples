@@ -56,6 +56,9 @@ public class ScenarioOrchestrator {
     int narratorTimerSeconds;
     @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.scenario.active-characters", defaultValue = "")
     java.util.Optional<String> activeCharactersConfig;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.agent.max-concurrent", defaultValue = "5")
+    int                        maxConcurrentAgents;
+    private volatile AgentProvider gatedProvider;
 
 
     public Thread startScenario(WorldState world, io.casehub.examples.manor.model.ScenarioMode mode) {
@@ -80,8 +83,10 @@ public class ScenarioOrchestrator {
         webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scenario("started"));
         webEventBus.broadcast(webEventBus.buildSnapshot(world));
 
+        this.gatedProvider = new GatedAgentProvider(agentProvider, maxConcurrentAgents, java.time.Duration.ofSeconds(120));
+
         var compactor          = new MechanicalCompactor();
-        var summariser         = new ManorLlmSummariser(agentProvider);
+        var summariser         = new ManorLlmSummariser(gatedProvider);
         var obsRenderer        = new ManorObservationRenderer(compactor, verbatimThreshold, groupedThreshold, summariser);
         var observationService = new ObservationService(obsRenderer);
         observationService.init(world);
@@ -89,7 +94,7 @@ public class ScenarioOrchestrator {
         NarratorAgent narratorAgent = null;
         if (narratorEnabled && mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
             narratorAgent = new NarratorAgent(
-                    compactor, agentProvider, manorChannels, webEventBus,
+                    compactor, gatedProvider, manorChannels, webEventBus,
                     narratorEventThreshold, narratorTimerSeconds);
             narratorAgent.start(world);
         }
@@ -110,7 +115,7 @@ public class ScenarioOrchestrator {
             }
         }
 
-        var invocationService = new AgentInvocationService(agentProvider, 0, 60, 2, 2000);
+        var invocationService = new AgentInvocationService(gatedProvider, 60, 2, 2000);
 
         if (mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
             runAutonomousTicks(world, activeSet, actionResolver, dispatcher, invocationService, narratorAgent);
@@ -165,35 +170,28 @@ public class ScenarioOrchestrator {
             if (actingThisTick.isEmpty()) continue;
 
             var responses = new java.util.concurrent.ConcurrentHashMap<String, AgentResponse>();
-            int batchSize = 3;
-            for (int batchStart = 0; batchStart < actingThisTick.size(); batchStart += batchSize) {
-                var batch = actingThisTick.subList(batchStart,
-                        Math.min(batchStart + batchSize, actingThisTick.size()));
-                var latch = new java.util.concurrent.CountDownLatch(batch.size());
-                for (var c : batch) {
-                    Thread.ofVirtual().name(c.agentId() + "-tick-" + currentTick).start(() -> {
-                        try {
-                            var drain = dispatcher.observationService().drain(c.agentId(), System.currentTimeMillis());
-                            String observation = ObservationBuilder.buildObservation(
-                                    c, world, resolveGoals(c.agentId()), drain);
-                            String userPrompt = observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
-                            String systemPrompt = renderPrompt(c.agentId());
-                            responses.put(c.agentId(), invocationService.invoke(systemPrompt, userPrompt, c.agentId()));
-                        } catch (Exception e) {
-                            log.errorf(e, "%s: tick %d error", c.agentId(), currentTick);
-                            responses.put(c.agentId(), AgentResponse.idle());
-                        } finally {
-                            latch.countDown();
-                        }
-                    });
-                }
-                try { latch.await(); } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt(); return;
-                }
-                log.infof("Tick %d batch %d/%d complete (%d agents)",
-                        currentTick, (batchStart / batchSize) + 1,
-                        (actingThisTick.size() + batchSize - 1) / batchSize, batch.size());
+            var latch = new java.util.concurrent.CountDownLatch(actingThisTick.size());
+            for (var c : actingThisTick) {
+                Thread.ofVirtual().name(c.agentId() + "-tick-" + currentTick).start(() -> {
+                    try {
+                        var drain = dispatcher.observationService().drain(c.agentId(), System.currentTimeMillis());
+                        String observation = ObservationBuilder.buildObservation(
+                                c, world, resolveGoals(c.agentId()), drain);
+                        String userPrompt = observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
+                        String systemPrompt = renderPrompt(c.agentId());
+                        responses.put(c.agentId(), invocationService.invoke(systemPrompt, userPrompt, c.agentId()));
+                    } catch (Exception e) {
+                        log.errorf(e, "%s: tick %d error", c.agentId(), currentTick);
+                        responses.put(c.agentId(), AgentResponse.idle());
+                    } finally {
+                        latch.countDown();
+                    }
+                });
             }
+            try { latch.await(); } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); return;
+            }
+            log.infof("Tick %d complete (%d agents)", currentTick, actingThisTick.size());
 
             for (var c : actingThisTick) {
                 var response = responses.get(c.agentId());
@@ -330,7 +328,7 @@ public class ScenarioOrchestrator {
     private String callAgentForScene(String characterId, String prompt) {
         String systemPrompt = renderPrompt(characterId);
         try {
-            return agentProvider.invoke(
+            return gatedProvider.invoke(
                                         AgentSessionConfig.of(systemPrompt, prompt))
                                 .filter(e -> e instanceof AgentEvent.TextDelta)
                                 .map(e -> ((AgentEvent.TextDelta) e).text())

@@ -50,7 +50,7 @@ class AutonomousScenarioRunnerTest {
             @Override public AgentSession openSession(AgentSessionInit init) { throw new UnsupportedOperationException(); }
         };
 
-        var invocation = new io.casehub.examples.manor.agent.AgentInvocationService(stubProvider, 5, 60, 2, 100);
+        var invocation = new io.casehub.examples.manor.agent.AgentInvocationService(stubProvider, 60, 2, 100);
         var runner = new AutonomousScenarioRunner(invocation, null, "test-model", "test-hash");
         var world = MansionLoader.loadWorld();
 
@@ -74,7 +74,7 @@ class AutonomousScenarioRunnerTest {
             @Override public AgentSession openSession(AgentSessionInit init) { throw new UnsupportedOperationException(); }
         };
 
-        var invocation = new io.casehub.examples.manor.agent.AgentInvocationService(stubProvider, 5, 60, 2, 100);
+        var invocation = new io.casehub.examples.manor.agent.AgentInvocationService(stubProvider, 60, 2, 100);
         var runner = new AutonomousScenarioRunner(invocation, null, "test-model", "test-hash");
         var world = MansionLoader.loadWorld();
 
@@ -94,7 +94,7 @@ class AutonomousScenarioRunnerTest {
             @Override public AgentSession openSession(AgentSessionInit init) { throw new UnsupportedOperationException(); }
         };
 
-        var invocation = new io.casehub.examples.manor.agent.AgentInvocationService(stubProvider, 5, 60, 2, 100);
+        var invocation = new io.casehub.examples.manor.agent.AgentInvocationService(stubProvider, 60, 2, 100);
         var runner = new AutonomousScenarioRunner(invocation, null, "test-model", "test-hash");
         var world = MansionLoader.loadWorld();
 

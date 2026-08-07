@@ -25,7 +25,7 @@ public class AgentInvocationService {
     private final AtomicLong totalLatencyMs = new AtomicLong();
 
     public AgentInvocationService(AgentProvider agentProvider,
-                                   int maxConcurrent, int timeoutSeconds,
+                                  int timeoutSeconds,
                                    int maxRetries, long baseRetryDelayMs) {
         this.agentProvider = agentProvider;
         this.timeoutSeconds = timeoutSeconds;

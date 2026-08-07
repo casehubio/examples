@@ -40,7 +40,7 @@ class AgentInvocationServiceTest {
             public AgentSession openSession(AgentSessionInit init) {throw new UnsupportedOperationException();}
         };
 
-        var service = new AgentInvocationService(slowProvider, 0, 60, 2, 100);
+        var service = new AgentInvocationService(slowProvider, 60, 2, 100);
         int agents  = 6;
         var barrier = new CyclicBarrier(agents);
         var threads = new java.util.ArrayList<Thread>();
@@ -72,7 +72,7 @@ class AgentInvocationServiceTest {
             @Override public AgentSession openSession(AgentSessionInit init) { throw new UnsupportedOperationException(); }
         };
 
-        var service = new AgentInvocationService(failThenSucceed, 5, 60, 2, 50);
+        var service = new AgentInvocationService(failThenSucceed, 60, 2, 50);
         AgentResponse response = service.invoke("system", "user", "test-agent");
 
         assertThat(response).isNotNull();
@@ -89,7 +89,7 @@ class AgentInvocationServiceTest {
             @Override public AgentSession openSession(AgentSessionInit init) { throw new UnsupportedOperationException(); }
         };
 
-        var service = new AgentInvocationService(alwaysFails, 5, 60, 2, 50);
+        var service = new AgentInvocationService(alwaysFails, 60, 2, 50);
         AgentResponse response = service.invoke("system", "user", "test-agent");
 
         assertThat(response).isNotNull();
@@ -100,7 +100,7 @@ class AgentInvocationServiceTest {
     @Test
     void parsesValidJsonResponse() {
         String json = "{\"thinking\":\"hmm\",\"dialogue\":\"Hello!\",\"action\":{\"type\":\"MOVE\",\"target\":\"kitchen\"}}";
-        var service = new AgentInvocationService(stubProvider(json), 5, 60, 2, 100);
+        var service = new AgentInvocationService(stubProvider(json), 60, 2, 100);
 
         AgentResponse response = service.invoke("system", "user", "test-agent");
 
@@ -112,7 +112,7 @@ class AgentInvocationServiceTest {
 
     @Test
     void metricsTrackLatency() {
-        var service = new AgentInvocationService(stubProvider(WAIT_JSON), 5, 60, 2, 100);
+        var service = new AgentInvocationService(stubProvider(WAIT_JSON), 60, 2, 100);
         service.invoke("system", "user", "agent-1");
         service.invoke("system", "user", "agent-2");
 
