@@ -17,17 +17,12 @@ class TriggerEvaluatorTest {
     }
 
     @Test
-    void poison_revealed_when_hooded_claw_enters_kitchen() {
-        assertThat(world.visibleObjects("kitchen", "penelope-pitstop"))
-            .noneMatch(o -> o.id().equals("poison"));
-
+    void narrator_event_fires_when_hooded_claw_enters_kitchen() {
         world.moveCharacter("hooded-claw", "kitchen");
         var result = evaluator.evaluate(world);
 
         assertThat(result.narratorEvents()).hasSize(1);
         assertThat(result.narratorEvents().get(0)).contains("DIABOLICAL");
-        assertThat(world.visibleObjects("kitchen", "hooded-claw"))
-            .anyMatch(o -> o.id().equals("poison"));
     }
 
     @Test

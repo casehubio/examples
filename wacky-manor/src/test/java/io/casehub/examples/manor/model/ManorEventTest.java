@@ -34,4 +34,25 @@ class ManorEventTest {
                 "Penelope walked into the Kitchen.", ActionType.MOVE, "kitchen", null, "entrance-hall");
         assertThat(event.departureRoom()).isEqualTo("entrance-hall");
     }
+
+    @Test
+    void detailedDescription_null_by_default() {
+        var event = new ManorEvent(Instant.now(), "action", "hooded-claw", "kitchen",
+                                   "Sneekly picked up something.", ActionType.TAKE, "poison", null, null);
+        assertThat(event.detailedDescription()).isNull();
+    }
+
+    @Test
+    void detailedDescription_carried_when_set() {
+        var event = new ManorEvent(Instant.now(), "action", "hooded-claw", "kitchen",
+                                   "Sneekly picked up something.", ActionType.TAKE, "poison", null, null,
+                                   "Sneekly carefully pocketed the rat poison.");
+        assertThat(event.detailedDescription()).isEqualTo("Sneekly carefully pocketed the rat poison.");
+    }
+
+    @Test
+    void dialogueTarget_null_by_default() {
+        var event = new ManorEvent(Instant.now(), "dialogue", "hc", "hall", "Hello");
+        assertThat(event.dialogueTarget()).isNull();
+    }
 }

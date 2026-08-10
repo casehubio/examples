@@ -41,7 +41,7 @@ class NarratorIntegrationTest {
 
         boolean received = latch.await(120, TimeUnit.SECONDS);
         world.setScenarioComplete(
-                io.casehub.examples.manor.model.CompletionReason.TURN_LIMIT);
+                io.casehub.examples.manor.model.CompletionReason.DAWN);
         scenarioThread.join(Duration.ofSeconds(30));
 
         assertThat(received)

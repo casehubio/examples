@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.casehub.examples.manor.model.Action;
 import io.casehub.examples.manor.model.ActionType;
-import io.casehub.examples.manor.model.CharacterState;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,8 +12,14 @@ import java.util.regex.Pattern;
 public record AgentResponse(
         String thinking,
         String dialogue,
+        String talkTo,
         String aside,
-        Action action) {
+        Action action,
+        java.util.List<GoalEntry> newGoals,
+        java.util.List<String> dropGoals) {
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public record GoalEntry(String name, String description) {}
 
     private static final ObjectMapper JSON = new ObjectMapper();
     private static final Pattern CODE_BLOCK = Pattern.compile("```(?:json)?\\s*\\n?(\\{.*?})\\s*```", Pattern.DOTALL);
@@ -24,14 +29,14 @@ public record AgentResponse(
             String json = extractJson(text);
             return JSON.readValue(json, AgentResponse.class);
         } catch (Exception e) {
+            System.getLogger(AgentResponse.class.getName()).log(System.Logger.Level.WARNING, "Failed to parse agent response: " + e.getMessage());
             return idle();
         }
     }
 
     public static AgentResponse idle() {
-        return new AgentResponse(null, null, null,
-            new Action(ActionType.WAIT, null, null));
-    }
+        return new AgentResponse(null, null, null, null,
+                                 new Action(ActionType.WAIT, null, null), null, null);}
 
     private static String extractJson(String text) {
         text = text.strip();

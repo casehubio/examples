@@ -55,6 +55,13 @@ public final class ObservationService {
                 if ("aside".equals(event.type()) && !charId.equals(event.characterId())) {
                     continue;
                 }
+                if (event.concealed() && !charId.equals(event.characterId())) {
+                    boolean isVictim      = charId.equals(event.target());
+                    boolean hasPerception = character.capabilityTags().contains("perception");
+                    if (!isVictim && !hasPerception) {
+                        continue;
+                    }
+                }
                 result.put(charId, java.util.Set.of(charRoom));
             } else if (event.actionType() == ActionType.MOVE
                        && event.departureRoom() != null
@@ -63,6 +70,5 @@ public final class ObservationService {
                 result.put(charId, java.util.Set.of(charRoom));
             }
         }
-        return result;
-    }
+        return result;}
 }

@@ -47,11 +47,11 @@ class ObservationBuilderTest {
     }
 
     @Test
-    void penelope_does_not_see_poison() {
+    void penelope_sees_poison_when_in_kitchen() {
         world.moveCharacter("penelope-pitstop", "kitchen");
         var obs = ObservationBuilder.buildObservation(
                 world.character("penelope-pitstop"), world, java.util.List.of(), emptyDrain);
-        assertThat(obs).doesNotContain("Rat Poison");
+        assertThat(obs).contains("Rat Poison");
     }
 
     @Test
@@ -197,4 +197,98 @@ class ObservationBuilderTest {
     }
 
 
+    @Test
+    void observation_accepts_capability_tags() {
+        var tags = java.util.Set.of("perception", "villain");
+        var obs = ObservationBuilder.buildObservation(
+                world.character("hooded-claw"), world, java.util.List.of(), emptyDrain,
+                java.util.List.of(), tags);
+        assertThat(obs).contains("== Current Location ==");
+        assertThat(obs).contains("Entrance Hall");
+    }
+
+    @Test
+    void perceptive_observer_sees_keen_observations() {
+        world.addEvent(new io.casehub.examples.manor.model.ManorEvent(
+                java.time.Instant.now(), "action", "hooded-claw", "entrance-hall",
+                "The Hooded Claw picked up something.",
+                io.casehub.examples.manor.model.ActionType.TAKE, "poison", null, null,
+                "The Hooded Claw picked up the poison."));
+        var tags = java.util.Set.of("perception");
+        var obs = ObservationBuilder.buildObservation(
+                world.character("penelope-pitstop"), world, java.util.List.of(), emptyDrain,
+                java.util.List.of(), tags);
+        assertThat(obs).contains("== Keen Observations ==");
+        assertThat(obs).contains("The Hooded Claw picked up the poison.");
+    }
+
+    @Test
+    void non_perceptive_observer_has_no_keen_observations() {
+        world.addEvent(new io.casehub.examples.manor.model.ManorEvent(
+                java.time.Instant.now(), "action", "hooded-claw", "entrance-hall",
+                "The Hooded Claw picked up something.",
+                io.casehub.examples.manor.model.ActionType.TAKE, "poison", null, null,
+                "The Hooded Claw picked up the poison."));
+        var obs = ObservationBuilder.buildObservation(
+                world.character("penelope-pitstop"), world, java.util.List.of(), emptyDrain,
+                java.util.List.of(), java.util.Set.of());
+        assertThat(obs).doesNotContain("Keen Observations");
+        assertThat(obs).doesNotContain("picked up the poison");
+    }
+
+    @Test
+    void observation_includes_current_plan_when_set() {
+        var character = world.character("hooded-claw");
+        character.setCurrentPlan("Step 1: find the poison. Step 2: poison the tea.");
+        var obs = ObservationBuilder.buildObservation(character, world, java.util.List.of(), emptyDrain, java.util.List.of(), character.capabilityTags());
+        assertThat(obs).contains("== Your Current Plan ==");
+        assertThat(obs).contains("Step 1: find the poison");
+    }
+
+    @Test
+    void observation_omits_plan_section_when_null() {
+        var character = world.character("hooded-claw");
+        var obs       = ObservationBuilder.buildObservation(character, world, java.util.List.of(), emptyDrain, java.util.List.of(), character.capabilityTags());
+        assertThat(obs).doesNotContain("Your Current Plan");
+    }
+
+    @Test
+    void goals_section_renders_dynamic_goals_with_situational_prefix() {
+        var character = world.character("penelope-pitstop");
+        character.addDynamicGoal(new io.casehub.examples.manor.model.DynamicGoal("protect-tea", "Stop Sneekly from poisoning the tea", 1));
+        var goals = java.util.List.of(new io.casehub.eidos.api.AgentGoal("find-diamond", "Find the Doily Diamond", io.casehub.eidos.api.GoalPriority.PRIMARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of()));
+        var obs   = ObservationBuilder.buildObservation(character, world, goals, emptyDrain, java.util.List.of(), java.util.Set.of());
+        assertThat(obs).contains("[PRIMARY] Find the Doily Diamond");
+        assertThat(obs).contains("[SITUATIONAL] Stop Sneekly from poisoning the tea");
+    }
+
+    @Test
+    void goals_section_identity_goals_before_situational() {
+        var character = world.character("penelope-pitstop");
+        character.addDynamicGoal(new io.casehub.examples.manor.model.DynamicGoal("protect-tea", "Stop the poison", 1));
+        var goals          = java.util.List.of(new io.casehub.eidos.api.AgentGoal("find-diamond", "Find the Diamond", io.casehub.eidos.api.GoalPriority.PRIMARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of()));
+        var obs            = ObservationBuilder.buildObservation(character, world, goals, emptyDrain, java.util.List.of(), java.util.Set.of());
+        int primaryIdx     = obs.indexOf("[PRIMARY]");
+        int situationalIdx = obs.indexOf("[SITUATIONAL]");
+        assertThat(primaryIdx).isLessThan(situationalIdx);
+    }
+
+    @Test
+    void exchange_observation_includes_room_and_dialogue_only() {
+        var obs = ObservationBuilder.buildExchangeObservation(
+                world.character("hooded-claw"), "What do you need, boss?", world);
+        assertThat(obs).contains("Entrance Hall");
+        assertThat(obs).contains("What do you need, boss?");
+        assertThat(obs).doesNotContain("== Visible Objects ==");
+        assertThat(obs).doesNotContain("== Exits ==");
+    }
+
+    @Test
+    void exchange_observation_includes_current_plan() {
+        var character = world.character("hooded-claw");
+        character.setCurrentPlan("Get Muttley to fetch the key.");
+        var obs = ObservationBuilder.buildExchangeObservation(character, "Hehehehe!", world);
+        assertThat(obs).contains("Your Current Plan");
+        assertThat(obs).contains("Get Muttley to fetch the key.");
+    }
 }

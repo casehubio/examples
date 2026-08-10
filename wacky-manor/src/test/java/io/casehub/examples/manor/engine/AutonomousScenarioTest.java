@@ -81,12 +81,12 @@ class AutonomousScenarioTest {
                 new Action(ActionType.LOOK, null, null), world);
             turnCount++;
             if (turnCount >= maxTurns) {
-                world.setScenarioComplete(CompletionReason.TURN_LIMIT);
+                world.setScenarioComplete(CompletionReason.DAWN);
             }
         }
 
         assertThat(world.isScenarioComplete()).isTrue();
-        assertThat(world.completionReason()).isEqualTo(CompletionReason.TURN_LIMIT);
+        assertThat(world.completionReason()).isEqualTo(CompletionReason.DAWN);
     }
 
     @Test
@@ -99,8 +99,8 @@ class AutonomousScenarioTest {
 
         assertThat(world.hasEffect("tea-service", "rat-poison")).isTrue();
 
-        world.setScenarioComplete(CompletionReason.POISONED);
-        assertThat(world.completionReason()).isEqualTo(CompletionReason.POISONED);
+        world.setScenarioComplete(CompletionReason.DAWN);
+        assertThat(world.completionReason()).isEqualTo(CompletionReason.DAWN);
     }
 
     @Test

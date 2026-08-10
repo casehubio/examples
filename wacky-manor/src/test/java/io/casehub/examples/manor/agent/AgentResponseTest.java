@@ -87,4 +87,45 @@ class AgentResponseTest {
         assertThat(response.dialogue()).isNull();
         assertThat(response.aside()).isNull();
     }
+
+    @Test
+    void parse_includes_talkTo_field() {
+        var json = """
+                   {"thinking":"plan","dialogue":"hello","talkTo":"peter-perfect","aside":null,"action":{"type":"WAIT"}}""";
+        var response = AgentResponse.parse(json);
+        assertThat(response.talkTo()).isEqualTo("peter-perfect");
+    }
+
+    @Test
+    void parse_talkTo_null_when_absent() {
+        var json = """
+                   {"thinking":"plan","dialogue":"hello","action":{"type":"WAIT"}}""";
+        var response = AgentResponse.parse(json);
+        assertThat(response.talkTo()).isNull();
+    }
+
+    @Test
+    void parse_includes_newGoals() {
+        var json = """
+                   {"thinking":"t","action":{"type":"WAIT"},"newGoals":[{"name":"protect-tea","description":"Stop the poison"}]}""";
+        var response = AgentResponse.parse(json);
+        assertThat(response.newGoals()).hasSize(1);
+        assertThat(response.newGoals().get(0).name()).isEqualTo("protect-tea");
+    }
+
+    @Test
+    void parse_includes_dropGoals() {
+        var json = """
+                   {"thinking":"t","action":{"type":"WAIT"},"dropGoals":["old-goal"]}""";
+        var response = AgentResponse.parse(json);
+        assertThat(response.dropGoals()).containsExactly("old-goal");
+    }
+
+    @Test
+    void idle_has_null_for_new_fields() {
+        var response = AgentResponse.idle();
+        assertThat(response.talkTo()).isNull();
+        assertThat(response.newGoals()).isNull();
+        assertThat(response.dropGoals()).isNull();
+    }
 }

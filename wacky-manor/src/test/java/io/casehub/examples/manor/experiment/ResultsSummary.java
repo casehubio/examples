@@ -78,8 +78,8 @@ public final class ResultsSummary {
         var runsB = grouped.getOrDefault(b, List.of());
         double avgA = runsA.stream().mapToInt(TranscriptRecorder.RunResult::totalTurns).average().orElse(0);
         double avgB = runsB.stream().mapToInt(TranscriptRecorder.RunResult::totalTurns).average().orElse(0);
-        long poisonedA = runsA.stream().filter(r -> r.verdict().name().equals("POISONED")).count();
-        long poisonedB = runsB.stream().filter(r -> r.verdict().name().equals("POISONED")).count();
+        long dawnA = runsA.stream().filter(r -> r.verdict().name().equals("DAWN")).count();
+        long dawnB = runsB.stream().filter(r -> r.verdict().name().equals("DAWN")).count();
 
         sb.append("**").append(label).append(":**\n");
         if (runsA.isEmpty() || runsB.isEmpty()) {
@@ -87,8 +87,8 @@ public final class ResultsSummary {
         } else {
             sb.append("- Avg turns: ").append(String.format("%.0f", avgA)).append(" vs ").append(String.format("%.0f", avgB));
             sb.append(" (delta: ").append(String.format("%+.0f", avgA - avgB)).append(")\n");
-            sb.append("- POISONED: ").append(poisonedA).append("/").append(runsA.size());
-            sb.append(" vs ").append(poisonedB).append("/").append(runsB.size()).append("\n\n");
+            sb.append("- DAWN: ").append(dawnA).append("/").append(runsA.size());
+            sb.append(" vs ").append(dawnB).append("/").append(runsB.size()).append("\n\n");
         }
     }
 }

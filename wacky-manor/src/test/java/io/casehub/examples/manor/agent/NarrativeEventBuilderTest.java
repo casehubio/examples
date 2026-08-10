@@ -78,4 +78,67 @@ class NarrativeEventBuilderTest {
             new ActionResult.Failed("Not portable."));
         assertThat(result).isNull();
     }
+
+    @Test
+    void take_rich_reveals_item_in_detailed() {
+        var result = NarrativeEventBuilder.describeRich(hc, new Action(ActionType.TAKE, "poison", null), new ActionResult.ItemReceived("rat-poison", "You picked up Rat Poison."));
+        assertThat(result).isNotNull();
+        assertThat(result.publicText()).isEqualTo("The Hooded Claw (as Sneekly) picked up something.");
+        assertThat(result.detailedText()).contains("poison");
+    }
+
+    @Test
+    void use_rich_reveals_applied_item() {
+        var result = NarrativeEventBuilder.describeRich(hc, new Action(ActionType.USE, "tea-service", "rat-poison"), new ActionResult.Success("ok"));
+        assertThat(result).isNotNull();
+        assertThat(result.publicText()).contains("fussed with");
+        assertThat(result.detailedText()).contains("rat-poison");
+    }
+
+    @Test
+    void move_rich_has_null_detailed() {
+        var result = NarrativeEventBuilder.describeRich(hc, new Action(ActionType.MOVE, "ballroom", null), new ActionResult.MovedToRoom("ballroom", "ok"));
+        assertThat(result).isNotNull();
+        assertThat(result.detailedText()).isNull();
+    }
+
+    @Test
+    void wait_rich_returns_null() {
+        var result = NarrativeEventBuilder.describeRich(hc, new Action(ActionType.WAIT, null, null), new ActionResult.Success("ok"));
+        assertThat(result).isNull();
+    }
+
+    @Test
+    void failed_rich_returns_null() {
+        var result = NarrativeEventBuilder.describeRich(hc, new Action(ActionType.TAKE, "x", null), new ActionResult.Failed("nope"));
+        assertThat(result).isNull();
+    }
+
+    @Test
+    void steal_public_is_vague() {
+        var result = NarrativeEventBuilder.describe(hc, new Action(ActionType.STEAL, "muttley", "brass-key"), new ActionResult.ItemReceived("brass-key", "ok"));
+        assertThat(result).contains("did something near");
+    }
+
+    @Test
+    void steal_rich_reveals_theft() {
+        var result = NarrativeEventBuilder.describeRich(hc, new Action(ActionType.STEAL, "muttley", "brass-key"), new ActionResult.ItemReceived("brass-key", "ok"));
+        assertThat(result).isNotNull();
+        assertThat(result.publicText()).contains("did something near");
+        assertThat(result.detailedText()).contains("brass-key");
+        assertThat(result.detailedText()).contains("muttley");
+    }
+
+    @Test
+    void directed_dialogue_public_is_vague() {
+        var desc = NarrativeEventBuilder.describeDirectedDialogue("Sneekly", "peter-perfect", "The cellar is safe.");
+        assertThat(desc.publicText()).contains("spoke quietly with");
+        assertThat(desc.publicText()).contains("peter-perfect");
+    }
+
+    @Test
+    void directed_dialogue_detailed_includes_content() {
+        var desc = NarrativeEventBuilder.describeDirectedDialogue("Sneekly", "peter-perfect", "The cellar is safe.");
+        assertThat(desc.detailedText()).contains("cellar is safe");
+    }
 }

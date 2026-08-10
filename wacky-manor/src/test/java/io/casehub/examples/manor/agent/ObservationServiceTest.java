@@ -127,4 +127,49 @@ class ObservationServiceTest {
         assertThat(drain.currentPartition().eventCount()).isZero();
         assertThat(drain.rememberedPartitions()).isEmpty();
     }
+
+    @Test
+    void concealed_event_hidden_from_non_perceptive_observer() {
+        var world = createWorld();
+        world.character("peter-perfect").setCapabilityTags(java.util.Set.of("social"));
+        var service = createService();
+        service.init(world);
+
+        var event = new ManorEvent(Instant.now(), "action", "hooded-claw", "entrance-hall",
+                                   "Sneekly did something.", ActionType.STEAL, "muttley", "brass-key", null, null, true);
+        service.publishEvent(event);
+
+        var drain = service.drain("peter-perfect", System.currentTimeMillis());
+        assertThat(drain.currentPartition().eventCount()).isZero();
+    }
+
+    @Test
+    void concealed_event_visible_to_perceptive_observer() {
+        var world = createWorld();
+        world.character("ant-hill-mob").setCapabilityTags(java.util.Set.of("perception", "protection"));
+        var service = createService();
+        service.init(world);
+
+        var event = new ManorEvent(Instant.now(), "action", "hooded-claw", "entrance-hall",
+                                   "Sneekly did something.", ActionType.STEAL, "muttley", "brass-key", null, null, true);
+        service.publishEvent(event);
+
+        var drain = service.drain("ant-hill-mob", System.currentTimeMillis());
+        assertThat(drain.currentPartition().eventCount()).isEqualTo(1);
+    }
+
+    @Test
+    void concealed_event_always_visible_to_victim() {
+        var world = createWorld();
+        world.character("muttley").setCapabilityTags(java.util.Set.of("motivation"));
+        var service = createService();
+        service.init(world);
+
+        var event = new ManorEvent(Instant.now(), "action", "hooded-claw", "entrance-hall",
+                                   "Sneekly did something.", ActionType.STEAL, "muttley", "brass-key", null, null, true);
+        service.publishEvent(event);
+
+        var drain = service.drain("muttley", System.currentTimeMillis());
+        assertThat(drain.currentPartition().eventCount()).isEqualTo(1);
+    }
 }

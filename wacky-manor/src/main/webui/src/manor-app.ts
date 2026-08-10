@@ -70,7 +70,7 @@ export class ManorApp extends LitElement {
     button:hover { background: #3a3a5a; }
     button:disabled { opacity: 0.4; cursor: not-allowed; }
     .manor-section {
-      padding: 8px;
+      padding: 4px 8px;
       border-bottom: 1px solid #333;
       background: #16162a;
       position: relative;
@@ -82,10 +82,11 @@ export class ManorApp extends LitElement {
       overflow: hidden;
     }
     .chat-columns {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
       flex: 1;
-      min-width: 0;
+      min-height: 0;
       overflow: hidden;
     }
     .transport { display: flex; align-items: center; gap: 4px; }
@@ -195,6 +196,13 @@ export class ManorApp extends LitElement {
     }
   }
 
+  private async stopScenario() {
+    const resp = await fetch('/manor/stop', { method: 'POST' });
+    if (resp.ok) {
+      this.scenarioStatus = 'completed';
+    }
+  }
+
   render() {
     return html`
       <div class="toolbar">
@@ -214,6 +222,7 @@ export class ManorApp extends LitElement {
                 `)}
               </div>
             </div>
+            <button @click=${this.stopScenario}>⏹ Stop</button>
           ` : ''}
           <button @click=${this.startScenario}
                   ?disabled=${this.scenarioStatus === 'running'}>

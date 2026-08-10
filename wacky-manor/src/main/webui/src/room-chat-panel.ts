@@ -12,8 +12,8 @@ export class RoomChatPanel extends LitElement {
     :host {
       display: flex;
       flex-direction: column;
-      width: calc(33.333% - 1px);
-      flex: 0 0 auto;
+      min-width: 0;
+      min-height: 0;
       border-right: 1px solid #333;
       border-bottom: 1px solid #333;
       overflow: hidden;

@@ -387,19 +387,21 @@ export class ManorView extends LitElement {
     .passage-line { stroke: #554433; stroke-width: 2; stroke-dasharray: 4 3; }
     .char-group { transition: transform 1.5s ease-in-out; }
     .char-name { font-size: 6px; text-anchor: middle; fill: #aaa; }
-    .object-dot { fill: #665; }
-    .object-label { fill: #555; font-size: 5.5px; text-anchor: middle; }
+    .object-dot { fill: #776; }
+    .object-list-label { fill: #667; font-size: 5.5px; text-anchor: start; }
     .title { fill: #daa520; font-size: 14px; font-weight: 700; text-anchor: middle; font-family: Georgia, serif; letter-spacing: 2px; }
     .subtitle { fill: #666; font-size: 8px; text-anchor: middle; font-style: italic; }
     .floor-line { stroke: #444; stroke-width: 2; }
   `;
 
   render() {
-    const w = 720, roomH = 100, rowGap = 20, topY = 5;
+    const w = 720, roomH = 80, rowGap = 14, topY = 3;
     const h = topY + 2 * roomH + rowGap + 20;
     const roomW = w / 3;
 
-    const charPositions = layoutCharacters(this.characters, roomW, roomH, rowGap, topY);
+    const objectCounts: Record<string, number> = {};
+    for (const room of this.rooms) { objectCounts[room.id] = room.objects.length; }
+    const charPositions = layoutCharacters(this.characters, roomW, roomH, rowGap, topY, objectCounts);
     const roomIds = Object.keys(ROOM_GRID);
 
     return html`
@@ -458,15 +460,14 @@ export class ManorView extends LitElement {
     `;
   }
 
-  private renderObjects(roomId: string, rx: number, roomY: number, roomW: number) {
+  private renderObjects(roomId: string, rx: number, roomY: number, _roomW: number) {
     const room = this.rooms.find(r => r.id === roomId);
-    if (!room) return nothing;
-    return room.objects.map(obj => {
-      const ox = rx + obj.x * (roomW - 20) + 10;
-      const oy = roomY + 30;
+    if (!room || room.objects.length === 0) return nothing;
+    return room.objects.map((obj, i) => {
+      const oy = roomY + 22 + i * 10;
       return svg`
-        <circle cx="${ox}" cy="${oy}" r="3" class="object-dot" />
-        <text x="${ox}" y="${oy + 12}" class="object-label">${obj.name.substring(0, 12)}</text>
+        <circle cx="${rx + 6}" cy="${oy - 2}" r="2" class="object-dot" />
+        <text x="${rx + 11}" y="${oy}" class="object-list-label">${obj.name.substring(0, 14)}</text>
       `;
     });
   }

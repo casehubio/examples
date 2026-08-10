@@ -60,12 +60,12 @@ class WorldStateTest {
     }
 
     @Test
-    void poison_visible_only_to_hooded_claw() {
+    void poison_visible_to_all_characters() {
         var hcVisible = world.visibleObjects("kitchen", "hooded-claw");
         assertThat(hcVisible).anyMatch(o -> o.id().equals("poison"));
 
         var penelopeVisible = world.visibleObjects("kitchen", "penelope-pitstop");
-        assertThat(penelopeVisible).noneMatch(o -> o.id().equals("poison"));
+        assertThat(penelopeVisible).anyMatch(o -> o.id().equals("poison"));
     }
 
     @Test
@@ -184,10 +184,10 @@ class WorldStateTest {
         assertThat(world.isScenarioComplete()).isFalse();
         assertThat(world.completionReason()).isNull();
 
-        world.setScenarioComplete(CompletionReason.POISONED);
+        world.setScenarioComplete(CompletionReason.DAWN);
 
         assertThat(world.isScenarioComplete()).isTrue();
-        assertThat(world.completionReason()).isEqualTo(CompletionReason.POISONED);
+        assertThat(world.completionReason()).isEqualTo(CompletionReason.DAWN);
     }
 
     @Test

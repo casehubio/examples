@@ -96,6 +96,19 @@ public class ManorResource {
     }
 
     @POST
+    @Path("/stop")
+    public Response stopScenario() {
+        if (activeWorld == null || activeWorld.isScenarioComplete()) {
+            return Response.status(Response.Status.NOT_FOUND)
+                           .entity("{\"error\":\"No active scenario\"}").build();
+        }
+        activeWorld.setScenarioComplete(io.casehub.examples.manor.model.CompletionReason.DAWN);
+        eventBus.broadcast(ManorWebSocketEvent.scenario("completed", "stopped"));
+        return Response.ok("{\"status\":\"stopped\"}").build();
+    }
+
+
+    @POST
     @Path("/speed")
     public Response setSpeed(@jakarta.ws.rs.QueryParam("rate") double rate) {
         if (activeWorld == null || activeWorld.isScenarioComplete()) {

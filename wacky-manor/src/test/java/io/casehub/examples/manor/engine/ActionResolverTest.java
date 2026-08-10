@@ -253,4 +253,37 @@ class ActionResolverTest {
         var result = resolver.resolve(hc, new Action(ActionType.LOOK, "stove", null), world);
         assertThat(result).isInstanceOf(ActionResult.Failed.class);
     }
+
+    @Test
+    void steal_transfers_item_from_target_in_same_room() {
+        var dastardly = world.character("dick-dastardly");
+        var muttley   = world.character("muttley");
+        var result    = resolver.resolve(dastardly, new Action(ActionType.STEAL, "muttley", "brass-key"), world);
+        assertThat(result).isInstanceOf(ActionResult.ItemReceived.class);
+        assertThat(dastardly.hasItem("brass-key")).isTrue();
+        assertThat(muttley.hasItem("brass-key")).isFalse();
+    }
+
+    @Test
+    void steal_from_character_in_different_room_fails() {
+        var dastardly = world.character("dick-dastardly");
+        world.moveCharacter("muttley", "kitchen");
+        var result = resolver.resolve(dastardly, new Action(ActionType.STEAL, "muttley", "brass-key"), world);
+        assertThat(result).isInstanceOf(ActionResult.Failed.class);
+        assertThat(dastardly.hasItem("brass-key")).isFalse();
+    }
+
+    @Test
+    void steal_item_target_does_not_have_fails() {
+        var dastardly = world.character("dick-dastardly");
+        var result    = resolver.resolve(dastardly, new Action(ActionType.STEAL, "muttley", "nonexistent"), world);
+        assertThat(result).isInstanceOf(ActionResult.Failed.class);
+    }
+
+    @Test
+    void steal_from_unknown_character_fails() {
+        var dastardly = world.character("dick-dastardly");
+        var result    = resolver.resolve(dastardly, new Action(ActionType.STEAL, "nobody", "brass-key"), world);
+        assertThat(result).isInstanceOf(ActionResult.Failed.class);
+    }
 }

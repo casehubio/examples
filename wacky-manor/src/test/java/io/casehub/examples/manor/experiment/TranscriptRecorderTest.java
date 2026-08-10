@@ -22,11 +22,11 @@ class TranscriptRecorderTest {
                 "Oh what a lovely kitchen!", null, null, null));
 
         var result = recorder.toRunResult(
-                ProfileMode.BASELINE, 1, CompletionReason.POISONED, 42, 5000L);
+                ProfileMode.BASELINE, 1, CompletionReason.DAWN, 42, 5000L);
 
         assertThat(result.profile()).isEqualTo(ProfileMode.BASELINE);
         assertThat(result.runNumber()).isEqualTo(1);
-        assertThat(result.verdict()).isEqualTo(CompletionReason.POISONED);
+        assertThat(result.verdict()).isEqualTo(CompletionReason.DAWN);
         assertThat(result.totalTurns()).isEqualTo(42);
         assertThat(result.events()).hasSize(2);
         assertThat(result.modelIdentifier()).isEqualTo("claude-sonnet-4");
@@ -42,7 +42,7 @@ class TranscriptRecorderTest {
                 "Why, darlin'!", null, null, null));
 
         var result = recorder.toRunResult(
-                ProfileMode.JUNGIAN, 2, CompletionReason.TURN_LIMIT, 180, 12000L);
+                ProfileMode.JUNGIAN, 2, CompletionReason.DAWN, 180, 12000L);
 
         var file = tempDir.resolve("test-run.json");
         TranscriptRecorder.writeJson(result, file);
@@ -52,7 +52,7 @@ class TranscriptRecorderTest {
         var loaded = TranscriptRecorder.readJson(file);
         assertThat(loaded.profile()).isEqualTo(ProfileMode.JUNGIAN);
         assertThat(loaded.runNumber()).isEqualTo(2);
-        assertThat(loaded.verdict()).isEqualTo(CompletionReason.TURN_LIMIT);
+        assertThat(loaded.verdict()).isEqualTo(CompletionReason.DAWN);
         assertThat(loaded.events()).hasSize(1);
         assertThat(loaded.events().get(0).dialogue()).isEqualTo("Why, darlin'!");
     }

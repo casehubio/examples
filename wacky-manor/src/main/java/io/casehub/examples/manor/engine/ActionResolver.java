@@ -17,8 +17,9 @@ public final class ActionResolver {
             case USE -> resolveUse(character, action, world);
             case LOOK -> resolveLook(character, action, world);
             case WAIT -> new ActionResult.Success("You wait and observe.");
-        };
-    }
+            case STEAL -> resolveSteal(character, action, world);
+            case PULL_ASIDE -> new ActionResult.Success("You initiated a private exchange.");
+        };}
 
     private GameObject findLiveObject(Room room, String objectId, WorldState world) {
         GameObject obj = room.objects().get(objectId);
@@ -98,6 +99,24 @@ public final class ActionResolver {
         return new ActionResult.Success(
                 "You gave " + action.withItem() + " to " + target.name() + ".");
     }
+
+    private ActionResult resolveSteal(CharacterState character, Action action, WorldState world) {
+        CharacterState target = world.character(action.target());
+        if (target == null) {
+            return new ActionResult.Failed("Unknown character: " + action.target());
+        }
+        if (!target.currentRoom().equals(character.currentRoom())) {
+            return new ActionResult.Failed(target.name() + " is not in this room.");
+        }
+        if (action.withItem() == null || !target.hasItem(action.withItem())) {
+            return new ActionResult.Failed(target.name() + " does not have " + action.withItem() + ".");
+        }
+        target.removeItem(action.withItem());
+        character.addItem(action.withItem());
+        return new ActionResult.ItemReceived(action.withItem(),
+                                             "You took " + action.withItem() + " from " + target.name() + ".");
+    }
+
 
     private ActionResult resolveUse(CharacterState character, Action action, WorldState world) {
         if (action.withItem() == null || !character.hasItem(action.withItem())) {

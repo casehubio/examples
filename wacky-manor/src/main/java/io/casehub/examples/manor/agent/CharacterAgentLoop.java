@@ -19,6 +19,8 @@ public final class CharacterAgentLoop {
             new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("GIVE", "hand an inventory item to another character", "target = character-id, withItem = item from your inventory"),
             new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("INTERACT", "activate an object's built-in mechanism (levers, locks, puzzles)", "target = object-id, withItem = required item if any"),
             new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("LOOK", "examine an object or room closely", "target = object-id or null for room"),
+            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("STEAL", "take an item from another character's inventory", "target = character-id, withItem = item to steal"),
+            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("PULL_ASIDE", "pull a character aside for a private multi-turn conversation", "target = character-id"),
             new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("WAIT", "do nothing this turn", null)
                                                                                                                                                        );
 
@@ -27,14 +29,17 @@ public final class CharacterAgentLoop {
                                                                       """
                                                                       You MUST respond with ONLY a JSON object in this exact format:
                                                                       {
-                                                                        "thinking": "your internal reasoning (not shown to others)",
+                                                                        "thinking": "your persistent strategic plan — shown to you next turn as 'Your Current Plan'. Write strategy, not stream-of-consciousness",
                                                                         "dialogue": "what you say aloud (or null if silent)",
+                                                                        "talkTo": "character-id to direct dialogue at (or null for broadcast)",
                                                                         "aside": "private thoughts for the audience only (or null)",
                                                                         "action": {
                                                                           "type": "one of the action types below",
                                                                           "target": "room-id or object-id or character-id (or null for WAIT)",
                                                                           "withItem": "inventory-item-id to use (or null)"
-                                                                        }
+                                                                        },
+                                                                        "newGoals": [{"name": "goal-name", "description": "why this goal matters"}],
+                                                                        "dropGoals": ["goal-name-to-remove"]
                                                                       }
                                                                       
                                                                       ACTION TYPES — use the right one for your intent:""",

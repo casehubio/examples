@@ -110,9 +110,12 @@ public class ScenarioOrchestrator {
 
         for (var entry : world.characters().entrySet()) {
             if (activeSet != null && !activeSet.contains(entry.getKey())) {continue;}
-            if (agentRegistry.findById(entry.getKey(), ManorConstants.TENANCY_ID).isEmpty()) {
-                throw new IllegalStateException("No Eidos descriptor for character: " + entry.getKey());
-            }
+            var desc = agentRegistry.findById(entry.getKey(), ManorConstants.TENANCY_ID)
+                    .orElseThrow(() -> new IllegalStateException("No Eidos descriptor for character: " + entry.getKey()));
+            var tags = desc.capabilities().stream()
+                    .flatMap(c -> c.tags().stream())
+                    .collect(java.util.stream.Collectors.toSet());
+            entry.getValue().setCapabilityTags(tags);
         }
 
         var invocationService = new AgentInvocationService(gatedProvider, 60, 2, 2000);
@@ -176,7 +179,8 @@ public class ScenarioOrchestrator {
                     try {
                         var drain = dispatcher.observationService().drain(c.agentId(), System.currentTimeMillis());
                         String observation = ObservationBuilder.buildObservation(
-                                c, world, resolveGoals(c.agentId()), drain);
+                                c, world, resolveGoals(c.agentId()), drain,
+                                java.util.List.of(), c.capabilityTags());
                         String userPrompt = observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
                         String systemPrompt = renderPrompt(c.agentId());
                         responses.put(c.agentId(), invocationService.invoke(systemPrompt, userPrompt, c.agentId()));
@@ -193,14 +197,53 @@ public class ScenarioOrchestrator {
             }
             log.infof("Tick %d complete (%d agents)", currentTick, actingThisTick.size());
 
+            var suppressed = new java.util.HashSet<String>();
+            var exchangeRunner = new ExchangeRunner(3, 120_000);
             for (var c : actingThisTick) {
                 var response = responses.get(c.agentId());
                 if (response == null) continue;
+                if (response.action() != null && response.action().type() == io.casehub.examples.manor.model.ActionType.PULL_ASIDE) {
+                    String targetId = response.action().target();
+                    var target = world.character(targetId);
+                    if (target == null || !target.isActive() || !target.currentRoom().equals(c.currentRoom()) || suppressed.contains(c.agentId()) || suppressed.contains(targetId)) {
+                        c.setLastActionResult("Could not pull " + targetId + " aside.");
+                    } else {
+                        suppressed.add(c.agentId());
+                        suppressed.add(targetId);
+                        var exchangeEvents = exchangeRunner.run(c, target, response.dialogue(), world, invocationService, this::renderPrompt);
+                        for (var event : exchangeEvents) {
+                            dispatcher.publishDialogue(event, "");
+                        }
+                        c.setLastActionResult("You had a private conversation with " + target.name() + ".");
+                        target.setLastActionResult(c.name() + " pulled you aside for a private conversation.");
+                    }
+                }
+            }
+
+            for (var c : actingThisTick) {
+                if (suppressed.contains(c.agentId())) continue;
+                var response = responses.get(c.agentId());
+                if (response == null) continue;
                 if (response.dialogue() != null) {
-                    var event = new io.casehub.examples.manor.model.ManorEvent(
-                            java.time.Instant.now(), "dialogue", c.agentId(),
-                            c.currentRoom(), c.name() + ": " + response.dialogue());
-                    dispatcher.publishDialogue(event, response.dialogue());
+                    String validatedTalkTo = response.talkTo();
+                    if (validatedTalkTo != null) {
+                        var target = world.character(validatedTalkTo);
+                        if (target == null || !target.currentRoom().equals(c.currentRoom())) {
+                            validatedTalkTo = null;
+                        }
+                    }
+                    if (validatedTalkTo != null) {
+                        var narr = NarrativeEventBuilder.describeDirectedDialogue(c.name(), validatedTalkTo, response.dialogue());
+                        var event = new io.casehub.examples.manor.model.ManorEvent(
+                                java.time.Instant.now(), "dialogue", c.agentId(), c.currentRoom(),
+                                narr.publicText(), null, null, null, null, narr.detailedText(), false, validatedTalkTo);
+                        dispatcher.publishDialogue(event, response.dialogue());
+                    } else {
+                        var event = new io.casehub.examples.manor.model.ManorEvent(
+                                java.time.Instant.now(), "dialogue", c.agentId(),
+                                c.currentRoom(), c.name() + ": " + response.dialogue());
+                        dispatcher.publishDialogue(event, response.dialogue());
+                    }
                 }
                 if (response.aside() != null) {
                     var event = new io.casehub.examples.manor.model.ManorEvent(
@@ -211,30 +254,48 @@ public class ScenarioOrchestrator {
             }
 
             for (var c : actingThisTick) {
+                if (suppressed.contains(c.agentId())) continue;
                 var response = responses.get(c.agentId());
                 if (response == null) continue;
                 if (response.action() != null && response.action().type() != io.casehub.examples.manor.model.ActionType.WAIT) {
                     String departureRoom = c.currentRoom();
                     var result = actionResolver.resolve(c, response.action(), world);
-                    String narrative = NarrativeEventBuilder.describe(c, response.action(), result);
-                    if (narrative != null) {
+                    var narration = NarrativeEventBuilder.describeRich(c, response.action(), result);
+                    if (narration != null) {
+                        var actionType = response.action().type();
+                        boolean concealed = c.capabilityTags().contains("deception")
+                                && (actionType == io.casehub.examples.manor.model.ActionType.STEAL
+                                    || actionType == io.casehub.examples.manor.model.ActionType.USE);
                         var enrichedEvent = new io.casehub.examples.manor.model.ManorEvent(
                                 java.time.Instant.now(), "action", c.agentId(), c.currentRoom(),
-                                narrative, response.action().type(), response.action().target(),
+                                narration.publicText(), actionType, response.action().target(),
                                 response.action().withItem(),
-                                response.action().type() == io.casehub.examples.manor.model.ActionType.MOVE ? departureRoom : null);
+                                actionType == io.casehub.examples.manor.model.ActionType.MOVE ? departureRoom : null,
+                                narration.detailedText(), concealed);
                         dispatcher.publishAction(enrichedEvent, result, c.x());
                     }
                     c.setLastActionResult(result.text());
                 } else {
                     c.setLastActionResult("You waited and observed.");
                 }
+                if (response.thinking() != null) {
+                    c.setCurrentPlan(response.thinking());
+                }
+                if (response.dropGoals() != null) {
+                    if (response.dropGoals().contains("*")) {
+                        c.dropAllDynamicGoals();
+                    } else {
+                        response.dropGoals().forEach(c::dropDynamicGoal);
+                    }
+                }
+                if (response.newGoals() != null) {
+                    response.newGoals().forEach(g ->
+                        c.addDynamicGoal(new io.casehub.examples.manor.model.DynamicGoal(g.name(), g.description(), currentTick)));
+                }
             }
 
-            if (world.hasEffect("tea-service", "rat-poison")) {
-                world.setScenarioComplete(io.casehub.examples.manor.model.CompletionReason.POISONED);
-            } else if (tick >= maxTurns) {
-                world.setScenarioComplete(io.casehub.examples.manor.model.CompletionReason.TURN_LIMIT);
+            if (tick >= maxTurns) {
+                world.setScenarioComplete(io.casehub.examples.manor.model.CompletionReason.DAWN);
             }
 
             webEventBus.broadcast(webEventBus.buildSnapshot(world));
@@ -276,13 +337,18 @@ public class ScenarioOrchestrator {
                 }
                 String departureRoom = pending.character().currentRoom();
                 var result = actionResolver.resolve(pending.character(), pending.action(), world);
-                String narrative = NarrativeEventBuilder.describe(pending.character(), pending.action(), result);
-                if (narrative != null) {
+                var richNarrative = NarrativeEventBuilder.describeRich(pending.character(), pending.action(), result);
+                if (richNarrative != null) {
+                    var actionType = pending.action().type();
+                    boolean concealed = pending.character().capabilityTags().contains("deception")
+                            && (actionType == io.casehub.examples.manor.model.ActionType.STEAL
+                                || actionType == io.casehub.examples.manor.model.ActionType.USE);
                     var enrichedEvent = new io.casehub.examples.manor.model.ManorEvent(
                             java.time.Instant.now(), "action", pending.character().agentId(),
-                            pending.character().currentRoom(), narrative,
-                            pending.action().type(), pending.action().target(), pending.action().withItem(),
-                            pending.action().type() == io.casehub.examples.manor.model.ActionType.MOVE ? departureRoom : null);
+                            pending.character().currentRoom(), richNarrative.publicText(),
+                            actionType, pending.action().target(), pending.action().withItem(),
+                            actionType == io.casehub.examples.manor.model.ActionType.MOVE ? departureRoom : null,
+                            richNarrative.detailedText(), concealed);
                     dispatcher.publishAction(enrichedEvent, result, pending.character().x());
                 }
                 pending.character().setLastActionResult(result.text());

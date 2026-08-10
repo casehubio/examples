@@ -113,14 +113,14 @@ public class AutonomousScenarioRunner {
                 }
 
                 if (world.hasEffect("tea-service", "rat-poison")) {
-                    world.setScenarioComplete(CompletionReason.POISONED);
+                    world.setScenarioComplete(CompletionReason.DAWN);
                 }
             }
             turnLatencies.add(System.currentTimeMillis() - turnStart);
         }
 
         if (!world.isScenarioComplete()) {
-            world.setScenarioComplete(CompletionReason.TURN_LIMIT);
+            world.setScenarioComplete(CompletionReason.DAWN);
         }
 
         long durationMs = System.currentTimeMillis() - startMs;

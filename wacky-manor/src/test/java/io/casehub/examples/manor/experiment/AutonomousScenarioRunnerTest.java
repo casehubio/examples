@@ -57,7 +57,7 @@ class AutonomousScenarioRunnerTest {
         var result = runner.run(world, ProfileMode.BASELINE, 1,
                 Map.of(), 60, agentId -> "You are " + agentId, null);
 
-        assertThat(result.verdict()).isEqualTo(CompletionReason.POISONED);
+        assertThat(result.verdict()).isEqualTo(CompletionReason.DAWN);
         assertThat(result.totalTurns()).isLessThan(60);
         assertThat(result.events()).isNotEmpty();
         assertThat(result.events()).anyMatch(e ->
@@ -81,7 +81,7 @@ class AutonomousScenarioRunnerTest {
         var result = runner.run(world, ProfileMode.BASELINE, 1,
                 Map.of(), 10, agentId -> "You are " + agentId, null);
 
-        assertThat(result.verdict()).isEqualTo(CompletionReason.TURN_LIMIT);
+        assertThat(result.verdict()).isEqualTo(CompletionReason.DAWN);
         assertThat(result.totalTurns()).isEqualTo(10);
     }
 
@@ -101,6 +101,6 @@ class AutonomousScenarioRunnerTest {
         var result = runner.run(world, ProfileMode.BASELINE, 1,
                 Map.of(), 3, agentId -> "You are " + agentId, null);
 
-        assertThat(result.verdict()).isEqualTo(CompletionReason.TURN_LIMIT);
+        assertThat(result.verdict()).isEqualTo(CompletionReason.DAWN);
     }
 }

@@ -25,10 +25,11 @@ export const ROOM_GRID: Record<string, RoomLayout> = {
   'cellar':        { row: 1, col: 2 },
 };
 
-const OVERLAP_THRESHOLD = 30;
+const OVERLAP_THRESHOLD = 38;
 
 export function layoutCharacters(
-  characters: CharacterSnapshot[], roomW: number, roomH: number, rowGap: number, topY: number
+  characters: CharacterSnapshot[], roomW: number, roomH: number, rowGap: number, topY: number,
+  objectCounts?: Record<string, number>
 ): CharPos[] {
   const minSpacing = OVERLAP_THRESHOLD;
   const positions: CharPos[] = [];
@@ -46,10 +47,14 @@ export function layoutCharacters(
     const rw = roomW - 8;
     const roomY = topY + layout.row * (roomH + rowGap);
     const baseY = roomY + roomH - 35;
-    const margin = 15;
+    const objCount = objectCounts?.[roomId] ?? 0;
+    const leftReserved = objCount > 0 ? 55 : 0;
+    const charAreaStart = rx + leftReserved;
+    const charAreaWidth = rw - leftReserved;
+    const margin = 10;
 
     chars.sort((a, b) => a.origX - b.origX);
-    const displayXs: number[] = chars.map(ch => rx + ch.origX * (rw - 2 * margin) + margin);
+    const displayXs: number[] = chars.map(ch => charAreaStart + ch.origX * (charAreaWidth - 2 * margin) + margin);
 
     for (let i = 1; i < displayXs.length; i++) {
       if (displayXs[i] - displayXs[i - 1] < minSpacing) {
@@ -57,7 +62,7 @@ export function layoutCharacters(
       }
     }
 
-    const maxX = rx + rw - margin;
+    const maxX = charAreaStart + charAreaWidth - margin;
     if (displayXs.length > 0 && displayXs[displayXs.length - 1] > maxX) {
       const overflow = displayXs[displayXs.length - 1] - maxX;
       for (let i = 0; i < displayXs.length; i++) {

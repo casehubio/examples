@@ -17,11 +17,11 @@ class ResultsSummaryTest {
     @Test
     void generates_comparison_report(@TempDir Path tempDir) throws Exception {
         writeFixture(tempDir, ProfileMode.BASELINE, 1,
-                CompletionReason.POISONED, 91, 45000L);
+                CompletionReason.DAWN, 91, 45000L);
         writeFixture(tempDir, ProfileMode.BASELINE, 2,
-                CompletionReason.TURN_LIMIT, 180, 112000L);
+                CompletionReason.DAWN, 180, 112000L);
         writeFixture(tempDir, ProfileMode.JUNGIAN, 1,
-                CompletionReason.POISONED, 67, 38000L);
+                CompletionReason.DAWN, 67, 38000L);
 
         var outputFile = tempDir.resolve("COMPARISON.md");
         ResultsSummary.generate(tempDir, outputFile);
@@ -31,20 +31,20 @@ class ResultsSummaryTest {
         assertThat(content).contains("## Verdict Breakdown");
         assertThat(content).contains("BASELINE");
         assertThat(content).contains("JUNGIAN");
-        assertThat(content).contains("POISONED");
-        assertThat(content).contains("TURN_LIMIT");
+        assertThat(content).contains("DAWN");
+        assertThat(content).contains("DAWN");
     }
 
     @Test
     void verdict_gates_show_comparison(@TempDir Path tempDir) throws Exception {
         writeFixture(tempDir, ProfileMode.BASELINE, 1,
-                CompletionReason.POISONED, 91, 45000L);
+                CompletionReason.DAWN, 91, 45000L);
         writeFixture(tempDir, ProfileMode.BASELINE, 2,
-                CompletionReason.POISONED, 100, 50000L);
+                CompletionReason.DAWN, 100, 50000L);
         writeFixture(tempDir, ProfileMode.JUNGIAN, 1,
-                CompletionReason.POISONED, 67, 38000L);
+                CompletionReason.DAWN, 67, 38000L);
         writeFixture(tempDir, ProfileMode.JUNGIAN, 2,
-                CompletionReason.POISONED, 55, 30000L);
+                CompletionReason.DAWN, 55, 30000L);
 
         var outputFile = tempDir.resolve("COMPARISON.md");
         ResultsSummary.generate(tempDir, outputFile);
@@ -58,7 +58,7 @@ class ResultsSummaryTest {
     @Test
     void handles_missing_layers(@TempDir Path tempDir) throws Exception {
         writeFixture(tempDir, ProfileMode.BASELINE, 1,
-                CompletionReason.POISONED, 91, 45000L);
+                CompletionReason.DAWN, 91, 45000L);
 
         var outputFile = tempDir.resolve("COMPARISON.md");
         ResultsSummary.generate(tempDir, outputFile);

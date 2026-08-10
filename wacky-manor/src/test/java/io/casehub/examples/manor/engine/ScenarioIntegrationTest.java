@@ -134,13 +134,10 @@ class ScenarioIntegrationTest {
     }
 
     @Test
-    void poison_not_visible_to_penelope_even_after_discovery() {
-        world.moveCharacter("hooded-claw", "kitchen");
-        triggerEvaluator.evaluate(world);
-
+    void poison_visible_to_penelope_in_kitchen() {
         world.moveCharacter("penelope-pitstop", "kitchen");
         var penelopeObjects = world.visibleObjects("kitchen", "penelope-pitstop");
-        assertThat(penelopeObjects).noneMatch(o -> o.id().equals("poison"));
+        assertThat(penelopeObjects).anyMatch(o -> o.id().equals("poison"));
     }
 
     @Test
