@@ -20,6 +20,7 @@
     <module>work-examples</module>
     <module>qhorus-examples</module>
     <module>eidos-examples</module>
+    <module>neocortex-examples</module>
 
     <!-- Repos without aggregator POMs — list each example individually.
          These will collapse to one entry per repo once aggregator POMs
@@ -42,10 +43,6 @@
     <module>desiredstate-examples/expansion</module>
     <module>desiredstate-examples/pipeline</module>
     <module>desiredstate-examples/spatial</module>
-
-    <module>neocortex-examples/example-cbr</module>
-    <module>neocortex-examples/example-rag-pipeline</module>
-    <module>neocortex-examples/example-text-analysis</module>
 
     <!-- Non-Maven example sets are NOT listed here.
          openclaw (Docker Compose), blocks-ui (TypeScript), pages (TypeScript)
