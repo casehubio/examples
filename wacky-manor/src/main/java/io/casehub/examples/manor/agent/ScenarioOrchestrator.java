@@ -56,10 +56,6 @@ public class ScenarioOrchestrator {
     int narratorTimerSeconds;
     @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.scenario.active-characters", defaultValue = "")
     java.util.Optional<String> activeCharactersConfig;
-    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.agent.max-concurrent", defaultValue = "5")
-    int                        maxConcurrentAgents;
-    private volatile AgentProvider gatedProvider;
-
 
     public Thread startScenario(WorldState world, io.casehub.examples.manor.model.ScenarioMode mode) {
         var triggers         = MansionLoader.loadTriggers();
@@ -83,10 +79,8 @@ public class ScenarioOrchestrator {
         webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scenario("started"));
         webEventBus.broadcast(webEventBus.buildSnapshot(world));
 
-        this.gatedProvider = new GatedAgentProvider(agentProvider, maxConcurrentAgents, java.time.Duration.ofSeconds(120));
-
         var compactor          = new MechanicalCompactor();
-        var summariser         = new ManorLlmSummariser(gatedProvider);
+        var summariser         = new ManorLlmSummariser(agentProvider);
         var obsRenderer        = new ManorObservationRenderer(compactor, verbatimThreshold, groupedThreshold, summariser);
         var observationService = new ObservationService(obsRenderer);
         observationService.init(world);
@@ -94,7 +88,7 @@ public class ScenarioOrchestrator {
         NarratorAgent narratorAgent = null;
         if (narratorEnabled && mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
             narratorAgent = new NarratorAgent(
-                    compactor, gatedProvider, manorChannels, webEventBus,
+                    compactor, agentProvider, manorChannels, webEventBus,
                     narratorEventThreshold, narratorTimerSeconds);
             narratorAgent.start(world);
         }
@@ -118,7 +112,7 @@ public class ScenarioOrchestrator {
             entry.getValue().setCapabilityTags(tags);
         }
 
-        var invocationService = new AgentInvocationService(gatedProvider, 60, 2, 2000);
+        var invocationService = new AgentInvocationService(agentProvider, 60, 2, 2000);
 
         if (mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
             runAutonomousTicks(world, activeSet, actionResolver, dispatcher, invocationService, narratorAgent);
@@ -394,7 +388,7 @@ public class ScenarioOrchestrator {
     private String callAgentForScene(String characterId, String prompt) {
         String systemPrompt = renderPrompt(characterId);
         try {
-            return gatedProvider.invoke(
+            return agentProvider.invoke(
                                         AgentSessionConfig.of(systemPrompt, prompt))
                                 .filter(e -> e instanceof AgentEvent.TextDelta)
                                 .map(e -> ((AgentEvent.TextDelta) e).text())
