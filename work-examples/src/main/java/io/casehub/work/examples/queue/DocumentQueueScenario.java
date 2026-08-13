@@ -24,7 +24,7 @@ import io.casehub.work.ledger.model.WorkItemLedgerEntry;
 import io.casehub.work.ledger.repository.WorkItemLedgerEntryRepository;
 import io.casehub.work.api.AuditEntryResponse;
 import io.casehub.work.runtime.model.AuditEntry;
-import io.casehub.work.runtime.model.WorkItem;
+import io.casehub.work.runtime.model.WorkItemEntity;
 import io.casehub.work.api.WorkItemCreateRequest;
 import io.casehub.work.api.WorkItemPriority;
 import io.casehub.work.runtime.repository.AuditEntryStore;
@@ -114,7 +114,7 @@ public class DocumentQueueScenario {
                 .createdBy(ACTOR_CREATOR)
                 .payload("{\"documentId\": \"contract-review-001\", \"documentType\": \"vendor-contract\"}")
                 .build();
-        final WorkItem wi1 = workItemService.create(req1);
+        final WorkItemEntity wi1 = workItemService.create(req1);
         steps.add(new StepLog(1, desc1, wi1.id));
 
         // ----------------------------------------------------------------
@@ -131,7 +131,7 @@ public class DocumentQueueScenario {
                 .createdBy(ACTOR_CREATOR)
                 .payload("{\"documentId\": \"policy-review-007\", \"documentType\": \"data-policy\"}")
                 .build();
-        final WorkItem wi2 = workItemService.create(req2);
+        final WorkItemEntity wi2 = workItemService.create(req2);
         steps.add(new StepLog(2, desc2, wi2.id));
 
         // ----------------------------------------------------------------
@@ -148,7 +148,7 @@ public class DocumentQueueScenario {
                 .createdBy(ACTOR_CREATOR)
                 .payload("{\"documentId\": \"sla-review-003\", \"documentType\": \"sla\"}")
                 .build();
-        final WorkItem wi3 = workItemService.create(req3);
+        final WorkItemEntity wi3 = workItemService.create(req3);
         steps.add(new StepLog(3, desc3, wi3.id));
 
         // ----------------------------------------------------------------
@@ -228,7 +228,7 @@ public class DocumentQueueScenario {
         // Collect ledger entries across all 3 WorkItems
         // ----------------------------------------------------------------
         final List<LedgerEntryResponse> allLedgerEntries = new ArrayList<>();
-        for (final WorkItem wi : List.of(wi1, wi2, wi3)) {
+        for (final WorkItemEntity wi : List.of(wi1, wi2, wi3)) {
             final List<WorkItemLedgerEntry> entries = ledgerRepo.findByWorkItemId(wi.id);
             entries.forEach(WorkItemLedgerEntry::syncSupplementsFromJpa);
             entries.stream()
@@ -240,7 +240,7 @@ public class DocumentQueueScenario {
         // Collect audit entries across all 3 WorkItems
         // ----------------------------------------------------------------
         final List<AuditEntryResponse> allAuditEntries = new ArrayList<>();
-        for (final WorkItem wi : List.of(wi1, wi2, wi3)) {
+        for (final WorkItemEntity wi : List.of(wi1, wi2, wi3)) {
             final List<AuditEntry> auditEntries = auditStore.findByWorkItemId(wi.id);
             auditEntries.stream()
                     .map(a -> new AuditEntryResponse(a.id, a.event, a.actor, a.detail, a.occurredAt))

@@ -3,6 +3,7 @@ package io.casehub.work.examples.filterrules;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.casehub.work.runtime.model.WorkItemEntity;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.POST;
@@ -17,7 +18,6 @@ import io.casehub.work.api.AuditEntryResponse;
 import io.casehub.platform.api.identity.TenancyConstants;
 import io.casehub.work.runtime.filter.FilterRule;
 import io.casehub.work.runtime.model.AuditEntry;
-import io.casehub.work.runtime.model.WorkItem;
 import io.casehub.work.api.WorkItemCreateRequest;
 import io.casehub.work.api.WorkItemPriority;
 import io.casehub.work.runtime.repository.AuditEntryStore;
@@ -106,7 +106,7 @@ public class FilterRulesScenario {
                 .payload("{\"supplierId\": \"SUPP-001\", \"amount\": 12500.00, \"currency\": \"GBP\"}")
                 .build();
 
-        final WorkItem highPriorityWi = workItemService.create(highPriorityRequest);
+        final WorkItemEntity highPriorityWi = workItemService.create(highPriorityRequest);
         steps.add(new StepLog(2, description2, highPriorityWi.id));
 
         // Step 3: create a MEDIUM-priority WorkItem — filter should NOT apply "urgent" label
@@ -123,7 +123,7 @@ public class FilterRulesScenario {
                 .payload("{\"requisitionId\": \"REQ-2026-Q2-047\"}")
                 .build();
 
-        final WorkItem normalPriorityWi = workItemService.create(normalPriorityRequest);
+        final WorkItemEntity normalPriorityWi = workItemService.create(normalPriorityRequest);
         steps.add(new StepLog(3, description3, normalPriorityWi.id));
 
         // Step 4: verify labels
@@ -145,7 +145,7 @@ public class FilterRulesScenario {
 
         // Collect audit trail across both WorkItems
         final List<AuditEntryResponse> auditTrail = new ArrayList<>();
-        for (final WorkItem wi : List.of(highPriorityWi, normalPriorityWi)) {
+        for (final WorkItemEntity wi : List.of(highPriorityWi, normalPriorityWi)) {
             final List<AuditEntry> auditEntries = auditStore.findByWorkItemId(wi.id);
             auditEntries.stream()
                     .map(a -> new AuditEntryResponse(a.id, a.event, a.actor, a.detail, a.occurredAt))

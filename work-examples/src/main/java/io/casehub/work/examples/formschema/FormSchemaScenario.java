@@ -19,7 +19,7 @@ import io.casehub.work.api.WorkItemCreateRequest;
 import io.casehub.work.examples.StepLog;
 import io.casehub.work.api.AuditEntryResponse;
 import io.casehub.work.runtime.model.AuditEntry;
-import io.casehub.work.runtime.model.WorkItem;
+import io.casehub.work.runtime.model.WorkItemEntity;
 import io.casehub.work.runtime.model.WorkItemTemplate;
 import io.casehub.work.runtime.repository.AuditEntryStore;
 import io.casehub.work.runtime.service.WorkItemService;
@@ -117,7 +117,7 @@ public class FormSchemaScenario {
                 .title("Review Services Agreement: TechCorp Ltd")
                 .createdBy(ACTOR_ADMIN)
                 .build();
-        final WorkItem wi1 = templateService.createFromTemplate(request1);
+        final WorkItemEntity wi1 = templateService.createFromTemplate(request1);
         steps.add(new StepLog(2, description2, wi1.id));
 
         // Step 3: legal-reviewer claims and starts the first WorkItem
@@ -141,7 +141,7 @@ public class FormSchemaScenario {
                 .title("Review SaaS Agreement: Acme Corp")
                 .createdBy(ACTOR_ADMIN)
                 .build();
-        final WorkItem wi2 = templateService.createFromTemplate(request2);
+        final WorkItemEntity wi2 = templateService.createFromTemplate(request2);
         steps.add(new StepLog(5, description5, wi2.id));
 
         // Step 6: claim and start the second WorkItem

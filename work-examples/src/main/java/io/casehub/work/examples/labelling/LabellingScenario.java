@@ -15,7 +15,7 @@ import org.jboss.logging.Logger;
 import io.casehub.work.examples.StepLog;
 import io.casehub.work.api.AuditEntryResponse;
 import io.casehub.work.runtime.model.AuditEntry;
-import io.casehub.work.runtime.model.WorkItem;
+import io.casehub.work.runtime.model.WorkItemEntity;
 import io.casehub.work.api.WorkItemCreateRequest;
 import io.casehub.work.api.WorkItemPriority;
 import io.casehub.work.runtime.repository.AuditEntryStore;
@@ -91,7 +91,7 @@ public class LabellingScenario {
                 .payload("{\"clientId\": \"CLIENT-VIP-9912\", \"channel\": \"email\"}")
                 .build();
 
-        final WorkItem wi = workItemService.create(request);
+        final WorkItemEntity wi = workItemService.create(request);
         steps.add(new StepLog(1, description1, wi.id));
 
         // Step 2: team-lead adds "priority/high" label
@@ -109,8 +109,8 @@ public class LabellingScenario {
         // Step 4: query by label pattern "customer/*" and count matches
         final String description4 = "query inbox by label pattern 'customer/*' — ticket should appear";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 4, total, description4);
-        final List<WorkItem> matching = workItemStore.scan(WorkItemQuery.byLabelPattern("customer/*"));
-        final int matchCount = matching.size();
+        final List<WorkItemEntity> matching   = workItemStore.scan(WorkItemQuery.byLabelPattern("customer/*"));
+        final int                  matchCount = matching.size();
         steps.add(new StepLog(4, description4, wi.id));
 
         // Step 5: team-lead claims, starts, and completes the ticket
@@ -122,7 +122,7 @@ public class LabellingScenario {
         steps.add(new StepLog(5, description5, wi.id));
 
         // Capture labels before removing the VIP label
-        final WorkItem afterCompletion = workItemStore.get(wi.id).orElseThrow();
+        final WorkItemEntity afterCompletion = workItemStore.get(wi.id).orElseThrow();
         final List<String> labelsAtCompletion = afterCompletion.labels.stream()
                 .map(l -> l.path)
                 .toList();

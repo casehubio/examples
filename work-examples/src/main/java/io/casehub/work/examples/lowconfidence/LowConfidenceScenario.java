@@ -3,6 +3,7 @@ package io.casehub.work.examples.lowconfidence;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.casehub.work.runtime.model.WorkItemEntity;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.POST;
@@ -15,7 +16,6 @@ import org.jboss.logging.Logger;
 import io.casehub.work.examples.StepLog;
 import io.casehub.work.api.AuditEntryResponse;
 import io.casehub.work.runtime.model.AuditEntry;
-import io.casehub.work.runtime.model.WorkItem;
 import io.casehub.work.api.WorkItemCreateRequest;
 import io.casehub.work.api.WorkItemPriority;
 import io.casehub.work.runtime.repository.AuditEntryStore;
@@ -95,7 +95,7 @@ public class LowConfidenceScenario {
                 .confidenceScore(0.95)
                 .build();
 
-        final WorkItem highConfidenceWi = workItemService.create(highConfidenceRequest);
+        final WorkItemEntity highConfidenceWi = workItemService.create(highConfidenceRequest);
         steps.add(new StepLog(1, description1, highConfidenceWi.id));
 
         // Step 2: AI agent creates a LOW-confidence WorkItem (0.45) — should be flagged
@@ -114,7 +114,7 @@ public class LowConfidenceScenario {
                 .confidenceScore(0.45)
                 .build();
 
-        final WorkItem lowConfidenceWi = workItemService.create(lowConfidenceRequest);
+        final WorkItemEntity lowConfidenceWi = workItemService.create(lowConfidenceRequest);
         steps.add(new StepLog(2, description2, lowConfidenceWi.id));
 
         // Step 3: manual request with null confidence — should NOT be flagged
@@ -132,7 +132,7 @@ public class LowConfidenceScenario {
                 .payload("{\"requestRef\": \"MANUAL-2026-0042\"}")
                 .build();
 
-        final WorkItem nullConfidenceWi = workItemService.create(nullConfidenceRequest);
+        final WorkItemEntity nullConfidenceWi = workItemService.create(nullConfidenceRequest);
         steps.add(new StepLog(3, description3, nullConfidenceWi.id));
 
         // Step 4: verify labels
@@ -168,7 +168,7 @@ public class LowConfidenceScenario {
 
         // Collect audit trail across all three WorkItems
         final List<AuditEntryResponse> auditTrail = new ArrayList<>();
-        for (final WorkItem wi : List.of(highConfidenceWi, lowConfidenceWi, nullConfidenceWi)) {
+        for (final WorkItemEntity wi : List.of(highConfidenceWi, lowConfidenceWi, nullConfidenceWi)) {
             final List<AuditEntry> auditEntries = auditStore.findByWorkItemId(wi.id);
             auditEntries.stream()
                     .map(a -> new AuditEntryResponse(a.id, a.event, a.actor, a.detail, a.occurredAt))
@@ -187,7 +187,7 @@ public class LowConfidenceScenario {
                 auditTrail);
     }
 
-    private boolean hasLabel(final WorkItem wi, final String labelPath) {
+    private boolean hasLabel(final WorkItemEntity wi, final String labelPath) {
         return wi.labels != null && wi.labels.stream().anyMatch(l -> labelPath.equals(l.path));
     }
 }

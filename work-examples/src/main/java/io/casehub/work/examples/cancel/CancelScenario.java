@@ -3,6 +3,7 @@ package io.casehub.work.examples.cancel;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.casehub.work.runtime.model.WorkItemEntity;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.POST;
@@ -15,7 +16,6 @@ import org.jboss.logging.Logger;
 import io.casehub.work.examples.StepLog;
 import io.casehub.work.api.AuditEntryResponse;
 import io.casehub.work.runtime.model.AuditEntry;
-import io.casehub.work.runtime.model.WorkItem;
 import io.casehub.work.api.WorkItemCreateRequest;
 import io.casehub.work.api.WorkItemPriority;
 import io.casehub.work.runtime.repository.AuditEntryStore;
@@ -87,7 +87,7 @@ public class CancelScenario {
                 .payload("{\"product\": \"IntelliJ IDEA Ultimate\", \"seats\": 1}")
                 .build();
 
-        final WorkItem wi = workItemService.create(request);
+        final WorkItemEntity wi = workItemService.create(request);
         steps.add(new StepLog(1, description1, wi.id));
 
         // Step 2: it-manager discovers the request — bulk licence already covers this
@@ -98,7 +98,7 @@ public class CancelScenario {
         // Step 3: it-manager cancels the WorkItem with a reason
         final String description3 = "it-manager cancels the licence request — redundant under bulk licence";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 3, total, description3);
-        final WorkItem cancelled = workItemService.cancel(wi.id, ACTOR_MANAGER, CANCEL_REASON);
+        final WorkItemEntity cancelled = workItemService.cancel(wi.id, ACTOR_MANAGER, CANCEL_REASON);
         steps.add(new StepLog(3, description3, wi.id));
 
         // Collect audit trail

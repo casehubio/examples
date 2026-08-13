@@ -16,7 +16,7 @@ import io.casehub.work.ai.skill.WorkerSkillProfile;
 import io.casehub.work.examples.StepLog;
 import io.casehub.work.api.AuditEntryResponse;
 import io.casehub.work.runtime.model.AuditEntry;
-import io.casehub.work.runtime.model.WorkItem;
+import io.casehub.work.runtime.model.WorkItemEntity;
 import io.casehub.work.api.WorkItemCreateRequest;
 import io.casehub.work.api.WorkItemPriority;
 import io.casehub.work.api.WorkItemStatus;
@@ -105,7 +105,7 @@ public class NdaReviewScenario {
                 .confidenceScore(0.92)
                 .build();
 
-        final WorkItem wi = workItemService.create(request);
+        final WorkItemEntity wi = workItemService.create(request);
         steps.add(new StepLog(2, description2, wi.id));
 
         // Step 3: verify routing — legal-specialist should be pre-assigned

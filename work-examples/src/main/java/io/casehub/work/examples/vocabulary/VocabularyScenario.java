@@ -17,7 +17,7 @@ import io.casehub.work.api.AuditEntryResponse;
 import io.casehub.work.runtime.model.AuditEntry;
 import io.casehub.work.runtime.model.LabelDefinition;
 import io.casehub.work.runtime.model.LabelVocabulary;
-import io.casehub.work.runtime.model.WorkItem;
+import io.casehub.work.runtime.model.WorkItemEntity;
 import io.casehub.work.api.WorkItemCreateRequest;
 import io.casehub.work.api.WorkItemPriority;
 import io.casehub.work.runtime.repository.AuditEntryStore;
@@ -123,7 +123,7 @@ public class VocabularyScenario {
                 .payload("{\"startDate\": \"2026-07-14\", \"endDate\": \"2026-07-25\", \"days\": 10}")
                 .build();
 
-        final WorkItem annualLeaveWi = workItemService.create(annualLeaveRequest);
+        final WorkItemEntity annualLeaveWi = workItemService.create(annualLeaveRequest);
 
         final WorkItemCreateRequest sickLeaveRequest = WorkItemCreateRequest.builder()
                 .title("Sick leave notification: Tom Jones — 23 Apr 2026")

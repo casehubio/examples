@@ -8,6 +8,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.casehub.work.runtime.model.WorkItemEntity;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.POST;
@@ -20,7 +21,6 @@ import io.casehub.work.api.ChildSpec;
 import io.casehub.work.api.SpawnRequest;
 import io.casehub.work.api.SpawnResult;
 import io.casehub.work.examples.StepLog;
-import io.casehub.work.runtime.model.WorkItem;
 import io.casehub.work.api.WorkItemCreateRequest;
 import io.casehub.work.runtime.model.WorkItemTemplate;
 import io.casehub.work.runtime.service.WorkItemService;
@@ -65,12 +65,12 @@ public class SpawnScenario {
         steps.add(new StepLog(1, "Creates three check templates (credit, fraud, compliance)", null));
 
         // Step 2: create the parent WorkItem — in a real CaseHub deployment CaseHub does this
-        final WorkItem parent = workItemService.create(WorkItemCreateRequest.builder()
-                .title("Loan Application #" + UUID.randomUUID().toString().substring(0, 8))
-                .description("Parallel approval checks for loan application")
-                .types(List.of("loan-application"))
-                .createdBy("finance-system")
-                .build());
+        final WorkItemEntity parent = workItemService.create(WorkItemCreateRequest.builder()
+                                                                                  .title("Loan Application #" + UUID.randomUUID().toString().substring(0, 8))
+                                                                                  .description("Parallel approval checks for loan application")
+                                                                                  .types(List.of("loan-application"))
+                                                                                  .createdBy("finance-system")
+                                                                                  .build());
         steps.add(new StepLog(2, "Creates loan-application WorkItem (parent)", parent.id));
 
         // Step 3: spawn three parallel child WorkItems

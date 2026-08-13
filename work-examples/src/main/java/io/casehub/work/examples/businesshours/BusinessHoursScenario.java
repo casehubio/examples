@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import io.casehub.work.runtime.model.WorkItemEntity;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
@@ -18,7 +19,6 @@ import jakarta.ws.rs.core.Response;
 
 import io.casehub.work.api.spi.BusinessCalendar;
 import io.casehub.work.examples.StepLog;
-import io.casehub.work.runtime.model.WorkItem;
 import io.casehub.work.api.WorkItemCreateRequest;
 import io.casehub.work.api.WorkItemPriority;
 import io.casehub.work.runtime.service.WorkItemService;
@@ -62,15 +62,15 @@ public class BusinessHoursScenario {
         final ZoneId zone = ZoneId.of("UTC");
 
         // Step 1: create with 48 business-hour SLA
-        final WorkItem wi = workItemService.create(WorkItemCreateRequest.builder()
-                .title("Loan application review — 48 business-hour SLA")
-                .description("Review and approve or reject the loan application within 48 business hours.")
-                .types(List.of("loan-approval"))
-                .priority(WorkItemPriority.HIGH)
-                .candidateGroups("loan-officers")
-                .createdBy("finance-system")
-                .expiresAtBusinessHours(48)
-                .build());
+        final WorkItemEntity wi = workItemService.create(WorkItemCreateRequest.builder()
+                                                                              .title("Loan application review — 48 business-hour SLA")
+                                                                              .description("Review and approve or reject the loan application within 48 business hours.")
+                                                                              .types(List.of("loan-approval"))
+                                                                              .priority(WorkItemPriority.HIGH)
+                                                                              .candidateGroups("loan-officers")
+                                                                              .createdBy("finance-system")
+                                                                              .expiresAtBusinessHours(48)
+                                                                              .build());
         steps.add(new StepLog(1,
                 "Created loan-approval WorkItem with expiresAtBusinessHours=48",
                 wi.id));

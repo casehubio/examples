@@ -3,6 +3,7 @@ package io.casehub.work.examples.moderation;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.casehub.work.runtime.model.WorkItemEntity;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.POST;
@@ -26,7 +27,6 @@ import io.casehub.work.ledger.model.WorkItemLedgerEntry;
 import io.casehub.work.ledger.repository.WorkItemLedgerEntryRepository;
 import io.casehub.work.api.AuditEntryResponse;
 import io.casehub.work.runtime.model.AuditEntry;
-import io.casehub.work.runtime.model.WorkItem;
 import io.casehub.work.api.WorkItemCreateRequest;
 import io.casehub.work.api.WorkItemPriority;
 import io.casehub.work.runtime.repository.AuditEntryStore;
@@ -105,7 +105,7 @@ public class ContentModerationScenario {
                 .payload("{\"postId\": \"POST-9912\", \"flagReason\": \"hate-speech\"}")
                 .build();
 
-        final WorkItem wi = workItemService.create(request);
+        final WorkItemEntity wi = workItemService.create(request);
         steps.add(new StepLog(1, description1, wi.id));
 
         // Set evidence and provenance on the creation ledger entry

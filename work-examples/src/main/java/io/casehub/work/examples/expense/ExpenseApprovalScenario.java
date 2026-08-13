@@ -3,6 +3,7 @@ package io.casehub.work.examples.expense;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.casehub.work.runtime.model.WorkItemEntity;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -19,7 +20,6 @@ import io.casehub.work.ledger.model.WorkItemLedgerEntry;
 import io.casehub.work.ledger.repository.WorkItemLedgerEntryRepository;
 import io.casehub.work.api.AuditEntryResponse;
 import io.casehub.work.runtime.model.AuditEntry;
-import io.casehub.work.runtime.model.WorkItem;
 import io.casehub.work.api.WorkItemCreateRequest;
 import io.casehub.work.api.WorkItemPriority;
 import io.casehub.work.runtime.repository.AuditEntryStore;
@@ -83,7 +83,7 @@ public class ExpenseApprovalScenario {
                 .payload("{\"amount\": 450.00, \"currency\": \"GBP\"}")
                 .build();
 
-        final WorkItem wi = workItemService.create(request);
+        final WorkItemEntity wi = workItemService.create(request);
         steps.add(new StepLog(1, description1, wi.id));
 
         // Step 2: alice claims the WorkItem
