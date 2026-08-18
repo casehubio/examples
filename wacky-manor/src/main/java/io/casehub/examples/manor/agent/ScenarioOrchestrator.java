@@ -40,6 +40,11 @@ public class ScenarioOrchestrator {
     ManorChannels                               manorChannels;
     @Inject
     io.casehub.examples.manor.web.ManorEventBus webEventBus;
+    @Inject
+    io.casehub.neocortex.memory.experience.ExperienceRecorder experienceRecorder;
+    @Inject
+    io.casehub.neocortex.memory.CaseMemoryStore caseMemoryStore;
+
 
     @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.scenario.max-turns", defaultValue = "300")
     int maxTurns;
@@ -56,6 +61,65 @@ public class ScenarioOrchestrator {
     int narratorTimerSeconds;
     @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.scenario.active-characters", defaultValue = "")
     java.util.Optional<String> activeCharactersConfig;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.agent.max-concurrent", defaultValue = "5")
+    int                        maxConcurrentAgents;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.reflection.enabled", defaultValue = "true")
+    boolean                    reflectionEnabled;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.reflection.max-unreflected", defaultValue = "5")
+    int                        maxUnreflected;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.reflection.importance-threshold", defaultValue = "3.0")
+    double                     reflectionImportanceThreshold;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.reflection.max-source-memories", defaultValue = "15")
+    int                        maxSourceMemories;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.decay.enabled", defaultValue = "true")
+    boolean                    decayEnabled;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.decay.max-age-days", defaultValue = "7")
+    int                        decayMaxAgeDays;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.decay.min-importance", defaultValue = "0.2")
+    double                     decayMinImportance;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.memory.recall-limit", defaultValue = "20")
+    int                        recallLimit;
+    @Inject
+    ManorGoalFormationStrategy goalFormationStrategy;
+    @Inject
+    ManorGoalRevisionStrategy  goalRevisionStrategy;
+
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.goal.enabled", defaultValue = "true")
+    boolean                    goalEnabled;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.goal.cooldown-ticks", defaultValue = "10")
+    int                        goalCooldownTicks;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.goal.max-new-per-reflection", defaultValue = "2")
+    int                        goalMaxNewPerReflection;
+
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.plan.enabled", defaultValue = "true")
+    boolean                    planEnabled;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.plan.revision.max-generation", defaultValue = "5")
+    int                        planMaxRevisionGeneration;
+
+    @Inject
+    ManorPlanRevisionStrategy  planRevisionStrategy;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.disposition.enabled", defaultValue = "true")
+    boolean                    dispositionEnabled;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.disposition.evolution-check-interval", defaultValue = "5")
+    int                        dispositionEvolutionCheckInterval;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.trust.enabled", defaultValue = "true")
+    boolean                    trustEnabled;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.trust.positive-weight", defaultValue = "1.0")
+    double                     trustPositiveWeight;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.trust.negative-weight", defaultValue = "-2.0")
+    double                     trustNegativeWeight;
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.personality.weighted-retrieval", defaultValue = "true")
+    boolean                    personalityWeightedRetrieval;
+
+    @Inject
+    io.casehub.eidos.api.BehavioralSignalStore  behavioralSignalStore;
+    @Inject
+    io.casehub.eidos.api.DispositionSignalStore dispositionSignalStore;
+
+
+    private volatile AgentProvider gatedProvider;
+
+
 
     public Thread startScenario(WorldState world, io.casehub.examples.manor.model.ScenarioMode mode) {
         var triggers         = MansionLoader.loadTriggers();
@@ -84,6 +148,39 @@ public class ScenarioOrchestrator {
         var obsRenderer        = new ManorObservationRenderer(compactor, verbatimThreshold, groupedThreshold, summariser);
         var observationService = new ObservationService(obsRenderer);
         observationService.init(world);
+
+        var reflectionSynthesizer = new ManorReflectionSynthesizer(gatedProvider);
+        var reflectionTrigger = new ManorReflectionTrigger(maxUnreflected, reflectionImportanceThreshold);
+        ManorPlanEvaluator planEvaluator = null;
+        if (planEnabled && goalEnabled) {
+            var planFormationStrategy = new ManorPlanFormationStrategy(gatedProvider);
+            planEvaluator = new ManorPlanEvaluator(planFormationStrategy, planRevisionStrategy,
+                caseMemoryStore, ManorConstants.TENANCY_ID,
+                agentId -> world.character(agentId), planMaxRevisionGeneration);
+        }
+        ManorGoalEvaluator goalEvaluator = null;
+        if (goalEnabled) {
+            goalEvaluator = new ManorGoalEvaluator(goalFormationStrategy, goalRevisionStrategy,
+                agentRegistry, caseMemoryStore, ManorConstants.TENANCY_ID,
+                goalCooldownTicks, goalMaxNewPerReflection, planEvaluator);
+        }
+        var experienceService = new AgentExperienceService(experienceRecorder, caseMemoryStore,
+            ManorConstants.TENANCY_ID, reflectionSynthesizer, reflectionTrigger,
+            reflectionEnabled, decayEnabled, decayMaxAgeDays, decayMinImportance,
+            maxSourceMemories, recallLimit, goalEvaluator, planEvaluator);
+
+        ManorTrustProvider trustProvider = null;
+        if (trustEnabled) {
+            trustProvider = new ManorTrustProvider(trustPositiveWeight, trustNegativeWeight);
+        }
+        ManorDispositionRecorder dispositionRecorder = null;
+        ManorPersonalityEvolution personalityEvolution = null;
+        if (dispositionEnabled) {
+            dispositionRecorder = new ManorDispositionRecorder(behavioralSignalStore,
+                dispositionSignalStore, ManorConstants.TENANCY_ID);
+            personalityEvolution = new ManorPersonalityEvolution(dispositionSignalStore,
+                ManorConstants.TENANCY_ID, dispositionEvolutionCheckInterval);
+        }
 
         NarratorAgent narratorAgent = null;
         if (narratorEnabled && mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
@@ -115,7 +212,7 @@ public class ScenarioOrchestrator {
         var invocationService = new AgentInvocationService(agentProvider, 60, 2, 2000);
 
         if (mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
-            runAutonomousTicks(world, activeSet, actionResolver, dispatcher, invocationService, narratorAgent);
+            runAutonomousTicks(world, activeSet, actionResolver, dispatcher, invocationService, narratorAgent, experienceService, planEvaluator, trustProvider, dispositionRecorder, personalityEvolution);
         } else {
             runScripted(world, activeSet, actionResolver, dispatcher, invocationService,
                         triggerEvaluator, sceneDirector, narratorAgent);
@@ -143,7 +240,11 @@ public class ScenarioOrchestrator {
 
     private void runAutonomousTicks(WorldState world, java.util.Set<String> activeSet,
                                      ActionResolver actionResolver, ManorEventDispatcher dispatcher,
-                                     AgentInvocationService invocationService, NarratorAgent narratorAgent) {
+                                     AgentInvocationService invocationService, NarratorAgent narratorAgent,
+                                     AgentExperienceService experienceService, ManorPlanEvaluator planEvaluator,
+                                     ManorTrustProvider trustProvider,
+                                     ManorDispositionRecorder dispositionRecorder,
+                                     ManorPersonalityEvolution personalityEvolution) {
         var activeAgents = world.characters().values().stream()
                 .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
                 .toList();
@@ -172,9 +273,25 @@ public class ScenarioOrchestrator {
                 Thread.ofVirtual().name(c.agentId() + "-tick-" + currentTick).start(() -> {
                     try {
                         var drain = dispatcher.observationService().drain(c.agentId(), System.currentTimeMillis());
+                        var reflections = experienceService.recallReflections(c.agentId(), 5);
+                        var relationships = new java.util.HashMap<String, java.util.List<io.casehub.neocortex.memory.Memory>>();
+                        for (var other : world.charactersInRoom(c.currentRoom())) {
+                            if (!other.agentId().equals(c.agentId())) {
+                                var relMems = experienceService.recallRelationships(c.agentId(), other.agentId(), 3);
+                                if (!relMems.isEmpty()) {
+                                    relationships.put(other.agentId(), relMems);
+                                }
+                            }
+                        }
+                        var memories = experienceService.recall(c.agentId(), recallLimit);
+                        if (personalityWeightedRetrieval && !memories.isEmpty()) {
+                            memories = io.casehub.neocortex.memory.personality.PersonalityWeightedRetrieval
+                                .reweight(memories, new io.casehub.neocortex.memory.personality.PersonalityWeights(
+                                    java.util.Map.of(new io.casehub.neocortex.memory.MemoryDomain("manor"), 1.0)), java.time.Instant.now());
+                        }
                         String observation = ObservationBuilder.buildObservation(
                                 c, world, resolveGoals(c.agentId()), drain,
-                                java.util.List.of(), c.capabilityTags());
+                                memories, reflections, relationships, c.capabilityTags());
                         String userPrompt = observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
                         String systemPrompt = renderPrompt(c.agentId());
                         responses.put(c.agentId(), invocationService.invoke(systemPrompt, userPrompt, c.agentId()));
@@ -269,22 +386,39 @@ public class ScenarioOrchestrator {
                         dispatcher.publishAction(enrichedEvent, result, c.x());
                     }
                     c.setLastActionResult(result.text());
+                    if (result instanceof ActionResult.Failed failure && planEvaluator != null) {
+                        String aType = response.action() != null ? response.action().type().name() : "WAIT";
+                        String aTarget = response.action() != null ? response.action().target() : "";
+                        planEvaluator.reviseOnFailure(c.agentId(), aType, aTarget, failure, currentTick);
+                    }
+                    if (dispositionRecorder != null) {
+                        dispositionRecorder.record(c.agentId(), response.action().type(), result);
+                    }
+                    if (trustProvider != null) {
+                        String target = extractTargetAgent(response);
+                        if (target != null) {
+                            var actionType = response.action().type();
+                            if (actionType == io.casehub.examples.manor.model.ActionType.STEAL) {
+                                trustProvider.recordNegative(c.agentId());
+                            } else if (actionType == io.casehub.examples.manor.model.ActionType.GIVE) {
+                                trustProvider.recordPositive(c.agentId());
+                            }
+                        }
+                    }
                 } else {
                     c.setLastActionResult("You waited and observed.");
                 }
                 if (response.thinking() != null) {
-                    c.setCurrentPlan(response.thinking());
+                    c.setCurrentThinking(response.thinking());
                 }
-                if (response.dropGoals() != null) {
-                    if (response.dropGoals().contains("*")) {
-                        c.dropAllDynamicGoals();
-                    } else {
-                        response.dropGoals().forEach(c::dropDynamicGoal);
-                    }
-                }
-                if (response.newGoals() != null) {
-                    response.newGoals().forEach(g ->
-                        c.addDynamicGoal(new io.casehub.examples.manor.model.DynamicGoal(g.name(), g.description(), currentTick)));
+                double importance = importanceForAction(response);
+                String targetAgentId = extractTargetAgent(response);
+                String desc = (response.dialogue() != null ? response.dialogue() + " " : "")
+                              + (response.action() != null ? response.action().type() + " " + response.action().target() : "WAIT");
+                experienceService.ingest(c.agentId(), c.currentRoom(),
+                    desc.strip(), response.thinking(), importance, targetAgentId, currentTick);
+                if (personalityEvolution != null) {
+                    personalityEvolution.checkAndEvolve(c.agentId(), currentTick);
                 }
             }
 
@@ -421,5 +555,30 @@ public class ScenarioOrchestrator {
     private static int cadence(io.casehub.examples.manor.model.CharacterState c) {
         return Math.max(1, (int) (c.thinkDelayMs() / 2000));
     }
+
+    private static double importanceForAction(AgentResponse response) {
+        if (response.action() == null) {return 0.5;}
+        return switch (response.action().type()) {
+            case STEAL -> 0.9;
+            case USE -> 0.8;
+            case TAKE, GIVE, PULL_ASIDE -> 0.7;
+            case INTERACT -> 0.6;
+            case MOVE -> 0.3;
+            case LOOK -> 0.2;
+            case WAIT -> 0.1;
+        };
+    }
+
+    private static String extractTargetAgent(AgentResponse response) {
+        if (response.talkTo() != null) {return response.talkTo();}
+        if (response.action() == null) {return null;}
+        String target = response.action().target();
+        if (target == null) {return null;}
+        return switch (response.action().type()) {
+            case GIVE, STEAL, PULL_ASIDE -> target;
+            default -> null;
+        };
+    }
+
 }
 

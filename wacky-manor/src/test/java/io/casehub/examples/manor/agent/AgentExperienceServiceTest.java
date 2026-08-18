@@ -47,6 +47,23 @@ class AgentExperienceServiceTest {
         };
     }
 
+    private CaseMemoryStore capturingStore(List<Memory> memories, List<MemoryQuery> captured) {
+        return new CaseMemoryStore() {
+            @Override
+            public String store(MemoryInput input) {return "id";}
+
+            @Override
+            public List<Memory> query(MemoryQuery q) {
+                                                       captured.add(q);
+                                                       return memories;
+                                                   }
+
+            @Override
+            public int erase(EraseRequest r) {return 0;}
+        };
+    }
+
+
     @Test
     void ingestRecordsExperienceEvent() {
         var service = new AgentExperienceService(stubRecorder(), stubStore(List.of()), "test-tenant");
@@ -122,4 +139,172 @@ class AgentExperienceServiceTest {
 
         assertThat(recorded.getFirst().metadata()).containsEntry("room", "kitchen");
     }
+
+    @Test
+    void recallUsesSalienceOrder() {
+        var captured = new ArrayList<MemoryQuery>();
+        var service  = new AgentExperienceService(stubRecorder(), capturingStore(List.of(), captured), "t1");
+
+        service.recall("agent-1", 20);
+
+        assertThat(captured).hasSize(1);
+        assertThat(captured.getFirst().order()).isEqualTo(io.casehub.neocortex.memory.MemoryOrder.SALIENCE);
+    }
+
+    @Test
+    void ingestPassesImportanceToAction() {
+        var service = new AgentExperienceService(stubRecorder(), stubStore(List.of()), "t1");
+
+        service.ingest("agent-1", "kitchen", "took the poison", null, 0.8);
+
+        assertThat(recorded).hasSize(1);
+        assertThat(recorded.getFirst().importance()).isEqualTo(0.8);
+    }
+
+    @Test
+    void ingestSetsTargetAgentMetadata() {
+        var service = new AgentExperienceService(stubRecorder(), stubStore(List.of()), "t1");
+
+        service.ingest("agent-1", "kitchen", "gave poison to penelope",
+                       null, 0.7, "penelope");
+
+        assertThat(recorded).hasSize(1);
+        assertThat(recorded.getFirst().metadata())
+                .containsEntry(io.casehub.neocortex.memory.experience.ExperienceAttributeKeys.TARGET_AGENT, "penelope");
+    }
+
+    @Test
+    void ingestOmitsTargetAgentWhenNull() {
+        var service = new AgentExperienceService(stubRecorder(), stubStore(List.of()), "t1");
+
+        service.ingest("agent-1", "kitchen", "looked around", null, 0.2, null);
+
+        assertThat(recorded.getFirst().metadata())
+                .doesNotContainKey(io.casehub.neocortex.memory.experience.ExperienceAttributeKeys.TARGET_AGENT);
+    }
+
+    @Test
+    void recallRelationshipsQueriesRelationshipDomain() {
+        var captured = new ArrayList<MemoryQuery>();
+        var service  = new AgentExperienceService(stubRecorder(), capturingStore(List.of(), captured), "t1");
+
+        service.recallRelationships("agent-1", "agent-2", 3);
+
+        assertThat(captured).hasSize(1);
+        assertThat(captured.getFirst().order()).isEqualTo(io.casehub.neocortex.memory.MemoryOrder.SALIENCE);
+    }
+
+    @Test
+    void ingestTriggersReflectionAtThreshold() throws Exception {
+        var storedInputs = new ArrayList<MemoryInput>();
+        CaseMemoryStore reflectStore = new CaseMemoryStore() {
+            @Override
+            public String store(MemoryInput input) {
+                storedInputs.add(input);
+                return "r-" + storedInputs.size();
+            }
+
+            @Override
+            public List<Memory> query(MemoryQuery q) {
+                return List.of(new Memory("m1", "a1", new MemoryDomain("manor"), "t1",
+                                          null, "test memory", Map.of(), Instant.now(), 0.5));
+            }
+
+            @Override
+            public int erase(EraseRequest r) {return 0;}
+        };
+        var synthesizer = new io.casehub.neocortex.memory.reflection.ReflectionSynthesizer() {
+            final java.util.concurrent.atomic.AtomicInteger calls = new java.util.concurrent.atomic.AtomicInteger();
+
+            @Override
+            public List<io.casehub.neocortex.memory.reflection.ReflectionEvent> synthesize(
+                    String agentId, String tenantId, List<Memory> sources, int targetLevel) {
+                calls.incrementAndGet();
+                return List.of(new io.casehub.neocortex.memory.reflection.ReflectionEvent(
+                        agentId, tenantId, null, "test insight", 1, List.of("m1"), 0.8, Map.of()));
+            }
+        };
+        var trigger = new ManorReflectionTrigger(2, 100.0);
+        var service = new AgentExperienceService(stubRecorder(), reflectStore, "t1",
+                                                 synthesizer, trigger, true, false, 7, 0.2, 15, 20);
+
+        service.ingest("a1", "room", "action 1", null, 0.5, null);
+        service.ingest("a1", "room", "action 2", null, 0.5, null);
+
+        Thread.sleep(1000);
+
+        assertThat(synthesizer.calls.get()).isEqualTo(1);
+        assertThat(storedInputs).isNotEmpty();
+    }
+
+    @Test
+    void recallReflectionsQueriesReflectionDomain() {
+        var captured = new ArrayList<MemoryQuery>();
+        var service  = new AgentExperienceService(stubRecorder(), capturingStore(List.of(), captured), "t1");
+
+        service.recallReflections("a1", 5);
+
+        assertThat(captured).hasSize(1);
+        assertThat(captured.getFirst().domain())
+                .isEqualTo(io.casehub.neocortex.memory.reflection.ReflectionEvents.DOMAIN);
+        assertThat(captured.getFirst().order()).isEqualTo(io.casehub.neocortex.memory.MemoryOrder.SALIENCE);
+    }
+
+    @Test
+    void reflectionChainsGoalEvaluation() throws Exception {
+        var storedInputs = new ArrayList<MemoryInput>();
+        CaseMemoryStore reflectStore = new CaseMemoryStore() {
+            @Override
+            public String store(MemoryInput input) {
+                storedInputs.add(input);
+                return "r-" + storedInputs.size();
+            }
+
+            @Override
+            public List<Memory> query(MemoryQuery q) {
+                return List.of(new Memory("m1", "a1", new MemoryDomain("manor"), "t1",
+                                          null, "test memory", Map.of(), Instant.now(), 0.5));
+            }
+
+            @Override
+            public int erase(EraseRequest r) {return 0;}
+        };
+        var synthesizer = new io.casehub.neocortex.memory.reflection.ReflectionSynthesizer() {
+            @Override
+            public List<io.casehub.neocortex.memory.reflection.ReflectionEvent> synthesize(
+                    String agentId, String tenantId, List<Memory> sources, int targetLevel) {
+                return List.of(new io.casehub.neocortex.memory.reflection.ReflectionEvent(
+                        agentId, tenantId, null, "test insight", 1, List.of("m1"), 0.8, Map.of()));
+            }
+        };
+        var trigger = new ManorReflectionTrigger(2, 100.0);
+
+        var evaluatedInsights = new ArrayList<List<String>>();
+        var evaluatedTicks    = new ArrayList<Integer>();
+        ManorGoalEvaluator mockEvaluator = new ManorGoalEvaluator(
+                ctx -> new io.casehub.api.spi.routing.GoalFormationProposal(List.of(), ""),
+                null, null, reflectStore, "t1", 10, 2) {
+            @Override
+            public void evaluate(String agentId, int currentTick, List<String> insights,
+                                 Map<String, io.casehub.eidos.api.GoalOutcomeCounts> goalOutcomes) {
+                evaluatedInsights.add(insights);
+                evaluatedTicks.add(currentTick);
+            }
+        };
+
+        var service = new AgentExperienceService(stubRecorder(), reflectStore, "t1",
+                                                 synthesizer, trigger, true, false, 7, 0.2, 15, 20,
+                                                 mockEvaluator);
+
+        service.ingest("a1", "room", "action 1", null, 0.5, null, 5);
+        service.ingest("a1", "room", "action 2", null, 0.5, null, 5);
+
+        Thread.sleep(1000);
+
+        assertThat(evaluatedInsights).hasSize(1);
+        assertThat(evaluatedInsights.getFirst()).containsExactly("test insight");
+        assertThat(evaluatedTicks.getFirst()).isEqualTo(5);
+    }
+
+
 }

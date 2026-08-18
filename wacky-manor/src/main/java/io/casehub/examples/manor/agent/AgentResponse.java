@@ -14,15 +14,10 @@ public record AgentResponse(
         String dialogue,
         String talkTo,
         String aside,
-        Action action,
-        java.util.List<GoalEntry> newGoals,
-        java.util.List<String> dropGoals) {
+        Action action) {
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public record GoalEntry(String name, String description) {}
-
-    private static final ObjectMapper JSON = new ObjectMapper();
-    private static final Pattern CODE_BLOCK = Pattern.compile("```(?:json)?\\s*\\n?(\\{.*?})\\s*```", Pattern.DOTALL);
+    private static final ObjectMapper JSON       = new ObjectMapper();
+    private static final Pattern      CODE_BLOCK = Pattern.compile("```(?:json)?\\s*\\n?(\\{.*?})\\s*```", Pattern.DOTALL);
 
     public static AgentResponse parse(String text) {
         try {
@@ -36,16 +31,17 @@ public record AgentResponse(
 
     public static AgentResponse idle() {
         return new AgentResponse(null, null, null, null,
-                                 new Action(ActionType.WAIT, null, null), null, null);}
+                                 new Action(ActionType.WAIT, null, null));
+    }
 
     private static String extractJson(String text) {
         text = text.strip();
-        if (text.startsWith("{")) return text;
+        if (text.startsWith("{")) {return text;}
         Matcher m = CODE_BLOCK.matcher(text);
-        if (m.find()) return m.group(1);
+        if (m.find()) {return m.group(1);}
         int start = text.indexOf('{');
-        int end = text.lastIndexOf('}');
-        if (start >= 0 && end > start) return text.substring(start, end + 1);
+        int end   = text.lastIndexOf('}');
+        if (start >= 0 && end > start) {return text.substring(start, end + 1);}
         return text;
     }
 }

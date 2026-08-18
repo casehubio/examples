@@ -237,40 +237,19 @@ class ObservationBuilderTest {
     }
 
     @Test
-    void observation_includes_current_plan_when_set() {
+    void observation_includes_current_thinking_when_set() {
         var character = world.character("hooded-claw");
-        character.setCurrentPlan("Step 1: find the poison. Step 2: poison the tea.");
+        character.setCurrentThinking("I see the poison on the shelf — I should take it now.");
         var obs = ObservationBuilder.buildObservation(character, world, java.util.List.of(), emptyDrain, java.util.List.of(), character.capabilityTags());
-        assertThat(obs).contains("== Your Current Plan ==");
-        assertThat(obs).contains("Step 1: find the poison");
+        assertThat(obs).contains("== Your Current Thinking ==");
+        assertThat(obs).contains("I see the poison on the shelf");
     }
 
     @Test
-    void observation_omits_plan_section_when_null() {
+    void observation_omits_thinking_section_when_null() {
         var character = world.character("hooded-claw");
         var obs       = ObservationBuilder.buildObservation(character, world, java.util.List.of(), emptyDrain, java.util.List.of(), character.capabilityTags());
-        assertThat(obs).doesNotContain("Your Current Plan");
-    }
-
-    @Test
-    void goals_section_renders_dynamic_goals_with_situational_prefix() {
-        var character = world.character("penelope-pitstop");
-        character.addDynamicGoal(new io.casehub.examples.manor.model.DynamicGoal("protect-tea", "Stop Sneekly from poisoning the tea", 1));
-        var goals = java.util.List.of(new io.casehub.eidos.api.AgentGoal("find-diamond", "Find the Doily Diamond", io.casehub.eidos.api.GoalPriority.PRIMARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of()));
-        var obs   = ObservationBuilder.buildObservation(character, world, goals, emptyDrain, java.util.List.of(), java.util.Set.of());
-        assertThat(obs).contains("[PRIMARY] Find the Doily Diamond");
-        assertThat(obs).contains("[SITUATIONAL] Stop Sneekly from poisoning the tea");
-    }
-
-    @Test
-    void goals_section_identity_goals_before_situational() {
-        var character = world.character("penelope-pitstop");
-        character.addDynamicGoal(new io.casehub.examples.manor.model.DynamicGoal("protect-tea", "Stop the poison", 1));
-        var goals          = java.util.List.of(new io.casehub.eidos.api.AgentGoal("find-diamond", "Find the Diamond", io.casehub.eidos.api.GoalPriority.PRIMARY, io.casehub.eidos.api.Visibility.PUBLIC, java.util.List.of()));
-        var obs            = ObservationBuilder.buildObservation(character, world, goals, emptyDrain, java.util.List.of(), java.util.Set.of());
-        int primaryIdx     = obs.indexOf("[PRIMARY]");
-        int situationalIdx = obs.indexOf("[SITUATIONAL]");
-        assertThat(primaryIdx).isLessThan(situationalIdx);
+        assertThat(obs).doesNotContain("Your Current Thinking");
     }
 
     @Test
@@ -284,11 +263,77 @@ class ObservationBuilderTest {
     }
 
     @Test
-    void exchange_observation_includes_current_plan() {
+    void exchange_observation_includes_current_thinking() {
         var character = world.character("hooded-claw");
-        character.setCurrentPlan("Get Muttley to fetch the key.");
+        character.setCurrentThinking("Get Muttley to fetch the key.");
         var obs = ObservationBuilder.buildExchangeObservation(character, "Hehehehe!", world);
-        assertThat(obs).contains("Your Current Plan");
+        assertThat(obs).contains("Your Current Thinking");
         assertThat(obs).contains("Get Muttley to fetch the key.");
     }
+
+    @Test
+    void plan_sections_render_per_goal_with_status() {
+        var character = world.character("hooded-claw");
+        var step1     = new io.casehub.examples.manor.model.PlanStep("s1", "Find the poison", io.casehub.examples.manor.model.PlanStepStatus.COMPLETED);
+        var step2     = new io.casehub.examples.manor.model.PlanStep("s2", "Dispose of it", io.casehub.examples.manor.model.PlanStepStatus.PENDING);
+        var plan      = new io.casehub.examples.manor.model.AgentPlan("protect-penelope", java.util.List.of(step1, step2), "protect her", 1, 1, 0);
+        character.setPlan("protect-penelope", plan);
+        var obs = ObservationBuilder.buildObservation(character, world, java.util.List.of(), emptyDrain, java.util.List.of(), character.capabilityTags());
+        assertThat(obs).contains("Plan: protect-penelope");
+        assertThat(obs).contains("[COMPLETED] Find the poison");
+        assertThat(obs).contains("[PENDING] Dispose of it");
+    }
+
+    @Test
+    void plan_sections_empty_when_no_plans() {
+        var character = world.character("hooded-claw");
+        var obs       = ObservationBuilder.buildObservation(character, world, java.util.List.of(), emptyDrain, java.util.List.of(), character.capabilityTags());
+        assertThat(obs).doesNotContain("Plan:");
+    }
+
+    @Test
+    void insightsSectionRendersWhenReflectionsProvided() {
+        var reflections = java.util.List.of(
+                new io.casehub.neocortex.memory.Memory("r1", "penelope-pitstop",
+                                                       io.casehub.neocortex.memory.reflection.ReflectionEvents.DOMAIN, "t1",
+                                                       null, "Sneekly is always near dangerous items",
+                                                       java.util.Map.of(), java.time.Instant.now(), 0.8)
+                                           );
+
+        var obs = ObservationBuilder.buildObservation(
+                world.character("penelope-pitstop"), world, java.util.List.of(), emptyDrain,
+                java.util.List.of(), reflections, java.util.Map.of(), java.util.Set.of());
+
+        assertThat(obs).contains("Insights");
+        assertThat(obs).contains("Sneekly is always near dangerous items");
+    }
+
+    @Test
+    void insightsSectionOmittedWhenNoReflections() {
+        var obs = ObservationBuilder.buildObservation(
+                world.character("penelope-pitstop"), world, java.util.List.of(), emptyDrain,
+                java.util.List.of(), java.util.List.of(), java.util.Map.of(), java.util.Set.of());
+
+        assertThat(obs).doesNotContain("Insights");
+    }
+
+    @Test
+    void relationshipNotesRenderForCharactersInRoom() {
+        var relationships = java.util.Map.of(
+                "hooded-claw", java.util.List.of(
+                        new io.casehub.neocortex.memory.Memory("rel1", "penelope-pitstop",
+                                                               new io.casehub.neocortex.memory.MemoryDomain("relationship"), "t1",
+                                                               null, "Sneekly offered you tea with unusual insistence",
+                                                               java.util.Map.of(), java.time.Instant.now(), 0.7)
+                                                )
+                                            );
+
+        var obs = ObservationBuilder.buildObservation(
+                world.character("penelope-pitstop"), world, java.util.List.of(), emptyDrain,
+                java.util.List.of(), java.util.List.of(), relationships, java.util.Set.of());
+
+        assertThat(obs).contains("About The Hooded Claw");
+        assertThat(obs).contains("Sneekly offered you tea with unusual insistence");
+    }
+
 }

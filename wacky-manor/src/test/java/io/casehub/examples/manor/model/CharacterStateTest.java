@@ -51,65 +51,41 @@ class CharacterStateTest {
     }
 
     @Test
-    void currentPlan_null_by_default() {
+    void plans_empty_by_default() {
         var state = new CharacterState("test", "Test", "room", 0.5, List.of());
-        assertThat(state.currentPlan()).isNull();
+        assertThat(state.plans()).isEmpty();
     }
 
     @Test
-    void currentPlan_set_and_retrieved() {
+    void setPlan_and_retrieve() {
         var state = new CharacterState("test", "Test", "room", 0.5, List.of());
-        state.setCurrentPlan("Step 1: get the poison");
-        assertThat(state.currentPlan()).isEqualTo("Step 1: get the poison");
+        var step  = new PlanStep("s1", "Find the poison", PlanStepStatus.PENDING);
+        var plan  = new AgentPlan("protect-penelope", List.of(step), "need to protect", 1, 1, 0);
+        state.setPlan("protect-penelope", plan);
+        assertThat(state.plans()).containsKey("protect-penelope");
+        assertThat(state.plans().get("protect-penelope").steps()).hasSize(1);
     }
 
     @Test
-    void dynamicGoals_empty_by_default() {
+    void removePlan_removes_by_goalName() {
         var state = new CharacterState("test", "Test", "room", 0.5, List.of());
-        assertThat(state.dynamicGoals()).isEmpty();
+        var plan  = new AgentPlan("goal-a", List.of(), "r", 1, 1, 0);
+        state.setPlan("goal-a", plan);
+        state.removePlan("goal-a");
+        assertThat(state.plans()).isEmpty();
     }
 
     @Test
-    void addDynamicGoal_and_retrieve() {
+    void currentThinking_null_by_default() {
         var state = new CharacterState("test", "Test", "room", 0.5, List.of());
-        state.addDynamicGoal(new io.casehub.examples.manor.model.DynamicGoal("protect-tea", "Stop the poison", 1));
-        assertThat(state.dynamicGoals()).hasSize(1);
-        assertThat(state.dynamicGoals().get(0).name()).isEqualTo("protect-tea");
+        assertThat(state.currentThinking()).isNull();
     }
 
     @Test
-    void dropDynamicGoal_removes_by_normalized_name() {
+    void currentThinking_set_and_retrieved() {
         var state = new CharacterState("test", "Test", "room", 0.5, List.of());
-        state.addDynamicGoal(new io.casehub.examples.manor.model.DynamicGoal("protect-tea", "Stop the poison", 1));
-        state.dropDynamicGoal("Protect-Tea");
-        assertThat(state.dynamicGoals()).isEmpty();
+        state.setCurrentThinking("I see the poison on the shelf");
+        assertThat(state.currentThinking()).isEqualTo("I see the poison on the shelf");
     }
 
-    @Test
-    void dropAllDynamicGoals_clears_all() {
-        var state = new CharacterState("test", "Test", "room", 0.5, List.of());
-        state.addDynamicGoal(new io.casehub.examples.manor.model.DynamicGoal("goal-a", "A", 1));
-        state.addDynamicGoal(new io.casehub.examples.manor.model.DynamicGoal("goal-b", "B", 2));
-        state.dropAllDynamicGoals();
-        assertThat(state.dynamicGoals()).isEmpty();
-    }
-
-    @Test
-    void addDynamicGoal_replaces_existing_with_same_name() {
-        var state = new CharacterState("test", "Test", "room", 0.5, List.of());
-        state.addDynamicGoal(new io.casehub.examples.manor.model.DynamicGoal("protect-tea", "V1", 1));
-        state.addDynamicGoal(new io.casehub.examples.manor.model.DynamicGoal("Protect-Tea", "V2", 2));
-        assertThat(state.dynamicGoals()).hasSize(1);
-        assertThat(state.dynamicGoals().get(0).description()).isEqualTo("V2");
-    }
-
-    @Test
-    void dynamicGoals_capped_evicts_oldest() {
-        var state = new CharacterState("test", "Test", "room", 0.5, List.of());
-        for (int i = 0; i < 6; i++) {
-            state.addDynamicGoal(new io.casehub.examples.manor.model.DynamicGoal("goal-" + i, "G" + i, i));
-        }
-        assertThat(state.dynamicGoals()).hasSize(5);
-        assertThat(state.dynamicGoals().stream().map(io.casehub.examples.manor.model.DynamicGoal::name).toList()).doesNotContain("goal-0");
-    }
 }

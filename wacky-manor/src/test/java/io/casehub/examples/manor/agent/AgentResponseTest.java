@@ -105,27 +105,8 @@ class AgentResponseTest {
     }
 
     @Test
-    void parse_includes_newGoals() {
-        var json = """
-                   {"thinking":"t","action":{"type":"WAIT"},"newGoals":[{"name":"protect-tea","description":"Stop the poison"}]}""";
-        var response = AgentResponse.parse(json);
-        assertThat(response.newGoals()).hasSize(1);
-        assertThat(response.newGoals().get(0).name()).isEqualTo("protect-tea");
-    }
-
-    @Test
-    void parse_includes_dropGoals() {
-        var json = """
-                   {"thinking":"t","action":{"type":"WAIT"},"dropGoals":["old-goal"]}""";
-        var response = AgentResponse.parse(json);
-        assertThat(response.dropGoals()).containsExactly("old-goal");
-    }
-
-    @Test
     void idle_has_null_for_new_fields() {
         var response = AgentResponse.idle();
         assertThat(response.talkTo()).isNull();
-        assertThat(response.newGoals()).isNull();
-        assertThat(response.dropGoals()).isNull();
     }
 }

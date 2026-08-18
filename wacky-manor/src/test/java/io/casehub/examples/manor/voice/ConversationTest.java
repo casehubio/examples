@@ -22,7 +22,7 @@ class ConversationTest {
             + "Penelope Pitstop is in the next room about to drink tea. "
             + "Sneekly is suspiciously close to the tea service. "
             + "You are deeply suspicious of Sneekly.\n\n"
-            + "== Your Current Plan ==\n"
+            + "== Your Current Thinking ==\n"
             + "Keep an eye on Sneekly. Something ain't right about that guy.\n\n";
 
     private static final String DIRECTED_SCENARIO =
@@ -39,18 +39,6 @@ class ConversationTest {
     @BeforeEach
     void setUp() {
         support = new LlmTestSupport(registry, renderer, agentProvider);
-    }
-
-    @Test
-    void mob_generates_protective_goal_from_danger() {
-        var scenario = DANGER_SCENARIO + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
-        var response = support.askCharacter("ant-hill-mob", scenario);
-        System.out.println("[Mob — dynamic goals] " + response);
-        var parsed = AgentResponse.parse(response);
-        assertThat(parsed.newGoals())
-                .as("Mob should generate a protective goal when seeing danger")
-                .isNotNull()
-                .isNotEmpty();
     }
 
     @Test

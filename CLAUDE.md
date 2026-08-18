@@ -23,16 +23,16 @@ Multi-example repository for CaseHub platform modules. Each subdirectory is an i
 
 ```bash
 # Build wacky-manor only
-JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn clean install -pl wacky-manor
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn clean install -pl wacky-manor -s slot-settings.xml
 
 # Run wacky-manor tests (standard suite)
-JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn test -pl wacky-manor
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn test -pl wacky-manor -s slot-settings.xml
 
 # Run LLM evaluation tests (requires API key, non-deterministic)
-JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn test -pl wacky-manor -Pllm-eval
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn test -pl wacky-manor -Pllm-eval -s slot-settings.xml
 
 # Run wacky-manor dev mode (backend on 8180, frontend on 5173)
-JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn quarkus:dev -pl wacky-manor -Dquarkus.http.port=8180
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn quarkus:dev -pl wacky-manor -Dquarkus.http.port=8180 -s slot-settings.xml
 npm --prefix wacky-manor/src/main/webui run dev
 # Use curl -4 http://127.0.0.1:8180 for API calls (IPv6 hits Maven launcher, not app)
 ```
@@ -52,3 +52,7 @@ POC spec: `wacky-manor/docs/POC-SPEC.md`
 Vision: `wacky-manor/docs/VISION.md`
 
 Phase 0–2.8 complete. 17 characters across 6 rooms. Phase 2.9 next: scale testing and game mechanics.
+
+**Dependencies beyond Eidos/Qhorus/Blocks:**
+- `casehub-engine-api` — GoalFormationStrategy/GoalRevisionStrategy SPIs for reflection-driven goal lifecycle
+- `casehub-neocortex-memory-api` + `casehub-neocortex-memory` — salience-scored memory, reflection, relationship tracking

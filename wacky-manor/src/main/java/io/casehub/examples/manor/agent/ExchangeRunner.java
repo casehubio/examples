@@ -67,7 +67,7 @@ public final class ExchangeRunner {
             AgentResponse response = invocationService.invoke(responderPrompt, userPrompt, responder.agentId());
 
             if (response.thinking() != null) {
-                responder.setCurrentPlan(response.thinking());
+                responder.setCurrentThinking(response.thinking());
             }
 
             if (response.dialogue() != null) {

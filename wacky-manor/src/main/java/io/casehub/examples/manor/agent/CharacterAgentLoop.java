@@ -25,26 +25,24 @@ public final class CharacterAgentLoop {
                                                                                                                                                        );
 
     public static final String RESPONSE_FORMAT_INSTRUCTION = "\n" +
-                                                              new io.casehub.blocks.summarisation.observation.affordance.AffordanceRenderer().renderActionVocabulary(
-                                                                      """
-                                                                      You MUST respond with ONLY a JSON object in this exact format:
-                                                                      {
-                                                                        "thinking": "your persistent strategic plan — shown to you next turn as 'Your Current Plan'. Write strategy, not stream-of-consciousness",
-                                                                        "dialogue": "what you say aloud (or null if silent)",
-                                                                        "talkTo": "character-id to direct dialogue at (or null for broadcast)",
-                                                                        "aside": "private thoughts for the audience only (or null)",
-                                                                        "action": {
-                                                                          "type": "one of the action types below",
-                                                                          "target": "room-id or object-id or character-id (or null for WAIT)",
-                                                                          "withItem": "inventory-item-id to use (or null)"
-                                                                        },
-                                                                        "newGoals": [{"name": "goal-name", "description": "why this goal matters"}],
-                                                                        "dropGoals": ["goal-name-to-remove"]
-                                                                      }
-                                                                      
-                                                                      ACTION TYPES — use the right one for your intent:""",
-                                                                      ACTION_DESCRIPTORS) +
-                                                              "\n\nTo get an object, use TAKE. To apply an item you're carrying, use USE.\nRespond with ONLY the JSON. No other text.";
+                                                             new io.casehub.blocks.summarisation.observation.affordance.AffordanceRenderer().renderActionVocabulary(
+                                                                     """
+                                                                     You MUST respond with ONLY a JSON object in this exact format:
+                                                                     {
+                                                                       "thinking": "your immediate reasoning about the current situation — what you notice, how it affects your plans, what to do next. Shown to you next turn as 'Your Current Thinking'",
+                                                                       "dialogue": "what you say aloud (or null if silent)",
+                                                                       "talkTo": "character-id to direct dialogue at (or null for broadcast)",
+                                                                       "aside": "private thoughts for the audience only (or null)",
+                                                                       "action": {
+                                                                         "type": "one of the action types below",
+                                                                         "target": "room-id or object-id or character-id (or null for WAIT)",
+                                                                         "withItem": "inventory-item-id to use (or null)"
+                                                                       }
+                                                                     }
+                                                                     
+                                                                     ACTION TYPES — use the right one for your intent:""",
+                                                                     ACTION_DESCRIPTORS) +
+                                                             "\n\nTo get an object, use TAKE. To apply an item you're carrying, use USE.\nRespond with ONLY the JSON. No other text.";
 
     public void run(CharacterState character, WorldState world,
                     AgentInvocationService invocationService,
