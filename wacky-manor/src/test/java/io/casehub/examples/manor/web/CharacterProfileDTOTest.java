@@ -11,14 +11,16 @@ class CharacterProfileDTOTest {
 
     @Test
     void projects_basic_fields() {
-        var descriptor = new AgentDescriptor(
-            "test-agent", "Test Agent", null, null, null, null, null,
-            null, "urn:casehub:vocab:belbin", "urn:casehub:vocab:jungian", null,
-            "shaper", List.of(), AgentDisposition.builder()
+        var descriptor = AgentDescriptor.builder()
+            .agentId("test-agent").name("Test Agent")
+            .slotVocabulary("urn:casehub:vocab:belbin")
+            .dispositionVocabulary("urn:casehub:vocab:jungian")
+            .slot("shaper")
+            .disposition(AgentDisposition.builder()
                 .dispositionProfile(new DispositionValue("te", 0.35), new DispositionValue("ni", 0.2))
-                .build(),
-            null, null, "test-tenancy", "A test agent briefing.",
-            null, List.of(), List.of());
+                .build())
+            .tenancyId("test-tenancy").briefing("A test agent briefing.")
+            .build();
 
         var dto = CharacterProfileDTO.from(descriptor, null, null);
 
@@ -38,11 +40,10 @@ class CharacterProfileDTOTest {
             new AgentGoal("private-goal", "A private goal",
                 GoalPriority.PRIMARY, Visibility.PRIVATE, List.of()));
 
-        var descriptor = new AgentDescriptor(
-            "test", "Test", null, null, null, null, null,
-            null, null, null, null,
-            "shaper", List.of(), AgentDisposition.builder().build(),
-            null, null, "t", null, null, goals, List.of());
+        var descriptor = AgentDescriptor.builder()
+            .agentId("test").name("Test").slot("shaper")
+            .disposition(AgentDisposition.builder().build())
+            .tenancyId("t").goals(goals).build();
 
         var dto = CharacterProfileDTO.from(descriptor, null, null);
         assertThat(dto.goals()).hasSize(1);
@@ -55,11 +56,10 @@ class CharacterProfileDTOTest {
             new AgentConstraint("public-c", "Public", Visibility.PUBLIC, ConstraintSeverity.HARD),
             new AgentConstraint("private-c", "Private", Visibility.PRIVATE, ConstraintSeverity.SOFT));
 
-        var descriptor = new AgentDescriptor(
-            "test", "Test", null, null, null, null, null,
-            null, null, null, null,
-            "shaper", List.of(), AgentDisposition.builder().build(),
-            null, null, "t", null, null, List.of(), constraints);
+        var descriptor = AgentDescriptor.builder()
+            .agentId("test").name("Test").slot("shaper")
+            .disposition(AgentDisposition.builder().build())
+            .tenancyId("t").constraints(constraints).build();
 
         var dto = CharacterProfileDTO.from(descriptor, null, null);
         assertThat(dto.constraints()).hasSize(1);

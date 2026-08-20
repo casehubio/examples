@@ -172,4 +172,39 @@ class ObservationServiceTest {
         var drain = service.drain("muttley", System.currentTimeMillis());
         assertThat(drain.currentPartition().eventCount()).isEqualTo(1);
     }
+
+    @Test
+    void levelResolver_dialogueGetsHighestLevel() {
+        var event = new ManorEvent(Instant.now(), "dialogue", "penelope-pitstop",
+                                   "entrance-hall", "Penelope: Hello!");
+        assertThat(ObservationService.resolveLevel(event))
+                .isEqualTo(ObservationService.DIALOGUE);
+    }
+
+    @Test
+    void levelResolver_asideGetsSameLevelAsDialogue() {
+        var event = new ManorEvent(Instant.now(), "aside", "hooded-claw",
+                                   "entrance-hall", "Nyah-ha-ha!");
+        assertThat(ObservationService.resolveLevel(event))
+                .isEqualTo(ObservationService.DIALOGUE);
+    }
+
+    @Test
+    void levelResolver_actionGetsMiddleLevel() {
+        var event = new ManorEvent(Instant.now(), "action", "penelope-pitstop",
+                                   "kitchen", "Penelope looks around.",
+                                   ActionType.LOOK, null, null, null);
+        assertThat(ObservationService.resolveLevel(event))
+                .isEqualTo(ObservationService.ACTION);
+    }
+
+    @Test
+    void levelResolver_moveGetsLowestLevel() {
+        var event = new ManorEvent(Instant.now(), "action", "penelope-pitstop",
+                                   "kitchen", "Penelope walked to the Kitchen.",
+                                   ActionType.MOVE, "kitchen", null, "entrance-hall");
+        assertThat(ObservationService.resolveLevel(event))
+                .isEqualTo(ObservationService.MOVEMENT);
+    }
+
 }

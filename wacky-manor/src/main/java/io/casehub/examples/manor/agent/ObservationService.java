@@ -11,7 +11,17 @@ import io.casehub.examples.manor.model.ManorEvent;
 
 public final class ObservationService {
 
-    static final EventLevel MANOR = new EventLevel("manor", 0);
+    static final EventLevel DIALOGUE = new EventLevel("dialogue", 30);
+    static final EventLevel ACTION   = new EventLevel("action", 20);
+    static final EventLevel MOVEMENT = new EventLevel("movement", 10);
+
+    static EventLevel resolveLevel(ManorEvent event) {
+        if (event.actionType() == ActionType.MOVE) return MOVEMENT;
+        return switch (event.type()) {
+            case "dialogue", "aside" -> DIALOGUE;
+            default -> ACTION;
+        };
+    }
 
     private final ManorObservationRenderer                          renderer;
     private       PartitionedObservationService<ManorEvent, String> delegate;
@@ -25,7 +35,8 @@ public final class ObservationService {
         this.worldState = worldState;
         VisibilityPolicy<ManorEvent, String> policy = this::resolveVisibility;
         this.delegate = new PartitionedObservationService<>(
-                renderer, policy, e -> e.timestamp().toEpochMilli(), MANOR);
+                renderer, policy, e -> e.timestamp().toEpochMilli(),
+                ObservationService::resolveLevel);
         for (var entry : worldState.characters().entrySet()) {
             delegate.addObserver(entry.getKey(), entry.getValue().currentRoom());
         }
