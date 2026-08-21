@@ -1,191 +1,46 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.examples.manor.engine.WorldState;
-import io.casehub.examples.manor.model.CharacterState;
-import io.casehub.examples.manor.model.GameObject;
-import io.casehub.examples.manor.model.Room;
-
-import java.util.List;
-
 public final class ObservationBuilder {
 
-    private static final io.casehub.blocks.summarisation.observation.affordance.AffordanceRenderer RENDERER           =
+    private static final io.casehub.blocks.summarisation.observation.affordance.AffordanceRenderer RENDERER =
             new io.casehub.blocks.summarisation.observation.affordance.AffordanceRenderer();
 
-    public static String buildObservation(CharacterState character, WorldState world,
-                                          java.util.List<io.casehub.eidos.api.AgentGoal> goals,
-                                          io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain) {
-        return buildObservation(character, world, goals, drain, java.util.List.of());
-    }
-
-    public static String buildObservation(CharacterState character, WorldState world,
-                                          java.util.List<io.casehub.eidos.api.AgentGoal> goals,
-                                          io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain,
-                                          java.util.List<io.casehub.neocortex.memory.Memory> memories) {
-        return buildObservation(character, world, goals, drain, memories, java.util.Set.of());
-    }
-
-    public static String buildObservation(CharacterState character, WorldState world,
-                                          java.util.List<io.casehub.eidos.api.AgentGoal> goals,
-                                          io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain,
-                                          java.util.List<io.casehub.neocortex.memory.Memory> memories,
-                                          java.util.Set<String> observerTags) {
-        Room room     = world.room(character.currentRoom());
-        var  sections = new java.util.ArrayList<io.casehub.blocks.summarisation.observation.affordance.ObservationSection>();
-
-        sections.add(locationSection(room));
-        sections.add(exitsSection(room, world));
-        sections.add(objectsSection(character, world));
-        sections.add(charactersSection(character, world));
-        sections.add(inventorySection(character));
-        var thinkingSection = currentThinkingSection(character);
-        if (thinkingSection != null) { sections.add(thinkingSection); }
-        sections.add(goalsSection(goals));
-        planSections(character).forEach(sections::add);
-        sections.add(recentActivitySection(drain));
-        if (!drain.rememberedPartitions().isEmpty()) {
-            sections.add(rememberedSection(drain, world));
-        }
-        if (observerTags.contains("perception")) {
-            var keen = keenObservationsSection(character, world);
-            if (keen != null) {sections.add(keen);}
-        } else {
-            var directed = directedDialogueSection(character, world);
-            if (directed != null) {sections.add(directed);}
-        }
-        if (memories != null && !memories.isEmpty()) {
-            sections.add(pastExperienceSection(memories));
-        }
-        sections.add(lastActionResultSection(character));
-
-        return RENDERER.renderObservation(sections);}
-
-    public static String buildObservation(CharacterState character, WorldState world,
+    public static String buildObservation(io.casehub.blocks.summarisation.observation.affordance.WorldObservationProvider worldProvider,
+                                          io.casehub.examples.manor.model.CharacterState character,
                                           java.util.List<io.casehub.eidos.api.AgentGoal> goals,
                                           io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain,
                                           java.util.List<io.casehub.neocortex.memory.Memory> memories,
                                           java.util.List<io.casehub.neocortex.memory.Memory> reflections,
-                                          java.util.Map<String, java.util.List<io.casehub.neocortex.memory.Memory>> relationshipMemories,
-                                          java.util.Set<String> observerTags) {
-        Room room     = world.room(character.currentRoom());
-        var  sections = new java.util.ArrayList<io.casehub.blocks.summarisation.observation.affordance.ObservationSection>();
+                                          java.util.Map<String, java.util.List<io.casehub.neocortex.memory.Memory>> relationshipMemories) {
+        var sections = new java.util.ArrayList<io.casehub.blocks.summarisation.observation.affordance.ObservationSection>();
 
-        sections.add(locationSection(room));
-        sections.add(exitsSection(room, world));
-        sections.add(objectsSection(character, world));
-        sections.add(charactersSection(character, world));
+        sections.addAll(worldProvider.worldSections());
+
         for (var entry : relationshipMemories.entrySet()) {
             if (!entry.getValue().isEmpty()) {
-                var    other = world.character(entry.getKey());
-                String name  = other != null ? other.name() : entry.getKey();
-                sections.add(relationshipNotesSection(name, entry.getValue()));
+                sections.add(io.casehub.blocks.summarisation.observation.affordance.CognitiveObservationSections.relationshipNotesSection(
+                        entry.getKey(), entry.getValue()));
             }
         }
         sections.add(inventorySection(character));
-        var thinkingSection = currentThinkingSection(character);
-        if (thinkingSection != null) {sections.add(thinkingSection);}
-        sections.add(goalsSection(goals));
+        var thinking = currentThinkingSection(character);
+        if (thinking != null) {sections.add(thinking);}
+
+        sections.add(io.casehub.blocks.summarisation.observation.affordance.CognitiveObservationSections.goalsSection(goals));
         planSections(character).forEach(sections::add);
-        sections.add(recentActivitySection(drain));
-        if (!drain.rememberedPartitions().isEmpty()) {
-            sections.add(rememberedSection(drain, world));
-        }
-        if (observerTags.contains("perception")) {
-            var keen = keenObservationsSection(character, world);
-            if (keen != null) {sections.add(keen);}
-        } else {
-            var directed = directedDialogueSection(character, world);
-            if (directed != null) {sections.add(directed);}
-        }
+        sections.add(io.casehub.blocks.summarisation.observation.affordance.CognitiveObservationSections.recentActivitySection(drain));
         if (memories != null && !memories.isEmpty()) {
-            sections.add(pastExperienceSection(memories));
+            sections.add(io.casehub.blocks.summarisation.observation.affordance.CognitiveObservationSections.pastExperienceSection(memories));
         }
         if (reflections != null && !reflections.isEmpty()) {
-            sections.add(insightsSection(reflections));
+            sections.add(io.casehub.blocks.summarisation.observation.affordance.CognitiveObservationSections.insightsSection(reflections));
         }
         sections.add(lastActionResultSection(character));
 
         return RENDERER.renderObservation(sections);
     }
 
-
-    public static String buildExchangeObservation(CharacterState character, String otherDialogue, WorldState world) {
-        var  sections = new java.util.ArrayList<io.casehub.blocks.summarisation.observation.affordance.ObservationSection>();
-        Room room     = world.room(character.currentRoom());
-        sections.add(io.casehub.blocks.summarisation.observation.affordance.ObservationSection.text("Location", room.name()));
-        List<CharacterState> others = world.charactersInRoom(character.currentRoom()).stream()
-                                           .filter(c -> !c.agentId().equals(character.agentId())).toList();
-        if (!others.isEmpty()) {
-            sections.add(io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
-                    "Others Present", null, others.stream().map(CharacterState::name).toList()));
-        }
-        sections.add(io.casehub.blocks.summarisation.observation.affordance.ObservationSection.text("They said", otherDialogue));
-        var thinkingSection = currentThinkingSection(character);
-        if (thinkingSection != null) {sections.add(thinkingSection);}
-        return RENDERER.renderObservation(sections);
-    }
-
-
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection locationSection(Room room) {
-        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.text(
-                "Current Location", room.name() + ": " + room.description());
-    }
-
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection exitsSection(Room room, WorldState world) {
-        var exits = room.adjacentRooms().stream()
-                        .map(id -> {
-                            Room target = world.room(id);
-                            return new io.casehub.blocks.summarisation.observation.affordance.ObservableEntity(
-                                    id, target.name(), target.description(),
-                                    java.util.List.of(new io.casehub.blocks.summarisation.observation.affordance.Affordance("MOVE", "to walk here")));
-                        })
-                        .toList();
-        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.entities(
-                "Exits", "No exits.", exits);}
-
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection objectsSection(
-            CharacterState character, WorldState world) {
-        List<GameObject> objects = world.visibleObjects(character.currentRoom(), character.agentId());
-        var entities = objects.stream()
-                              .map(ObservationBuilder::toObservableEntity)
-                              .toList();
-        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.entities(
-                "Visible Objects", "Nothing notable here.", entities);
-    }
-
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservableEntity toObservableEntity(GameObject obj) {
-        var affordances = new java.util.ArrayList<io.casehub.blocks.summarisation.observation.affordance.Affordance>();
-        if (obj.interactable()) {
-            affordances.add(new io.casehub.blocks.summarisation.observation.affordance.Affordance(
-                    "INTERACT", null, obj.interactionRequires(), java.util.List.of()));
-        }
-        if (obj.portable()) {
-            affordances.add(new io.casehub.blocks.summarisation.observation.affordance.Affordance(
-                    "TAKE", "to pick up"));
-        }
-        if (!obj.usableWith().isEmpty()) {
-            affordances.add(new io.casehub.blocks.summarisation.observation.affordance.Affordance(
-                    "USE", null, null, obj.usableWith()));
-        }
-        return new io.casehub.blocks.summarisation.observation.affordance.ObservableEntity(
-                obj.id(), obj.name(), obj.description(), affordances);
-    }
-
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection charactersSection(
-            CharacterState character, WorldState world) {
-        List<CharacterState> others = world.charactersInRoom(character.currentRoom()).stream()
-                                           .filter(c -> !c.agentId().equals(character.agentId()))
-                                           .toList();
-        var entities = others.stream()
-                             .map(c -> new io.casehub.blocks.summarisation.observation.affordance.ObservableEntity(
-                                     c.agentId(), c.name(), null,
-                                     java.util.List.of(new io.casehub.blocks.summarisation.observation.affordance.Affordance("GIVE", "to hand an item"))))
-                             .toList();
-        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.entities(
-                "Characters Present", "You are alone.", entities);
-    }
-
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection inventorySection(CharacterState character) {
+    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection inventorySection(io.casehub.examples.manor.model.CharacterState character) {
         var items = character.inventory().stream()
                              .map(item -> "- " + item)
                              .toList();
@@ -197,13 +52,13 @@ public final class ObservationBuilder {
                 "Your Inventory", null, character.inventory());
     }
 
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection currentThinkingSection(CharacterState character) {
+    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection currentThinkingSection(io.casehub.examples.manor.model.CharacterState character) {
         String thinking = character.currentThinking();
         if (thinking == null || thinking.isBlank()) {return null;}
         return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.text("Your Current Thinking", thinking);
     }
 
-    private static java.util.List<io.casehub.blocks.summarisation.observation.affordance.ObservationSection> planSections(CharacterState character) {
+    private static java.util.List<io.casehub.blocks.summarisation.observation.affordance.ObservationSection> planSections(io.casehub.examples.manor.model.CharacterState character) {
         if (character.plans().isEmpty()) {return java.util.List.of();}
         return character.plans().entrySet().stream()
                         .sorted(java.util.Map.Entry.comparingByKey())
@@ -215,125 +70,11 @@ public final class ObservationBuilder {
                             return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
                                     "Plan: " + e.getKey(), plan.rationale(), items);
                         })
-                        .toList();}
-
-
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection goalsSection(
-            java.util.List<io.casehub.eidos.api.AgentGoal> goals) {
-        var items = new java.util.ArrayList<String>();
-        goals.stream()
-             .sorted(java.util.Comparator.comparing(io.casehub.eidos.api.AgentGoal::priority)
-                                         .thenComparing(io.casehub.eidos.api.AgentGoal::name))
-             .map(g -> "[" + g.priority().name() + "] " + g.description())
-             .forEach(items::add);
-        if (items.isEmpty()) {
-            return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
-                    "Your Goals", "No specific goals.", java.util.List.of());
-        }
-        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
-                "Your Goals", null, items);
+                        .toList();
     }
 
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection recentActivitySection(
-            io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain) {
-        String text = drain.currentPartition().renderedText();
-        if (text == null || text.isBlank()) {
-            return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
-                    "Recent Activity", "The room is quiet.", java.util.List.of());
-        }
-        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.text(
-                "Recent Activity", text.strip());
-    }
-
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection keenObservationsSection(
-            CharacterState character, WorldState world) {
-        var events = world.recentEvents(character.currentRoom(), 20);
-        var details = events.stream()
-                            .filter(e -> e.detailedDescription() != null)
-                            .filter(e -> !e.characterId().equals(character.agentId()))
-                            .map(io.casehub.examples.manor.model.ManorEvent::detailedDescription)
-                            .toList();
-        if (details.isEmpty()) {return null;}
-        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
-                "Keen Observations", null, details);
-    }
-
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection directedDialogueSection(
-            CharacterState character, WorldState world) {
-        var events = world.recentEvents(character.currentRoom(), 20);
-        var details = events.stream()
-                            .filter(e -> e.detailedDescription() != null)
-                            .filter(e -> character.agentId().equals(e.dialogueTarget()))
-                            .map(io.casehub.examples.manor.model.ManorEvent::detailedDescription)
-                            .toList();
-        if (details.isEmpty()) {return null;}
-        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
-                "Directed to You", null, details);
-    }
-
-
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection rememberedSection(
-            io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain, WorldState world) {
-        var items   = new java.util.ArrayList<String>();
-        var entries = new java.util.ArrayList<>(drain.rememberedPartitions().entrySet());
-        java.util.Collections.reverse(entries);
-        long now = System.currentTimeMillis();
-        for (var entry : entries) {
-            String         roomId     = entry.getKey();
-            io.casehub.blocks.summarisation.observation.RememberedPartition remembered = entry.getValue();
-            Room           room       = world.room(roomId);
-            long           elapsed    = now - remembered.cachedAt();
-            String         timeAgo    = formatElapsed(elapsed);
-            String         text       = remembered.result().renderedText();
-            if (text != null && !text.isBlank()) {
-                items.add(room.name() + " (" + timeAgo + " ago): " + text.strip());
-            }
-        }
-        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
-                "Remembered", null, items);
-    }
-
-    private static String formatElapsed(long millis) {
-        long seconds = millis / 1000;
-        if (seconds < 60) {return seconds + "s";}
-        long minutes = seconds / 60;
-        return minutes + " minute" + (minutes == 1 ? "" : "s");
-    }
-
-
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection pastExperienceSection(
-            java.util.List<io.casehub.neocortex.memory.Memory> memories) {
-        var items = memories.stream()
-                            .map(io.casehub.neocortex.memory.Memory::text)
-                            .filter(t -> t != null && !t.isBlank())
-                            .toList();
-        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
-                "Past Experience", null, items);
-    }
-
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection lastActionResultSection(
-            CharacterState character) {
+    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection lastActionResultSection(io.casehub.examples.manor.model.CharacterState character) {
         return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.text(
                 "Last Action Result", character.lastActionResult());
     }
-
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection insightsSection(
-            java.util.List<io.casehub.neocortex.memory.Memory> reflections) {
-        var items = reflections.stream()
-                               .map(io.casehub.neocortex.memory.Memory::text)
-                               .filter(t -> t != null && !t.isBlank())
-                               .toList();
-        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
-                "Insights", null, items);
-    }
-
-    private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection relationshipNotesSection(
-            String characterName, java.util.List<io.casehub.neocortex.memory.Memory> memories) {
-        var items = memories.stream()
-                            .map(m -> "You recall: " + m.text())
-                            .toList();
-        return io.casehub.blocks.summarisation.observation.affordance.ObservationSection.items(
-                "About " + characterName, null, items);
-    }
-
 }

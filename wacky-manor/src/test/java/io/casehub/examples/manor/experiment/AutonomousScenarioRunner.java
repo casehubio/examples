@@ -4,6 +4,7 @@ import io.casehub.eidos.api.AgentGoal;
 import io.casehub.examples.manor.agent.AgentResponse;
 import io.casehub.examples.manor.agent.CharacterAgentLoop;
 import io.casehub.examples.manor.agent.NarrativeEventBuilder;
+import io.casehub.examples.manor.agent.ManorWorldObservationProvider;
 import io.casehub.examples.manor.agent.ObservationBuilder;
 import io.casehub.examples.manor.engine.ActionResolver;
 import io.casehub.examples.manor.engine.WorldState;
@@ -60,10 +61,9 @@ public class AutonomousScenarioRunner {
                 if (character == null || world.isScenarioComplete()) {break;}
 
                 var goals = goalsByAgent.getOrDefault(agentId, List.of());
-                String observation = ObservationBuilder.buildObservation(character, world, goals,
-                                                                         new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(
-                                                                                 io.casehub.blocks.summarisation.observation.ObservationResult.empty(0),
-                                                                                 java.util.Map.of()))
+                var emptyDrain = new io.casehub.blocks.summarisation.observation.PartitionedDrain<String>(io.casehub.blocks.summarisation.observation.ObservationResult.empty(0), java.util.Map.of());
+                var worldProvider = new ManorWorldObservationProvider(character, world, emptyDrain, java.util.Set.of());
+                String observation = ObservationBuilder.buildObservation(worldProvider, character, goals, emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of())
                                      + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
                 String systemPrompt = promptRenderer.apply(agentId);
 

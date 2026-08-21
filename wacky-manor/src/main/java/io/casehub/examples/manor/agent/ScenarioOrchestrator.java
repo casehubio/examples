@@ -279,7 +279,7 @@ public class ScenarioOrchestrator {
                             if (!other.agentId().equals(c.agentId())) {
                                 var relMems = experienceService.recallRelationships(c.agentId(), other.agentId(), 3);
                                 if (!relMems.isEmpty()) {
-                                    relationships.put(other.agentId(), relMems);
+                                    relationships.put(other.name(), relMems);
                                 }
                             }
                         }
@@ -289,9 +289,10 @@ public class ScenarioOrchestrator {
                                 .reweight(memories, new io.casehub.neocortex.memory.personality.PersonalityWeights(
                                     java.util.Map.of(new io.casehub.neocortex.memory.MemoryDomain("manor"), 1.0)), java.time.Instant.now());
                         }
+                        var worldProvider = new ManorWorldObservationProvider(c, world, drain, c.capabilityTags());
                         String observation = ObservationBuilder.buildObservation(
-                                c, world, resolveGoals(c.agentId()), drain,
-                                memories, reflections, relationships, c.capabilityTags());
+                                worldProvider, c, resolveGoals(c.agentId()), drain,
+                                memories, reflections, relationships);
                         String userPrompt = observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
                         String systemPrompt = renderPrompt(c.agentId());
                         responses.put(c.agentId(), invocationService.invoke(systemPrompt, userPrompt, c.agentId()));
