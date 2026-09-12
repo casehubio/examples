@@ -38,56 +38,20 @@ public class AgentExperienceService {
     private final ManorPlanEvaluator                                                planEvaluator;
 
 
-    public AgentExperienceService(ExperienceRecorder recorder,
-                                  CaseMemoryStore store, String tenantId) {
-        this(recorder, store, tenantId, null, null, false, false, 7, 0.2, 15, 20, null, null);
-    }
-
-    public AgentExperienceService(ExperienceRecorder recorder,
-                                  CaseMemoryStore store, String tenantId,
-                                  io.casehub.neocortex.memory.reflection.ReflectionSynthesizer synthesizer,
-                                  ManorReflectionTrigger reflectionTrigger,
-                                  boolean reflectionEnabled,
-                                  boolean decayEnabled, int decayMaxAgeDays, double decayMinImportance,
-                                  int maxSourceMemories, int recallLimit) {
-        this(recorder, store, tenantId, synthesizer, reflectionTrigger, reflectionEnabled,
-             decayEnabled, decayMaxAgeDays, decayMinImportance, maxSourceMemories, recallLimit, null, null);
-    }
-
-    public AgentExperienceService(ExperienceRecorder recorder,
-                                  CaseMemoryStore store, String tenantId,
-                                  io.casehub.neocortex.memory.reflection.ReflectionSynthesizer synthesizer,
-                                  ManorReflectionTrigger reflectionTrigger,
-                                  boolean reflectionEnabled,
-                                  boolean decayEnabled, int decayMaxAgeDays, double decayMinImportance,
-                                  int maxSourceMemories, int recallLimit,
-                                  ManorGoalEvaluator goalEvaluator) {
-        this(recorder, store, tenantId, synthesizer, reflectionTrigger, reflectionEnabled,
-             decayEnabled, decayMaxAgeDays, decayMinImportance, maxSourceMemories, recallLimit, goalEvaluator, null);
-    }
-
-    public AgentExperienceService(ExperienceRecorder recorder,
-                                  CaseMemoryStore store, String tenantId,
-                                  io.casehub.neocortex.memory.reflection.ReflectionSynthesizer synthesizer,
-                                  ManorReflectionTrigger reflectionTrigger,
-                                  boolean reflectionEnabled,
-                                  boolean decayEnabled, int decayMaxAgeDays, double decayMinImportance,
-                                  int maxSourceMemories, int recallLimit,
-                                  ManorGoalEvaluator goalEvaluator,
-                                  ManorPlanEvaluator planEvaluator) {
-        this.recorder           = recorder;
-        this.store              = store;
-        this.tenantId           = tenantId;
-        this.synthesizer        = synthesizer;
-        this.reflectionTrigger  = reflectionTrigger;
-        this.reflectionEnabled  = reflectionEnabled;
-        this.decayEnabled       = decayEnabled;
-        this.decayMaxAgeDays    = decayMaxAgeDays;
-        this.decayMinImportance = decayMinImportance;
-        this.maxSourceMemories  = maxSourceMemories;
-        this.recallLimit        = recallLimit;
-        this.goalEvaluator      = goalEvaluator;
-        this.planEvaluator      = planEvaluator;
+    public AgentExperienceService(ExperienceConfig config) {
+        this.recorder           = config.recorder();
+        this.store              = config.store();
+        this.tenantId           = config.tenantId();
+        this.synthesizer        = config.synthesizer();
+        this.reflectionTrigger  = config.reflectionTrigger();
+        this.reflectionEnabled  = config.reflectionEnabled();
+        this.decayEnabled       = config.decayEnabled();
+        this.decayMaxAgeDays    = config.decayMaxAgeDays();
+        this.decayMinImportance = config.decayMinImportance();
+        this.maxSourceMemories  = config.maxSourceMemories();
+        this.recallLimit        = config.recallLimit();
+        this.goalEvaluator      = config.goalEvaluator();
+        this.planEvaluator      = config.planEvaluator();
     }
 
 

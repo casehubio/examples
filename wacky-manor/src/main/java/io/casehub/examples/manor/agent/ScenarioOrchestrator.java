@@ -109,10 +109,11 @@ public class ScenarioOrchestrator {
                 agentRegistry, caseMemoryStore, ManorConstants.TENANCY_ID,
                 config.goal().cooldownTicks(), config.goal().maxNewPerReflection(), planEvaluator);
         }
-        var experienceService = new AgentExperienceService(experienceRecorder, caseMemoryStore,
-            ManorConstants.TENANCY_ID, reflectionSynthesizer, reflectionTrigger,
+        var experienceService = new AgentExperienceService(new ExperienceConfig(
+            experienceRecorder, caseMemoryStore, ManorConstants.TENANCY_ID,
+            reflectionSynthesizer, reflectionTrigger,
             config.reflection().enabled(), config.memory().decayEnabled(), config.memory().decayMaxAgeDays(), config.memory().decayMinImportance(),
-            config.reflection().maxSourceMemories(), config.memory().recallLimit(), goalEvaluator, planEvaluator);
+            config.reflection().maxSourceMemories(), config.memory().recallLimit(), goalEvaluator, planEvaluator));
 
         ManorTrustProvider trustProvider = null;
         if (config.trust().enabled()) {

@@ -66,7 +66,7 @@ class AgentExperienceServiceTest {
 
     @Test
     void ingestRecordsExperienceEvent() {
-        var service = new AgentExperienceService(stubRecorder(), stubStore(List.of()), "test-tenant");
+        var service = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), stubStore(List.of()), "test-tenant"));
         service.ingest("hooded-claw", "library", "Searched the bookshelf", "Looking for clues");
 
         assertThat(recorded).hasSize(1);
@@ -81,7 +81,7 @@ class AgentExperienceServiceTest {
             @Override public String record(ExperienceEvent event) { throw new RuntimeException("store down"); }
             @Override public ExperienceStoreResult recordAll(List<ExperienceEvent> events) { throw new RuntimeException("store down"); }
         };
-        var service = new AgentExperienceService(failingRecorder, stubStore(List.of()), "test-tenant");
+        var service = new AgentExperienceService(ExperienceConfig.minimal(failingRecorder, stubStore(List.of()), "test-tenant"));
 
         assertThatCode(() -> service.ingest("agent", "room", "desc", "think"))
             .doesNotThrowAnyException();
@@ -92,7 +92,7 @@ class AgentExperienceServiceTest {
         var memories = List.of(
             new Memory("m1", "hooded-claw", new MemoryDomain("manor"), "test-tenant",
                 null, "Found a secret passage", Map.of(), Instant.now(), null, null, null, null));
-        var service = new AgentExperienceService(stubRecorder(), stubStore(memories), "test-tenant");
+        var service = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), stubStore(memories), "test-tenant"));
 
         List<Memory> result = service.recall("hooded-claw", 5);
 
@@ -110,7 +110,7 @@ class AgentExperienceServiceTest {
             }
             @Override public int erase(EraseRequest r) { return 0; }
         };
-        var service = new AgentExperienceService(stubRecorder(), slowStore, "test-tenant");
+        var service = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), slowStore, "test-tenant"));
         service.setRecallTimeoutMs(100);
 
         List<Memory> result = service.recall("agent", 5);
@@ -125,7 +125,7 @@ class AgentExperienceServiceTest {
             @Override public List<Memory> query(MemoryQuery q) { throw new RuntimeException("query failed"); }
             @Override public int erase(EraseRequest r) { return 0; }
         };
-        var service = new AgentExperienceService(stubRecorder(), failStore, "test-tenant");
+        var service = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), failStore, "test-tenant"));
 
         List<Memory> result = service.recall("agent", 5);
 
@@ -134,7 +134,7 @@ class AgentExperienceServiceTest {
 
     @Test
     void ingestMetadataIncludesRoom() {
-        var service = new AgentExperienceService(stubRecorder(), stubStore(List.of()), "test-tenant");
+        var service = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), stubStore(List.of()), "test-tenant"));
         service.ingest("agent-1", "kitchen", "Made tea", null);
 
         assertThat(recorded.getFirst().metadata()).containsEntry("room", "kitchen");
@@ -143,7 +143,7 @@ class AgentExperienceServiceTest {
     @Test
     void recallUsesSalienceOrder() {
         var captured = new ArrayList<MemoryQuery>();
-        var service  = new AgentExperienceService(stubRecorder(), capturingStore(List.of(), captured), "t1");
+        var service  = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), capturingStore(List.of(), captured), "t1"));
 
         service.recall("agent-1", 20);
 
@@ -153,7 +153,7 @@ class AgentExperienceServiceTest {
 
     @Test
     void ingestPassesImportanceToAction() {
-        var service = new AgentExperienceService(stubRecorder(), stubStore(List.of()), "t1");
+        var service = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), stubStore(List.of()), "t1"));
 
         service.ingest("agent-1", "kitchen", "took the poison", null, 0.8);
 
@@ -163,7 +163,7 @@ class AgentExperienceServiceTest {
 
     @Test
     void ingestSetsTargetAgentMetadata() {
-        var service = new AgentExperienceService(stubRecorder(), stubStore(List.of()), "t1");
+        var service = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), stubStore(List.of()), "t1"));
 
         service.ingest("agent-1", "kitchen", "gave poison to penelope",
                        null, 0.7, "penelope");
@@ -175,7 +175,7 @@ class AgentExperienceServiceTest {
 
     @Test
     void ingestOmitsTargetAgentWhenNull() {
-        var service = new AgentExperienceService(stubRecorder(), stubStore(List.of()), "t1");
+        var service = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), stubStore(List.of()), "t1"));
 
         service.ingest("agent-1", "kitchen", "looked around", null, 0.2, null);
 
@@ -186,7 +186,7 @@ class AgentExperienceServiceTest {
     @Test
     void recallRelationshipsQueriesRelationshipDomain() {
         var captured = new ArrayList<MemoryQuery>();
-        var service  = new AgentExperienceService(stubRecorder(), capturingStore(List.of(), captured), "t1");
+        var service  = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), capturingStore(List.of(), captured), "t1"));
 
         service.recallRelationships("agent-1", "agent-2", 3);
 
@@ -225,8 +225,8 @@ class AgentExperienceServiceTest {
             }
         };
         var trigger = new ManorReflectionTrigger(2, 100.0);
-        var service = new AgentExperienceService(stubRecorder(), reflectStore, "t1",
-                                                 synthesizer, trigger, true, false, 7, 0.2, 15, 20);
+        var service = new AgentExperienceService(new ExperienceConfig(
+                stubRecorder(), reflectStore, "t1", synthesizer, trigger, true, false, 7, 0.2, 15, 20, null, null));
 
         service.ingest("a1", "room", "action 1", null, 0.5, null);
         service.ingest("a1", "room", "action 2", null, 0.5, null);
@@ -240,7 +240,7 @@ class AgentExperienceServiceTest {
     @Test
     void recallReflectionsQueriesReflectionDomain() {
         var captured = new ArrayList<MemoryQuery>();
-        var service  = new AgentExperienceService(stubRecorder(), capturingStore(List.of(), captured), "t1");
+        var service  = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), capturingStore(List.of(), captured), "t1"));
 
         service.recallReflections("a1", 5);
 
@@ -292,9 +292,8 @@ class AgentExperienceServiceTest {
             }
         };
 
-        var service = new AgentExperienceService(stubRecorder(), reflectStore, "t1",
-                                                 synthesizer, trigger, true, false, 7, 0.2, 15, 20,
-                                                 mockEvaluator);
+        var service = new AgentExperienceService(new ExperienceConfig(
+                stubRecorder(), reflectStore, "t1", synthesizer, trigger, true, false, 7, 0.2, 15, 20, mockEvaluator, null));
 
         service.ingest("a1", "room", "action 1", null, 0.5, null, 5);
         service.ingest("a1", "room", "action 2", null, 0.5, null, 5);
