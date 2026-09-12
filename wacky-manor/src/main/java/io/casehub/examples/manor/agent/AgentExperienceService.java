@@ -119,7 +119,7 @@ public class AgentExperienceService {
             if (targetAgentId != null) {
                 metadata.put(io.casehub.neocortex.memory.experience.ExperienceAttributeKeys.TARGET_AGENT, targetAgentId);
             }
-            var event = new Action(agentId, tenantId, null, null,
+            var event = new Action(agentId, tenantId, null, null, null,
                                    description, importance, Map.copyOf(metadata), "manor-action");
             recorder.record(event);
             if (reflectionEnabled && reflectionTrigger != null

@@ -28,16 +28,16 @@ class ManorReflectionSynthesizerTest {
 
         var memories = List.of(
             new Memory("m1", "agent-1", new MemoryDomain("manor"), "t1",
-                null, "Sneekly picked up rat poison", Map.of(), Instant.now(), 0.8),
+                null, "Sneekly picked up rat poison", Map.of(), Instant.now(), null, null, null, null),
             new Memory("m2", "agent-1", new MemoryDomain("manor"), "t1",
-                null, "Sneekly offered Penelope tea", Map.of(), Instant.now(), 0.6)
+                null, "Sneekly offered Penelope tea", Map.of(), Instant.now(), null, null, null, null)
         );
 
         List<ReflectionEvent> results = synthesizer.synthesize("agent-1", "t1", memories, 1);
 
         assertThat(results).hasSize(2);
         assertThat(results.get(0).insight()).isEqualTo("Sneekly is always near dangerous items");
-        assertThat(results.get(0).importance()).isEqualTo(0.8);
+        assertThat(results.get(0).confidence()).isEqualTo(0.8);
         assertThat(results.get(0).agentId()).isEqualTo("agent-1");
         assertThat(results.get(0).tenantId()).isEqualTo("t1");
         assertThat(results.get(0).level()).isEqualTo(1);
@@ -50,7 +50,7 @@ class ManorReflectionSynthesizerTest {
 
         var memories = List.of(
             new Memory("m1", "agent-1", new MemoryDomain("manor"), "t1",
-                null, "test memory", Map.of(), Instant.now(), 0.5)
+                null, "test memory", Map.of(), Instant.now(), null, null, null, null)
         );
 
         List<ReflectionEvent> results = synthesizer.synthesize("agent-1", "t1", memories, 1);
@@ -76,13 +76,13 @@ class ManorReflectionSynthesizerTest {
 
         var memories = List.of(
             new Memory("m1", "a1", new MemoryDomain("manor"), "t1",
-                null, "test", Map.of(), Instant.now(), 0.5)
+                null, "test", Map.of(), Instant.now(), null, null, null, null)
         );
 
         List<ReflectionEvent> results = synthesizer.synthesize("a1", "t1", memories, 1);
 
         assertThat(results).hasSize(1);
-        assertThat(results.get(0).importance()).isEqualTo(0.7);
+        assertThat(results.get(0).confidence()).isEqualTo(0.7);
     }
 
     private AgentProvider mockProvider(String responseText) {

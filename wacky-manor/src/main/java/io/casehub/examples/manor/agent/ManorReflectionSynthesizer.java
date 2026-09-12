@@ -61,7 +61,7 @@ public final class ManorReflectionSynthesizer implements ReflectionSynthesizer {
             var entries = JSON.readValue(response, new TypeReference<List<InsightEntry>>() {});
 
             return entries.stream()
-                .map(e -> new ReflectionEvent(agentId, tenantId, null,
+                .map(e -> new ReflectionEvent(agentId, tenantId, null, null,
                     e.insight(), targetLevel, sourceIds,
                     e.importance() != null ? e.importance() : 0.7,
                     Map.of()))

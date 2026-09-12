@@ -69,10 +69,10 @@ class NarratorSummariserTest {
         var events = List.of(
                 new LevelEvent<>(new ManorEvent(Instant.now(), "action", "hooded-claw",
                                                 "kitchen", "The Hooded Claw picked up the Rat Poison"),
-                                 Instant.now().toEpochMilli(), NARRATOR),
+                                 Instant.now().toEpochMilli(), NARRATOR, null),
                 new LevelEvent<>(new ManorEvent(Instant.now(), "dialogue", "penelope",
                                                 "ballroom", "Penelope Pitstop: \"Why, this is simply darlin'!\""),
-                                 Instant.now().toEpochMilli(), NARRATOR)
+                                 Instant.now().toEpochMilli(), NARRATOR, null)
                             );
 
         List<String> result = summariser.summarise(events).toCompletableFuture().join();
@@ -89,7 +89,7 @@ class NarratorSummariserTest {
         var summariser = new NarratorSummariser(stubProvider("narration"));
         var events = List.of(
                 new LevelEvent<>(new ManorEvent(Instant.now(), "action", "x",
-                                                null, "something happened"), Instant.now().toEpochMilli(), NARRATOR)
+                                                null, "something happened"), Instant.now().toEpochMilli(), NARRATOR, null)
                             );
 
         List<String> result = summariser.summarise(events).toCompletableFuture().join();
@@ -102,7 +102,7 @@ class NarratorSummariserTest {
         var summariser = new NarratorSummariser(failingProvider());
         var events = List.of(
                 new LevelEvent<>(new ManorEvent(Instant.now(), "action", "x",
-                                                "kitchen", "event"), Instant.now().toEpochMilli(), NARRATOR)
+                                                "kitchen", "event"), Instant.now().toEpochMilli(), NARRATOR, null)
                             );
 
         var future = summariser.summarise(events).toCompletableFuture();

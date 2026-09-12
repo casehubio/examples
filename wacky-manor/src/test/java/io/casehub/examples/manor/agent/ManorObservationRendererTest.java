@@ -21,7 +21,7 @@ class ManorObservationRendererTest {
 
     private LevelEvent<ManorEvent> dialogue(String charId, String text, long ts) {
         return new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(ts), "dialogue", charId,
-                "kitchen", charId + ": " + text), ts, MANOR);
+                "kitchen", charId + ": " + text), ts, MANOR, null);
     }
 
     @Test
@@ -59,9 +59,9 @@ class ManorObservationRendererTest {
         var renderer = new ManorObservationRenderer(new MechanicalCompactor(), 2, 15, null);
         var events = List.of(
                 new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(100), "action", "penelope",
-                        "kitchen", "Penelope moved.", ActionType.MOVE, "kitchen", null, "entrance-hall"), 100, MANOR),
+                        "kitchen", "Penelope moved.", ActionType.MOVE, "kitchen", null, "entrance-hall"), 100, MANOR, null),
                 new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(200), "action", "penelope",
-                        "ballroom", "Penelope moved.", ActionType.MOVE, "ballroom", null, "kitchen"), 200, MANOR),
+                        "ballroom", "Penelope moved.", ActionType.MOVE, "ballroom", null, "kitchen"), 200, MANOR, null),
                 dialogue("hooded-claw", "Nyah!", 300));
         var result = renderer.render(events, new ObservationContext(1000, 500))
                 .toCompletableFuture().join();

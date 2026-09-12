@@ -7,7 +7,7 @@ import io.casehub.eidos.api.DispositionAxis;
 import io.casehub.eidos.api.SystemPromptRenderer;
 import io.casehub.eidos.api.SystemPromptRenderer.RenderFormat;
 import io.casehub.eidos.api.VocabularyRegistry;
-import io.casehub.eidos.runtime.registrar.ClasspathYamlDescriptorRegistrar;
+import io.casehub.eidos.core.registrar.ClasspathYamlDescriptorRegistrar;
 import io.casehub.examples.manor.model.ProfileMode;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;

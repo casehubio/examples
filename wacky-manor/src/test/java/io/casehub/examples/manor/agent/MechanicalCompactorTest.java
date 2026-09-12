@@ -20,13 +20,13 @@ class MechanicalCompactorTest {
                                               String departure, long ts) {
         return new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(ts), "action", charId,
                 room, charId + " moved to " + room, ActionType.MOVE, room, null, departure),
-                ts, MANOR);
+                ts, MANOR, null);
     }
 
     private LevelEvent<ManorEvent> dialogueEvent(String charId, String room,
                                                    String text, long ts) {
         return new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(ts), "dialogue", charId,
-                room, charId + ": " + text), ts, MANOR);
+                room, charId + ": " + text), ts, MANOR, null);
     }
 
     @Test
@@ -64,10 +64,10 @@ class MechanicalCompactorTest {
         var events = List.of(
                 new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(100), "action", "penelope",
                         "kitchen", "Penelope picked up something.", ActionType.TAKE, "brass-key", null, null),
-                        100, MANOR),
+                        100, MANOR, null),
                 new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(200), "action", "hooded-claw",
                         "kitchen", "Sneekly picked up something.", ActionType.TAKE, "brass-key", null, null),
-                        200, MANOR));
+                        200, MANOR, null));
         var result = compactor.compact(events);
         assertThat(result).hasSize(1);
         assertThat(result.get(0).payload().characterId()).isEqualTo("hooded-claw");
@@ -78,10 +78,10 @@ class MechanicalCompactorTest {
         var events = List.of(
                 new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(100), "action", "penelope",
                         "kitchen", "Penelope interacted with Cabinet.", ActionType.INTERACT, "cabinet", "brass-key", null),
-                        100, MANOR),
+                        100, MANOR, null),
                 new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(200), "action", "peter",
                         "kitchen", "Peter used something on Cabinet.", ActionType.USE, "cabinet", "oil", null),
-                        200, MANOR));
+                        200, MANOR, null));
         var result = compactor.compact(events);
         assertThat(result).hasSize(1);
         assertThat(result.get(0).payload().characterId()).isEqualTo("peter");

@@ -91,7 +91,7 @@ class AgentExperienceServiceTest {
     void recallReturnsMemories() {
         var memories = List.of(
             new Memory("m1", "hooded-claw", new MemoryDomain("manor"), "test-tenant",
-                null, "Found a secret passage", Map.of(), Instant.now(), 0.8));
+                null, "Found a secret passage", Map.of(), Instant.now(), null, null, null, null));
         var service = new AgentExperienceService(stubRecorder(), stubStore(memories), "test-tenant");
 
         List<Memory> result = service.recall("hooded-claw", 5);
@@ -158,7 +158,7 @@ class AgentExperienceServiceTest {
         service.ingest("agent-1", "kitchen", "took the poison", null, 0.8);
 
         assertThat(recorded).hasSize(1);
-        assertThat(recorded.getFirst().importance()).isEqualTo(0.8);
+        assertThat(recorded.getFirst().confidence()).isEqualTo(0.8);
     }
 
     @Test
@@ -207,7 +207,7 @@ class AgentExperienceServiceTest {
             @Override
             public List<Memory> query(MemoryQuery q) {
                 return List.of(new Memory("m1", "a1", new MemoryDomain("manor"), "t1",
-                                          null, "test memory", Map.of(), Instant.now(), 0.5));
+                                          null, "test memory", Map.of(), Instant.now(), null, null, null, null));
             }
 
             @Override
@@ -221,7 +221,7 @@ class AgentExperienceServiceTest {
                     String agentId, String tenantId, List<Memory> sources, int targetLevel) {
                 calls.incrementAndGet();
                 return List.of(new io.casehub.neocortex.memory.reflection.ReflectionEvent(
-                        agentId, tenantId, null, "test insight", 1, List.of("m1"), 0.8, Map.of()));
+                        agentId, tenantId, null, null, "test insight", 1, List.of("m1"), 0.8, Map.of()));
             }
         };
         var trigger = new ManorReflectionTrigger(2, 100.0);
@@ -263,7 +263,7 @@ class AgentExperienceServiceTest {
             @Override
             public List<Memory> query(MemoryQuery q) {
                 return List.of(new Memory("m1", "a1", new MemoryDomain("manor"), "t1",
-                                          null, "test memory", Map.of(), Instant.now(), 0.5));
+                                          null, "test memory", Map.of(), Instant.now(), null, null, null, null));
             }
 
             @Override
@@ -274,7 +274,7 @@ class AgentExperienceServiceTest {
             public List<io.casehub.neocortex.memory.reflection.ReflectionEvent> synthesize(
                     String agentId, String tenantId, List<Memory> sources, int targetLevel) {
                 return List.of(new io.casehub.neocortex.memory.reflection.ReflectionEvent(
-                        agentId, tenantId, null, "test insight", 1, List.of("m1"), 0.8, Map.of()));
+                        agentId, tenantId, null, null, "test insight", 1, List.of("m1"), 0.8, Map.of()));
             }
         };
         var trigger = new ManorReflectionTrigger(2, 100.0);

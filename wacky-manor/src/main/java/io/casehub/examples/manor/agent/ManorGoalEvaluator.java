@@ -205,9 +205,10 @@ public class ManorGoalEvaluator {
     private void ingestGoalTransition(String agentId, String action, String goalName, String reason) {
         try {
             String text = action + " goal: " + goalName + " — " + reason;
-            var input = new io.casehub.neocortex.memory.MemoryInput(
-                    agentId, new MemoryDomain("manor"), tenancyId, null,
-                    text, java.util.Map.of("type", "goal-" + action.toLowerCase()), 0.7);
+            var input = io.casehub.neocortex.memory.MemoryInput.of(
+                    io.casehub.neocortex.memory.Subject.of("character", agentId),
+                    new MemoryDomain("manor"), tenancyId, text)
+                    .withAttributes(java.util.Map.of("type", "goal-" + action.toLowerCase()));
             memoryStore.store(input);
         } catch (Exception e) {
             log.debugf("Failed to ingest goal transition for %s: %s", agentId, e.getMessage());

@@ -12,7 +12,7 @@ import io.casehub.eidos.eval.FunctionActivationJudge;
 import io.casehub.eidos.eval.FunctionActivationJudge.FunctionScenario;
 import io.casehub.eidos.eval.MbtiAlignmentJudge;
 import io.casehub.examples.manor.model.BriefingMode;
-import io.casehub.eidos.runtime.registrar.ClasspathYamlDescriptorRegistrar;
+import io.casehub.eidos.core.registrar.ClasspathYamlDescriptorRegistrar;
 import io.casehub.examples.manor.model.ProfileMode;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;

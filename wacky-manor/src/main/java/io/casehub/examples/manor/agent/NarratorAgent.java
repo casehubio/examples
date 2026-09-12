@@ -52,7 +52,7 @@ public final class NarratorAgent {
     }
 
     public void collect(ManorEvent event) {
-        runner.collect(new LevelEvent<>(event, event.timestamp().toEpochMilli(), NARRATOR_LEVEL));
+        runner.collect(new LevelEvent<>(event, event.timestamp().toEpochMilli(), NARRATOR_LEVEL, null));
     }
 
     public void start(WorldState world) {

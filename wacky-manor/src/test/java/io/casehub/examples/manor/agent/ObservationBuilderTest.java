@@ -178,11 +178,11 @@ class ObservationBuilderTest {
                 new io.casehub.neocortex.memory.Memory("m1", "penelope-pitstop",
                                                        new io.casehub.neocortex.memory.MemoryDomain("manor"), "test",
                                                        null, "Found a key in the library", java.util.Map.of(),
-                                                       java.time.Instant.now().minusSeconds(300), 0.8),
+                                                       java.time.Instant.now().minusSeconds(300), null, null, null, null),
                 new io.casehub.neocortex.memory.Memory("m2", "penelope-pitstop",
                                                        new io.casehub.neocortex.memory.MemoryDomain("manor"), "test",
                                                        null, "Spoke with Dastardly about the mystery", java.util.Map.of(),
-                                                       java.time.Instant.now().minusSeconds(60), 0.6));
+                                                       java.time.Instant.now().minusSeconds(60), null, null, null, null));
         var obs = buildObs(world.character("penelope-pitstop"), java.util.List.of(), emptyDrain, memories, java.util.List.of(), java.util.Map.of(), java.util.Set.of());
         assertThat(obs).contains("Past Experience");
         assertThat(obs).contains("Found a key in the library");
@@ -290,7 +290,7 @@ class ObservationBuilderTest {
                 new io.casehub.neocortex.memory.Memory("r1", "penelope-pitstop",
                                                        io.casehub.neocortex.memory.reflection.ReflectionEvents.DOMAIN, "t1",
                                                        null, "Sneekly is always near dangerous items",
-                                                       java.util.Map.of(), java.time.Instant.now(), 0.8));
+                                                       java.util.Map.of(), java.time.Instant.now(), null, null, null, null));
         var obs = buildObs(world.character("penelope-pitstop"), java.util.List.of(), emptyDrain, java.util.List.of(), reflections, java.util.Map.of(), java.util.Set.of());
         assertThat(obs).contains("Insights");
         assertThat(obs).contains("Sneekly is always near dangerous items");
@@ -309,7 +309,7 @@ class ObservationBuilderTest {
                         new io.casehub.neocortex.memory.Memory("rel1", "penelope-pitstop",
                                                                new io.casehub.neocortex.memory.MemoryDomain("relationship"), "t1",
                                                                null, "Sneekly offered you tea with unusual insistence",
-                                                               java.util.Map.of(), java.time.Instant.now(), 0.7)));
+                                                               java.util.Map.of(), java.time.Instant.now(), null, null, null, null)));
         var obs = buildObs(world.character("penelope-pitstop"), java.util.List.of(), emptyDrain, java.util.List.of(), java.util.List.of(), relationships, java.util.Set.of());
         assertThat(obs).contains("About The Hooded Claw");
         assertThat(obs).contains("Sneekly offered you tea with unusual insistence");

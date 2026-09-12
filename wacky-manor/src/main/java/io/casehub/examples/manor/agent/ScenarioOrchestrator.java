@@ -284,11 +284,6 @@ public class ScenarioOrchestrator {
                             }
                         }
                         var memories = experienceService.recall(c.agentId(), recallLimit);
-                        if (personalityWeightedRetrieval && !memories.isEmpty()) {
-                            memories = io.casehub.neocortex.memory.personality.PersonalityWeightedRetrieval
-                                .reweight(memories, new io.casehub.neocortex.memory.personality.PersonalityWeights(
-                                    java.util.Map.of(new io.casehub.neocortex.memory.MemoryDomain("manor"), 1.0)), java.time.Instant.now());
-                        }
                         var worldProvider = new ManorWorldObservationProvider(c, world, drain);
                         var pipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
                         String observation = ObservationBuilder.buildObservation(

@@ -3,7 +3,7 @@ package io.casehub.examples.manor;
 import io.casehub.eidos.api.AgentDescriptor;
 import io.casehub.eidos.api.VocabularyRegistry;
 import io.casehub.eidos.api.spi.AgentDescriptorRegistrar;
-import io.casehub.eidos.runtime.registrar.ClasspathYamlDescriptorRegistrar;
+import io.casehub.eidos.core.registrar.ClasspathYamlDescriptorRegistrar;
 import io.casehub.examples.manor.model.ProfileMode;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Alternative;
