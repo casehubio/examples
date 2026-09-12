@@ -56,12 +56,6 @@ public class ScenarioOrchestrator {
     @Inject
     ManorPlanRevisionStrategy  planRevisionStrategy;
 
-    @Inject
-    io.casehub.eidos.api.BehavioralSignalStore  behavioralSignalStore;
-    @Inject
-    io.casehub.eidos.api.DispositionSignalStore dispositionSignalStore;
-
-
     private volatile AgentProvider gatedProvider;
 
 
@@ -115,18 +109,7 @@ public class ScenarioOrchestrator {
             config.reflection().enabled(), config.memory().decayEnabled(), config.memory().decayMaxAgeDays(), config.memory().decayMinImportance(),
             config.reflection().maxSourceMemories(), config.memory().recallLimit(), goalEvaluator, planEvaluator));
 
-        ManorTrustProvider trustProvider = null;
-        if (config.trust().enabled()) {
-            trustProvider = new ManorTrustProvider(config.trust().positiveWeight(), config.trust().negativeWeight());
-        }
-        ManorDispositionRecorder dispositionRecorder = null;
-        ManorPersonalityEvolution personalityEvolution = null;
-        if (config.disposition().enabled()) {
-            dispositionRecorder = new ManorDispositionRecorder(behavioralSignalStore,
-                dispositionSignalStore, ManorConstants.TENANCY_ID);
-            personalityEvolution = new ManorPersonalityEvolution(dispositionSignalStore,
-                ManorConstants.TENANCY_ID, config.disposition().evolutionCheckInterval());
-        }
+        var cognitions = new java.util.HashMap<String, CharacterCognition>();
 
         NarratorAgent narratorAgent = null;
         if (config.narrator().enabled() && mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
@@ -151,12 +134,13 @@ public class ScenarioOrchestrator {
                     .flatMap(c -> c.tags().stream())
                     .collect(java.util.stream.Collectors.toSet());
             entry.getValue().setCapabilityTags(tags);
+            cognitions.put(entry.getKey(), new CharacterCognition(entry.getKey(), experienceService));
         }
 
         var invocationService = new AgentInvocationService(agentProvider, 60, 2, 2000);
 
         if (mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
-            runAutonomousTicks(world, activeSet, actionResolver, dispatcher, invocationService, narratorAgent, experienceService, planEvaluator, trustProvider, dispositionRecorder, personalityEvolution);
+            runAutonomousTicks(world, activeSet, actionResolver, dispatcher, invocationService, narratorAgent, cognitions, planEvaluator);
         } else {
             runScripted(world, activeSet, actionResolver, dispatcher, invocationService,
                         triggerEvaluator, sceneDirector, narratorAgent);
@@ -185,10 +169,8 @@ public class ScenarioOrchestrator {
     private void runAutonomousTicks(WorldState world, java.util.Set<String> activeSet,
                                      ActionResolver actionResolver, ManorEventDispatcher dispatcher,
                                      AgentInvocationService invocationService, NarratorAgent narratorAgent,
-                                     AgentExperienceService experienceService, ManorPlanEvaluator planEvaluator,
-                                     ManorTrustProvider trustProvider,
-                                     ManorDispositionRecorder dispositionRecorder,
-                                     ManorPersonalityEvolution personalityEvolution) {
+                                     java.util.Map<String, CharacterCognition> cognitions,
+                                     ManorPlanEvaluator planEvaluator) {
         var activeAgents = world.characters().values().stream()
                 .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
                 .toList();
@@ -216,18 +198,19 @@ public class ScenarioOrchestrator {
             for (var c : actingThisTick) {
                 Thread.ofVirtual().name(c.agentId() + "-tick-" + currentTick).start(() -> {
                     try {
+                        var cognition = cognitions.get(c.agentId());
                         var drain = dispatcher.observationService().drain(c.agentId(), System.currentTimeMillis());
-                        var reflections = experienceService.recallReflections(c.agentId(), 5);
+                        var reflections = cognition.recallReflections(5);
                         var relationships = new java.util.HashMap<String, java.util.List<io.casehub.neocortex.memory.Memory>>();
                         for (var other : world.charactersInRoom(c.currentRoom())) {
                             if (!other.agentId().equals(c.agentId())) {
-                                var relMems = experienceService.recallRelationships(c.agentId(), other.agentId(), 3);
+                                var relMems = cognition.recallRelationships(other.agentId(), 3);
                                 if (!relMems.isEmpty()) {
                                     relationships.put(other.name(), relMems);
                                 }
                             }
                         }
-                        var memories = experienceService.recall(c.agentId(), config.memory().recallLimit());
+                        var memories = cognition.recallMemories(config.memory().recallLimit());
                         var worldProvider = new ManorWorldObservationProvider(c, world, drain);
                         var pipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
                         String observation = new ObservationBuilder(worldProvider, pipeline, c.capabilityTags())
@@ -335,19 +318,9 @@ public class ScenarioOrchestrator {
                         String aTarget = response.action() != null ? response.action().target() : "";
                         planEvaluator.reviseOnFailure(c.agentId(), aType, aTarget, failure, currentTick);
                     }
-                    if (dispositionRecorder != null) {
-                        dispositionRecorder.record(c.agentId(), response.action().type(), result);
-                    }
-                    if (trustProvider != null) {
-                        String target = extractTargetAgent(response);
-                        if (target != null) {
-                            var actionType = response.action().type();
-                            if (actionType == io.casehub.examples.manor.model.ActionType.STEAL) {
-                                trustProvider.recordNegative(c.agentId());
-                            } else if (actionType == io.casehub.examples.manor.model.ActionType.GIVE) {
-                                trustProvider.recordPositive(c.agentId());
-                            }
-                        }
+                    String trustTarget = extractTargetAgent(response);
+                    if (trustTarget != null) {
+                        cognitions.get(c.agentId()).recordTrustEvent(trustTarget, response.action().type());
                     }
                 } else {
                     c.setLastActionResult("You waited and observed.");
@@ -355,15 +328,12 @@ public class ScenarioOrchestrator {
                 if (response.thinking() != null) {
                     c.setCurrentThinking(response.thinking());
                 }
-                double importance = importanceForAction(response);
+                var cognition = cognitions.get(c.agentId());
+                double importance = cognition.computeImportance(response.action() != null ? response.action().type() : null);
                 String targetAgentId = extractTargetAgent(response);
                 String desc = (response.dialogue() != null ? response.dialogue() + " " : "")
                               + (response.action() != null ? response.action().type() + " " + response.action().target() : "WAIT");
-                experienceService.ingest(c.agentId(), c.currentRoom(),
-                    desc.strip(), response.thinking(), importance, targetAgentId, currentTick);
-                if (personalityEvolution != null) {
-                    personalityEvolution.checkAndEvolve(c.agentId(), currentTick);
-                }
+                cognition.recordExperience(c.currentRoom(), desc.strip(), response.thinking(), importance, targetAgentId, currentTick);
             }
 
             if (tick >= config.maxTurns()) {
@@ -498,19 +468,6 @@ public class ScenarioOrchestrator {
 
     private static int cadence(io.casehub.examples.manor.model.CharacterState c) {
         return Math.max(1, (int) (c.thinkDelayMs() / 2000));
-    }
-
-    private static double importanceForAction(AgentResponse response) {
-        if (response.action() == null) {return 0.5;}
-        return switch (response.action().type()) {
-            case STEAL -> 0.9;
-            case USE -> 0.8;
-            case TAKE, GIVE, PULL_ASIDE -> 0.7;
-            case INTERACT -> 0.6;
-            case MOVE -> 0.3;
-            case LOOK -> 0.2;
-            case WAIT -> 0.1;
-        };
     }
 
     private static String extractTargetAgent(AgentResponse response) {
