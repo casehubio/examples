@@ -229,9 +229,12 @@ public class ScenarioOrchestrator {
                         var memories = experienceService.recall(c.agentId(), config.memory().recallLimit());
                         var worldProvider = new ManorWorldObservationProvider(c, world, drain);
                         var pipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
-                        String observation = ObservationBuilder.buildObservation(
-                                worldProvider, pipeline, c.capabilityTags(), c, resolveGoals(c.agentId()), drain,
-                                memories, reflections, relationships);
+                        String observation = new ObservationBuilder(worldProvider, pipeline, c.capabilityTags())
+                                .withCharacter(c)
+                                .withGoals(resolveGoals(c.agentId()))
+                                .withDrain(drain)
+                                .withMemories(memories, reflections, relationships)
+                                .build();
                         String userPrompt = observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
                         String systemPrompt = renderPrompt(c.agentId());
                         responses.put(c.agentId(), invocationService.invoke(systemPrompt, userPrompt, c.agentId()));

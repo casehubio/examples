@@ -5,18 +5,61 @@ public final class ObservationBuilder {
     private static final io.casehub.blocks.summarisation.observation.affordance.AffordanceRenderer RENDERER =
             new io.casehub.blocks.summarisation.observation.affordance.AffordanceRenderer();
 
-    public static String buildObservation(io.casehub.blocks.summarisation.observation.affordance.WorldObservationProvider worldProvider,
-                                          io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline pipeline,
-                                          java.util.Set<String> observerTags,
-                                          io.casehub.examples.manor.model.CharacterState character,
-                                          java.util.List<io.casehub.eidos.api.AgentGoal> goals,
-                                          io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain,
-                                          java.util.List<io.casehub.neocortex.memory.Memory> memories,
-                                          java.util.List<io.casehub.neocortex.memory.Memory> reflections,
-                                          java.util.Map<String, java.util.List<io.casehub.neocortex.memory.Memory>> relationshipMemories) {
+    private final io.casehub.blocks.summarisation.observation.affordance.WorldObservationProvider worldProvider;
+    private final io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline      pipeline;
+    private final java.util.Set<String>                                                           observerTags;
+
+    private io.casehub.examples.manor.model.CharacterState                                            character;
+    private java.util.List<io.casehub.eidos.api.AgentGoal>                                            goals                = java.util.List.of();
+    private io.casehub.blocks.summarisation.observation.PartitionedDrain<String>                      drain;
+    private java.util.List<io.casehub.neocortex.memory.Memory>                                        memories             = java.util.List.of();
+    private java.util.List<io.casehub.neocortex.memory.Memory>                                        reflections          = java.util.List.of();
+    private java.util.Map<String, java.util.List<io.casehub.neocortex.memory.Memory>>                 relationshipMemories = java.util.Map.of();
+    private java.util.List<io.casehub.blocks.summarisation.observation.affordance.ObservationSection> cognitiveSections    = java.util.List.of();
+
+    public ObservationBuilder(io.casehub.blocks.summarisation.observation.affordance.WorldObservationProvider worldProvider,
+                              io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline pipeline,
+                              java.util.Set<String> observerTags) {
+        this.worldProvider = worldProvider;
+        this.pipeline      = pipeline;
+        this.observerTags  = observerTags != null ? observerTags : java.util.Set.of();
+    }
+
+    public ObservationBuilder withCharacter(io.casehub.examples.manor.model.CharacterState character) {
+        this.character = character;
+        return this;
+    }
+
+    public ObservationBuilder withGoals(java.util.List<io.casehub.eidos.api.AgentGoal> goals) {
+        this.goals = goals != null ? goals : java.util.List.of();
+        return this;
+    }
+
+    public ObservationBuilder withDrain(io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain) {
+        this.drain = drain;
+        return this;
+    }
+
+    public ObservationBuilder withMemories(java.util.List<io.casehub.neocortex.memory.Memory> memories,
+                                           java.util.List<io.casehub.neocortex.memory.Memory> reflections,
+                                           java.util.Map<String, java.util.List<io.casehub.neocortex.memory.Memory>> relationshipMemories) {
+        this.memories             = memories != null ? memories : java.util.List.of();
+        this.reflections          = reflections != null ? reflections : java.util.List.of();
+        this.relationshipMemories = relationshipMemories != null ? relationshipMemories : java.util.Map.of();
+        return this;
+    }
+
+    public ObservationBuilder withCognitiveSections(java.util.List<io.casehub.blocks.summarisation.observation.affordance.ObservationSection> sections) {
+        this.cognitiveSections = sections != null ? sections : java.util.List.of();
+        return this;
+    }
+
+    public String build() {
         var sections = new java.util.ArrayList<io.casehub.blocks.summarisation.observation.affordance.ObservationSection>();
 
-        sections.addAll(worldProvider.worldSections());
+        if (worldProvider != null) {
+            sections.addAll(worldProvider.worldSections());
+        }
 
         for (var entry : relationshipMemories.entrySet()) {
             if (!entry.getValue().isEmpty()) {
@@ -28,24 +71,47 @@ public final class ObservationBuilder {
         var thinking = currentThinkingSection(character);
         if (thinking != null) {sections.add(thinking);}
 
+        for (var cs : cognitiveSections) {
+            sections.add(cs);
+        }
+
         sections.add(io.casehub.blocks.summarisation.observation.affordance.CognitiveObservationSections.goalsSection(goals));
         planSections(character).forEach(sections::add);
-        sections.add(io.casehub.blocks.summarisation.observation.affordance.CognitiveObservationSections.recentActivitySection(drain));
-        if (memories != null && !memories.isEmpty()) {
+        if (drain != null) {
+            sections.add(io.casehub.blocks.summarisation.observation.affordance.CognitiveObservationSections.recentActivitySection(drain));
+        }
+        if (!memories.isEmpty()) {
             sections.add(io.casehub.blocks.summarisation.observation.affordance.CognitiveObservationSections.pastExperienceSection(memories));
         }
-        if (reflections != null && !reflections.isEmpty()) {
+        if (!reflections.isEmpty()) {
             sections.add(io.casehub.blocks.summarisation.observation.affordance.CognitiveObservationSections.insightsSection(reflections));
         }
         sections.add(lastActionResultSection(character));
 
         var filtered = pipeline != null
-                ? pipeline.apply(sections, observerTags)
-                : sections.stream()
-                      .map(s -> s instanceof io.casehub.blocks.summarisation.observation.affordance.AnnotatedSection a ? a.section() : s)
-                      .toList();
+                       ? pipeline.apply(sections, observerTags)
+                       : sections.stream()
+                                 .map(s -> s instanceof io.casehub.blocks.summarisation.observation.affordance.AnnotatedSection a ? a.section() : s)
+                                 .toList();
 
         return RENDERER.renderObservation(filtered);
+    }
+
+    public static String buildObservation(io.casehub.blocks.summarisation.observation.affordance.WorldObservationProvider worldProvider,
+                                          io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline pipeline,
+                                          java.util.Set<String> observerTags,
+                                          io.casehub.examples.manor.model.CharacterState character,
+                                          java.util.List<io.casehub.eidos.api.AgentGoal> goals,
+                                          io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain,
+                                          java.util.List<io.casehub.neocortex.memory.Memory> memories,
+                                          java.util.List<io.casehub.neocortex.memory.Memory> reflections,
+                                          java.util.Map<String, java.util.List<io.casehub.neocortex.memory.Memory>> relationshipMemories) {
+        return new ObservationBuilder(worldProvider, pipeline, observerTags)
+                       .withCharacter(character)
+                       .withGoals(goals)
+                       .withDrain(drain)
+                       .withMemories(memories, reflections, relationshipMemories)
+                       .build();
     }
 
     private static io.casehub.blocks.summarisation.observation.affordance.ObservationSection inventorySection(io.casehub.examples.manor.model.CharacterState character) {
