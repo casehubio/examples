@@ -48,4 +48,61 @@ class CharacterCognitionTest {
         assertThat(cognition.recallReflections(5)).isEmpty();
         assertThat(cognition.recallRelationships("other", 3)).isEmpty();
     }
+
+    @Test
+    void drivesRenderedWhenSocialConfigPresent() {
+        var socialConfig = SocialConfig.forCharacter("hooded-claw");
+        var cognition    = new CharacterCognition("hooded-claw", null, null, socialConfig, List.of());
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState("hooded-claw", "HC", "Room", 0.0, List.of()),
+                List.of(), Map.of());
+        assertThat(sections).anyMatch(s -> s.header().equals("Your Drives"));
+        var drivesSection = sections.stream().filter(s -> s.header().equals("Your Drives")).findFirst().orElseThrow();
+        assertThat(drivesSection).isInstanceOf(io.casehub.blocks.summarisation.observation.affordance.ObservationSection.ItemList.class);
+        var items = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.ItemList) drivesSection).items();
+        assertThat(items.get(0)).contains("scheming");
+    }
+
+    @Test
+    void principlesRenderedFromConstraints() {
+        var constraint = new io.casehub.eidos.api.AgentConstraint(
+                "test-constraint", "Never reveal your true identity",
+                io.casehub.eidos.api.Visibility.PRIVATE, io.casehub.eidos.api.ConstraintSeverity.HARD);
+        var cognition = new CharacterCognition("test", null, null, SocialConfig.empty(), List.of(constraint));
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState("test", "Test", "Room", 0.0, List.of()),
+                List.of(), Map.of());
+        assertThat(sections).anyMatch(s -> s.header().equals("Your Principles"));
+        var principles = sections.stream().filter(s -> s.header().equals("Your Principles")).findFirst().orElseThrow();
+        var items      = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.ItemList) principles).items();
+        assertThat(items).contains("Never reveal your true identity");
+    }
+
+    @Test
+    void beliefsAndNormsRendered() {
+        var socialConfig = SocialConfig.forCharacter("penelope-pitstop");
+        var cognition    = new CharacterCognition("penelope-pitstop", null, null, socialConfig, List.of());
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState("penelope-pitstop", "Penelope", "Room", 0.0, List.of()),
+                List.of(), Map.of());
+        assertThat(sections).anyMatch(s -> s.header().equals("Your Beliefs"));
+        assertThat(sections).anyMatch(s -> s.header().equals("Social Rules"));
+    }
+
+    @Test
+    void allFourSectionsForFullyConfiguredCharacter() {
+        var socialConfig = SocialConfig.forCharacter("hooded-claw");
+        var constraint = new io.casehub.eidos.api.AgentConstraint(
+                "elaborate", "Your schemes must be elaborate",
+                io.casehub.eidos.api.Visibility.PRIVATE, io.casehub.eidos.api.ConstraintSeverity.SOFT);
+        var cognition = new CharacterCognition("hooded-claw", null, null, socialConfig, List.of(constraint));
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState("hooded-claw", "HC", "Room", 0.0, List.of()),
+                List.of("penelope-pitstop"), Map.of("penelope-pitstop", "Penelope Pitstop"));
+        assertThat(sections).hasSize(4);
+        assertThat(sections.stream().map(s -> s.header()).toList())
+                .containsExactly("Your Drives", "Your Principles", "Your Beliefs", "Social Rules");
+    }
+
+
 }

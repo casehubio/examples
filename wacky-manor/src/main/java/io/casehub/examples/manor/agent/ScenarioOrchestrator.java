@@ -134,7 +134,10 @@ public class ScenarioOrchestrator {
                     .flatMap(c -> c.tags().stream())
                     .collect(java.util.stream.Collectors.toSet());
             entry.getValue().setCapabilityTags(tags);
-            cognitions.put(entry.getKey(), new CharacterCognition(entry.getKey(), experienceService));
+            var cogDefaults = ManorCognitiveSetup.deriveDefaults(desc);
+            var socialCfg = SocialConfig.forCharacter(entry.getKey());
+            cognitions.put(entry.getKey(), new CharacterCognition(
+                    entry.getKey(), experienceService, cogDefaults, socialCfg, desc.constraints()));
         }
 
         var invocationService = new AgentInvocationService(agentProvider, 60, 2, 2000);
@@ -213,11 +216,21 @@ public class ScenarioOrchestrator {
                         var memories = cognition.recallMemories(config.memory().recallLimit());
                         var worldProvider = new ManorWorldObservationProvider(c, world, drain);
                         var pipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
+                        var nearbyIds = world.charactersInRoom(c.currentRoom()).stream()
+                                .map(io.casehub.examples.manor.model.CharacterState::agentId)
+                                .filter(id -> !id.equals(c.agentId()))
+                                .toList();
+                        var agentNameMap = new java.util.HashMap<String, String>();
+                        for (var id : nearbyIds) {
+                            var nearby = world.character(id);
+                            if (nearby != null) agentNameMap.put(id, nearby.name());
+                        }
                         String observation = new ObservationBuilder(worldProvider, pipeline, c.capabilityTags())
                                 .withCharacter(c)
                                 .withGoals(resolveGoals(c.agentId()))
                                 .withDrain(drain)
                                 .withMemories(memories, reflections, relationships)
+                                .withCognitiveSections(cognition.renderCognitiveSections(c, nearbyIds, agentNameMap))
                                 .build();
                         String userPrompt = observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
                         String systemPrompt = renderPrompt(c.agentId());
