@@ -64,6 +64,11 @@
     <!-- LLM — platform agent stack (Claude Code SDK via Vertex) -->
     <dependency>
       <groupId>io.casehub</groupId>
+      <artifactId>casehub-neocortex-cognitive-index</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
       <artifactId>casehub-neocortex-memory-api</artifactId>
       <version>${casehub.version}</version>
     </dependency>
