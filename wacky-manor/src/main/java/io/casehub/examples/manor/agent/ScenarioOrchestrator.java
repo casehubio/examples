@@ -44,6 +44,8 @@ public class ScenarioOrchestrator {
     io.casehub.neocortex.memory.experience.ExperienceRecorder experienceRecorder;
     @Inject
     io.casehub.neocortex.memory.CaseMemoryStore caseMemoryStore;
+    @Inject
+    io.casehub.neocortex.mindmap.intelligence.consolidation.ConsolidationScheduler consolidationScheduler;
 
 
     @Inject
@@ -347,6 +349,18 @@ public class ScenarioOrchestrator {
                 String desc = (response.dialogue() != null ? response.dialogue() + " " : "")
                               + (response.action() != null ? response.action().type() + " " + response.action().target() : "WAIT");
                 cognition.recordExperience(c.currentRoom(), desc.strip(), response.thinking(), importance, targetAgentId, currentTick);
+            }
+
+            if (config.consolidation().enabled()
+                    && config.consolidation().intervalTicks() > 0
+                    && tick > 0
+                    && tick % config.consolidation().intervalTicks() == 0) {
+                log.info("Night falls on the mansion. Characters rest and reflect...");
+                webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.narrator(
+                    "Night falls. The characters rest and reflect on the day's events..."));
+                consolidationScheduler.consolidateNow(ManorConstants.TENANCY_ID);
+                webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.narrator(
+                    "Dawn breaks. A new day begins..."));
             }
 
             if (tick >= config.maxTurns()) {

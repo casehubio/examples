@@ -9,15 +9,16 @@ class ManorConfigTest {
     @Test
     void configRecordsConstruct() {
         var config = new ManorConfig(300,
-            new ManorConfig.ObservationConfig(10, 15),
-            new ManorConfig.NarratorConfig(true, 5, 15),
-            new ManorConfig.ReflectionConfig(true, 5, 3.0, 15),
-            new ManorConfig.GoalConfig(true, 10, 2),
-            new ManorConfig.PlanConfig(true, 5),
-            new ManorConfig.TrustConfig(true, 1.0, -2.0),
-            new ManorConfig.DispositionConfig(true, 5),
-            new ManorConfig.MemoryConfig(20, true, true, 7, 0.2),
-            "", 5);
+                                     new ManorConfig.ObservationConfig(10, 15),
+                                     new ManorConfig.NarratorConfig(true, 5, 15),
+                                     new ManorConfig.ReflectionConfig(true, 5, 3.0, 15),
+                                     new ManorConfig.GoalConfig(true, 10, 2),
+                                     new ManorConfig.PlanConfig(true, 5),
+                                     new ManorConfig.TrustConfig(true, 1.0, -2.0),
+                                     new ManorConfig.DispositionConfig(true, 5),
+                                     new ManorConfig.MemoryConfig(20, true, true, 7, 0.2),
+                                     new ManorConfig.ConsolidationConfig(true, 50),
+                                     "", 5);
         assertThat(config.maxTurns()).isEqualTo(300);
         assertThat(config.observation().verbatimThreshold()).isEqualTo(10);
         assertThat(config.observation().groupedThreshold()).isEqualTo(15);
@@ -34,6 +35,7 @@ class ManorConfigTest {
         assertThat(config.memory().decayEnabled()).isTrue();
         assertThat(config.memory().decayMaxAgeDays()).isEqualTo(7);
         assertThat(config.memory().decayMinImportance()).isEqualTo(0.2);
-        assertThat(config.maxConcurrentAgents()).isEqualTo(5);
-    }
+        assertThat(config.consolidation().enabled()).isTrue();
+        assertThat(config.consolidation().intervalTicks()).isEqualTo(50);
+        assertThat(config.maxConcurrentAgents()).isEqualTo(5);}
 }

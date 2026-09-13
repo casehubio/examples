@@ -61,22 +61,27 @@ public class ManorConfigProducer {
     double trustNegativeWeight;
     @ConfigProperty(name = "manor.personality.weighted-retrieval", defaultValue = "true")
     boolean personalityWeightedRetrieval;
+    @ConfigProperty(name = "manor.consolidation.enabled", defaultValue = "true")
+    boolean consolidationEnabled;
+    @ConfigProperty(name = "manor.consolidation.interval-ticks", defaultValue = "50")
+    int     consolidationIntervalTicks;
+
 
     @Produces
     @jakarta.inject.Singleton
     public ManorConfig produce() {
         return new ManorConfig(
-            maxTurns,
-            new ManorConfig.ObservationConfig(verbatimThreshold, groupedThreshold),
-            new ManorConfig.NarratorConfig(narratorEnabled, narratorEventThreshold, narratorTimerSeconds),
-            new ManorConfig.ReflectionConfig(reflectionEnabled, maxUnreflected, reflectionImportanceThreshold, maxSourceMemories),
-            new ManorConfig.GoalConfig(goalEnabled, goalCooldownTicks, goalMaxNewPerReflection),
-            new ManorConfig.PlanConfig(planEnabled, planMaxRevisionGeneration),
-            new ManorConfig.TrustConfig(trustEnabled, trustPositiveWeight, trustNegativeWeight),
-            new ManorConfig.DispositionConfig(dispositionEnabled, dispositionEvolutionCheckInterval),
-            new ManorConfig.MemoryConfig(recallLimit, personalityWeightedRetrieval, decayEnabled, decayMaxAgeDays, decayMinImportance),
-            activeCharactersConfig.orElse(""),
-            maxConcurrentAgents
-        );
-    }
+                maxTurns,
+                new ManorConfig.ObservationConfig(verbatimThreshold, groupedThreshold),
+                new ManorConfig.NarratorConfig(narratorEnabled, narratorEventThreshold, narratorTimerSeconds),
+                new ManorConfig.ReflectionConfig(reflectionEnabled, maxUnreflected, reflectionImportanceThreshold, maxSourceMemories),
+                new ManorConfig.GoalConfig(goalEnabled, goalCooldownTicks, goalMaxNewPerReflection),
+                new ManorConfig.PlanConfig(planEnabled, planMaxRevisionGeneration),
+                new ManorConfig.TrustConfig(trustEnabled, trustPositiveWeight, trustNegativeWeight),
+                new ManorConfig.DispositionConfig(dispositionEnabled, dispositionEvolutionCheckInterval),
+                new ManorConfig.MemoryConfig(recallLimit, personalityWeightedRetrieval, decayEnabled, decayMaxAgeDays, decayMinImportance),
+                new ManorConfig.ConsolidationConfig(consolidationEnabled, consolidationIntervalTicks),
+                activeCharactersConfig.orElse(""),
+                maxConcurrentAgents
+        );}
 }

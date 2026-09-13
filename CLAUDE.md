@@ -72,3 +72,5 @@ Phase 0–2.8 complete. 17 characters across 6 rooms. Phase 2.9 next: scale test
 **Dependencies beyond Eidos/Qhorus/Blocks:**
 - `casehub-engine-api` — GoalFormationStrategy/GoalRevisionStrategy SPIs for reflection-driven goal lifecycle
 - `casehub-neocortex-memory-api` + `casehub-neocortex-memory` — salience-scored memory, reflection, relationship tracking
+- `casehub-neocortex-cognitive-index` — CognitiveDerivationEngine for personality-derived cognitive defaults
+- `casehub-neocortex-mindmap-intelligence` — ConsolidationScheduler for sleep-cycle memory consolidation
