@@ -46,6 +46,10 @@ public class ScenarioOrchestrator {
     io.casehub.neocortex.memory.CaseMemoryStore caseMemoryStore;
     @Inject
     io.casehub.neocortex.mindmap.intelligence.consolidation.ConsolidationScheduler consolidationScheduler;
+    @Inject
+    jakarta.enterprise.inject.Instance<io.casehub.neocortex.cognitive.index.CognitiveProfile> cognitiveProfileInstance;
+    @Inject
+    jakarta.enterprise.inject.Instance<io.casehub.neocortex.mindmap.MindMapStore> mindMapStoreInstance;
 
 
     @Inject
@@ -111,6 +115,14 @@ public class ScenarioOrchestrator {
             config.reflection().enabled(), config.memory().decayEnabled(), config.memory().decayMaxAgeDays(), config.memory().decayMinImportance(),
             config.reflection().maxSourceMemories(), config.memory().recallLimit(), goalEvaluator, planEvaluator));
 
+        var cogProfile = cognitiveProfileInstance.isResolvable() ? cognitiveProfileInstance.get() : null;
+        var mmStore = mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null;
+        var seeder = mmStore != null ? new ManorCognitiveSeeder(mmStore) : null;
+        var contextStrategy = new ManorContextStrategy();
+        var cognitionCore = new io.casehub.blocks.agentic.social.CognitionCore(
+                null, null, null, null, null, null, null, null, agentProvider,
+                io.casehub.blocks.agentic.social.CognitionConfig.none());
+
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
 
         NarratorAgent narratorAgent = null;
@@ -138,8 +150,10 @@ public class ScenarioOrchestrator {
             entry.getValue().setCapabilityTags(tags);
             var cogDefaults = ManorCognitiveSetup.deriveDefaults(desc);
             var socialCfg = SocialConfig.forCharacter(entry.getKey());
+            var seedResult = seeder != null ? seeder.seed(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID) : null;
             cognitions.put(entry.getKey(), new CharacterCognition(
-                    entry.getKey(), experienceService, cogDefaults, socialCfg, desc.constraints()));
+                    entry.getKey(), experienceService, cogDefaults, socialCfg, desc.constraints(),
+                    cogProfile, contextStrategy, cognitionCore, seedResult, ManorConstants.TENANCY_ID));
         }
 
         var invocationService = new AgentInvocationService(agentProvider, 60, 2, 2000);

@@ -5,7 +5,6 @@ import io.casehub.eidos.api.AgentConstraint;
 import io.casehub.examples.manor.model.ActionType;
 import io.casehub.examples.manor.model.CharacterState;
 import io.casehub.neocortex.cognitive.index.CognitiveDefaults;
-import io.casehub.neocortex.cognitive.index.SocialCognitionDefaults;
 import io.casehub.neocortex.memory.Memory;
 
 import java.util.ArrayList;
@@ -15,24 +14,47 @@ import java.util.Map;
 
 public final class CharacterCognition {
 
-    private final String                 agentId;
-    private final AgentExperienceService experienceService;
-    private final CognitiveDefaults      cognitiveDefaults;
-    private final SocialConfig           socialConfig;
-    private final List<AgentConstraint>  constraints;
+    private final String                                                agentId;
+    private final AgentExperienceService                                experienceService;
+    private final CognitiveDefaults                                     cognitiveDefaults;
+    private final SocialConfig                                          socialConfig;
+    private final List<AgentConstraint>                                 constraints;
+    private final io.casehub.neocortex.cognitive.index.CognitiveProfile cognitiveProfile;
+    private final ManorContextStrategy                                  contextStrategy;
+    private final io.casehub.blocks.agentic.social.CognitionCore        cognitionCore;
+    private final ManorCognitiveSeeder.SeedResult                       seedResult;
+    private final String                                                tenantId;
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService) {
-        this(agentId, experienceService, null, SocialConfig.empty(), List.of());
+        this(agentId, experienceService, null, SocialConfig.empty(), List.of(),
+             null, new ManorContextStrategy(), null, null, null);
     }
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService,
                               CognitiveDefaults cognitiveDefaults, SocialConfig socialConfig,
                               List<AgentConstraint> constraints) {
+        this(agentId, experienceService, cognitiveDefaults, socialConfig, constraints,
+             null, new ManorContextStrategy(), null, null, null);
+    }
+
+    public CharacterCognition(String agentId, AgentExperienceService experienceService,
+                              CognitiveDefaults cognitiveDefaults, SocialConfig socialConfig,
+                              List<AgentConstraint> constraints,
+                              io.casehub.neocortex.cognitive.index.CognitiveProfile cognitiveProfile,
+                              ManorContextStrategy contextStrategy,
+                              io.casehub.blocks.agentic.social.CognitionCore cognitionCore,
+                              ManorCognitiveSeeder.SeedResult seedResult,
+                              String tenantId) {
         this.agentId           = agentId;
         this.experienceService = experienceService;
         this.cognitiveDefaults = cognitiveDefaults;
         this.socialConfig      = socialConfig != null ? socialConfig : SocialConfig.empty();
         this.constraints       = constraints != null ? List.copyOf(constraints) : List.of();
+        this.cognitiveProfile  = cognitiveProfile;
+        this.contextStrategy   = contextStrategy != null ? contextStrategy : new ManorContextStrategy();
+        this.cognitionCore     = cognitionCore;
+        this.seedResult        = seedResult;
+        this.tenantId          = tenantId;
     }
 
     public String agentId() {return agentId;}
@@ -97,12 +119,22 @@ public final class CharacterCognition {
             sections.add(ObservationSection.items("Your Beliefs", null, items));
         }
 
-        var filteredNorms = ManorNormFilter.filter(socialConfig.norms(), nearbyAgentIds, character.inventory());
+        var filteredNorms = contextStrategy.filterNorms(socialConfig.norms(), nearbyAgentIds, character.inventory());
         if (!filteredNorms.isEmpty()) {
             var items = filteredNorms.stream()
                                      .map(SocialConfig.NormEntry::rule)
                                      .toList();
             sections.add(ObservationSection.items("Social Rules", null, items));
+        }
+
+        if (cognitionCore != null && tenantId != null) {
+            var promptCtx = new io.casehub.blocks.speech.PromptContext(agentId, tenantId, null);
+            for (var ps : cognitionCore.promptSections()) {
+                var rendered = ps.contribute(promptCtx);
+                if (rendered != null && !rendered.isBlank()) {
+                    sections.add(ObservationSection.text("Cognitive State", rendered));
+                }
+            }
         }
 
         return sections;
@@ -111,7 +143,7 @@ public final class CharacterCognition {
     public void recordTrustEvent(String targetId, ActionType action) {
         if (!ManorTrustEvents.isRelevant(action)) {return;}
         if (cognitiveDefaults != null && cognitiveDefaults.socialCognition() != null) {
-            SocialCognitionDefaults social = cognitiveDefaults.socialCognition();
+            io.casehub.neocortex.cognitive.index.SocialCognitionDefaults social = cognitiveDefaults.socialCognition();
             ManorTrustEvents.weightFor(action, social.trustFormationRate(), social.conflictInterpretation());
         } else {
             ManorTrustEvents.weightFor(action);
