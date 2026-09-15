@@ -143,8 +143,7 @@ public final class CharacterCognition {
         return sections;
     }
 
-    private static final double SOCIAL_AWARENESS_DRIVE_THRESHOLD = 0.5;
-    private static final java.util.Set<String> SOCIAL_AWARENESS_DRIVES = java.util.Set.of("scheming", "suspicion");
+
 
     List<ObservationSection> renderSocialAwareness(
             java.util.Collection<String> nearbyAgentIds,
@@ -152,10 +151,7 @@ public final class CharacterCognition {
         if (cognitiveProfile == null || tenantId == null) {
             return List.of();
         }
-        boolean hasSocialDrive = socialConfig.drives().stream()
-                .anyMatch(d -> SOCIAL_AWARENESS_DRIVES.contains(d.type())
-                        && d.intensity() > SOCIAL_AWARENESS_DRIVE_THRESHOLD);
-        if (!hasSocialDrive) {
+        if (!contextStrategy.shouldCompareSocially(socialConfig, false)) {
             return List.of();
         }
 

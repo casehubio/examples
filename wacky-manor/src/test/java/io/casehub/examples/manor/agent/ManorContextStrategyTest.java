@@ -49,4 +49,62 @@ class ManorContextStrategyTest {
         var budget = strategy.budgetFor(0, 0.3, 0);
         assertThat(budget.maxTrust()).isEqualTo(1);
     }
+
+    @Test
+    void shouldCompareSocially_schemingDriveAboveThreshold() {
+        var strategy = new ManorContextStrategy();
+        var config = new SocialConfig(
+                List.of(new SocialConfig.Drive("scheming", 0.9, "Schemes")),
+                List.of(), List.of(), List.of());
+        assertThat(strategy.shouldCompareSocially(config, false)).isTrue();
+    }
+
+    @Test
+    void shouldCompareSocially_suspicionDriveAboveThreshold() {
+        var strategy = new ManorContextStrategy();
+        var config = new SocialConfig(
+                List.of(new SocialConfig.Drive("suspicion", 0.6, "Suspicious")),
+                List.of(), List.of(), List.of());
+        assertThat(strategy.shouldCompareSocially(config, false)).isTrue();
+    }
+
+    @Test
+    void shouldCompareSocially_driveBelowThreshold() {
+        var strategy = new ManorContextStrategy();
+        var config = new SocialConfig(
+                List.of(new SocialConfig.Drive("scheming", 0.3, "Mild")),
+                List.of(), List.of(), List.of());
+        assertThat(strategy.shouldCompareSocially(config, false)).isFalse();
+    }
+
+    @Test
+    void shouldCompareSocially_noDrives() {
+        var strategy = new ManorContextStrategy();
+        assertThat(strategy.shouldCompareSocially(SocialConfig.empty(), false)).isFalse();
+    }
+
+    @Test
+    void shouldCompareSocially_nonSocialDrive() {
+        var strategy = new ManorContextStrategy();
+        var config = new SocialConfig(
+                List.of(new SocialConfig.Drive("curiosity", 0.9, "Curious")),
+                List.of(), List.of(), List.of());
+        assertThat(strategy.shouldCompareSocially(config, false)).isFalse();
+    }
+
+    @Test
+    void shouldCompareSocially_pullAsideOverridesDriveGate() {
+        var strategy = new ManorContextStrategy();
+        assertThat(strategy.shouldCompareSocially(SocialConfig.empty(), true)).isTrue();
+    }
+
+    @Test
+    void shouldCompareSocially_pullAsideWithLowDrive() {
+        var strategy = new ManorContextStrategy();
+        var config = new SocialConfig(
+                List.of(new SocialConfig.Drive("scheming", 0.1, "Barely")),
+                List.of(), List.of(), List.of());
+        assertThat(strategy.shouldCompareSocially(config, true)).isTrue();
+    }
+
 }
