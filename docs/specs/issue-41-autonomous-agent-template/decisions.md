@@ -1,109 +1,73 @@
-# Decisions — #41 Autonomous Agent Template
+# Decisions — Issue #41: Autonomous Agent Template
 
-## D1: PlanRevisionStrategy SPI usage
+## D1: Three-layer cognitive architecture
 
-**Choice:** Use the engine's PlanRevisionStrategy SPI directly — fill case-specific fields (caseId, compoundId, CaseDefinition, latestBindingName) with nulls. Set capabilityName on PlanStepDescriptor/CompletedStep to null or a generic placeholder. No wrapper or abstraction layer.
+**Choice:** Use the engine's public API (`casehub-engine-api`) for cognitive SPIs and data models where they are cleanly decoupled from the Worker execution model, use the neocortex directly for the memory layer, and implement only thin orchestration glue in the manor for the parts currently coupled to Workers.
+
 **Alternatives:**
-- Challenge the SPI upstream (engine issue to decouple from cases) — too many fields to remove, disproportionate risk to load-bearing case execution model
-- Manor-local plan model (skip SPI entirely) — loses the SPI contract and diverges from engine pattern
-**Rationale:** Pre-release — the leaky case fields cost nothing. The SPI's core concept (given completed/pending steps and a cause, propose revised steps) is exactly what the manor needs. Wrapping to hide case details is a cheap add later if needed. Follows the same pattern as goal SPIs: implement directly, don't over-abstract.
-**Trade-offs:** Manor code sees case-coupled types (AdaptationContext, CompletedStep.capabilityName). Acceptable at pre-release — wrapper deferred.
-**Exploration:** quick
-**Status:** captured
+- Full engine integration (model game loop as CaseInstance with Workers) — fights the engine's process-orchestration design; Workers/Bindings don't map to continuous perceive-think-act loops
+- Full re-implementation in manor (ignore engine entirely) — duplicates cognitive concepts without reusing the engine's public SPIs and data models; divergence risk
 
-## D2: Plan relationship to thinking field
+**Rationale:** The engine's cognitive capabilities (goal lifecycle, plan adaptation, reflection) are the platform value. The Worker/Binding execution model is context-specific. The engine's public API layer (`casehub-engine-api`) provides clean SPIs (`GoalFormationStrategy`, `GoalRevisionStrategy`) and data models. The manor depends on these where they are genuinely decoupled from Workers. Only the evaluator orchestration (when to call the SPIs) needs to be implemented in the manor.
 
-**Choice:** Separate concerns — keep "thinking" as a free-text per-tick scratchpad (reactive layer). Add a separate structured plan model (tactical layer) that decomposes goals into named steps with status tracking. Plans form when goals change (event-driven, not per-tick). Three-layer cognitive model: goals (strategic) → plans (tactical) → thinking (reactive).
+**Trade-offs:** Some engine API types (`ReflectionTriggerConfig`, `CaseDefinition`) are semantically coupled to the Worker model and cannot be used directly — the manor uses application.properties for these concerns until the engine generalizes them. A platform issue should be filed to extract cognitive SPIs into a standalone module that doesn't require `CaseDefinition`.
+
+**Revision (from decision review R1-04, R1-06, R1-15):** Original decision claimed all SPIs and data models were clean public APIs. Review identified that `ReflectionTriggerConfig.importanceWeights` uses Worker outcome types (SUCCESS/DECLINED/EXPIRED) and `GoalFormationContext` requires `CaseDefinition`, which drags the case model in. Revised to be explicit about which engine API types are usable vs coupled.
+
+**Exploration:** deep-analysis
+**Status:** revised
+
+## D2: Standalone reflection
+
+**Choice:** Reflection is a standalone LLM call, separate from the per-turn action loop, triggered periodically by experience accumulation thresholds. Config via application.properties (not `ReflectionTriggerConfig`).
+
 **Alternatives:**
-- Replace thinking with structured output — loses the free-text scratchpad valuable for reactive reasoning. Forces all cognition into structured steps.
-- Structured thinking (hybrid) — embeds structure inside free text, creates impedance mismatch with PlanRevisionStrategy SPI which operates on clean PlanStepDescriptor lists. Couples reactive and tactical layers in one field.
-**Rationale:** The SPI (D1) expects structured plan data — mixing it into a free-text blob requires extraction/injection parsing. Clean separation means plan formation/revision operates on a first-class model while thinking stays independent. Plan formation triggers on goal changes (not every tick), consistent with the goal lifecycle pattern from #43.
-**Trade-offs:** Adds a plan formation LLM call when goals change. Acceptable — it's event-driven, not per-tick.
-**Depends on:** D1 (SPI usage — the SPI's structured input/output model drives the separation)
+- Integrated per-turn (add reflections field to JSON response) — simpler, eliminates latency and threshold orchestration, but divides LLM attention across action selection and reflection in a single call. Worth revisiting if standalone proves too latent in short scenarios.
+- Hybrid (standalone + per-turn observations) — unnecessary complexity; standalone reflection already reads all accumulated experience
+
+**Rationale:** Reflection is a distinct cognitive process — "what have I learned?" is different from "what do I do now?" The engine uses the same pattern: experience accumulates, threshold triggers reflection, reflection produces insights. Insights later feed goal formation (Phase 2 of implementation).
+
+**Trade-offs:** Additional LLM call per reflection cycle (infrequent — triggered by threshold, not per-turn). Reflection runs asynchronously in a virtual thread, so insights may lag by a few ticks. In short scenarios (~12 actions per character), the first insights arrive around tick 7-10 with `maxUnreflectedOutcomes=5`. Longer scenarios benefit substantially more.
+
+**Orchestration:** After each `ingest()`, count unreflected experiences for the agent. If count >= `maxUnreflectedOutcomes` OR cumulative importance >= `importanceThreshold`, start reflection in a virtual thread. Reflection does not block the tick loop.
+
+**Revision (from decision review R1-06, R1-07, R1-08, R1-09):** Dropped `ReflectionTriggerConfig` dependency (coupled to Worker outcomes). Added explicit orchestration design. Lowered default threshold. Acknowledged per-turn alternative more honestly.
+
+**Depends on:** D1 (three-layer architecture — reflection is a neocortex service called by manor orchestration)
 **Exploration:** quick
-**Status:** captured
+**Status:** revised
 
-## D3: Plan storage location
+## D3: Per-turn goal management preserved in memory stack phase
 
-**Choice:** CharacterState — replace `String currentPlan` with a structured plan model. Plans are transient execution state (per-scenario, in-memory), same as lastActionResult and currentRoom.
+**Choice:** Keep `newGoals`/`dropGoals` in the LLM response format for this phase. Replace with reflection-driven goal formation in the goal lifecycle phase.
+
 **Alternatives:**
-- AgentDescriptor (alongside goals) — plans aren't identity, they're execution state. Heavyweight updates (full descriptor rebuild + re-register on every step completion).
-- Separate store (ConcurrentHashMap) — adds complexity for no benefit over CharacterState, which is already per-agent mutable state.
-**Rationale:** Plans decompose goals into steps for the current scenario run. They don't persist across scenarios. CharacterState is exactly this: ephemeral per-agent state. ObservationBuilder already reads from CharacterState. Replacing currentPlan in-place is the minimal change.
-**Trade-offs:** Goals (AgentDescriptor) and plans (CharacterState) live in different stores. The evaluator already cross-references both — not a new pattern.
-**Depends on:** D2 (separate concerns — plans are a distinct model, not embedded in thinking)
+- Remove now (goals become static Eidos-only until reflection-driven formation is wired) — creates a regression in character behavior
+- Per-turn goals as GoalFormationStrategy pass-through from day one — establishes the SPI contract immediately but adds implementation cost in a phase focused on memory, not goals
+
+**Rationale:** The memory stack phase focuses on memory quality (salience, reflection, relationships). Goal lifecycle is a separate concern with its own design decisions (including the CaseDefinition question from D1). Removing per-turn goal management before the replacement is ready would make characters less autonomous.
+
+**Trade-offs:**
+- Behavioral contract entrenchment: characters and briefings are tuned for `newGoals`/`dropGoals`. Each phase that preserves them deepens the contract, making the eventual transition to reflection-driven formation a behavioral change that requires re-tuning.
+- Dual-path transition gap: during the transition to reflection-driven goals, the system will briefly have two goal sources. The interaction protocol (override, merge, priority) must be designed in the goal lifecycle phase.
+- Format gap: current `newGoals` is `{name, description}`. `AgentGoal` has richer structure (priority, visibility). The transition must handle this mismatch.
+
+**Revision (from decision review R1-11, R1-12):** Added real trade-offs (was incorrectly "None"). Acknowledged per-turn-as-SPI alternative for Phase 2 consideration.
+
 **Exploration:** quick
-**Status:** captured
+**Status:** revised
 
-## D4: Plan granularity
+## D4: Defer engine-api dependency to goal lifecycle phase
 
-**Choice:** Per-goal plans — each goal gets its own plan (list of steps). One plan per goal, formed when the goal forms, revised when steps fail, removed when the goal completes or is abandoned.
+**Choice:** Do not add `casehub-engine-api` as a dependency in the memory stack phase. The neocortex provides everything needed (salience, reflection, relationships, decay). Add engine-api in the goal lifecycle phase when SPIs are actually consumed.
+
 **Alternatives:**
-- Unified plan (one per character spanning all goals) — more holistic but harder lifecycle (which steps belong to which goal?). Doesn't map to AdaptationContext.goalName.
-- Active-goal plan only — too restrictive; characters have multiple concurrent goals. Secondary goals would be planless.
-**Rationale:** Natural extension of the goal model (goals are independent, plans mirror this). Direct SPI mapping (AdaptationContext.goalName). Clean lifecycle tied to goal lifecycle. Cross-goal reasoning happens in the thinking field (reactive layer), not the plan structure.
-**Trade-offs:** No cross-goal optimization in plans. Acceptable — the LLM handles opportunistic cross-goal reasoning in the thinking field.
-**Depends on:** D2 (plans separate from thinking), D3 (plans on CharacterState)
-**Exploration:** quick
-**Status:** captured
+- Add engine-api now for `ReflectionTriggerConfig` — but R1-06 showed its importance weights are coupled to Worker outcome types
+- Add engine-api now for forward-looking readiness — premature; introduces a dependency with no consumer
 
-## D5: Plan revision triggers
+**Rationale:** The memory stack phase uses only neocortex APIs. Adding engine-api would bring in `CaseDefinition` and Worker-coupled types that aren't needed and create a misleading dependency. The goal lifecycle phase is where engine SPIs (`GoalFormationStrategy`, `GoalRevisionStrategy`) are actually consumed and where the CaseDefinition mapping question must be resolved.
 
-**Choice:** Both — immediate revision on action failure (reactive) plus reflection-driven revision for strategic re-assessment (deliberative). Two triggers, different granularity.
-**Alternatives:**
-- Action-outcome mismatch only — misses strategic re-assessment (step succeeded but plan is no longer viable due to changed circumstances)
-- Reflection-driven only — too slow for obvious failures (took poison, but someone saw you — plan should revise immediately, not wait for reflection)
-**Rationale:** Mirrors the System 1 / System 2 split. Reactive revision catches immediate failures (action failed, step blocked). Deliberative revision during reflection catches strategic obsolescence (world changed, goal context shifted). Both call PlanRevisionStrategy but with different AdaptationCause values.
-**Trade-offs:** More PlanRevisionStrategy calls (one per failure + one per reflection). Acceptable — plan revision is a single LLM call, and failures are infrequent.
-**Depends on:** D1 (SPI usage), D4 (per-goal plans)
-**Exploration:** quick
-**Status:** captured
+**Trade-offs:** The goal lifecycle phase must add the dependency and resolve the CaseDefinition question. This is deferred work, not avoided work.
 
-## D6: Plan formation mechanism
-
-**Choice:** LLM-driven via a manor-local ManorPlanFormationStrategy. Separate LLM call triggered after goal formation. Given a goal + character context + memories, the LLM decomposes the goal into named steps. Consistent with ManorGoalFormationStrategy pattern.
-**Alternatives:**
-- Inline with goal formation (expand GoalFormationProposal to include plan steps) — fewer LLM calls but couples goal and plan formation. Plan revision would still need a separate mechanism, so the asymmetry isn't worth the savings.
-**Rationale:** Goals and plans are separate cognitive processes (D2). Goal formation asks "what should I pursue?" Plan formation asks "how do I pursue this goal?" Different questions, different prompts, different LLM calls. Consistent with the pattern established by ManorGoalFormationStrategy and ManorGoalRevisionStrategy.
-**Trade-offs:** Additional LLM call per new goal. Acceptable — goal formation is infrequent (cooldown-gated, reflection-triggered).
-**Depends on:** D2 (separate concerns), D4 (per-goal plans)
-**Exploration:** quick
-**Status:** captured
-
-## D7: Step status tracking
-
-**Choice:** Reflection-assessed — step completion/failure status is assessed during reflection by the LLM, piggybacking on synthesis (same pattern as GoalOutcomeCounts from #43). No per-tick mechanical matching or response format changes.
-**Alternatives:**
-- Per-tick LLM assessment (structured output addition to every response) — adds parsing to the hot path, most ticks won't complete any step, changes response format
-- Mechanical heuristic (match action type+target to step) — brittle, plan steps are natural language, actions are structured; multi-step actions can't be matched
-**Rationale:** Step status serves the system (AdaptationContext), not the character's per-tick reasoning. The character reasons about plan progress in the thinking field using observations. Reflection already has accumulated context (memories, actions) and is already making LLM calls. Reactive revision (D5) is triggered by action failure — the failure is the signal, the LLM in PlanRevisionStrategy interprets which steps to revise.
-**Trade-offs:** Step status updates lag behind real actions (delayed until reflection). Acceptable — the character's behavior is driven by the thinking field, not structured step status.
-**Depends on:** D5 (revision triggers — reactive uses failure context, not step status)
-**Exploration:** quick
-**Status:** captured
-
-# Decisions — #45 Trust and Personality
-
-## D8: Trust computation method
-
-**Choice:** Interaction-history based — count positive vs negative interactions from relationship memories. Classify memory content by keywords (help/protect/warn → positive; lie/steal/betray/trick/trap → negative). Score normalized to 0.0–1.0, default 0.5 for unknown agents.
-**Alternatives:**
-- LLM-judged — ask LLM to score trustworthiness after each interaction. Richer but adds LLM calls per tick per character pair.
-- Signal-derived — derive trust from BehavioralSignal SUCCESS/DECLINE counts. Mechanical, no LLM cost, but less nuanced — doesn't distinguish who the action was directed at.
-**Rationale:** Uses relationship memory already wired in #42. No extra LLM calls. Trust degrades naturally as characters remember lies and betrayals. Keyword matching is sufficient for Wacky Races characters where deception is theatrical and explicit.
-**Trade-offs:** Keyword-based classification is brittle for subtle deception. Acceptable for cartoon characters who narrate their schemes aloud.
-**Sources:** AgentTrustProvider SPI, #42 relationship memory wiring
-**Exploration:** quick
-**Status:** captured
-
-## D9: Disposition signal mapping
-
-**Choice:** Outcome-based mapping — map action type + result to BehavioralSignal and DispositionAxis. Only meaningful actions (STEAL, GIVE, PULL_ASIDE, USE, INTERACT) generate signals. MOVE, LOOK, WAIT are skipped to avoid noise.
-**Alternatives:**
-- Action-type only — static map regardless of outcome. Can't distinguish between attempting a steal and succeeding at one. Generates noise from failed mundane actions.
-**Rationale:** Follows the same pattern as `importanceForAction()` already in the orchestrator. Avoids polluting disposition signals with noise from trivial actions. Deterministic, no LLM cost.
-**Trade-offs:** Can't capture contextual nuance (stealing from ally vs enemy generates the same signal). Acceptable — disposition axes measure behavioral tendencies, not moral judgment.
-**Depends on:** D8 (trust computation — disposition signals are a separate concern from trust scoring)
-**Sources:** BehavioralSignalStore, DispositionSignalStore, importanceForAction() pattern
-**Exploration:** quick
+**Exploration:** quick (surfaced by decision review R1-04, R1-06, R1-15)
 **Status:** captured
