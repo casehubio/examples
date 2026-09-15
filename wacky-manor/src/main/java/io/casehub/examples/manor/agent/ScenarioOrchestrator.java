@@ -13,6 +13,7 @@ import io.casehub.examples.manor.engine.TriggerEvaluator;
 import io.casehub.examples.manor.engine.WorldState;
 import io.casehub.examples.manor.model.ActionResult;
 import io.casehub.examples.manor.model.PendingAction;
+import io.casehub.neocortex.cognitive.ConfidenceOrigin;
 import io.casehub.platform.agent.AgentEvent;
 import io.casehub.platform.agent.AgentProvider;
 import io.casehub.platform.agent.AgentSessionConfig;
@@ -21,6 +22,9 @@ import jakarta.inject.Inject;
 import org.jboss.logging.Logger;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -50,6 +54,8 @@ public class ScenarioOrchestrator {
     jakarta.enterprise.inject.Instance<io.casehub.neocortex.cognitive.index.CognitiveProfile> cognitiveProfileInstance;
     @Inject
     jakarta.enterprise.inject.Instance<io.casehub.neocortex.mindmap.MindMapStore> mindMapStoreInstance;
+    @Inject
+    jakarta.enterprise.inject.Instance<io.casehub.neocortex.mindmap.intelligence.MindMapExtractor> mindMapExtractorInstance;
 
 
     @Inject
@@ -63,7 +69,7 @@ public class ScenarioOrchestrator {
     ManorPlanRevisionStrategy  planRevisionStrategy;
 
     private volatile AgentProvider gatedProvider;
-
+    private final    java.util.Map<String, String> subgraphIdCache = new java.util.concurrent.ConcurrentHashMap<>();
 
 
     public Thread startScenario(WorldState world, io.casehub.examples.manor.model.ScenarioMode mode) {
@@ -265,6 +271,7 @@ public class ScenarioOrchestrator {
             log.infof("Tick %d complete (%d agents)", currentTick, actingThisTick.size());
 
             var suppressed = new java.util.HashSet<String>();
+            var exchangeTexts = new ArrayList<String[]>();
             var exchangeRunner = new ExchangeRunner(3, 120_000);
             for (var c : actingThisTick) {
                 var response = responses.get(c.agentId());
@@ -280,6 +287,13 @@ public class ScenarioOrchestrator {
                         var exchangeEvents = exchangeRunner.run(c, target, response.dialogue(), world, invocationService, this::renderPrompt);
                         for (var event : exchangeEvents) {
                             dispatcher.publishDialogue(event, "");
+                        }
+                        var exchangeText = exchangeEvents.stream()
+                                .map(io.casehub.examples.manor.model.ManorEvent::detailedDescription)
+                                .filter(d -> d != null && !d.isBlank())
+                                .collect(java.util.stream.Collectors.joining("\n"));
+                        if (!exchangeText.isBlank()) {
+                            exchangeTexts.add(new String[]{exchangeText, c.agentId(), targetId, c.currentRoom()});
                         }
                         c.setLastActionResult("You had a private conversation with " + target.name() + ".");
                         target.setLastActionResult(c.name() + " pulled you aside for a private conversation.");
@@ -318,6 +332,25 @@ public class ScenarioOrchestrator {
                             c.currentRoom(), response.aside());
                     dispatcher.publishAside(event, response.aside());
                 }
+            }
+
+            for (var ex : exchangeTexts) {
+                extractDialogueKnowledge(ex[0], ex[1], ex[2], ex[3], true, world);
+            }
+            for (var c : actingThisTick) {
+                if (suppressed.contains(c.agentId())) continue;
+                var response = responses.get(c.agentId());
+                if (response == null || response.dialogue() == null) continue;
+                String dialogueText = response.dialogue();
+                String validatedTarget = response.talkTo();
+                if (validatedTarget != null) {
+                    var tgt = world.character(validatedTarget);
+                    if (tgt == null || !tgt.currentRoom().equals(c.currentRoom())) {
+                        validatedTarget = null;
+                    }
+                }
+                extractDialogueKnowledge(dialogueText, c.agentId(), validatedTarget,
+                        c.currentRoom(), false, world);
             }
 
             for (var c : actingThisTick) {
@@ -521,6 +554,107 @@ public class ScenarioOrchestrator {
             default -> null;
         };
     }
+
+
+    private void extractDialogueKnowledge(String text, String speakerId,
+                                          String dialogueTargetId, String room, boolean isExchange,
+                                          WorldState world) {
+        if (!isExtractableDialogue(text)) {return;}
+        if (!mindMapExtractorInstance.isResolvable()) {return;}
+
+        var listeners = determineListeners(speakerId, dialogueTargetId, room, isExchange, world);
+        if (listeners.isEmpty()) {return;}
+
+        var mindMapExtractor = mindMapExtractorInstance.get();
+        var mindMapStore     = mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null;
+        if (mindMapStore == null) {return;}
+
+        var nearbyNames = world.charactersInRoom(room).stream()
+                               .map(io.casehub.examples.manor.model.CharacterState::name)
+                               .toList();
+
+        io.casehub.neocortex.mindmap.intelligence.ExtractionResult result;
+        try {
+            result = mindMapExtractor.extract(text, ManorConstants.TENANCY_ID, nearbyNames);
+        } catch (Exception e) {
+            log.warnf(e, "Dialogue extraction failed for speaker=%s room=%s", speakerId, room);
+            return;
+        }
+
+        if (result.entities().isEmpty() && result.relationships().isEmpty()) {return;}
+
+        var now = java.time.Instant.now();
+        for (var listener : listeners) {
+            var confidence = listener.confidenceOrigin() == ConfidenceOrigin.STATED
+                             ? io.casehub.neocortex.cognitive.Confidence.stated(0.8, now)
+                             : io.casehub.neocortex.cognitive.Confidence.inferred(0.7, now);
+
+            var subgraphId = subgraphIdCache.computeIfAbsent(listener.agentId(), id -> {
+                var name = ManorCognitiveSeeder.subgraphName(id);
+                var created = mindMapStore.createSubgraph(
+                        new io.casehub.neocortex.mindmap.SubgraphInput(name, "cognitive", null),
+                        ManorConstants.TENANCY_ID);
+                return created != null && !created.isBlank() ? created : name;
+            });
+
+            for (var entity : result.entities()) {
+                var nodeInput = io.casehub.neocortex.mindmap.NodeInput.of(entity.name(), subgraphId)
+                                                                      .withConfidence(confidence)
+                                                                      .withProvenance("dialogue-extraction")
+                                                                      .withPrincipalId(io.casehub.platform.api.identity.PrincipalId.agent(listener.agentId()));
+                if (entity.properties() != null && !entity.properties().isEmpty()) {
+                    nodeInput = nodeInput.withProperties(entity.properties());
+                }
+                if (entity.subgraphType() != null) {
+                    nodeInput = nodeInput.withTraits(java.util.Set.of(entity.subgraphType()));
+                }
+                mindMapStore.addNode(nodeInput, ManorConstants.TENANCY_ID);
+            }
+        }
+    }
+
+    record ListenerInfo(String agentId, ConfidenceOrigin confidenceOrigin) {}
+
+    static List<ListenerInfo> determineListeners(
+            String speakerId, String dialogueTargetId, String room,
+            boolean isExchange, WorldState world) {
+        var listeners = new ArrayList<ListenerInfo>();
+        var inRoom    = world.charactersInRoom(room);
+
+        if (isExchange) {
+            for (var c : inRoom) {
+                if (c.agentId().equals(speakerId) || c.agentId().equals(dialogueTargetId)) {
+                    listeners.add(new ListenerInfo(c.agentId(), ConfidenceOrigin.STATED));
+                }
+            }
+        } else if (dialogueTargetId != null) {
+            for (var c : inRoom) {
+                if (c.agentId().equals(speakerId)) {continue;}
+                if (c.agentId().equals(dialogueTargetId)) {
+                    listeners.add(new ListenerInfo(c.agentId(), ConfidenceOrigin.STATED));
+                } else if (c.capabilityTags().contains("perception")) {
+                    listeners.add(new ListenerInfo(c.agentId(), ConfidenceOrigin.INFERRED));
+                }
+            }
+        } else {
+            for (var c : inRoom) {
+                if (!c.agentId().equals(speakerId)) {
+                    listeners.add(new ListenerInfo(c.agentId(), ConfidenceOrigin.STATED));
+                }
+            }
+        }
+        return listeners;
+    }
+
+    static boolean isExtractableDialogue(String text) {
+        if (text == null || text.isBlank()) {return false;}
+        String[] words = text.strip().split("\\s+");
+        long alphabeticWords = Arrays.stream(words)
+                                     .filter(w -> w.replaceAll("[^a-zA-Z]", "").length() >= 2)
+                                     .count();
+        return text.length() > 10 && alphabeticWords >= 3;
+    }
+
 
 }
 
