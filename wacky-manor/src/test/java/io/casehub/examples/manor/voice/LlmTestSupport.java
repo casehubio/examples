@@ -12,20 +12,20 @@ import io.casehub.platform.agent.AgentSessionConfig;
 import java.time.Duration;
 import java.util.stream.Collectors;
 
-final class LlmTestSupport {
+public final class LlmTestSupport {
 
     private final AgentRegistry        registry;
     private final SystemPromptRenderer renderer;
     private final AgentProvider        agentProvider;
 
-    LlmTestSupport(AgentRegistry registry, SystemPromptRenderer renderer,
-                   AgentProvider agentProvider) {
+    public LlmTestSupport(AgentRegistry registry, SystemPromptRenderer renderer,
+                          AgentProvider agentProvider) {
         this.registry      = registry;
         this.renderer      = renderer;
         this.agentProvider = agentProvider;
     }
 
-    String askCharacter(String agentId, String scenario) {
+    public String askCharacter(String agentId, String scenario) {
         var systemPrompt = renderPrompt(agentId);
         var config       = AgentSessionConfig.of(systemPrompt, scenario);
         return agentProvider.invoke(config)
