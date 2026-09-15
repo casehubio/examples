@@ -104,5 +104,26 @@ class CharacterCognitionTest {
                 .containsExactly("Your Drives", "Your Principles", "Your Beliefs", "Social Rules");
     }
 
+    @Test
+    void socialAwarenessAbsentWithoutSchemingDrives() {
+        var socialConfig = ManorSocialConfigLoader.load().get("penelope-pitstop");
+        var cognition = new CharacterCognition("penelope-pitstop", null, null, socialConfig, List.of());
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState("penelope-pitstop", "Penelope", "Room", 0.0, List.of()),
+                List.of("hooded-claw"), Map.of("hooded-claw", "Hooded Claw"));
+        assertThat(sections.stream().map(s -> s.header()).toList())
+                .doesNotContain("Social Awareness");
+    }
 
+    @Test
+    void socialAwarenessAbsentWhenCognitiveProfileNull() {
+        var drives = List.of(new SocialConfig.Drive("scheming", 0.9, "Schemes"));
+        var socialConfig = new SocialConfig(drives, List.of(), List.of());
+        var cognition = new CharacterCognition("hooded-claw", null, null, socialConfig, List.of());
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState("hooded-claw", "HC", "Room", 0.0, List.of()),
+                List.of("peter-perfect"), Map.of("peter-perfect", "Peter Perfect"));
+        assertThat(sections.stream().map(s -> s.header()).toList())
+                .doesNotContain("Social Awareness");
+    }
 }

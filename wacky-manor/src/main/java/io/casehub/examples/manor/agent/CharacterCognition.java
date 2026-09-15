@@ -138,7 +138,51 @@ public final class CharacterCognition {
             }
         }
 
+        sections.addAll(renderSocialAwareness(nearbyAgentIds, agentNames));
+
         return sections;
+    }
+
+    private static final double SOCIAL_AWARENESS_DRIVE_THRESHOLD = 0.5;
+    private static final java.util.Set<String> SOCIAL_AWARENESS_DRIVES = java.util.Set.of("scheming", "suspicion");
+
+    List<ObservationSection> renderSocialAwareness(
+            java.util.Collection<String> nearbyAgentIds,
+            java.util.Map<String, String> agentNames) {
+        if (cognitiveProfile == null || tenantId == null) {
+            return List.of();
+        }
+        boolean hasSocialDrive = socialConfig.drives().stream()
+                .anyMatch(d -> SOCIAL_AWARENESS_DRIVES.contains(d.type())
+                        && d.intensity() > SOCIAL_AWARENESS_DRIVE_THRESHOLD);
+        if (!hasSocialDrive) {
+            return List.of();
+        }
+
+        var selfPrincipal = io.casehub.platform.api.identity.PrincipalId.agent(agentId);
+        var lines = new java.util.ArrayList<String>();
+
+        for (String nearbyId : nearbyAgentIds) {
+            var otherPrincipal = io.casehub.platform.api.identity.PrincipalId.agent(nearbyId);
+            String otherName = agentNames.getOrDefault(nearbyId, nearbyId);
+            try {
+                var query = io.casehub.neocortex.cognitive.index.CognitiveProfileQuery
+                        .byName(nearbyId, tenantId);
+                var perspectives = cognitiveProfile.compare(query,
+                        java.util.Set.of(selfPrincipal, otherPrincipal));
+                if (perspectives.isEmpty()) continue;
+
+                var comparison = io.casehub.neocortex.cognitive.index.SocialComparison
+                        .compare(perspectives);
+                PerceptionTranslator.translate(comparison, selfPrincipal, otherPrincipal, otherName)
+                        .ifPresent(lines::add);
+            } catch (Exception e) {
+                // graceful degradation
+            }
+        }
+
+        if (lines.isEmpty()) return List.of();
+        return List.of(ObservationSection.items("Social Awareness", null, lines));
     }
 
     public void recordTrustEvent(String targetId, ActionType action) {
