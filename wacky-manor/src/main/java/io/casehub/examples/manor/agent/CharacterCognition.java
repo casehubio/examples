@@ -119,11 +119,12 @@ public final class CharacterCognition {
             sections.add(ObservationSection.items("Your Beliefs", null, items));
         }
 
-        var filteredNorms = contextStrategy.filterNorms(socialConfig.norms(), nearbyAgentIds, character.inventory());
-        if (!filteredNorms.isEmpty()) {
-            var items = filteredNorms.stream()
-                                     .map(SocialConfig.NormEntry::rule)
-                                     .toList();
+        var budget = contextStrategy.budgetFor(nearbyAgentIds.size(), 0.5, 0);
+        var selectedNorms = contextStrategy.selectNorms(socialConfig.norms(), agentNames.values(), character.inventory(), budget);
+        if (!selectedNorms.isEmpty()) {
+            var items = selectedNorms.stream()
+                                      .map(SocialConfig.NormEntry::rule)
+                                      .toList();
             sections.add(ObservationSection.items("Social Rules", null, items));
         }
 

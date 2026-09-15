@@ -9,9 +9,10 @@ public final class ManorContextStrategy {
         return CognitiveBudget.forSituation(nearbyCount, arousal, activeGoals);
     }
 
-    public List<SocialConfig.NormEntry> filterNorms(List<SocialConfig.NormEntry> norms,
-                                                     Collection<String> nearbyNames,
-                                                     Collection<String> inventory) {
-        return ManorNormFilter.filter(norms, nearbyNames, inventory);
+    public List<SocialConfig.NormEntry> selectNorms(List<SocialConfig.NormEntry> norms,
+                                                      Collection<String> activeCognitiveSubjects,
+                                                      Collection<String> activeInventory,
+                                                      CognitiveBudget budget) {
+        return ManorNormFilter.score(norms, activeCognitiveSubjects, activeInventory, budget.maxNorms());
     }
 }
