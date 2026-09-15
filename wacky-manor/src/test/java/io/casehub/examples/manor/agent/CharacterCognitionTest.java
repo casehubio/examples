@@ -51,7 +51,7 @@ class CharacterCognitionTest {
 
     @Test
     void drivesRenderedWhenSocialConfigPresent() {
-        var socialConfig = SocialConfig.forCharacter("hooded-claw");
+        var socialConfig = ManorSocialConfigLoader.load().get("hooded-claw");
         var cognition    = new CharacterCognition("hooded-claw", null, null, socialConfig, List.of());
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState("hooded-claw", "HC", "Room", 0.0, List.of()),
@@ -80,7 +80,7 @@ class CharacterCognitionTest {
 
     @Test
     void beliefsAndNormsRendered() {
-        var socialConfig = SocialConfig.forCharacter("penelope-pitstop");
+        var socialConfig = ManorSocialConfigLoader.load().get("penelope-pitstop");
         var cognition    = new CharacterCognition("penelope-pitstop", null, null, socialConfig, List.of());
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState("penelope-pitstop", "Penelope", "Room", 0.0, List.of()),
@@ -91,7 +91,7 @@ class CharacterCognitionTest {
 
     @Test
     void allFourSectionsForFullyConfiguredCharacter() {
-        var socialConfig = SocialConfig.forCharacter("hooded-claw");
+        var socialConfig = ManorSocialConfigLoader.load().get("hooded-claw");
         var constraint = new io.casehub.eidos.api.AgentConstraint(
                 "elaborate", "Your schemes must be elaborate",
                 io.casehub.eidos.api.Visibility.PRIVATE, io.casehub.eidos.api.ConstraintSeverity.SOFT);

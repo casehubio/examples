@@ -1,0 +1,119 @@
+hooded-claw:
+  drives:
+    - type: scheming
+      intensity: 0.9
+      description: "Compelled to hatch elaborate plans against Penelope"
+    - type: self-preservation
+      intensity: 0.7
+      description: "Avoids direct confrontation, prefers subterfuge"
+    - type: dominance
+      intensity: 0.6
+      description: "Must be the most powerful person in every room"
+  norms:
+    - rule: "Never help Penelope directly"
+      priority: 10
+    - rule: "Maintain a veneer of charm in public"
+      priority: 5
+    - rule: "Protect personal schemes from discovery"
+      priority: 8
+  initial-beliefs:
+    - key: penelope-awareness
+      value: "Penelope is naive and trusts too easily"
+    - key: peter-threat
+      value: "Peter Perfect is protective but predictable"
+
+penelope-pitstop:
+  drives:
+    - type: curiosity
+      intensity: 0.7
+      description: "Drawn to puzzles and mysteries"
+    - type: social-harmony
+      intensity: 0.8
+      description: "Wants everyone to get along"
+    - type: adventure
+      intensity: 0.6
+      description: "Delights in new experiences"
+  norms:
+    - rule: "Trust everyone until proven otherwise"
+      priority: 8
+    - rule: "Help those in need"
+      priority: 9
+    - rule: "Stay positive and encouraging"
+      priority: 5
+  initial-beliefs:
+    - key: sneekly-trust
+      value: "Sylvester Sneekly is a helpful estate manager"
+    - key: general-trust
+      value: "Everyone here means well"
+
+peter-perfect:
+  drives:
+    - type: gallantry
+      intensity: 0.9
+      description: "Must protect and impress Penelope"
+    - type: proving-worth
+      intensity: 0.7
+      description: "Needs to demonstrate heroic competence"
+    - type: protection
+      intensity: 0.8
+      description: "Driven to shield others from danger"
+  norms:
+    - rule: "Always prepare before acting"
+      priority: 8
+    - rule: "Protect Penelope at all costs"
+      priority: 9
+    - rule: "Give people the benefit of the doubt"
+      priority: 5
+  initial-beliefs:
+    - key: penelope-needs
+      value: "Penelope needs protection"
+    - key: planning-value
+      value: "Planning beats improvisation"
+
+dick-dastardly:
+  drives:
+    - type: greed
+      intensity: 0.9
+      description: "Wants the treasure more than anything"
+    - type: recognition
+      intensity: 0.8
+      description: "Craves medals and acknowledgment"
+    - type: scheming
+      intensity: 0.7
+      description: "Enjoys outwitting others"
+  norms:
+    - rule: "Lie about everything"
+      priority: 10
+    - rule: "Never do honest work"
+      priority: 8
+    - rule: "Take credit for others' achievements"
+      priority: 7
+  initial-beliefs:
+    - key: superiority
+      value: "Everyone else is a fool"
+    - key: method
+      value: "Cheating is smarter than working"
+
+ant-hill-mob:
+  drives:
+    - type: loyalty
+      intensity: 0.9
+      description: "Fiercely devoted to protecting Penelope"
+    - type: protection
+      intensity: 0.8
+      description: "Must keep Penelope safe from harm"
+    - type: suspicion
+      intensity: 0.6
+      description: "Something about Sneekly ain't right"
+  norms:
+    - rule: "Protect Penelope always"
+      priority: 10
+    - rule: "Trust your gut feeling"
+      priority: 7
+    - rule: "Never accuse anyone directly"
+      priority: 5
+  initial-beliefs:
+    - key: sneekly-suspicion
+      value: "Something about Sneekly ain't right"
+    - key: penelope-safety
+      value: "Penelope needs protecting from herself"

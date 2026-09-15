@@ -22,13 +22,13 @@ class SocialCognitionIntegrationTest {
 
     @Test
     void socialConfigLoadsForCharacters() {
-        var hc = SocialConfig.forCharacter("hooded-claw");
+        var hc = ManorSocialConfigLoader.load().get("hooded-claw");
         assertThat(hc.drives()).isNotEmpty();
         assertThat(hc.drives().stream().anyMatch(d -> d.type().equals("scheming"))).isTrue();
         assertThat(hc.norms()).isNotEmpty();
         assertThat(hc.initialBeliefs()).isNotEmpty();
 
-        var penelope = SocialConfig.forCharacter("penelope-pitstop");
+        var penelope = ManorSocialConfigLoader.load().get("penelope-pitstop");
         assertThat(penelope.drives()).isNotEmpty();
         assertThat(penelope.drives().stream().anyMatch(d -> d.type().equals("curiosity"))).isTrue();
     }
@@ -48,7 +48,7 @@ class SocialCognitionIntegrationTest {
 
     @Test
     void characterCognitionRendersSectionsWithSocialConfig() {
-        var socialConfig = SocialConfig.forCharacter("hooded-claw");
+        var socialConfig = ManorSocialConfigLoader.load().get("hooded-claw");
         var cognition = new CharacterCognition("hooded-claw", null, null, socialConfig, List.of());
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(

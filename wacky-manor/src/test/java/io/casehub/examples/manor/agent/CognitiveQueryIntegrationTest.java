@@ -37,7 +37,7 @@ class CognitiveQueryIntegrationTest {
             return;
         }
         var seeder = new ManorCognitiveSeeder(mindMapStoreInstance.get());
-        var config = SocialConfig.forCharacter("hooded-claw");
+        var config = ManorSocialConfigLoader.load().get("hooded-claw");
         assertThatCode(() -> seeder.seed("test-hc", config, "test-tenant"))
                 .doesNotThrowAnyException();
     }
@@ -54,7 +54,7 @@ class CognitiveQueryIntegrationTest {
 
     @Test
     void characterCognitionWithFullConstructorRendersSections() {
-        var socialConfig = SocialConfig.forCharacter("hooded-claw");
+        var socialConfig = ManorSocialConfigLoader.load().get("hooded-claw");
         var cognition = new CharacterCognition("hooded-claw", null, null, socialConfig,
                 java.util.List.of(), null, new ManorContextStrategy(), null, null, "wacky-manor");
         var sections = cognition.renderCognitiveSections(

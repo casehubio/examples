@@ -146,6 +146,8 @@ public class ScenarioOrchestrator {
         var activeSet = config.activeCharacters().isBlank() ? null
                 : java.util.Set.copyOf(java.util.Arrays.asList(config.activeCharacters().split(",")));
 
+        var socialConfigs = ManorSocialConfigLoader.load();
+
         for (var entry : world.characters().entrySet()) {
             if (activeSet != null && !activeSet.contains(entry.getKey())) {continue;}
             var desc = agentRegistry.findById(entry.getKey(), ManorConstants.TENANCY_ID)
@@ -155,7 +157,7 @@ public class ScenarioOrchestrator {
                     .collect(java.util.stream.Collectors.toSet());
             entry.getValue().setCapabilityTags(tags);
             var cogDefaults = ManorCognitiveSetup.deriveDefaults(desc);
-            var socialCfg = SocialConfig.forCharacter(entry.getKey());
+            var socialCfg = socialConfigs.getOrDefault(entry.getKey(), SocialConfig.empty());
             var seedResult = seeder != null ? seeder.seed(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID) : null;
             cognitions.put(entry.getKey(), new CharacterCognition(
                     entry.getKey(), experienceService, cogDefaults, socialCfg, desc.constraints(),
