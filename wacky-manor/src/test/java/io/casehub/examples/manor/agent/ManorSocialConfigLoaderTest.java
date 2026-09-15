@@ -63,4 +63,26 @@ class ManorSocialConfigLoaderTest {
         assertThatThrownBy(() -> ManorSocialConfigLoader.load("nonexistent.yaml"))
                 .isInstanceOf(IllegalStateException.class);
     }
+
+    @Test
+    void hoodedClaw_relationshipsLoaded() {
+        var hc = ManorSocialConfigLoader.load().get("hooded-claw");
+        assertThat(hc.relationships()).isNotEmpty();
+        var penRel = hc.relationships().stream()
+                       .filter(r -> r.targetAgentId().equals("penelope-pitstop")).findFirst().orElseThrow();
+        assertThat(penRel.pleasure()).isBetween(-1.0, 1.0);
+        assertThat(penRel.arousal()).isBetween(-1.0, 1.0);
+        assertThat(penRel.dominance()).isBetween(-1.0, 1.0);
+    }
+
+    @Test
+    void allCharactersHaveRelationships() {
+        var configs = ManorSocialConfigLoader.load();
+        for (var entry : configs.entrySet()) {
+            assertThat(entry.getValue().relationships())
+                    .as("relationships for %s", entry.getKey())
+                    .isNotNull();
+        }
+    }
+
 }

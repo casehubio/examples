@@ -70,6 +70,16 @@ public final class ManorSocialConfigLoader {
                     .toList()
                 : List.<SocialConfig.InitialBelief>of();
 
-        return new SocialConfig(drives, norms, beliefs);
+        var relationships = raw.containsKey("relationships")
+                ? ((List<Map<String, Object>>) raw.get("relationships")).stream()
+                    .map(m -> new SocialConfig.Relationship(
+                            (String) m.get("target"),
+                            ((Number) m.get("pleasure")).doubleValue(),
+                            ((Number) m.get("arousal")).doubleValue(),
+                            ((Number) m.get("dominance")).doubleValue()))
+                    .toList()
+                : List.<SocialConfig.Relationship>of();
+
+        return new SocialConfig(drives, norms, beliefs, relationships);
     }
 }

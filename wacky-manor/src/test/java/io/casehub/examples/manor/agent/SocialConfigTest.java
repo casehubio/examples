@@ -64,4 +64,37 @@ class SocialConfigTest {
             config.norms().forEach(n -> assertThat(n.priority()).as("norm priority for %s: %s", agentId, n.rule()).isGreaterThan(0));
         }
     }
+
+    @Test
+    void relationship_validConstruction() {
+        var r = new SocialConfig.Relationship("peter-perfect", 0.6, 0.3, 0.5);
+        assertThat(r.targetAgentId()).isEqualTo("peter-perfect");
+        assertThat(r.pleasure()).isEqualTo(0.6);
+        assertThat(r.arousal()).isEqualTo(0.3);
+        assertThat(r.dominance()).isEqualTo(0.5);
+    }
+
+    @Test
+    void relationship_nullTargetThrows() {
+        org.assertj.core.api.Assertions.assertThatNullPointerException()
+                                       .isThrownBy(() -> new SocialConfig.Relationship(null, 0.0, 0.0, 0.0));
+    }
+
+    @Test
+    void relationship_pleasureOutOfRangeThrows() {
+        org.assertj.core.api.Assertions.assertThatIllegalArgumentException()
+                                       .isThrownBy(() -> new SocialConfig.Relationship("x", 1.5, 0.0, 0.0));
+    }
+
+    @Test
+    void relationship_negativePadAllowed() {
+        var r = new SocialConfig.Relationship("x", -0.5, -0.3, -0.7);
+        assertThat(r.pleasure()).isEqualTo(-0.5);
+    }
+
+    @Test
+    void emptyConfig_hasEmptyRelationships() {
+        assertThat(SocialConfig.empty().relationships()).isEmpty();
+    }
+
 }

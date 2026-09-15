@@ -118,7 +118,7 @@ class CharacterCognitionTest {
     @Test
     void socialAwarenessAbsentWhenCognitiveProfileNull() {
         var drives = List.of(new SocialConfig.Drive("scheming", 0.9, "Schemes"));
-        var socialConfig = new SocialConfig(drives, List.of(), List.of());
+        var socialConfig = new SocialConfig(drives, List.of(), List.of(), List.of());
         var cognition = new CharacterCognition("hooded-claw", null, null, socialConfig, List.of());
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState("hooded-claw", "HC", "Room", 0.0, List.of()),

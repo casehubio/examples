@@ -21,6 +21,23 @@ hooded-claw:
       value: "Penelope is naive and trusts too easily"
     - key: peter-threat
       value: "Peter Perfect is protective but predictable"
+  relationships:
+    - target: penelope-pitstop
+      pleasure: -0.3
+      arousal: 0.8
+      dominance: 0.9
+    - target: peter-perfect
+      pleasure: -0.5
+      arousal: 0.6
+      dominance: 0.4
+    - target: dick-dastardly
+      pleasure: 0.3
+      arousal: 0.4
+      dominance: 0.7
+    - target: ant-hill-mob
+      pleasure: -0.4
+      arousal: 0.5
+      dominance: 0.6
 
 penelope-pitstop:
   drives:
@@ -45,6 +62,23 @@ penelope-pitstop:
       value: "Sylvester Sneekly is a helpful estate manager"
     - key: general-trust
       value: "Everyone here means well"
+  relationships:
+    - target: hooded-claw
+      pleasure: 0.5
+      arousal: 0.2
+      dominance: 0.3
+    - target: peter-perfect
+      pleasure: 0.7
+      arousal: 0.4
+      dominance: 0.4
+    - target: dick-dastardly
+      pleasure: 0.3
+      arousal: 0.3
+      dominance: 0.5
+    - target: ant-hill-mob
+      pleasure: 0.8
+      arousal: 0.2
+      dominance: 0.5
 
 peter-perfect:
   drives:
@@ -69,6 +103,23 @@ peter-perfect:
       value: "Penelope needs protection"
     - key: planning-value
       value: "Planning beats improvisation"
+  relationships:
+    - target: penelope-pitstop
+      pleasure: 0.8
+      arousal: 0.5
+      dominance: 0.6
+    - target: hooded-claw
+      pleasure: -0.2
+      arousal: 0.4
+      dominance: 0.5
+    - target: dick-dastardly
+      pleasure: -0.4
+      arousal: 0.5
+      dominance: 0.6
+    - target: ant-hill-mob
+      pleasure: 0.4
+      arousal: 0.2
+      dominance: 0.5
 
 dick-dastardly:
   drives:
@@ -93,6 +144,23 @@ dick-dastardly:
       value: "Everyone else is a fool"
     - key: method
       value: "Cheating is smarter than working"
+  relationships:
+    - target: hooded-claw
+      pleasure: 0.2
+      arousal: 0.5
+      dominance: 0.3
+    - target: penelope-pitstop
+      pleasure: 0.1
+      arousal: 0.6
+      dominance: 0.8
+    - target: peter-perfect
+      pleasure: -0.6
+      arousal: 0.7
+      dominance: 0.3
+    - target: ant-hill-mob
+      pleasure: -0.3
+      arousal: 0.4
+      dominance: 0.6
 
 ant-hill-mob:
   drives:
@@ -117,3 +185,20 @@ ant-hill-mob:
       value: "Something about Sneekly ain't right"
     - key: penelope-safety
       value: "Penelope needs protecting from herself"
+  relationships:
+    - target: penelope-pitstop
+      pleasure: 0.9
+      arousal: 0.3
+      dominance: 0.4
+    - target: hooded-claw
+      pleasure: -0.5
+      arousal: 0.7
+      dominance: 0.3
+    - target: peter-perfect
+      pleasure: 0.3
+      arousal: 0.2
+      dominance: 0.4
+    - target: dick-dastardly
+      pleasure: -0.4
+      arousal: 0.5
+      dominance: 0.5
