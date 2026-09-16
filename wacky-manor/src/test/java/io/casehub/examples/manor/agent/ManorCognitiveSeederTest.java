@@ -147,8 +147,8 @@ class ManorCognitiveSeederTest {
         var seeder = new ManorCognitiveSeeder(store);
         var configs = Map.of(
                 "agent-a", new SocialConfig(List.of(), List.of(), List.of(), List.of(),
-                                            List.of(new SocialConfig.Relationship("agent-b", 0.5, 0.3, 0.2))),
-                "agent-b", new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of())
+                                            List.of(new SocialConfig.Relationship("agent-b", 0.5, 0.3, 0.2)), Map.of()),
+                "agent-b", new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of())
                             );
         var result = seeder.seedPeople(configs, "t1");
 
@@ -163,9 +163,9 @@ class ManorCognitiveSeederTest {
         var seeder = new ManorCognitiveSeeder(store);
         var configs = Map.of(
                 "agent-a", new SocialConfig(List.of(), List.of(), List.of(), List.of(),
-                                            List.of(new SocialConfig.Relationship("agent-b", 0.5, 0.3, 0.2))),
+                                            List.of(new SocialConfig.Relationship("agent-b", 0.5, 0.3, 0.2)), Map.of()),
                 "agent-b", new SocialConfig(List.of(), List.of(), List.of(), List.of(),
-                                            List.of(new SocialConfig.Relationship("agent-a", -0.1, 0.4, 0.6)))
+                                            List.of(new SocialConfig.Relationship("agent-a", -0.1, 0.4, 0.6)), Map.of())
                             );
         seeder.seedPeople(configs, "t1");
 
@@ -180,8 +180,8 @@ class ManorCognitiveSeederTest {
         var seeder = new ManorCognitiveSeeder(store);
         var configs = Map.of(
                 "observer", new SocialConfig(List.of(), List.of(), List.of(), List.of(),
-                                             List.of(new SocialConfig.Relationship("target", 0.6, 0.3, 0.5))),
-                "target", new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of())
+                                             List.of(new SocialConfig.Relationship("target", 0.6, 0.3, 0.5)), Map.of()),
+                "target", new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of())
                             );
         seeder.seedPeople(configs, "t1");
 
@@ -202,8 +202,8 @@ class ManorCognitiveSeederTest {
         var seeder = new ManorCognitiveSeeder(store);
         var configs = Map.of(
                 "observer", new SocialConfig(List.of(), List.of(), List.of(), List.of(),
-                                             List.of(new SocialConfig.Relationship("target", 0.0, 0.0, 0.0))),
-                "target", new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of())
+                                             List.of(new SocialConfig.Relationship("target", 0.0, 0.0, 0.0)), Map.of()),
+                "target", new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of())
                             );
         seeder.seedPeople(configs, "t1");
 
@@ -219,8 +219,8 @@ class ManorCognitiveSeederTest {
         var seeder = new ManorCognitiveSeeder(store);
         var configs = Map.of(
                 "a", new SocialConfig(List.of(), List.of(), List.of(), List.of(),
-                                      List.of(new SocialConfig.Relationship("b", 0.0, 0.0, 0.0))),
-                "b", new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of())
+                                      List.of(new SocialConfig.Relationship("b", 0.0, 0.0, 0.0)), Map.of()),
+                "b", new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of())
                             );
         seeder.seedPeople(configs, "t1");
 
@@ -246,10 +246,10 @@ class ManorCognitiveSeederTest {
         var configs = Map.of(
                 "a", new SocialConfig(List.of(), List.of(), List.of(), List.of(),
                                       List.of(new SocialConfig.Relationship("b", 0.1, 0.2, 0.3),
-                                              new SocialConfig.Relationship("c", 0.4, 0.5, 0.6))),
+                                              new SocialConfig.Relationship("c", 0.4, 0.5, 0.6)), Map.of()),
                 "b", new SocialConfig(List.of(), List.of(), List.of(), List.of(),
-                                      List.of(new SocialConfig.Relationship("a", -0.1, 0.0, 0.0))),
-                "c", new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of())
+                                      List.of(new SocialConfig.Relationship("a", -0.1, 0.0, 0.0)), Map.of()),
+                "c", new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of())
                             );
         var result = seeder.seedPeople(configs, "t1");
         assertThat(result.overlayCount()).isEqualTo(3);

@@ -45,52 +45,66 @@ public final class ManorSocialConfigLoader {
 
     @SuppressWarnings("unchecked")
     private static SocialConfig parseCharacterConfig(Map<String, Object> raw) {
+        @SuppressWarnings("unchecked")
         var goals = raw.containsKey("goals")
-                ? ((List<Map<String, Object>>) raw.get("goals")).stream()
-                    .map(m -> new SocialConfig.GoalConfig(
-                            (String) m.get("name"),
-                            (String) m.get("description"),
-                            (String) m.get("axis"),
-                            ((Number) m.get("intensity")).doubleValue(),
-                            (String) m.get("formation-reason")))
-                    .toList()
-                : List.<SocialConfig.GoalConfig>of();
+                    ? ((List<Map<String, Object>>) raw.get("goals")).stream()
+                                                                    .map(m -> new SocialConfig.GoalConfig(
+                                                                            (String) m.get("name"),
+                                                                            (String) m.get("description"),
+                                                                            (String) m.get("axis"),
+                                                                            ((Number) m.get("intensity")).doubleValue(),
+                                                                            (String) m.get("formation-reason")))
+                                                                    .toList()
+                    : List.<SocialConfig.GoalConfig>of();
 
         var drives = raw.containsKey("drives")
-                ? ((List<Map<String, Object>>) raw.get("drives")).stream()
-                    .map(m -> new SocialConfig.Drive(
-                            (String) m.get("type"),
-                            ((Number) m.get("intensity")).doubleValue(),
-                            (String) m.get("description")))
-                    .toList()
-                : List.<SocialConfig.Drive>of();
+                     ? ((List<Map<String, Object>>) raw.get("drives")).stream()
+                                                                      .map(m -> new SocialConfig.Drive(
+                                                                              (String) m.get("type"),
+                                                                              ((Number) m.get("intensity")).doubleValue(),
+                                                                              (String) m.get("description")))
+                                                                      .toList()
+                     : List.<SocialConfig.Drive>of();
 
         var norms = raw.containsKey("norms")
-                ? ((List<Map<String, Object>>) raw.get("norms")).stream()
-                    .map(m -> new SocialConfig.NormEntry(
-                            (String) m.get("rule"),
-                            ((Number) m.get("priority")).intValue()))
-                    .toList()
-                : List.<SocialConfig.NormEntry>of();
+                    ? ((List<Map<String, Object>>) raw.get("norms")).stream()
+                                                                    .map(m -> new SocialConfig.NormEntry(
+                                                                            (String) m.get("rule"),
+                                                                            ((Number) m.get("priority")).intValue()))
+                                                                    .toList()
+                    : List.<SocialConfig.NormEntry>of();
 
         var beliefs = raw.containsKey("initial-beliefs")
-                ? ((List<Map<String, Object>>) raw.get("initial-beliefs")).stream()
-                    .map(m -> new SocialConfig.InitialBelief(
-                            (String) m.get("key"),
-                            (String) m.get("value")))
-                    .toList()
-                : List.<SocialConfig.InitialBelief>of();
+                      ? ((List<Map<String, Object>>) raw.get("initial-beliefs")).stream()
+                                                                                .map(m -> new SocialConfig.InitialBelief(
+                                                                                        (String) m.get("key"),
+                                                                                        (String) m.get("value")))
+                                                                                .toList()
+                      : List.<SocialConfig.InitialBelief>of();
 
         var relationships = raw.containsKey("relationships")
-                ? ((List<Map<String, Object>>) raw.get("relationships")).stream()
-                    .map(m -> new SocialConfig.Relationship(
-                            (String) m.get("target"),
-                            ((Number) m.get("pleasure")).doubleValue(),
-                            ((Number) m.get("arousal")).doubleValue(),
-                            ((Number) m.get("dominance")).doubleValue()))
-                    .toList()
-                : List.<SocialConfig.Relationship>of();
+                            ? ((List<Map<String, Object>>) raw.get("relationships")).stream()
+                                                                                    .map(m -> new SocialConfig.Relationship(
+                                                                                            (String) m.get("target"),
+                                                                                            ((Number) m.get("pleasure")).doubleValue(),
+                                                                                            ((Number) m.get("arousal")).doubleValue(),
+                                                                                            ((Number) m.get("dominance")).doubleValue()))
+                                                                                    .toList()
+                            : List.<SocialConfig.Relationship>of();
 
-        return new SocialConfig(goals, drives, norms, beliefs, relationships);
-    }
+        var reinforcement = new java.util.HashMap<String, List<SocialConfig.ReinforcementMapping>>();
+        if (raw.containsKey("reinforcement")) {
+            var reinforcementMap = (Map<String, List<Map<String, Object>>>) raw.get("reinforcement");
+            for (var entry : reinforcementMap.entrySet()) {
+                var mappings = entry.getValue().stream()
+                                    .map(m -> new SocialConfig.ReinforcementMapping(
+                                            (String) m.get("drive"),
+                                            (String) m.get("direction"),
+                                            (String) m.get("reward-axis")))
+                                    .toList();
+                reinforcement.put(entry.getKey(), mappings);
+            }
+        }
+
+        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement);}
 }

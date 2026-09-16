@@ -57,11 +57,7 @@ class CharacterCognitionTest {
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState("hooded-claw", "HC", "Room", 0.0, List.of()),
                 List.of(), Map.of());
-        assertThat(sections).anyMatch(s -> s.header().equals("Your Drives"));
-        var drivesSection = sections.stream().filter(s -> s.header().equals("Your Drives")).findFirst().orElseThrow();
-        assertThat(drivesSection).isInstanceOf(io.casehub.blocks.summarisation.observation.affordance.ObservationSection.ItemList.class);
-        var items = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.ItemList) drivesSection).items();
-        assertThat(items.get(0)).contains("scheming");
+        assertThat(sections).noneMatch(s -> s.header().equals("Your Drives"));
     }
 
     @Test
@@ -90,13 +86,13 @@ class CharacterCognitionTest {
     @Test
     void allSectionsForFullyConfiguredCharacter() {
         var socialConfig = ManorSocialConfigLoader.load().get("hooded-claw");
-        var cognition = new CharacterCognition("hooded-claw", null, null, socialConfig, List.of());
+        var cognition    = new CharacterCognition("hooded-claw", null, null, socialConfig, List.of());
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState("hooded-claw", "HC", "Room", 0.0, List.of()),
                 List.of("penelope-pitstop"), Map.of("penelope-pitstop", "Penelope Pitstop"));
-        assertThat(sections).hasSize(3);
+        assertThat(sections).hasSize(2);
         assertThat(sections.stream().map(s -> s.header()).toList())
-                .containsExactly("Your Drives", "Your Beliefs", "Social Rules");
+                .containsExactly("Your Beliefs", "Social Rules");
     }
 
     @Test
@@ -113,7 +109,7 @@ class CharacterCognitionTest {
     @Test
     void socialAwarenessAbsentWhenCognitiveProfileNull() {
         var drives = List.of(new SocialConfig.Drive("scheming", 0.9, "Schemes"));
-        var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of());
+        var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of());
         var cognition = new CharacterCognition("hooded-claw", null, null, socialConfig, List.of());
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState("hooded-claw", "HC", "Room", 0.0, List.of()),

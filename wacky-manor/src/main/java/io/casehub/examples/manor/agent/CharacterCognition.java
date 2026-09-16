@@ -103,14 +103,6 @@ public final class CharacterCognition {
             Map<String, String> agentNames) {
         var sections = new ArrayList<ObservationSection>();
 
-        if (!socialConfig.drives().isEmpty()) {
-            var items = socialConfig.drives().stream()
-                                    .sorted((a, b) -> Double.compare(b.intensity(), a.intensity()))
-                                    .map(d -> String.format("%s (%.0f%%) — %s", d.type(), d.intensity() * 100, d.description()))
-                                    .toList();
-            sections.add(ObservationSection.items("Your Drives", null, items));
-        }
-
         if (!socialConfig.initialBeliefs().isEmpty()) {
             var items = socialConfig.initialBeliefs().stream()
                                     .map(SocialConfig.InitialBelief::value)
@@ -118,23 +110,13 @@ public final class CharacterCognition {
             sections.add(ObservationSection.items("Your Beliefs", null, items));
         }
 
-        var budget = contextStrategy.budgetFor(nearbyAgentIds.size(), 0.5, 0);
+        var budget        = contextStrategy.budgetFor(nearbyAgentIds.size(), 0.5, 0);
         var selectedNorms = contextStrategy.selectNorms(socialConfig.norms(), agentNames.values(), character.inventory(), budget);
         if (!selectedNorms.isEmpty()) {
             var items = selectedNorms.stream()
-                                      .map(SocialConfig.NormEntry::rule)
-                                      .toList();
+                                     .map(SocialConfig.NormEntry::rule)
+                                     .toList();
             sections.add(ObservationSection.items("Social Rules", null, items));
-        }
-
-        if (cognitionCore != null && tenantId != null) {
-            var promptCtx = new io.casehub.blocks.speech.PromptContext(agentId, tenantId, null);
-            for (var ps : cognitionCore.promptSections()) {
-                var rendered = ps.contribute(promptCtx);
-                if (rendered != null && !rendered.isBlank()) {
-                    sections.add(ObservationSection.text("Cognitive State", rendered));
-                }
-            }
         }
 
         sections.addAll(renderSocialAwareness(nearbyAgentIds, agentNames));
@@ -144,8 +126,7 @@ public final class CharacterCognition {
             sections.addAll(trustSections);
         }
 
-        return sections;
-    }
+        return sections;}
 
     private java.util.List<ObservationSection> renderTrustSections() {
         if (mindMapStore == null || trustEvolutionConfig == null || tenantId == null) return List.of();

@@ -1,6 +1,7 @@
 package io.casehub.examples.manor.agent;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public record SocialConfig(
@@ -8,7 +9,8 @@ public record SocialConfig(
         List<Drive> drives,
         List<NormEntry> norms,
         List<InitialBelief> initialBeliefs,
-        List<Relationship> relationships
+        List<Relationship> relationships,
+        Map<String, List<ReinforcementMapping>> reinforcement
 ) {
     public SocialConfig {
         goals          = goals != null ? List.copyOf(goals) : List.of();
@@ -16,14 +18,15 @@ public record SocialConfig(
         norms          = norms != null ? List.copyOf(norms) : List.of();
         initialBeliefs = initialBeliefs != null ? List.copyOf(initialBeliefs) : List.of();
         relationships  = relationships != null ? List.copyOf(relationships) : List.of();
+        reinforcement  = reinforcement != null ? Map.copyOf(reinforcement) : Map.of();
     }
 
     public static SocialConfig empty() {
-        return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of());
+        return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of());
     }
 
     public record GoalConfig(String name, String description, String axis,
-                              double intensity, String formationReason) {
+                             double intensity, String formationReason) {
         public GoalConfig {
             Objects.requireNonNull(name);
             Objects.requireNonNull(description);
@@ -69,6 +72,14 @@ public record SocialConfig(
             if (dominance < -1.0 || dominance > 1.0) {
                 throw new IllegalArgumentException("dominance must be in [-1,1], got " + dominance);
             }
+        }
+    }
+
+    public record ReinforcementMapping(String drive, String direction, String rewardAxis) {
+        public ReinforcementMapping {
+            Objects.requireNonNull(drive);
+            if (direction == null) {direction = "POSITIVE";}
+            if (rewardAxis == null) {rewardAxis = "PLEASURE";}
         }
     }
 }

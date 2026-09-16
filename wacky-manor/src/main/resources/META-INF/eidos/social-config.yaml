@@ -25,6 +25,18 @@ hooded-claw:
     - type: dominance
       intensity: 0.6
       description: "Must be the most powerful person in every room"
+  reinforcement:
+    conflict_resolution:
+      - drive: scheming
+      - drive: dominance
+        reward-axis: DOMINANCE
+    social_interaction:
+      - drive: scheming
+        direction: NEGATIVE
+    trust_change:
+      - drive: self-preservation
+    observation:
+      - drive: scheming
   norms:
     - rule: "Never help Penelope directly"
       priority: 10
@@ -77,6 +89,18 @@ penelope-pitstop:
     - type: adventure
       intensity: 0.6
       description: "Delights in new experiences"
+  reinforcement:
+    social_interaction:
+      - drive: social-harmony
+      - drive: adventure
+    conflict_resolution:
+      - drive: social-harmony
+        reward-axis: DOMINANCE
+    observation:
+      - drive: curiosity
+      - drive: adventure
+    trust_change:
+      - drive: social-harmony
   norms:
     - rule: "Trust everyone until proven otherwise"
       priority: 8
@@ -129,6 +153,15 @@ peter-perfect:
     - type: protection
       intensity: 0.8
       description: "Driven to shield others from danger"
+  reinforcement:
+    conflict_resolution:
+      - drive: protection
+      - drive: gallantry
+    social_interaction:
+      - drive: gallantry
+      - drive: proving-worth
+    trust_change:
+      - drive: protection
   norms:
     - rule: "Always prepare before acting"
       priority: 8
@@ -181,6 +214,15 @@ dick-dastardly:
     - type: scheming
       intensity: 0.7
       description: "Enjoys outwitting others"
+  reinforcement:
+    conflict_resolution:
+      - drive: scheming
+      - drive: greed
+    social_interaction:
+      - drive: recognition
+    observation:
+      - drive: scheming
+      - drive: greed
   norms:
     - rule: "Lie about everything"
       priority: 10
@@ -228,6 +270,16 @@ ant-hill-mob:
     - type: suspicion
       intensity: 0.6
       description: "Something about Sneekly ain't right"
+  reinforcement:
+    conflict_resolution:
+      - drive: protection
+    social_interaction:
+      - drive: loyalty
+    trust_change:
+      - drive: suspicion
+      - drive: protection
+    observation:
+      - drive: suspicion
   norms:
     - rule: "Protect Penelope always"
       priority: 10

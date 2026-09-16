@@ -1,15 +1,14 @@
 package io.casehub.examples.manor.agent;
 
+import io.casehub.blocks.agentic.social.drive.DriveAxis;
+import io.casehub.blocks.agentic.social.goal.DriveGoalProposal;
+import io.casehub.blocks.agentic.social.goal.GoalProposalOrchestrator;
 import io.casehub.neocortex.cognitive.Confidence;
 import io.casehub.neocortex.mindmap.MindMapStore;
 import io.casehub.neocortex.mindmap.NodeInput;
 import io.casehub.neocortex.mindmap.OverlayRef;
 import io.casehub.neocortex.mindmap.SubgraphInput;
 import io.casehub.platform.api.identity.PrincipalId;
-
-import io.casehub.blocks.agentic.social.drive.DriveAxis;
-import io.casehub.blocks.agentic.social.goal.DriveGoalProposal;
-import io.casehub.blocks.agentic.social.goal.GoalProposalOrchestrator;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -85,7 +84,7 @@ public final class ManorCognitiveSeeder {
 
     public SeedResult seed(String agentId, SocialConfig config, String tenantId) {
         var subgraphName = subgraphName(agentId);
-        if (config.initialBeliefs().isEmpty()) {
+        if (config.initialBeliefs().isEmpty() && config.drives().isEmpty()) {
             return new SeedResult(subgraphName, Map.of());
         }
 
@@ -96,22 +95,37 @@ public final class ManorCognitiveSeeder {
         }
 
         var timestamps = new HashMap<String, Instant>();
-        var now = Instant.now();
+        var now        = Instant.now();
 
         for (var belief : config.initialBeliefs()) {
             mindMapStore.addNode(
                     NodeInput.of(belief.value(), subgraphId)
-                            .withConfidence(Confidence.stated(0.8, now))
-                            .withProvenance("manor-seed")
-                            .withTraits(Set.of("Belieflike"))
-                            .withProperties(Map.of("subject", belief.key()))
-                            .withPrincipalId(PrincipalId.agent(agentId)),
+                             .withConfidence(Confidence.stated(0.8, now))
+                             .withProvenance("manor-seed")
+                             .withTraits(Set.of("Belieflike"))
+                             .withProperties(Map.of("subject", belief.key()))
+                             .withPrincipalId(PrincipalId.agent(agentId)),
                     tenantId);
             timestamps.put(belief.key(), now);
         }
 
-        return new SeedResult(subgraphId, Map.copyOf(timestamps));
-    }
+        for (var drive : config.drives()) {
+            mindMapStore.addNode(
+                    NodeInput.of(drive.type(), subgraphId)
+                             .withConfidence(Confidence.stated(0.8, now))
+                             .withProvenance("drive-adaptation")
+                             .withProperties(Map.of(
+                                     "cognitiveKind", "drive-intensity",
+                                     "agent-id", agentId,
+                                     "drive-type", drive.type(),
+                                     "intensity", String.valueOf(drive.intensity()),
+                                     "initial-intensity", String.valueOf(drive.intensity()),
+                                     "description", drive.description())),
+                    tenantId);
+            timestamps.put("drive:" + drive.type(), now);
+        }
+
+        return new SeedResult(subgraphId, Map.copyOf(timestamps));}
 
     public static String subgraphName(String agentId) {
         return "beliefs-" + agentId;
