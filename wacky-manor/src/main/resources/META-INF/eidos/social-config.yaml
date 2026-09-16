@@ -1,4 +1,20 @@
 hooded-claw:
+  goals:
+    - name: eliminate-penelope
+      description: "Kill Penelope Pitstop before she finds the treasure"
+      axis: COMPETENCE
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: maintain-disguise
+      description: "Stay in character as Sylvester Sneekly at all times when others are present"
+      axis: COMPETENCE
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: win-treasure
+      description: "Win the treasure hunt"
+      axis: COMPETENCE
+      intensity: 0.6
+      formation-reason: character-definition
   drives:
     - type: scheming
       intensity: 0.9
@@ -40,6 +56,17 @@ hooded-claw:
       dominance: 0.6
 
 penelope-pitstop:
+  goals:
+    - name: find-diamond
+      description: "Find the legendary Doily Diamond hidden in the mansion"
+      axis: CURIOSITY
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: solve-puzzles
+      description: "Solve the mansion's puzzles and have a delightful adventure"
+      axis: CURIOSITY
+      intensity: 0.6
+      formation-reason: character-definition
   drives:
     - type: curiosity
       intensity: 0.7
@@ -81,6 +108,17 @@ penelope-pitstop:
       dominance: 0.5
 
 peter-perfect:
+  goals:
+    - name: impress-penelope
+      description: "Impress Penelope Pitstop by being heroic and gallant"
+      axis: AFFILIATION
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: find-treasure
+      description: "Find the treasure (secondary to impressing Penelope)"
+      axis: CURIOSITY
+      intensity: 0.6
+      formation-reason: character-definition
   drives:
     - type: gallantry
       intensity: 0.9
@@ -122,6 +160,17 @@ peter-perfect:
       dominance: 0.5
 
 dick-dastardly:
+  goals:
+    - name: steal-treasure
+      description: "Steal the treasure before anyone else gets it"
+      axis: COMPETENCE
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: mislead-others
+      description: "Trick other characters into doing the hard work while you steal the rewards"
+      axis: AUTONOMY
+      intensity: 0.6
+      formation-reason: character-definition
   drives:
     - type: greed
       intensity: 0.9
@@ -163,6 +212,12 @@ dick-dastardly:
       dominance: 0.6
 
 ant-hill-mob:
+  goals:
+    - name: protect-penelope
+      description: "Protect Penelope Pitstop from all dangers at all costs"
+      axis: AFFILIATION
+      intensity: 0.8
+      formation-reason: character-definition
   drives:
     - type: loyalty
       intensity: 0.9
@@ -202,3 +257,177 @@ ant-hill-mob:
       pleasure: -0.4
       arousal: 0.5
       dominance: 0.5
+
+muttley:
+  goals:
+    - name: collect-medals
+      description: "Collect medals — real, fake, any medals"
+      axis: AUTONOMY
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: follow-dastardly
+      description: "Follow Dick Dastardly around"
+      axis: AFFILIATION
+      intensity: 0.6
+      formation-reason: character-definition
+
+lazy-luke:
+  goals:
+    - name: sleep
+      description: "Sleep. Sleep is the most important thing."
+      axis: AUTONOMY
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: avoid-exertion
+      description: "Avoid any form of exertion, excitement, or unnecessary movement"
+      axis: AUTONOMY
+      intensity: 0.6
+      formation-reason: character-definition
+
+blubber-bear:
+  goals:
+    - name: sleep-undisturbed
+      description: "Sleep without being disturbed"
+      axis: AUTONOMY
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: protect-blanket
+      description: "Do not let anyone take your blanket (the folded paper)"
+      axis: AUTONOMY
+      intensity: 0.8
+      formation-reason: character-definition
+
+pat-pending:
+  goals:
+    - name: understand-mechanisms
+      description: "Understand and operate every mechanism in the mansion"
+      axis: CURIOSITY
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: explain-things
+      description: "Explain how things work to anyone who will listen"
+      axis: CURIOSITY
+      intensity: 0.6
+      formation-reason: character-definition
+
+sergeant-blast:
+  goals:
+    - name: maintain-order
+      description: "Maintain order and control access to areas of the mansion"
+      axis: COMPETENCE
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: command-meekly
+      description: "Keep Private Meekly in line and following orders"
+      axis: COMPETENCE
+      intensity: 0.6
+      formation-reason: character-definition
+
+private-meekly:
+  goals:
+    - name: actually-help
+      description: "Actually help people when Blast is not watching"
+      axis: AFFILIATION
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: follow-orders
+      description: "Follow Sergeant Blast's orders (publicly, at least)"
+      axis: AFFILIATION
+      intensity: 0.6
+      formation-reason: character-definition
+
+rock-slag:
+  goals:
+    - name: understand-books
+      description: "Figure out what books are"
+      axis: CURIOSITY
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: smash-problems
+      description: "When confused or frustrated, smash whatever is nearest"
+      axis: COMPETENCE
+      intensity: 0.6
+      formation-reason: character-definition
+
+gravel-slag:
+  goals:
+    - name: follow-rock
+      description: "Follow Rock. He seems to know what he is doing."
+      axis: AFFILIATION
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: understand-aftermath
+      description: "Try to understand what just happened after Rock smashes something"
+      axis: CURIOSITY
+      intensity: 0.6
+      formation-reason: character-definition
+
+rufus-ruffcut:
+  goals:
+    - name: fix-chair
+      description: "Fix this broken chair. It is a matter of professional pride."
+      axis: COMPETENCE
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: find-wrench
+      description: "Find a proper wrench from the Kitchen"
+      axis: COMPETENCE
+      intensity: 0.8
+      formation-reason: character-definition
+
+sawtooth:
+  goals:
+    - name: gnaw-things
+      description: "Gnaw through wood, rope, and other gnawable materials"
+      axis: COMPETENCE
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: help-rufus
+      description: "Help Rufus by gnawing things he points at"
+      axis: AFFILIATION
+      intensity: 0.6
+      formation-reason: character-definition
+
+big-gruesome:
+  goals:
+    - name: redecorate
+      description: "Redecorate the cellar. It is going to be LOVELY."
+      axis: AFFILIATION
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: collect-pretty-things
+      description: "Collect pretty things"
+      axis: AFFILIATION
+      intensity: 0.6
+      formation-reason: character-definition
+
+little-gruesome:
+  goals:
+    - name: explore-vents
+      description: "Explore every air vent in the mansion"
+      axis: CURIOSITY
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: communicate-discoveries
+      description: "Try to tell others about what you have found"
+      axis: CURIOSITY
+      intensity: 0.6
+      formation-reason: character-definition
+
+red-max:
+  goals:
+    - name: explore-mansion
+      description: "Explore the mansion from top to bottom"
+      axis: CURIOSITY
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: find-treasures
+      description: "Find hidden treasures before anyone else"
+      axis: CURIOSITY
+      intensity: 0.8
+      formation-reason: character-definition
+    - name: prove-superiority
+      description: "Prove that the Red Max is the boldest adventurer"
+      axis: COMPETENCE
+      intensity: 0.6
+      formation-reason: character-definition
