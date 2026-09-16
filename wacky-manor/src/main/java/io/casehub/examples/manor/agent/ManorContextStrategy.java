@@ -6,6 +6,22 @@ import java.util.List;
 public final class ManorContextStrategy {
     private static final java.util.Set<String> SOCIAL_AWARENESS_DRIVES          = java.util.Set.of("scheming", "suspicion");
     private static final double                SOCIAL_AWARENESS_DRIVE_THRESHOLD = 0.5;
+    private static final java.util.List<String> STAGE_ORDER                     = java.util.List.of(
+            "stranger", "acquaintance", "familiar", "friend", "confidant");
+
+    public boolean shouldDisclose(String stage) {
+        return stageOrdinal(stage) >= stageOrdinal("friend");
+    }
+
+    public boolean shouldCooperate(String stage) {
+        return stageOrdinal(stage) >= stageOrdinal("acquaintance");
+    }
+
+    static int stageOrdinal(String stage) {
+        int idx = STAGE_ORDER.indexOf(stage);
+        return idx >= 0 ? idx : 0;
+    }
+
 
     public boolean shouldCompareSocially(SocialConfig config, boolean isPullAside) {
         if (isPullAside) {return true;}

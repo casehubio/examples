@@ -198,30 +198,58 @@ public final class CharacterCognition {
             return List.of();
         }
 
+        var stageMap = new java.util.HashMap<String, String>();
+        if (mindMapStore != null) {
+            var subgraphs = mindMapStore.listSubgraphs(tenantId);
+            var peopleSg = subgraphs.stream()
+                                    .filter(sg -> "people".equals(sg.name())).findFirst();
+            if (peopleSg.isPresent()) {
+                var overlayNodes = mindMapStore.nodesIn(peopleSg.get().id(), tenantId);
+                var sharedNodes  = new java.util.HashMap<String, String>();
+                for (var node : overlayNodes) {
+                    if (!node.traits().contains("overlay")) {
+                        node.property("agentId").ifPresent(aid -> sharedNodes.put(node.id(), aid));
+                    }
+                }
+                for (var node : overlayNodes) {
+                    if (!node.traits().contains("overlay")) {continue;}
+                    if (!agentId.equals(node.property(io.casehub.neocortex.mindmap.OverlayRef.AGENT_ID).orElse(null))) {
+                        continue;
+                    }
+                    var targetNodeId = io.casehub.neocortex.mindmap.OverlayRef.sharedNodeId(node).orElse(null);
+                    if (targetNodeId == null) {continue;}
+                    var targetId = sharedNodes.get(targetNodeId);
+                    if (targetId == null) {continue;}
+                    var stage = node.property(io.casehub.blocks.agentic.social.OverlayFamiliarityPropertyModel.FAMILIARITY_STAGE).orElse("stranger");
+                    stageMap.put(targetId, stage);
+                }
+            }
+        }
+
         var selfPrincipal = io.casehub.platform.api.identity.PrincipalId.agent(agentId);
-        var lines = new java.util.ArrayList<String>();
+        var lines         = new java.util.ArrayList<String>();
 
         for (String nearbyId : nearbyAgentIds) {
-            var otherPrincipal = io.casehub.platform.api.identity.PrincipalId.agent(nearbyId);
-            String otherName = agentNames.getOrDefault(nearbyId, nearbyId);
+            var    otherPrincipal = io.casehub.platform.api.identity.PrincipalId.agent(nearbyId);
+            String otherName      = agentNames.getOrDefault(nearbyId, nearbyId);
+            String stage          = stageMap.getOrDefault(nearbyId, "stranger");
             try {
                 var query = io.casehub.neocortex.cognitive.index.CognitiveProfileQuery
-                        .byName(nearbyId, tenantId);
+                                    .byName(nearbyId, tenantId);
                 var perspectives = cognitiveProfile.compare(query,
-                        java.util.Set.of(selfPrincipal, otherPrincipal));
-                if (perspectives.isEmpty()) continue;
+                                                            java.util.Set.of(selfPrincipal, otherPrincipal));
+                if (perspectives.isEmpty()) {continue;}
 
                 var comparison = io.casehub.neocortex.cognitive.index.SocialComparison
-                        .compare(perspectives);
-                PerceptionTranslator.translate(comparison, selfPrincipal, otherPrincipal, otherName)
-                        .ifPresent(lines::add);
+                                         .compare(perspectives);
+                PerceptionTranslator.translate(comparison, selfPrincipal, otherPrincipal, otherName, stage)
+                                    .ifPresent(lines::add);
             } catch (Exception e) {
                 // graceful degradation
             }
         }
 
-        if (lines.isEmpty()) return List.of();
-        return List.of(ObservationSection.items("Social Awareness", null, lines));
-    }
+        if (lines.isEmpty()) {return List.of();}
+        return List.of(ObservationSection.items("Social Awareness", null, lines));}
 
 }

@@ -25,7 +25,7 @@ class PerceptionTranslatorTest {
     @Test
     void pleasureDivergenceMyLowerProducesCorrectStatement() {
         var comparison = buildComparison(0.2, 0.8, 0.5, 0.5, 0.5, 0.5);
-        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME);
+        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME, "friend");
         assertThat(result).isPresent();
         assertThat(result.get()).contains("Peter Perfect").contains("more positively");
     }
@@ -33,7 +33,7 @@ class PerceptionTranslatorTest {
     @Test
     void pleasureDivergenceMyHigherProducesCorrectStatement() {
         var comparison = buildComparison(0.8, 0.2, 0.5, 0.5, 0.5, 0.5);
-        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME);
+        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME, "friend");
         assertThat(result).isPresent();
         assertThat(result.get()).contains("more positively about Peter Perfect");
     }
@@ -41,7 +41,7 @@ class PerceptionTranslatorTest {
     @Test
     void arousalDivergenceProducesCorrectStatement() {
         var comparison = buildComparison(0.5, 0.5, 0.9, 0.3, 0.5, 0.5);
-        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME);
+        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME, "friend");
         assertThat(result).isPresent();
         assertThat(result.get()).contains("alert");
     }
@@ -49,7 +49,7 @@ class PerceptionTranslatorTest {
     @Test
     void dominanceDivergenceProducesCorrectStatement() {
         var comparison = buildComparison(0.5, 0.5, 0.5, 0.5, 0.9, 0.3);
-        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME);
+        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME, "friend");
         assertThat(result).isPresent();
         assertThat(result.get()).contains("control");
     }
@@ -57,7 +57,7 @@ class PerceptionTranslatorTest {
     @Test
     void belowThresholdReturnsEmpty() {
         var comparison = buildComparison(0.5, 0.6, 0.5, 0.5, 0.5, 0.5);
-        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME);
+        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME, "friend");
         assertThat(result).isEmpty();
     }
 
@@ -72,7 +72,7 @@ class PerceptionTranslatorTest {
                 Map.of(),
                 new TrajectoryAlignment(Map.of(), Map.of()),
                 2);
-        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME);
+        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME, "friend");
         assertThat(result).isEmpty();
     }
 
@@ -93,7 +93,7 @@ class PerceptionTranslatorTest {
         var comparison = new PerspectivalComparison(
                 "peter-node", OTHER_NAME, snapshots, Set.of(),
                 distances, diffs, alignment, 2);
-        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME);
+        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME, "friend");
         assertThat(result).isPresent();
         assertThat(result.get()).contains("widening");
     }
@@ -115,10 +115,64 @@ class PerceptionTranslatorTest {
         var comparison = new PerspectivalComparison(
                 "peter-node", OTHER_NAME, snapshots, Set.of(),
                 distances, diffs, alignment, 2);
-        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME);
+        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME, "friend");
         assertThat(result).isPresent();
         assertThat(result.get()).contains("converging");
     }
+
+    @Test
+    void strangerStageReturnsEmpty() {
+        var comparison = buildComparison(0.2, 0.8, 0.5, 0.5, 0.5, 0.5);
+        var result     = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME, "stranger");
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void acquaintanceStageReturnsDominantOnly() {
+        var pair = AgentPair.of(SELF, OTHER);
+        var snapshots = Map.of(
+                SELF, new AffectSnapshot(SELF, 0.2, 0.5, 0.5, null),
+                OTHER, new AffectSnapshot(OTHER, 0.8, 0.5, 0.5, null));
+        var distances = new PadDistanceMatrix(Map.of(pair, 0.6));
+        var diffs = Map.of(
+                PadDimension.PLEASURE, new PairwiseDifferences(Map.of(pair, -0.6)),
+                PadDimension.AROUSAL, new PairwiseDifferences(Map.of(pair, 0.0)),
+                PadDimension.DOMINANCE, new PairwiseDifferences(Map.of(pair, 0.0)));
+        var alignment = new TrajectoryAlignment(
+                Map.of(pair, -0.5),
+                Map.of(pair, TrendAgreement.DIVERGENT));
+        var comparison = new PerspectivalComparison(
+                "peter-node", OTHER_NAME, snapshots, Set.of(),
+                distances, diffs, alignment, 2);
+        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME, "acquaintance");
+        assertThat(result).isPresent();
+        assertThat(result.get()).contains("acquaintance");
+        assertThat(result.get()).doesNotContain("widening");
+    }
+
+    @Test
+    void friendStageIncludesTrajectory() {
+        var pair = AgentPair.of(SELF, OTHER);
+        var snapshots = Map.of(
+                SELF, new AffectSnapshot(SELF, 0.2, 0.5, 0.5, null),
+                OTHER, new AffectSnapshot(OTHER, 0.8, 0.5, 0.5, null));
+        var distances = new PadDistanceMatrix(Map.of(pair, 0.6));
+        var diffs = Map.of(
+                PadDimension.PLEASURE, new PairwiseDifferences(Map.of(pair, -0.6)),
+                PadDimension.AROUSAL, new PairwiseDifferences(Map.of(pair, 0.0)),
+                PadDimension.DOMINANCE, new PairwiseDifferences(Map.of(pair, 0.0)));
+        var alignment = new TrajectoryAlignment(
+                Map.of(pair, -0.5),
+                Map.of(pair, TrendAgreement.DIVERGENT));
+        var comparison = new PerspectivalComparison(
+                "peter-node", OTHER_NAME, snapshots, Set.of(),
+                distances, diffs, alignment, 2);
+        var result = PerceptionTranslator.translate(comparison, SELF, OTHER, OTHER_NAME, "friend");
+        assertThat(result).isPresent();
+        assertThat(result.get()).contains("widening");
+        assertThat(result.get()).contains("friend");
+    }
+
 
     private PerspectivalComparison buildComparison(
             double selfPleasure, double otherPleasure,

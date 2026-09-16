@@ -113,4 +113,32 @@ class ManorContextStrategyTest {
         assertThat(strategy.shouldCompareSocially(config, true)).isTrue();
     }
 
+    @Test
+    void shouldDisclose_requiresFriendOrHigher() {
+        var strategy = new ManorContextStrategy();
+        assertThat(strategy.shouldDisclose("stranger")).isFalse();
+        assertThat(strategy.shouldDisclose("acquaintance")).isFalse();
+        assertThat(strategy.shouldDisclose("familiar")).isFalse();
+        assertThat(strategy.shouldDisclose("friend")).isTrue();
+        assertThat(strategy.shouldDisclose("confidant")).isTrue();
+    }
+
+    @Test
+    void shouldCooperate_requiresAcquaintanceOrHigher() {
+        var strategy = new ManorContextStrategy();
+        assertThat(strategy.shouldCooperate("stranger")).isFalse();
+        assertThat(strategy.shouldCooperate("acquaintance")).isTrue();
+        assertThat(strategy.shouldCooperate("familiar")).isTrue();
+        assertThat(strategy.shouldCooperate("friend")).isTrue();
+        assertThat(strategy.shouldCooperate("confidant")).isTrue();
+    }
+
+    @Test
+    void stageOrdinal_unknownStageReturnsZero() {
+        assertThat(ManorContextStrategy.stageOrdinal("unknown")).isEqualTo(0);
+        assertThat(ManorContextStrategy.stageOrdinal("stranger")).isEqualTo(0);
+        assertThat(ManorContextStrategy.stageOrdinal("confidant")).isEqualTo(4);
+    }
+
+
 }

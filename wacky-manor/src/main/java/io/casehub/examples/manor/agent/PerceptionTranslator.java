@@ -18,14 +18,19 @@ public final class PerceptionTranslator {
             PerspectivalComparison comparison,
             PrincipalId self,
             PrincipalId other,
-            String otherName) {
+            String otherName,
+            String stage) {
 
-        if (comparison.unassessedAgents().contains(self)
-                || comparison.unassessedAgents().contains(other)) {
+        if ("stranger".equals(stage)) {
             return Optional.empty();
         }
 
-        var pair = AgentPair.of(self, other);
+        if (comparison.unassessedAgents().contains(self)
+            || comparison.unassessedAgents().contains(other)) {
+            return Optional.empty();
+        }
+
+        var    pair     = AgentPair.of(self, other);
         double distance = comparison.distances().distance(self, other);
         if (distance < DISTANCE_THRESHOLD) {
             return Optional.empty();
@@ -33,29 +38,34 @@ public final class PerceptionTranslator {
 
         PadDimension dominant = dominantDimension(comparison, self, other);
         double diff = comparison.dimensionDifferences().get(dominant)
-                .difference(self, other);
+                                .difference(self, other);
 
         String statement = switch (dominant) {
             case PLEASURE -> diff < 0
-                    ? otherName + " seems to view this more positively than you do"
-                    : "You feel more positively about " + otherName + " than they feel about themselves";
+                             ? otherName + " seems to view this more positively than you do"
+                             : "You feel more positively about " + otherName + " than they feel about themselves";
             case AROUSAL -> diff > 0
-                    ? "You're more alert around " + otherName + " than they seem to be"
-                    : otherName + " seems more on edge than you'd expect";
+                            ? "You're more alert around " + otherName + " than they seem to be"
+                            : otherName + " seems more on edge than you'd expect";
             case DOMINANCE -> diff > 0
-                    ? "You feel more in control around " + otherName + " than they do"
-                    : otherName + " seems more confident in this interaction than you are";
+                              ? "You feel more in control around " + otherName + " than they do"
+                              : otherName + " seems more confident in this interaction than you are";
         };
 
-        var trajectory = comparison.trajectoryAlignment();
-        var agreement = trajectory.agreements().get(pair);
-        if (agreement == TrendAgreement.DIVERGENT) {
-            statement += " (and this gap is widening)";
-        } else if (agreement == TrendAgreement.ALIGNED) {
-            statement += " (though you're converging)";
+        int     stageOrd          = ManorContextStrategy.stageOrdinal(stage);
+        boolean includeTrajectory = stageOrd >= ManorContextStrategy.stageOrdinal("friend");
+
+        if (includeTrajectory) {
+            var trajectory = comparison.trajectoryAlignment();
+            var agreement  = trajectory.agreements().get(pair);
+            if (agreement == TrendAgreement.DIVERGENT) {
+                statement += " (and this gap is widening)";
+            } else if (agreement == TrendAgreement.ALIGNED) {
+                statement += " (though you're converging)";
+            }
         }
 
-        return Optional.of(statement);
+        return Optional.of(otherName + " (" + stage + "): " + statement);
     }
 
     private static PadDimension dominantDimension(
