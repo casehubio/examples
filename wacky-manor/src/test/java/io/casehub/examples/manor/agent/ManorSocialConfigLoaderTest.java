@@ -8,12 +8,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class ManorSocialConfigLoaderTest {
 
     @Test
-    void loadsAllFiveCharacters() {
+    void loadsAllCharacters() {
         var configs = ManorSocialConfigLoader.load();
-        assertThat(configs).hasSize(5);
+        assertThat(configs).hasSize(18);
         assertThat(configs).containsKeys(
                 "hooded-claw", "penelope-pitstop", "peter-perfect",
-                "dick-dastardly", "ant-hill-mob");
+                "dick-dastardly", "ant-hill-mob", "muttley", "lazy-luke");
     }
 
     @Test
@@ -55,7 +55,7 @@ class ManorSocialConfigLoaderTest {
     @Test
     void unknownCharacter_notInMap() {
         var configs = ManorSocialConfigLoader.load();
-        assertThat(configs).doesNotContainKey("muttley");
+        assertThat(configs).doesNotContainKey("nonexistent-character");
     }
 
     @Test

@@ -7,8 +7,13 @@ import io.casehub.neocortex.mindmap.OverlayRef;
 import io.casehub.neocortex.mindmap.SubgraphInput;
 import io.casehub.platform.api.identity.PrincipalId;
 
+import io.casehub.blocks.agentic.social.drive.DriveAxis;
+import io.casehub.blocks.agentic.social.goal.DriveGoalProposal;
+import io.casehub.blocks.agentic.social.goal.GoalProposalOrchestrator;
+
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -110,5 +115,23 @@ public final class ManorCognitiveSeeder {
 
     public static String subgraphName(String agentId) {
         return "beliefs-" + agentId;
+    }
+
+    public static List<DriveGoalProposal> mapGoals(List<SocialConfig.GoalConfig> configs) {
+        return configs.stream()
+                .map(c -> new DriveGoalProposal(
+                        DriveAxis.valueOf(c.axis()),
+                        c.name(),
+                        c.description(),
+                        c.formationReason(),
+                        c.intensity()))
+                .toList();
+    }
+
+    public void seedGoals(String agentId, SocialConfig config,
+                           GoalProposalOrchestrator goals, String tenantId) {
+        if (config.goals().isEmpty()) return;
+        var proposals = mapGoals(config.goals());
+        goals.registerGoals(agentId, tenantId, proposals);
     }
 }

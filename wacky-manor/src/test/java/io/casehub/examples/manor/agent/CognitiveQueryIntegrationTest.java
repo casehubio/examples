@@ -56,7 +56,7 @@ class CognitiveQueryIntegrationTest {
     void characterCognitionWithFullConstructorRendersSections() {
         var socialConfig = ManorSocialConfigLoader.load().get("hooded-claw");
         var cognition = new CharacterCognition("hooded-claw", null, null, socialConfig,
-                java.util.List.of(), null, new ManorContextStrategy(), null, null, "wacky-manor");
+                java.util.List.of(), null, new ManorContextStrategy(), null, null, "wacky-manor", null, null);
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(
                         "hooded-claw", "HC", "Grand Hallway", 0.0, java.util.List.of()),

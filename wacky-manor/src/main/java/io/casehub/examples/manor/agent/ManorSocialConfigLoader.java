@@ -45,6 +45,17 @@ public final class ManorSocialConfigLoader {
 
     @SuppressWarnings("unchecked")
     private static SocialConfig parseCharacterConfig(Map<String, Object> raw) {
+        var goals = raw.containsKey("goals")
+                ? ((List<Map<String, Object>>) raw.get("goals")).stream()
+                    .map(m -> new SocialConfig.GoalConfig(
+                            (String) m.get("name"),
+                            (String) m.get("description"),
+                            (String) m.get("axis"),
+                            ((Number) m.get("intensity")).doubleValue(),
+                            (String) m.get("formation-reason")))
+                    .toList()
+                : List.<SocialConfig.GoalConfig>of();
+
         var drives = raw.containsKey("drives")
                 ? ((List<Map<String, Object>>) raw.get("drives")).stream()
                     .map(m -> new SocialConfig.Drive(
@@ -80,6 +91,6 @@ public final class ManorSocialConfigLoader {
                     .toList()
                 : List.<SocialConfig.Relationship>of();
 
-        return new SocialConfig(drives, norms, beliefs, relationships);
+        return new SocialConfig(goals, drives, norms, beliefs, relationships);
     }
 }
