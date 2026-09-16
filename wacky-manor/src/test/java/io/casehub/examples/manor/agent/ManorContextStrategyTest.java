@@ -57,7 +57,7 @@ class ManorContextStrategyTest {
         var config = new SocialConfig(
                 List.of(),
                 List.of(new SocialConfig.Drive("scheming", 0.9, "Schemes")),
-                List.of(), List.of(), List.of(), Map.of());
+                List.of(), List.of(), List.of(), Map.of(), null);
         assertThat(strategy.shouldCompareSocially(config, false)).isTrue();
     }
 
@@ -67,7 +67,7 @@ class ManorContextStrategyTest {
         var config = new SocialConfig(
                 List.of(),
                 List.of(new SocialConfig.Drive("suspicion", 0.6, "Suspicious")),
-                List.of(), List.of(), List.of(), Map.of());
+                List.of(), List.of(), List.of(), Map.of(), null);
         assertThat(strategy.shouldCompareSocially(config, false)).isTrue();
     }
 
@@ -77,7 +77,7 @@ class ManorContextStrategyTest {
         var config = new SocialConfig(
                 List.of(),
                 List.of(new SocialConfig.Drive("scheming", 0.3, "Mild")),
-                List.of(), List.of(), List.of(), Map.of());
+                List.of(), List.of(), List.of(), Map.of(), null);
         assertThat(strategy.shouldCompareSocially(config, false)).isFalse();
     }
 
@@ -93,7 +93,7 @@ class ManorContextStrategyTest {
         var config = new SocialConfig(
                 List.of(),
                 List.of(new SocialConfig.Drive("curiosity", 0.9, "Curious")),
-                List.of(), List.of(), List.of(), Map.of());
+                List.of(), List.of(), List.of(), Map.of(), null);
         assertThat(strategy.shouldCompareSocially(config, false)).isFalse();
     }
 
@@ -109,7 +109,7 @@ class ManorContextStrategyTest {
         var config = new SocialConfig(
                 List.of(),
                 List.of(new SocialConfig.Drive("scheming", 0.1, "Barely")),
-                List.of(), List.of(), List.of(), Map.of());
+                List.of(), List.of(), List.of(), Map.of(), null);
         assertThat(strategy.shouldCompareSocially(config, true)).isTrue();
     }
 

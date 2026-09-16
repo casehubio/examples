@@ -66,6 +66,21 @@ hooded-claw:
       pleasure: -0.4
       arousal: 0.5
       dominance: 0.6
+  familiarity-thresholds:
+    tiers:
+      - name: stranger
+        threshold: 0.0
+      - name: acquaintance
+        threshold: 0.3
+      - name: familiar
+        threshold: 0.5
+      - name: friend
+        threshold: 0.75
+      - name: confidant
+        threshold: 0.9
+    decay-rate: 0.02
+    positive-weight: 0.8
+    negative-weight: 0.7
 
 penelope-pitstop:
   goals:
@@ -130,6 +145,19 @@ penelope-pitstop:
       pleasure: 0.8
       arousal: 0.2
       dominance: 0.5
+  familiarity-thresholds:
+    tiers:
+      - name: stranger
+        threshold: 0.0
+      - name: acquaintance
+        threshold: 0.15
+      - name: familiar
+        threshold: 0.3
+      - name: friend
+        threshold: 0.5
+      - name: confidant
+        threshold: 0.7
+    positive-weight: 1.2
 
 peter-perfect:
   goals:

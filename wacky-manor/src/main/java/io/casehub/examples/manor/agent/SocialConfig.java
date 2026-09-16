@@ -1,5 +1,7 @@
 package io.casehub.examples.manor.agent;
 
+import io.casehub.blocks.agentic.social.RelationshipStageConfig;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -10,7 +12,8 @@ public record SocialConfig(
         List<NormEntry> norms,
         List<InitialBelief> initialBeliefs,
         List<Relationship> relationships,
-        Map<String, List<ReinforcementMapping>> reinforcement
+        Map<String, List<ReinforcementMapping>> reinforcement,
+        RelationshipStageConfig stageConfig
 ) {
     public SocialConfig {
         goals          = goals != null ? List.copyOf(goals) : List.of();
@@ -19,10 +22,11 @@ public record SocialConfig(
         initialBeliefs = initialBeliefs != null ? List.copyOf(initialBeliefs) : List.of();
         relationships  = relationships != null ? List.copyOf(relationships) : List.of();
         reinforcement  = reinforcement != null ? Map.copyOf(reinforcement) : Map.of();
+        if (stageConfig == null) {stageConfig = RelationshipStageConfig.defaults();}
     }
 
     public static SocialConfig empty() {
-        return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of());
+        return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null);
     }
 
     public record GoalConfig(String name, String description, String axis,

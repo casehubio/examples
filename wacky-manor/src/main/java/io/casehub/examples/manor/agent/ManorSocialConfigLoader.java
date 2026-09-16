@@ -106,5 +106,29 @@ public final class ManorSocialConfigLoader {
             }
         }
 
-        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement);}
+        io.casehub.blocks.agentic.social.RelationshipStageConfig stageConfig = null;
+        if (raw.containsKey("familiarity-thresholds")) {
+            var ftRaw = (Map<String, Object>) raw.get("familiarity-thresholds");
+            var defaults = io.casehub.blocks.agentic.social.RelationshipStageConfig.defaults();
+            var tiers = ftRaw.containsKey("tiers")
+                ? ((List<Map<String, Object>>) ftRaw.get("tiers")).stream()
+                    .map(t -> new io.casehub.blocks.agentic.social.StageTier(
+                        (String) t.get("name"),
+                        ((Number) t.get("threshold")).doubleValue()))
+                    .toList()
+                : defaults.tiers();
+            double decayRate = ftRaw.containsKey("decay-rate")
+                ? ((Number) ftRaw.get("decay-rate")).doubleValue()
+                : defaults.decayRate();
+            double positiveWeight = ftRaw.containsKey("positive-weight")
+                ? ((Number) ftRaw.get("positive-weight")).doubleValue()
+                : defaults.positiveWeight();
+            double negativeWeight = ftRaw.containsKey("negative-weight")
+                ? ((Number) ftRaw.get("negative-weight")).doubleValue()
+                : defaults.negativeWeight();
+            stageConfig = new io.casehub.blocks.agentic.social.RelationshipStageConfig(
+                tiers, decayRate, positiveWeight, negativeWeight);
+        }
+
+        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig);}
 }

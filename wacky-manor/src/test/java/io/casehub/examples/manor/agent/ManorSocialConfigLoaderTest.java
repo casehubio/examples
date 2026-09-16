@@ -85,4 +85,33 @@ class ManorSocialConfigLoaderTest {
         }
     }
 
+
+    @Test
+    void parsesCustomFamiliarityThresholds() {
+        var configs    = ManorSocialConfigLoader.load();
+        var hoodedClaw = configs.get("hooded-claw");
+        assertThat(hoodedClaw.stageConfig()).isNotNull();
+        assertThat(hoodedClaw.stageConfig().tiers()).hasSize(5);
+        assertThat(hoodedClaw.stageConfig().tiers().get(1).threshold()).isGreaterThan(0.2);
+        assertThat(hoodedClaw.stageConfig().decayRate()).isEqualTo(0.02);
+        assertThat(hoodedClaw.stageConfig().positiveWeight()).isEqualTo(0.8);
+        assertThat(hoodedClaw.stageConfig().negativeWeight()).isEqualTo(0.7);
+    }
+
+    @Test
+    void defaultThresholdsWhenNotSpecified() {
+        var configs       = ManorSocialConfigLoader.load();
+        var dickDastardly = configs.get("dick-dastardly");
+        assertThat(dickDastardly.stageConfig())
+                .isEqualTo(io.casehub.blocks.agentic.social.RelationshipStageConfig.defaults());
+    }
+
+    @Test
+    void penelopeHasLowerThresholds() {
+        var configs  = ManorSocialConfigLoader.load();
+        var penelope = configs.get("penelope-pitstop");
+        assertThat(penelope.stageConfig().tiers().get(1).threshold()).isLessThan(0.2);
+        assertThat(penelope.stageConfig().positiveWeight()).isEqualTo(1.2);
+    }
+
 }
