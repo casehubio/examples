@@ -84,6 +84,17 @@
     </dependency>
     <dependency>
       <groupId>io.casehub</groupId>
+      <artifactId>casehub-neocortex-mindmap-api</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-neocortex-mindmap-inmem</artifactId>
+      <version>${casehub.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
       <artifactId>casehub-neocortex-memory</artifactId>
       <version>${casehub.version}</version>
       <scope>runtime</scope>
