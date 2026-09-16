@@ -111,13 +111,6 @@ public final class CharacterCognition {
             sections.add(ObservationSection.items("Your Drives", null, items));
         }
 
-        if (!constraints.isEmpty()) {
-            var items = constraints.stream()
-                                   .map(AgentConstraint::description)
-                                   .toList();
-            sections.add(ObservationSection.items("Your Principles", null, items));
-        }
-
         if (!socialConfig.initialBeliefs().isEmpty()) {
             var items = socialConfig.initialBeliefs().stream()
                                     .map(SocialConfig.InitialBelief::value)

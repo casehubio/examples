@@ -128,9 +128,15 @@ public class ScenarioOrchestrator {
         var mmStore = mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null;
         var seeder = mmStore != null ? new ManorCognitiveSeeder(mmStore) : null;
         var contextStrategy = new ManorContextStrategy();
+        var goalOrchestrator = new io.casehub.blocks.agentic.social.goal.GoalProposalOrchestrator(
+                null, java.util.List.of(), null, java.util.Optional.empty(),
+                null, null, null,
+                io.casehub.blocks.agentic.social.goal.GoalProposalConfig.defaults(),
+                io.casehub.blocks.agentic.social.goal.GoalEscalationConfig.defaults(),
+                java.time.Clock.systemUTC());
         var cognitionCore = new io.casehub.blocks.agentic.social.CognitionCore(
-                null, null, null, null, null, null, null, null, agentProvider,
-                io.casehub.blocks.agentic.social.CognitionConfig.none());
+                null, null, null, null, null, null, goalOrchestrator, null, agentProvider,
+                io.casehub.blocks.agentic.social.CognitionConfig.none().with("goals", true));
 
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
 
@@ -162,6 +168,9 @@ public class ScenarioOrchestrator {
             var cogDefaults = ManorCognitiveSetup.deriveDefaults(desc);
             var socialCfg = socialConfigs.getOrDefault(entry.getKey(), SocialConfig.empty());
             var seedResult = seeder != null ? seeder.seed(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID) : null;
+            if (seeder != null) {
+                seeder.seedGoals(entry.getKey(), socialCfg, goalOrchestrator, ManorConstants.TENANCY_ID);
+            }
             cognitions.put(entry.getKey(), new CharacterCognition(
                     entry.getKey(), experienceService, cogDefaults, socialCfg, desc.constraints(),
                     cogProfile, contextStrategy, cognitionCore, seedResult, ManorConstants.TENANCY_ID,
