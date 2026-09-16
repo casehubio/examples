@@ -24,17 +24,19 @@ public final class CharacterCognition {
     private final io.casehub.blocks.agentic.social.CognitionCore        cognitionCore;
     private final ManorCognitiveSeeder.SeedResult                       seedResult;
     private final String                                                tenantId;
+    private final io.casehub.neocortex.mindmap.MindMapStore             mindMapStore;
+    private final io.casehub.blocks.trust.TrustEvolutionConfig          trustEvolutionConfig;
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService) {
         this(agentId, experienceService, null, SocialConfig.empty(), List.of(),
-             null, new ManorContextStrategy(), null, null, null);
+             null, new ManorContextStrategy(), null, null, null, null, null);
     }
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService,
                               CognitiveDefaults cognitiveDefaults, SocialConfig socialConfig,
                               List<AgentConstraint> constraints) {
         this(agentId, experienceService, cognitiveDefaults, socialConfig, constraints,
-             null, new ManorContextStrategy(), null, null, null);
+             null, new ManorContextStrategy(), null, null, null, null, null);
     }
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService,
@@ -44,17 +46,21 @@ public final class CharacterCognition {
                               ManorContextStrategy contextStrategy,
                               io.casehub.blocks.agentic.social.CognitionCore cognitionCore,
                               ManorCognitiveSeeder.SeedResult seedResult,
-                              String tenantId) {
-        this.agentId           = agentId;
-        this.experienceService = experienceService;
-        this.cognitiveDefaults = cognitiveDefaults;
-        this.socialConfig      = socialConfig != null ? socialConfig : SocialConfig.empty();
-        this.constraints       = constraints != null ? List.copyOf(constraints) : List.of();
-        this.cognitiveProfile  = cognitiveProfile;
-        this.contextStrategy   = contextStrategy != null ? contextStrategy : new ManorContextStrategy();
-        this.cognitionCore     = cognitionCore;
-        this.seedResult        = seedResult;
-        this.tenantId          = tenantId;
+                              String tenantId,
+                              io.casehub.neocortex.mindmap.MindMapStore mindMapStore,
+                              io.casehub.blocks.trust.TrustEvolutionConfig trustEvolutionConfig) {
+        this.agentId                = agentId;
+        this.experienceService      = experienceService;
+        this.cognitiveDefaults      = cognitiveDefaults;
+        this.socialConfig           = socialConfig != null ? socialConfig : SocialConfig.empty();
+        this.constraints            = constraints != null ? List.copyOf(constraints) : List.of();
+        this.cognitiveProfile       = cognitiveProfile;
+        this.contextStrategy        = contextStrategy != null ? contextStrategy : new ManorContextStrategy();
+        this.cognitionCore          = cognitionCore;
+        this.seedResult             = seedResult;
+        this.tenantId               = tenantId;
+        this.mindMapStore           = mindMapStore;
+        this.trustEvolutionConfig   = trustEvolutionConfig;
     }
 
     public String agentId() {return agentId;}
@@ -140,7 +146,70 @@ public final class CharacterCognition {
 
         sections.addAll(renderSocialAwareness(nearbyAgentIds, agentNames));
 
+        var trustSections = renderTrustSections();
+        if (!trustSections.isEmpty()) {
+            sections.addAll(trustSections);
+        }
+
         return sections;
+    }
+
+    private java.util.List<ObservationSection> renderTrustSections() {
+        if (mindMapStore == null || trustEvolutionConfig == null || tenantId == null) return List.of();
+
+        var summaries = new java.util.ArrayList<io.casehub.blocks.summarisation.observation.affordance.TrustSummary>();
+
+        var subgraphs = mindMapStore.listSubgraphs(tenantId);
+        var peopleSubgraph = subgraphs.stream()
+            .filter(sg -> "people".equals(sg.name()))
+            .findFirst();
+        if (peopleSubgraph.isEmpty()) return List.of();
+
+        var nodes = mindMapStore.nodesIn(peopleSubgraph.get().id(), tenantId);
+        var sharedNodes = new java.util.HashMap<String, io.casehub.neocortex.mindmap.MindMapNode>();
+        for (var node : nodes) {
+            if (!node.traits().contains("overlay")) {
+                node.property("agentId").ifPresent(aid -> sharedNodes.put(node.id(), node));
+            }
+        }
+
+        for (var overlay : nodes) {
+            if (!overlay.traits().contains("overlay")) continue;
+            if (!agentId.equals(overlay.property(io.casehub.neocortex.mindmap.OverlayRef.AGENT_ID).orElse(null))) continue;
+
+            var trustScoreStr = overlay.property(io.casehub.blocks.trust.OverlayTrustPropertyModel.TRUST_SCORE);
+            var alphaStr = overlay.property(io.casehub.blocks.trust.OverlayTrustPropertyModel.TRUST_ALPHA);
+            var betaStr = overlay.property(io.casehub.blocks.trust.OverlayTrustPropertyModel.TRUST_BETA);
+            if (trustScoreStr.isEmpty()) continue;
+
+            double score = Double.parseDouble(trustScoreStr.get());
+            double alpha = alphaStr.map(Double::parseDouble).orElse(1.0);
+            double beta = betaStr.map(Double::parseDouble).orElse(1.0);
+
+            if (alpha + beta <= 2.0) continue;
+
+            String targetNodeId = io.casehub.neocortex.mindmap.OverlayRef.sharedNodeId(overlay).orElse(null);
+            if (targetNodeId == null) continue;
+
+            var sharedNode = sharedNodes.get(targetNodeId);
+            if (sharedNode == null) continue;
+            String subjectName = sharedNode.name();
+
+            var levels = trustEvolutionConfig.levels();
+            io.casehub.blocks.summarisation.observation.affordance.TrustLevel level;
+            if (score >= levels.high()) level = io.casehub.blocks.summarisation.observation.affordance.TrustLevel.HIGH;
+            else if (score >= levels.moderate()) level = io.casehub.blocks.summarisation.observation.affordance.TrustLevel.MODERATE;
+            else level = io.casehub.blocks.summarisation.observation.affordance.TrustLevel.LOW;
+
+            String reason = (alpha + beta > 10) ? "You feel quite certain about this"
+                          : (alpha + beta < 4) ? "You're still forming an opinion"
+                          : null;
+
+            summaries.add(new io.casehub.blocks.summarisation.observation.affordance.TrustSummary(subjectName, level, reason));
+        }
+
+        if (summaries.isEmpty()) return List.of();
+        return List.of(io.casehub.blocks.summarisation.observation.affordance.CognitiveObservationSections.trustSection(summaries));
     }
 
 
@@ -181,13 +250,4 @@ public final class CharacterCognition {
         return List.of(ObservationSection.items("Social Awareness", null, lines));
     }
 
-    public void recordTrustEvent(String targetId, ActionType action) {
-        if (!ManorTrustEvents.isRelevant(action)) {return;}
-        if (cognitiveDefaults != null && cognitiveDefaults.socialCognition() != null) {
-            io.casehub.neocortex.cognitive.index.SocialCognitionDefaults social = cognitiveDefaults.socialCognition();
-            ManorTrustEvents.weightFor(action, social.trustFormationRate(), social.conflictInterpretation());
-        } else {
-            ManorTrustEvents.weightFor(action);
-        }
-    }
 }

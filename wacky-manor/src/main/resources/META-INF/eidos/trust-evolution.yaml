@@ -1,0 +1,23 @@
+scoring:
+  decay-half-life-days: 30
+  negative-decay-multiplier: 1.5
+consolidation:
+  overlay-property: trust-score
+  significant-change-threshold: 0.15
+levels:
+  high: 0.7
+  moderate: 0.4
+  low: 0.2
+events:
+  - type: STEAL
+    verdict: FLAGGED
+    confidence: 0.9
+    witness-confidence: 0.5
+  - type: GIVE
+    verdict: SOUND
+    confidence: 0.7
+    witness-confidence: 0.3
+  - type: PULL_ASIDE
+    verdict: SOUND
+    confidence: 0.5
+    witness-confidence: 0.2

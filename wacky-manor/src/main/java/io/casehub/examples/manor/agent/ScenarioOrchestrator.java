@@ -68,6 +68,9 @@ public class ScenarioOrchestrator {
     @Inject
     ManorPlanRevisionStrategy  planRevisionStrategy;
 
+    @Inject
+    jakarta.enterprise.event.Event<io.casehub.blocks.trust.TrustRelevantAction> trustEvent;
+
     private volatile AgentProvider gatedProvider;
     private final    java.util.Map<String, String> subgraphIdCache = new java.util.concurrent.ConcurrentHashMap<>();
 
@@ -161,7 +164,9 @@ public class ScenarioOrchestrator {
             var seedResult = seeder != null ? seeder.seed(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID) : null;
             cognitions.put(entry.getKey(), new CharacterCognition(
                     entry.getKey(), experienceService, cogDefaults, socialCfg, desc.constraints(),
-                    cogProfile, contextStrategy, cognitionCore, seedResult, ManorConstants.TENANCY_ID));
+                    cogProfile, contextStrategy, cognitionCore, seedResult, ManorConstants.TENANCY_ID,
+                    mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null,
+                    ManorTrustEvolutionConfigLoader.load()));
         }
 
         var invocationService = new AgentInvocationService(agentProvider, 60, 2, 2000);
@@ -384,7 +389,18 @@ public class ScenarioOrchestrator {
                     }
                     String trustTarget = extractTargetAgent(response);
                     if (trustTarget != null) {
-                        cognitions.get(c.agentId()).recordTrustEvent(trustTarget, response.action().type());
+                        var trustActionType = response.action().type();
+                        boolean trustConcealed = c.capabilityTags().contains("deception")
+                            && (trustActionType == io.casehub.examples.manor.model.ActionType.STEAL
+                                || trustActionType == io.casehub.examples.manor.model.ActionType.USE);
+                        java.util.List<String> witnessIds = world.charactersInRoom(c.currentRoom()).stream()
+                            .map(io.casehub.examples.manor.model.CharacterState::agentId)
+                            .filter(id -> !id.equals(c.agentId()) && !id.equals(trustTarget))
+                            .toList();
+                        java.util.List<String> effectiveWitnesses = trustConcealed ? java.util.List.of() : witnessIds;
+                        trustEvent.fireAsync(new io.casehub.blocks.trust.TrustRelevantAction(
+                            c.agentId(), trustTarget, trustActionType.name(),
+                            result.text(), effectiveWitnesses, ManorConstants.TENANCY_ID));
                     }
                 } else {
                     c.setLastActionResult("You waited and observed.");
