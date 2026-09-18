@@ -62,7 +62,7 @@ class DirectiveMinimalIntegrationTest {
         var config = CognitionConfig.none().with("goals", true);
         var core = new CognitionCore(
                 null, null, null, null, null, null,
-                goalOrchestrator, null, null, config);
+                goalOrchestrator, null, null, null, config);
 
         var socialConfig = ManorSocialConfigLoader.load().get("penelope-pitstop");
         var proposals = ManorCognitiveSeeder.mapGoals(socialConfig.goals());
