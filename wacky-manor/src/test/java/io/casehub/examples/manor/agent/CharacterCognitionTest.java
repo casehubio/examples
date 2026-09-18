@@ -117,4 +117,85 @@ class CharacterCognitionTest {
         assertThat(sections.stream().map(s -> s.header()).toList())
                 .doesNotContain("Social Awareness");
     }
+
+
+    @Test
+    void beliefRenderingFromMindMapStore() {
+        var store      = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var seeder     = new ManorCognitiveSeeder(store);
+        var allConfigs = ManorSocialConfigLoader.load();
+        var agent      = "hooded-claw";
+        var tenant     = "rendering-test";
+
+        seeder.seed(agent, allConfigs.get(agent), tenant);
+
+        var cognition = new CharacterCognition(
+                agent, null, null, allConfigs.get(agent), List.of(),
+                null, new ManorContextStrategy(), null, null,
+                tenant, store, null);
+
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
+                List.of(), Map.of());
+
+        var beliefSection = sections.stream()
+                                    .filter(s -> "Your Beliefs".equals(s.header()))
+                                    .findFirst().orElseThrow();
+
+        assertThat(((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
+                .anyMatch(item -> item.contains("naive"));
+    }
+
+    @Test
+    void revisedBeliefShowsRevisedMarker() {
+        var store      = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var seeder     = new ManorCognitiveSeeder(store);
+        var allConfigs = ManorSocialConfigLoader.load();
+        var agent      = "hooded-claw";
+        var tenant     = "revised-test";
+
+        var seedResult = seeder.seed(agent, allConfigs.get(agent), tenant);
+
+        var revisedNodeId = store.addNode(
+                io.casehub.neocortex.mindmap.NodeInput.of(
+                          "Penelope is more perceptive than she appears", seedResult.subgraphId())
+                                                      .withConfidence(io.casehub.neocortex.cognitive.Confidence.inferred(0.6, java.time.Instant.now()))
+                                                      .withProvenance("belief-revision")
+                                                      .withTraits(java.util.Set.of("Belieflike"))
+                                                      .withProperties(java.util.Map.of("subject", "penelope-awareness"))
+                                                      .withPrincipalId(io.casehub.platform.api.identity.PrincipalId.agent(agent)),
+                tenant);
+
+        var subgraphs = store.listSubgraphs(tenant);
+        var beliefSg = subgraphs.stream()
+                                .filter(sg -> sg.name().equals("beliefs-" + agent))
+                                .findFirst().orElseThrow();
+        var originalId = store.nodesIn(beliefSg.id(), tenant).stream()
+                              .filter(n -> n.traits().contains("Belieflike"))
+                              .filter(n -> "penelope-awareness".equals(n.property("subject").orElse(null)))
+                              .filter(n -> "manor-seed".equals(n.provenance()))
+                              .map(io.casehub.neocortex.mindmap.MindMapNode::id)
+                              .findFirst().orElseThrow();
+
+        store.supersede(originalId, revisedNodeId, "Penelope demonstrated perceptiveness", tenant);
+
+        var cognition = new CharacterCognition(
+                agent, null, null, allConfigs.get(agent), List.of(),
+                null, new ManorContextStrategy(), null, null,
+                tenant, store, null);
+
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
+                List.of(), Map.of());
+
+        var beliefSection = sections.stream()
+                                    .filter(s -> "Your Beliefs".equals(s.header()))
+                                    .findFirst().orElseThrow();
+
+        assertThat(((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
+                .anyMatch(item -> item.contains("[REVISED]") && item.contains("penelope-awareness"));
+        assertThat(((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
+                .noneMatch(item -> item.contains("naive"));
+    }
+
 }

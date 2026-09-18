@@ -25,7 +25,7 @@ public final class CharacterCognition {
     private final ManorCognitiveSeeder.SeedResult                       seedResult;
     private final String                                                tenantId;
     private final io.casehub.neocortex.mindmap.MindMapStore             mindMapStore;
-    private final io.casehub.blocks.trust.TrustEvolutionConfig          trustEvolutionConfig;
+    private final io.casehub.engine.trust.TrustEvolutionConfig          trustEvolutionConfig;
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService) {
         this(agentId, experienceService, null, SocialConfig.empty(), List.of(),
@@ -48,7 +48,7 @@ public final class CharacterCognition {
                               ManorCognitiveSeeder.SeedResult seedResult,
                               String tenantId,
                               io.casehub.neocortex.mindmap.MindMapStore mindMapStore,
-                              io.casehub.blocks.trust.TrustEvolutionConfig trustEvolutionConfig) {
+                              io.casehub.engine.trust.TrustEvolutionConfig trustEvolutionConfig) {
         this.agentId                = agentId;
         this.experienceService      = experienceService;
         this.cognitiveDefaults      = cognitiveDefaults;
@@ -103,7 +103,34 @@ public final class CharacterCognition {
             Map<String, String> agentNames) {
         var sections = new ArrayList<ObservationSection>();
 
-        if (!socialConfig.initialBeliefs().isEmpty()) {
+        if (mindMapStore != null && tenantId != null) {
+            var beliefSubgraphName = ManorCognitiveSeeder.subgraphName(agentId);
+            var subgraphs = mindMapStore.listSubgraphs(tenantId);
+            var beliefSg = subgraphs.stream()
+                .filter(sg -> beliefSubgraphName.equals(sg.name()))
+                .findFirst();
+            if (beliefSg.isPresent()) {
+                var nodes = mindMapStore.nodesIn(beliefSg.get().id(), tenantId);
+                var beliefNodes = nodes.stream()
+                    .filter(n -> n.traits().contains("Belieflike"))
+                    .toList();
+                if (!beliefNodes.isEmpty()) {
+                    var revisedKeys = new java.util.HashSet<String>();
+                    var beliefs = new java.util.ArrayList<io.casehub.blocks.agentic.belief.Belief<String>>();
+                    for (var node : beliefNodes) {
+                        var key = node.property("subject").orElse(node.name());
+                        var value = node.name();
+                        int entrenchment = (int) (node.confidence().value() * 10);
+                        beliefs.add(io.casehub.blocks.agentic.belief.Belief.of(key, value, entrenchment));
+                        if ("belief-revision".equals(node.provenance())) {
+                            revisedKeys.add(key);
+                        }
+                    }
+                    sections.add(io.casehub.blocks.summarisation.observation.affordance
+                        .CognitiveObservationSections.beliefsSection(beliefs, revisedKeys));
+                }
+            }
+        } else if (!socialConfig.initialBeliefs().isEmpty()) {
             var items = socialConfig.initialBeliefs().stream()
                                     .map(SocialConfig.InitialBelief::value)
                                     .toList();
@@ -151,9 +178,9 @@ public final class CharacterCognition {
             if (!overlay.traits().contains("overlay")) continue;
             if (!agentId.equals(overlay.property(io.casehub.neocortex.mindmap.OverlayRef.AGENT_ID).orElse(null))) continue;
 
-            var trustScoreStr = overlay.property(io.casehub.blocks.trust.OverlayTrustPropertyModel.TRUST_SCORE);
-            var alphaStr = overlay.property(io.casehub.blocks.trust.OverlayTrustPropertyModel.TRUST_ALPHA);
-            var betaStr = overlay.property(io.casehub.blocks.trust.OverlayTrustPropertyModel.TRUST_BETA);
+            var trustScoreStr = overlay.property(io.casehub.engine.trust.OverlayTrustPropertyModel.TRUST_SCORE);
+            var alphaStr = overlay.property(io.casehub.engine.trust.OverlayTrustPropertyModel.TRUST_ALPHA);
+            var betaStr = overlay.property(io.casehub.engine.trust.OverlayTrustPropertyModel.TRUST_BETA);
             if (trustScoreStr.isEmpty()) continue;
 
             double score = Double.parseDouble(trustScoreStr.get());
