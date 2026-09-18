@@ -1,6 +1,7 @@
 package io.casehub.examples.manor.agent;
 
 import io.casehub.blocks.agentic.social.drive.DriveAxis;
+import io.casehub.blocks.agentic.social.need.NeedTier;
 import io.casehub.blocks.agentic.social.goal.DriveGoalProposal;
 import io.casehub.blocks.agentic.social.goal.GoalProposalOrchestrator;
 import io.casehub.neocortex.cognitive.Confidence;
@@ -123,6 +124,25 @@ public final class ManorCognitiveSeeder {
                                      "description", drive.description())),
                     tenantId);
             timestamps.put("drive:" + drive.type(), now);
+        }
+
+        for (NeedTier tier : NeedTier.values()) {
+            mindMapStore.addNode(
+                    NodeInput.of("need-" + tier.name().toLowerCase(), subgraphId)
+                             .withConfidence(Confidence.stated(0.8, now))
+                             .withProvenance("need-satisfaction")
+                             .withProperties(Map.of(
+                                     "cognitiveKind", "need-satisfaction",
+                                     "agent-id", agentId,
+                                     "tier", tier.name(),
+                                     "satisfaction", "0.5",
+                                     "resting-level", String.valueOf(switch (tier) {
+                                         case SAFETY -> 0.6;
+                                         case TASKS -> 0.3;
+                                         default -> 0.4;
+                                     }))),
+                    tenantId);
+            timestamps.put("need:" + tier.name(), now);
         }
 
         return new SeedResult(subgraphId, Map.copyOf(timestamps));}

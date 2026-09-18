@@ -69,7 +69,7 @@ public class ScenarioOrchestrator {
     ManorPlanRevisionStrategy  planRevisionStrategy;
 
     @Inject
-    jakarta.enterprise.event.Event<io.casehub.blocks.trust.TrustRelevantAction> trustEvent;
+    jakarta.enterprise.event.Event<io.casehub.engine.trust.TrustRelevantAction> trustEvent;
 
     private volatile AgentProvider gatedProvider;
     private final    java.util.Map<String, String> subgraphIdCache = new java.util.concurrent.ConcurrentHashMap<>();
@@ -136,7 +136,7 @@ public class ScenarioOrchestrator {
                 java.time.Clock.systemUTC());
         var cognitionCore = new io.casehub.blocks.agentic.social.CognitionCore(
                 null, null, null, null, null, null, goalOrchestrator, null, null, agentProvider,
-                io.casehub.blocks.agentic.social.CognitionConfig.none().with("goals", true), null);
+                io.casehub.blocks.agentic.social.CognitionConfig.none().with("goals", true), null, null);
 
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
 
@@ -407,7 +407,7 @@ public class ScenarioOrchestrator {
                             .filter(id -> !id.equals(c.agentId()) && !id.equals(trustTarget))
                             .toList();
                         java.util.List<String> effectiveWitnesses = trustConcealed ? java.util.List.of() : witnessIds;
-                        trustEvent.fireAsync(new io.casehub.blocks.trust.TrustRelevantAction(
+                        trustEvent.fireAsync(new io.casehub.engine.trust.TrustRelevantAction(
                             c.agentId(), trustTarget, trustActionType.name(),
                             result.text(), effectiveWitnesses, ManorConstants.TENANCY_ID));
                     }

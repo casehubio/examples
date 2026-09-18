@@ -255,4 +255,50 @@ class ManorCognitiveSeederTest {
         assertThat(result.overlayCount()).isEqualTo(3);
         assertThat(result.seededAgentIds()).containsExactlyInAnyOrder("a", "b", "c");
     }
+
+    @Test
+    void seedCreatesNeedSatisfactionNodes() {
+        var store = new StubMindMapStore();
+        var seeder = new ManorCognitiveSeeder(store);
+
+        var config = new SocialConfig(
+            List.of(),
+            List.of(new SocialConfig.Drive("scheming", 0.9, "Test")),
+            List.of(), List.of(), List.of(), Map.of(), null);
+
+        var result = seeder.seed("test-agent", config, "tenant");
+
+        var needNodes = store.addedNodes.stream()
+            .filter(n -> "need-satisfaction".equals(n.properties().get("cognitiveKind")))
+            .toList();
+
+        assertThat(needNodes).hasSize(5);
+
+        var safetyNode = needNodes.stream()
+            .filter(n -> "SAFETY".equals(n.properties().get("tier")))
+            .findFirst().orElseThrow();
+        assertThat(safetyNode.properties().get("satisfaction")).isEqualTo("0.5");
+        assertThat(safetyNode.properties().get("agent-id")).isEqualTo("test-agent");
+        assertThat(safetyNode.properties().get("resting-level")).isEqualTo("0.6");
+
+        var tasksNode = needNodes.stream()
+            .filter(n -> "TASKS".equals(n.properties().get("tier")))
+            .findFirst().orElseThrow();
+        assertThat(tasksNode.properties().get("resting-level")).isEqualTo("0.3");
+    }
+
+    @Test
+    void seedWithNoBeliefsAndNoDrivesSkipsNeedNodes() {
+        var store = new StubMindMapStore();
+        var seeder = new ManorCognitiveSeeder(store);
+
+        var config = SocialConfig.empty();
+        seeder.seed("empty-agent", config, "tenant");
+
+        var needNodes = store.addedNodes.stream()
+            .filter(n -> "need-satisfaction".equals(n.properties().get("cognitiveKind")))
+            .toList();
+
+        assertThat(needNodes).isEmpty();
+    }
 }
