@@ -3,6 +3,7 @@ package io.casehub.examples.manor.engine;
 import io.casehub.blocks.memory.ArousalScorer;
 import io.casehub.neocortex.memory.Memory;
 import io.casehub.neocortex.memory.experience.ContentScorer;
+import io.casehub.neocortex.memory.experience.GraduationContext;
 import io.casehub.neocortex.memory.experience.GraduationScorer;
 import io.casehub.neocortex.memory.experience.ScoreableContent;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -21,7 +22,7 @@ public class ManorGraduationScorer implements GraduationScorer {
     }
 
     @Override
-    public double score(Memory memory) {
+    public double score(Memory memory, GraduationContext context) {
         ScoreableContent content = ScoreableContent.fromMemory(memory);
         double contentScore = compositeScorer.score(content);
         double confidence = memory.confidence() != null ? memory.confidence().value() : 0.5;

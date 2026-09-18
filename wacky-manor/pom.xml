@@ -165,6 +165,13 @@
       <version>${casehub.version}</version>
     </dependency>
 
+    <!-- CaseHub Engine Runtime — TrustEvolutionConfig (moved from blocks-trust) -->
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-engine</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+
     <!-- Quarkus core -->
     <dependency>
       <groupId>io.quarkus</groupId>

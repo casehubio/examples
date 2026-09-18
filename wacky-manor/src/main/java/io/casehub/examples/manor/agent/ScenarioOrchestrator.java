@@ -135,8 +135,8 @@ public class ScenarioOrchestrator {
                 io.casehub.blocks.agentic.social.goal.GoalEscalationConfig.defaults(),
                 java.time.Clock.systemUTC());
         var cognitionCore = new io.casehub.blocks.agentic.social.CognitionCore(
-                null, null, null, null, null, null, goalOrchestrator, null, agentProvider,
-                io.casehub.blocks.agentic.social.CognitionConfig.none().with("goals", true));
+                null, null, null, null, null, null, goalOrchestrator, null, null, agentProvider,
+                io.casehub.blocks.agentic.social.CognitionConfig.none().with("goals", true), null);
 
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
 

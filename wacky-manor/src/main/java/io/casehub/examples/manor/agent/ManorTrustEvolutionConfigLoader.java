@@ -2,11 +2,11 @@ package io.casehub.examples.manor.agent;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import io.casehub.blocks.trust.TrustEvolutionConfig;
-import io.casehub.blocks.trust.TrustEvolutionConfig.ConsolidationConfig;
-import io.casehub.blocks.trust.TrustEvolutionConfig.LevelConfig;
-import io.casehub.blocks.trust.TrustEvolutionConfig.ScoringConfig;
-import io.casehub.blocks.trust.TrustEvolutionConfig.TrustEventMapping;
+import io.casehub.engine.trust.TrustEvolutionConfig;
+import io.casehub.engine.trust.TrustEvolutionConfig.ConsolidationConfig;
+import io.casehub.engine.trust.TrustEvolutionConfig.LevelConfig;
+import io.casehub.engine.trust.TrustEvolutionConfig.ScoringConfig;
+import io.casehub.engine.trust.TrustEvolutionConfig.TrustEventMapping;
 import io.casehub.ledger.api.model.AttestationVerdict;
 
 import java.io.IOException;
