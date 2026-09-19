@@ -10,10 +10,12 @@ import io.casehub.eidos.api.AgentGoal;
 import io.casehub.eidos.api.GoalOutcomeCounts;
 import io.casehub.platform.agent.AgentEvent;
 import io.casehub.platform.agent.AgentProvider;
+import io.casehub.neocortex.mindmap.MindMapStore;
 import io.casehub.platform.agent.AgentSessionConfig;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.jboss.logging.Logger;
+import org.jspecify.annotations.Nullable;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -29,24 +31,33 @@ public class ManorGoalRevisionStrategy implements GoalRevisionStrategy {
 
     private static final String SYSTEM_PROMPT = """
         You are a goal effectiveness analyst for an autonomous agent. Given the \
-        agent's goals and their performance metrics, evaluate each goal and \
-        recommend an action:
-        - REVISE: refine the goal description to better capture what the agent \
-          should accomplish (provide revisedDescription)
-        - ABANDON: drop the goal — it is unachievable or no longer relevant
+        agent's goals, their performance metrics, and their current need \
+        satisfaction levels, evaluate each goal and recommend an action:
+        - REVISE: refine the goal description (provide revisedDescription)
+        - ABANDON: drop the goal — unachievable or no longer relevant
         - COMPLETE: the goal has been achieved
-        Only act on goals with clear signals. If a goal is fine as-is, omit it \
-        from revisions.
+        - REPRIORITIZE: change goal priority to address unmet needs \
+          (provide newPriority as a number 0.0–1.0, where higher = more urgent)
+        Goals addressing neglected needs (low satisfaction) should be elevated. \
+        Goals addressing well-met needs may be deprioritized. Only act on goals \
+        with clear signals. If a goal is fine as-is, omit it from revisions.
         Return ONLY a JSON object: {"revisions": [{"goalName": "...", \
-        "action": "REVISE"|"ABANDON"|"COMPLETE", \
-        "revisedDescription": "..."|null, "revisionReason": "..."}], \
-        "rationale": "..."}""";
+        "action": "REVISE"|"ABANDON"|"COMPLETE"|"REPRIORITIZE", \
+        "revisedDescription": "..."|null, "newPriority": <number>|null, \
+        "revisionReason": "..."}], "rationale": "..."}""";
 
     private final AgentProvider agentProvider;
+    private final MindMapStore mindMapStore;
+
+    public ManorGoalRevisionStrategy(AgentProvider agentProvider) {
+        this(agentProvider, null);
+    }
 
     @Inject
-    public ManorGoalRevisionStrategy(AgentProvider agentProvider) {
+    public ManorGoalRevisionStrategy(AgentProvider agentProvider,
+                                      @Nullable MindMapStore mindMapStore) {
         this.agentProvider = agentProvider;
+        this.mindMapStore = mindMapStore;
     }
 
     @Override
@@ -82,7 +93,34 @@ public class ManorGoalRevisionStrategy implements GoalRevisionStrategy {
             }
             sb.append(")\n");
         }
+        String satisfaction = readSatisfaction(context.agentId(), context.tenancyId());
+        if (!satisfaction.isEmpty()) {
+            sb.append(satisfaction);
+            sb.append("\nConsider these satisfaction levels when evaluating goals. ");
+            sb.append("Goals addressing neglected needs (low satisfaction) should be elevated.\n");
+        }
         sb.append("\nRespond with JSON only.");
+        return sb.toString();
+    }
+
+    private String readSatisfaction(String agentId, String tenantId) {
+        if (mindMapStore == null) return "";
+        var subgraphs = mindMapStore.listSubgraphs(tenantId);
+        var sb = new StringBuilder();
+        for (var sg : subgraphs) {
+            if (!"cognitive".equals(sg.type())) continue;
+            for (var node : mindMapStore.nodesIn(sg.id(), tenantId)) {
+                if (!"need-satisfaction".equals(node.properties().get("cognitiveKind"))) continue;
+                if (!agentId.equals(node.properties().get("agent-id"))) continue;
+                var tier = node.properties().get("tier");
+                var sat = node.properties().get("satisfaction");
+                if (tier != null && sat != null) {
+                    if (sb.isEmpty()) sb.append("\nNeed satisfaction levels:\n  ");
+                    else sb.append(", ");
+                    sb.append(tier).append("=").append(sat);
+                }
+            }
+        }
         return sb.toString();
     }
 
@@ -100,8 +138,12 @@ public class ManorGoalRevisionStrategy implements GoalRevisionStrategy {
                     String desc = node.has("revisedDescription") && !node.get("revisedDescription").isNull()
                             ? node.get("revisedDescription").asText() : null;
                     String reason = node.get("revisionReason").asText();
+                    Double priority = null;
+                    if (node.has("newPriority") && !node.get("newPriority").isNull()) {
+                        priority = node.get("newPriority").asDouble();
+                    }
                     revisions.add(new GoalRevisionProposal.RevisedGoal(
-                            goalName, action, desc, reason));
+                            goalName, action, desc, reason, priority));
                 }
             }
             return new GoalRevisionProposal(revisions, rationale);

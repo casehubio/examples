@@ -7,6 +7,10 @@ import io.casehub.eidos.api.AgentGoal;
 import io.casehub.eidos.api.GoalOutcomeCounts;
 import io.casehub.eidos.api.GoalPriority;
 import io.casehub.eidos.api.Visibility;
+import io.casehub.neocortex.cognitive.Confidence;
+import io.casehub.neocortex.mindmap.NodeInput;
+import io.casehub.neocortex.mindmap.SubgraphInput;
+import io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore;
 import io.casehub.platform.agent.AgentEvent;
 import io.casehub.platform.agent.AgentProvider;
 import io.casehub.platform.agent.AgentSession;
@@ -15,6 +19,7 @@ import io.casehub.platform.agent.AgentSessionInit;
 import io.smallrye.mutiny.Multi;
 import org.junit.jupiter.api.Test;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -103,6 +108,90 @@ class ManorGoalRevisionStrategyTest {
     void id_returns_manor_llm() {
         var strategy = new ManorGoalRevisionStrategy(mockProvider("{}"));
         assertThat(strategy.id()).isEqualTo("manor-llm");
+    }
+
+    @Test
+    void revise_parses_reprioritize_action() {
+        String response = """
+            {"revisions": [{"goalName": "protect-tea", "action": "REPRIORITIZE",
+              "revisedDescription": null, "newPriority": 0.9,
+              "revisionReason": "Tasks neglected"}],
+             "rationale": "Needs-based reprioritization"}
+            """;
+        var strategy = new ManorGoalRevisionStrategy(mockProvider(response));
+        var context = buildContext();
+        GoalRevisionProposal proposal = strategy.revise(context);
+        assertThat(proposal.revisions()).hasSize(1);
+        assertThat(proposal.revisions().get(0).action()).isEqualTo(GoalRevisionAction.REPRIORITIZE);
+        assertThat(proposal.revisions().get(0).newPriority()).isEqualTo(0.9);
+    }
+
+    @Test
+    void revise_prompt_includes_satisfaction_levels() {
+        String[] capturedPrompt = {null};
+        AgentProvider capturingProvider = new AgentProvider() {
+            @Override
+            public Multi<AgentEvent> invoke(AgentSessionConfig config) {
+                capturedPrompt[0] = config.userPrompt();
+                return Multi.createFrom().item(new AgentEvent.TextDelta(
+                    "{\"revisions\": [], \"rationale\": \"\"}"));
+            }
+            @Override
+            public AgentSession openSession(AgentSessionInit init) {
+                throw new UnsupportedOperationException();
+            }
+        };
+
+        var store = new InMemoryMindMapStore();
+        var subgraphId = store.createSubgraph(
+            new SubgraphInput("beliefs-hc", "cognitive", null), "wacky-manor");
+        store.addNode(NodeInput.of("need-safety", subgraphId)
+            .withConfidence(Confidence.stated(0.8, Instant.now()))
+            .withProvenance("need-satisfaction")
+            .withProperties(Map.of(
+                "cognitiveKind", "need-satisfaction",
+                "agent-id", "hc",
+                "tier", "SAFETY",
+                "satisfaction", "0.62")),
+            "wacky-manor");
+        store.addNode(NodeInput.of("need-tasks", subgraphId)
+            .withConfidence(Confidence.stated(0.8, Instant.now()))
+            .withProvenance("need-satisfaction")
+            .withProperties(Map.of(
+                "cognitiveKind", "need-satisfaction",
+                "agent-id", "hc",
+                "tier", "TASKS",
+                "satisfaction", "0.28")),
+            "wacky-manor");
+
+        var strategy = new ManorGoalRevisionStrategy(capturingProvider, store);
+        strategy.revise(buildContext());
+
+        assertThat(capturedPrompt[0]).contains("SAFETY=0.62");
+        assertThat(capturedPrompt[0]).contains("TASKS=0.28");
+        assertThat(capturedPrompt[0]).contains("Need satisfaction");
+    }
+
+    @Test
+    void revise_prompt_omits_satisfaction_when_no_store() {
+        String[] capturedPrompt = {null};
+        AgentProvider capturingProvider = new AgentProvider() {
+            @Override
+            public Multi<AgentEvent> invoke(AgentSessionConfig config) {
+                capturedPrompt[0] = config.userPrompt();
+                return Multi.createFrom().item(new AgentEvent.TextDelta(
+                    "{\"revisions\": [], \"rationale\": \"\"}"));
+            }
+            @Override
+            public AgentSession openSession(AgentSessionInit init) {
+                throw new UnsupportedOperationException();
+            }
+        };
+
+        var strategy = new ManorGoalRevisionStrategy(capturingProvider, null);
+        strategy.revise(buildContext());
+
+        assertThat(capturedPrompt[0]).doesNotContain("Need satisfaction");
     }
 
     private GoalRevisionContext buildContext() {
