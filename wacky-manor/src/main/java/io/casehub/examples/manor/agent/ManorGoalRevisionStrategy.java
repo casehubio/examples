@@ -117,7 +117,7 @@ public class ManorGoalRevisionStrategy implements GoalRevisionStrategy {
                 if (tier != null && sat != null) {
                     if (sb.isEmpty()) sb.append("\nNeed satisfaction levels:\n  ");
                     else sb.append(", ");
-                    sb.append(tier).append("=").append(sat);
+                    sb.append(tier).append("=").append(String.format("%.2f", Double.parseDouble(sat)));
                 }
             }
         }
