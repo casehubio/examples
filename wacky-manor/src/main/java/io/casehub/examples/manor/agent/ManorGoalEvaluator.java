@@ -143,6 +143,20 @@ public class ManorGoalEvaluator {
                                     }
                                 }
                             }
+                            case REPRIORITIZE -> {
+                                if (revision.newPriority() != null) {
+                                    GoalPriority newPriority = revision.newPriority() >= 0.5
+                                            ? GoalPriority.PRIMARY : GoalPriority.SECONDARY;
+                                    for (int i = 0; i < finalGoals.size(); i++) {
+                                        if (finalGoals.get(i).name().equals(revision.goalName())) {
+                                            finalGoals.set(i, finalGoals.get(i).toBuilder()
+                                                    .priority(newPriority).build());
+                                            changed = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
