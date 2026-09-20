@@ -240,6 +240,27 @@ public final class CharacterCognition {
     }
 
 
+    private java.util.List<SocialConfig.Drive> resolveAdaptedDrives() {
+        if (mindMapStore == null || tenantId == null) {
+            return socialConfig.drives();
+        }
+        var subgraphs = mindMapStore.listSubgraphs(tenantId);
+        var driveNodes = subgraphs.stream()
+                                  .filter(s -> "cognitive".equals(s.type()))
+                                  .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
+                                  .filter(n -> "drive-intensity".equals(n.properties().get("cognitiveKind")))
+                                  .filter(n -> agentId.equals(n.properties().get("agent-id")))
+                                  .toList();
+        if (driveNodes.isEmpty()) {
+            return socialConfig.drives();
+        }
+        return driveNodes.stream()
+                         .map(n -> new SocialConfig.Drive(
+                                 n.properties().get("drive-type"),
+                                 Double.parseDouble(n.properties().getOrDefault("intensity", "0")),
+                                 n.properties().getOrDefault("description", "")))
+                         .toList();
+    }
 
     List<ObservationSection> renderSocialAwareness(
             java.util.Collection<String> nearbyAgentIds,
@@ -247,7 +268,7 @@ public final class CharacterCognition {
         if (cognitiveProfile == null || tenantId == null) {
             return List.of();
         }
-        if (!contextStrategy.shouldCompareSocially(socialConfig, false)) {
+        if (!contextStrategy.shouldCompareSocially(resolveAdaptedDrives(), false)) {
             return List.of();
         }
 

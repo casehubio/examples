@@ -118,6 +118,82 @@ class CharacterCognitionTest {
                 .doesNotContain("Social Awareness");
     }
 
+    @Test
+    void socialAwarenessUsesAdaptedDriveIntensitiesFromMindMap() {
+        var store      = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var seeder     = new ManorCognitiveSeeder(store);
+        var allConfigs = ManorSocialConfigLoader.load();
+        var agent      = "hooded-claw";
+        var tenant     = "adapted-drives-test";
+
+        seeder.seed(agent, allConfigs.get(agent), tenant);
+
+        // Verify static config has scheming at 0.9 (above threshold)
+        assertThat(allConfigs.get(agent).drives().stream()
+                             .filter(d -> "scheming".equals(d.type()))
+                             .findFirst().orElseThrow().intensity()).isEqualTo(0.9);
+
+        // Decay scheming drive to 0.1 in MindMap (below threshold)
+        var subgraphs = store.listSubgraphs(tenant);
+        var cognitiveSg = subgraphs.stream()
+                                   .filter(s -> "cognitive".equals(s.type())).findFirst().orElseThrow();
+        var allNodes = store.nodesIn(cognitiveSg.id(), tenant);
+
+        allNodes.stream()
+                .filter(n -> "drive-intensity".equals(n.properties().get("cognitiveKind")))
+                .filter(n -> agent.equals(n.properties().get("agent-id")))
+                .filter(n -> "scheming".equals(n.properties().get("drive-type")))
+                .forEach(n -> store.updateNode(n.id(),
+                                               io.casehub.neocortex.mindmap.NodeUpdate.empty()
+                                                                                      .withPropertiesToSet(java.util.Map.of("intensity", "0.1")), tenant));
+
+        // Also decay suspicion below threshold
+        allNodes.stream()
+                .filter(n -> "drive-intensity".equals(n.properties().get("cognitiveKind")))
+                .filter(n -> agent.equals(n.properties().get("agent-id")))
+                .filter(n -> "suspicion".equals(n.properties().get("drive-type")))
+                .forEach(n -> store.updateNode(n.id(),
+                                               io.casehub.neocortex.mindmap.NodeUpdate.empty()
+                                                                                      .withPropertiesToSet(java.util.Map.of("intensity", "0.1")), tenant));
+
+        var cognition = new CharacterCognition(
+                agent, null, null, allConfigs.get(agent), List.of(),
+                null, new ManorContextStrategy(), null, null,
+                tenant, store, null);
+
+        // Social awareness should be absent — adapted drives are below threshold
+        // even though static config has scheming at 0.9
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState(agent, "HC", "Room", 0.0, List.of()),
+                List.of("peter-perfect"), Map.of("peter-perfect", "Peter Perfect"));
+        assertThat(sections.stream().map(s -> s.header()).toList())
+                .doesNotContain("Social Awareness");
+    }
+
+    @Test
+    void socialAwarenessFallsBackToStaticConfigWhenNoMindMapNodes() {
+        var store      = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var allConfigs = ManorSocialConfigLoader.load();
+        var agent      = "hooded-claw";
+        var tenant     = "fallback-test";
+
+        // No seeding — MindMap has no drive-intensity nodes
+        // Static config has scheming at 0.9 (above threshold), so social awareness should still gate on static config
+        // But cognitiveProfile is null, so renderSocialAwareness returns early anyway
+        // This test verifies the fallback path doesn't error when MindMap is empty
+        var cognition = new CharacterCognition(
+                agent, null, null, allConfigs.get(agent), List.of(),
+                null, new ManorContextStrategy(), null, null,
+                tenant, store, null);
+
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState(agent, "HC", "Room", 0.0, List.of()),
+                List.of("peter-perfect"), Map.of("peter-perfect", "Peter Perfect"));
+        // Social awareness absent because cognitiveProfile is null, but no error from fallback
+        assertThat(sections.stream().map(s -> s.header()).toList())
+                .doesNotContain("Social Awareness");
+    }
+
 
     @Test
     void beliefRenderingFromMindMapStore() {

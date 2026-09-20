@@ -58,7 +58,7 @@ class ManorContextStrategyTest {
                 List.of(),
                 List.of(new SocialConfig.Drive("scheming", 0.9, "Schemes")),
                 List.of(), List.of(), List.of(), Map.of(), null);
-        assertThat(strategy.shouldCompareSocially(config, false)).isTrue();
+        assertThat(strategy.shouldCompareSocially(config.drives(), false)).isTrue();
     }
 
     @Test
@@ -68,7 +68,7 @@ class ManorContextStrategyTest {
                 List.of(),
                 List.of(new SocialConfig.Drive("suspicion", 0.6, "Suspicious")),
                 List.of(), List.of(), List.of(), Map.of(), null);
-        assertThat(strategy.shouldCompareSocially(config, false)).isTrue();
+        assertThat(strategy.shouldCompareSocially(config.drives(), false)).isTrue();
     }
 
     @Test
@@ -78,13 +78,13 @@ class ManorContextStrategyTest {
                 List.of(),
                 List.of(new SocialConfig.Drive("scheming", 0.3, "Mild")),
                 List.of(), List.of(), List.of(), Map.of(), null);
-        assertThat(strategy.shouldCompareSocially(config, false)).isFalse();
+        assertThat(strategy.shouldCompareSocially(config.drives(), false)).isFalse();
     }
 
     @Test
     void shouldCompareSocially_noDrives() {
         var strategy = new ManorContextStrategy();
-        assertThat(strategy.shouldCompareSocially(SocialConfig.empty(), false)).isFalse();
+        assertThat(strategy.shouldCompareSocially(SocialConfig.empty().drives(), false)).isFalse();
     }
 
     @Test
@@ -94,13 +94,13 @@ class ManorContextStrategyTest {
                 List.of(),
                 List.of(new SocialConfig.Drive("curiosity", 0.9, "Curious")),
                 List.of(), List.of(), List.of(), Map.of(), null);
-        assertThat(strategy.shouldCompareSocially(config, false)).isFalse();
+        assertThat(strategy.shouldCompareSocially(config.drives(), false)).isFalse();
     }
 
     @Test
     void shouldCompareSocially_pullAsideOverridesDriveGate() {
         var strategy = new ManorContextStrategy();
-        assertThat(strategy.shouldCompareSocially(SocialConfig.empty(), true)).isTrue();
+        assertThat(strategy.shouldCompareSocially(SocialConfig.empty().drives(), true)).isTrue();
     }
 
     @Test
@@ -110,7 +110,7 @@ class ManorContextStrategyTest {
                 List.of(),
                 List.of(new SocialConfig.Drive("scheming", 0.1, "Barely")),
                 List.of(), List.of(), List.of(), Map.of(), null);
-        assertThat(strategy.shouldCompareSocially(config, true)).isTrue();
+        assertThat(strategy.shouldCompareSocially(config.drives(), true)).isTrue();
     }
 
     @Test

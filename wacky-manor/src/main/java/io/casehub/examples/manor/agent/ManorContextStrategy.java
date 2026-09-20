@@ -23,9 +23,9 @@ public final class ManorContextStrategy {
     }
 
 
-    public boolean shouldCompareSocially(SocialConfig config, boolean isPullAside) {
+    public boolean shouldCompareSocially(java.util.List<SocialConfig.Drive> drives, boolean isPullAside) {
         if (isPullAside) {return true;}
-        return config.drives().stream()
+        return drives.stream()
                      .anyMatch(d -> SOCIAL_AWARENESS_DRIVES.contains(d.type())
                                     && d.intensity() > SOCIAL_AWARENESS_DRIVE_THRESHOLD);
     }
