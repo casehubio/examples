@@ -198,4 +198,106 @@ class CharacterCognitionTest {
                 .noneMatch(item -> item.contains("naive"));
     }
 
+    @Test
+    void cognitionCoreSectionsIncludedInRendering() {
+        var store      = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var seeder     = new ManorCognitiveSeeder(store);
+        var allConfigs = ManorSocialConfigLoader.load();
+        var agent      = "hooded-claw";
+        var tenant     = "cognition-core-test";
+
+        var seedResult = seeder.seed(agent, allConfigs.get(agent), tenant);
+
+        var cognitionCore = new io.casehub.blocks.agentic.social.CognitionCore(
+                null, null, null, null, null, null, null, null, null, null,
+                io.casehub.blocks.agentic.social.CognitionConfig.none()
+                                                                .with("characterDrives", true)
+                                                                .with("needsPyramid", true),
+                store, new ManorNeedTierMappingProvider());
+
+        var cognition = new CharacterCognition(
+                agent, null, null, allConfigs.get(agent), List.of(),
+                null, new ManorContextStrategy(), cognitionCore, seedResult,
+                tenant, store, null);
+
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
+                List.of(), Map.of());
+
+        var headers = sections.stream().map(s -> s.header()).toList();
+        assertThat(headers).contains("Character Motivations", "Inner Needs");
+
+        var drivesSection = sections.stream()
+                                    .filter(s -> "Character Motivations".equals(s.header()))
+                                    .findFirst().orElseThrow();
+        assertThat(drivesSection).isInstanceOf(io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock.class);
+        var drivesContent = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) drivesSection).content();
+        assertThat(drivesContent).contains("scheming");
+        assertThat(drivesContent).contains("90%");
+        assertThat(drivesContent).contains("self-preservation");
+        assertThat(drivesContent).contains("dominance");
+
+        var needsSection = sections.stream()
+                                   .filter(s -> "Inner Needs".equals(s.header()))
+                                   .findFirst().orElseThrow();
+        var needsContent = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) needsSection).content();
+        assertThat(needsContent).containsIgnoringCase("self-expression");
+        assertThat(needsContent).containsIgnoringCase("safety");
+    }
+
+    @Test
+    void cognitionCoreNoSectionsWhenNoDrives() {
+        var store      = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var seeder     = new ManorCognitiveSeeder(store);
+        var allConfigs = ManorSocialConfigLoader.load();
+        var agent      = "muttley";
+        var tenant     = "no-drives-test";
+
+        var seedResult = seeder.seed(agent, allConfigs.get(agent), tenant);
+
+        var cognitionCore = new io.casehub.blocks.agentic.social.CognitionCore(
+                null, null, null, null, null, null, null, null, null, null,
+                io.casehub.blocks.agentic.social.CognitionConfig.none()
+                                                                .with("characterDrives", true)
+                                                                .with("needsPyramid", true),
+                store, new ManorNeedTierMappingProvider());
+
+        var cognition = new CharacterCognition(
+                agent, null, null, allConfigs.getOrDefault(agent, SocialConfig.empty()), List.of(),
+                null, new ManorContextStrategy(), cognitionCore, seedResult,
+                tenant, store, null);
+
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState(agent, "Muttley", "library", 0.0, List.of()),
+                List.of(), Map.of());
+
+        var headers = sections.stream().map(s -> s.header()).toList();
+        assertThat(headers).doesNotContain("Character Motivations");
+        assertThat(headers).doesNotContain("Inner Needs");
+    }
+
+    @Test
+    void cognitionCoreNullDoesNotBreakRendering() {
+        var store      = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var seeder     = new ManorCognitiveSeeder(store);
+        var allConfigs = ManorSocialConfigLoader.load();
+        var agent      = "hooded-claw";
+        var tenant     = "null-core-test";
+
+        seeder.seed(agent, allConfigs.get(agent), tenant);
+
+        var cognition = new CharacterCognition(
+                agent, null, null, allConfigs.get(agent), List.of(),
+                null, new ManorContextStrategy(), null, null,
+                tenant, store, null);
+
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
+                List.of(), Map.of());
+
+        assertThat(sections).isNotEmpty();
+        assertThat(sections.stream().map(s -> s.header()).toList()).contains("Your Beliefs");
+    }
+
+
 }

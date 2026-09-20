@@ -105,21 +105,21 @@ public final class CharacterCognition {
 
         if (mindMapStore != null && tenantId != null) {
             var beliefSubgraphName = ManorCognitiveSeeder.subgraphName(agentId);
-            var subgraphs = mindMapStore.listSubgraphs(tenantId);
+            var subgraphs          = mindMapStore.listSubgraphs(tenantId);
             var beliefSg = subgraphs.stream()
-                .filter(sg -> beliefSubgraphName.equals(sg.name()))
-                .findFirst();
+                                    .filter(sg -> beliefSubgraphName.equals(sg.name()))
+                                    .findFirst();
             if (beliefSg.isPresent()) {
                 var nodes = mindMapStore.nodesIn(beliefSg.get().id(), tenantId);
                 var beliefNodes = nodes.stream()
-                    .filter(n -> n.traits().contains("Belieflike"))
-                    .toList();
+                                       .filter(n -> n.traits().contains("Belieflike"))
+                                       .toList();
                 if (!beliefNodes.isEmpty()) {
                     var revisedKeys = new java.util.HashSet<String>();
-                    var beliefs = new java.util.ArrayList<io.casehub.blocks.agentic.belief.Belief<String>>();
+                    var beliefs     = new java.util.ArrayList<io.casehub.blocks.agentic.belief.Belief<String>>();
                     for (var node : beliefNodes) {
-                        var key = node.property("subject").orElse(node.name());
-                        var value = node.name();
+                        var key          = node.property("subject").orElse(node.name());
+                        var value        = node.name();
                         int entrenchment = (int) (node.confidence().value() * 10);
                         beliefs.add(io.casehub.blocks.agentic.belief.Belief.of(key, value, entrenchment));
                         if ("belief-revision".equals(node.provenance())) {
@@ -127,7 +127,7 @@ public final class CharacterCognition {
                         }
                     }
                     sections.add(io.casehub.blocks.summarisation.observation.affordance
-                        .CognitiveObservationSections.beliefsSection(beliefs, revisedKeys));
+                                         .CognitiveObservationSections.beliefsSection(beliefs, revisedKeys));
                 }
             }
         } else if (!socialConfig.initialBeliefs().isEmpty()) {
@@ -153,7 +153,33 @@ public final class CharacterCognition {
             sections.addAll(trustSections);
         }
 
-        return sections;}
+        if (cognitionCore != null && tenantId != null) {
+            var ctx = new io.casehub.blocks.speech.PromptContext(agentId, tenantId, null);
+            for (var section : cognitionCore.promptSections()) {
+                var text = section.contribute(ctx);
+                if (text != null && !text.isBlank()) {
+                    sections.add(adaptPromptSection(text));
+                }
+            }
+        }
+
+        return sections;
+    }
+
+    private static ObservationSection adaptPromptSection(String text) {
+        if (text.startsWith("## ")) {
+            int end = text.indexOf('\n');
+            if (end > 0) {
+                return ObservationSection.text(text.substring(3, end).strip(), text.substring(end).strip());
+            }
+        }
+        int nl = text.indexOf('\n');
+        if (nl > 0) {
+            return ObservationSection.text(text.substring(0, nl).strip(), text.substring(nl).strip());
+        }
+        return ObservationSection.text("Cognitive State", text);
+    }
+
 
     private java.util.List<ObservationSection> renderTrustSections() {
         if (mindMapStore == null || trustEvolutionConfig == null || tenantId == null) return List.of();

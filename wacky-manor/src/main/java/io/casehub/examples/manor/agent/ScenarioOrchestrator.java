@@ -136,7 +136,8 @@ public class ScenarioOrchestrator {
                 java.time.Clock.systemUTC());
         var cognitionCore = new io.casehub.blocks.agentic.social.CognitionCore(
                 null, null, null, null, null, null, goalOrchestrator, null, null, agentProvider,
-                io.casehub.blocks.agentic.social.CognitionConfig.none().with("goals", true), null, null);
+                io.casehub.blocks.agentic.social.CognitionConfig.none().with("goals", true).with("characterDrives", true).with("needsPyramid", true),
+                mmStore, new ManorNeedTierMappingProvider());
 
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
 
