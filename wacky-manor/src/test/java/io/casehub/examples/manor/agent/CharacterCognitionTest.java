@@ -342,6 +342,55 @@ class CharacterCognitionTest {
     }
 
     @Test
+    void goalsRenderedInObservationPipeline() {
+        var store      = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var seeder     = new ManorCognitiveSeeder(store);
+        var allConfigs = ManorSocialConfigLoader.load();
+        var agent      = "hooded-claw";
+        var tenant     = "goals-rendering-test";
+
+        var seedResult = seeder.seed(agent, allConfigs.get(agent), tenant);
+
+        var goalOrchestrator = new io.casehub.blocks.agentic.social.goal.GoalProposalOrchestrator(
+                null, java.util.List.of(), null, java.util.Optional.empty(),
+                null, null, null,
+                io.casehub.blocks.agentic.social.goal.GoalProposalConfig.defaults(),
+                io.casehub.blocks.agentic.social.goal.GoalEscalationConfig.defaults(),
+                java.time.Clock.systemUTC());
+        seeder.seedGoals(agent, allConfigs.get(agent), goalOrchestrator, tenant);
+
+        var cognitionCore = new io.casehub.blocks.agentic.social.CognitionCore(
+                null, null, null, null, null, null, goalOrchestrator, null, null, null,
+                io.casehub.blocks.agentic.social.CognitionConfig.none()
+                                                                .with("goals", true)
+                                                                .with("characterDrives", true)
+                                                                .with("needsPyramid", true),
+                store, new ManorNeedTierMappingProvider());
+
+        var cognition = new CharacterCognition(
+                agent, null, null, allConfigs.get(agent), List.of(),
+                null, new ManorContextStrategy(), cognitionCore, seedResult,
+                tenant, store, null);
+
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
+                List.of(), Map.of());
+
+        var headers = sections.stream().map(s -> s.header()).toList();
+        assertThat(headers).contains("Your current goals:");
+
+        var goalsSection = sections.stream()
+                                   .filter(s -> "Your current goals:".equals(s.header()))
+                                   .findFirst().orElseThrow();
+        assertThat(goalsSection).isInstanceOf(io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock.class);
+        var goalsContent = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) goalsSection).content();
+        assertThat(goalsContent).contains("Kill Penelope Pitstop");
+        assertThat(goalsContent).contains("Stay in character");
+        assertThat(goalsContent).contains("competence");
+    }
+
+
+    @Test
     void cognitionCoreNoSectionsWhenNoDrives() {
         var store      = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
         var seeder     = new ManorCognitiveSeeder(store);
