@@ -262,6 +262,15 @@ public final class CharacterCognition {
                          .toList();
     }
 
+
+    String behavioralCue(String stage) {
+        boolean cooperate = contextStrategy.shouldCooperate(stage);
+        boolean disclose  = contextStrategy.shouldDisclose(stage);
+        if (!cooperate) {return null;}
+        if (disclose) {return "Willing to cooperate and share openly";}
+        return "Willing to cooperate";
+    }
+
     List<ObservationSection> renderSocialAwareness(
             java.util.Collection<String> nearbyAgentIds,
             java.util.Map<String, String> agentNames) {
@@ -307,23 +316,35 @@ public final class CharacterCognition {
             var    otherPrincipal = io.casehub.platform.api.identity.PrincipalId.agent(nearbyId);
             String otherName      = agentNames.getOrDefault(nearbyId, nearbyId);
             String stage          = stageMap.getOrDefault(nearbyId, "stranger");
+
+            String perceptionLine = null;
             try {
                 var query = io.casehub.neocortex.cognitive.index.CognitiveProfileQuery
                                     .byName(nearbyId, tenantId);
                 var perspectives = cognitiveProfile.compare(query,
                                                             java.util.Set.of(selfPrincipal, otherPrincipal));
-                if (perspectives.isEmpty()) {continue;}
-
-                var comparison = io.casehub.neocortex.cognitive.index.SocialComparison
-                                         .compare(perspectives);
-                PerceptionTranslator.translate(comparison, selfPrincipal, otherPrincipal, otherName, stage)
-                                    .ifPresent(lines::add);
+                if (!perspectives.isEmpty()) {
+                    var comparison = io.casehub.neocortex.cognitive.index.SocialComparison
+                                             .compare(perspectives);
+                    perceptionLine = PerceptionTranslator.translate(comparison, selfPrincipal, otherPrincipal, otherName, stage)
+                                                         .orElse(null);
+                }
             } catch (Exception e) {
                 // graceful degradation
+            }
+
+            String behavioralCue = behavioralCue(stage);
+            if (perceptionLine != null && behavioralCue != null) {
+                lines.add(perceptionLine + ". " + behavioralCue);
+            } else if (perceptionLine != null) {
+                lines.add(perceptionLine);
+            } else if (behavioralCue != null) {
+                lines.add(otherName + " (" + stage + "): " + behavioralCue);
             }
         }
 
         if (lines.isEmpty()) {return List.of();}
-        return List.of(ObservationSection.items("Social Awareness", null, lines));}
+        return List.of(ObservationSection.items("Social Awareness", null, lines));
+    }
 
 }

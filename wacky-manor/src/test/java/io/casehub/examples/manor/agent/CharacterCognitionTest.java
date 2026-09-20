@@ -194,6 +194,26 @@ class CharacterCognitionTest {
                 .doesNotContain("Social Awareness");
     }
 
+    @Test
+    void behavioralCueReflectsStageGates() {
+        var cognition = new CharacterCognition("test-agent", null);
+
+        // Stranger — no behavioral cue
+        assertThat(cognition.behavioralCue("stranger")).isNull();
+
+        // Acquaintance — cooperation only
+        assertThat(cognition.behavioralCue("acquaintance")).isEqualTo("Willing to cooperate");
+
+        // Familiar — cooperation only
+        assertThat(cognition.behavioralCue("familiar")).isEqualTo("Willing to cooperate");
+
+        // Friend — cooperation + disclosure
+        assertThat(cognition.behavioralCue("friend")).isEqualTo("Willing to cooperate and share openly");
+
+        // Confidant — cooperation + disclosure
+        assertThat(cognition.behavioralCue("confidant")).isEqualTo("Willing to cooperate and share openly");
+    }
+
 
     @Test
     void beliefRenderingFromMindMapStore() {
