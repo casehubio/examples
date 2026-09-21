@@ -51,9 +51,13 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class CognitiveActivationTest {
+public class CognitiveActivationTest {
 
-    static CognitionCore buildCore(CognitionConfig config) {
+    public static CognitionCore buildCore(CognitionConfig config) {
+        return buildCore(config, null);
+    }
+
+    public static CognitionCore buildCore(CognitionConfig config, io.casehub.platform.agent.AgentProvider agentProvider) {
         var mood = new MoodOrchestrator(MoodConfig.defaults());
         var narrativeOrch = new NarrativeOrchestrator(new InMemoryNarrativeStore());
         var cbrStore = new InMemoryCbrCaseMemoryStore();
@@ -71,12 +75,12 @@ class CognitiveActivationTest {
         io.casehub.neocortex.memory.reflection.ReflectionOrchestrator noOpReflection =
                 (agentId, tenantId, since, maxEntries) -> List.of();
         var userModel = new UserModelOrchestrator(
-                new InMemoryUserProfileStore(), null, UserModelConfig.defaults());
+                new InMemoryUserProfileStore(), agentProvider, UserModelConfig.defaults());
         var mentalModel = new MentalModelOrchestrator(
-                new InMemoryMentalModelStore(), null, MentalModelConfig.defaults());
+                new InMemoryMentalModelStore(), agentProvider, MentalModelConfig.defaults());
         var strategy = new StrategyLearningOrchestrator(
                 new InMemoryStrategyStore(), cbrStore, noOpReflection,
-                null, StrategyLearningConfig.defaults());
+                agentProvider, StrategyLearningConfig.defaults());
 
         var drives = new DriveOrchestrator(
                 new CuriosityDrive(memoryHygiene), new CompetenceDrive(strategy),
@@ -85,7 +89,7 @@ class CognitiveActivationTest {
                 mood, new DriveComposer(), DriveConfig.defaults());
 
         var innerLife = new InnerLifeOrchestrator(
-                noOpReflection, null, List.of(), InnerLifeConfig.defaults(), drives);
+                noOpReflection, agentProvider, List.of(), InnerLifeConfig.defaults(), drives);
 
         var goals = new GoalProposalOrchestrator(
                 drives, List.of(), null, Optional.empty(),
@@ -94,7 +98,7 @@ class CognitiveActivationTest {
                 java.time.Clock.systemUTC());
 
         return new CognitionCore(mood, drives, userModel, mentalModel, strategy,
-                narrativeOrch, goals, memoryHygiene, innerLife, null, config, null, null);
+                narrativeOrch, goals, memoryHygiene, innerLife, agentProvider, config, null, null);
     }
 
     @Test void tickRunsWithoutErrorOnFullConfig() {
