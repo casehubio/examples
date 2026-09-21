@@ -285,7 +285,7 @@
             <version>${surefire.version}</version>
             <configuration>
               <groups>cognitive-eval</groups>
-              <excludedGroups combine.self="override"/>
+              <excludedGroups combine.self="override">none()</excludedGroups>
             </configuration>
           </plugin>
         </plugins>
