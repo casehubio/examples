@@ -49,6 +49,8 @@ public class ScenarioOrchestrator {
     @Inject
     io.casehub.neocortex.memory.CaseMemoryStore caseMemoryStore;
     @Inject
+    io.casehub.neocortex.memory.cbr.CbrCaseMemoryStore cbrCaseMemoryStore;
+    @Inject
     io.casehub.neocortex.mindmap.intelligence.consolidation.ConsolidationScheduler consolidationScheduler;
     @Inject
     jakarta.enterprise.inject.Instance<io.casehub.neocortex.cognitive.index.CognitiveProfile> cognitiveProfileInstance;
@@ -128,15 +130,59 @@ public class ScenarioOrchestrator {
         var mmStore = mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null;
         var seeder = mmStore != null ? new ManorCognitiveSeeder(mmStore) : null;
         var contextStrategy = new ManorContextStrategy();
+        // Phase 1 — Foundation (no dependencies)
+        var moodOrch = new io.casehub.blocks.agentic.social.MoodOrchestrator(io.casehub.blocks.agentic.social.MoodConfig.defaults());
+        var narrativeOrch = new io.casehub.blocks.agentic.social.narrative.NarrativeOrchestrator(new InMemoryNarrativeStore());
+        var cbrStore = cbrCaseMemoryStore;
+        var memoryHygiene = new io.casehub.blocks.memory.MemoryHygieneOrchestrator(
+                cbrStore,
+                new io.casehub.blocks.memory.CompositeConfidenceScorer(java.util.List.of(
+                        new io.casehub.blocks.memory.WeightedScorer(new io.casehub.blocks.memory.ArousalScorer(), 0.5),
+                        new io.casehub.blocks.memory.WeightedScorer(new io.casehub.blocks.memory.SurpriseScorer(), 0.5))),
+                new io.casehub.neocortex.memory.cbr.TemporalDecay.HalfLife(java.time.Duration.ofDays(365)),
+                new io.casehub.neocortex.memory.cbr.ScopeDecay.Step(1.0), null,
+                io.casehub.blocks.agentic.social.StrategyLearningConfig.defaults().memoryDomain(),
+                java.util.List.of(io.casehub.blocks.agentic.social.StrategyLearningConfig.defaults().engagementCaseType()),
+                io.casehub.blocks.memory.RetentionConfig.DEFAULT, 10, 0.7, event -> {});
+
+        // Phase 2 — Independent, need AgentProvider for LLM calls (D6)
+        io.casehub.neocortex.memory.reflection.ReflectionOrchestrator noOpReflection =
+                (agentId, tenantId, since, maxEntries) -> java.util.List.of();
+        var userModelOrch = new io.casehub.blocks.agentic.social.UserModelOrchestrator(
+                new InMemoryUserProfileStore(), agentProvider, io.casehub.blocks.agentic.social.UserModelConfig.defaults());
+        var mentalModelOrch = new io.casehub.blocks.agentic.social.MentalModelOrchestrator(
+                new InMemoryMentalModelStore(), agentProvider, io.casehub.blocks.agentic.social.MentalModelConfig.defaults());
+        var strategyOrch = new io.casehub.blocks.agentic.social.StrategyLearningOrchestrator(
+                new InMemoryStrategyStore(), cbrStore, noOpReflection,
+                agentProvider, io.casehub.blocks.agentic.social.StrategyLearningConfig.defaults());
+
+        // Phase 3 — Explicit DriveSource pattern (D11)
+        var curiosityDrive = new io.casehub.blocks.agentic.social.drive.CuriosityDrive(memoryHygiene);
+        var competenceDrive = new io.casehub.blocks.agentic.social.drive.CompetenceDrive(strategyOrch);
+        var affiliationDrive = new io.casehub.blocks.agentic.social.drive.AffiliationDrive(userModelOrch, 0.3, java.time.Duration.ofHours(1));
+        var autonomyDrive = new io.casehub.blocks.agentic.social.drive.AutonomyDrive(mentalModelOrch, 0.5);
+        var driveOrch = new io.casehub.blocks.agentic.social.drive.DriveOrchestrator(
+                curiosityDrive, competenceDrive, affiliationDrive, autonomyDrive,
+                moodOrch, new io.casehub.blocks.agentic.social.drive.DriveComposer(),
+                io.casehub.blocks.agentic.social.drive.DriveConfig.defaults());
+
+        // Phase 4 — InnerLife (depends on Phase 3)
+        var innerLifeOrch = new io.casehub.blocks.agentic.social.InnerLifeOrchestrator(
+                noOpReflection, agentProvider, java.util.List.of(),
+                io.casehub.blocks.agentic.social.InnerLifeConfig.defaults(), driveOrch);
+
+        // Phase 5 — Goals (pass driveOrch instead of null)
         var goalOrchestrator = new io.casehub.blocks.agentic.social.goal.GoalProposalOrchestrator(
-                null, java.util.List.of(), null, java.util.Optional.empty(),
+                driveOrch, java.util.List.of(), null, java.util.Optional.empty(),
                 null, null, null,
                 io.casehub.blocks.agentic.social.goal.GoalProposalConfig.defaults(),
                 io.casehub.blocks.agentic.social.goal.GoalEscalationConfig.defaults(),
                 java.time.Clock.systemUTC());
+
         var cognitionCore = new io.casehub.blocks.agentic.social.CognitionCore(
-                null, null, null, null, null, null, goalOrchestrator, null, null, agentProvider,
-                io.casehub.blocks.agentic.social.CognitionConfig.none().with("goals", true).with("characterDrives", true).with("needsPyramid", true),
+                moodOrch, driveOrch, userModelOrch, mentalModelOrch, strategyOrch,
+                narrativeOrch, goalOrchestrator, memoryHygiene, innerLifeOrch,
+                agentProvider, io.casehub.blocks.agentic.social.CognitionConfig.all(),
                 mmStore, new ManorNeedTierMappingProvider());
 
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
@@ -182,7 +228,7 @@ public class ScenarioOrchestrator {
         var invocationService = new AgentInvocationService(agentProvider, 60, 2, 2000);
 
         if (mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
-            runAutonomousTicks(world, activeSet, actionResolver, dispatcher, invocationService, narratorAgent, cognitions, planEvaluator);
+            runAutonomousTicks(world, activeSet, actionResolver, dispatcher, invocationService, narratorAgent, cognitions, planEvaluator, cognitionCore);
         } else {
             runScripted(world, activeSet, actionResolver, dispatcher, invocationService,
                         triggerEvaluator, sceneDirector, narratorAgent);
@@ -212,7 +258,8 @@ public class ScenarioOrchestrator {
                                      ActionResolver actionResolver, ManorEventDispatcher dispatcher,
                                      AgentInvocationService invocationService, NarratorAgent narratorAgent,
                                      java.util.Map<String, CharacterCognition> cognitions,
-                                     ManorPlanEvaluator planEvaluator) {
+                                     ManorPlanEvaluator planEvaluator,
+                                     io.casehub.blocks.agentic.social.CognitionCore cognitionCore) {
         var activeAgents = world.characters().values().stream()
                 .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
                 .toList();
@@ -229,6 +276,22 @@ public class ScenarioOrchestrator {
             if (world.isScenarioComplete()) break;
 
             int currentTick = tick;
+
+            // Cognitive tick — all active agents at cycle start (D4: batch consistency)
+            io.casehub.blocks.agentic.social.SubjectResolver subjectResolver = (aid, tid) -> {
+                var ch = world.character(aid);
+                if (ch == null) return java.util.Set.of();
+                return world.charactersInRoom(ch.currentRoom()).stream()
+                        .map(io.casehub.examples.manor.model.CharacterState::agentId)
+                        .filter(id -> !id.equals(aid))
+                        .collect(java.util.stream.Collectors.toSet());
+            };
+            for (var c : activeAgents) {
+                if (!c.isActive()) continue;
+                var desc = agentRegistry.findById(c.agentId(), ManorConstants.TENANCY_ID).orElse(null);
+                cognitionCore.tick(c.agentId(), ManorConstants.TENANCY_ID, desc, subjectResolver);
+            }
+
             var actingThisTick = activeAgents.stream()
                     .filter(io.casehub.examples.manor.model.CharacterState::isActive)
                     .filter(c -> currentTick % cadence(c) == 0)
