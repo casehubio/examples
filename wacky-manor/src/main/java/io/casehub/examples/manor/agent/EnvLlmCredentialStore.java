@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Alternative
-@Priority(10)
 @ApplicationScoped
 class EnvLlmCredentialStore implements LlmCredentialStore {
 
