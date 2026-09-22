@@ -1,9 +1,7 @@
 package io.casehub.examples.manor.agent;
 
 import io.casehub.platform.api.credentials.LlmCredentialStore;
-import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Alternative;
 
 import java.util.List;
 import java.util.Map;
