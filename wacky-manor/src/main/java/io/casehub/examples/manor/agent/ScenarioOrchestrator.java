@@ -49,7 +49,7 @@ public class ScenarioOrchestrator {
     @Inject
     io.casehub.neocortex.memory.CaseMemoryStore caseMemoryStore;
     @Inject
-    io.casehub.neocortex.memory.cbr.CbrCaseMemoryStore cbrCaseMemoryStore;
+    io.casehub.neocortex.memory.cbr.CbrRecordStore cbrRecordStore;
     @Inject
     io.casehub.neocortex.mindmap.intelligence.consolidation.ConsolidationScheduler consolidationScheduler;
     @Inject
@@ -133,7 +133,7 @@ public class ScenarioOrchestrator {
         // Phase 1 — Foundation (no dependencies)
         var moodOrch = new io.casehub.blocks.agentic.social.MoodOrchestrator(io.casehub.blocks.agentic.social.MoodConfig.defaults());
         var narrativeOrch = new io.casehub.blocks.agentic.social.narrative.NarrativeOrchestrator(new InMemoryNarrativeStore());
-        var cbrStore = cbrCaseMemoryStore;
+        var cbrStore = cbrRecordStore;
         var memoryHygiene = new io.casehub.blocks.memory.MemoryHygieneOrchestrator(
                 cbrStore,
                 new io.casehub.blocks.memory.CompositeConfidenceScorer(java.util.List.of(
@@ -153,7 +153,7 @@ public class ScenarioOrchestrator {
         var mentalModelOrch = new io.casehub.blocks.agentic.social.MentalModelOrchestrator(
                 new InMemoryMentalModelStore(), agentProvider, io.casehub.blocks.agentic.social.MentalModelConfig.defaults());
         var strategyOrch = new io.casehub.blocks.agentic.social.StrategyLearningOrchestrator(
-                new InMemoryStrategyStore(), cbrStore, noOpReflection,
+                new InMemoryStrategyStore(), noOpReflection,
                 agentProvider, io.casehub.blocks.agentic.social.StrategyLearningConfig.defaults());
 
         // Phase 3 — Explicit DriveSource pattern (D11)

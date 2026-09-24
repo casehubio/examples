@@ -38,7 +38,7 @@ import io.casehub.blocks.memory.SurpriseScorer;
 import io.casehub.blocks.memory.WeightedScorer;
 import io.casehub.neocortex.memory.cbr.ScopeDecay;
 import io.casehub.neocortex.memory.cbr.TemporalDecay;
-import io.casehub.neocortex.memory.cbr.inmem.InMemoryCbrCaseMemoryStore;
+import io.casehub.neocortex.memory.cbr.inmem.InMemoryCbrRecordStore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -60,7 +60,7 @@ public class CognitiveActivationTest {
     public static CognitionCore buildCore(CognitionConfig config, io.casehub.platform.agent.AgentProvider agentProvider) {
         var mood = new MoodOrchestrator(MoodConfig.defaults());
         var narrativeOrch = new NarrativeOrchestrator(new InMemoryNarrativeStore());
-        var cbrStore = new InMemoryCbrCaseMemoryStore();
+        var cbrStore = new InMemoryCbrRecordStore();
         var memoryHygiene = new MemoryHygieneOrchestrator(
                 cbrStore,
                 new CompositeConfidenceScorer(List.of(
@@ -79,7 +79,7 @@ public class CognitiveActivationTest {
         var mentalModel = new MentalModelOrchestrator(
                 new InMemoryMentalModelStore(), agentProvider, MentalModelConfig.defaults());
         var strategy = new StrategyLearningOrchestrator(
-                new InMemoryStrategyStore(), cbrStore, noOpReflection,
+                new InMemoryStrategyStore(), noOpReflection,
                 agentProvider, StrategyLearningConfig.defaults());
 
         var drives = new DriveOrchestrator(

@@ -146,7 +146,7 @@
     <!-- CaseHub Ledger — in-memory stores (qhorus dispatch writes ledger entries) -->
     <dependency>
       <groupId>io.casehub</groupId>
-      <artifactId>casehub-ledger-memory</artifactId>
+      <artifactId>casehub-ledger-persistence-memory</artifactId>
       <version>${casehub.version}</version>
     </dependency>
 
