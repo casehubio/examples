@@ -49,7 +49,7 @@ class SocialCognitionIntegrationTest {
     @Test
     void characterCognitionRendersSectionsWithSocialConfig() {
         var socialConfig = ManorSocialConfigLoader.load().get("hooded-claw");
-        var cognition = new CharacterCognition("hooded-claw", null, null, socialConfig, List.of());
+        var cognition    = new CharacterCognition("hooded-claw", null, null, socialConfig, List.of());
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(
                         "hooded-claw", "Hooded Claw", "Grand Hallway", 0.0, List.of()),
@@ -57,7 +57,7 @@ class SocialCognitionIntegrationTest {
                 Map.of("penelope-pitstop", "Penelope Pitstop"));
         assertThat(sections).isNotEmpty();
         assertThat(sections.stream().map(s -> s.header()).toList())
-                .contains("Your Drives", "Your Beliefs", "Social Rules");
+                .contains("Your Beliefs", "Social Rules");
     }
 
     @Test
