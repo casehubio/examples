@@ -183,7 +183,7 @@ public class ScenarioOrchestrator {
                 moodOrch, driveOrch, userModelOrch, mentalModelOrch, strategyOrch,
                 narrativeOrch, goalOrchestrator, memoryHygiene, innerLifeOrch,
                 agentProvider, io.casehub.blocks.agentic.social.CognitionConfig.all(),
-                mmStore, new ManorNeedTierMappingProvider());
+                mmStore, new ManorNeedTierMappingProvider(), null);
 
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
 

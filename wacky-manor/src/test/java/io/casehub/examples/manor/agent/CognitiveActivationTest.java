@@ -24,7 +24,7 @@ import io.casehub.blocks.agentic.social.goal.GoalProposalConfig;
 import io.casehub.blocks.agentic.social.goal.GoalProposalOrchestrator;
 import io.casehub.blocks.agentic.social.narrative.NarrativeOrchestrator;
 import io.casehub.blocks.agentic.social.prompt.DrivePromptSection;
-import io.casehub.blocks.agentic.social.prompt.GoalPromptSection;
+import io.casehub.blocks.agentic.social.prompt.EmergentGoalPromptSection;
 import io.casehub.blocks.agentic.social.prompt.MentalModelPromptSection;
 import io.casehub.blocks.agentic.social.prompt.MoodPromptSection;
 import io.casehub.blocks.agentic.social.prompt.NarrativePromptSection;
@@ -98,7 +98,7 @@ public class CognitiveActivationTest {
                 java.time.Clock.systemUTC());
 
         return new CognitionCore(mood, drives, userModel, mentalModel, strategy,
-                narrativeOrch, goals, memoryHygiene, innerLife, agentProvider, config, null, null);
+                narrativeOrch, goals, memoryHygiene, innerLife, agentProvider, config, null, null, null);
     }
 
     @Test void tickRunsWithoutErrorOnFullConfig() {
@@ -116,7 +116,7 @@ public class CognitiveActivationTest {
         assertThat(sections).anyMatch(s -> s instanceof UserModelPromptSection);
         assertThat(sections).anyMatch(s -> s instanceof MentalModelPromptSection);
         assertThat(sections).anyMatch(s -> s instanceof StrategyPromptSection);
-        assertThat(sections).anyMatch(s -> s instanceof GoalPromptSection);
+        assertThat(sections).anyMatch(s -> s instanceof EmergentGoalPromptSection);
     }
 
     @Test void sectionAbsentWhenSubsystemDisabled() {
@@ -124,7 +124,7 @@ public class CognitiveActivationTest {
         var core = buildCore(config);
         core.tick("test-agent", "test-tenant", null, (a, t) -> Set.of());
         var sections = core.promptSections();
-        assertThat(sections).anyMatch(s -> s instanceof GoalPromptSection);
+        assertThat(sections).anyMatch(s -> s instanceof EmergentGoalPromptSection);
         assertThat(sections).noneMatch(s -> s instanceof MoodPromptSection);
         assertThat(sections).noneMatch(s -> s instanceof NarrativePromptSection);
     }

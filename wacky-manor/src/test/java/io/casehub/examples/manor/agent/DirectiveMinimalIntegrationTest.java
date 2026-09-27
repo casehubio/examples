@@ -62,7 +62,7 @@ class DirectiveMinimalIntegrationTest {
         var config = CognitionConfig.none().with("goals", true);
         var core = new CognitionCore(
                 null, null, null, null, null, null,
-                goalOrchestrator, null, null, null, config);
+                goalOrchestrator, null, null, null, config, null, null, null);
 
         var socialConfig = ManorSocialConfigLoader.load().get("penelope-pitstop");
         var proposals = ManorCognitiveSeeder.mapGoals(socialConfig.goals());
@@ -78,7 +78,7 @@ class DirectiveMinimalIntegrationTest {
 
         assertThat(goalSection).isPresent();
         var rendered = goalSection.get().contribute(new PromptContext("penelope-pitstop", "test-tenant", null));
-        assertThat(rendered).contains("curiosity").contains("intensity");
+        assertThat(rendered).contains("curiosity").contains("priority");
     }
 
     @Test
