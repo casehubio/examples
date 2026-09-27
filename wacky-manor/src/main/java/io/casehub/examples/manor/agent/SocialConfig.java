@@ -1,6 +1,7 @@
 package io.casehub.examples.manor.agent;
 
 import io.casehub.blocks.agentic.social.RelationshipStageConfig;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,8 @@ public record SocialConfig(
         List<InitialBelief> initialBeliefs,
         List<Relationship> relationships,
         Map<String, List<ReinforcementMapping>> reinforcement,
-        RelationshipStageConfig stageConfig
+        RelationshipStageConfig stageConfig,
+        @Nullable PersonaConstraintMapping personaConstraint
 ) {
     public SocialConfig {
         goals          = goals != null ? List.copyOf(goals) : List.of();
@@ -25,8 +27,15 @@ public record SocialConfig(
         if (stageConfig == null) {stageConfig = RelationshipStageConfig.defaults();}
     }
 
+    public SocialConfig(List<GoalConfig> goals, List<Drive> drives, List<NormEntry> norms,
+                         List<InitialBelief> initialBeliefs, List<Relationship> relationships,
+                         Map<String, List<ReinforcementMapping>> reinforcement,
+                         RelationshipStageConfig stageConfig) {
+        this(goals, drives, norms, initialBeliefs, relationships, reinforcement, stageConfig, null);
+    }
+
     public static SocialConfig empty() {
-        return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null);
+        return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null, null);
     }
 
     public record GoalConfig(String name, String description, String axis,
@@ -84,6 +93,14 @@ public record SocialConfig(
             Objects.requireNonNull(drive);
             if (direction == null) {direction = "POSITIVE";}
             if (rewardAxis == null) {rewardAxis = "PLEASURE";}
+        }
+    }
+
+    public record PersonaConstraintMapping(String constraintName, String whenActive, String whenInactive) {
+        public PersonaConstraintMapping {
+            Objects.requireNonNull(constraintName);
+            Objects.requireNonNull(whenActive);
+            Objects.requireNonNull(whenInactive);
         }
     }
 }

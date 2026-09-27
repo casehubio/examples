@@ -163,6 +163,12 @@ public final class CharacterCognition {
             }
         }
 
+        var personaSection = PersonaActivationSection.resolve(
+                socialConfig.personaConstraint(), nearbyAgentIds);
+        if (personaSection != null) {
+            sections.add(personaSection);
+        }
+
         return sections;
     }
 

@@ -130,5 +130,14 @@ public final class ManorSocialConfigLoader {
                 tiers, decayRate, positiveWeight, negativeWeight);
         }
 
-        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig);}
+        SocialConfig.PersonaConstraintMapping personaConstraint = null;
+        if (raw.containsKey("persona-constraint")) {
+            var pcRaw = (Map<String, Object>) raw.get("persona-constraint");
+            personaConstraint = new SocialConfig.PersonaConstraintMapping(
+                    (String) pcRaw.get("constraint"),
+                    (String) pcRaw.get("when-active"),
+                    (String) pcRaw.get("when-inactive"));
+        }
+
+        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig, personaConstraint);}
 }

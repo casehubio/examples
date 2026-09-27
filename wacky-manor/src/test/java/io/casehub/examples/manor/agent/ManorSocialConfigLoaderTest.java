@@ -19,7 +19,7 @@ class ManorSocialConfigLoaderTest {
     @Test
     void hoodedClaw_drivesMatchHardcoded() {
         var hc = ManorSocialConfigLoader.load().get("hooded-claw");
-        assertThat(hc.drives()).hasSize(3);
+        assertThat(hc.drives()).hasSize(4);
         var scheming = hc.drives().stream()
                 .filter(d -> d.type().equals("scheming")).findFirst().orElseThrow();
         assertThat(scheming.intensity()).isEqualTo(0.9);
@@ -29,7 +29,7 @@ class ManorSocialConfigLoaderTest {
     @Test
     void hoodedClaw_normsMatchHardcoded() {
         var hc = ManorSocialConfigLoader.load().get("hooded-claw");
-        assertThat(hc.norms()).hasSize(3);
+        assertThat(hc.norms()).hasSize(4);
         var topNorm = hc.norms().stream()
                 .filter(n -> n.priority() == 10).findFirst().orElseThrow();
         assertThat(topNorm.rule()).isEqualTo("Never help Penelope directly");

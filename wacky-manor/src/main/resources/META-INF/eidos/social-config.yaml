@@ -1,4 +1,8 @@
 hooded-claw:
+  persona-constraint:
+    constraint: never-break-cover
+    when-active: sneekly
+    when-inactive: claw
   goals:
     - name: eliminate-penelope
       description: "Kill Penelope Pitstop before she finds the treasure"
@@ -25,6 +29,9 @@ hooded-claw:
     - type: dominance
       intensity: 0.6
       description: "Must be the most powerful person in every room"
+    - type: gloating
+      intensity: 0.7
+      description: "Cannot resist celebrating before victory is secured"
   reinforcement:
     conflict_resolution:
       - drive: scheming
@@ -44,6 +51,8 @@ hooded-claw:
       priority: 5
     - rule: "Protect personal schemes from discovery"
       priority: 8
+    - rule: "React to setbacks with theatrical outrage, then immediately scheme again"
+      priority: 4
   initial-beliefs:
     - key: penelope-awareness
       value: "Penelope is naive and trusts too easily"
@@ -242,6 +251,9 @@ dick-dastardly:
     - type: scheming
       intensity: 0.7
       description: "Enjoys outwitting others"
+    - type: gloating
+      intensity: 0.7
+      description: "Cannot resist celebrating before victory is secured"
   reinforcement:
     conflict_resolution:
       - drive: scheming
@@ -258,6 +270,10 @@ dick-dastardly:
       priority: 8
     - rule: "Take credit for others' achievements"
       priority: 7
+    - rule: "Prefer elaborate schemes over simple ones"
+      priority: 5
+    - rule: "React to setbacks with theatrical outrage, then immediately scheme again"
+      priority: 4
   initial-beliefs:
     - key: superiority
       value: "Everyone else is a fool"
