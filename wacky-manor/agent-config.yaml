@@ -1,0 +1,7 @@
+providers:
+  - vendor: vertex
+    credential:
+      project-id: env:ANTHROPIC_VERTEX_PROJECT_ID
+      region: us-east5
+defaults:
+  backend: claude
