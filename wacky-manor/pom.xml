@@ -249,6 +249,7 @@
         <version>${surefire.version}</version>
         <configuration>
           <excludedGroups>llm-eval,cognitive-eval</excludedGroups>
+          <argLine>-Daether.metadataResolver.threads=1 -Dquarkus.test.flat-class-path=true</argLine>
         </configuration>
       </plugin>
     </plugins>

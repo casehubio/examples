@@ -58,18 +58,19 @@ class DescriptorLoadTest {
     }
 
     @Test
-    void rendered_prompt_includes_template_content() {
+    void rendered_prompt_includes_identity_and_directives() {
         var desc     = registry.findById("hooded-claw", ManorConstants.TENANCY_ID).orElseThrow();
         var ctx      = AgentPromptContext.forFormat(RenderFormat.MARKDOWN);
         var rendered = renderer.render(desc, ctx);
         assertThat(rendered.content())
-                .as("Rendered prompt should include template content (expository soliloquy)")
-                .containsIgnoringCase("expository soliloquy")
-                .containsIgnoringCase("emotional telegraphing");
+                .as("Rendered prompt should include character name")
+                .containsIgnoringCase("Hooded Claw");
         assertThat(rendered.content())
-                .as("Rendered prompt should include villain template with substituted args")
-                .containsIgnoringCase("Nyah-ha-ha-HA!")
-                .containsIgnoringCase("Penelope Pitstop");
+                .as("Rendered prompt should include prime directives")
+                .containsIgnoringCase("Never reveal your true identity");
+        assertThat(rendered.content())
+                .as("Rendered prompt should include cognitive preamble")
+                .containsIgnoringCase("inner life");
     }
 
     @Test
