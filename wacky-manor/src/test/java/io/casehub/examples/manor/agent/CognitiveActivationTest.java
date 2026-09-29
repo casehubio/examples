@@ -98,7 +98,7 @@ public class CognitiveActivationTest {
                 java.time.Clock.systemUTC());
 
         return new CognitionCore(mood, drives, userModel, mentalModel, strategy,
-                narrativeOrch, goals, memoryHygiene, innerLife, agentProvider, config, null, null, null);
+                narrativeOrch, goals, memoryHygiene, innerLife, agentProvider, config, null, null, null, null, null, null, null);
     }
 
     @Test void tickRunsWithoutErrorOnFullConfig() {
