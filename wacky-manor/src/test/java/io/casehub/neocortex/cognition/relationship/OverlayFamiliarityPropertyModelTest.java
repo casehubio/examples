@@ -1,4 +1,4 @@
-package io.casehub.blocks.agentic.social;
+package io.casehub.neocortex.cognition.relationship;
 
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
