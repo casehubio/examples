@@ -137,8 +137,7 @@ public final class CharacterCognition {
             sections.add(ObservationSection.items("Your Beliefs", null, items));
         }
 
-        var budget        = contextStrategy.budgetFor(nearbyAgentIds.size(), 0.5, 0);
-        var selectedNorms = contextStrategy.selectNorms(socialConfig.norms(), agentNames.values(), character.inventory(), budget);
+        var selectedNorms = contextStrategy.selectNorms(socialConfig.norms(), agentNames.values(), character.inventory());
         if (!selectedNorms.isEmpty()) {
             var items = selectedNorms.stream()
                                      .map(SocialConfig.NormEntry::rule)
