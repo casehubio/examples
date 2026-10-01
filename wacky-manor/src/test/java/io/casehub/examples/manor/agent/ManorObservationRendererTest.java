@@ -20,7 +20,7 @@ class ManorObservationRendererTest {
     static final EventLevel MANOR = new EventLevel("manor", 0);
 
     private LevelEvent<ManorEvent> dialogue(String charId, String text, long ts) {
-        return new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(ts), "dialogue", charId,
+        return new LevelEvent<>(new ManorEvent.Dialogue(Instant.ofEpochMilli(ts), charId,
                 "kitchen", charId + ": " + text), ts, MANOR, null);
     }
 
@@ -57,10 +57,10 @@ class ManorObservationRendererTest {
     @Test
     void compactionReducesBelowThreshold_rendersVerbatim() {
         var renderer = new ManorObservationRenderer(new MechanicalCompactor(), 2, 15, null);
-        var events = List.of(
-                new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(100), "action", "penelope",
+        var events = List.<LevelEvent<ManorEvent>>of(
+                new LevelEvent<>(new ManorEvent.Action(Instant.ofEpochMilli(100), "penelope",
                         "kitchen", "Penelope moved.", ActionType.MOVE, "kitchen", null, "entrance-hall"), 100, MANOR, null),
-                new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(200), "action", "penelope",
+                new LevelEvent<>(new ManorEvent.Action(Instant.ofEpochMilli(200), "penelope",
                         "ballroom", "Penelope moved.", ActionType.MOVE, "ballroom", null, "kitchen"), 200, MANOR, null),
                 dialogue("hooded-claw", "Nyah!", 300));
         var result = renderer.render(events, new ObservationContext(1000, 500))

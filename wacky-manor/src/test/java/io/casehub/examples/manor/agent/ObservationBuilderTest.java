@@ -205,11 +205,11 @@ class ObservationBuilderTest {
 
     @Test
     void perceptive_observer_sees_keen_observations() {
-        world.addEvent(new io.casehub.examples.manor.model.ManorEvent(
-                java.time.Instant.now(), "action", "hooded-claw", "entrance-hall",
+        world.addEvent(new io.casehub.examples.manor.model.ManorEvent.Action(
+                java.time.Instant.now(), "hooded-claw", "entrance-hall",
                 "The Hooded Claw picked up something.",
                 io.casehub.examples.manor.model.ActionType.TAKE, "poison", null, null,
-                "The Hooded Claw picked up the poison."));
+                "The Hooded Claw picked up the poison.", false));
         var obs = buildObs(world.character("penelope-pitstop"), java.util.Set.of("perception"));
         assertThat(obs).contains("== Keen Observations ==");
         assertThat(obs).contains("The Hooded Claw picked up the poison.");
@@ -217,11 +217,11 @@ class ObservationBuilderTest {
 
     @Test
     void non_perceptive_observer_has_no_keen_observations() {
-        world.addEvent(new io.casehub.examples.manor.model.ManorEvent(
-                java.time.Instant.now(), "action", "hooded-claw", "entrance-hall",
+        world.addEvent(new io.casehub.examples.manor.model.ManorEvent.Action(
+                java.time.Instant.now(), "hooded-claw", "entrance-hall",
                 "The Hooded Claw picked up something.",
                 io.casehub.examples.manor.model.ActionType.TAKE, "poison", null, null,
-                "The Hooded Claw picked up the poison."));
+                "The Hooded Claw picked up the poison.", false));
         var obs = buildObs(world.character("penelope-pitstop"));
         assertThat(obs).doesNotContain("Keen Observations");
         assertThat(obs).doesNotContain("picked up the poison");

@@ -74,14 +74,14 @@ public final class CharacterAgentLoop {
                 AgentResponse response = invocationService.invoke(systemPrompt, userPrompt, character.agentId());
 
                 if (response.dialogue() != null) {
-                    var dialogueEvent = new io.casehub.examples.manor.model.ManorEvent(
-                            java.time.Instant.now(), "dialogue", character.agentId(),
+                    var dialogueEvent = new io.casehub.examples.manor.model.ManorEvent.Dialogue(
+                            java.time.Instant.now(), character.agentId(),
                             character.currentRoom(), character.name() + ": " + response.dialogue());
                     dispatcher.publishDialogue(dialogueEvent, response.dialogue());
                 }
                 if (response.aside() != null) {
-                    var asideEvent = new io.casehub.examples.manor.model.ManorEvent(
-                            java.time.Instant.now(), "aside", character.agentId(),
+                    var asideEvent = new io.casehub.examples.manor.model.ManorEvent.Aside(
+                            java.time.Instant.now(), character.agentId(),
                             character.currentRoom(), response.aside());
                     dispatcher.publishAside(asideEvent, response.aside());
                 }

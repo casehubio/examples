@@ -28,7 +28,7 @@ class ObservationServiceTest {
         var service = createService();
         service.init(world);
 
-        var event = new ManorEvent(Instant.now(), "dialogue", "penelope-pitstop",
+        var event = new ManorEvent.Dialogue(Instant.now(), "penelope-pitstop",
                 "entrance-hall", "Penelope: Hello!");
         service.publishEvent(event);
 
@@ -43,7 +43,7 @@ class ObservationServiceTest {
         service.init(world);
 
         world.moveCharacter("penelope-pitstop", "kitchen");
-        var event = new ManorEvent(Instant.now(), "dialogue", "penelope-pitstop",
+        var event = new ManorEvent.Dialogue(Instant.now(), "penelope-pitstop",
                 "kitchen", "Penelope: Hello from the Kitchen!");
         service.publishEvent(event);
 
@@ -57,7 +57,7 @@ class ObservationServiceTest {
         var service = createService();
         service.init(world);
 
-        var event = new ManorEvent(Instant.now(), "narrator", null, null,
+        var event = new ManorEvent.Narrator(Instant.now(), null, null,
                 "The chandelier creaks ominously!");
         service.publishEvent(event);
 
@@ -71,7 +71,7 @@ class ObservationServiceTest {
         var service = createService();
         service.init(world);
 
-        var event = new ManorEvent(Instant.now(), "aside", "hooded-claw",
+        var event = new ManorEvent.Aside(Instant.now(), "hooded-claw",
                 "entrance-hall", "Nyah-ha-ha!");
         service.publishEvent(event);
 
@@ -88,7 +88,7 @@ class ObservationServiceTest {
         var service = createService();
         service.init(world);
 
-        var event = new ManorEvent(Instant.now(), "dialogue", "penelope-pitstop",
+        var event = new ManorEvent.Dialogue(Instant.now(), "penelope-pitstop",
                 "entrance-hall", "Penelope: Hello!");
         service.publishEvent(event);
 
@@ -106,7 +106,7 @@ class ObservationServiceTest {
         var service = createService();
         service.init(world);
 
-        var moveEvent = new ManorEvent(Instant.now(), "action", "penelope-pitstop",
+        var moveEvent = new ManorEvent.Action(Instant.now(), "penelope-pitstop",
                 "kitchen", "Penelope walked to the Kitchen.",
                 ActionType.MOVE, "kitchen", null, "entrance-hall");
         world.moveCharacter("penelope-pitstop", "kitchen");
@@ -135,7 +135,7 @@ class ObservationServiceTest {
         var service = createService();
         service.init(world);
 
-        var event = new ManorEvent(Instant.now(), "action", "hooded-claw", "entrance-hall",
+        var event = new ManorEvent.Action(Instant.now(), "hooded-claw", "entrance-hall",
                                    "Sneekly did something.", ActionType.STEAL, "muttley", "brass-key", null, null, true);
         service.publishEvent(event);
 
@@ -150,7 +150,7 @@ class ObservationServiceTest {
         var service = createService();
         service.init(world);
 
-        var event = new ManorEvent(Instant.now(), "action", "hooded-claw", "entrance-hall",
+        var event = new ManorEvent.Action(Instant.now(), "hooded-claw", "entrance-hall",
                                    "Sneekly did something.", ActionType.STEAL, "muttley", "brass-key", null, null, true);
         service.publishEvent(event);
 
@@ -165,7 +165,7 @@ class ObservationServiceTest {
         var service = createService();
         service.init(world);
 
-        var event = new ManorEvent(Instant.now(), "action", "hooded-claw", "entrance-hall",
+        var event = new ManorEvent.Action(Instant.now(), "hooded-claw", "entrance-hall",
                                    "Sneekly did something.", ActionType.STEAL, "muttley", "brass-key", null, null, true);
         service.publishEvent(event);
 
@@ -175,7 +175,7 @@ class ObservationServiceTest {
 
     @Test
     void levelResolver_dialogueGetsHighestLevel() {
-        var event = new ManorEvent(Instant.now(), "dialogue", "penelope-pitstop",
+        var event = new ManorEvent.Dialogue(Instant.now(), "penelope-pitstop",
                                    "entrance-hall", "Penelope: Hello!");
         assertThat(ObservationService.resolveLevel(event))
                 .isEqualTo(ObservationService.DIALOGUE);
@@ -183,7 +183,7 @@ class ObservationServiceTest {
 
     @Test
     void levelResolver_asideGetsSameLevelAsDialogue() {
-        var event = new ManorEvent(Instant.now(), "aside", "hooded-claw",
+        var event = new ManorEvent.Aside(Instant.now(), "hooded-claw",
                                    "entrance-hall", "Nyah-ha-ha!");
         assertThat(ObservationService.resolveLevel(event))
                 .isEqualTo(ObservationService.DIALOGUE);
@@ -191,7 +191,7 @@ class ObservationServiceTest {
 
     @Test
     void levelResolver_actionGetsMiddleLevel() {
-        var event = new ManorEvent(Instant.now(), "action", "penelope-pitstop",
+        var event = new ManorEvent.Action(Instant.now(), "penelope-pitstop",
                                    "kitchen", "Penelope looks around.",
                                    ActionType.LOOK, null, null, null);
         assertThat(ObservationService.resolveLevel(event))
@@ -200,7 +200,7 @@ class ObservationServiceTest {
 
     @Test
     void levelResolver_moveGetsLowestLevel() {
-        var event = new ManorEvent(Instant.now(), "action", "penelope-pitstop",
+        var event = new ManorEvent.Action(Instant.now(), "penelope-pitstop",
                                    "kitchen", "Penelope walked to the Kitchen.",
                                    ActionType.MOVE, "kitchen", null, "entrance-hall");
         assertThat(ObservationService.resolveLevel(event))

@@ -32,8 +32,8 @@ class NarratorAgentTest {
         agent.testSubscribe(dispatched::add);
 
         for (int i = 0; i < 5; i++) {
-            agent.collect(new ManorEvent(Instant.now(), "action", "char-" + i,
-                    "kitchen", "event " + i));
+            agent.collect(new ManorEvent.Action(Instant.now(), "char-" + i,
+                    "kitchen", "event " + i, null, null, null, null));
         }
         agent.tickNow();
 
@@ -50,8 +50,8 @@ class NarratorAgentTest {
         agent.testSubscribe(dispatched::add);
 
         for (int i = 0; i < 3; i++) {
-            agent.collect(new ManorEvent(Instant.now(), "action", "char-" + i,
-                    "kitchen", "event " + i));
+            agent.collect(new ManorEvent.Action(Instant.now(), "char-" + i,
+                    "kitchen", "event " + i, null, null, null, null));
         }
         agent.tickAt(System.currentTimeMillis());
 
@@ -66,8 +66,8 @@ class NarratorAgentTest {
                 null, null, 5, 15);
         agent.testSubscribe(dispatched::add);
 
-        agent.collect(new ManorEvent(Instant.now(), "action", "char-0",
-                "kitchen", "event 0"));
+        agent.collect(new ManorEvent.Action(Instant.now(), "char-0",
+                "kitchen", "event 0", null, null, null, null));
         agent.tickAt(System.currentTimeMillis() + 16_000);
 
         assertThat(dispatched).hasSize(1);
@@ -79,7 +79,7 @@ class NarratorAgentTest {
                 new MechanicalCompactor(), echoProvider,
                 null, null, 5, 15);
         agent.stop();
-        agent.collect(new ManorEvent(Instant.now(), "action", "x", "kitchen", "event"));
+        agent.collect(new ManorEvent.Action(Instant.now(), "x", "kitchen", "event", null, null, null, null));
     }
 
     @Test
@@ -91,8 +91,8 @@ class NarratorAgentTest {
         agent.testSubscribe(dispatched::add);
 
         for (int i = 0; i < 3; i++) {
-            agent.collect(new ManorEvent(Instant.now(), "action", "char-" + i,
-                    "kitchen", "event " + i));
+            agent.collect(new ManorEvent.Action(Instant.now(), "char-" + i,
+                    "kitchen", "event " + i, null, null, null, null));
         }
         agent.flushNow();
 

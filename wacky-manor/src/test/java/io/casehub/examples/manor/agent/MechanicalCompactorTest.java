@@ -18,14 +18,14 @@ class MechanicalCompactorTest {
 
     private LevelEvent<ManorEvent> moveEvent(String charId, String room,
                                               String departure, long ts) {
-        return new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(ts), "action", charId,
+        return new LevelEvent<>(new ManorEvent.Action(Instant.ofEpochMilli(ts), charId,
                 room, charId + " moved to " + room, ActionType.MOVE, room, null, departure),
                 ts, MANOR, null);
     }
 
     private LevelEvent<ManorEvent> dialogueEvent(String charId, String room,
                                                    String text, long ts) {
-        return new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(ts), "dialogue", charId,
+        return new LevelEvent<>(new ManorEvent.Dialogue(Instant.ofEpochMilli(ts), charId,
                 room, charId + ": " + text), ts, MANOR, null);
     }
 
@@ -61,11 +61,11 @@ class MechanicalCompactorTest {
 
     @Test
     void inventorySupersession_laterTakeSameObjectWins() {
-        var events = List.of(
-                new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(100), "action", "penelope",
+        var events = List.<LevelEvent<ManorEvent>>of(
+                new LevelEvent<>(new ManorEvent.Action(Instant.ofEpochMilli(100), "penelope",
                         "kitchen", "Penelope picked up something.", ActionType.TAKE, "brass-key", null, null),
                         100, MANOR, null),
-                new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(200), "action", "hooded-claw",
+                new LevelEvent<>(new ManorEvent.Action(Instant.ofEpochMilli(200), "hooded-claw",
                         "kitchen", "Sneekly picked up something.", ActionType.TAKE, "brass-key", null, null),
                         200, MANOR, null));
         var result = compactor.compact(events);
@@ -75,11 +75,11 @@ class MechanicalCompactorTest {
 
     @Test
     void objectStateSupersession_laterInteractSameObjectWins() {
-        var events = List.of(
-                new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(100), "action", "penelope",
+        var events = List.<LevelEvent<ManorEvent>>of(
+                new LevelEvent<>(new ManorEvent.Action(Instant.ofEpochMilli(100), "penelope",
                         "kitchen", "Penelope interacted with Cabinet.", ActionType.INTERACT, "cabinet", "brass-key", null),
                         100, MANOR, null),
-                new LevelEvent<>(new ManorEvent(Instant.ofEpochMilli(200), "action", "peter",
+                new LevelEvent<>(new ManorEvent.Action(Instant.ofEpochMilli(200), "peter",
                         "kitchen", "Peter used something on Cabinet.", ActionType.USE, "cabinet", "oil", null),
                         200, MANOR, null));
         var result = compactor.compact(events);

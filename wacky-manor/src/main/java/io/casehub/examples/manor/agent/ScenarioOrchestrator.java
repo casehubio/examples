@@ -395,20 +395,20 @@ public class ScenarioOrchestrator {
                     }
                     if (validatedTalkTo != null) {
                         var narr = NarrativeEventBuilder.describeDirectedDialogue(c.name(), validatedTalkTo, response.dialogue());
-                        var event = new io.casehub.examples.manor.model.ManorEvent(
-                                java.time.Instant.now(), "dialogue", c.agentId(), c.currentRoom(),
-                                narr.publicText(), null, null, null, null, narr.detailedText(), false, validatedTalkTo);
+                        var event = new io.casehub.examples.manor.model.ManorEvent.Dialogue(
+                                java.time.Instant.now(), c.agentId(), c.currentRoom(),
+                                narr.publicText(), narr.detailedText(), validatedTalkTo);
                         dispatcher.publishDialogue(event, response.dialogue());
                     } else {
-                        var event = new io.casehub.examples.manor.model.ManorEvent(
-                                java.time.Instant.now(), "dialogue", c.agentId(),
+                        var event = new io.casehub.examples.manor.model.ManorEvent.Dialogue(
+                                java.time.Instant.now(), c.agentId(),
                                 c.currentRoom(), c.name() + ": " + response.dialogue());
                         dispatcher.publishDialogue(event, response.dialogue());
                     }
                 }
                 if (response.aside() != null) {
-                    var event = new io.casehub.examples.manor.model.ManorEvent(
-                            java.time.Instant.now(), "aside", c.agentId(),
+                    var event = new io.casehub.examples.manor.model.ManorEvent.Aside(
+                            java.time.Instant.now(), c.agentId(),
                             c.currentRoom(), response.aside());
                     dispatcher.publishAside(event, response.aside());
                 }
@@ -446,8 +446,8 @@ public class ScenarioOrchestrator {
                         boolean concealed = c.capabilityTags().contains("deception")
                                 && (actionType == io.casehub.examples.manor.model.ActionType.STEAL
                                     || actionType == io.casehub.examples.manor.model.ActionType.USE);
-                        var enrichedEvent = new io.casehub.examples.manor.model.ManorEvent(
-                                java.time.Instant.now(), "action", c.agentId(), c.currentRoom(),
+                        var enrichedEvent = new io.casehub.examples.manor.model.ManorEvent.Action(
+                                java.time.Instant.now(), c.agentId(), c.currentRoom(),
                                 narration.publicText(), actionType, response.action().target(),
                                 response.action().withItem(),
                                 actionType == io.casehub.examples.manor.model.ActionType.MOVE ? departureRoom : null,
@@ -550,8 +550,8 @@ public class ScenarioOrchestrator {
                     boolean concealed = pending.character().capabilityTags().contains("deception")
                             && (actionType == io.casehub.examples.manor.model.ActionType.STEAL
                                 || actionType == io.casehub.examples.manor.model.ActionType.USE);
-                    var enrichedEvent = new io.casehub.examples.manor.model.ManorEvent(
-                            java.time.Instant.now(), "action", pending.character().agentId(),
+                    var enrichedEvent = new io.casehub.examples.manor.model.ManorEvent.Action(
+                            java.time.Instant.now(), pending.character().agentId(),
                             pending.character().currentRoom(), richNarrative.publicText(),
                             actionType, pending.action().target(), pending.action().withItem(),
                             actionType == io.casehub.examples.manor.model.ActionType.MOVE ? departureRoom : null,

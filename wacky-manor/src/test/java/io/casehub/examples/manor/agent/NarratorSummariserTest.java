@@ -66,11 +66,11 @@ class NarratorSummariserTest {
     void formats_events_by_room_and_calls_llm() {
         var capturedPrompt = new AtomicReference<String>();
         var summariser     = new NarratorSummariser(capturingProvider("DRAMATIC narration!", capturedPrompt));
-        var events = List.of(
-                new LevelEvent<>(new ManorEvent(Instant.now(), "action", "hooded-claw",
-                                                "kitchen", "The Hooded Claw picked up the Rat Poison"),
+        var events = List.<LevelEvent<ManorEvent>>of(
+                new LevelEvent<>(new ManorEvent.Action(Instant.now(), "hooded-claw",
+                                                "kitchen", "The Hooded Claw picked up the Rat Poison", null, null, null, null),
                                  Instant.now().toEpochMilli(), NARRATOR, null),
-                new LevelEvent<>(new ManorEvent(Instant.now(), "dialogue", "penelope",
+                new LevelEvent<>(new ManorEvent.Dialogue(Instant.now(), "penelope",
                                                 "ballroom", "Penelope Pitstop: \"Why, this is simply darlin'!\""),
                                  Instant.now().toEpochMilli(), NARRATOR, null)
                             );
@@ -87,9 +87,9 @@ class NarratorSummariserTest {
     @Test
     void null_room_grouped_under_general() {
         var summariser = new NarratorSummariser(stubProvider("narration"));
-        var events = List.of(
-                new LevelEvent<>(new ManorEvent(Instant.now(), "action", "x",
-                                                null, "something happened"), Instant.now().toEpochMilli(), NARRATOR, null)
+        var events = List.<LevelEvent<ManorEvent>>of(
+                new LevelEvent<>(new ManorEvent.Action(Instant.now(), "x",
+                                                null, "something happened", null, null, null, null), Instant.now().toEpochMilli(), NARRATOR, null)
                             );
 
         List<String> result = summariser.summarise(events).toCompletableFuture().join();
@@ -100,9 +100,9 @@ class NarratorSummariserTest {
     @Test
     void llm_failure_returns_failed_future() {
         var summariser = new NarratorSummariser(failingProvider());
-        var events = List.of(
-                new LevelEvent<>(new ManorEvent(Instant.now(), "action", "x",
-                                                "kitchen", "event"), Instant.now().toEpochMilli(), NARRATOR, null)
+        var events = List.<LevelEvent<ManorEvent>>of(
+                new LevelEvent<>(new ManorEvent.Action(Instant.now(), "x",
+                                                "kitchen", "event", null, null, null, null), Instant.now().toEpochMilli(), NARRATOR, null)
                             );
 
         var future = summariser.summarise(events).toCompletableFuture();

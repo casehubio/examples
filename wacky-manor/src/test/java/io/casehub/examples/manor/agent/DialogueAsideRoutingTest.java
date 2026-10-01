@@ -17,7 +17,7 @@ class DialogueAsideRoutingTest {
         var service = createService();
         service.init(world);
 
-        service.publishEvent(new ManorEvent(Instant.now(), "dialogue", "penelope-pitstop",
+        service.publishEvent(new ManorEvent.Dialogue(Instant.now(), "penelope-pitstop",
                 "entrance-hall", "Penelope: Hello everyone!"));
 
         for (String charId : List.of("hooded-claw", "ant-hill-mob", "peter-perfect", "dick-dastardly")) {
@@ -34,7 +34,7 @@ class DialogueAsideRoutingTest {
         var service = createService();
         service.init(world);
 
-        service.publishEvent(new ManorEvent(Instant.now(), "aside", "hooded-claw",
+        service.publishEvent(new ManorEvent.Aside(Instant.now(), "hooded-claw",
                 "entrance-hall", "Nyah-ha-ha! My fiendish plan!"));
 
         var hcDrain = service.drain("hooded-claw", System.currentTimeMillis());
@@ -50,7 +50,7 @@ class DialogueAsideRoutingTest {
         var service = createService();
         service.init(world);
 
-        service.publishEvent(new ManorEvent(Instant.now(), "dialogue", "penelope-pitstop",
+        service.publishEvent(new ManorEvent.Dialogue(Instant.now(), "penelope-pitstop",
                 "entrance-hall", "Penelope: Why, hello!"));
 
         var drain = service.drain("penelope-pitstop", System.currentTimeMillis());

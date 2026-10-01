@@ -18,7 +18,7 @@ class ManorEventDispatcherTest {
         var dispatcher = new ManorEventDispatcher(
                 world, observationService, null, null, null);
 
-        var event = new ManorEvent(java.time.Instant.now(), "dialogue", "penelope",
+        var event = new ManorEvent.Dialogue(java.time.Instant.now(), "penelope",
                                    "entrance-hall", "Penelope Pitstop: Darlin'!");
 
         dispatcher.publishDialogue(event, "Darlin'!");
@@ -36,7 +36,7 @@ class ManorEventDispatcherTest {
         var dispatcher = new ManorEventDispatcher(
                 world, observationService, null, null, null);
 
-        var event = new ManorEvent(java.time.Instant.now(), "action", "hooded-claw",
+        var event = new ManorEvent.Action(java.time.Instant.now(), "hooded-claw",
                                    "kitchen", "The Hooded Claw picked up the Rat Poison",
                                    io.casehub.examples.manor.model.ActionType.TAKE, "poison", null, null);
 
@@ -61,7 +61,7 @@ class ManorEventDispatcherTest {
                 world, observationService, narrator, null, null);
 
         for (int i = 0; i < 5; i++) {
-            var event = new ManorEvent(java.time.Instant.now(), "dialogue", "char-" + i,
+            var event = new ManorEvent.Dialogue(java.time.Instant.now(), "char-" + i,
                                        "entrance-hall", "char-" + i + ": hello " + i);
             dispatcher.publishDialogue(event, "hello " + i);
         }
@@ -80,7 +80,7 @@ class ManorEventDispatcherTest {
         var dispatcher = new ManorEventDispatcher(
                 world, observationService, null, null, null);
 
-        var event = new ManorEvent(java.time.Instant.now(), "dialogue", "penelope",
+        var event = new ManorEvent.Dialogue(java.time.Instant.now(), "penelope",
                                    "entrance-hall", "Penelope: test");
 
         dispatcher.publishDialogue(event, "test");
@@ -98,7 +98,7 @@ class ManorEventDispatcherTest {
         var dispatcher = new ManorEventDispatcher(
                 world, observationService, null, null, null);
 
-        var event = new ManorEvent(java.time.Instant.now(), "aside", "hooded-claw",
+        var event = new ManorEvent.Aside(java.time.Instant.now(), "hooded-claw",
                                    "kitchen", "Nyah-ha-ha!");
 
         dispatcher.publishAside(event, "Nyah-ha-ha!");

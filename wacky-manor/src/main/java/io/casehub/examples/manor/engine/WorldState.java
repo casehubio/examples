@@ -124,7 +124,7 @@ public final class WorldState {
     public void markSceneCompleted(String sceneId) { completedScenes.add(sceneId); }
 
     public void addEvent(String type, String characterId, String room, String description) {
-        eventLog.add(new ManorEvent(Instant.now(), type, characterId, room, description));
+        eventLog.add(ManorEvent.of(type, characterId, room, description));
     }
 
     public void addEvent(ManorEvent event) {

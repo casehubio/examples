@@ -95,7 +95,7 @@ public final class ExchangeRunner {
 
     private ManorEvent createExchangeEvent(CharacterState speaker, String targetId, String dialogue, WorldState world) {
         var narr = NarrativeEventBuilder.describeDirectedDialogue(speaker.name(), targetId, dialogue);
-        return new ManorEvent(Instant.now(), "dialogue", speaker.agentId(), speaker.currentRoom(),
-                narr.publicText(), null, null, null, null, narr.detailedText(), false, targetId);
+        return new ManorEvent.Dialogue(Instant.now(), speaker.agentId(), speaker.currentRoom(),
+                narr.publicText(), narr.detailedText(), targetId);
     }
 }

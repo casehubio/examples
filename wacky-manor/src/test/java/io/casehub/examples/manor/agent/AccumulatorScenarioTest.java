@@ -18,15 +18,15 @@ class AccumulatorScenarioTest {
         var service = createService();
         service.init(world);
 
-        service.publishEvent(new ManorEvent(Instant.now(), "dialogue", "penelope-pitstop",
+        service.publishEvent(new ManorEvent.Dialogue(Instant.now(), "penelope-pitstop",
                 "entrance-hall", "Penelope: What a lovely foyer!"));
 
         world.moveCharacter("hooded-claw", "kitchen");
-        service.publishEvent(new ManorEvent(Instant.now(), "action", "hooded-claw",
+        service.publishEvent(new ManorEvent.Action(Instant.now(), "hooded-claw",
                 "kitchen", "Sneekly walked to the Kitchen.",
                 ActionType.MOVE, "kitchen", null, "entrance-hall"));
 
-        service.publishEvent(new ManorEvent(Instant.now(), "dialogue", "hooded-claw",
+        service.publishEvent(new ManorEvent.Dialogue(Instant.now(), "hooded-claw",
                 "kitchen", "Sneekly: What have we here..."));
 
         var drain = service.drain("hooded-claw", System.currentTimeMillis());
@@ -45,7 +45,7 @@ class AccumulatorScenarioTest {
         var service = createService();
         service.init(world);
 
-        service.publishEvent(new ManorEvent(Instant.now(), "dialogue", "penelope-pitstop",
+        service.publishEvent(new ManorEvent.Dialogue(Instant.now(), "penelope-pitstop",
                 "entrance-hall", "Penelope: Hello!"));
 
         world.moveCharacter("hooded-claw", "kitchen");
@@ -64,17 +64,17 @@ class AccumulatorScenarioTest {
         service.init(world);
 
         world.moveCharacter("penelope-pitstop", "kitchen");
-        service.publishEvent(new ManorEvent(Instant.now(), "action", "penelope-pitstop",
+        service.publishEvent(new ManorEvent.Action(Instant.now(), "penelope-pitstop",
                 "kitchen", "Penelope walked to the Kitchen.",
                 ActionType.MOVE, "kitchen", null, "entrance-hall"));
 
         world.moveCharacter("penelope-pitstop", "ballroom");
-        service.publishEvent(new ManorEvent(Instant.now(), "action", "penelope-pitstop",
+        service.publishEvent(new ManorEvent.Action(Instant.now(), "penelope-pitstop",
                 "ballroom", "Penelope walked to the Ballroom.",
                 ActionType.MOVE, "ballroom", null, "kitchen"));
 
         world.moveCharacter("penelope-pitstop", "entrance-hall");
-        service.publishEvent(new ManorEvent(Instant.now(), "action", "penelope-pitstop",
+        service.publishEvent(new ManorEvent.Action(Instant.now(), "penelope-pitstop",
                 "entrance-hall", "Penelope walked to the Entrance Hall.",
                 ActionType.MOVE, "entrance-hall", null, "ballroom"));
 
