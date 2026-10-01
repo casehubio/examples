@@ -71,13 +71,13 @@ class DirectiveMinimalIntegrationTest {
         var sections = core.promptSections();
         var goalSection = sections.stream()
                 .filter(s -> {
-                    var rendered = s.contribute(new PromptContext("penelope-pitstop", "test-tenant", null));
+                    var rendered = s.render(new io.casehub.neocortex.cognition.prompt.CognitionRenderContext("penelope-pitstop", "test-tenant", null));
                     return rendered != null && rendered.contains("goals");
                 })
                 .findFirst();
 
         assertThat(goalSection).isPresent();
-        var rendered = goalSection.get().contribute(new PromptContext("penelope-pitstop", "test-tenant", null));
+        var rendered = goalSection.get().render(new io.casehub.neocortex.cognition.prompt.CognitionRenderContext("penelope-pitstop", "test-tenant", null));
         assertThat(rendered).contains("curiosity").contains("priority");
     }
 

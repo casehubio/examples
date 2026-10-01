@@ -98,10 +98,10 @@ class CognitiveEvalTest {
     }
 
     private Map<String, String> renderSections(CognitionCore core, String agentId) {
-        var ctx = new io.casehub.blocks.speech.PromptContext(agentId, "wacky-manor", null);
+        var ctx = new io.casehub.neocortex.cognition.prompt.CognitionRenderContext(agentId, "wacky-manor", null);
         var result = new LinkedHashMap<String, String>();
         for (var section : core.promptSections()) {
-            var rendered = section.contribute(ctx);
+            var rendered = section.render(ctx);
             if (rendered != null && !rendered.isBlank()) {
                 result.put(section.getClass().getSimpleName(), rendered);
             }

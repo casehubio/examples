@@ -84,7 +84,7 @@ class DriveAdaptationIntegrationTest {
             "Scheming intensity should have changed from initial 0.9");
 
         var renderer = new CharacterDrivePromptSection(store);
-        var rendered = renderer.contribute(new PromptContext(agent, tenant, null));
+        var rendered = renderer.render(new io.casehub.neocortex.cognition.prompt.CognitionRenderContext(agent, tenant, null));
         assertNotNull(rendered);
         assertTrue(rendered.contains("scheming"), "Rendered output should contain scheming drive");
         assertTrue(rendered.contains("Character Motivations"), "Should have Character Motivations heading");

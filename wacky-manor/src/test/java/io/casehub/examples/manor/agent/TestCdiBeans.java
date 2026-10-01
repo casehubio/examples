@@ -20,6 +20,6 @@ public class TestCdiBeans {
     @Produces
     @Singleton
     public VocabularyRegistry vocabularyRegistry() {
-        return new io.casehub.engine.internal.worker.NoOpVocabularyRegistry();
+        return new io.casehub.engine.runtime.worker.NoOpVocabularyRegistry();
     }
 }

@@ -132,7 +132,7 @@ public class ScenarioOrchestrator {
         var contextStrategy = new ManorContextStrategy();
         // Phase 1 — Foundation (no dependencies)
         var moodOrch = new io.casehub.neocortex.cognition.mood.MoodOrchestrator(io.casehub.neocortex.cognition.mood.MoodConfig.defaults());
-        var narrativeOrch = new io.casehub.neocortex.cognition.narrative.NarrativeOrchestrator(new InMemoryNarrativeStore());
+        var narrativeOrch = new io.casehub.neocortex.cognition.narrative.NarrativeOrchestrator(new io.casehub.neocortex.cognition.narrative.NarrativeMemory(cbrRecordStore, io.casehub.neocortex.cognition.narrative.NarrativeConfig.defaults()));
         var cbrStore = cbrRecordStore;
         var memoryHygiene = new io.casehub.blocks.memory.MemoryHygieneOrchestrator(
                 cbrStore,
@@ -144,20 +144,21 @@ public class ScenarioOrchestrator {
                 io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults().memoryDomain(),
                 java.util.List.of(io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults().engagementCaseType()),
                 io.casehub.blocks.memory.RetentionConfig.DEFAULT, 10, 0.7, event -> {});
+        var memoryHygieneAdapter = new io.casehub.blocks.agentic.cognition.MemoryHygieneSpiAdapter(memoryHygiene);
 
         // Phase 2 — Independent, need AgentProvider for LLM calls (D6)
         io.casehub.neocortex.memory.reflection.ReflectionOrchestrator noOpReflection =
                 (agentId, tenantId, since, maxEntries) -> java.util.List.of();
         var userModelOrch = new io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator(
-                new InMemoryUserProfileStore(), agentProvider, io.casehub.neocortex.cognition.usermodel.UserModelConfig.defaults());
+                new io.casehub.neocortex.cognition.usermodel.UserProfileMemory(cbrRecordStore, io.casehub.neocortex.cognition.usermodel.UserModelConfig.defaults()), agentProvider, io.casehub.neocortex.cognition.usermodel.UserModelConfig.defaults());
         var mentalModelOrch = new io.casehub.neocortex.cognition.mentalmodel.MentalModelOrchestrator(
-                new InMemoryMentalModelStore(), agentProvider, io.casehub.neocortex.cognition.mentalmodel.MentalModelConfig.defaults());
+                new io.casehub.neocortex.cognition.mentalmodel.MentalModelMemory(cbrRecordStore, io.casehub.neocortex.cognition.mentalmodel.MentalModelConfig.defaults()), agentProvider, io.casehub.neocortex.cognition.mentalmodel.MentalModelConfig.defaults());
         var strategyOrch = new io.casehub.neocortex.cognition.strategy.StrategyLearningOrchestrator(
-                new InMemoryStrategyStore(), noOpReflection,
+                new io.casehub.neocortex.cognition.strategy.StrategyMemory(cbrRecordStore, io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults()), noOpReflection,
                 agentProvider, io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults());
 
         // Phase 3 — Explicit DriveSource pattern (D11)
-        var curiosityDrive = new io.casehub.neocortex.cognition.drive.CuriosityDrive(memoryHygiene);
+        var curiosityDrive = new io.casehub.neocortex.cognition.drive.CuriosityDrive(memoryHygieneAdapter);
         var competenceDrive = new io.casehub.neocortex.cognition.drive.CompetenceDrive(strategyOrch);
         var affiliationDrive = new io.casehub.neocortex.cognition.drive.AffiliationDrive(userModelOrch, 0.3, java.time.Duration.ofHours(1));
         var autonomyDrive = new io.casehub.neocortex.cognition.drive.AutonomyDrive(mentalModelOrch, 0.5);
@@ -181,7 +182,7 @@ public class ScenarioOrchestrator {
 
         var cognitionCore = new io.casehub.neocortex.cognition.core.CognitionCore(
                 moodOrch, driveOrch, userModelOrch, mentalModelOrch, strategyOrch,
-                narrativeOrch, goalOrchestrator, memoryHygiene, innerLifeOrch,
+                narrativeOrch, goalOrchestrator, memoryHygieneAdapter, innerLifeOrch,
                 agentProvider, io.casehub.neocortex.cognition.core.CognitionConfig.all(),
                 mmStore, new ManorNeedTierMappingProvider(), null, null, null, null, null);
 

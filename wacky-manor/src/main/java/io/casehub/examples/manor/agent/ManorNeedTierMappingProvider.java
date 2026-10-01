@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.agent;
 
 import io.casehub.neocortex.cognition.need.NeedTier;
-import io.casehub.neocortex.cognition.need.NeedTierMappingProvider;
+import io.casehub.neocortex.cognition.drive.NeedTierMappingProvider;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.Map;

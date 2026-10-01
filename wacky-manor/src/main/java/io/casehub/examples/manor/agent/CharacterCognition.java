@@ -153,9 +153,9 @@ public final class CharacterCognition {
         }
 
         if (cognitionCore != null && tenantId != null) {
-            var ctx = new io.casehub.blocks.speech.PromptContext(agentId, tenantId, null);
+            var ctx = new io.casehub.neocortex.cognition.prompt.CognitionRenderContext(agentId, tenantId, null);
             for (var section : cognitionCore.promptSections()) {
-                var text = section.contribute(ctx);
+                var text = section.render(ctx);
                 if (text != null && !text.isBlank()) {
                     sections.add(adaptPromptSection(text));
                 }
