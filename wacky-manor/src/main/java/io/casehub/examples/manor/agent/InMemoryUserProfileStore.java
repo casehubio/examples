@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.agentic.social.UserProfile;
-import io.casehub.blocks.agentic.social.UserProfileStore;
+import io.casehub.neocortex.cognition.usermodel.UserProfile;
+import io.casehub.neocortex.cognition.usermodel.UserProfileStore;
 
 import java.util.List;
 import java.util.Map;

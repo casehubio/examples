@@ -1,11 +1,11 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.agentic.social.CognitionConfig;
-import io.casehub.blocks.agentic.social.CognitionCore;
-import io.casehub.blocks.agentic.social.goal.GoalEscalationConfig;
-import io.casehub.blocks.agentic.social.goal.GoalProposalConfig;
-import io.casehub.blocks.agentic.social.goal.GoalProposalOrchestrator;
-import io.casehub.blocks.agentic.social.prompt.CognitiveSystemPromptRenderer;
+import io.casehub.neocortex.cognition.core.CognitionConfig;
+import io.casehub.neocortex.cognition.core.CognitionCore;
+import io.casehub.neocortex.cognition.goal.GoalEscalationConfig;
+import io.casehub.neocortex.cognition.goal.GoalProposalConfig;
+import io.casehub.neocortex.cognition.goal.GoalProposalOrchestrator;
+import io.casehub.neocortex.cognition.prompt.CognitiveSystemPromptRenderer;
 import io.casehub.blocks.speech.PromptContext;
 import io.casehub.eidos.api.AgentConstraint;
 import io.casehub.eidos.api.AgentDescriptor;

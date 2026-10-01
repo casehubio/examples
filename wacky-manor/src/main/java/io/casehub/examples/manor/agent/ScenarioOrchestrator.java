@@ -131,8 +131,8 @@ public class ScenarioOrchestrator {
         var seeder = mmStore != null ? new ManorCognitiveSeeder(mmStore) : null;
         var contextStrategy = new ManorContextStrategy();
         // Phase 1 — Foundation (no dependencies)
-        var moodOrch = new io.casehub.blocks.agentic.social.MoodOrchestrator(io.casehub.blocks.agentic.social.MoodConfig.defaults());
-        var narrativeOrch = new io.casehub.blocks.agentic.social.narrative.NarrativeOrchestrator(new InMemoryNarrativeStore());
+        var moodOrch = new io.casehub.neocortex.cognition.mood.MoodOrchestrator(io.casehub.neocortex.cognition.mood.MoodConfig.defaults());
+        var narrativeOrch = new io.casehub.neocortex.cognition.narrative.NarrativeOrchestrator(new InMemoryNarrativeStore());
         var cbrStore = cbrRecordStore;
         var memoryHygiene = new io.casehub.blocks.memory.MemoryHygieneOrchestrator(
                 cbrStore,
@@ -141,48 +141,48 @@ public class ScenarioOrchestrator {
                         new io.casehub.blocks.memory.WeightedScorer(new io.casehub.blocks.memory.SurpriseScorer(), 0.5))),
                 new io.casehub.neocortex.memory.cbr.TemporalDecay.HalfLife(java.time.Duration.ofDays(365)),
                 new io.casehub.neocortex.memory.cbr.ScopeDecay.Step(1.0), null,
-                io.casehub.blocks.agentic.social.StrategyLearningConfig.defaults().memoryDomain(),
-                java.util.List.of(io.casehub.blocks.agentic.social.StrategyLearningConfig.defaults().engagementCaseType()),
+                io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults().memoryDomain(),
+                java.util.List.of(io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults().engagementCaseType()),
                 io.casehub.blocks.memory.RetentionConfig.DEFAULT, 10, 0.7, event -> {});
 
         // Phase 2 — Independent, need AgentProvider for LLM calls (D6)
         io.casehub.neocortex.memory.reflection.ReflectionOrchestrator noOpReflection =
                 (agentId, tenantId, since, maxEntries) -> java.util.List.of();
-        var userModelOrch = new io.casehub.blocks.agentic.social.UserModelOrchestrator(
-                new InMemoryUserProfileStore(), agentProvider, io.casehub.blocks.agentic.social.UserModelConfig.defaults());
-        var mentalModelOrch = new io.casehub.blocks.agentic.social.MentalModelOrchestrator(
-                new InMemoryMentalModelStore(), agentProvider, io.casehub.blocks.agentic.social.MentalModelConfig.defaults());
-        var strategyOrch = new io.casehub.blocks.agentic.social.StrategyLearningOrchestrator(
+        var userModelOrch = new io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator(
+                new InMemoryUserProfileStore(), agentProvider, io.casehub.neocortex.cognition.usermodel.UserModelConfig.defaults());
+        var mentalModelOrch = new io.casehub.neocortex.cognition.mentalmodel.MentalModelOrchestrator(
+                new InMemoryMentalModelStore(), agentProvider, io.casehub.neocortex.cognition.mentalmodel.MentalModelConfig.defaults());
+        var strategyOrch = new io.casehub.neocortex.cognition.strategy.StrategyLearningOrchestrator(
                 new InMemoryStrategyStore(), noOpReflection,
-                agentProvider, io.casehub.blocks.agentic.social.StrategyLearningConfig.defaults());
+                agentProvider, io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults());
 
         // Phase 3 — Explicit DriveSource pattern (D11)
-        var curiosityDrive = new io.casehub.blocks.agentic.social.drive.CuriosityDrive(memoryHygiene);
-        var competenceDrive = new io.casehub.blocks.agentic.social.drive.CompetenceDrive(strategyOrch);
-        var affiliationDrive = new io.casehub.blocks.agentic.social.drive.AffiliationDrive(userModelOrch, 0.3, java.time.Duration.ofHours(1));
-        var autonomyDrive = new io.casehub.blocks.agentic.social.drive.AutonomyDrive(mentalModelOrch, 0.5);
-        var driveOrch = new io.casehub.blocks.agentic.social.drive.DriveOrchestrator(
+        var curiosityDrive = new io.casehub.neocortex.cognition.drive.CuriosityDrive(memoryHygiene);
+        var competenceDrive = new io.casehub.neocortex.cognition.drive.CompetenceDrive(strategyOrch);
+        var affiliationDrive = new io.casehub.neocortex.cognition.drive.AffiliationDrive(userModelOrch, 0.3, java.time.Duration.ofHours(1));
+        var autonomyDrive = new io.casehub.neocortex.cognition.drive.AutonomyDrive(mentalModelOrch, 0.5);
+        var driveOrch = new io.casehub.neocortex.cognition.drive.DriveOrchestrator(
                 curiosityDrive, competenceDrive, affiliationDrive, autonomyDrive,
-                moodOrch, new io.casehub.blocks.agentic.social.drive.DriveComposer(),
-                io.casehub.blocks.agentic.social.drive.DriveConfig.defaults());
+                moodOrch, new io.casehub.neocortex.cognition.drive.DriveComposer(),
+                io.casehub.neocortex.cognition.drive.DriveConfig.defaults());
 
         // Phase 4 — InnerLife (depends on Phase 3)
-        var innerLifeOrch = new io.casehub.blocks.agentic.social.InnerLifeOrchestrator(
+        var innerLifeOrch = new io.casehub.neocortex.cognition.innerlife.InnerLifeOrchestrator(
                 noOpReflection, agentProvider, java.util.List.of(),
-                io.casehub.blocks.agentic.social.InnerLifeConfig.defaults(), driveOrch);
+                io.casehub.neocortex.cognition.innerlife.InnerLifeConfig.defaults(), driveOrch);
 
         // Phase 5 — Goals (pass driveOrch instead of null)
-        var goalOrchestrator = new io.casehub.blocks.agentic.social.goal.GoalProposalOrchestrator(
+        var goalOrchestrator = new io.casehub.neocortex.cognition.goal.GoalProposalOrchestrator(
                 driveOrch, java.util.List.of(), null, java.util.Optional.empty(),
                 null, null, null,
-                io.casehub.blocks.agentic.social.goal.GoalProposalConfig.defaults(),
-                io.casehub.blocks.agentic.social.goal.GoalEscalationConfig.defaults(),
+                io.casehub.neocortex.cognition.goal.GoalProposalConfig.defaults(),
+                io.casehub.neocortex.cognition.goal.GoalEscalationConfig.defaults(),
                 java.time.Clock.systemUTC());
 
-        var cognitionCore = new io.casehub.blocks.agentic.social.CognitionCore(
+        var cognitionCore = new io.casehub.neocortex.cognition.core.CognitionCore(
                 moodOrch, driveOrch, userModelOrch, mentalModelOrch, strategyOrch,
                 narrativeOrch, goalOrchestrator, memoryHygiene, innerLifeOrch,
-                agentProvider, io.casehub.blocks.agentic.social.CognitionConfig.all(),
+                agentProvider, io.casehub.neocortex.cognition.core.CognitionConfig.all(),
                 mmStore, new ManorNeedTierMappingProvider(), null, null, null, null, null);
 
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
@@ -259,7 +259,7 @@ public class ScenarioOrchestrator {
                                      AgentInvocationService invocationService, NarratorAgent narratorAgent,
                                      java.util.Map<String, CharacterCognition> cognitions,
                                      ManorPlanEvaluator planEvaluator,
-                                     io.casehub.blocks.agentic.social.CognitionCore cognitionCore) {
+                                     io.casehub.neocortex.cognition.core.CognitionCore cognitionCore) {
         var activeAgents = world.characters().values().stream()
                 .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
                 .toList();
@@ -278,7 +278,7 @@ public class ScenarioOrchestrator {
             int currentTick = tick;
 
             // Cognitive tick — all active agents at cycle start (D4: batch consistency)
-            io.casehub.blocks.agentic.social.SubjectResolver subjectResolver = (aid, tid) -> {
+            io.casehub.neocortex.cognition.core.SubjectResolver subjectResolver = (aid, tid) -> {
                 var ch = world.character(aid);
                 if (ch == null) return java.util.Set.of();
                 return world.charactersInRoom(ch.currentRoom()).stream()

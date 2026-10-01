@@ -1,14 +1,14 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.agentic.social.RelationshipStageConfigProvider;
-import io.casehub.blocks.agentic.social.RelationshipStagePhase;
-import io.casehub.blocks.agentic.social.drive.adaptation.DriveAdaptationConfig;
-import io.casehub.blocks.agentic.social.drive.adaptation.DriveAdaptationPhase;
-import io.casehub.blocks.agentic.social.drive.adaptation.DriveReinforcementEntry;
-import io.casehub.blocks.agentic.social.drive.adaptation.ReinforcementDirection;
-import io.casehub.blocks.agentic.social.drive.adaptation.RewardAxis;
-import io.casehub.blocks.agentic.social.need.NeedSatisfactionConfig;
-import io.casehub.blocks.agentic.social.need.NeedTierMappingProvider;
+import io.casehub.neocortex.cognition.relationship.RelationshipStageConfigProvider;
+import io.casehub.neocortex.cognition.relationship.RelationshipStagePhase;
+import io.casehub.neocortex.cognition.drive.DriveAdaptationConfig;
+import io.casehub.neocortex.cognition.drive.DriveAdaptationPhase;
+import io.casehub.neocortex.cognition.drive.DriveReinforcementEntry;
+import io.casehub.neocortex.cognition.drive.ReinforcementDirection;
+import io.casehub.neocortex.cognition.drive.RewardAxis;
+import io.casehub.neocortex.cognition.need.NeedSatisfactionConfig;
+import io.casehub.neocortex.cognition.need.NeedTierMappingProvider;
 import io.casehub.neocortex.memory.CaseMemoryStore;
 import io.casehub.neocortex.mindmap.MindMapStore;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -82,13 +82,13 @@ public class ManorConsolidationBeans {
 
     @Produces
     @Singleton
-    io.casehub.blocks.agentic.social.belief.BeliefRevisionPhase beliefRevisionPhase(
+    io.casehub.neocortex.cognition.belief.BeliefRevisionPhase beliefRevisionPhase(
             MindMapStore mindMapStore,
             io.casehub.platform.agent.AgentProvider agentProvider) {
-        return new io.casehub.blocks.agentic.social.belief.BeliefRevisionPhase(
+        return new io.casehub.neocortex.cognition.belief.BeliefRevisionPhase(
                 mindMapStore,
                 agentProvider,
-                io.casehub.blocks.agentic.social.belief.BeliefRevisionConfig.defaults());
+                io.casehub.neocortex.cognition.belief.BeliefRevisionConfig.defaults());
     }
 
     private static Map<String, Map<String, List<DriveReinforcementEntry>>> buildReinforcementMap() {

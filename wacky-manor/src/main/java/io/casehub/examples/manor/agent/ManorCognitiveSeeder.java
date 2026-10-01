@@ -1,9 +1,9 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.agentic.social.drive.DriveAxis;
-import io.casehub.blocks.agentic.social.need.NeedTier;
-import io.casehub.blocks.agentic.social.goal.DriveGoalProposal;
-import io.casehub.blocks.agentic.social.goal.GoalProposalOrchestrator;
+import io.casehub.neocortex.cognition.drive.DriveAxis;
+import io.casehub.neocortex.cognition.need.NeedTier;
+import io.casehub.neocortex.cognition.goal.DriveGoalProposal;
+import io.casehub.neocortex.cognition.goal.GoalProposalOrchestrator;
 import io.casehub.neocortex.cognitive.Confidence;
 import io.casehub.neocortex.mindmap.MindMapStore;
 import io.casehub.neocortex.mindmap.NodeInput;

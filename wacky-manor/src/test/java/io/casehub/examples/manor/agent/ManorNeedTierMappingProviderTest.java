@@ -1,6 +1,6 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.agentic.social.need.NeedTier;
+import io.casehub.neocortex.cognition.need.NeedTier;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

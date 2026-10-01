@@ -2,7 +2,7 @@ package io.casehub.examples.manor.experiment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import io.casehub.blocks.agentic.social.CognitionConfig;
+import io.casehub.neocortex.cognition.core.CognitionConfig;
 import io.casehub.examples.manor.agent.CognitiveActivationTest;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -74,7 +74,7 @@ class EmergenceVerificationTest {
     }
 
     private Map<String, String> renderSections(
-            io.casehub.blocks.agentic.social.CognitionCore core, String agentId) {
+            io.casehub.neocortex.cognition.core.CognitionCore core, String agentId) {
         var ctx = new io.casehub.blocks.speech.PromptContext(agentId, "wacky-manor", null);
         var result = new LinkedHashMap<String, String>();
         for (var section : core.promptSections()) {

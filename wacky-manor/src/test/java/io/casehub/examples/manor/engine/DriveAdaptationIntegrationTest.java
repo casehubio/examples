@@ -1,11 +1,11 @@
 package io.casehub.examples.manor.engine;
 
-import io.casehub.blocks.agentic.social.drive.adaptation.DriveAdaptationPhase;
-import io.casehub.blocks.agentic.social.drive.adaptation.DriveReinforcementEntry;
-import io.casehub.blocks.agentic.social.drive.adaptation.DriveAdaptationConfig;
-import io.casehub.blocks.agentic.social.drive.adaptation.ReinforcementDirection;
-import io.casehub.blocks.agentic.social.drive.adaptation.RewardAxis;
-import io.casehub.blocks.agentic.social.prompt.CharacterDrivePromptSection;
+import io.casehub.neocortex.cognition.drive.DriveAdaptationPhase;
+import io.casehub.neocortex.cognition.drive.DriveReinforcementEntry;
+import io.casehub.neocortex.cognition.drive.DriveAdaptationConfig;
+import io.casehub.neocortex.cognition.drive.ReinforcementDirection;
+import io.casehub.neocortex.cognition.drive.RewardAxis;
+import io.casehub.neocortex.cognition.prompt.CharacterDrivePromptSection;
 import io.casehub.blocks.speech.PromptContext;
 import io.casehub.examples.manor.agent.ManorCognitiveSeeder;
 import io.casehub.examples.manor.agent.ManorSocialConfigLoader;

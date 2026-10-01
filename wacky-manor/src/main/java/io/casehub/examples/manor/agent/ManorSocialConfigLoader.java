@@ -106,13 +106,13 @@ public final class ManorSocialConfigLoader {
             }
         }
 
-        io.casehub.blocks.agentic.social.RelationshipStageConfig stageConfig = null;
+        io.casehub.neocortex.cognition.relationship.RelationshipStageConfig stageConfig = null;
         if (raw.containsKey("familiarity-thresholds")) {
             var ftRaw = (Map<String, Object>) raw.get("familiarity-thresholds");
-            var defaults = io.casehub.blocks.agentic.social.RelationshipStageConfig.defaults();
+            var defaults = io.casehub.neocortex.cognition.relationship.RelationshipStageConfig.defaults();
             var tiers = ftRaw.containsKey("tiers")
                 ? ((List<Map<String, Object>>) ftRaw.get("tiers")).stream()
-                    .map(t -> new io.casehub.blocks.agentic.social.StageTier(
+                    .map(t -> new io.casehub.neocortex.cognition.relationship.StageTier(
                         (String) t.get("name"),
                         ((Number) t.get("threshold")).doubleValue()))
                     .toList()
@@ -126,7 +126,7 @@ public final class ManorSocialConfigLoader {
             double negativeWeight = ftRaw.containsKey("negative-weight")
                 ? ((Number) ftRaw.get("negative-weight")).doubleValue()
                 : defaults.negativeWeight();
-            stageConfig = new io.casehub.blocks.agentic.social.RelationshipStageConfig(
+            stageConfig = new io.casehub.neocortex.cognition.relationship.RelationshipStageConfig(
                 tiers, decayRate, positiveWeight, negativeWeight);
         }
 

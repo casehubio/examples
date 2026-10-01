@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.agentic.social.RelationshipStageConfig;
-import io.casehub.blocks.agentic.social.RelationshipStageConfigProvider;
+import io.casehub.neocortex.cognition.relationship.RelationshipStageConfig;
+import io.casehub.neocortex.cognition.relationship.RelationshipStageConfigProvider;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.Map;

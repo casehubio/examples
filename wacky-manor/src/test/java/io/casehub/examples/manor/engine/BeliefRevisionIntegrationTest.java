@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.engine;
 
-import io.casehub.blocks.agentic.social.belief.BeliefRevisionConfig;
-import io.casehub.blocks.agentic.social.belief.BeliefRevisionPhase;
+import io.casehub.neocortex.cognition.belief.BeliefRevisionConfig;
+import io.casehub.neocortex.cognition.belief.BeliefRevisionPhase;
 import io.casehub.examples.manor.agent.ManorCognitiveSeeder;
 import io.casehub.examples.manor.agent.ManorSocialConfigLoader;
 import io.casehub.neocortex.mindmap.NodeInput;

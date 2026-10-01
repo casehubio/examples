@@ -1,13 +1,13 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.agentic.social.need.NeedTier;
-import io.casehub.blocks.agentic.social.need.NeedTierMappingProvider;
+import io.casehub.neocortex.cognition.need.NeedTier;
+import io.casehub.neocortex.cognition.need.NeedTierMappingProvider;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.Map;
 import java.util.Set;
 
-import static io.casehub.blocks.agentic.social.need.NeedTier.*;
+import static io.casehub.neocortex.cognition.need.NeedTier.*;
 import static java.util.Map.entry;
 
 @ApplicationScoped

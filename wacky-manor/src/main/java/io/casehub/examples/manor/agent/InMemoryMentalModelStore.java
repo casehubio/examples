@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.agentic.social.MentalModelSnapshot;
-import io.casehub.blocks.agentic.social.MentalModelStore;
+import io.casehub.neocortex.cognition.mentalmodel.MentalModelSnapshot;
+import io.casehub.neocortex.cognition.mentalmodel.MentalModelStore;
 
 import java.util.List;
 import java.util.Map;

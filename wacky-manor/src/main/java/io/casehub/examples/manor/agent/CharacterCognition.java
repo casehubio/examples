@@ -21,7 +21,7 @@ public final class CharacterCognition {
     private final List<AgentConstraint>                                 constraints;
     private final io.casehub.neocortex.cognitive.index.CognitiveProfile cognitiveProfile;
     private final ManorContextStrategy                                  contextStrategy;
-    private final io.casehub.blocks.agentic.social.CognitionCore        cognitionCore;
+    private final io.casehub.neocortex.cognition.core.CognitionCore        cognitionCore;
     private final ManorCognitiveSeeder.SeedResult                       seedResult;
     private final String                                                tenantId;
     private final io.casehub.neocortex.mindmap.MindMapStore             mindMapStore;
@@ -44,7 +44,7 @@ public final class CharacterCognition {
                               List<AgentConstraint> constraints,
                               io.casehub.neocortex.cognitive.index.CognitiveProfile cognitiveProfile,
                               ManorContextStrategy contextStrategy,
-                              io.casehub.blocks.agentic.social.CognitionCore cognitionCore,
+                              io.casehub.neocortex.cognition.core.CognitionCore cognitionCore,
                               ManorCognitiveSeeder.SeedResult seedResult,
                               String tenantId,
                               io.casehub.neocortex.mindmap.MindMapStore mindMapStore,
@@ -308,7 +308,7 @@ public final class CharacterCognition {
                     if (targetNodeId == null) {continue;}
                     var targetId = sharedNodes.get(targetNodeId);
                     if (targetId == null) {continue;}
-                    var stage = node.property(io.casehub.blocks.agentic.social.OverlayFamiliarityPropertyModel.FAMILIARITY_STAGE).orElse("stranger");
+                    var stage = node.property(io.casehub.neocortex.cognition.relationship.OverlayFamiliarityPropertyModel.FAMILIARITY_STAGE).orElse("stranger");
                     stageMap.put(targetId, stage);
                 }
             }

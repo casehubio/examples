@@ -2,8 +2,8 @@ package io.casehub.examples.manor.experiment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import io.casehub.blocks.agentic.social.CognitionConfig;
-import io.casehub.blocks.agentic.social.CognitionCore;
+import io.casehub.neocortex.cognition.core.CognitionConfig;
+import io.casehub.neocortex.cognition.core.CognitionCore;
 import io.casehub.examples.manor.agent.CognitiveActivationTest;
 import io.casehub.platform.agent.AgentProvider;
 import io.quarkus.test.junit.QuarkusTest;

@@ -103,7 +103,7 @@ class ManorSocialConfigLoaderTest {
         var configs       = ManorSocialConfigLoader.load();
         var dickDastardly = configs.get("dick-dastardly");
         assertThat(dickDastardly.stageConfig())
-                .isEqualTo(io.casehub.blocks.agentic.social.RelationshipStageConfig.defaults());
+                .isEqualTo(io.casehub.neocortex.cognition.relationship.RelationshipStageConfig.defaults());
     }
 
     @Test

@@ -1,10 +1,10 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.agentic.social.MentalModelSnapshot;
-import io.casehub.blocks.agentic.social.StrategyProfile;
-import io.casehub.blocks.agentic.social.UserProfile;
-import io.casehub.blocks.agentic.social.narrative.NarrativeScope;
-import io.casehub.blocks.agentic.social.narrative.NarrativeState;
+import io.casehub.neocortex.cognition.mentalmodel.MentalModelSnapshot;
+import io.casehub.neocortex.cognition.strategy.StrategyProfile;
+import io.casehub.neocortex.cognition.usermodel.UserProfile;
+import io.casehub.neocortex.cognition.narrative.NarrativeScope;
+import io.casehub.neocortex.cognition.narrative.NarrativeState;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

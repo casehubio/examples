@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.agentic.social.narrative.NarrativeState;
-import io.casehub.blocks.agentic.social.narrative.NarrativeStore;
+import io.casehub.neocortex.cognition.narrative.NarrativeState;
+import io.casehub.neocortex.cognition.narrative.NarrativeStore;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Map;

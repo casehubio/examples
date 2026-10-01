@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.agentic.social.StrategyProfile;
-import io.casehub.blocks.agentic.social.StrategyStore;
+import io.casehub.neocortex.cognition.strategy.StrategyProfile;
+import io.casehub.neocortex.cognition.strategy.StrategyStore;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 final class InMemoryStrategyStore implements StrategyStore {
     private final Map<String, StrategyProfile> profiles = new ConcurrentHashMap<>();
-    private final java.util.List<io.casehub.blocks.agentic.social.EngagementEvidence> evidence = new java.util.concurrent.CopyOnWriteArrayList<>();
+    private final java.util.List<io.casehub.neocortex.cognition.strategy.EngagementEvidence> evidence = new java.util.concurrent.CopyOnWriteArrayList<>();
 
 
     @Override public void store(StrategyProfile profile) {
@@ -32,7 +32,7 @@ final class InMemoryStrategyStore implements StrategyStore {
     @Override public void eraseSubject(String subjectId, String tenantId) {}
 
     @Override
-    public void storeEvidence(io.casehub.blocks.agentic.social.EngagementEvidence e) {
+    public void storeEvidence(io.casehub.neocortex.cognition.strategy.EngagementEvidence e) {
         evidence.add(e);
     }
 
@@ -44,10 +44,10 @@ final class InMemoryStrategyStore implements StrategyStore {
     }
 
     @Override
-    public java.util.List<io.casehub.blocks.agentic.social.EngagementEvidence> recentEvidence(String agentId, String tenantId, int limit) {
+    public java.util.List<io.casehub.neocortex.cognition.strategy.EngagementEvidence> recentEvidence(String agentId, String tenantId, int limit) {
         return evidence.stream()
                        .filter(ev -> ev.agentId().equals(agentId) && ev.tenantId().equals(tenantId))
-                       .sorted(java.util.Comparator.comparing(io.casehub.blocks.agentic.social.EngagementEvidence::recordedAt).reversed())
+                       .sorted(java.util.Comparator.comparing(io.casehub.neocortex.cognition.strategy.EngagementEvidence::recordedAt).reversed())
                        .limit(limit)
                        .toList();
     }

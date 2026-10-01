@@ -1,6 +1,6 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.agentic.social.RelationshipStageConfig;
+import io.casehub.neocortex.cognition.relationship.RelationshipStageConfig;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;

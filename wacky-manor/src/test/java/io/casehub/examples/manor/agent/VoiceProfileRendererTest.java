@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.agentic.social.CognitionConfig;
-import io.casehub.blocks.agentic.social.prompt.CognitiveSystemPromptRenderer;
+import io.casehub.neocortex.cognition.core.CognitionConfig;
+import io.casehub.neocortex.cognition.prompt.CognitiveSystemPromptRenderer;
 import io.casehub.eidos.api.AgentDescriptor;
 import io.casehub.eidos.api.AgentPromptContext;
 import io.casehub.eidos.api.AgentVoiceProfile;

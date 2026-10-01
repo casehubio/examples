@@ -296,9 +296,9 @@ class CharacterCognitionTest {
 
         var seedResult = seeder.seed(agent, allConfigs.get(agent), tenant);
 
-        var cognitionCore = new io.casehub.blocks.agentic.social.CognitionCore(
+        var cognitionCore = new io.casehub.neocortex.cognition.core.CognitionCore(
                 null, null, null, null, null, null, null, null, null, null,
-                io.casehub.blocks.agentic.social.CognitionConfig.none()
+                io.casehub.neocortex.cognition.core.CognitionConfig.none()
                                                                 .with("characterDrives", true)
                                                                 .with("needsPyramid", true),
                 store, new ManorNeedTierMappingProvider(), null, null, null, null, null);
@@ -343,17 +343,17 @@ class CharacterCognitionTest {
 
         var seedResult = seeder.seed(agent, allConfigs.get(agent), tenant);
 
-        var goalOrchestrator = new io.casehub.blocks.agentic.social.goal.GoalProposalOrchestrator(
+        var goalOrchestrator = new io.casehub.neocortex.cognition.goal.GoalProposalOrchestrator(
                 null, java.util.List.of(), null, java.util.Optional.empty(),
                 null, null, null,
-                io.casehub.blocks.agentic.social.goal.GoalProposalConfig.defaults(),
-                io.casehub.blocks.agentic.social.goal.GoalEscalationConfig.defaults(),
+                io.casehub.neocortex.cognition.goal.GoalProposalConfig.defaults(),
+                io.casehub.neocortex.cognition.goal.GoalEscalationConfig.defaults(),
                 java.time.Clock.systemUTC());
         seeder.seedGoals(agent, allConfigs.get(agent), goalOrchestrator, tenant);
 
-        var cognitionCore = new io.casehub.blocks.agentic.social.CognitionCore(
+        var cognitionCore = new io.casehub.neocortex.cognition.core.CognitionCore(
                 null, null, null, null, null, null, goalOrchestrator, null, null, null,
-                io.casehub.blocks.agentic.social.CognitionConfig.none()
+                io.casehub.neocortex.cognition.core.CognitionConfig.none()
                                                                 .with("goals", true)
                                                                 .with("characterDrives", true)
                                                                 .with("needsPyramid", true),
@@ -392,9 +392,9 @@ class CharacterCognitionTest {
 
         var seedResult = seeder.seed(agent, allConfigs.get(agent), tenant);
 
-        var cognitionCore = new io.casehub.blocks.agentic.social.CognitionCore(
+        var cognitionCore = new io.casehub.neocortex.cognition.core.CognitionCore(
                 null, null, null, null, null, null, null, null, null, null,
-                io.casehub.blocks.agentic.social.CognitionConfig.none()
+                io.casehub.neocortex.cognition.core.CognitionConfig.none()
                                                                 .with("characterDrives", true)
                                                                 .with("needsPyramid", true),
                 store, new ManorNeedTierMappingProvider(), null, null, null, null, null);

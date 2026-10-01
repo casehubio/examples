@@ -1,8 +1,8 @@
 package io.casehub.examples.manor.engine;
 
-import io.casehub.blocks.agentic.social.OverlayFamiliarityPropertyModel;
-import io.casehub.blocks.agentic.social.RelationshipStageConfig;
-import io.casehub.blocks.agentic.social.RelationshipStagePhase;
+import io.casehub.neocortex.cognition.relationship.OverlayFamiliarityPropertyModel;
+import io.casehub.neocortex.cognition.relationship.RelationshipStageConfig;
+import io.casehub.neocortex.cognition.relationship.RelationshipStagePhase;
 import io.casehub.examples.manor.agent.ManorCognitiveSeeder;
 import io.casehub.examples.manor.agent.ManorSocialConfigLoader;
 import io.casehub.neocortex.memory.CaseMemoryStore;

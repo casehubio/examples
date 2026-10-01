@@ -267,8 +267,8 @@ class EventDrivenEmergenceEvalTest {
     }
 
     static ObservationSection syntheticMoodSection(double pleasure, double arousal, double dominance) {
-        var label = io.casehub.blocks.agentic.social.prompt.MoodPromptSection.emotionLabel(pleasure, arousal, dominance);
-        var coloring = io.casehub.blocks.agentic.social.prompt.MoodPromptSection.behavioralColoring(pleasure, arousal, dominance);
+        var label = io.casehub.neocortex.cognition.prompt.MoodPromptSection.emotionLabel(pleasure, arousal, dominance);
+        var coloring = io.casehub.neocortex.cognition.prompt.MoodPromptSection.behavioralColoring(pleasure, arousal, dominance);
         var content = "You're feeling " + label + ".\n" + coloring;
         return ObservationSection.text("Current Emotional State", content);
     }
