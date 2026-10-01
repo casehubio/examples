@@ -34,14 +34,6 @@ class CharacterCognitionTest {
         assertThat(sections).isEmpty();
     }
 
-    @org.junit.jupiter.api.Disabled("pre-existing: recordTrustEvent removed in trust evolution refactor")
-    @Test
-    void recordTrustEventDoesNotThrow() {
-        // var cognition = new CharacterCognition("test-agent", null);
-        // cognition.recordTrustEvent("other-agent", ActionType.STEAL);
-        // cognition.recordTrustEvent("other-agent", ActionType.GIVE);
-    }
-
     @Test
     void recallMemoriesReturnsEmptyWithNullService() {
         var cognition = new CharacterCognition("test-agent", null);
