@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "date": "2026-10-02",
+    "profile": "COMPOSITE",
+    "mode": "AUTONOMOUS",
+    "activeCharacters": ["hooded-claw", "penelope-pitstop", "peter-perfect", "dick-dastardly"],
+    "maxTurns": 5,
+    "note": "Partial capture — server stopped before full run completed. Events captured via API polling.",
+    "context": "First run after directive-minimal YAML rewrite (#76). Briefings stripped to identity-only, tendencies in social-config, templates voice-only."
+  },
+  "events": [
+    {"type": "dialogue", "character": "penelope-pitstop", "room": "entrance-hall", "desc": "Penelope Pitstop: Why, HELLO there, everyone! Isn't this just the most MAGNIFICENT old mansion? Oh my stars, I am simply DELIGHTED to see so many frie..."},
+    {"type": "aside", "character": "penelope-pitstop", "room": "entrance-hall", "desc": "Oh my, what a charming old place! I do hope everyone gets along — there are quite a few strong personalities in this room. And that Mr. Sneekly... the..."},
+    {"type": "dialogue", "character": "hooded-claw", "room": "entrance-hall", "desc": "The Hooded Claw (as Sneekly): Ah, welcome, welcome, everyone! I am Sylvester Sneekly, the estate manager here at Doily Manor. What a PLEASURE to have ..."},
+    {"type": "aside", "character": "hooded-claw", "room": "entrance-hall", "desc": "Nyah-ha-ha-HA! That precariously hanging chandelier... that wobbly coat rack... this crumbling manor is POSITIVELY brimming with perilous possibilitie..."},
+    {"type": "dialogue", "character": "ant-hill-mob", "room": "entrance-hall", "desc": "The Ant Hill Mob: Alright boys, we made it! Doily Manor — what a joint! Now listen up, the number one priority is keepin' our dear Penelope safe and s..."},
+    {"type": "aside", "character": "ant-hill-mob", "room": "entrance-hall", "desc": "Something about that Sneekly character... the way he hovers around Penelope gives me the willies. But Clyde, old boy, you can't go accusin' people wit..."},
+    {"type": "dialogue", "character": "dick-dastardly", "room": "entrance-hall", "desc": "Dick Dastardly: Well, well, WELL! What a DELIGHTFUL gathering of... lesser minds! I, Dick Dastardly, have arrived to grace this manor with my MAGNIFIC..."},
+    {"type": "aside", "character": "dick-dastardly", "room": "entrance-hall", "desc": "Heh heh heh! They have NO idea that I intend to snatch the treasure right from under their noses! But first, let me examine this guest book — it might..."},
+    {"type": "dialogue", "character": "peter-perfect", "room": "entrance-hall", "desc": "Peter Perfect spoke quietly with penelope-pitstop."},
+    {"type": "aside", "character": "peter-perfect", "room": "entrance-hall", "desc": "Oh, I do hope she noticed how confidently I strode through that door. First impressions are EVERYTHING. And that Sneekly fellow — there's something pe..."},
+    {"type": "action", "character": "penelope-pitstop", "room": "entrance-hall", "desc": "Penelope Pitstop examined the guest-book."},
+    {"type": "action", "character": "hooded-claw", "room": "entrance-hall", "desc": "The Hooded Claw (as Sneekly) examined the null."},
+    {"type": "action", "character": "ant-hill-mob", "room": "entrance-hall", "desc": "The Ant Hill Mob examined the null."},
+    {"type": "action", "character": "dick-dastardly", "room": "entrance-hall", "desc": "Dick Dastardly examined the guest-book."},
+    {"type": "action", "character": "peter-perfect", "room": "entrance-hall", "desc": "Peter Perfect examined the null."},
+    {"type": "dialogue", "character": "penelope-pitstop", "room": "entrance-hall", "desc": "Penelope Pitstop: Why, Peter Perfect, you are just the SWEETEST thing! A girl does feel ever so much safer knowin' a true gentleman is on the case! Now, I happe..."},
+    {"type": "aside", "character": "penelope-pitstop", "room": "entrance-hall", "desc": "Oh my stars, that Mr. Sneekly keeps givin' me the strangest feelin'... like I've met him somewhere before. But heavens, I'm sure it's nothin'! He's probably jus..."},
+    {"type": "dialogue", "character": "hooded-claw", "room": "entrance-hall", "desc": "The Hooded Claw (as Sneekly): Ah, yes, the guest book! As estate manager, I really SHOULD review the entries. One must keep proper records, you understand. Let ..."},
+    {"type": "aside", "character": "hooded-claw", "room": "entrance-hall", "desc": "Nyah-ha-ha-HA! While these FOOLS sign their names like obedient little lambs, I — the humble Sylvester Sneekly — shall scrutinize every word in that guest book ..."},
+    {"type": "dialogue", "character": "ant-hill-mob", "room": "entrance-hall", "desc": "The Ant Hill Mob: Hey hey HEY, hold your horses everybody! Before we go chargin' off into this spooky old joint, a RESPONSIBLE protector — which is what I am, m..."},
+    {"type": "aside", "character": "ant-hill-mob", "room": "entrance-hall", "desc": "That Sneekly character is still hoverin' around like a moth to a flame. The way he's watchin' Penelope... it ain't RIGHT. But Ma always said, 'Clyde, you catch ..."},
+    {"type": "dialogue", "character": "dick-dastardly", "room": "entrance-hall", "desc": "Dick Dastardly: AH HA! Well, well, well! How FASCINATING! This guest book contains a MOST illuminating entry from the previous owner — and it says, quite CLEARL..."},
+    {"type": "aside", "character": "dick-dastardly", "room": "entrance-hall", "desc": "Heh heh HEH! The guest book said NOTHING of the sort, of course! But once these gullible fools go stampeding into the kitchen, I shall slink off to the LIBRARY!..."},
+    {"type": "dialogue", "character": "peter-perfect", "room": "entrance-hall", "desc": "Peter Perfect spoke quietly with penelope-pitstop."},
+    {"type": "aside", "character": "peter-perfect", "room": "entrance-hall", "desc": "Oh, if I can find a clue that Penelope missed, she'll be EVER so impressed with my thoroughness! And I must admit, that Sneekly fellow's suggestion about the gu..."}
+  ]
+}
