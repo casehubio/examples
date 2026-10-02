@@ -67,7 +67,6 @@ descriptors:
       - ref: cartoon-villain
         args:
           catchphrase: "Nyah-ha-ha-HA!"
-          nemesis: Penelope Pitstop
           scheme_style: grandiose and theatrical
     goals:
       - name: eliminate-penelope
@@ -128,7 +127,6 @@ descriptors:
       - ref: hanna-barbera-cartoon-style
       - ref: cartoon-protector
         args:
-          protected_character: Penelope Pitstop
           protection_style: bumbling and accidental
     goals:
       - name: protect-penelope
@@ -177,7 +175,6 @@ descriptors:
       - ref: cartoon-villain
         args:
           catchphrase: "Drat, drat, and double DRAT!"
-          nemesis: everyone
           scheme_style: sneering and self-aggrandising
     goals:
       - name: steal-treasure
@@ -226,7 +223,6 @@ descriptors:
       - ref: cartoon-hero
         args:
           heroic_trait: gallant chivalry
-          motivation: impressing Penelope Pitstop
     goals:
       - name: impress-penelope
         description: Impress Penelope Pitstop by being heroic and gallant
