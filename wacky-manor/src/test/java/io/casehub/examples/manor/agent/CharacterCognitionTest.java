@@ -82,9 +82,9 @@ class CharacterCognitionTest {
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState("hooded-claw", "HC", "Room", 0.0, List.of()),
                 List.of("penelope-pitstop"), Map.of("penelope-pitstop", "Penelope Pitstop"));
-        assertThat(sections).hasSize(3);
+        assertThat(sections).hasSize(4);
         assertThat(sections.stream().map(s -> s.header()).toList())
-                .containsExactly("Your Beliefs", "Social Rules", "Active Voice");
+                .containsExactly("Your Behavioral Tendencies", "Your Beliefs", "Social Rules", "Active Voice");
     }
 
     @Test
@@ -437,4 +437,16 @@ class CharacterCognitionTest {
     }
 
 
+    @Test
+    void rendersTendenciesAsFirstCognitiveSection() {
+        var socialConfig = ManorSocialConfigLoader.load().get("penelope-pitstop");
+        var cognition = new CharacterCognition("penelope-pitstop", null, null,
+                                               socialConfig, java.util.List.of());
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState(
+                        "penelope-pitstop", "Penelope", "Room", 0.0, java.util.List.of()),
+                java.util.List.of(), java.util.Map.of());
+        assertThat(sections).isNotEmpty();
+        assertThat(sections.get(0).header()).isEqualTo("Your Behavioral Tendencies");
+    }
 }

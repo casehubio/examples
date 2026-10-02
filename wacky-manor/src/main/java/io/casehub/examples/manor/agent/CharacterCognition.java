@@ -103,6 +103,11 @@ public final class CharacterCognition {
             Map<String, String> agentNames) {
         var sections = new ArrayList<ObservationSection>();
 
+        if (!socialConfig.tendencies().isEmpty()) {
+            sections.add(ObservationSection.items(
+                    "Your Behavioral Tendencies", null, socialConfig.tendencies()));
+        }
+
         if (mindMapStore != null && tenantId != null) {
             var beliefSubgraphName = ManorCognitiveSeeder.subgraphName(agentId);
             var subgraphs          = mindMapStore.listSubgraphs(tenantId);

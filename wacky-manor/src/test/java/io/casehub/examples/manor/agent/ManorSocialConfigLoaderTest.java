@@ -114,4 +114,13 @@ class ManorSocialConfigLoaderTest {
         assertThat(penelope.stageConfig().positiveWeight()).isEqualTo(1.2);
     }
 
+    @Test
+    void parsesNewTendenciesField() {
+        var configs  = ManorSocialConfigLoader.load();
+        var penelope = configs.get("penelope-pitstop");
+        assertThat(penelope.tendencies()).isNotEmpty();
+        assertThat(penelope.tendencies().get(0)).contains("wellbeing");
+    }
+
+
 }

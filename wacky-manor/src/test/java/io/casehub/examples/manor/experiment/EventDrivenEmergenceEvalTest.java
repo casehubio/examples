@@ -103,7 +103,7 @@ class EventDrivenEmergenceEvalTest {
         var hcAfter = new SocialConfig(
                 hcBase.goals(), hcFrustratedDrives, hcBase.norms(), hcRevisedBeliefs,
                 hcBase.relationships(), hcBase.reinforcement(), hcBase.stageConfig(),
-                hcBase.personaConstraint());
+                hcBase.personaConstraint(), List.of());
 
         var nearbyBoth = List.of("penelope-pitstop", "peter-perfect");
         var namesBoth = Map.of("penelope-pitstop", "Penelope Pitstop",
@@ -143,7 +143,7 @@ class EventDrivenEmergenceEvalTest {
                                 configs.get("penelope-pitstop").relationships(),
                                 configs.get("penelope-pitstop").reinforcement(),
                                 configs.get("penelope-pitstop").stageConfig(),
-                                configs.get("penelope-pitstop").personaConstraint()),
+                                configs.get("penelope-pitstop").personaConstraint(), List.of()),
                         null,
                         null,
                         "Sneekly approaches you with a warm smile and says " +

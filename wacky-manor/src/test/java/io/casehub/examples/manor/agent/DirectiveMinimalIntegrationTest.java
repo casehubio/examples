@@ -1,18 +1,17 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.neocortex.cognition.core.CognitionConfig;
-import io.casehub.neocortex.cognition.core.CognitionCore;
-import io.casehub.neocortex.cognition.goal.GoalEscalationConfig;
-import io.casehub.neocortex.cognition.goal.GoalProposalConfig;
-import io.casehub.neocortex.cognition.goal.GoalProposalOrchestrator;
-import io.casehub.neocortex.cognition.prompt.CognitiveSystemPromptRenderer;
-import io.casehub.blocks.speech.PromptContext;
 import io.casehub.eidos.api.AgentConstraint;
 import io.casehub.eidos.api.AgentDescriptor;
 import io.casehub.eidos.api.AgentPromptContext;
 import io.casehub.eidos.api.ConstraintSeverity;
 import io.casehub.eidos.api.SystemPromptRenderer.RenderFormat;
 import io.casehub.eidos.api.Visibility;
+import io.casehub.neocortex.cognition.core.CognitionConfig;
+import io.casehub.neocortex.cognition.core.CognitionCore;
+import io.casehub.neocortex.cognition.goal.GoalEscalationConfig;
+import io.casehub.neocortex.cognition.goal.GoalProposalConfig;
+import io.casehub.neocortex.cognition.goal.GoalProposalOrchestrator;
+import io.casehub.neocortex.cognition.prompt.CognitiveSystemPromptRenderer;
 import org.junit.jupiter.api.Test;
 
 import java.time.Clock;
@@ -121,4 +120,74 @@ class DirectiveMinimalIntegrationTest {
             }
         }
     }
+
+    @Test
+    void allBriefingsAreIdentityOnly() throws Exception {
+        var url = Thread.currentThread().getContextClassLoader()
+                        .getResource("META-INF/eidos/descriptors-composite.yaml");
+        assertThat(url).isNotNull();
+        try (var stream = url.openStream()) {
+            var descriptors = new io.casehub.eidos.core.registrar.ClasspathYamlDescriptorRegistrar()
+                                      .loadFrom(stream, null);
+            for (var desc : descriptors) {
+                var briefing = desc.briefing();
+                if (briefing == null || briefing.isBlank()) {continue;}
+                var wordCount = briefing.strip().split("\\s+").length;
+                assertThat(wordCount)
+                        .as("Briefing for %s is %d words (max 40)", desc.agentId(), wordCount)
+                        .isLessThanOrEqualTo(40);
+                assertThat(briefing)
+                        .as("Briefing for %s should not contain situational instructions", desc.agentId())
+                        .doesNotContainIgnoringCase("when you")
+                        .doesNotContainIgnoringCase("before you")
+                        .doesNotContainIgnoringCase("if someone");
+            }
+        }
+    }
+
+    @Test
+    void allCharactersHaveVoiceSections() throws Exception {
+        var url = Thread.currentThread().getContextClassLoader()
+                        .getResource("META-INF/eidos/descriptors-composite.yaml");
+        assertThat(url).isNotNull();
+        try (var stream = url.openStream()) {
+            var descriptors = new io.casehub.eidos.core.registrar.ClasspathYamlDescriptorRegistrar()
+                                      .loadFrom(stream, null);
+            for (var desc : descriptors) {
+                assertThat(desc.voice())
+                        .as("Character %s should have a voice section", desc.agentId())
+                        .isNotNull();
+            }
+        }
+    }
+
+    @Test
+    void tendenciesRenderedAsFirstCognitiveSection() {
+        var socialConfigs = ManorSocialConfigLoader.load();
+        for (var entry : socialConfigs.entrySet()) {
+            if (entry.getValue().tendencies().isEmpty()) {continue;}
+            var cognition = new CharacterCognition(entry.getKey(), null, null,
+                                                   entry.getValue(), java.util.List.of());
+            var sections = cognition.renderCognitiveSections(
+                    new io.casehub.examples.manor.model.CharacterState(
+                            entry.getKey(), entry.getKey(), "Room", 0.0, java.util.List.of()),
+                    java.util.List.of(), java.util.Map.of());
+            assertThat(sections).isNotEmpty();
+            assertThat(sections.get(0).header())
+                    .as("First cognitive section for %s should be tendencies", entry.getKey())
+                    .isEqualTo("Your Behavioral Tendencies");
+        }
+    }
+
+    @Test
+    void allCharactersHaveTendencies() {
+        var socialConfigs = ManorSocialConfigLoader.load();
+        for (var entry : socialConfigs.entrySet()) {
+            assertThat(entry.getValue().tendencies())
+                    .as("Character %s should have tendencies", entry.getKey())
+                    .isNotEmpty();
+        }
+    }
+
+
 }

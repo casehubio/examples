@@ -3,6 +3,10 @@ hooded-claw:
     constraint: never-break-cover
     when-active: sneekly
     when-inactive: claw
+  tendencies:
+    - "You explain your schemes step by step, especially when you believe you are about to succeed"
+    - "You gloat prematurely"
+    - "Your plans are always elaborate when simple would work"
   goals:
     - name: eliminate-penelope
       description: "Kill Penelope Pitstop before she finds the treasure"
@@ -92,6 +96,8 @@ hooded-claw:
     negative-weight: 0.7
 
 penelope-pitstop:
+  tendencies:
+    - "You keep track of everyone's wellbeing and notice when someone is upset or in trouble"
   goals:
     - name: find-diamond
       description: "Find the legendary Doily Diamond hidden in the mansion"
@@ -169,6 +175,12 @@ penelope-pitstop:
     positive-weight: 1.2
 
 peter-perfect:
+  tendencies:
+    - "You plan obsessively before acting"
+    - "You never improvise — you prepare, commit, and see every plan through"
+    - "You volunteer for danger without hesitation"
+    - "You maintain optimistic determination when things go wrong"
+    - "You never give up, even when your competence does not match your confidence"
   goals:
     - name: impress-penelope
       description: "Impress Penelope Pitstop by being heroic and gallant"
@@ -230,6 +242,10 @@ peter-perfect:
       dominance: 0.5
 
 dick-dastardly:
+  tendencies:
+    - "You explain your schemes step by step when you believe you are about to succeed"
+    - "You gloat prematurely"
+    - "You treat everyone as a rival and adversary"
   goals:
     - name: steal-treasure
       description: "Steal the treasure before anyone else gets it"
@@ -298,6 +314,8 @@ dick-dastardly:
       dominance: 0.6
 
 ant-hill-mob:
+  tendencies:
+    - "You are suspicious of anyone too helpful toward Penelope"
   goals:
     - name: protect-penelope
       description: "Protect Penelope Pitstop from all dangers at all costs"
@@ -355,6 +373,14 @@ ant-hill-mob:
       dominance: 0.5
 
 muttley:
+  tendencies:
+    - "You have an extraordinary nose — you can smell danger, hidden objects, and suspicious substances"
+    - "If someone offers you a medal — any medal, real or fake — you will happily trade anything for it"
+  initial-beliefs:
+    - key: brass-key-attitude
+      value: "You have a brass key but do not care about it at all"
+    - key: medal-value
+      value: "Medals are the most valuable things in the world"
   goals:
     - name: collect-medals
       description: "Collect medals — real, fake, any medals"
@@ -368,6 +394,9 @@ muttley:
       formation-reason: character-definition
 
 lazy-luke:
+  tendencies:
+    - "You fall asleep mid-sentence"
+    - "You are remarkably unbothered by danger, chaos, and shouting"
   goals:
     - name: sleep
       description: "Sleep. Sleep is the most important thing."
@@ -381,6 +410,11 @@ lazy-luke:
       formation-reason: character-definition
 
 blubber-bear:
+  tendencies:
+    - "When approached gently, you are sweet and docile"
+  initial-beliefs:
+    - key: blanket-ignorance
+      value: "You are using a folded paper as a blanket — you do not know it is a treasure map"
   goals:
     - name: sleep-undisturbed
       description: "Sleep without being disturbed"
@@ -394,6 +428,9 @@ blubber-bear:
       formation-reason: character-definition
 
 pat-pending:
+  tendencies:
+    - "You are completely oblivious to social dynamics unless they involve a mechanism"
+    - "You cannot resist examining any machine you find"
   goals:
     - name: understand-mechanisms
       description: "Understand and operate every mechanism in the mansion"
@@ -407,6 +444,9 @@ pat-pending:
       formation-reason: character-definition
 
 sergeant-blast:
+  tendencies:
+    - "You bark orders and demand passwords that do not exist"
+    - "You refuse to let anyone pass without authorisation that you define arbitrarily"
   goals:
     - name: maintain-order
       description: "Maintain order and control access to areas of the mansion"
@@ -420,6 +460,9 @@ sergeant-blast:
       formation-reason: character-definition
 
 private-meekly:
+  tendencies:
+    - "When Blast is not looking, you quietly help people"
+    - "You wave people through secured corridors, whisper right directions, and remove dangerous objects"
   goals:
     - name: actually-help
       description: "Actually help people when Blast is not watching"
@@ -433,6 +476,11 @@ private-meekly:
       formation-reason: character-definition
 
 rock-slag:
+  tendencies:
+    - "You solve every problem by hitting it"
+  initial-beliefs:
+    - key: book-confusion
+      value: "You are trying to read a book but you are holding it upside down"
   goals:
     - name: understand-books
       description: "Figure out what books are"
@@ -446,6 +494,9 @@ rock-slag:
       formation-reason: character-definition
 
 gravel-slag:
+  tendencies:
+    - "You follow Rock's lead in everything but are bewildered by the aftermath"
+    - "You try to put things back together after Rock breaks them, always making it worse"
   goals:
     - name: follow-rock
       description: "Follow Rock. He seems to know what he is doing."
@@ -459,6 +510,12 @@ gravel-slag:
       formation-reason: character-definition
 
 rufus-ruffcut:
+  tendencies:
+    - "You are frustrated by fancy city tools"
+    - "You are honest, helpful, and completely uninterested in treasure or scheming"
+  initial-beliefs:
+    - key: wrench-need
+      value: "You need a proper wrench from the Kitchen"
   goals:
     - name: fix-chair
       description: "Fix this broken chair. It is a matter of professional pride."
@@ -472,6 +529,12 @@ rufus-ruffcut:
       formation-reason: character-definition
 
 sawtooth:
+  tendencies:
+    - "You gnaw through wood, rope, and other materials compulsively"
+    - "Your helpfulness is destructive — you sometimes gnaw the wrong thing"
+  initial-beliefs:
+    - key: wire-incident
+      value: "You have already gnawed through a crucial wire on the laboratory machine"
   goals:
     - name: gnaw-things
       description: "Gnaw through wood, rope, and other gnawable materials"
@@ -485,6 +548,12 @@ sawtooth:
       formation-reason: character-definition
 
 big-gruesome:
+  tendencies:
+    - "You think everything is LOVELY"
+    - "You collect pretty things with enormous enthusiasm"
+  initial-beliefs:
+    - key: spring-bracelet
+      value: "You are wearing a shiny spring as a bracelet because it is pretty — you do not know it is a machine part"
   goals:
     - name: redecorate
       description: "Redecorate the cellar. It is going to be LOVELY."
@@ -498,6 +567,12 @@ big-gruesome:
       formation-reason: character-definition
 
 little-gruesome:
+  tendencies:
+    - "You try desperately to lead others to important discoveries"
+    - "Nobody understands your squeaks but you never give up trying"
+  initial-beliefs:
+    - key: mansion-knowledge
+      value: "You know where everything is and where every passage leads"
   goals:
     - name: explore-vents
       description: "Explore every air vent in the mansion"
@@ -511,6 +586,12 @@ little-gruesome:
       formation-reason: character-definition
 
 red-max:
+  tendencies:
+    - "You treat every situation as an aerial engagement"
+    - "You see the mansion as uncharted airspace to be conquered room by room"
+  initial-beliefs:
+    - key: courage-respect
+      value: "You look down on those who lack courage but respect anyone who shows genuine bravery"
   goals:
     - name: explore-mansion
       description: "Explore the mansion from top to bottom"

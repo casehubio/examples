@@ -108,26 +108,26 @@ public final class ManorSocialConfigLoader {
 
         io.casehub.neocortex.cognition.relationship.RelationshipStageConfig stageConfig = null;
         if (raw.containsKey("familiarity-thresholds")) {
-            var ftRaw = (Map<String, Object>) raw.get("familiarity-thresholds");
+            var ftRaw    = (Map<String, Object>) raw.get("familiarity-thresholds");
             var defaults = io.casehub.neocortex.cognition.relationship.RelationshipStageConfig.defaults();
             var tiers = ftRaw.containsKey("tiers")
-                ? ((List<Map<String, Object>>) ftRaw.get("tiers")).stream()
-                    .map(t -> new io.casehub.neocortex.cognition.relationship.StageTier(
-                        (String) t.get("name"),
-                        ((Number) t.get("threshold")).doubleValue()))
-                    .toList()
-                : defaults.tiers();
+                        ? ((List<Map<String, Object>>) ftRaw.get("tiers")).stream()
+                                                                          .map(t -> new io.casehub.neocortex.cognition.relationship.StageTier(
+                                                                                  (String) t.get("name"),
+                                                                                  ((Number) t.get("threshold")).doubleValue()))
+                                                                          .toList()
+                        : defaults.tiers();
             double decayRate = ftRaw.containsKey("decay-rate")
-                ? ((Number) ftRaw.get("decay-rate")).doubleValue()
-                : defaults.decayRate();
+                               ? ((Number) ftRaw.get("decay-rate")).doubleValue()
+                               : defaults.decayRate();
             double positiveWeight = ftRaw.containsKey("positive-weight")
-                ? ((Number) ftRaw.get("positive-weight")).doubleValue()
-                : defaults.positiveWeight();
+                                    ? ((Number) ftRaw.get("positive-weight")).doubleValue()
+                                    : defaults.positiveWeight();
             double negativeWeight = ftRaw.containsKey("negative-weight")
-                ? ((Number) ftRaw.get("negative-weight")).doubleValue()
-                : defaults.negativeWeight();
+                                    ? ((Number) ftRaw.get("negative-weight")).doubleValue()
+                                    : defaults.negativeWeight();
             stageConfig = new io.casehub.neocortex.cognition.relationship.RelationshipStageConfig(
-                tiers, decayRate, positiveWeight, negativeWeight);
+                    tiers, decayRate, positiveWeight, negativeWeight);
         }
 
         SocialConfig.PersonaConstraintMapping personaConstraint = null;
@@ -139,5 +139,11 @@ public final class ManorSocialConfigLoader {
                     (String) pcRaw.get("when-inactive"));
         }
 
-        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig, personaConstraint);}
+        @SuppressWarnings("unchecked")
+        var tendencies = raw.containsKey("tendencies")
+                         ? ((List<String>) raw.get("tendencies"))
+                         : List.<String>of();
+
+        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig, personaConstraint, tendencies);
+    }
 }

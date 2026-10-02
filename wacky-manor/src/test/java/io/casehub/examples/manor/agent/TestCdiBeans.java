@@ -22,7 +22,7 @@ public class TestCdiBeans {
     @Singleton
     @io.quarkus.test.Mock
     public VocabularyRegistry vocabularyRegistry() {
-        return new io.casehub.engine.runtime.worker.NoOpVocabularyRegistry();
+        return new io.casehub.engine.internal.worker.NoOpVocabularyRegistry();
     }
 
     @Produces

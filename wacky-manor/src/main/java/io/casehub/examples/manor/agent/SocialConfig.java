@@ -15,7 +15,8 @@ public record SocialConfig(
         List<Relationship> relationships,
         Map<String, List<ReinforcementMapping>> reinforcement,
         RelationshipStageConfig stageConfig,
-        @Nullable PersonaConstraintMapping personaConstraint
+        @Nullable PersonaConstraintMapping personaConstraint,
+        List<String> tendencies
 ) {
     public SocialConfig {
         goals          = goals != null ? List.copyOf(goals) : List.of();
@@ -25,17 +26,18 @@ public record SocialConfig(
         relationships  = relationships != null ? List.copyOf(relationships) : List.of();
         reinforcement  = reinforcement != null ? Map.copyOf(reinforcement) : Map.of();
         if (stageConfig == null) {stageConfig = RelationshipStageConfig.defaults();}
+        tendencies = tendencies != null ? List.copyOf(tendencies) : List.of();
     }
 
     public SocialConfig(List<GoalConfig> goals, List<Drive> drives, List<NormEntry> norms,
-                         List<InitialBelief> initialBeliefs, List<Relationship> relationships,
-                         Map<String, List<ReinforcementMapping>> reinforcement,
-                         RelationshipStageConfig stageConfig) {
-        this(goals, drives, norms, initialBeliefs, relationships, reinforcement, stageConfig, null);
+                        List<InitialBelief> initialBeliefs, List<Relationship> relationships,
+                        Map<String, List<ReinforcementMapping>> reinforcement,
+                        RelationshipStageConfig stageConfig) {
+        this(goals, drives, norms, initialBeliefs, relationships, reinforcement, stageConfig, null, List.of());
     }
 
     public static SocialConfig empty() {
-        return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null, null);
+        return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null, null, List.of());
     }
 
     public record GoalConfig(String name, String description, String axis,
