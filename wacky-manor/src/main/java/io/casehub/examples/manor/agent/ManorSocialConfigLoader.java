@@ -20,6 +20,15 @@ public final class ManorSocialConfigLoader {
         return load(DEFAULT_RESOURCE);
     }
 
+    public static Map<String, SocialConfig> loadForProfile(String profileName) {
+        String profileResource = String.format("META-INF/eidos/social-config-%s.yaml", profileName.toLowerCase(java.util.Locale.ROOT));
+        if (Thread.currentThread().getContextClassLoader().getResource(profileResource) != null) {
+            return load(profileResource);
+        }
+        return load(DEFAULT_RESOURCE);
+    }
+
+
     @SuppressWarnings("unchecked")
     public static Map<String, SocialConfig> load(String resourcePath) {
         InputStream is = Thread.currentThread().getContextClassLoader()

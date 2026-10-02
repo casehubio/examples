@@ -66,6 +66,10 @@ public class ScenarioOrchestrator {
     ManorGoalFormationStrategy goalFormationStrategy;
     @Inject
     ManorGoalRevisionStrategy  goalRevisionStrategy;
+    @Inject
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "manor.scenario.profile", defaultValue = "BASELINE")
+    io.casehub.examples.manor.model.ProfileMode profileMode;
+
 
     @Inject
     ManorPlanRevisionStrategy  planRevisionStrategy;
@@ -203,7 +207,7 @@ public class ScenarioOrchestrator {
         var activeSet = config.activeCharacters().isBlank() ? null
                 : java.util.Set.copyOf(java.util.Arrays.asList(config.activeCharacters().split(",")));
 
-        var socialConfigs = ManorSocialConfigLoader.load();
+        var socialConfigs = ManorSocialConfigLoader.loadForProfile(profileMode.name());
 
         for (var entry : world.characters().entrySet()) {
             if (activeSet != null && !activeSet.contains(entry.getKey())) {continue;}
