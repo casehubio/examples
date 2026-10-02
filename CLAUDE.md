@@ -25,19 +25,19 @@ Multi-example repository for CaseHub platform modules. Each subdirectory is an i
 ## Build and Test
 
 ```bash
-# Build wacky-manor only
-JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn clean install -pl wacky-manor -s slot-settings.xml
+# Build wacky-manor only (from wacky-manor pom — parent reactor has unresolvable desiredstate deps)
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml install -Dmaven.test.skip=true -s .mvn/slot-settings.xml
 
 # Run wacky-manor tests (standard suite)
-JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn test -pl wacky-manor -s slot-settings.xml
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml test -s .mvn/slot-settings.xml
 
 # Run LLM evaluation tests (requires API key, non-deterministic)
-JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn test -pl wacky-manor -Pllm-eval -s slot-settings.xml
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml test -Pllm-eval -s .mvn/slot-settings.xml
 
-# Run wacky-manor dev mode (backend on 8180, frontend on 5173)
-JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn quarkus:dev -pl wacky-manor -Dquarkus.http.port=8180 -s slot-settings.xml
-npm --prefix wacky-manor/src/main/webui run dev
+# Run wacky-manor dev mode (backend on 8180)
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml quarkus:dev -Dquarkus.http.port=8180 -s .mvn/slot-settings.xml
 # Use curl -4 http://127.0.0.1:8180 for API calls (IPv6 hits Maven launcher, not app)
+# For generic character profile: add -Dmanor.scenario.profile=generic
 ```
 
 **Use `mvn` not `./mvnw`** — maven wrapper not configured on this machine.
@@ -68,6 +68,8 @@ POC spec: `wacky-manor/docs/POC-SPEC.md`
 Vision: `wacky-manor/docs/VISION.md`
 
 Phase 0–2.8 complete. 17 characters across 6 rooms. Phase 2.9 next: scale testing and game mechanics.
+
+**Profiles:** `BASELINE` (default, Wacky Races), `JUNGIAN`, `BELBIN`, `COMPOSITE`, `GENERIC` (renamed characters, no pop-culture refs — for taxonomy validation). Set via `manor.scenario.profile`.
 
 **Dependencies beyond Eidos/Qhorus/Blocks:**
 - `casehub-engine-api` — GoalFormationStrategy/GoalRevisionStrategy SPIs for reflection-driven goal lifecycle
