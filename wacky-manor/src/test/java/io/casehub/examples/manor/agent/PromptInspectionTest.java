@@ -82,4 +82,42 @@ class PromptInspectionTest {
         System.out.println(result.content());
         System.out.println("═══════════════════════════════════════════════════════");
     }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    void verifyNoUnexpectedTemplateArgs() throws Exception {
+        var mapper = new com.fasterxml.jackson.databind.ObjectMapper(new com.fasterxml.jackson.dataformat.yaml.YAMLFactory());
+
+        var templatesUrl   = Thread.currentThread().getContextClassLoader().getResource("META-INF/eidos/templates.yaml");
+        var templateData   = (Map<String, Object>) mapper.readValue(templatesUrl.openStream(), Map.class);
+        var templates      = (java.util.List<Map<String, Object>>) templateData.get("templates");
+        var templateParams = new java.util.HashMap<String, java.util.Set<String>>();
+        for (var t : templates) {
+            var params = t.containsKey("parameters") ? new java.util.HashSet<>((java.util.List<String>) t.get("parameters")) : new java.util.HashSet<String>();
+            templateParams.put((String) t.get("id"), params);
+        }
+
+        var descriptorsUrl = Thread.currentThread().getContextClassLoader().getResource("META-INF/eidos/descriptors-composite.yaml");
+        var descData       = (Map<String, Object>) mapper.readValue(descriptorsUrl.openStream(), Map.class);
+        var descriptors    = (java.util.List<Map<String, Object>>) descData.get("descriptors");
+
+        for (var desc : descriptors) {
+            String agentId = (String) desc.get("agentId");
+            if (!desc.containsKey("templates")) {continue;}
+            var templateList = (java.util.List<Map<String, Object>>) desc.get("templates");
+            for (var tref : templateList) {
+                String refId   = (String) tref.get("ref");
+                var    allowed = templateParams.get(refId);
+                if (allowed == null || !tref.containsKey("args")) {continue;}
+                var args = (Map<String, Object>) tref.get("args");
+                for (var argKey : args.keySet()) {
+                    org.assertj.core.api.Assertions.assertThat(allowed)
+                                                   .as("Descriptor %s, template %s: unexpected arg '%s' (allowed: %s)",
+                                                       agentId, refId, argKey, allowed)
+                                                   .contains(argKey);
+                }
+            }
+        }
+        System.out.println("All template args validated — no unexpected args found.");
+    }
 }
