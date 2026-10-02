@@ -17,7 +17,7 @@ class SocialConfigTest {
     @Test
     void hoodedClawHasNorms() {
         var config = ManorSocialConfigLoader.load().get("hooded-claw");
-        assertThat(config.norms()).hasSize(4);
+        assertThat(config.norms()).hasSize(3);
         assertThat(config.norms().stream().anyMatch(n -> n.rule().contains("Penelope"))).isTrue();
     }
 

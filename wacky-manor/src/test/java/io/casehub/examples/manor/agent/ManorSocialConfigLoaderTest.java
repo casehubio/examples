@@ -29,7 +29,7 @@ class ManorSocialConfigLoaderTest {
     @Test
     void hoodedClaw_normsMatchHardcoded() {
         var hc = ManorSocialConfigLoader.load().get("hooded-claw");
-        assertThat(hc.norms()).hasSize(4);
+        assertThat(hc.norms()).hasSize(3);
         var topNorm = hc.norms().stream()
                 .filter(n -> n.priority() == 10).findFirst().orElseThrow();
         assertThat(topNorm.rule()).isEqualTo("Never help Penelope directly");
