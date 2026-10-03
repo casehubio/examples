@@ -1,0 +1,1882 @@
+{
+  "meta": {
+    "date": "2026-10-03",
+    "profile": "BASELINE",
+    "mode": "SCRIPTED",
+    "label": "pareback-round2-baseline",
+    "totalEvents": 311,
+    "context": "Pare-back round 2: ALL villain tendencies removed. Villains have zero tendencies \u2014 drives + template + voice only.",
+    "removed": [
+      "hooded-claw: ALL tendencies (explain-schemes, react-to-setbacks)",
+      "dastardly: ALL tendencies (explain-schemes, react-to-setbacks)"
+    ]
+  },
+  "events": [
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "The Hooded Claw (as Sneekly): Why, good gracious! What a magnificent foyer! Penelope, my dear ward, do be careful \u2014 that chandelier looks positively treacherous! Now then, let me just sign us into the guest book like proper visitors, shall I?"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "Nyah-ha-ha-HA! The chandelier... yes, that gives me a MOST delicious idea. But first, let me peruse this guest book \u2014 one never knows what secrets a manor's registry might reveal. And I must get that precious Penelope ALONE if my scheme is to succeed!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "The Hooded Claw (as Sneekly) examined the guest-book."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "entrance-hall",
+      "desc": "Dick Dastardly: Why, what a DREADFUL old pile this is! Dusty, dreary, and utterly beneath a man of MY stature. I do believe I shall retire to the library \u2014 for INTELLECTUAL pursuits, you understand. No need for ANY of you to follow me. None at all. In fact, I INSIST you all stay RIGHT here and... admire the portraits. Yes! Fascinating portraits! Don't move an INCH!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "entrance-hall",
+      "desc": "Heh heh heh! By telling them NOT to follow me, those simpletons will stay put while I, the BRILLIANT Dick Dastardly, find the treasure clue first! The library inscription is MINE!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly walked into the library."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The Ant Hill Mob: Alright boys, listen up, see? We just walked into this here Doily Manor and I got a FUNNY feelin' about this place \u2014 a VERY funny feelin'! That chandelier up there looks like it could drop any second, and there's dust everywhere, and \u2014 and would ya LOOK at all these suspicious characters! We gotta keep our eyes on Miss Penelope, see? She's countin' on us! Nobody's gonna lay a finger on her while the Ant Hill Mob is on the job!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "Something ain't right about Sneekly bein' here... I can't quite put my finger on it, but every time that guy shows up, Miss Penelope ends up in some kind of terrible predicament. I better watch him like a hawk \u2014 a very clumsy, accident-prone hawk."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The Ant Hill Mob examined the null."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Penelope Pitstop: Why, HAYLP! What a simply GORGEOUS mansion! Oh my stars, everyone's here already! Peter, dahling, how lovely to see you! Now then, I do believe this guest book might have some clues about that fabulous Doily Diamond. A lady always signs the guest book, but she ALSO reads what others have written!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Oh my, that Mr. Sneekly gives me the strangest feeling \u2014 like I've seen him somewhere before. But he seems like such a nice man! Now, let's see what secrets this old guest book might hold..."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Penelope Pitstop examined the guest-book."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "Peter Perfect: Why, Miss Pitstop! What a MAGNIFICENT stroke of fortune to find you here at Doily Manor! I, Peter Perfect, am at your COMPLETE and UTTER service! You needn't worry about a single thing \u2014 ghosts, ghouls, creaky floorboards, or precariously hanging chandeliers \u2014 I shall protect you from ALL of them! Now then, allow me to examine our surroundings and ensure everything is perfectly SAFE for a lady of your distinction!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "Oh, my heart is racing! She's even MORE dazzling than the last time I saw her. I simply MUST find that treasure before Dastardly does \u2014 imagine presenting it to Penelope! She'd be SO impressed! But first, let me get the lay of the land. That chandelier does look rather precarious..."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "Peter Perfect examined the null."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: Well, well, WELL! What have we here? A dusty old mantelpiece with some BORING inscription about... oh, let me see... cities and houses and fish. Pah! Clearly NONSENSE! The answer is obviously... a BATHTUB! Yes, a bathtub! Nothing of value here AT ALL, gentlemen. In fact, I heard from a VERY reliable source that the REAL treasure clue is hidden under the chandelier in the Entrance Hall. You two strapping fellows should go investigate that IMMEDIATELY! Lift it right up! Use those magnificent muscles of yours!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Heh heh HEH! The answer is a MAP, of course \u2014 any GENIUS knows that! But if I can trick these boulder-brained Slag Brothers into leaving, I'll have the inscription ALL to myself! A bathtub \u2014 oh, I AM deliciously wicked!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Penelope Pitstop: Why, that guest book was simply FASCINATIN'! Now then, y'all, I do believe that LIBRARY is callin' my name! A carved stone mantelpiece with an inscription? Why, that sounds like EXACTLY the sort of thing that might lead a girl to a legendary diamond! Peter dahling, Professor, y'all are welcome to join me \u2014 the more eyes on those dusty old books, the better!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Now, Penelope, you just KNOW that inscription on the mantelpiece is going to be a clue. Mama always said \u2014 when in doubt, read EVERYTHING carved in stone! And that sweet Mr. Dastardly is already in there \u2014 maybe he'll help me figure it out!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop walked into the library."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "Peter Perfect: Miss Pitstop, what a BRILLIANT observation about the guest book! A lady of your intellect AND beauty \u2014 why, it's almost too much for a fellow to handle! Allow me to take a closer look at it myself. If there are clues to be found about the Doily Diamond, I, Peter Perfect, shall leave NO page unturned in the pursuit of discovery \u2014 and in your service, of course!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "She said it might have clues about the diamond! If I can find something useful in that guest book and share it with her, she'll see that Peter Perfect is not just a pretty face and a dashing physique \u2014 I'm a DETECTIVE too! Oh, I do hope there's something good in there..."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "Peter Perfect examined the guest-book."
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "The Hooded Claw (as Sneekly): Oh my, oh my! All this excitement has made me positively PARCHED! I do believe I shall pop into the kitchen and see about some refreshments for everyone. A nice cup of tea, perhaps? Penelope dear, you stay here where it's safe \u2014 that chandelier does look rather unstable, and I wouldn't want you wandering off alone! I'll be back in two shakes of a lamb's tail!"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "Nyah-ha-ha-HA! The KITCHEN! What a treasure trove of diabolical implements awaits me there! While those foolish do-gooders stand about gawking at dusty portraits, I \u2014 The Hooded Claw \u2014 shall prepare the most FIENDISHLY elaborate trap this manor has ever seen! And the beauty of it is, they think I'm just making TEA! Oh, the delicious irony!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) walked into the kitchen."
+    },
+    {
+      "type": "narrator",
+      "character": "",
+      "room": "",
+      "desc": "The Hooded Claw's eyes GLEAM with malicious delight as he spots a most DIABOLICAL substance on the shelf!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The Ant Hill Mob: Now hold on, hold on, HOLD ON just a minute here, boys! Did you see the way that Dastardly fella practically SPRINTED outta here? 'Don't follow me,' he says \u2014 'stay here and look at portraits,' he says! Well I'll TELL ya what THAT means \u2014 it means he's up to NO GOOD, that's what! And Sneekly over there, all buddy-buddy with Miss Penelope \u2014 I dunno what it IS about that guy, but he gives me the WILLIES, see? The WILLIES! Now lemme just check this here coat rack \u2014 a mob's gotta have a proper escape route planned, and this thing by the door might come in handy if things go SIDEWAYS!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "Every time that Sneekly character shows up, somethin' terrible happens to Miss Penelope. I can't prove nothin', but my gut's tellin' me to watch him like my life depends on it \u2014 because HER life might depend on it, see?"
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The Ant Hill Mob examined the coat-rack."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: Now then, you two LUMPS of geological insignificance, I do hope you're considering my EXCELLENT advice about the chandelier. Meanwhile, I shall just... browse a few of these dusty old books. Purely for LITERARY appreciation, you understand. Nothing to see here! Just a cultured gentleman enjoying some light reading!"
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, HELLO there, Dick Dastardly dahling! And the Slag Brothers too \u2014 what a LOVELY gatherin' we have here in this magnificent library! Now y'all, just LOOK at this gorgeous mantelpiece \u2014 it has a riddle carved right into the stone! 'I have cities but no houses, forests but no trees, water but no fish.' Well, bless my heart, I do believe I know this one! Why, it's a MAP, of course! A map has all those things drawn on it but none of the REAL things! Let me just see if this clever old mantelpiece has somethin' to show us!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Those upside-down books are practically SCREAMING 'secret clue!' A lesser villain would miss it entirely, but not Dick Dastardly! Oh, I am MAGNIFICENT! If there's a hidden compartment or a secret lever behind those shelves, the treasure is as good as MINE! Heh heh HEH!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly examined the bookshelves."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Oh, I do so LOVE a good riddle! And wouldn't it be just PERFECT if solvin' it led straight to the Doily Diamond? A girl can dream!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "Peter Perfect: Why, Miss Pitstop, you simply CANNOT explore that library without the company of Peter Perfect! A lady of your refinement deserves a gallant escort among those dusty old tomes! I examined that guest book as you suggested \u2014 BRILLIANT tip, by the way \u2014 and now I am coming STRAIGHT to your side! That mantelpiece inscription won't know what hit it when the TWO of us put our minds together! Wait for me, my dear \u2014 chivalry is on its way!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "Oh, my heart is RACING! Penelope invited ME to join her \u2014 not the Professor, not anyone else \u2014 well, she did mention the Professor too, but she said MY name FIRST! That has to mean something! If I can help her crack that inscription, she'll see that Peter Perfect is the complete package \u2014 brave, handsome, AND scholarly! This is my moment!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect walked into the library."
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly): Nyah-ha-ha-HA! Oh, what DELICIOUS fortune! Rat poison, just sitting there on the shelf, practically BEGGING to be put to nefarious use! Why, I shall brew a special cup of tea for dear, sweet Penelope \u2014 a cup she shall NEVER forget... because it shall be her LAST! The Hooded Claw strikes not with brute force, oh no \u2014 but with ELEGANCE and SOPHISTICATION! One lump or two, Penelope? Nyah-ha-ha-HA!"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The fool girl has gone to the library, leaving me completely unsupervised in a kitchen FULL of implements of doom! And that simpering Peter Perfect is too busy admiring himself in the entrance hall to notice a thing. Now then \u2014 first, the poison. THEN, the tea!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) picked up something."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The Ant Hill Mob: Alright boys, listen up \u2014 LISTEN UP! Miss Penelope just went into that library all by her LONESOME, and that Sneekly character went skulkin' off to the kitchen like a RAT in a CHEESE FACTORY! Now I ain't no detective, but when a dame walks into a room full of heavy bookshelves and mysterious inscriptions, and a SUSPICIOUS CHARACTER disappears in the OTHER direction \u2014 that's what we in the mob call a CLASSIC SETUP, see? I'm goin' after Miss Penelope! Sergeant, Private \u2014 you boys keep your EYES PEELED out here, and if that Sneekly fella comes back smilin', you come find me RIGHT AWAY, capisce?"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "I dunno WHAT it is about that Sneekly \u2014 every time he shows up, my left eye starts twitchin' and my stomach does flip-flops. That ain't normal, see? That's my MOB INSTINCT talkin'. And mob instinct don't LIE. I just wish I could put my finger on what exactly is WRONG with the guy... but thinkin' ain't exactly my strong suit. PROTECTIN' is my strong suit! So that's what I'm gonna DO!"
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob walked into the library."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Well now, let me take a CLOSER look at this mantelpiece! When a girl solves a riddle carved in stone, she expects SOMETHIN' spectacular to happen \u2014 a secret panel, a hidden drawer, maybe even a shower of confetti! The answer is a MAP, dahlings \u2014 cities but no houses, forests but no trees, water but no fish! Now let's see what this clever old thing has to show little ol' ME!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Oh, I do hope somethin' wonderful happened when I touched that mantelpiece! A map would be JUST the thing to lead me to the Doily Diamond! And that sweet Dick Dastardly is over there browsin' the bookshelves \u2014 isn't that just PRECIOUS? Such a literary gentleman!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Miss Pitstop! Peter Perfect has arrived, as promised! And I see you've been studying that MAGNIFICENT mantelpiece \u2014 why, what a SPLENDID puzzle! 'Cities but no houses, forests but no trees, water but no fish' \u2014 well now, allow ME to put my considerable intellect to work on your behalf! I do believe the answer is... a MAP! Yes indeed \u2014 a map has cities but no houses, forests but no trees, and water but no fish! Peter Perfect \u2014 brave, gallant, AND clever!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh, I do hope I'm right about this! If I solve the riddle before anyone else, Penelope will see that I'm not just a pretty face and a magnificent driving record \u2014 I'm a MAN OF LETTERS too! Though I must say, Dastardly being here makes me a trifle uneasy... but I'm sure he's just here for the intellectual stimulation. Benefit of the doubt, Peter \u2014 benefit of the doubt!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: NO no NO, Penelope! You've got it all WRONG, my dear! The answer is clearly a GLOBE \u2014 a globe has cities, forests, and water painted on it! A map? Pah! How PEDESTRIAN! Now step ASIDE and let a man of TRUE intellect handle this delicate antiquity \u2014 you might BREAK something with those dainty little fingers of yours!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Drat, drat, and double DRAT! She solved it before I could! But no matter \u2014 whatever that mantelpiece revealed, I shall SNATCH it right from under her powdered little nose! The treasure will be MINE, I tell you \u2014 MINE! Heh heh heh!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly interacted with the mantelpiece."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! Now watch, dear audience, as The Hooded Claw puts his MASTERFUL plan into action! One dash of rat poison into the teapot, a gentle simmer on this conveniently warm stove, and voil\u00e0 \u2014 a cup of tea so deadly it could fell a RHINOCEROS! And that simpering Penelope will drink it RIGHT UP, because who would EVER suspect dear, bumbling Uncle Sneekly of foul play? The perfect crime, executed with STYLE and PANACHE!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: Well well WELL, would ya look at THIS! Here I am, Clyde of the Ant Hill Mob, arrivin' JUST in the nick of time! Miss Penelope, don't you worry your pretty little head \u2014 the boys and me got your back, see? And \u2014 HEY! Dastardly! What are YOU doin' in here lurkin' around all these HEAVY bookshelves that could TOPPLE OVER at any moment onto an unsuspecting and BEAUTIFUL young lady?! I got my EYE on you, buster! I got BOTH eyes on you! ...Well, one eye on you and one eye on these books that are upside down which is VERY peculiar if you ask me, and NOBODY asked me, but I'm SAYIN' it anyway!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "I don't like this one BIT, folks. Dick Dastardly in a room full of heavy objects and Miss Penelope? That's like puttin' a fox in a henhouse and handin' him a MENU! I can't quite figure out what he's UP to, but my mob instinct is doin' the MAMBO right now!"
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob examined the bookshelves."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Well now, I do declare! I've been ADMIRIN' this mantelpiece like it's a Sunday hat, but I haven't actually TRIED anything yet! The answer is a MAP, clear as a Georgia peach! Let me just give this clever little mechanism a proper lady's touch and see what happens!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "A girl doesn't just SOLVE a riddle \u2014 she collects the PRIZE! Let's see if this mantelpiece has a secret compartment or a hidden map. And if not... well, those upside-down books on the shelves are lookin' mighty suspicious too!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! A minor setback, nothing more! Every GREAT villain encounters a small hiccup in their otherwise FLAWLESS schemes! The stove won't accept the poison directly \u2014 well of COURSE not, you fool! You don't poison a STOVE, you poison a BEVERAGE! Now then, let me search this kitchen THOROUGHLY. There MUST be a teapot or some sort of drinkable vessel among all these copper pots and pans. The plan remains BRILLIANT \u2014 it simply requires a touch more... refinement!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) examined the null."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Why, Miss Pitstop, you solved that riddle BEFORE I even finished reading it! A MAP \u2014 of COURSE! I must confess, I was about to say the very same thing, but YOU got there first with that DAZZLING intellect of yours! Brains AND beauty \u2014 is there ANYTHING you can't do? Now then \u2014 I couldn't help but notice these bookshelves here have several volumes placed UPSIDE DOWN! In my experience, upside-down books in a mysterious manor are NEVER an accident \u2014 they're practically an ENGRAVED INVITATION to investigate! Allow me to examine them on your behalf \u2014 Peter Perfect leaves NO stone unturned and NO book unflipped when a lady's treasure hunt is at stake!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh, Peter, you FOOL \u2014 you waltzed in announcing the answer she'd ALREADY given! She must think I'm a parrot in a cravat! But THESE bookshelves \u2014 upside-down books \u2014 if I can find something clever here, perhaps she'll forget my little echo and remember me as the man who found the NEXT clue! Fortune favors the gallant!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the bookshelves."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: Well well well, how TERRIBLY crowded it's become in here! Why, you're ALL practically standing on each other's TOES! I do believe I heard the most FASCINATING sound coming from the Entrance Hall \u2014 sounded like a secret panel opening! Yes, DEFINITELY a secret panel! You should ALL go investigate IMMEDIATELY! As for me, I shall just... step out for some fresh air. Nothing to see here! Carry on!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Heh heh heh! While those gullible FOOLS rush off to the Entrance Hall looking for a secret panel that doesn't EXIST, I, the incomparable Dick Dastardly, shall have the laboratory ALL to myself! That machine with its levers and dials is practically BEGGING to reveal its secrets to a genius of my magnitude! Drat those crowds \u2014 but THIS time, the treasure will be MINE!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Dick Dastardly walked into the laboratory."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: HEY HEY HEY! Nobody touches that mantelpiece while Miss Penelope is standin' RIGHT THERE! A globe, he says \u2014 a GLOBE! Listen here, Dastardly, even a guy like ME who flunked outta third grade TWICE knows the answer is a MAP! Cities but no houses \u2014 that's a MAP, see? Forests but no trees \u2014 MAP! Water but no fish \u2014 also MAP! Miss Penelope figured it out FIRST, and she's the SMARTEST dame in the whole \u2014 WHOOPS \u2014 !"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "I'm gonna march right over to that mantelpiece to keep Dastardly away from it, but knowin' my luck I'll probably catch my foot on somethin' and go headfirst into the thing. Which, come to think of it, might actually WORK in our favor for once!"
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Well, I DO declare! Did y'all hear that little CLICK? Or was that just my imagination runnin' away with me like a prize filly at the Kentucky Derby? Let me take a CLOSER look at this mantelpiece \u2014 a proper Southern lady always inspects her handiwork!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Now, the audience at home should know that Penelope is QUITE certain the answer to that riddle is a MAP. Cities but no houses, forests but no trees, water but no fish \u2014 why, that's a MAP if ever there was one! But did it WORK? That's the million-dollar question, sugar!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! Now then, let me get a PROPER look at this marvelous stove! Every Victorian kitchen worth its salt has a kettle sitting right on the burner. And once I find it \u2014 oh, what a DELIGHTFUL brew I shall prepare! A pinch of rat poison, a splash of hot water, perhaps a sugar cube to mask the taste... Penelope won't suspect a THING when dear, harmless Sylvester Sneekly brings her a nice cup of tea! The perfect crime, served at the perfect temperature!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) examined the stove."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Dick Dastardly: Why, Rufus! Sawtooth! How DELIGHTFUL to find you two strapping fellows here! Don't mind me, I'm just... conducting a SCIENTIFIC SURVEY of the premises. Purely academic! Now then, what have we HERE in these dusty old crates..."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Heh heh heh! Those two brawny buffoons are EXACTLY what I need \u2014 three operators for the machine, and TWO of them don't need to be SMART! But first, let me see what's in these crates. If there's a wrench or spare wire, I can fix that machine and have these two dolts do all the HEAVY pulling while I, the magnificent Dick Dastardly, reap ALL the rewards! The treasure is practically MINE already!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Dick Dastardly examined the crates."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Miss Pitstop, your solving of that riddle was nothing short of MAGNIFICENT! A map \u2014 cities without houses, forests without trees \u2014 why, it was OBVIOUS once you said it! Now then, I've discovered something most INTRIGUING about these bookshelves! Several volumes have been placed UPSIDE DOWN, and in my considerable experience with mysterious manors \u2014 which is EXTENSIVE, I assure you \u2014 that is ALWAYS a deliberate signal! Perhaps they need to be turned RIGHT-SIDE UP in a particular order, or perhaps PULLING one reveals a hidden mechanism! Stand back, everyone \u2014 Peter Perfect is about to demonstrate his expertise in the field of Suspicious Library Furniture!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "If I can find a secret compartment or hidden passage by solving this bookshelf puzzle, Penelope will see that I'm not just a pretty face in a racing jacket \u2014 I'm a man of ACTION and INTELLECT! And if Dastardly thinks he can sneak off to the laboratory while WE do the hard work... well, I choose to believe he simply needed some fresh air. Yes. Fresh air. In a laboratory. Nothing suspicious about THAT at all."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, the answer is as plain as the nose on your face, sugar! Cities but no houses, forests but no trees, water but no fish \u2014 that's a MAP! Now let's see if this ol' mantelpiece has any secrets to share with little ol' ME!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Now, the audience should know that Penelope heard a distinct CLICK when the Ant Hill Mob touched that mantelpiece \u2014 and where there's a click in a mysterious manor, there's usually a secret compartment! A girl just has to know WHERE to press! And did y'all notice that sneaky Dick Dastardly slinkin' off to the laboratory? Why, I'm SURE he's just gettin' some fresh air, just like he said! He seems like SUCH a trustworthy gentleman!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! The stove is WARM \u2014 how WONDERFULLY convenient! Now then, a little sprinkle of this rat poison into the kettle, a nice rolling boil to dissolve it thoroughly, and voil\u00e0 \u2014 one cup of LETHAL tea, fit for a Pitstop! Oh, the ELEGANCE of it! She'll never suspect dear, bumbling Sylvester Sneekly of bringing her anything but the most CARING cup of refreshment! CURSES, I do love it when a plan comes together so BEAUTIFULLY!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: OW OW OW \u2014 my NOSE! I went face-first right into that mantelpiece, boys! WHAM! Right into the \u2014 wait a minute, wait a MINUTE! Did you hear that CLICK?! I heard a click! Miss Penelope heard a click! That means my FACE just opened a SECRET MECHANISM, see?! HA! That's what I call usin' your HEAD \u2014 LITERALLY! Now listen, nobody go NOWHERE \u2014 that Dastardly character just slunk off to the laboratory like a WEASEL in a HEN HOUSE after tryin' to send us on a WILD GOOSE CHASE about some phony secret panel! The Ant Hill Mob ain't fallin' for THAT one, no sir! We're stickin' RIGHT HERE with Miss Penelope!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Between you and me, my schnoz is THROBBIN' somethin' fierce, but if bangin' my face into antique furniture keeps Miss Penelope safe, then I'll headbutt every mantelpiece in this whole MANOR! I just wish I knew what that Dastardly is up to in that laboratory... every time he disappears, somethin' BAD happens to Miss Penelope. But I can't be in TWO places at once \u2014 and where Miss Penelope IS, that's where the Ant Hill Mob STAYS!"
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Dick Dastardly: Well THAT was a waste of my VALUABLE time! Nothing in those crates but dust and disappointment! Now then, Rufus, Sawtooth \u2014 don't touch ANYTHING while I inspect this workbench. I am a man of SCIENCE, you understand, and these delicate instruments require the steady hand of a MASTER craftsman! Which is ME, obviously!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Heh heh heh! If there's ANYTHING on that workbench to fix the gnawed wire on that machine, I'll have those two muscle-bound simpletons pulling levers while I position myself at the OUTPUT end \u2014 wherever the treasure comes out! Three operators required, and two of them only need to know how to PULL! Which is about the LIMIT of their intellectual capabilities! The treasure is practically gift-wrapped for the magnificent Dick Dastardly!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Dick Dastardly examined the workbench."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Well now! It seems these bookshelves are PURELY decorative \u2014 a classic misdirection, of course! I KNEW that all along, naturally \u2014 I was merely testing everyone's powers of observation! Ha ha! But MORE importantly \u2014 Miss Pitstop, that CLICK you heard? THAT is the real prize! Your brilliant deduction of 'a map' has clearly activated some hidden mechanism in the mantelpiece! Allow ME to investigate further \u2014 a gentleman ALWAYS follows up on a lady's discovery with the appropriate vigor and thoroughness! Stand aside, everyone \u2014 Peter Perfect is about to see what secrets this mantelpiece is HIDING!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh CURSES, what a fool I've made of myself going on about those bookshelves! 'Suspicious Library Furniture' \u2014 what was I THINKING?! But a true gentleman never dwells on his missteps \u2014 he pivots with GRACE! If I can find what that click opened in the mantelpiece, Penelope will forget all about my bookshelf blunder! Please let there be a secret compartment... PLEASE..."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Well now, did y'all HEAR that? There was a definite CLICK when I touched this here mantelpiece! Why, in my experience \u2014 and I have CONSIDERABLE experience with mysterious manor houses, thank you very much \u2014 a click means a secret compartment has just gone and OPENED itself! Let me take a closer look at this darlin' little mantelpiece and see what treasures it's hidin' from little ol' me!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Now, the audience should know that Penelope's heart is just RACIN' with excitement! A riddle solved, a mysterious click, and somewhere in this dusty old library, a secret is just WAITIN' to be found! And Peter dahling noticed those upside-down books too \u2014 why, this library is just FULL of clues! Meanwhile that sweet Mr. Dastardly wandered off to the laboratory \u2014 probably just admirin' the scientific equipment, bless his heart!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! A minor setback, nothing more! Every GREAT villain knows that the first attempt is merely a rehearsal. The stove won't accept the poison directly \u2014 of COURSE not, how crude that would have been! No, no, I need something more REFINED. A teacup, a kettle, a serving tray \u2014 something that screams 'hospitality' while whispering 'doom!' Let me search this kitchen THOROUGHLY!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) examined the null."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: Hey \u2014 HEY! Did everybody hear that CLICK when my face hit the mantelpiece?! That ain't just my JAWBONE crackin', that's a genuine bona fide SECRET MECHANISM, see?! And Peter here is sayin' there's books turned UPSIDE DOWN on them shelves \u2014 now in my PROFESSIONAL experience with hidden passages \u2014 which is CONSIDERABLE on account of all the times we've had to make HASTY EXITS from various establishments \u2014 upside-down books plus a mysterious click equals SOMETHIN' FISHY! Stand back, Miss Penelope \u2014 let the Ant Hill Mob handle the DANGEROUS part! I'm gonna take a closer look at them bookshelves before that Dastardly comes slitherin' back from the laboratory with whatever NO-GOOD SCHEME he's cookin' up in there!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Between you and me, I got NO IDEA what I'm doin' with bookshelves \u2014 the last book I read was 'How to Hotwire a Getaway Car in 30 Seconds' \u2014 but if there's a hidden lever or a trap door anywhere near Miss Penelope, the Ant Hill Mob is gonna find it FIRST! Even if I gotta pull every single book off every single shelf with my own two hands! ...Which, knowin' me, is probably EXACTLY what's gonna happen."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Dick Dastardly: NOW then, you two! Rufus! Sawtooth! Stop standing about like department store MANNEQUINS and make yourselves USEFUL for once in your miserable lives! This MAGNIFICENT machine requires THREE operators \u2014 that's one GENIUS, namely MYSELF, and two... well, two LEVER-PULLERS, which is where YOU come in! Take your positions! Rufus on the LEFT, Sawtooth on the RIGHT, and I, the BRILLIANT Dick Dastardly, shall man the CENTRAL controls \u2014 the IMPORTANT ones, naturally! On my count \u2014 ready? THREE... TWO... ONE... PULL!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Heh heh heh! Those two muscle-bound MORONS will do all the heavy lifting while I, the magnificent Dick Dastardly, position myself right where the treasure comes out! Whatever this machine produces, MY hands will be the FIRST to touch it! And if something goes WRONG \u2014 well, THEY'RE the ones pulling the dangerous levers, aren't they? It's FOOLPROOF! ...which is appropriate, given the fools involved!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Dick Dastardly interacted with the machine."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, MERCY me! That click we heard means this mantelpiece has a SECRET COMPARTMENT, sure as sugar! Now, the answer to this little riddle is a MAP, of course \u2014 I have cities but no houses, forests but no trees, water but no fish \u2014 that's a MAP, dahlings! Every Southern belle worth her salt knows her riddles! Now let me just press right HERE on this inscription and see what pops out!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Now, the audience should know that Penelope is just BESIDE herself with anticipation! A secret compartment in a mysterious manor house? Why, this could lead straight to the legendary Doily Diamond! And that dear Mr. Clyde's nose might have done half the work for her \u2014 bless his heart and his FACE!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: AH-HA! I can FEEL it, Miss Pitstop \u2014 there's a loose stone here where that click sounded! Your BRILLIANT answer of 'a map' has clearly unlocked something in this magnificent mantelpiece! Now, if a gentleman of my caliber simply applies the RIGHT amount of pressure in PRECISELY the right spot \u2014 allow me, my dear \u2014 Peter Perfect's fingers are as DEFT as they are gallant!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh please oh PLEASE let there be something behind this stone! If I fumble this in front of Penelope after that bookshelf fiasco, I'll never live it down! Steady hands, Peter \u2014 steady hands!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly): Nyah-ha-ha-HA! The direct approach was beneath me ANYWAY! A villain of MY caliber doesn't simply dump poison into a stove like some common ruffian! No, no, NO! There must be a kettle, a teapot, SOMETHING in this kitchen worthy of my grand design! Let me examine this stove more CAREFULLY \u2014 every cast-iron monstrosity has its secrets!"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The audience should know that I, The Hooded Claw, am NEVER deterred by a minor setback! Penelope has wandered off to the library \u2014 PERFECT! That gives me time to find the proper instrument of her doom. A poisoned cup of tea, delivered with a SMILE! Oh, the theatrical PERFECTION of it!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) examined the stove."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, Peter dahling, did you FEEL that?! Something SHIFTED when you pressed that stone! Oh, I'm just TREMBLIN' with excitement! Let me take a closer look at what we've uncovered \u2014 a secret compartment in a mysterious manor house! Why, this is just like somethin' out of a storybook! Now let's see what's hidin' behind this here inscription..."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Now, the audience should know that Penelope's heart is just RACIN'! A riddle solved, a secret mechanism activated, and possibly the very FIRST clue to the legendary Doily Diamond! And that sweet Peter Perfect helped with his gallant fingers \u2014 though between y'all and me, it was MY brain that figured out the answer was a MAP!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: Well THAT was a bust! Them bookshelves ain't got NOTHIN' to say to the Ant Hill Mob! But WAIT a minute \u2014 wait just a COTTON-PICKIN' minute! That mantelpiece is where the ACTION is, see?! Miss Penelope, you figured out the riddle \u2014 a MAP! You're a GENIUS, an absolute certified GENIUS! Now let me get my hands on this here mantelpiece and see what that click opened up! I got a TALENT for findin' secret compartments \u2014 mostly on account of fallin' INTO 'em headfirst, but the POINT is I find 'em! Stand back, everybody \u2014 this could be DANGEROUS! Or it could be NOTHIN'! Either way, the Ant Hill Mob is ON IT!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Truth is, I couldn't tell a secret compartment from a mailbox, but if there's somethin' in that mantelpiece that could HURT Miss Penelope, I'd rather it hurt ME first. That's just good mobbin'."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Well now, what do we have HERE?! That stone shifted under my fingers like BUTTER, Miss Pitstop \u2014 your riddle-solving is simply EXTRAORDINARY! 'A map' \u2014 of COURSE! Why, I believe something has opened up! Let me take a CAREFUL look at what our combined brilliance has revealed \u2014 steady now, Peter, STEADY \u2014 a gentleman ALWAYS inspects the prize before presenting it to a lady!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh my STARS, please let there be something magnificent behind that stone! If Penelope and I cracked this puzzle together, that's practically a BONDING EXPERIENCE! This is better than winning a race \u2014 this is TEAMWORK with the most beautiful woman in the world!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Dick Dastardly: DRAT, DRAT, and DOUBLE DRAT! This BLASTED machine is BROKEN! Some miserable little VERMIN has chewed through the wire! This is YOUR fault, Rufus \u2014 you and that prehistoric partner of yours probably SCARED the rats into a CHEWING FRENZY! Now stand ASIDE while I inspect those crates over there \u2014 they are CLEARLY marked with TOP SECRET government seals that only a man of MY intellectual calibre can decipher! Do NOT touch them! They're almost CERTAINLY booby-trapped!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Heh heh heh! TOP SECRET government seals \u2014 there are no such markings, of course, but those two DIMWITS don't know that! While they cower in fear of imaginary booby traps, I shall rifle through those crates UNIMPEDED! If there's treasure hidden in this laboratory, it's probably stashed right there under everyone's NOSES \u2014 and only the MAGNIFICENT Dick Dastardly has the cunning to look in the OBVIOUS place!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Dick Dastardly examined the crates."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! That cabinet is TAUNTING me with its brass lock! But every lock has a weakness, every cabinet a secret! Inside, I'm CERTAIN, lies the tea service \u2014 delicate porcelain cups just WAITING to be filled with my specially seasoned brew! One sip and dear, sweet Penelope will be taking her FINAL curtain call! Let me get a closer look at this obstinate piece of furniture \u2014 perhaps the wood is rotted, or the hinges are loose. A villain of my GENIUS does not let a simple LOCK stand between him and theatrical PERFECTION!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) examined the cabinet."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Oh my STARS, y'all! That riddle was just CHILD'S PLAY for a girl of my considerable intellect! 'I have cities but no houses, forests but no trees, water but no fish' \u2014 why, it's a MAP, of course! Now then, let little ol' ME take a turn at this here secret compartment \u2014 Peter dahling, you and the boys have been simply WONDERFUL, but a lady knows her way around a hidden mechanism! Mama always said, 'Penelope, when a mantelpiece clicks, you CLICK right back!'"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Now, between you and me, dear audience, Penelope's fingers are just TINGLIN' with anticipation! A secret compartment in a mysterious manor house \u2014 why, this could be the very MAP that leads to the legendary Doily Diamond! And with all these helpful gentlemen around, a girl couldn't ASK for better company!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Why, Miss Pitstop, your brilliance has illuminated the answer \u2014 a MAP, of course! Cities without houses, forests without trees \u2014 it's so ELEGANTLY obvious when a lady of your intellect points it out! Now then, allow ME the honor of opening this secret compartment properly \u2014 a gentleman ALWAYS handles potentially dangerous hidden mechanisms so that a lady doesn't have to! Stand back just a SMIDGE, my dear \u2014 Peter Perfect is about to reveal what this manor has been hiding!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh, this is my MOMENT! If I can pull something spectacular out of that mantelpiece \u2014 a treasure map, a golden key, ANYTHING \u2014 and present it to Penelope with a flourish, she'll see that Peter Perfect is not just a pretty face behind a steering wheel! Please, oh PLEASE let there be something magnificent in there!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: OUTTA the way, outta the WAY! Let the Ant Hill Mob take a look at this here secret compartment before anybody gets their PRETTY FACE blown off! I seen booby traps before \u2014 mostly on account of SETTIN' 'EM OFF with my own nose \u2014 but the POINT is, I got EXPERIENCE! Now let me just lean in here real close-like and \u2014 WHOA, is that what I think it is?! Miss Penelope, you stay RIGHT there, I'm gonna check this compartment for DANGER! If somethin' jumps out, it's gonna jump out at ME first, see? That's the Ant Hill Mob GUARANTEE!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Truth be told, I can barely see two feet in front of my face on a GOOD day, but if there's somethin' nasty in that compartment, I'd rather it grab ME than Miss Penelope. That's just the code of the Mob \u2014 we ain't smart, but we're LOYAL."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob examined the mantelpiece."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! So the cabinet resists me, does it? No matter! A villain of my MAGNIFICENCE is never thwarted by a mere LOCK! This wood-burning stove \u2014 still WARM, mind you \u2014 is practically BEGGING me to put the kettle on! And what shall I put IN that kettle? Why, my special ingredient, of course! One cup of Sneekly's Special Blend and Penelope Pitstop will trouble me NO MORE! Let me see what culinary implements this antique contraption has to offer!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) examined the stove."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, Peter dahling, that was VERY gallant of you! But a lady doesn't just stand back and let a gentleman have ALL the fun! Now let me take a GOOD look at what this clever little mantelpiece has revealed \u2014 oh, I'm simply DYIN' of curiosity! A secret compartment in a mysterious manor \u2014 Mama would be SO proud!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Now, between you and me, sugar, Penelope's heart is just RACIN'! If there's a map in that secret compartment, it could lead straight to the Doily Diamond! And wouldn't THAT just be the most delightful thing?"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Dick Dastardly: Well NOW, Rufus my good fellow! I have EXCELLENT news! Upon closer inspection of these crates, I discovered they contain HIGHLY detailed repair instructions for that magnificent machine! Yes indeed! The wire simply needs to be \u2014 ah \u2014 TWISTED back together! A man of YOUR rugged talents could fix it in NO time! And since it requires THREE operators, why don't you and Sawtooth recruit that next person who wanders in? I shall go and \u2014 ahem \u2014 SECURE the perimeter downstairs! Can't have treasure thieves sneaking in through the cellar, now can we? You're WELCOME for the instructions!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "laboratory",
+      "desc": "Heh heh HEH! Repair instructions in the crates \u2014 there were NO such instructions, naturally! But that flannel-wearing LUMBERJACK doesn't know that! While he and his beaver waste precious time twisting wires together, I, the DASTARDLY Dick Dastardly, shall have the cellar ALL to myself! Someone has been redecorating down there \u2014 and where there's redecorating, there's someone guarding a SECRET! The treasure is as good as MINE!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly walked into the cellar."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: HOLY CANNOLI, boys \u2014 would ya LOOK at that! The compartment's openin' up! Now I don't know if it was somethin' I PRESSED or somethin' I LEANED on \u2014 truth be told, I think my ELBOW hit a stone that my EYES couldn't even SEE \u2014 but the point is, the Ant Hill Mob has got this situation UNDER CONTROL! Miss Penelope, you stand back behind ol' Clyde here \u2014 if there's a spring-loaded pie or a SWINGING AXE or some kinda PHANTOM HAND in there, it's gonna grab THIS ugly mug first! I'm goin' IN!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "I got NO idea what's in that compartment, and frankly I'm TERRIFIED. But terror ain't never stopped the Ant Hill Mob before \u2014 mostly because we're too DUMB to know when to quit. As long as Miss Penelope is safe behind me, whatever's in there can do its WORST. I just hope it ain't spiders. PLEASE don't let it be spiders."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Now, now, my good fellow \u2014 I APPRECIATE the enthusiasm, truly I do, but Peter Perfect opened that compartment FIRST, and a gentleman always inspects his own handiwork! Miss Pitstop, darling, your BRILLIANT deduction made this possible \u2014 'a map,' you said, and the mantelpiece RESPONDED to your genius! Now let me take a PROPER look at what we've uncovered \u2014 I shall report my findings to you IMMEDIATELY, with full gallantry and attention to detail!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh, BLAST it all \u2014 the Mob is trying to muscle in on MY moment! I opened that compartment to impress Penelope, and now THEY want to be the heroes? Not on Peter Perfect's watch! I need to see what's inside before anyone else gets their grubby little hands on it. If there's a treasure map in there, I am PRESENTING it to Penelope on bended knee!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the mantelpiece."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! The moment of TRIUMPH is at hand! One dash of this delightful rat poison into the teapot, a sprinkle of sugar to mask the taste, and voil\u00e0 \u2014 Sneekly's Special Blend! That meddlesome Penelope Pitstop will sip her last cup of tea in this VERY kitchen! Oh, the POETRY of it \u2014 done in by common COURTESY! 'Would you like some tea, my dear?' Why YES, yes she WOULD! And it shall be her LAST! The Doily Diamond will be MINE, and no one \u2014 NO ONE \u2014 shall stand in my way!"
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, I do DECLARE! That riddle is simply DELIGHTFUL! 'Cities but no houses, forests but no trees, water but no fish' \u2014 why, every Southern belle worth her parasol knows THAT one! It's a MAP, y'all! A MAP! Oh, how THRILLING \u2014 and the Ant Hill Mob found a secret compartment too! Let me just give this clever little mantelpiece the answer it's been waitin' for \u2014 Penelope Pitstop is NOT the sort of girl who leaves a riddle unsolved!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Oh my stars, if there's a map hidden in that secret compartment, it could lead straight to the Doily Diamond! Penelope's heart is just FLUTTERIN' with excitement!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: Now hold on there, Mister Perfect \u2014 hold ON! You may have FANCY manners and a SHINY smile, but the Ant Hill Mob has got SECURITY CLEARANCE on this here compartment, see? I put my ELBOW into that thing \u2014 probably BROKE somethin' important in the process \u2014 and I got a RIGHT to see what's inside! Miss Penelope, don't you worry your beautiful head \u2014 ol' Clyde is gonna give this map the FULL INVESTIGATION! If there's any traps or BOOBY PRIZES hidden in that compartment, better they get MY fingers than your delicate ones!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Truth is, I can barely READ a restaurant menu, let alone some kinda ancient treasure map. But Miss Penelope don't need to know that. I just gotta make sure whatever that map leads to ain't gonna put her in DANGER. And if it DOES lead to danger... well, the Ant Hill Mob gets there FIRST. That's the RULE."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: AH-HA! The answer to the riddle is 'A MAP,' of course \u2014 Miss Pitstop, your DAZZLING intellect cracked it wide open! Now, the compartment has revealed itself, and Peter Perfect shall do what Peter Perfect does BEST \u2014 reach right in there and retrieve whatever treasure awaits! Stand back, everyone \u2014 there could be spring-loaded DARTS or ancient BOOBY TRAPS, and I would NEVER forgive myself if a single hair on Miss Pitstop's lovely head were disturbed! HERE \u2014 WE \u2014 GO!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh, PLEASE let there be something magnificent in that compartment \u2014 a treasure map, a golden key, SOMETHING I can present to Penelope with a flourish! If it's just dust and cobwebs, I shall NEVER live it down. The Mob already tried to steal my thunder \u2014 I MUST get there first!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly: Why, Big Gruesome! Little Gruesome! And the MAGNIFICENT Red Max! What a DELIGHTFUL gathering of strapping individuals! I must say, this cellar is in TERRIBLE disrepair \u2014 simply DREADFUL! Now, I happen to be a CERTIFIED Victorian furniture appraiser \u2014 oh yes, VERY prestigious credentials \u2014 and I can tell you that these pieces are arranged ALL wrong! Completely backwards! Big Gruesome, my mountainous friend, would you be so KIND as to shift those heavy pieces about? They need to face the OPPOSITE wall \u2014 for, ah, FENG SHUI purposes! And Little Gruesome, dear boy \u2014 I noticed those air vents are FULL of the most EXQUISITE collectible stamps! Yes, STAMPS! Worth a FORTUNE! You're JUST the right size to pop in and retrieve them! Red Max, you should ASSIST Little Gruesome \u2014 boost him up, there's a good fellow! I shall SUPERVISE from here, naturally \u2014 someone must maintain QUALITY CONTROL!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Heh heh HEH! If I can get that lumbering GIANT to move the furniture, he'll reveal whatever secret is hidden beneath or behind it! And Little Gruesome in the air vents might find a passage to the treasure! Meanwhile, I, the DEVIOUS Dick Dastardly, shall swoop in and CLAIM whatever they uncover! The fake medal in my pocket? Oh, that's for LATER \u2014 a prize for whichever fool does the most work! They do the digging, I do the KEEPING! It's BRILLIANT! I'm BRILLIANT!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly examined the old-furniture."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! A minor setback, nothing more! Every GREAT villain encounters obstacles \u2014 it is how one OVERCOMES them that separates the merely wicked from the truly DIABOLICAL! This kitchen is FULL of possibilities \u2014 I simply need to find the RIGHT vessel for my toxic tea party! Let me search every nook and cranny of this delightfully sinister kitchen!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) examined the null."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, Peter dahling, what did you FIND in there? Don't keep a girl in SUSPENSE! Let me just take a teensy little peek at this marvelous compartment myself \u2014 a lady likes to see things with her OWN eyes, you know! Oh, I do hope it's a map to the Doily Diamond \u2014 wouldn't that just be the most WONDERFUL thing?"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "My heart is simply RACIN'! If there's a map in that secret compartment, Penelope Pitstop is one step closer to the legendary Doily Diamond! And with all these helpful gentlemen around, why, what could POSSIBLY go wrong?"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: HEY HEY HEY \u2014 watch it there, Perfect! You can't just go STICKIN' your mitts into mysterious compartments without PROPER SAFETY PROTOCOLS! What if there's a \u2014 a SPRING-LOADED ANVIL in there, or POISON DARTS, or \u2014 or one of them COLLAPSING CEILING situations?! Miss Penelope, you stay RIGHT behind me, see? The Ant Hill Mob is your PERSONAL SHIELD! Now Peter, what'd you pull outta there? And don't go TOUCHIN' nothin' else until I give the all-clear \u2014 I gotta INSPECT it first for BOOBY TRAPS! I may not know much about ancient artifacts, but I know a SUSPICIOUS COMPARTMENT when I see one, and brother, this one's got SUSPICIOUS written all over it!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Truth be told, I wouldn't know a booby trap from a BIRTHDAY PRESENT. But if somethin' dangerous IS gonna pop outta that mantelpiece, it's gonna hit ME before it gets anywhere NEAR Miss Penelope. That's just how the Ant Hill Mob operates \u2014 face first into trouble, every single time."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Why, what have we HERE! The compartment has sprung open like a jack-in-the-box \u2014 MAGNIFICENT craftsmanship, truly! Now let Peter Perfect take a PROPER look at what's inside \u2014 careful, methodical, the way a TRUE gentleman investigates ancient secrets! Miss Pitstop, YOUR brilliant deduction of 'a map' unlocked this mystery, and I intend to ensure that whatever treasure lies within is placed DIRECTLY into your deserving hands! Now then \u2014 let me see what we've GOT!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh, I do hope there's something SPECTACULAR in that compartment \u2014 if the Mob had gotten there first, they'd have pocketed it faster than you can say 'getaway car!' I must examine this carefully and present whatever I find to Penelope with MAXIMUM gallantry!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the mantelpiece."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! Oh, what a MAGNIFICENT moment this is! Here I stand in this gloriously gloomy kitchen, rat-poison in hand, a warm stove at the ready, and not a SOUL to witness my culinary MASTERPIECE! One cup of specially prepared tea for dear Penelope, and the Doily Diamond \u2014 and her FORTUNE \u2014 shall be MINE! The perfect crime disguised as the perfect cup of Earl Grey! Oh, the POETRY of it!"
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, the answer is a MAP, of course! Cities but no houses, forests but no trees, water but no fish \u2014 it's simply GOT to be a map! Now let me just reach my dainty little fingers into this compartment here \u2014 Peter dahling, Clyde sugah, y'all are SUCH gentlemen for openin' it up, but a girl's got to see for HERSELF what's inside! Oh, I just KNOW this is going to lead us straight to the Doily Diamond!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Why, my heart is just POUNDIN' with excitement! If there's a map in that compartment, Penelope Pitstop might just be the CLEVEREST adventuress in all the land! And these sweet boys opened it right up for me \u2014 isn't that just the most HELPFUL thing?"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly: Now then, while you strapping fellows rearrange that furniture \u2014 which you ARE doing, aren't you? \u2014 let me just inspect these air vents for, ah, STRUCTURAL INTEGRITY! Yes! Can't have the ceiling caving in on us, now can we? Safety FIRST, that's my motto! Well, one of many mottos, all equally NOBLE!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Heh heh HEH! The furniture examination was a BUST \u2014 nothing but dusty old chairs! But those air vents... they're SUSPICIOUSLY placed along the upper walls, and someone has been REDECORATING this cellar! Where there's renovation, there's something worth CONCEALING! If those vents connect to a hidden chamber, I need to map the route before sending Little Gruesome in as my unwitting SCOUT! Once he finds the treasure, I'll be waiting at the OTHER end to snatch it! Dick Dastardly thinks of EVERYTHING!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly examined the air-vents."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: ALRIGHT alright ALRIGHT \u2014 everybody STAND BACK! The Ant Hill Mob is conductin' an OFFICIAL SAFETY INSPECTION of this here mantelpiece! Miss Penelope, I appreciate your curiosity, but you gotta let a PROFESSIONAL handle this \u2014 and by professional I mean a guy who's survived fourteen car crashes and a cement mixer incident! Now lemme just \u2014 lemme just get in here and \u2014 CITIES but no houses, forests but no trees \u2014 what kinda MALARKEY is \u2014 wait a minute, wait a MINUTE \u2014 that sounds like a MAP, see! A MAP has cities and forests and water but none of the REAL stuff! Am I right?! Tell me I'm right! The Mob CRACKS THE CASE!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "I probably ain't right. I'm NEVER right about these brainy things. But if I keep everybody focused on ME babblin', at least nobody's stickin' their hands into mysterious compartments without me bein' RIGHT THERE to take the hit first."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob interacted with the mantelpiece."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! A minor setback, nothing more! Every GREAT villain knows that the first attempt is merely a rehearsal! I simply need to find the right vessel for my poisonous potion. A teapot! A sugar bowl! ANYTHING that can deliver my special ingredient to that meddlesome Pitstop! Let me search this kitchen from top to bottom \u2014 somewhere in this dusty old room there MUST be the perfect instrument of my dastardly design!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) examined the null."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: AHA! Why, the answer is as clear as a summer's day \u2014 it's a MAP, of course! Cities but no houses, forests but no trees, water but no fish \u2014 only a MAP has all of those! And Miss Pitstop, YOU figured it out FIRST \u2014 what a BRILLIANT mind you have! Now then, allow Peter Perfect to reach into this compartment with STEADY hands and UNWAVERING courage \u2014 don't you worry one BIT, Ant Hill Mob, I have done this sort of thing a THOUSAND times! Well, perhaps not a thousand, but certainly... well, THIS time counts! Stand back, everyone \u2014 let me retrieve our prize!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh, please let there be something IMPRESSIVE in this compartment \u2014 a treasure map, a golden key, ANYTHING that will make Penelope look at me with those sparkling eyes! If it's just cobwebs and spiders, I shall simply DIE of embarrassment!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Oh my STARS, let me get a CLOSER look at what's in this compartment! Why, if there's a map in there, it might lead us straight to the Doily Diamond! Peter dahling, Clyde sugah, y'all just hold tight while Penelope takes a PROPER peek! A girl's got to examine these things with a KEEN eye, you know!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Why, my little ol' heart is just FLUTTERIN'! If I solved that riddle correctly \u2014 and Penelope Pitstop ALWAYS solves riddles correctly \u2014 there should be a map inside that compartment! A map that leads to the legendary Doily Diamond! Oh, this adventure is simply DIVINE!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly: Why, Little Gruesome, my DEAR tiny friend! I have been meaning to present you with this \u2014 a Medal of EXTRAORDINARY Bravery! Yes! Awarded only to the SMALLEST and most COURAGEOUS explorers in all the land! And do you know WHY you've earned it? Because YOU, my diminutive companion, are the ONLY one here brave enough \u2014 and, dare I say, perfectly SIZED \u2014 to explore those magnificent air vents! I've just inspected them and they lead to a SECRET CANDY ROOM! Oh yes! MOUNTAINS of sweets! But alas, only someone of YOUR remarkable stature can fit through! Big Gruesome and Red Max are FAR too large \u2014 it's up to YOU! Just crawl through and report back what you find, won't you? There's a good little fellow!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Heh heh HEH! A fake medal and a fictional candy room \u2014 two lies for the price of one! That gullible little creature will squeeze through those vents and map the ENTIRE hidden passage network for me! And when he finds the treasure \u2014 because someone has been REDECORATING this cellar for a REASON \u2014 I shall be waiting with open arms and STICKY fingers! The brilliance of Dick Dastardly knows NO bounds!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly handed something to little-gruesome."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, a MAP of course! I have cities but no houses, forests but no trees, water but no fish \u2014 the answer is a MAP! Now let's see what this clever little mantelpiece has been hidin' all these years! Oh, Peter dahling, you were SO brave reachin' in there \u2014 but let a lady have her turn! Penelope Pitstop is NOT the sort of girl who lets a puzzle go unsolved!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Well now, the boys already figured out the riddle \u2014 bless their hearts \u2014 but I need to interact with this mantelpiece PROPERLY and see what treasure it's hidin'! If there's a map to the Doily Diamond in there, Penelope Pitstop intends to FIND it!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! The stove is still WARM \u2014 oh, what GLORIOUS fortune smiles upon the wicked! While that simpering Peter Perfect fumbles about with guest books and Penelope goes traipsing off to the library, I shall brew the most DIABOLICALLY delicious pot of tea this manor has ever seen! One cup of my special blend and Penelope Pitstop will be taking her FINAL tea break! The rat-poison goes INTO the kettle, the kettle goes ONTO the stove, and the tea goes INTO Penelope! It's so beautifully simple \u2014 yet so FIENDISHLY elegant! Every great villain needs a signature move, and MINE shall be afternoon tea... with a TWIST!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: HOLD IT hold it HOLD IT, Miss Penelope! Don't you go puttin' your pretty little fingers in there just yet! What if there's a \u2014 a BOOBY TRAP or a \u2014 a MECHANICAL PINCHING DEVICE or \u2014 or WORSE! The Ant Hill Mob has got a STRICT POLICY about mysterious compartments, and that policy is: Clyde goes FIRST! Now lemme just get my nose in here real close-like and give this compartment the full Ant Hill Mob Safety Inspection \u2014 patent pending! If anything's gonna BITE somebody, it's gonna bite ME, see? That's called CHIVALRY! ...Or maybe it's called STUPIDITY, but either way, I'm DOIN' IT!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Truth is, I'm TERRIFIED of what might be in there. But better MY fingers get snapped off than Miss Penelope's! That's the Ant Hill Mob guarantee \u2014 we take the lumps so the LADY don't have to!"
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Why, Miss Pitstop, what a MAGNIFICENT team we make! You solved that riddle with the grace and brilliance of a \u2014 well, of a PENELOPE PITSTOP! Now let me take a CAREFUL look at what this compartment holds \u2014 Peter Perfect's eagle eyes miss NOTHING! If there's a map to the Doily Diamond in here, I shall read it with the precision of a seasoned cartographer! Which I am! Well, I COULD be, if the occasion called for it \u2014 and THIS occasion most CERTAINLY does!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh, please let me spot something she missed \u2014 just ONE detail that makes her gasp and say 'Why, Peter, you're simply WONDERFUL!' That's all I ask. Just one little gasp. Is that too much?"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, I do DECLARE! I solved that riddle fair and square \u2014 a MAP, of course! Cities but no houses, forests but no trees, water but no fish! Now let me take a CLOSER look at this mantelpiece and see what secret it's been keepin' from little ol' me! Oh, I just KNOW there's somethin' wonderful hidden in there \u2014 maybe even a clue to the Doily Diamond itself!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Now Penelope, you keep your eyes PEELED, sugar. That mantelpiece wouldn't have a riddle carved into it for nothin'. There's GOT to be a hidden compartment or a secret map tucked away somewhere in there. A girl's got to be THOROUGH!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly: Now then, while our BRAVE little explorer prepares for his grand expedition, I shall just \u2014 ah \u2014 tidy up a bit! Yes! I am simply a man who CANNOT abide untidy furniture! Nothing more to it than that! Don't mind me, just... straightening the cushions! A place for everything and everything in its PLACE, that's my motto!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Heh heh HEH! Someone has been rearranging this furniture with CARE \u2014 and Dick Dastardly knows that careful rearrangement means careful CONCEALMENT! While that pint-sized Gruesome squeezes through the vents looking for a candy room that doesn't EXIST, I shall find what's REALLY hidden down here! The treasure is practically calling my name \u2014 DASTARDLY! DASTARDLY! Come and CLAIM me!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly examined the old-furniture."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha \u2014 BLAST! The stove won't cooperate with my poison! But every great villain adapts! There MUST be something else in this kitchen \u2014 a teapot, a sugar bowl, a wine decanter \u2014 SOMETHING I can lace with my special ingredient! Let me have a proper look around. The Hooded Claw is NOT defeated by a mere STOVE!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) examined the null."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: Alright, alright, ALRIGHT \u2014 EVERYBODY STEP BACK! This is an official Ant Hill Mob EXTRACTION PROCEDURE! I have done this \u2014 well, I ain't NEVER done this, but that don't mean I can't LEARN ON THE JOB, see? Now Miss Penelope, you just stand RIGHT THERE lookin' gorgeous, and Peter, you \u2014 you just stand there lookin' \u2014 well, you just STAND THERE! Clyde's got this! I'm reachin' in \u2014 I'm reachin' in REAL careful-like \u2014 if there's a map in here, the Ant Hill Mob is gonna GRAB it before any booby traps can \u2014 YOINK!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "My hand is shakin' like a leaf in a HURRICANE, but I ain't gonna let nobody see that! If somethin' bites me, I'll just pretend it was a HANDSHAKE! That's the Ant Hill Mob way \u2014 scared on the INSIDE, heroic on the OUTSIDE!"
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Now now, my good Clyde, your ENTHUSIASM is commendable, but Peter Perfect has the STEADIEST hands in all of motorsport! Miss Pitstop, allow me \u2014 with your BRILLIANT deduction of 'a map,' the compartment has surely revealed its secrets! Let me reach in with the UTMOST care and retrieve whatever treasure awaits! A gentleman ALWAYS reaches into mysterious compartments for a lady \u2014 it's simply what we DO!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh, PLEASE let there be a map in there \u2014 if I pull out the map to the Doily Diamond right in front of Penelope, she'll practically SWOON! And right after SHE solved the riddle too \u2014 we'll be the perfect puzzle-solving DUO! Take THAT, Ant Hill Mob \u2014 you can inspect all the compartments you want, but PETER PERFECT delivers the goods!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Well now, sugar, I do believe I've been LOOKIN' at this mantelpiece when I should've been DOIN' somethin' with it! The answer to that riddle is plain as day \u2014 it's a MAP, of course! Cities but no houses, forests but no trees, water but no fish! Now let's see what happens when little ol' Penelope gives this clever contraption a proper try! Stand back, y'all \u2014 a lady is about to solve a PUZZLE!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Why, I just KNOW that when I interact with this mantelpiece properly, it's going to reveal somethin' WONDERFUL! Maybe a hidden map to the Doily Diamond itself! A girl's intuition is NEVER wrong \u2014 well, almost never!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly: Why, this armoire is COMPLETELY crooked! A man of refined sensibilities such as myself simply CANNOT tolerate such disorder! Allow me to just... adjust it... ever so... slightly..."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Heh heh HEH! 'Tidying up' indeed! Dick Dastardly is about to UNTIDY everything those careful little hands have concealed! Someone went to GREAT trouble rearranging this furniture \u2014 and great trouble means a GREAT secret! A hidden compartment, a false panel, a treasure map tucked beneath a cushion \u2014 SOMETHING is here, and it shall be MINE! Drat these Gruesomes for lurking about \u2014 but even THEY can't stop a genius at work!"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! The Hooded Claw does NOT give up so easily! That stove is still WARM, which means there must be a pot or kettle nearby \u2014 perhaps ON the stove itself! If I can find ANY suitable vessel, I shall brew the most DIABOLICALLY poisoned cup of tea this manor has ever seen! And then \u2014 oh, the EXQUISITE irony \u2014 I shall serve it to dear, sweet Penelope with a smile and a bow! She'll never suspect kindly old Sylvester Sneekly! Now, let me take a VERY close look at this stove..."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) examined the stove."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: OW OW OW \u2014 Peter, that was MY HAND you grabbed, not the treasure! I felt your FINGERS and I thought it was a SKELETON and I nearly had a HEART ATTACK, see?! My whole ARM went numb from the SHOCK! But never mind about Clyde's medical emergencies \u2014 did either of us actually GRAB somethin' outta there?! Miss Penelope solved that riddle fair and square with her BRILLIANT brain, and if there's a map or a clue in that compartment, the Ant Hill Mob is gonna make SURE she gets it! Now lemme take a PROPER look at what we done to this mantelpiece with all our reachin' and grabbin'!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Between you and me, I think I felt somethin' in there \u2014 somethin' PAPERY \u2014 but then Peter's big mitts came in and everything went HAYWIRE. Story of my LIFE, see? I try to do somethin' heroic and it turns into a THREE STOOGES routine. But at least Miss Penelope is safe and smilin', and THAT'S what matters to the Ant Hill Mob!"
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Why, GREAT SCOTT! The compartment has opened \u2014 Penelope, your deduction was absolutely MAGNIFICENT! Now let Peter Perfect take a PROPER look at what we have here \u2014 a gentleman examines mysterious compartments with PRECISION, not with the wild grabbing of \u2014 no offense, dear Clyde \u2014 an enthusiastic mobster! Let me see what treasures your brilliance has revealed, my dear!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh, I DO hope there's something spectacular in there \u2014 a map, a clue, ANYTHING I can present to Penelope with a gallant flourish! If it's empty, I'll simply have to find ANOTHER way to impress her. But it CAN'T be empty \u2014 she solved the riddle perfectly! The mantelpiece OWES her a prize!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Oh my STARS, did y'all SEE that?! I solved the riddle \u2014 it's a MAP, of course! Cities but no houses, forests but no trees, water but no fish \u2014 why, that's the oldest trick in the book, and little ol' Penelope figured it out all by her lonesome! Now hold your horses, Clyde dahling, and you too Peter \u2014 let me take a PROPER look at what this clever old mantelpiece has revealed! A lady likes to admire her handiwork before lettin' everyone grab at it!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Why, I do believe somethin' WONDERFUL just happened! The audience can see that Penelope Pitstop is not just a pretty face \u2014 she's got BRAINS to match! Now let's see what this mantelpiece is hidin'..."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! A kitchen without a teapot? PREPOSTEROUS! Every Victorian kitchen worth its salt has a full tea service tucked away somewhere. I simply need to look MORE carefully! Those copper pots hanging about \u2014 perhaps one of them will serve my NEFARIOUS purpose! And that locked cabinet \u2014 oh, what DELIGHTFULLY dangerous things might be hidden behind that brass lock! But first, let me survey this entire kitchen with the keen eye of a master villain!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) examined the null."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly: Well well WELL, what do we have HERE! These air vents are POSITIVELY fascinating! You know, I happen to be an EXPERT in Victorian ventilation systems \u2014 studied them at the Dastardly Academy of Superior Knowledge, naturally. And THESE particular vents, if I'm not mistaken \u2014 and I NEVER am \u2014 lead DIRECTLY to the treasure vault! Yes indeed! The problem is, they're far too small for a man of MY impressive stature. But YOU, Little Gruesome, my dear diminutive friend \u2014 why, you'd fit through there like a letter through a mail slot! Think of it \u2014 YOU could be the HERO who discovers the treasure! All the GLORY would be yours! I'd simply... wait here and... guard the entrance. For SAFETY purposes, you understand!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Heh heh HEH! If that pint-sized little monster crawls through the vents and finds ANYTHING of value, I'll simply snatch it the moment those stubby little arms push it back through! The Gruesomes may be frightful, but they're not exactly SCHOLARS, are they? And if the vents lead nowhere \u2014 well, at least I'll have that nuisance out of my HAIR while I search the rest of this cellar! Either way, Dick Dastardly WINS! It's almost too EASY! ...Which usually means something is about to go HORRIBLY wrong. But NOT this time! This time, the treasure is MINE!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly examined the air-vents."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Now then, my dear Penelope \u2014 your DAZZLING intellect has opened this compartment, and Peter Perfect shall retrieve its contents with the CARE and PRECISION they deserve! A lady of your caliber deserves a gentleman's touch, not \u2014 and I say this with the UTMOST affection for our friend Clyde \u2014 a mob's enthusiastic fumbling! Allow me, if you please!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "If there's a map in that compartment, I shall present it to Penelope with a bow and a flourish! She'll see that Peter Perfect is not just a pretty face and a magnificent automobile \u2014 I am a man of ACTION and REFINEMENT! Oh, please let there be something impressive in there..."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: Now hold on there, Mr. Perfect \u2014 with all due respect and NO offense intended \u2014 but the Ant Hill Mob felt that thing FIRST, see?! I had my fingers RIGHT on it before your big gallant mitts came crashin' in like a FREIGHT TRAIN! Now if you'll just EXCUSE me for ONE second \u2014 lemme just reach in here real careful-like \u2014 the boys taught me a thing or two about delicate extractions back in the old days, and by OLD DAYS I mean last Tuesday when I had to get a quarter outta the couch cushions \u2014 THERE! I'm goin' IN!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Truth is, I got butterfingers somethin' AWFUL, and every time I try to do somethin' delicate I end up knockin' over a lamp or pullin' out a drawer. But Miss Penelope solved that riddle with her BEAUTIFUL brain, and whatever's in that compartment belongs to HER \u2014 not to some smooth-talkin' pretty boy in a white suit!"
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Now hold on just one cotton-pickin' MINUTE, y'all! Penelope Pitstop did NOT solve that riddle just to stand here admirin' the stonework! The answer is a MAP \u2014 cities but no houses, forests but no trees, water but no fish! And if this clever little compartment has gone and opened itself up, then little ol' ME is gonna reach right in there and see what's waitin'! A girl doesn't come all the way to a spooky old mansion to let the BOYS have all the fun!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Why, the audience can see that Penelope is about to make a VERY important discovery! That mantelpiece practically has 'secret compartment' written all over it, and if there's a map to the Doily Diamond inside, well \u2014 this adventure is about to get VERY excitin'!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! Oh, this is simply TOO perfect! Here I am, alone in the kitchen with a pocket full of rat poison and a warm stove just BEGGING to be used for villainy! Poor, sweet, unsuspecting Penelope \u2014 she thinks dear old Uncle Sneekly is simply making TEA! Well, it WILL be tea... with a very SPECIAL ingredient! One sip of my DIABOLICAL brew and Penelope Pitstop will trouble me NO MORE! The Doily Diamond \u2014 and the ENTIRE Pitstop fortune \u2014 will be MINE! All MINE! Nyah-ha-ha-HA!"
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly: Why, Red Max, my DEAR fellow aviator! I couldn't help but notice \u2014 did you hear that sound coming from the LABORATORY just now? Sounded EXACTLY like the whirring of a PROPELLER! Could be an aircraft engine hidden in that machine up there \u2014 right up YOUR alley! You should investigate IMMEDIATELY before someone else claims it! And YOU, Big Gruesome, my MAGNIFICENT mountain of muscle! I have WONDERFUL news! I happen to know \u2014 from my EXTENSIVE studies at the Dastardly Institute of Furniture Archaeology \u2014 that Victorian cellars ALWAYS hide treasure compartments beneath rearranged furniture! Someone has CLEARLY been moving these pieces to conceal something! Now, a man of YOUR prodigious strength could shift these pieces in NO time! Think of it \u2014 the GLORY! The PRESTIGE! I shall supervise from a safe distance to ensure proper archaeological technique, naturally!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Heh heh HEH! Send Red Max upstairs chasing phantom propellers, get Big Gruesome to do all the back-breaking furniture moving, and when whatever's hidden underneath is REVEALED \u2014 why, Dick Dastardly's nimble fingers will snatch it before that lumbering oaf even knows what happened! It's BRILLIANT! I'm practically a CRIMINAL MASTERMIND! ...Well, I AM a criminal mastermind! The treasure is as good as MINE!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly examined the old-furniture."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Now, now, CLYDE, old boy \u2014 there is absolutely NO need for this unseemly tussle! We are GENTLEMEN, are we not? Well, I am certainly a gentleman, and you are... enthusiastic, which is ALMOST the same thing! But consider this \u2014 Miss Pitstop solved that riddle with her MAGNIFICENT intellect, and she deserves to have whatever lies within presented to her with GRACE and DECORUM, not yanked out like a rabbit from a hat at a children's party! So let us BOTH take a breath, compose ourselves, and see what treasures await \u2014 shall we?"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh, CURSES! This is NOT how I envisioned this moment! I was supposed to reach in with elegant precision, withdraw a priceless treasure map, and present it to Penelope on bended knee while she swooned! Instead I'm in a SHOVING MATCH with a mob boss over a fireplace! If Penelope is watching this \u2014 and she IS watching, she's RIGHT THERE \u2014 I must salvage whatever dignity remains! Peter Perfect does NOT fumble!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Now HUSH, both of y'all! Peter dahling, Clyde sugah \u2014 a lady does NOT appreciate bein' elbowed out of her OWN discovery! I solved that riddle fair and square \u2014 cities but no houses, forests but no trees, water but no fish \u2014 why, it's a MAP, plain as the nose on your face! Now let little ol' Penelope take a PROPER look at what this clever little compartment has gone and revealed!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Why, the audience can see that BOTH of these sweet gentlemen are fallin' all over themselves to help \u2014 how FLATTERING! But Penelope Pitstop didn't come all this way to let someone ELSE find the clue! Now let's see what's hidin' in this mantelpiece..."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: WHOA WHOA WHOA \u2014 did I just \u2014 I think I FELT somethin' in there, boys! My fingers touched somethin' PAPERY and CRINKLY-like, and then my elbow hit the side of the mantelpiece and I may have \u2014 well, let's just take a GOOD LOOK at what we got here before I accidentally shove it into the fireplace or somethin'! Miss Penelope, YOUR brilliant brain cracked this case wide open, and whatever treasure's in here is YOURS by rights, see?! I'm just the \u2014 the RETRIEVAL SPECIALIST! The, uh, the guy who reaches into holes! Which, come to think of it, ain't the SAFEST job description, but for YOU, Miss Pitstop, I'd stick my hand in a ALLIGATOR'S MOUTH!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Truth be told, I can't feel a THING on account of my fingers bein' numb from nerves. Every time I'm within three feet of Miss Penelope my hands go all tingly and useless. But I AIN'T lettin' Pretty Boy Perfect be the hero here \u2014 not on MY watch!"
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly): Now then, where does one keep the tea things in this dreadful old kitchen? There MUST be a proper teapot around here somewhere... Ah, let me have a good look around!"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! A minor setback, nothing more! Every GREAT villain knows that the first attempt is merely a rehearsal! I simply need to find the proper vessel for my poisonous concoction \u2014 a teapot, a cup, ANYTHING that dear sweet Penelope might drink from! The stove was too crude \u2014 I need ELEGANCE in my villainy! Let me search this kitchen from top to bottom!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) examined the null."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly: Why, Big Gruesome, you're doing a SPLENDID job just... standing there! Very intimidating! Keep it up! Now then, Little Gruesome, my DIMINUTIVE friend \u2014 come here, come here! I have a VERY important mission for you! You see those air vents up there? They lead DIRECTLY to the kitchen \u2014 I'm ABSOLUTELY certain of it! And in the kitchen there are DELICIOUS treats! Cakes! Pies! An entire ROAST TURKEY! All you have to do is crawl through and help yourself! Go on, off you pop!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Heh heh HEH! Those air vents are 'just big enough for something very small' \u2014 and Little Gruesome is EXACTLY something very small! If I send that pint-sized creature through the vents, it might stumble upon the treasure \u2014 or at least discover WHERE it's hidden! And when it comes back to report on the supposed 'kitchen treats' that don't EXIST, I'll know exactly which direction to go! Meanwhile, let me get a closer look at those vents myself \u2014 there might be markings or clues around the edges that my SUPERIOR intellect can decipher! Dick Dastardly thinks of EVERYTHING!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly examined the air-vents."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, CLYDE sugah, you are just the SWEETEST thing \u2014 stickin' your hand in mysterious holes for little ol' me! But a lady always retrieves her OWN treasures, don't you know! Now then, let Penelope just work this clever little compartment here... The answer is a MAP, and I do believe this mantelpiece KNOWS it! Let's see what you're hidin', you gorgeous old stone darlin'!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Oh my stars, the audience can see that Penelope's heart is just POUNDIN' with excitement! A secret compartment with somethin' papery inside? Why, that could be a MAP to the Doily Diamond itself! And that sweet Clyde nearly shoved it into the fireplace \u2014 bless his heart, the man has more enthusiasm than coordination!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: You are ABSOLUTELY right, Miss Pitstop, and I am THOROUGHLY ashamed of myself! A gentleman does NOT jostle over a lady's discovery \u2014 it was YOUR brilliant mind that solved that riddle, and Peter Perfect should have been APPLAUDING, not elbowing! Please, my dear, take all the time you need with that compartment. Meanwhile, I couldn't help but notice that several of these books appear to be shelved UPSIDE DOWN \u2014 now THAT strikes me as rather peculiar for a proper library! Perhaps there's another clue hidden among these dusty volumes! Leave the bookshelves to Peter Perfect \u2014 I shall investigate with THOROUGHNESS and DISTINCTION!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh, PETER, you magnificent FOOL \u2014 you nearly ruined EVERYTHING by wrestling with Clyde like some common ruffian! But LOOK at me now \u2014 gracious, humble, and already pivoting to the NEXT clue! Those upside-down books practically SCREAM 'secret mechanism!' If I can find something useful in those shelves while Penelope claims her rightful discovery, she'll see that Peter Perfect is not just brave and handsome, but PERCEPTIVE and CONSIDERATE! The complete package!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the bookshelves."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: STAND BACK, everybody \u2014 STAND BACK! This is a job for a PROFESSIONAL! Now Miss Penelope, I felt somethin' crinkly in there just a second ago, and I am gonna EXTRACT it for you with the UTMOST care and \u2014 OOF \u2014 my sleeve is caught on the \u2014 HOLD ON \u2014 there we go, I'm just gonna \u2014 YOINK!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "I got NO idea what I'm pullin' out of this thing. Could be a treasure map, could be a grocery list from 1847. Either way, if it's for Miss Penelope, I'm gettin' it out even if I gotta pull the whole MANTELPIECE down to do it \u2014 which, knowin' me, is a DISTINCT possibility!"
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly): Now then, let me see about that tea... A spot of warmth from this lovely old stove should do the trick! One lump or two? Nyeh-heh... I mean, one SUGAR or two, naturally!"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! The stove is still WARM \u2014 how perfectly CONVENIENT! While those bumbling fools are off reading dusty old books and mooning over guest registers, I shall brew the most DIABOLICALLY poisoned cup of tea in the history of afternoon refreshments! One tiny drop of rat poison, heated to perfection, masked by a generous helping of sugar... and dear, sweet, UNSUSPECTING Penelope shall drink her very LAST cup! Oh, the ELEGANCE of it! The SIMPLICITY! She'll never suspect her own dear guardian uncle Sneekly! This is VILLAINY at its most REFINED!"
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly: Now then, what have we HERE? This furniture has been moved around \u2014 oh yes, I can TELL! A man of my EXTRAORDINARY perception notices these things! Someone has been rearranging these pieces with GREAT deliberation! And WHY would anyone bother redecorating a CELLAR unless they were trying to HIDE something? Or perhaps... trying to REVEAL something to a mind brilliant enough to see it! Which is, of course, ME! Stand aside, Gruesomes \u2014 let a GENIUS work!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Heh heh HEH! The air vents were a dead end \u2014 DRAT! But this furniture, NOW we're talking! 'Rearranged with surprising care' \u2014 that's not random redecorating, that's someone creating a PATTERN or hiding something beneath the floorboards! While those FOOLS upstairs are still trying to fix a machine with instructions that don't EXIST, I, the MAGNIFICENT Dick Dastardly, shall uncover the cellar's TRUE secret! Every cushion shall be overturned, every drawer shall be pulled, every hidden compartment shall yield to my DASTARDLY determination!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly examined the old-furniture."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "CURSES! The stove won't cooperate with my poisoning scheme! How VEXING! But The Hooded Claw is NEVER defeated by a mere kitchen appliance! There must be something else in this wretched kitchen \u2014 a teapot, a sugar bowl, SOMETHING I can lace with my delightful little concoction! Let me take a CLOSER look around... Nyah-ha-ha-HA!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) examined the null."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Well well WELL! What have we HERE! Several of these volumes are shelved UPSIDE DOWN \u2014 and I don't believe for a MOMENT that was carelessness! In my experience, when books are deliberately inverted in a mysterious manor, it means one thing \u2014 a HIDDEN MECHANISM! Now then, let Peter Perfect apply his KEEN intellect and STEADY hands to this little puzzle! If I just turn these inverted books right-side up \u2014 or perhaps PULL them like levers \u2014 we may find ANOTHER secret compartment! Miss Pitstop, you work your magic on that mantelpiece, and I shall work MINE on these shelves! Between the two of us, this library doesn't stand a CHANCE!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh, this is PERFECT \u2014 while Clyde fumbles around getting his sleeve caught in things, Peter Perfect is going to crack ANOTHER puzzle entirely! If these upside-down books reveal a hidden passage or a second clue, Penelope will see that I'm not just a pretty face with impeccable hair \u2014 I'm a DETECTIVE! A SCHOLAR! The complete package! Just please, PLEASE let there be something behind these books and not just dust and silverfish!"
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, CLYDE sugah, what in the world did you just YOINK out of there?! That was MY secret compartment discovery, you sweet, overeager little rascal! Now don't you go crumplin' whatever that crinkly thing is \u2014 if that's a MAP to the Doily Diamond, it is PRICELESS! Let Penelope have a look-see at what's left in this gorgeous old mantelpiece \u2014 a proper Southern lady always checks TWICE!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Oh my STARS, the audience can see that Penelope is just BESIDE herself! She solved that riddle fair and square \u2014 MAP, obviously \u2014 and that dear sweet Clyde went and snatched it right out from under her perfectly manicured fingernails! Bless his heart, he means well, but a girl's gotta inspect the scene of the crime... er, the scene of the DISCOVERY!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: WHOOPSIE-DAISY! I pulled so hard I went BACKWARDS three feet and nearly took out that readin' chair! And I didn't even GET the thing outta there! My SLEEVE ripped clean off on some kinda mechanism inside \u2014 LOOK at that, my best jacket, RUINED in the line of duty! But don't you worry, Miss Penelope \u2014 I loosened it up REAL good for ya! Whatever's in that compartment, Clyde Ant Hill softened it up like a \u2014 like a PROFESSIONAL LOOSENER, see? You just reach right in there now, nice and easy!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "I got nothin' out of that mantelpiece except a torn sleeve and a bruised dignity. But if my yankin' made it easier for Miss Penelope to get whatever's in there \u2014 well, that's what we call an ACCIDENTAL SUCCESS, which is pretty much the ONLY kind of success I ever have!"
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly: Why, Big Gruesome, my DEAR fellow! What a SPLENDID job you've done redecorating this cellar! Simply MAGNIFICENT taste! I must say, the way you've arranged this furniture shows TRUE artistic vision! Now tell me \u2014 and this is purely out of PROFESSIONAL admiration, you understand \u2014 did you happen to find anything INTERESTING under all this furniture while you were moving it about? Old papers, perhaps? A map? A hidden compartment in the floor? I ask only because I wish to COMPLIMENT your thoroughness!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Heh heh HEH! The Gruesomes may be hulking BRUTES, but they're about as sharp as a bag of wet mice! If they've been rearranging furniture, they may have ALREADY found something hidden and not even realized its VALUE! A few honeyed words from the DASTARDLY Dick Dastardly, and they'll hand over every secret this cellar holds! And if Red Max is listening \u2014 well, let him! He'll be so busy watching ME that he won't think to look for himself! BRILLIANT!"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! While those bumbling do-gooders busy themselves with dusty books and guest registers, The Hooded Claw is hard at work in the kitchen! If only this confounded stove would yield its secrets \u2014 there MUST be a kettle or teapot nearby. One cup of my special brew and dear, sweet Penelope will be taking her FINAL sip! Oh, the EXQUISITE villainy of it all!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "The Hooded Claw (as Sneekly) examined the stove."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, I do DECLARE! That riddle is as clear as a Georgia sunrise! 'I have cities but no houses, forests but no trees, water but no fish' \u2014 why, sugah, that's a MAP! A M-A-P! And wouldn't you know it, that sweet little Clyde already pulled somethin' crinkly right out of this very mantelpiece! Now let Penelope try givin' this gorgeous old stonework the PROPER answer and see if there's anything else hidden away in there!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Why, the audience can plainly see that Penelope has SOLVED the riddle \u2014 it's a MAP, of course! Now, a smart girl knows that mysterious mantelpieces in spooky old mansions ALWAYS have more than one secret. If Clyde got the first prize, maybe there's a second compartment just waitin' for the right lady to come along and say the magic word!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Well, I \u2014 ahem \u2014 it appears the bookshelves were merely DECORATIVELY disarranged! No matter! Because I have just had a BRILLIANT deduction about that inscription! 'Cities but no houses, forests but no trees, water but no fish' \u2014 why, Miss Pitstop, the answer is a MAP! Don't you see? The mantelpiece was TELLING us what was hidden inside it all along! And whatever that crinkly document is that Clyde just liberated \u2014 I'll wager my PERFECTLY coiffed hair that it IS the map! Now then, let me take a PROPER look at this mantelpiece \u2014 a true gentleman leaves no stone unturned, especially a CARVED one!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Oh, CURSES! The bookshelves were nothing \u2014 just ordinary shelves! And Clyde got his grubby little hands on whatever was in the mantelpiece FIRST! But I solved the riddle! That has to count for SOMETHING with Penelope! If I can find something else in that mantelpiece that everyone missed, I can still be the hero of this library! Come on, Peter \u2014 FOCUS!"
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly: CURSES! This wretched furniture won't BUDGE! Well, no matter \u2014 a man of my SUPREME intellect doesn't need to move things about like some common LABOURER! I shall simply use my BRILLIANT powers of observation to deduce what these furniture arrangements are CONCEALING! For I, Dick Dastardly, can spot a hidden treasure from FIFTY paces!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Drat, drat, and double DRAT! The furniture won't cooperate! But WAIT \u2014 if the Gruesomes arranged it with 'surprising care,' then the ARRANGEMENT itself must be significant! Perhaps the pieces are pointing toward something, or clearing a space on the floor! I must LOOK more carefully before that flying FOOL Red Max catches on!"
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "cellar",
+      "desc": "Dick Dastardly examined the old-furniture."
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: Hold on there, Perfect \u2014 don't you go yankin' on them books without BACKUP! The last time I saw upside-down books in a mysterious library, it was \u2014 well, actually I NEVER seen upside-down books in a mysterious library, but the PRINCIPLE is the same, see? You could trigger a TRAP! A BOOKSHELF AVALANCHE! A SECRET PASSAGE THAT LEADS TO A PIT OF ALLIGATORS! Let me give these bad boys a tug FIRST \u2014 that way if somethin' terrible happens, it happens to CLYDE, and Miss Penelope stays SAFE! Now let's see here \u2014 eeny, meeny, miney \u2014 THIS one looks suspicious!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Every time I try to be HELPFUL I end up causin' a catastrophe \u2014 but that's the BEAUTY of it, see? My catastrophes have a funny way of workin' out for Miss Penelope! It's like the universe KNOWS I'm tryin' my best and throws me a bone every now and then. A very BRUISED bone, but a bone nonetheless!"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "kitchen",
+      "desc": "Nyah-ha-ha-HA! Oh, what EXQUISITE fortune! Here I stand, ALONE in the kitchen, with a pocket full of rat-poison and a warm stove just BEGGING to be put to diabolical use! That simpering Penelope thinks I'm making her a nice cup of TEA \u2014 and so I SHALL! A very SPECIAL cup of tea! The last cup she'll ever drink! Oh, if only those meddling Ant Hill Mob could see me now \u2014 but they CAN'T, because I am simply TOO clever! Now then, let us see what this stove can do for The Hooded Claw's culinary masterpiece!"
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Well now, let's see what Penelope's clever answer did to this gorgeous old mantelpiece! Why, I just KNEW that riddle was about a map \u2014 cities without houses, forests without trees, water without fish! Now let me take a GOOD long look and see if there's a secret compartment or a clue to the Doily Diamond hidin' in here!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "The audience can see that Penelope is simply BRIMMIN' with excitement! She solved the riddle fair and square, and now she's hopin' the mantelpiece will reward her with somethin' SPARKLY! A girl can dream, can't she?"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    }
+  ]
+}
