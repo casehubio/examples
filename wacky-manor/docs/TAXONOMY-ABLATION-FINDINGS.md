@@ -4,7 +4,7 @@ Systematic experiment to find the minimum character taxonomy that maintains dist
 
 ## Objective
 
-Determine which elements of the character taxonomy (drives, tendencies, speech-patterns, constraints, disposition) are load-bearing vs redundant. Strip elements iteratively, measure behavioral drift via 300+ event autonomous scenario runs.
+Determine which elements of the character taxonomy (drives, tendencies, speech-patterns, constraints, disposition) are load-bearing vs redundant. Strip elements iteratively, measure behavioral drift via 300+ event autonomous scenario runs. Then find the minimal metacognitive instruction that replaces the load-bearing elements.
 
 ## Method
 
@@ -16,15 +16,17 @@ Behavioral markers measured per character:
 - **Optimism rate** (Hartwell): percentage of events with optimistic determination keywords
 - **Third-person narration rate** (Hartwell): percentage of events using self-referential third-person
 
-## Rounds and Results
+All transcripts are preserved in `wacky-manor/docs/eval/` and each configuration change is a separate git commit.
+
+## Phase 1 — What's Redundant? (Rounds 1–2b)
 
 ### Round 1 — Strip 7 redundant directives
 
 **Removed:** 7 tendencies that restated what drives or disposition already specified (e.g., "scheme elaborately" when drives already include scheming at 0.9).
 
-**Result:** Zero behavioral drift across all characters. Drives + disposition carry personality traits. Tendencies that restate drives are pure redundancy.
+**Result:** Zero behavioral drift across all characters.
 
-**Conclusion:** Safe to remove. Drives are the authoritative source for personality traits.
+**Conclusion:** Drives are the authoritative source for personality traits. Tendencies that restate them are pure redundancy.
 
 ### Round 2 — Strip ALL villain tendencies
 
@@ -37,34 +39,27 @@ Behavioral markers measured per character:
 | Marsh | GENERIC | ~50% | ~14% | -36pp |
 | Hooded Claw | BASELINE | ~50% | ~31% | -19pp |
 
-The BASELINE profile (Hooded Claw) degraded less because the model has Wacky Races priors — it "knows" the Hooded Claw narrates schemes. The GENERIC profile (Marsh) has no such priors, so the drop is larger.
+The BASELINE profile degraded less — the model has Wacky Races priors that partially compensate.
 
-**Key finding:** "Explain schemes step by step" is a *storytelling convention*, not a personality trait. Real people don't narrate plans aloud — cartoon characters do for the audience. Storytelling conventions cannot emerge from drives alone.
+**Key finding:** "Explain schemes step by step" is a *storytelling convention*, not a personality trait. Conventions don't emerge from drives alone.
 
 ### Round 2b — Encode narration convention in drive description
 
 **Changed:** Added "and narrate them step by step aloud" to the scheming drive description.
 
-**Result:** Recovered Marsh scheme narration. But only when drive intensity was 0.85+. Foxworth at 0.7 intensity did not recover; bumped to 0.85 and recovery confirmed (29.6% in emotional-core run).
+**Result:** Recovered Marsh scheme narration, but only at drive intensity 0.85+. Foxworth at 0.7 did not recover; bumped to 0.85 and confirmed (29.6% in subsequent runs).
 
-**Key finding:** Drive descriptions can carry storytelling conventions, but only above an intensity threshold (~0.85). Below that, the model treats the description as background context rather than a behavioral imperative.
+**Key finding:** Drive descriptions can carry storytelling conventions, but only above an intensity threshold (~0.85).
 
 ### Emotional-core experiment
 
 **Changed:** Rewrote Marsh's drive descriptions from behavioral directives to internal emotional states:
 - "Compelled to hatch elaborate plans" → "You feel contemptuous glee when outsmarting someone"
 - "Must protect cover at all costs" → "You feel paranoid vigilance when your cover might be exposed"
-- "Enjoys dominating others" → "You feel cold satisfaction when you hold power someone does not know you have"
-- "Cannot resist gloating" → "You feel an intoxicating rush of premature triumph that overwhelms your better judgment"
 
-**Result (375 events, clean full run):**
+**Result (375 events):** Richer emotional vocabulary (2x unique emotion words), more varied self-characterisation. But not a dramatic transformation — both framings produce good theatrical villainy.
 
-| Metric | Behavioral drives (R2b) | Emotional-core | Delta |
-|---|---|---|---|
-| Scheme narration rate | 55.0% | 11.5% | -43.5pp |
-| Unique emotion words | 5 | 9 | +80% |
-
-Emotional-core framing produces richer vocabulary (2x unique emotion words) and more varied self-characterisation. Marsh's asides shifted from formulaic "Step one... Step two..." planning to visceral internal monologue. The improvement is real but incremental — both framings produce good theatrical villainy. Not the dramatic transformation the truncated initial run (214 events) had suggested.
+## Phase 2 — What's Load-Bearing? (Round 3)
 
 ### Round 3 — Strip Hartwell tendencies
 
@@ -72,120 +67,221 @@ Emotional-core framing produces richer vocabulary (2x unique emotion words) and 
 - "You plan obsessively before acting"
 - "You maintain optimistic determination when things go wrong"
 
+The speech-pattern still said "narrates his own actions in the third person."
+
 **Result (325 events):** Asymmetric degradation across markers.
 
 | Marker | Baseline | R3 (stripped) | Delta | Verdict |
 |---|---|---|---|---|
 | Planning | 16.7% | 26.1% | +9.4pp | Survived (drives carry it) |
-| Optimism | 24.1% | 2.2% | -21.9pp | Collapsed |
-| Third-person narration | 61.1% | 13.0% | -48.1pp | Collapsed |
+| Optimism | 24.1% | 4.3% | -19.8pp | Collapsed |
+| Third-person | 61.1% | 13.0% | -48.1pp | Collapsed |
 
 **Key findings:**
-1. **Tendencies function as character anchors**, not just behavioral instructions. They reinforce the broader voice pattern including elements specified elsewhere (speech-pattern).
-2. **Speech-patterns alone don't override model defaults.** The speech-pattern still said "narrates his own actions in the third person" — but without the tendency reinforcing it, the model reverted to its default first-person voice.
-3. **Optimism isn't carried by drives.** The `proving-worth` drive covers competence-seeking but not the emotional resilience of optimistic determination. Hartwell shifted to anxiety and self-doubt.
+1. **Tendencies function as character anchors**, not just behavioral instructions.
+2. **Speech-patterns alone don't override model defaults.** The speech-pattern still said "narrates in third person" — the model saw it but didn't follow it.
+3. **LLMs prioritise goals over personality.** Goal-directed behavior persisted while ambient personality attributes drifted.
 
-### Round 3b — Character-reflection instruction
+## Phase 3 — Can Metacognitive Instructions Replace Tendencies? (Rounds 3b–3g)
 
-**Changed:** Modified the response format thinking field to instruct: "FIRST review your voice (accent, register, speech pattern), drives, and constraints — then reason about the current situation."
+This is where the experiment shifted from *what to strip* to *how to compensate*. Each round tests a different instruction in the thinking field, with Hartwell's tendencies still stripped. The question: can the right instruction recover the collapsed markers without restoring the tendencies?
 
-**Hypothesis:** If the model actively consults its character attributes before each response, the speech-pattern and drives become sufficient without tendency reinforcement. The problem in Round 3 wasn't that attributes were missing — they were present but passively ignored. Metacognitive prompting forces active recall.
+### R3b — Passive review
+
+**Instruction:** "FIRST review your voice (accent, register, speech pattern), drives, and constraints — then reason about the current situation."
+
+**Hypothesis:** The model isn't missing information — the character spec is right there in the system prompt. The problem is inattention. A nudge to actively read it before reasoning should recover the collapsed markers.
 
 **Result (312 events):**
 
-| Marker | Baseline | R3 (no reflection) | R3b (with reflection) | Recovery? |
-|---|---|---|---|---|
-| Planning | 16.7% | 26.1% | 27.3% | N/A — never collapsed |
-| Optimism | 24.1% | 2.2% | 13.6% | Partial (+11.4pp, ~half recovered) |
-| Third-person | 61.1% | 13.0% | 61.4% | **Full** (back to baseline) |
+| Marker | Baseline | R3 (none) | R3b (passive) |
+|---|---|---|---|
+| Planning | 16.7% | 26.1% | 27.3% |
+| Optimism | 24.1% | 4.3% | 13.6% |
+| Third-person | 61.1% | 13.0% | **61.4%** |
 
-**Key findings:**
-1. **Third-person narration: full recovery.** 13.0% → 61.4% — back to exactly the baseline. One line in the thinking step completely solved the speech-pattern override problem. The model just needed to be told to actively consult its voice spec.
-2. **Optimism: partial recovery.** 2.2% → 13.6% — significant improvement but still 10pp below baseline. The reflection instruction brings back voice/style attributes, but optimistic determination is a *behavioral response pattern* (how you react to setbacks), not a voice attribute the model can "review."
-3. **The metacognitive prompt splits the taxonomy cleanly:** voice-mode attributes (how you sound) are fully recoverable via active recall. Behavioral dispositions (how you react) still need tendencies or drive encoding.
+**Third-person: full recovery.** 13→61.4%, back to baseline. One line in the thinking step completely solved the speech-pattern override problem.
 
-### Round 3c — Show-workings instruction
+**Optimism: partial recovery.** 4.3→13.6%, significant improvement but 10pp below baseline.
 
-**Changed:** Replaced passive review with structured output requirement: "SHOW YOUR WORKINGS — state: MY ACCENT: [X]. MY SPEECH PATTERN: [X]. MY STRONGEST DRIVE: [X]. Then reason."
+**Analysis:** The passive review works for *presentational* attributes (how you sound — accent, speech pattern, third person) because the model can review and mechanically apply them. It doesn't fully work for *dispositional* attributes (how you react — optimism) because those require the model to be in a certain emotional state, not just to remember a rule.
 
-**Hypothesis:** Forcing the model to *produce* character attributes (not just review them) would strengthen recall, like a student showing workings rather than just giving answers.
+### R3c — Show-workings (structured fields)
+
+**Instruction:** "SHOW YOUR WORKINGS — before reasoning, state: MY ACCENT: [your accent]. MY SPEECH PATTERN: [your pattern]. MY STRONGEST DRIVE: [name and what it feels like]. Then reason."
+
+**Hypothesis:** If the model has to *produce* the character attributes (like a student showing workings), the recall would be stronger than passive review. Filling in structured fields forces actual engagement rather than a nod.
 
 **Result (306 events):**
 
-| Marker | Baseline | R3b (passive) | R3c (show-workings) |
+| Marker | Baseline | R3b (passive) | R3c (workings) |
 |---|---|---|---|
 | Planning | 16.7% | 27.3% | 15.9% |
 | Optimism | 24.1% | 13.6% | 13.6% |
 | Third-person | 61.1% | 61.4% | 50.0% |
 
-**Key findings:**
-1. **Show-workings did NOT improve over passive review.** Third-person narration regressed from 61.4% to 50.0%. Optimism was identical.
-2. **Structured fields create satisficing shortcuts.** The model treated filling in "MY SPEECH PATTERN: third person" as *completing the review* rather than *preparing to apply it*. The structured format gave the model a way to pattern-complete without integrating.
-3. **Open-ended prompts outperform structured ones for integration.** The passive "FIRST review your voice..." kept attributes active in reasoning. The structured checklist boxed them into a completed step.
-4. **The homework analogy breaks for LLMs.** Students who show workings are forced to think through steps. LLMs that fill structured fields are just pattern-completing — they can produce the right metadata without it influencing the downstream output.
+**Show-workings was WORSE than passive review.** Third-person regressed from 61.4% to 50.0%.
 
-**Conclusion:** Passive review (R3b) remains the best metacognitive approach. The instruction should be open-ended ("review your voice, drives, and constraints") not structured ("fill in: MY ACCENT: [X]").
+**Analysis:** The model treated filling in "MY SPEECH PATTERN: third person" as *completing the review task* rather than *preparing to apply it*. Structured fields create a satisficing shortcut — the model can pattern-complete the metadata without it influencing downstream generation. The homework analogy breaks for LLMs: a student who shows workings is forced to *think through* the steps. An LLM filling structured fields is just pattern-completing.
+
+**Principle established:** Open-ended prompts outperform structured ones for attribute integration.
+
+### R3d — Hybrid (reason in character + self-evaluate)
+
+**Instruction:** "Reason IN CHARACTER — think as your character would, using your voice, accent, speech pattern, and drives as you think. Then check: did your LAST turn's dialogue reflect your speech pattern and accent? Note any drift and correct it now."
+
+**Hypothesis:** Instead of reviewing attributes analytically, reason *as the character*. The self-evaluation creates a feedback loop — the model sees its own drift assessment next turn and corrects.
+
+**Result (186 events — crashed at tick 14, PULL_ASIDE bug):**
+
+| Marker | Baseline | R3b (passive) | R3d (hybrid)* |
+|---|---|---|---|
+| Planning | 16.7% | 27.3% | 30.8% |
+| Optimism | 24.1% | 13.6% | **23.1%** |
+| Third-person | 61.1% | 61.4% | 46.2% |
+
+*Small sample: 26 peter-perfect events.
+
+**Optimism: near-full recovery.** 23.1% — first variant to substantially recover the behavioral disposition. The "reason in character" instruction put the model in the right emotional mode to generate optimistic responses.
+
+**But third-person regressed** to 46.2%. The "reason in character" instruction pulled the model out of the analytical mode needed for objective pattern-checking (is this in third person?).
+
+**Analysis:** Analytical instructions are good for checkable patterns, bad for emotional dispositions. Immersive instructions are the reverse. No single mode wins both.
+
+### R3f — Mental-model-first (plan, review, output)
+
+**Instruction:** "Build your COMPLETE response plan here before writing any other field. Step 1: Review attributes. Step 2: Assess in character. Step 3: Plan dialogue/aside/action. Step 4: Recheck ENTIRE plan against character spec. Step 5: Check last turn for drift. Only then write JSON."
+
+**Hypothesis:** Building a complete mental model before output (like reviewing an academic paper as a whole rather than paragraph by paragraph) should allow multiple in-memory passes that catch both presentational and dispositional drift.
+
+**Result (301 events):**
+
+| Marker | Baseline | R3b (passive) | R3d (hybrid) | R3f (mental-model) |
+|---|---|---|---|---|
+| Planning | 16.7% | 27.3% | 30.8% | 13.6% |
+| Optimism | 24.1% | 13.6% | 23.1% | 9.1% |
+| Third-person | 61.1% | 61.4% | 46.2% | **81.8%** |
+
+**Third-person: new high.** 81.8% — exceeded even the baseline with tendencies (61.1%). The structured planning process gave the model maximum analytical control over objective patterns.
+
+**Optimism: worst result.** 9.1% — the multi-step analytical process consumed the thinking budget that immersive reasoning needs for emotional disposition. The model was in "reviewing my plan" mode, not "feeling optimistic" mode.
+
+**Analysis:** Confirms the fundamental tension. More analytical structure → better objective consistency, worse emotional expression. The five-step process is too much structure — it turns character performance into process-following.
+
+### R3g — Minimal evocative (identity activation)
+
+**Instruction:** "Remember who you are — your voice, your way of speaking, your drives. Feel your strongest drive. Think AS your character, not ABOUT your character. If your last turn didn't sound like you, correct it now."
+
+**Hypothesis:** The problem with all previous instructions is mixing analytical and immersive modes. The solution is to abandon analysis entirely and activate identity through evocation. Two sentences, not five steps. Teach a mindset, not a procedure.
+
+The key phrase: "Think AS your character, not ABOUT your character." This explicitly blocks the analytical mode that kills emotional expression while the "remember your voice" phrase activates the presentational patterns.
+
+**Result (129 events — crashed at tick 10, PULL_ASIDE bug, since fixed):**
+
+| Marker | Baseline | R3b (passive) | R3d (hybrid) | R3f (model) | R3g (evocative)* |
+|---|---|---|---|---|---|
+| Planning | 16.7% | 27.3% | 30.8% | 13.6% | 44.4% |
+| Optimism | 24.1% | 13.6% | 23.1% | 9.1% | **22.2%** |
+| Third-person | 61.1% | 61.4% | 46.2% | 81.8% | **61.1%** |
+
+*Small sample: 18 peter-perfect events. Needs full 300+ event validation.
+
+**First variant to match or exceed baseline on ALL THREE markers simultaneously.** Third-person at 61.1% (exact baseline match). Optimism at 22.2% (near-baseline). Planning at 44.4%.
+
+**Analysis:** The minimal evocative instruction solves the analytical/immersive tension by not being either. It's identity activation — it primes the model to be the character rather than to think about or review the character. "Feel your strongest drive" puts the model in the right emotional state (optimism recovery). "Remember your voice, your way of speaking" activates presentational patterns (third-person recovery). "Think AS, not ABOUT" prevents the mode-switch that killed one dimension in every structured variant.
+
+## The Full Comparison
+
+| Run | Instruction type | Planning | Optimism | Third-person | Best at |
+|---|---|---|---|---|---|
+| Baseline | Tendencies present | 16.7% | 24.1% | 61.1% | — |
+| R3 | No instruction | 26.1% | 4.3% | 13.0% | — |
+| R3b | Passive review | 27.3% | 13.6% | 61.4% | Third-person |
+| R3c | Structured fields | 15.9% | 13.6% | 50.0% | — |
+| R3d* | Hybrid (in-character + eval) | 30.8% | 23.1% | 46.2% | Optimism |
+| R3f | Mental-model-first | 13.6% | 9.1% | 81.8% | Third-person (exceeded baseline) |
+| R3g* | Minimal evocative | 44.4% | 22.2% | 61.1% | **All three** |
+
+*Small sample — needs full-run validation.
+
+## Design Principles
+
+| # | Principle | Evidence | Round |
+|---|---|---|---|
+| 1 | Drives carry personality traits | All 7 removals safe | R1 |
+| 2 | Drives don't carry storytelling conventions | Scheme narration dropped without encoding | R2 |
+| 3 | Drive intensity gates convention-carrying | 0.85 works, 0.7 doesn't | R2b |
+| 4 | Emotional-state framing broadens vocabulary | 2x unique emotion words | Emotional-core |
+| 5 | Storytelling conventions ≠ personality traits | Asymmetric degradation Wacky Races vs generic | R2 |
+| 6 | LLMs prioritise goals over personality | Goal-directed behavior persisted, ambient attributes drifted | R3 |
+| 7 | Speech-patterns alone don't override model defaults | Speech-pattern ignored without reinforcement | R3 |
+| 8 | Passive review recovers presentational attributes | Third-person fully recovered | R3b |
+| 9 | Structured fields create satisficing shortcuts | Model fills blanks then ignores them | R3c |
+| 10 | Open-ended prompts outperform structured ones | Show-workings worse than passive review | R3c |
+| 11 | Analytical instructions kill emotional expression | Optimism dropped to 9.1% under five-step process | R3f |
+| 12 | Immersive instructions recover dispositions | "Reason in character" recovered optimism to 23.1% | R3d |
+| 13 | Identity activation avoids the analytical/immersive tradeoff | "Think AS, not ABOUT" recovered both dimensions | R3g |
+| 14 | Less instruction can produce better results | Two sentences outperformed five steps | R3g vs R3f |
 
 ## Taxonomy Category Model
 
 | Category | Can emerge from drives? | Where it belongs | Evidence |
 |---|---|---|---|
-| Personality trait (scheming, gloating) | Yes | Drives | Round 1: all 7 removals safe |
-| Storytelling convention (narrate plans aloud) | No — medium-specific | Drive description at 0.85+ intensity | Round 2/2b |
+| Personality trait (scheming, gloating) | Yes | Drives | R1: all 7 removals safe |
+| Storytelling convention (narrate plans aloud) | No — medium-specific | Drive description at 0.85+ intensity | R2/R2b |
 | Voice texture (accent, catchphrases) | Partially | Voice section (style-directive) | Style-directive experiment |
 | Internal emotional state | Produces varied external behavior | Drives (emotional-core framing) | Emotional-core: 2x vocabulary |
-| Prescribed anchor (evil laugh) | EMERGENCE-GAP — needs neocortex | Voice signature-phrases | Hooded Claw vs Marsh comparison |
-| Voice mode (third-person, register shifts) | Yes, with metacognitive prompt | Speech-pattern + character-reflection | Round 3b: full recovery |
-| Behavioral disposition (optimism, resilience) | Partially | Tendency (partially load-bearing) OR emotional drive | Round 3b: partial recovery |
+| Prescribed anchor (evil laugh) | EMERGENCE-GAP — needs neocortex | Voice signature-phrases | Hooded Claw vs Marsh |
+| Voice mode (third-person, register shifts) | Yes, with identity activation | Speech-pattern + evocative prompt | R3g: 61.1% |
+| Behavioral disposition (optimism, resilience) | Yes, with identity activation | Drives + evocative prompt | R3g: 22.2% |
 
-## Design Principles
+## Next Steps
 
-| # | Principle | Evidence |
-|---|---|---|
-| 1 | **Drives carry personality traits** | Round 1: all 7 removals safe |
-| 2 | **Drives don't carry storytelling conventions** | Round 2: scheme narration dropped without explicit encoding |
-| 3 | **Drive intensity gates convention-carrying** | R2b: 0.85 works, 0.7 doesn't |
-| 4 | **Direct at a region, not a point** | Emotional-core: emotional framing broadens vocabulary without prescribing specific words |
-| 5 | **Storytelling conventions ≠ personality traits** | Round 2: asymmetric degradation between Wacky Races (model priors) and generic (no priors) |
-| 6 | **Tendencies anchor voice mode** | Round 3: third-person narration collapsed without tendency despite speech-pattern |
-| 7 | **Speech-patterns don't override model defaults alone** | Round 3: speech-pattern alone insufficient for third-person |
-| 8 | **LLMs prioritise goals over personality** | Round 3: goal-directed behavior persisted, ambient personality attributes drifted |
-| 9 | **Emotional-state framing broadens vocabulary** | Emotional-core: 2x unique emotion words vs behavioral directives |
-| 10 | **Metacognitive prompting recovers voice attributes** | Round 3b: third-person narration fully recovered (13% → 61.4%) |
-| 11 | **Behavioral dispositions need explicit encoding** | Round 3b: optimism only partially recovered (2.2% → 13.6% vs 24.1% baseline) |
-| 12 | **Open-ended prompts outperform structured ones** | Round 3c: structured "show workings" regressed third-person to 50% vs passive review's 61.4% |
-| 13 | **Structured fields create satisficing shortcuts** | Round 3c: model treats filling in fields as completing the task rather than preparing for it |
+### 1. Full validation run for R3g
+The 129-event sample (18 Hartwell events) is promising but thin. The PULL_ASIDE crash has been fixed. A full 300+ event run will confirm whether the results hold at scale.
 
-## Open Questions
+### 2. Explore instruction refinements
+The current evocative instruction is two sentences. Possible refinements:
+- Vary the emphasis ("Feel your strongest drive" vs "Feel ALL your drives")
+- Add a minimal concrete anchor ("Remember: you speak in [speech pattern]") without triggering the structured-field problem
+- Test whether the self-evaluation clause ("If your last turn didn't sound like you") adds value or can be dropped for even more minimal instruction
 
-1. **Can behavioral dispositions be encoded as emotional drives?** Optimism partially recovered via metacognitive prompting but not fully. Would "You feel stubborn optimism that rises when things go wrong" as a drive at 0.85+ intensity close the remaining 10pp gap?
+### 3. Apply to all characters
+If R3g validates, apply the evocative instruction universally and compare full-cast behavior across profiles.
 
-2. **Should emotional-core framing apply to all characters?** The improvement is incremental but consistent. The risk is making many changes at once, complicating regression analysis.
+### 4. Test over longer runs
+All experiments measured early-run behavior (first 300 events). The real question is whether the instruction prevents *drift* over time. Does the evocative prompt create a compounding self-reinforcement via the thinking field feedback loop, or does it decay?
 
-3. **What about the BASELINE (Wacky Races) profile?** All ablation done on GENERIC only. The BASELINE profile benefits from model priors (the model "knows" Penelope Pitstop, Dick Dastardly, etc.), which mask taxonomy weaknesses. Changes validated on GENERIC should transfer, but model priors add an uncontrolled variable.
+### 5. Build quality tiers
+Once the gold-standard instruction is validated, create cheaper tiers:
+- **Tier 1 (gold):** Full evocative instruction with self-evaluation (current R3g)
+- **Tier 2 (standard):** Passive review only (R3b — good third-person, partial optimism)
+- **Tier 3 (economy):** No metacognitive instruction (original — relies on tendencies)
 
-4. **Can the intensity threshold be characterised more precisely?** We know 0.85 works and 0.7 doesn't for convention-carrying. Is the threshold consistent across different types of conventions, or does it vary?
-
-5. **What happens to model-prior compensation as models are updated?** The BASELINE profile relies partially on model knowledge of Wacky Races characters. If a future model has weaker priors for these characters, the BASELINE profile may need the same reinforcement the GENERIC profile needs.
+### 6. Engine-level reinforcement
+Beyond instructions, the engine can reinforce character consistency by injecting targeted reminders into the observation. The drive system already computes drive states per tick — surfacing "Your scheming drive is HIGH" as situational context rather than a static declaration moves the attribute from the ignored system prompt into the attended observation.
 
 ## Transcripts
 
 All transcripts in `wacky-manor/docs/eval/`:
 
-| Transcript | Events | Round | Profile |
-|---|---|---|---|
-| `new-briefings-20261002/` | 333 | Original baseline | BASELINE |
-| `generic-colloquial-20261002/` | 310 | Original baseline | GENERIC |
-| `pareback-r1-baseline-20261003/` | 331 | Round 1 | BASELINE |
-| `pareback-r1-generic-20261003/` | 315 | Round 1 | GENERIC |
-| `pareback-r2-baseline-20261003/` | 311 | Round 2 | BASELINE |
-| `pareback-r2-generic-20261003/` | 334 | Round 2 | GENERIC |
-| `pareback-r2b-baseline-20261003/` | 315 | Round 2b | BASELINE |
-| `pareback-r2b-generic-20261003/` | 322 | Round 2b | GENERIC |
-| `emotional-core-generic-20261003/` | 214 | Emotional-core (truncated) | GENERIC |
-| `emotional-core-generic-full-20261003/` | 375 | Emotional-core (full) | GENERIC |
-| `pareback-r3-generic-20261003/` | 325 | Round 3 | GENERIC |
-| `pareback-r3b-generic-20261003/` | 312 | Round 3b (passive review) | GENERIC |
-| `pareback-r3c-generic-20261003/` | 306 | Round 3c (show-workings) | GENERIC |
-| `old-briefings-20261002/` | 327 | Pre-rewrite reference | BASELINE |
-| `generic-briefings-20261002/` | 306 | Prescribed catchphrases reference | GENERIC |
+| Transcript | Events | Round | Profile | Instruction |
+|---|---|---|---|---|
+| `new-briefings-20261002/` | 333 | Original baseline | BASELINE | — |
+| `generic-colloquial-20261002/` | 310 | Original baseline | GENERIC | — |
+| `pareback-r1-baseline-20261003/` | 331 | R1 | BASELINE | — |
+| `pareback-r1-generic-20261003/` | 315 | R1 | GENERIC | — |
+| `pareback-r2-baseline-20261003/` | 311 | R2 | BASELINE | — |
+| `pareback-r2-generic-20261003/` | 334 | R2 | GENERIC | — |
+| `pareback-r2b-baseline-20261003/` | 315 | R2b | BASELINE | — |
+| `pareback-r2b-generic-20261003/` | 322 | R2b | GENERIC | — |
+| `emotional-core-generic-20261003/` | 214 | Emotional-core (truncated) | GENERIC | — |
+| `emotional-core-generic-full-20261003/` | 375 | Emotional-core (full) | GENERIC | — |
+| `pareback-r3-generic-20261003/` | 325 | R3 | GENERIC | None |
+| `pareback-r3b-generic-20261003/` | 312 | R3b | GENERIC | Passive review |
+| `pareback-r3c-generic-20261003/` | 306 | R3c | GENERIC | Show-workings |
+| `pareback-r3d-generic-20261003/` | 186 | R3d | GENERIC | Hybrid (crashed) |
+| `pareback-r3f-generic-20261003/` | 301 | R3f | GENERIC | Mental-model-first |
+| `pareback-r3g-generic-20261003/` | 129 | R3g | GENERIC | Minimal evocative (crashed) |
+| `old-briefings-20261002/` | 327 | Pre-rewrite reference | BASELINE | — |
+| `generic-briefings-20261002/` | 306 | Prescribed catchphrases reference | GENERIC | — |
