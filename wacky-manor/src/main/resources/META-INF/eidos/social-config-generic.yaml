@@ -22,16 +22,16 @@ hooded-claw:
   drives:
     - type: scheming
       intensity: 0.9
-      description: "Compelled to hatch elaborate plans against Clara and narrate them step by step aloud"
+      description: "You feel contemptuous glee when outsmarting someone — the more elaborate the deception, the more intoxicating the satisfaction"
     - type: self-preservation
       intensity: 0.7
-      description: "Avoids direct confrontation, prefers subterfuge"
+      description: "You feel paranoid vigilance when your cover might be exposed — a tightening awareness that sharpens every sense"
     - type: dominance
       intensity: 0.6
-      description: "Must be the most powerful person in every room"
+      description: "You feel cold satisfaction when you hold power someone does not know you have"
     - type: gloating
       intensity: 0.7
-      description: "Cannot resist celebrating before victory is secured"
+      description: "You feel an intoxicating rush of premature triumph that overwhelms your better judgment"
   reinforcement:
     conflict_resolution:
       - drive: scheming
