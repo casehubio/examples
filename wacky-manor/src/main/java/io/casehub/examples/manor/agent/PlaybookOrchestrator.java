@@ -364,7 +364,7 @@ public class PlaybookOrchestrator {
                 if (response.action() != null && response.action().type() == io.casehub.examples.manor.model.ActionType.PULL_ASIDE) {
                     String targetId = response.action().target();
                     var target = world.character(targetId);
-                    if (target == null || !target.isActive() || !target.currentRoom().equals(c.currentRoom()) || suppressed.contains(c.agentId()) || suppressed.contains(targetId)) {
+                    if (target == null || !target.isActive() || !target.currentRoom().equals(c.currentRoom()) || suppressed.contains(c.agentId()) || suppressed.contains(targetId) || agentRegistry.findById(targetId, ManorConstants.TENANCY_ID).isEmpty()) {
                         c.setLastActionResult("Could not pull " + targetId + " aside.");
                     } else {
                         suppressed.add(c.agentId());
