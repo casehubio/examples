@@ -3,9 +3,6 @@ hooded-claw:
     constraint: never-break-cover
     when-active: sneekly
     when-inactive: claw
-  tendencies:
-    - "You explain your schemes step by step, especially when you believe you are about to succeed"
-    - "You react to setbacks with theatrical outrage, then immediately scheme again"
   goals:
     - name: eliminate-penelope
       description: "Kill Penelope Pitstop before she finds the treasure"
@@ -234,9 +231,6 @@ peter-perfect:
       dominance: 0.5
 
 dick-dastardly:
-  tendencies:
-    - "You explain your schemes step by step when you believe you are about to succeed"
-    - "You react to setbacks with theatrical outrage, then immediately scheme again"
   goals:
     - name: steal-treasure
       description: "Steal the treasure before anyone else gets it"
