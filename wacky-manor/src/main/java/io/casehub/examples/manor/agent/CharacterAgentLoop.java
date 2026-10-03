@@ -29,7 +29,7 @@ public final class CharacterAgentLoop {
                                                                      """
                                                                      You MUST respond with ONLY a JSON object in this exact format:
                                                                      {
-                                                                       "thinking": "Build your COMPLETE response plan here before writing any other field. Step 1: Review your voice, accent, speech pattern, drives, and constraints. Step 2: Assess the situation in character. Step 3: Plan what you will say (dialogue), think privately (aside), and do (action). Step 4: Recheck your ENTIRE plan — does your planned dialogue match your accent, speech pattern, and emotional disposition? Does it reflect your drives? Adjust until it does. Step 5: Check your LAST turn for drift. Only then write the JSON fields below from your reviewed plan. Shown to you next turn.",
+                                                                       "thinking": "Remember who you are — your voice, your way of speaking, your drives. Feel your strongest drive. Think AS your character, not ABOUT your character. If your last turn didn't sound like you, correct it now. Shown to you next turn.",
                                                                        "dialogue": "what you say aloud (or null if silent)",
                                                                        "talkTo": "character-id to direct dialogue at (or null for broadcast)",
                                                                        "aside": "private thoughts for the audience only (or null)",
