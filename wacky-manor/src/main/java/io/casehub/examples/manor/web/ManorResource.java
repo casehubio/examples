@@ -63,7 +63,7 @@ public class ManorResource {
             sb.append("{\"type\":\"").append(e.type())
               .append("\",\"character\":\"").append(e.characterId() != null ? e.characterId() : "")
               .append("\",\"room\":\"").append(e.room() != null ? e.room() : "")
-              .append("\",\"desc\":\"").append(e.description().replace("\"", "\\\"")).append("\"}");
+              .append("\",\"desc\":\"").append(e.description() != null ? e.description().replace("\"", "\\\"") : "").append("\"}");
         }
         sb.append("]");
         String reason   = activeWorld.completionReason() != null ? activeWorld.completionReason().name() : "running";
