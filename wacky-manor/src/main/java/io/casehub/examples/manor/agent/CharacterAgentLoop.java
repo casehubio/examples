@@ -29,7 +29,7 @@ public final class CharacterAgentLoop {
                                                                      """
                                                                      You MUST respond with ONLY a JSON object in this exact format:
                                                                      {
-                                                                       "thinking": "Reason IN CHARACTER — think as your character would, using your voice, accent, speech pattern, and drives as you think. Then check: did your LAST turn's dialogue reflect your speech pattern and accent? Note any drift and correct it now. Shown to you next turn.",
+                                                                       "thinking": "FIRST review your voice, accent, speech pattern, drives, and constraints. Then reason about the situation IN CHARACTER — think as your character would. Finally check: did your LAST turn reflect your drives and emotional disposition? Note any behavioural drift. Shown to you next turn.",
                                                                        "dialogue": "what you say aloud (or null if silent)",
                                                                        "talkTo": "character-id to direct dialogue at (or null for broadcast)",
                                                                        "aside": "private thoughts for the audience only (or null)",
