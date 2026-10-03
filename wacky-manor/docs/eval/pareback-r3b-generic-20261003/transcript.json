@@ -1,0 +1,1884 @@
+{
+  "meta": {
+    "date": "2026-10-03",
+    "profile": "GENERIC",
+    "label": "pareback-round3b-character-reflection",
+    "totalEvents": 312,
+    "context": "Round 3b: Hartwell tendencies still stripped + character-reflection instruction in thinking step. Tests whether metacognitive prompting recovers collapsed third-person narration and optimism markers.",
+    "change": "Added to thinking field: FIRST review your voice, drives, and constraints"
+  },
+  "events": [
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Penelope Pitstop: Well, I do declare! What a magnificent old manor! Just look at that chandelier \u2014 oh my stars, it's practically dripping with history and dust in equal measure! I am just tickled pink to be here with all y'all fine people. Now then, I have a feeling this grand old place is just bursting at the seams with secrets, and I intend to find every last one of them \u2014 starting with that legendary Doily Diamond! But a proper Southern lady always takes in the lay of the land before chargin' off on an adventure. Let me get a good look at this foyer!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Oh, this is going to be simply wonderful! All these characters gathered together in one place \u2014 why, it's like a party just waiting to happen! And somewhere in this dusty old mansion, the Doily Diamond is waiting for someone clever enough to find it. That someone is going to be me, Clara Bellingham! Now, that guest book might tell me who else has been poking around this place, and the library \u2014 oh, libraries always have the best clues. I just know it!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "The Hooded Claw (as Sneekly): Welcome, welcome, most esteemed guests, to Doily Manor! I am Pemberton, humble estate manager and your devoted servant for this evening's... festivities. If you'll permit me, I shall just consult the guest book to ensure all our expected visitors have arrived safely. One does so worry about stragglers on these dark country roads..."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "Pemberton, the doddering fool \u2014 how deliciously easy to wear this mask! But where is Clara Bellingham? She is NOT among these guests. Every moment she wanders unsupervised is a moment she might stumble upon the treasure that is RIGHTFULLY mine. I must find her \u2014 but first, the guest book. Knowledge is the foundation upon which all truly magnificent schemes are built!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The Ant Hill Mob: Alright lads, listen up! We've arrived at Doily Manor and Clara ain't here in this room \u2014 which means she could be ANYWHERE in this spooky old gaff, possibly in MORTAL DANGER! Now, nobody panic \u2014 The Brixton Boys have got this under control. First things first, we case this entrance hall top to bottom. That chandelier up there? Looks like it could drop any second. And that guest book \u2014 could have CLUES about who's been here before us. Everyone stay sharp, stay together, and remember \u2014 we're here for Clara!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "I don't like the look of that Sneekly fella. There's something off about him \u2014 the way he lurks about, too quiet, too... helpful-looking. But I'm not one to point fingers. Still, the lads and me, we'll be keeping one eye on him, mark my words. And that chandelier really does look like a death trap waiting to happen."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "entrance-hall",
+      "desc": "Dick Dastardly: Ah, what a MAGNIFICENT estate! I, Reginald Foxworth \u2014 decorated explorer and three-time recipient of the Royal Geographical Society's Medal of Distinction \u2014 have graced these halls with my presence. You may all relax now. The treasure, whatever it may be, is practically found already. But first \u2014 one must always sign the guest book. It's only civilised."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "entrance-hall",
+      "desc": "None of those medals exist, naturally. But confidence is ninety percent of the con, and I am ONE HUNDRED percent confident. Now let's see what secrets this guest book holds \u2014 previous visitors always leave trails, and trails lead to TREASURE."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "Peter Perfect: James Hartwell strides into Doily Manor and finds it... magnificent! Dusty, yes \u2014 perilous chandelier, certainly \u2014 but magnificent nonetheless! Good evening, ladies and gentlemen! I am James Hartwell, and I have come on a matter of the utmost importance. But first \u2014 a gentleman always signs the guest book. It is the done thing, and James Hartwell always does the done thing!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "Clara is not here. My heart sinks \u2014 but only momentarily! She must be elsewhere in the manor. I shall sign this guest book, gather intelligence from these colourful characters, and then find her. A plan is forming... an elaborate plan, naturally. Step one: the guest book. Step two: inquire about Clara's whereabouts. Step three: proceed to her location with maximum gallantry. Step four through seventeen can be determined en route."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Penelope Pitstop examined the null."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "The Hooded Claw (as Sneekly) examined the guest-book."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The Ant Hill Mob examined the guest-book."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "entrance-hall",
+      "desc": "Dick Dastardly examined the guest-book."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "Peter Perfect examined the guest-book."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Penelope Pitstop: Oh my stars, where are my manners? Everyone and their cousin has already had a peek at this guest book and here I am just gawkin' at the chandelier like a tourist! Pemberton, sugar, you are just the most attentive host \u2014 why, I feel right at home already! Now let me have a look-see at this guest book. A lady always signs in, and besides \u2014 you never know what little secrets a guest book might be holdin' onto!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Everyone's crowded around that guest book like bees to honey \u2014 there must be somethin' worth seein' in there! And after that, I have got to get myself into that library. Floor-to-ceiling bookshelves and a carved stone mantelpiece with an inscription? Why, that inscription alone could be the key to finding the Doily Diamond! But first things first, Clara \u2014 guest book, then library. One step at a time... even if my heart is racin' with excitement!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "The Hooded Claw (as Sneekly): Most gracious of you all to sign in so promptly \u2014 it warms this old servant's heart, it truly does! I see from the register that all our expected guests have indeed arrived, including the estimable Miss Bellingham, though she appears to have... wandered ahead. Most enterprising of her! Now, if you'll permit me, I must attend to a few matters about the manor \u2014 ensuring the rooms are properly aired, the candles lit, that sort of tedious domestic business. One does want everything to be JUST so for such distinguished visitors. Please, do make yourselves entirely at home. The manor is yours to explore!"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "entrance-hall",
+      "desc": "Clara Bellingham is in this manor \u2014 the guest book CONFIRMS it \u2014 but she has already slipped away from the group! Every second she spends alone is a second she might find the treasure before I can stop her. The library \u2014 oh, it MUST be the library! That inscription on the mantelpiece practically SCREAMS 'clue.' I shall glide there under the pretence of lighting candles and airing rooms. And when I find dear Clara... well. That precariously hanging chandelier gave me such WONDERFUL ideas. But first \u2014 locate the prey. The hunt begins NOW!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The Ant Hill Mob: Oi oi oi! Listen up, everyone \u2014 we've checked this guest book and Clara Bellingham ain't signed it! That means she's either not here yet or she's already wandered off into this death trap of a manor on her own! Now, the Brixton Boys don't leave a lady unprotected \u2014 that's Rule Number One in the Brixton Boys' Code of Honour, page four, paragraph six, subsection B! We're heading to the Library to conduct a THOROUGH and PROFESSIONAL search! Lads \u2014 Formation Delta! Single file! And nobody \u2014 I repeat NOBODY \u2014 touch that chandelier on the way past!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "entrance-hall",
+      "desc": "The lads are terrified but they won't show it \u2014 bless 'em. Clive's already tripped over his own shoelaces twice and we haven't even left the entrance hall. But we WILL find Clara, even if we have to turn this whole manor upside down. That Sneekly \u2014 sorry, 'Pemberton' \u2014 he was awfully keen on that guest book. Checking for stragglers, he said. Or checking who's here so he knows who to pick off? No no, that's not fair. Give the man a chance. But I'm watching him. The Brixton Boys are ALWAYS watching."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "entrance-hall",
+      "desc": "Dick Dastardly: Ladies and gentlemen \u2014 and Muttley \u2014 I have made a MOST extraordinary discovery! The guest book contains a notation from the late Lord Doily himself, dated 1887. It reads \u2014 and I quote, for I have a photographic memory, naturally \u2014 'The treasure sleeps where the copper sings at midnight.' COPPER, you see! Copper pots! The KITCHEN! The treasure is almost certainly concealed beneath the kitchen floor or within the old wood-burning stove. I suggest \u2014 nay, I IMPLORE you all \u2014 to make haste to the kitchen immediately. Every moment wasted here is a moment the treasure remains unfound! Go, go, GO! I shall follow shortly \u2014 I simply must make one final note in the guest book. A man of my stature always leaves his mark."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "entrance-hall",
+      "desc": "Ha HA! 'The copper sings at midnight' \u2014 I just invented that on the spot! Pure GENIUS! There is no such notation in that guest book. But they don't know that, do they? While these credulous simpletons go banging about the kitchen looking for singing copper pots, I shall waltz into the library and examine that carved stone mantelpiece inscription. THAT is where the real clue lies \u2014 any fool can see it. Well, any fool who is also a genius. Which is just ME. Oh, Reginald, you magnificent, scheming devil \u2014 the Doily Diamond is practically in your pocket already!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "Peter Perfect spoke quietly with hooded-claw."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "entrance-hall",
+      "desc": "My heart is positively thundering! Clara must be somewhere deeper in the manor. The Library, perhaps \u2014 a woman of her intellect would naturally be drawn to books. Or the Kitchen \u2014 though that seems less romantic. I shall try the Library first. A gentleman always assumes the best of a lady's pursuits. And if she is not there, James Hartwell shall search every room, every corridor, every dusty corner of this magnificent old pile until he finds her!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Penelope Pitstop examined the guest-book."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly) walked into the library."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob walked into the library."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly walked into the library."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect walked into the library."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Penelope Pitstop: Well now, that guest book was just full of interesting tidbits! Dick Dastardly, sugar, that was a mighty fine observation about the copper \u2014 but you know what they say back home: 'Don't chase the first fox out of the brush!' That library has a carved stone mantelpiece with an inscription on it, and in my experience, when a manor house goes to the trouble of carving words into STONE, those words mean somethin'! Professor Pat Pending, Sergeant Blast, y'all are welcome to join me \u2014 the more the merrier, I always say! Now if you'll excuse me, I am headin' to that library before all the good clues are spoken for!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "entrance-hall",
+      "desc": "Dick Dastardly sendin' everyone to the kitchen while he supposedly stays behind to 'sign the guest book'? And then he went to the library anyway? That man is up to somethin', but I just can't bring myself to think ill of him \u2014 maybe he changed his mind! And Pemberton vanishin' into the library the moment the pleasantries were done... well, an estate manager has business everywhere in a house, doesn't he? Focus, Clara \u2014 that mantelpiece inscription is the real prize. A diamond as famous as the Doily Diamond wouldn't be hidden behind somethin' as obvious as a copper pot clue. It'd be hidden behind poetry and riddles and carved stone. That's where MY talents shine!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly): Ah, welcome to the library, distinguished guests! Do forgive the dust \u2014 the manor has been without proper staff for some years, I'm afraid. Now, if you'll permit me just a moment, I must attend to this mantelpiece. Lord Doily was most particular about his fireplace \u2014 always insisted the inscription be kept clean and legible. A matter of family pride, you understand. Let me just... yes, give it a proper seeing-to..."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "A MAP! The answer is a MAP, you magnificent villain! While these credulous fools mill about gawping at dusty books, Pemberton the faithful servant shall solve Lord Doily's little puzzle and claim whatever prize it conceals. And THEN \u2014 then I shall hunt down Clara Bellingham. She thinks she can slip away from the group unnoticed? She has no idea who she is dealing with. The Hooded Claw does not lose his prey!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: OI OI OI! Right, listen up everyone \u2014 we have conducted a THOROUGH sweep of this Library and I can confirm that Clara Bellingham is NOT present in any visible capacity! Which means she's either in another room or \u2014 and this is where it gets PROPER interesting \u2014 she could be behind one of these bookshelves! Look at 'em! Half the books are upside down! That ain't bad housekeeping, that's a CODE! Someone's been rearranging these volumes to mark a hidden passage, I'd stake my reputation on it! Now \u2014 and I'm not pointing fingers, Mister Pemberton, I am NOT pointing fingers \u2014 but it IS a bit curious that you've followed us in here when you said you had candles to light and rooms to air. Very curious indeed. The Brixton Boys notice these things, you know. We are OBSERVANT. Clive! Dum-Dum! Start checking them shelves \u2014 pull anything that looks like it moves! And be CAREFUL \u2014 Big Goon, I said CAREFUL, don't just yank the whole \u2014 oh, he's already climbing the bookshelf. Right. Nobody panic. This is all going according to plan."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Something ain't right about Pemberton \u2014 sorry, Sneekly \u2014 following us in here. A proper butler would be in the kitchen heating up the soup, not skulking after guests into the Library at this hour. But the lads are here, we're together, and if there's a hidden passage behind these bookshelves, we'll find it. Clara's counting on us \u2014 even if she don't know it yet. The Brixton Boys NEVER let a lady down. Well, there was that time in Peckham with the flower delivery, but we don't talk about Peckham."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: AH HA! The mantelpiece inscription! 'Cities but no houses, forests but no trees, water but no fish' \u2014 I solved this INSTANTLY, of course, because I am a graduate of the Foxworth Academy of Ancient Riddles, class of nineteen-seventy-MAGNIFICENT. The answer, my dear fellow treasure-hunters, is quite obviously A PAINTING! A landscape painting, to be precise! Cities painted without houses, forests without individual trees, water without fish \u2014 it's elementary! And WHERE does one find paintings in a manor house? The PORTRAITS in the Entrance Hall! I saw it the moment I walked in \u2014 one of those stern ancestor portraits has something hidden behind the frame. I'd wager my fake med\u2014 I mean, my GENUINE Victoria Cross on it! Rush there immediately, all of you! First one to check behind the portraits claims the glory! Go on, CHOP CHOP! I shall remain here to... cross-reference the inscription with these dusty volumes. Purely academic interest, you understand. Nothing to see here."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Oh, Reginald, you STUPENDOUS fraud! 'A painting!' HA! The answer is a MAP, obviously \u2014 even Muttley could work that out, and he's a DOG. But these gullible oafs don't know that, do they? While they're all scrambling back to the Entrance Hall to peer behind dusty old portraits of Lord Doily's disagreeable relatives, I shall interact with this mantelpiece and unlock whatever secret it holds. The Doily Diamond draws ever closer to my magnificently undeserving hands! I nearly said 'fake medal' out loud \u2014 must be more careful. A confidence trickster who reveals his own props is just a man holding a tin disc."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Ah \u2014 the Library! A room of learning, of quiet contemplation, of \u2014 well, rather a lot of dust, if I'm being honest. But no Clara! My heart positively ACHES, ladies and gentlemen. James Hartwell has traversed the Entrance Hall, signed the guest book like a civilized man, and marched with PURPOSE to this very chamber, and yet the woman whose safety occupies his every waking thought is nowhere to be seen! But DESPAIR? Never! For observe \u2014 this mantelpiece bears an inscription, a riddle! 'Cities but no houses, forests but no trees, water but no fish.' Well, I do believe I know the answer to THAT particular conundrum. It is a MAP! And where there is a map in a treasure hunt, there is PROGRESS. James Hartwell shall solve this riddle, and perhaps it shall lead us one step closer to both the treasure AND to Miss Bellingham!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "A map \u2014 of course it's a map! If this mantelpiece conceals something, I shall be the one to find it. And when Clara learns that James Hartwell cracked the riddle of the Library... well. A gentleman can hope, can't he?"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop walked into the library."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly) interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob examined the bookshelves."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, Peter Perfect, sugar, you beat me to the mantelpiece! And Dick Dastardly \u2014 fancy seein' you here after all that talk about the kitchen! Now y'all, this inscription is just DIVINE. 'I have cities but no houses, forests but no trees, water but no fish.' Why, back home in Georgia, Grandmama Bellingham used to quiz me with riddles just like this one over sweet tea and pecan pie! The answer, darlin's, is a MAP! Cities are marked on maps but there ain't no real houses, forests are drawn but there ain't no real trees, and water is painted blue but there ain't no real fish! Now let's see what this old mantelpiece has to say about THAT!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "I do declare, my heart is just POUNDIN' with excitement! Everyone rushed to this library like bees to honeysuckle, and that tells me the real clue is RIGHT HERE. Dick's copper-pot business was a red herring \u2014 I'd bet my best magnolia corsage on it. And Pemberton standin' there all quiet-like... watchin' us all figure out HIS manor's secrets? Curious. Very curious. But I'm sure he's just bein' hospitable!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly) spoke quietly with peter-perfect."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "Oh, the IRONY is exquisite! Pemberton the faithful servant, rushing off to PROTECT the guests \u2014 when in truth, the Hooded Claw is rushing off to find Clara Bellingham in the one room nobody else has thought to check! The Laboratory, with its gnawed wires and bubbling flasks \u2014 what a MAGNIFICENT stage for an 'accident!' And these FOOLS will stay here pulling books off shelves and arguing about paintings while I eliminate my quarry! Dick Dastardly thinks the treasure is in the kitchen \u2014 HA! Peter Perfect thinks he's the hero \u2014 DOUBLE HA! The only one thinking clearly in this entire manor is ME, and I am thinking about MURDER! To the Laboratory \u2014 AWAY!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: RIGHT! Everyone stand back \u2014 STAND BACK I said! The Brixton Boys have identified a PATTERN in these bookshelves! See them upside-down books? That ain't incompetence \u2014 that's a CODE! Someone's marked which books to pull to open a hidden passage, and we are going to find it through METHODICAL and SCIENTIFIC investigation! Now \u2014 Big Goon, get DOWN from there before you \u2014 oh, he's fine, he's got excellent grip strength. Clive, you take the left side, Dum-Dum, you take the right, and I'll handle the middle section where MOST of the upside-down volumes are concentrated! We pull 'em one at a time, nice and gentle, and we LISTEN for a click! A mechanical click! That's how these secret passage mechanisms work \u2014 I've seen it in films, and films don't LIE! Ready? On three! One \u2014 two \u2014 Clive, I said on THREE, not on \u2014 oh, he's already pulled six of them out. Right. Well. Let's see what happens!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The lads are pulling books out like they're clearing a jumble sale, bless 'em. There's absolutely NO coordination \u2014 Dum-Dum's stacking his in a tower, Big Goon's dropped three on Clive's head already, and I'm fairly certain someone just threw a complete set of encyclopaedias over their shoulder. But somewhere in this chaos, we WILL find that hidden passage. We always do. Not through skill, mind you \u2014 through sheer VOLUME of attempts. That's the Brixton Boys' secret weapon: we try so many things at once that SOMETHING has to work. And if Clara's behind this wall, we'll get to her. Even if we have to demolish the entire bookshelf to do it. Which, at this rate, is looking increasingly likely."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: YES! A MAP! That is PRECISELY what I was about to say before Peter here so RUDELY interrupted my dramatic revelation! You see, when I said 'a painting,' I was employing a sophisticated technique known in intelligence circles as a COUNTER-RIDDLE \u2014 deliberately giving the wrong answer to see who among you had the wit to challenge me! It was a TEST, and Peter passed! Barely! I would have got there three seconds sooner, naturally. Now then \u2014 let us see what this mantelpiece has revealed, shall we? Stand aside, everyone, stand ASIDE \u2014 this requires the trained eye of a Foxworth!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "CURSES! Peter Perfect solved it before I could claim the prize! The GALL of that man, being both handsome AND correct! But all is not lost \u2014 whatever the mantelpiece revealed, I shall be the FIRST to exploit it. If there's a map or a passage or a clue, Reginald Foxworth will snatch it from under their noses while they're still congratulating themselves. The Doily Diamond will be MINE! I just need to examine this mantelpiece more closely and see what my interaction actually uncovered!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Miss Pitstop! How SPLENDID that you've joined us \u2014 pray, do be careful of the dust, it is quite treacherous to one's constitution. Now, ladies and gentlemen, I must report \u2014 James Hartwell has engaged the riddle of the mantelpiece! 'Cities but no houses, forests but no trees, water but no fish' \u2014 the answer, as any well-read gentleman knows, is a MAP! I have submitted my solution to the mechanism. If this old stone conceals a cartographic clue \u2014 perhaps one that reveals where in this manor Miss Bellingham has ventured \u2014 then we are one step closer to BOTH the treasure and, more importantly, to ensuring Clara's safety! Now let me examine what this mantelpiece has to show us..."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "My pulse is RACING. Did the mantelpiece respond to my answer? If a map is hidden within, it could lead me straight to Clara. And wouldn't THAT be magnificent \u2014 James Hartwell, solver of riddles, finder of maps, protector of beautiful women! Though I confess a small worry \u2014 Dastardly's answer of 'a painting' was quite wrong, but the man seems determined to misdirect everyone toward the Entrance Hall. I wonder why. And Pemberton cleaning the mantelpiece just as we arrived \u2014 curious, but I shall give the man the benefit of the doubt. Servants take pride in their work, after all."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The Hooded Claw (as Sneekly) walked into the laboratory."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Well I DO declare! I just gave that mantelpiece the answer \u2014 a MAP, plain as day \u2014 and now I need to see exactly what it's showin' us! Peter, sugar, Dick, darlin' \u2014 did y'all see anything change when the riddle was solved? A panel slidin' open, maybe? A little drawer? Because back in the Bellingham estate, Great-Uncle Cornelius had a mantelpiece just like this one, and when you whispered the right word, a whole SECRET COMPARTMENT popped open with his collection of pressed magnolias inside! Now let me get a REAL good look at this beautiful piece of stonework..."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "My heart is just FLUTTERIN' like a hummingbird in a hurricane! I KNOW the answer was right \u2014 a map \u2014 and if this mantelpiece has a secret to tell, Clara Bellingham is gonna find it! And Pemberton sneakin' off to the laboratory the MOMENT we solved the riddle? That's... well, that's probably just a coincidence. Probably. Almost certainly. He seems like such a nice man!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The Hooded Claw (as Sneekly) spoke quietly with rufus-ruffcut."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "BLAST and DAMNATION! She's not here! My beautiful, elaborate plan \u2014 the bubbling flasks, the gnawed wire, the 'tragic laboratory accident' \u2014 all WASTED on an empty stage! But wait \u2014 that machine requires THREE operators. Three! If I can somehow lure Clara here AND convince two unwitting accomplices to help operate it while I've sabotaged the wiring further... oh, the POETRY of it! Death by collaborative science experiment! But first I must FIND her. The Cellar \u2014 'cheerful decorations' \u2014 someone has been DOWN there. Someone ALONE. It must be Clara! Once I've pumped these two lumberjacks for information, I shall descend into the depths!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: OI OI OI! Hold up, hold UP! The bookshelves are a BUST, lads \u2014 can't get 'em to do nothing! Big Goon, put that book DOWN, we've got BIGGER problems! Did anyone else clock that? Sneekly \u2014 that butler \u2014 he just SCARPERED off to the Laboratory! Said something about 'missing guests' and 'volatile chemicals' and 'exposed wiring' \u2014 and who's MISSING right now? CLARA BELLINGHAM, that's who! Now I ain't saying the man's up to no good \u2014 he seems like a perfectly respectable domestic professional \u2014 but the Brixton Boys don't take CHANCES when it comes to a lady's safety! We are MOVING to that Laboratory RIGHT NOW! Clive, stop bleeding on the carpet! Dum-Dum, leave the encyclopaedia fort! Big Goon \u2014 oh, he's already at the door, good lad. FORMATION BRAVO, everyone! Single file, eyes peeled, and for the love of all that is holy, NOBODY touch any bubbling flasks when we get there!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The lads have made an ABSOLUTE mess of them bookshelves \u2014 there's books everywhere, Clive's nursing a lump the size of an egg on his forehead, and Dum-Dum's somehow got himself wedged between two shelves. But none of that matters now because that Sneekly has gone to the one room in this manor with DANGEROUS EQUIPMENT, and Clara might be in there. Something about that man don't sit right with me. Too helpful. Too keen on knowing where everyone is. Too quick to scarper when nobody's watching. But I can't put my finger on WHAT exactly. The Brixton Boys ain't detectives \u2014 we're PROTECTORS. And right now, protecting Clara means following that butler into the Laboratory before he does something we can't undo."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: AH HA! Just as I SUSPECTED! You see, while you lot were busy congratulating each other on solving a riddle that I \u2014 REGINALD FOXWORTH \u2014 had ALREADY deduced before I even entered this room, I have been conducting a FAR more sophisticated analysis of this mantelpiece! The answer is a MAP, yes, yes, we ALL know that \u2014 I knew it FIRST, naturally \u2014 but the REAL question is: where does the map LEAD? Now stand back, stand BACK I say, and let a man of superior intellect engage with this mechanism PROPERLY!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "BLAST! I only examined the wretched thing instead of interacting with it! Peter and Penelope actually SUBMITTED the answer while I stood here gawping like a common tourist! I must interact with it NOW before whatever secret it reveals is old news! And I noticed that slippery estate manager Sneekly has crept off to the laboratory \u2014 HIGHLY suspicious! He knows something about this treasure, mark my words. But first \u2014 the mantelpiece! Let me trigger whatever mechanism the riddle unlocks!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: By Jove \u2014 the mantelpiece speaks of a MAP, and what is a map but a thing one finds in BOOKS! Ladies and gentlemen, consider the evidence before us \u2014 upside-down volumes scattered deliberately among these shelves, a riddle carved in stone pointing us toward cartography, and a library that Lord Doily himself must have used to catalogue his estate! The map we seek is HIDDEN among these very bookshelves, I am quite certain of it! The upside-down books are markers \u2014 breadcrumbs left by a cunning mind! Now, I must confess that our good Pemberton's warning about the Laboratory gives me some concern \u2014 he mentioned missing guests, and Miss Bellingham has not yet been accounted for. But a gentleman does not abandon a puzzle half-solved! Let me examine these shelves with the thoroughness that the situation demands, and THEN \u2014 then, by heaven \u2014 James Hartwell shall ensure that every soul in this manor is safe and accounted for!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Pemberton rushed off rather quickly when I mentioned the map \u2014 almost as if he didn't WANT us examining the mantelpiece too closely. But no, no \u2014 I must not think ill of the man. He has responsibilities. Volatile chemicals! Exposed wiring! Perfectly reasonable concerns for an estate manager. Still... his timing IS rather conspicuous. And Clara \u2014 where IS she? My heart aches with every moment she remains unfound. Once I've cracked the code of these bookshelves, I shall search the entire manor if I must!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The Hooded Claw (as Sneekly) examined the machine."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "The Ant Hill Mob walked into the laboratory."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the bookshelves."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop spoke quietly with peter-perfect."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Oh, my heart is just SINGIN'! This is EXACTLY the kind of puzzle I was born to solve \u2014 riddles and hidden books and secret maps! And those precious Ant Hill Mob boys ran off to the laboratory to rescue me when I'm standin' right here safe as a kitten in a hay barn! I do hope they don't blow anything up in there. And Pemberton... well, he DID slip away awful quiet-like right when we solved the riddle. But I'm sure he just remembered he left the kettle on. Probably. Almost definitely!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The Hooded Claw (as Sneekly): Oh! The \u2014 the Ant Hill Mob, is it? Welcome, welcome to the Laboratory, gentlemen, though I DO wish you'd tread carefully \u2014 that machine is FRIGHTFULLY temperamental, and some creature has gnawed clean through one of the wires! A liability nightmare, I assure you! Mr. Ruffcut, Mr. Sawtooth \u2014 do keep our new arrivals informed about the three-operator requirement, won't you? Safety FIRST in Lord Doily's Laboratory! Now, if you'll all excuse me, I've just noticed something rather ALARMING \u2014 it appears someone has been redecorating the Cellar without my knowledge or consent! As estate manager, I simply CANNOT allow unauthorised modifications to the property. I shall return presently \u2014 please, nobody touch ANYTHING while I'm gone! Especially not that machine!"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "Oh, the FOOLS! They'll stand here pulling levers and arguing about wires while I descend into the Cellar to find my quarry! Clara Bellingham \u2014 hiding amongst old furniture and 'cheerful decorations' \u2014 how QUAINT! How CHARMING! How absolutely PERFECT for a tragic accident involving unstable ceiling beams or perhaps a conveniently lockable door! The Cellar, with its damp stones and cobwebs \u2014 oh, what a FITTING final resting place for the woman who stands between me and Lord Doily's treasure! Down, down into the depths I go \u2014 Pemberton the dutiful servant, concerned about INTERIOR DECORATING, when in truth the Hooded Claw hunts for BLOOD!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "The Ant Hill Mob: OI OI OI! We're HERE, we've ARRIVED, the Brixton Boys are IN the Laboratory and NOBODY PANIC! Now then \u2014 Sneekly, my old son, fancy meeting YOU here! We heard you in the Library going on about missing guests and volatile chemicals and EXPOSED WIRING, and we thought \u2014 well, the Brixton Boys' Code of Honour, chapter seven, CLEARLY states that when dangerous situations arise involving vulnerable individuals, you DO NOT leave it to the butler! No offence intended, Pemberton \u2014 I'm sure you're a VERY competent estate manager \u2014 but Clara Bellingham is out there SOMEWHERE in this manor and we intend to FIND her! Now, Rufus, Sawtooth \u2014 good to see you, lads \u2014 has ANYONE come through here? A young woman? Brown hair? Bellingham features? No? RIGHT THEN! Clive \u2014 stop walking into things! Big Goon, Dum-Dum \u2014 SEARCH FORMATION ECHO! Check every corner! I'm starting with them wooden crates because if there's ONE thing the Brixton Boys know, it's that people hide things in crates! Or people get HIDDEN in crates! Either way \u2014 CRATES FIRST!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "Something about that Sneekly don't add up. He's been asking about Clara every chance he gets \u2014 says it's a 'headcount' but who does a headcount THREE TIMES? And why's he always one room ahead of everyone else? But I can't say nothing because... well, because I don't KNOW nothing. Not for certain. The Brixton Boys operate on EVIDENCE, not hunches. Mostly. Right now all I've got is a hunch the size of Big Goon's fist and absolutely no proof to back it up. So we search. We search EVERYTHING. Starting with them crates, because Clive's already tripped over one and that's basically fate telling us to look there."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "MORSE CODE! Three clicks and two more! I just made that up ENTIRELY \u2014 there were no clicks whatsoever! But it sounded TREMENDOUSLY convincing, didn't it? Now, while Penelope goes gallivanting off to the laboratory chasing phantom morse code, I shall slither over to those bookshelves and examine those upside-down volumes that Peter spotted. HE thinks they're breadcrumbs \u2014 and for once, the handsome idiot might actually be RIGHT. But the DISCOVERY shall be MINE! Oh Reginald, you devious, magnificent scoundrel \u2014 they'll be writing BALLADS about your cunning!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "My hands are trembling \u2014 not from fear, never from fear \u2014 but from the exquisite tension of being SO CLOSE to something magnificent! If I can crack the bookshelves AND rescue Clara, why, that would be the most heroic evening of James Hartwell's entire life! Though I confess... the Mob's failure does give me pause. What if the mechanism requires something I haven't considered? No \u2014 THOROUGHNESS, James. Thoroughness conquers all!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the bookshelves."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "cellar",
+      "desc": "The Hooded Claw (as Sneekly) walked into the cellar."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "The Ant Hill Mob examined the crates."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly examined the bookshelves."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, Dick Dastardly, you are just FULL of surprises today! Morse code from a stone mantelpiece \u2014 I do declare, that is the most INGENIOUS observation! And I am DEEPLY grateful you're worryin' about that Sneekly fellow in the laboratory on my behalf \u2014 you really are a gentleman underneath all that mustache-twirlin', aren't you, sugar? But here's the thing \u2014 my riddle-solvin' senses are tinglin' somethin' FIERCE right now, and when a Bellingham gets that tingle, she does NOT ignore it! Peter, honey, you are absolutely RIGHT about those upside-down books! They're not just knocked over by careless hands \u2014 they are PLACED, like notes in a musical score! The riddle answer is 'a map,' and I'll bet my great-aunt Cordelia's prize-winnin' peach cobbler recipe that these inverted volumes spell out WHERE that map is hidden! Now everybody WATCH \u2014 I'm gonna try pullin' these upside-down books in order, left to right, just like readin' a sentence! If Lord Doily was half the puzzle-maker his reputation suggests, there's a mechanism behind these shelves just WAITIN' to be found!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Dick wants me to run off to the laboratory while he stays here alone with the bookshelves? Now why does that sound like the plot of every mystery novel I ever read curled up in Daddy's study? But I just CANNOT think badly of the man \u2014 maybe he genuinely heard Morse code! Still, Clara Bellingham did not come all this way to abandon the most promisin' lead in the room. Those upside-down books are TALKIN' to me, and I intend to LISTEN!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "cellar",
+      "desc": "The Hooded Claw (as Sneekly) spoke quietly with big-gruesome."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "cellar",
+      "desc": "BLAST! Clara is not here \u2014 not in the Library, not in the Laboratory, and now not in the Cellar! Where is this infernal woman HIDING? I've searched three rooms and found everyone EXCEPT my quarry! She could be in the Kitchen \u2014 Dastardly sent half the manor chasing copper pots \u2014 or perhaps she never left the Entrance Hall at all! The furniture here has been rearranged with 'surprising care' \u2014 that is suspicious. Something could be hidden beneath or behind these pieces. And those air vents... too small for a person, but perfect for routing something UNPLEASANT into a sealed room. Oh, the possibilities are MULTIPLYING! But first \u2014 pump these three for information. Someone in this manor must have SEEN Clara Bellingham, and when I find her... well. Pemberton will express such CONCERN for her safety. Such tender, solicitous, LETHAL concern!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "The Ant Hill Mob: Right, NOTHING in them crates except dust and arachnids \u2014 Clive, will you STOP screaming, it's a spider, not a PANTHER! Now LISTEN UP, lads \u2014 and Rufus, Sawtooth, you listen too because this concerns ALL of us! That Sneekly has done a DISAPPEARING ACT again! The SECOND we walked in, he was out that door faster than Clive running from a maths exam! Says he's worried about 'unauthorised redecorating' in the Cellar \u2014 but I ask you this: who REDECORATES a CELLAR? Nobody, that's who! Not unless someone's been... well... making it COMFORTABLE for... for REASONS I can't quite put my finger on but they ain't GOOD reasons, I can tell you that much! The Brixton Boys are MOVING to that Cellar! If Clara's down there \u2014 and I ain't saying she IS, but if she IS \u2014 then she needs us MORE than ever! Big Goon, grab Dum-Dum! Clive, wipe your eyes and FORM UP! FORMATION FOXTROT \u2014 that's the one where we go down stairs! NOBODY trips on the way down \u2014 I'm looking at YOU, Clive!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "He's done it AGAIN. Scarpered the moment we arrived. Always one room ahead, always asking about Clara, always got a PERFECTLY reasonable explanation. The Brixton Boys ain't clever enough to work out what he's up to \u2014 but we're STUBBORN enough to follow him until we do. And if Clara's in that Cellar... well. The Brixton Boys don't fail when it matters. We trip, we stumble, we walk into doorframes \u2014 but we get THERE in the end."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly spoke quietly with peter-perfect."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Mechanical whirring! I am an ARTIST of deception! There is no whirring \u2014 the only mechanism in this room is my MAGNIFICENT brain! Once these muscle-bound oafs and that preening peacock Peter toddle off to the laboratory on a fool's errand, I shall have these upside-down books entirely to myself. The answer to the riddle was MAP \u2014 and I'll wager my last fake medal that pulling those inverted volumes in the right sequence reveals exactly that. Oh Reginald, you TITAN of treachery!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "My heart is a tempest of competing urgencies! Clara is STILL missing somewhere in this manor, and every moment I spend here is a moment she may be in peril. But a true gentleman does not abandon a puzzle half-solved \u2014 especially when the answer might lead directly TO her! If this mantelpiece reveals a map, it could show us secret passages, hidden rooms \u2014 perhaps the very room where Clara has wandered! Thoroughness and gallantry, working in PERFECT harmony! Though I confess, if this mantelpiece doesn't yield results, I am charging straight to the Laboratory to find her. A man can only bear so much suspense!"
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "cellar",
+      "desc": "The Hooded Claw (as Sneekly) examined the old-furniture."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "The Ant Hill Mob walked into the cellar."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop spoke quietly with peter-perfect."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "The bookshelves rebuffed me like a debutante at her first dance! But Clara Bellingham does NOT give up \u2014 she ADAPTS! If I can't interact with them directly, I'll STUDY them. The upside-down books must spell somethin' out \u2014 first letters of titles, maybe? Or their positions on the shelves form a pattern \u2014 a map, just like the riddle says! And I notice Dick is STILL here despite sayin' he'd stay for 'acoustic analysis.' That man couldn't be more transparent if he were made of glass, but I love him anyway!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "cellar",
+      "desc": "The Hooded Claw (as Sneekly) spoke quietly with ant-hill-mob."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "cellar",
+      "desc": "CURSE these meddling gangsters! They are EVERYWHERE \u2014 like cockroaches in a condemned building! But their persistence may prove useful. If THEY haven't found Clara either, then she must be somewhere none of us have searched. The Kitchen? Some hidden passage? That business with the upside-down books in the Library \u2014 what if they actually FOUND something? A secret room, perhaps, where Clara has been hiding all along? I must get ahead of these fools. And those air vents... oh, those BEAUTIFUL air vents. They connect rooms, don't they? Every Victorian cellar ventilation system feeds into the rooms above. If I could determine WHERE they lead \u2014 and what might be introduced through them \u2014 well. When I DO find Clara, the Cellar will provide EVERYTHING I need for a perfectly untraceable accident!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "The Ant Hill Mob: OI OI OI! Well well WELL, what do we have HERE then! Sneekly \u2014 Pemberton \u2014 whatever your name is \u2014 fancy meeting YOU in a CELLAR! That's FOUR rooms now you've been in ahead of us, asking about Clara Bellingham! FOUR! I ain't counting \u2014 well, I AM counting, but I ain't making ACCUSATIONS because the Brixton Boys are GENTLEMEN! But I will say THIS \u2014 Big Gruesome, Little Gruesome, Red Max \u2014 lovely to see you all, really, smashing \u2014 but has ANYONE noticed this furniture? It's been MOVED! Rearranged! With CARE! In a CELLAR! Now I ask you \u2014 WHO rearranges furniture in a damp cellar unless someone's been spending TIME down here? Clive, stop hiding behind Dum-Dum and help me check these pieces! There might be \u2014 I dunno \u2014 a SECRET COMPARTMENT or a NOTE or a \u2014 Clive, watch that chair leg \u2014 CLIVE! Oh, he's gone over. Right. Everyone MIND the chair legs. The Brixton Boys are conducting a THOROUGH and PROFESSIONAL inspection of this furniture and we will NOT be deterred by minor orthopaedic setbacks!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "Four times. FOUR times he's asked about Clara. Library \u2014 'has anyone seen Miss Bellingham?' Laboratory \u2014 'missing guests, volatile chemicals!' Now down here \u2014 'have you encountered a young woman?' He's TRACKING her. Or he's genuinely worried. Or he's making sure nobody ELSE finds her first. I can't work it out \u2014 the Brixton Boys ain't built for detective work, we're built for LOYALTY. But I know this much: that furniture didn't rearrange itself, and someone's been making this cellar feel like HOME. If there's anything hidden in them old chairs and tables, Clive's about to find it \u2014 face first, knowing him."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly spoke quietly with peter-perfect."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Confound it \u2014 the bookshelves won't budge! But Peter's been mucking about with the mantelpiece, and THAT is where the real action is. The riddle answer is MAP \u2014 'I have cities but no houses, forests but no trees, water but no fish' \u2014 it's a MAP, you thundering dunderheads! If Peter's already solved it and something's been revealed, I need to see it IMMEDIATELY and claim whatever prize emerged. Oh, the INDIGNITY of being beaten to the punch by a man whose hair is better maintained than his intellect!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: By all that is gallant and good \u2014 James Hartwell has DONE it! I placed my hand upon the stone mantelpiece and spoke the answer to the riddle \u2014 'a MAP!' \u2014 and I felt something SHIFT beneath the carved letters! Ladies and gentlemen, the mantelpiece has RESPONDED to us! Now, let me examine it more closely \u2014 a true detective does not merely pull the lever, he studies what the lever has REVEALED! Penelope, my dear, your instincts about the upside-down books may be EXACTLY right \u2014 if this mantelpiece has unveiled a map, those inverted volumes could be the coordinates! We are on the very PRECIPICE of discovery, and James Hartwell does NOT step back from precipices \u2014 he LEAPS! Stand back, everyone \u2014 let me see what this magnificent old stonework has to show us!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "My hands are trembling with anticipation! If this mantelpiece reveals a map to the treasure, I can use it to find Clara \u2014 she may have followed similar clues deeper into the manor. Every puzzle solved brings me one step closer to her. And if Dick's mechanical whirring in the laboratory wall is real rather than one of his elaborate diversions... well, James Hartwell investigates ALL leads, even the suspicious ones. But first \u2014 this mantelpiece! What has it shown us?"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the bookshelves."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "cellar",
+      "desc": "The Hooded Claw (as Sneekly) examined the air-vents."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "The Ant Hill Mob examined the old-furniture."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop spoke quietly with peter-perfect."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Dick Dastardly has been lurkin' around this mantelpiece like a cat at a mousehole, and I notice he hasn't shared a SINGLE thing he's found. But that's probably just because he's shy! Some people express affection through SECRECY! Meanwhile, Rock and Gravel are bein' awfully quiet over there \u2014 I hope they're havin' a nice time. I should check on them after I solve this puzzle. A good hostess never neglects her guests, even in someone ELSE'S haunted mansion!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "cellar",
+      "desc": "The Hooded Claw (as Sneekly) spoke quietly with ant-hill-mob."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "cellar",
+      "desc": "Four rooms! They're COUNTING my movements like Scotland Yard detectives! These grubby little gangsters think they can out-scheme the Hooded Claw? HA! But their suspicion is a problem \u2014 a SIGNIFICANT problem. I must put distance between us. The Kitchen \u2014 yes! Unexplored territory, and if Clara has been hiding from EVERYONE, she may have sought out the most mundane, overlooked room in the manor. A kitchen \u2014 full of heavy pots, sharp implements, gas lines to old stoves... oh, the POSSIBILITIES make my villainous heart SING! And if she's NOT there, at least I'll have shaken these persistent little terriers from my trail. Back through the Laboratory \u2014 quickly now, before they decide to follow me AGAIN!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "The Ant Hill Mob: RIGHT! The furniture's got NOTHING, lads! Clean as a whistle \u2014 well, dusty as a BISCUIT TIN, but nothing hidden! Clive, stop rubbing your shin and LOOK \u2014 look at what Sneekly's doing! He's examining them AIR VENTS! Now why would a butler \u2014 a DOMESTIC PROFESSIONAL \u2014 be inspecting ventilation systems in a cellar? That ain't in the job description, is it? That's not 'making sure the rooms are properly aired,' that's \u2014 well, I don't know WHAT it is, but the Brixton Boys are going to have a look for OURSELVES! Big Goon, brace yourself \u2014 I'm climbing up! Dum-Dum, hold Big Goon steady! Clive, you're the SPOTTER \u2014 if I fall, you catch me! And if YOU fall, well... we'll cross that bridge when Clive falls off it! Nobody leaves this cellar until we've checked every vent, every crack, every COBWEB! Clara could have left us a SIGN \u2014 a hairpin, a ribbon, a \u2014 OOF! Big Goon, hold STILL! I'm nearly \u2014 NEARLY \u2014 right, who put that cobweb there?!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "Something about them vents has got Sneekly's attention and I don't like it one BIT. He's always one step ahead \u2014 checking things before we get there, asking about Clara like he's concerned but maybe he's making sure she STAYS missing. The Brixton Boys can't prove nothing \u2014 we ain't got the brainpower for that, if I'm honest \u2014 but we've got INSTINCT. And my instinct says whatever's in them vents, Sneekly don't want US to see it."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly spoke quietly with peter-perfect."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Peter felt something SHIFT! The blithering idiot has done the hard work for me \u2014 he's triggered the mechanism! Now I simply need to interact with it and claim whatever treasure or clue emerges. Classic Foxworth \u2014 let the muscle do the heavy lifting, then swoop in for the glory. Oh, Reginald, you BRILLIANT devil!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "My heart races with the thrill of the chase! Penelope's insight about the upside-down books being connected to the mantelpiece riddle is exactly the kind of collaborative breakthrough James Hartwell lives for. And if Dick's laboratory lead turns out to be genuine rather than one of his diversions... well, a gallant man investigates ALL possibilities. But the bookshelves first \u2014 always follow the evidence, not the bluster!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The Hooded Claw (as Sneekly) walked into the laboratory."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "The Ant Hill Mob examined the air-vents."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the bookshelves."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop spoke quietly with peter-perfect."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Dick Dastardly interacted with that mantelpiece right before I did, and I notice he hasn't volunteered a SINGLE detail about what he found. Now a trusting woman like myself would say he's just being thorough and private-like \u2014 but even I have to admit, that man has a way of bein' in the RIGHT place at the RIGHT time while tellin' everyone ELSE to look somewhere WRONG. Still \u2014 benefit of the doubt, Clara! Maybe he's just socially awkward. Some of the finest minds in history were terrible at small talk!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The Hooded Claw (as Sneekly) spoke quietly with rufus-ruffcut."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The crates \u2014 YES, the CRATES! A perfect hiding place for someone who arrived early and wanted to stay out of sight! Clara Bellingham, you clever, INFURIATING woman \u2014 if you're crouched behind these wooden boxes listening to every word, the Hooded Claw is about to find you! And if not \u2014 well, perhaps Lord Doily DID leave something useful in storage. A weapon, a clue, a convenient bottle of something TOXIC. Every villain needs props, and this laboratory is practically a COSTUME SHOP for murder! Rufus and his wretched beaver are obstacles, but manageable ones \u2014 the lumberjack has sawdust where his suspicions should be, and the beaver... well, the beaver has already done me the FAVOUR of sabotaging the machine! How DELIGHTFULLY helpful!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "The Ant Hill Mob spoke quietly with big-gruesome."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "I've been a FOOL, ain't I? Chasing Sneekly from room to room while three blokes who've been camped out in this cellar \u2014 probably for HOURS \u2014 could tell us everything we need to know. The Brixton Boys ain't detectives, we've established that, but even WE should know that you ask the people who are THERE before you chase the people who LEAVE. Clive's still got cobweb in his hair and Big Goon's got a sore back from me standing on him, and for WHAT? A look at some vents that told us nothing! Right \u2014 new approach. Less running, more listening. And if them Gruesomes have seen Clara... then at least we'll know which direction to actually GO in instead of just following that twitchy butler in circles."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: AH HA! Did you all SEE that? The mechanism responded to MY touch \u2014 MY intellectual prowess! I had ALREADY deduced the answer was 'map,' naturally \u2014 I whispered it to Peter earlier as a TEST of his character, and the dear boy simply parroted it back like a well-trained cockatoo. But it takes the hands of a TRUE gentleman \u2014 hands accustomed to handling priceless artifacts and ancient mechanisms \u2014 to coax the secret from the stone! Stand BACK, everyone \u2014 let a man of refinement examine what MY brilliance has uncovered!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Confound it \u2014 Peter solved that riddle fair and square and I had NOTHING to do with it! But nobody needs to know that, do they? The important thing is that something shifted in this mantelpiece, and I need to see what it revealed before that square-jawed simpleton figures it out. Whatever treasure or clue is hidden here, it has REGINALD FOXWORTH written all over it \u2014 metaphorically speaking. Now let me get a closer look at what's been exposed..."
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "James Hartwell's heart swells with the thrill of intellectual partnership! Penelope sees what the others miss \u2014 the CONNECTION between clues. If this cipher leads to the treasure, or better yet, to Clara... well, a gentleman-adventurer could ask for no finer moment. Though I confess my three-step plan may have been slightly over-engineered. One step would have sufficed: just READ the books. But where is the DRAMA in simplicity?"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The Hooded Claw (as Sneekly) examined the crates."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop spoke quietly with peter-perfect."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Dick Dastardly examined that mantelpiece right before me and right after me, and he's bein' awfully territorial about it for a man who claims he already knows everything. And did I notice him NOT sharin' a single detail about what he actually found? Mmhmm. But Clara Bellingham does not accuse \u2014 Clara Bellingham OBSERVES. And what I observe is that those upside-down books are the key to the second half of this puzzle. If there's a hidden map in this library, the cipher in those books will tell us WHERE to look or HOW to open whatever compartment shifted in that stonework. Focus on the books, Clara \u2014 let Dick play his little games!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The Hooded Claw (as Sneekly) spoke quietly with rufus-ruffcut."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "NOTHING in the crates! Not a WHISPER of Clara, not a single useful clue! The woman is a GHOST \u2014 slipping through this manor like smoke through a keyhole! But the workbench \u2014 oh, the WORKBENCH! 'Tools but no wrench,' they said. What tools EXACTLY? A screwdriver can puncture. A hammer can crush. Wire cutters can... well, cut wires, and there are SO many interesting wires in this laboratory! Every good villain needs the right instrument, and I refuse to commit a murder with my bare hands like some common THUG. Let me see what Lord Doily's workshop has to offer the discerning assassin!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "The Ant Hill Mob spoke quietly with big-gruesome."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "Look at me \u2014 standing here asking a seven-foot monster about a missing girl while Clive hides behind Dum-Dum and Big Goon pretends he ain't shaking. But the Gruesomes have been HERE. They know this cellar. And if Clara came through \u2014 or if someone BROUGHT her through \u2014 they'd have seen it. I just hope they're the talkative sort, because the Brixton Boys are running out of rooms to search and patience to search 'em with."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: Stand ASIDE, if you please! I can see that the mechanism has only PARTIALLY engaged \u2014 it requires the touch of someone with genuine expertise in Victorian stonework. I spent three summers apprenticed to the Royal Mason of Buckingham Palace \u2014 a detail I rarely mention, being a modest man \u2014 and I can tell you that THIS particular type of locking mechanism requires a precise counter-clockwise quarter-turn of the left corbel whilst simultaneously pressing the keystone. Allow ME!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Blast it all \u2014 the LOOK revealed nothing new! The inscription is still just sitting there taunting me. I need to INTERACT with the wretched thing directly. Peter's answer clearly triggered something mechanical, and if there's a hidden compartment or a key or \u2014 dare I dream \u2014 the Doily Diamond itself, then I, Reginald Foxworth, must be the one to extract it! Penelope was examining it too \u2014 that woman has an infuriating habit of being competent when one least expects it. I must act NOW before someone else claims MY prize!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Dick claiming credit for MY riddle answer \u2014 'I whispered it to Peter as a TEST,' he says! The audacity! But James Hartwell does not stoop to petty squabbles. The truth is written in the stone itself, and Penelope SAW who solved it. That's all that matters. Now \u2014 what did that shifting mechanism actually reveal? I've been so busy narrating my triumph that I forgot to check the RESULT. Classic Hartwell \u2014 all flourish, no follow-through. Until NOW."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the bookshelves."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The Hooded Claw (as Sneekly) examined the workbench."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop spoke quietly with peter-perfect."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Dick Dastardly claimin' he apprenticed with the Royal Mason of Buckingham Palace \u2014 and last week he was a certified gemologist, and before THAT a trained hypnotist! That man has more imaginary credentials than a con artist's business card. But Clara Bellingham does NOT accuse. Clara Bellingham solves the puzzle FIRST and lets the truth sort itself out. Now \u2014 if those upside-down book titles spell somethin' out, and the mantelpiece has a hidden compartment with a map inside... oh my stars, we might be closer to the Doily Diamond than I DARED to hope!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The Hooded Claw (as Sneekly) spoke quietly with rufus-ruffcut."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "A 'safety audit' \u2014 oh, the POETRY of it! Pemberton catalogues the tools to PROTECT the guests, while the Hooded Claw catalogues the tools to MURDER one! If there is a screwdriver, a hammer, ANYTHING with a point or an edge, it goes into my pocket the moment these two lumberjacks look away. Clara Bellingham has eluded me through four rooms now, but when I finally corner her, I shall NOT be empty-handed! Every master villain needs his instrument of doom, and I REFUSE to improvise with a dusty curtain rod like some amateur!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "The Ant Hill Mob: Right, LISTEN UP, lads \u2014 and Gruesomes, Red Max, I don't mean no disrespect \u2014 but the Brixton Boys have conducted a THOROUGH search of this manor from Library to Laboratory and we STILL ain't found Clara Bellingham! Now, I can't help but notice that someone \u2014 and I ain't pointing fingers, because pointing fingers ain't in the Brixton Boys' Code of Conduct \u2014 has rearranged this furniture with what I can only describe as DELIBERATE CARE. Suspicious? No! I ain't saying suspicious! I'm saying INTERESTING. Very interesting. Because when you've been in the protection business as long as the Brixton Boys, you learn that furniture what's been moved has been moved for a REASON. So \u2014 with your permission, Gruesomes \u2014 we're gonna have a little look. Clive, hold that candle steady! Dum-Dum, check behind the wardrobe! Big Goon \u2014 GENTLY, Big Goon, GENTLY \u2014 lift that settee! The Brixton Boys leave NO CUSHION UNTURNED!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "The furniture's been moved with CARE. That's what gets me. Monsters don't do careful. Monsters smash. But the Gruesomes \u2014 they've arranged this like they're setting up a LIVING ROOM. For WHO? That's the question the Brixton Boys can't quite ask out loud. Because if Clara's been down here... if someone's KEEPING her down here... then all this cheerful redecorating takes on a very different colour. But I can't accuse them lovely Gruesomes of nothing \u2014 they seem like good lads, really. Big and terrifying, but good. Just... let me have a look at this furniture. Please let there be nothing behind it. Please let me be wrong."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: Ha HA! Did you SEE that? The counter-clockwise quarter-turn \u2014 PRECISELY as I described! The Royal Mason technique never fails! I could FEEL the mechanism engage beneath my fingers \u2014 a sensation known only to those trained in the arcane arts of Victorian masonry. Now then, let us observe the fruits of MY expertise \u2014 for it was I, and I alone, who possessed the skill to unlock this ancient device!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Confound it \u2014 I have absolutely no idea what just happened when I touched that mantelpiece. Did it open? Did it click? Did it do NOTHING? I was so busy grandstanding about my fictional masonry credentials that I wasn't paying proper attention! I must examine it immediately before that insufferably perceptive Peter Perfect notices something I've missed. The Doily Diamond could be RIGHT THERE and I'm speechifying like a buffoon! Look at it, Reginald \u2014 LOOK at it, you magnificent idiot!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "My heart is doing somersaults! Penelope called me 'sugar' and said she could HUG me! She wants to work TOGETHER \u2014 as partners! This is everything James Hartwell has dreamed of since stepping foot in this dusty old manor. Now I simply MUST make this mantelpiece reveal its secrets, or I shall look like all talk and no action. Which, historically speaking, has been something of a pattern. But NOT TODAY. Today, James Hartwell follows through!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "The Ant Hill Mob examined the old-furniture."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop spoke quietly with peter-perfect."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "My heart is racin' faster than a thoroughbred at the Kentucky Derby! If the mantelpiece hides a map and the upside-down books are the key to readin' it \u2014 well, we might just be one clever deduction away from the Doily Diamond itself! I do wish Dick would stop hoverin' though \u2014 every time that man gets near a mechanism he claims he trained with some imaginary guild. But bless him, at least he's enthusiastic!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The Hooded Claw (as Sneekly) spoke quietly with rufus-ruffcut."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The workbench MOCKS me! It sits there laden with tools \u2014 hammers, screwdrivers, who KNOWS what delicious instruments of destruction \u2014 and yet it refuses to yield its secrets! But Pemberton is nothing if not THOROUGH. A closer examination is required. And while dear Rufus and his beaver companion watch me fuss over 'health and safety,' they won't notice when something small and sharp quietly disappears into my waistcoat pocket. The Hooded Claw does NOT give up at the first setback \u2014 oh no! Persistence is the hallmark of a TRULY great villain!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "The Ant Hill Mob: Right, THAT'S the furniture done! Every wardrobe checked, every settee lifted \u2014 Big Goon nearly put his back out on that chaise longue \u2014 and the verdict is: NOTHING! No hidden compartments, no secret passages, no Clara Bellingham tucked behind a Victorian armoire! Which means she's SOMEWHERE ELSE in this manor, and do you know who ELSE is somewhere else? That Sneekly! Gone AGAIN! Fourth time tonight he's scarpered the moment the Brixton Boys arrive! Says he's off to check the KITCHEN fires \u2014 and fair play to the man, fire safety IS important, I'll give him that \u2014 but the PATTERN, lads! The PATTERN! Library \u2014 gone! Laboratory \u2014 gone! Cellar \u2014 gone! Kitchen \u2014 he's THERE and we're HERE! Now I ain't saying the man's up to anything \u2014 he's a PROFESSIONAL estate manager doing his PROFESSIONAL duties \u2014 but the Brixton Boys don't STOP until Clara's FOUND! So we are MOVING! Back up through the Laboratory, and we KEEP SEARCHING until we find that girl! Gruesomes \u2014 Red Max \u2014 you're welcome to join us! Safety in numbers, that's what I always say! FORMATION ECHO, lads \u2014 that's the one for going UPSTAIRS! Clive, tie your shoelaces BEFORE we hit the steps! Dum-Dum, you're on point! Big Goon \u2014 watch your head on them low beams! LET'S MOVE!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "cellar",
+      "desc": "Four rooms. FOUR. Every time we get somewhere, Sneekly's already been and gone. He's herding us, I think. Or he's herding SOMEONE ELSE. But who herds people around a manor at night? Estate managers, that's who. Or... or people who don't WANT you finding something. But I can't say that. I can't even THINK it properly. The Brixton Boys protect \u2014 we don't detect. We'll just keep following. Keep stumbling into rooms. And maybe \u2014 just MAYBE \u2014 we'll stumble into the right one at the right time. That's how it always works with us. Not by brains. By sheer, magnificent, clumsy PERSISTENCE."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: WAIT \u2014 do you HEAR that? A faint humming from the laboratory! That mechanical click from the mantelpiece has clearly activated the machine next door \u2014 I recognise the harmonic resonance of a Victorian treasure-reveal apparatus! The Doily family were FAMOUS for their interconnected mechanical systems \u2014 pull one lever HERE, the treasure vault opens THERE! Quick, quick \u2014 to the laboratory, all of you! The machine will only remain active for precisely ninety seconds before the gyroscopic failsafe re-engages! I shall stay behind to ensure the mantelpiece mechanism remains... properly calibrated. GO!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "There is no humming. There is no 'harmonic resonance.' I have no earthly idea what a gyroscopic failsafe is. But those upside-down books on the shelves are SCREAMING at me \u2014 who puts books upside down unless they're hiding something? A lever, a switch, a secret compartment! If I can clear this room of these meddlesome do-gooders for even thirty seconds, I can pull every inverted spine on that shelf and find whatever the mantelpiece mechanism unlocked. Oh, Reginald, you DEVIOUS fox \u2014 sending them on a wild goose chase while you crack the REAL puzzle! The Doily Diamond is MINE!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "She said she could HUG me. She wants to work TOGETHER. James Hartwell, you magnificent fool \u2014 do NOT botch this with your twelve-phase plans. Just LOOK at the books, find the pattern, and let her see you're more than just elaborate speeches and good intentions. For once in your life, let the doing match the declaring!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The Hooded Claw (as Sneekly) examined the workbench."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "The Ant Hill Mob walked into the laboratory."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly examined the bookshelves."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the bookshelves."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Now hold on just one cotton-pickin' MINUTE, everyone! Dick, sugar, I appreciate your enthusiasm about that laboratory, I truly do \u2014 but a 'gyroscopic failsafe' that resets in ninety seconds? Honey, that sounds like somethin' out of one of those penny dreadfuls my Aunt Magnolia used to read! Besides, the REAL prize is right HERE, starin' us in the face! This riddle \u2014 'cities but no houses, forests but no trees, water but no fish' \u2014 why, back in Chattanooga we learned that one before we could tie our shoes! The answer is a MAP! And Peter, darlin', you FELT this stonework move when you touched it! So I am gonna do what any self-respectin' Southern lady with a head for puzzles would do \u2014 I am gonna interact with this mantelpiece and speak the answer right to its carved stone face! If Lord Doily wanted to hide his diamond behind a riddle, well, he picked the WRONG girl to try and stump! Stand back, everyone \u2014 Clara Bellingham is about to have a CONVERSATION with a fireplace!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Oh, I do hope this works! My heart is beatin' like a hummingbird's wings! And did y'all notice how Dick wanted to stay behind 'to calibrate the mechanism' while sendin' the rest of us away? Now why would a man need to be ALONE with a treasure mechanism? I'm sure he has perfectly good reasons \u2014 he always does! But Clara Bellingham is NOT leavin' this room!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "The Hooded Claw (as Sneekly): Ah, gentlemen! How FORTUITOUS that you've all gathered here! One has just completed a THOROUGH inspection of this workbench \u2014 quite satisfactory, all tools accounted for, though I note with some PROFESSIONAL dismay that the wrench is missing. Most irregular for a properly maintained laboratory! Now then \u2014 this machine here. One cannot help but observe that it requires THREE operators, and providence has delivered precisely three capable parties to this very room! As estate manager, I am OBLIGED to report that a wire appears to have been gnawed clean through \u2014 rodent damage, one suspects \u2014 and the apparatus REALLY ought to be tested before any of Lord Doily's guests inadvertently activate it unsupervised. A matter of liability, you understand. Health and safety! If you three gentlemen would be so KIND as to investigate its operation \u2014 purely as a PRECAUTIONARY measure \u2014 one would be most grateful. I, meanwhile, must dash to check on the other guests. One does worry so about Miss Pitstop wandering about unaccompanied!"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "laboratory",
+      "desc": "YES! Plant them at the machine like obedient little clockwork soldiers! Three operators needed, three groups present \u2014 it's almost too PERFECT! While they pull levers and scratch their heads over gnawed wires, the Hooded Claw will prowl the manor UNOBSERVED! The Ant Hill Mob think they're so CLEVER, tracking my movements \u2014 well, track THIS, you miniature detectives! I'm off to the Library, and from there \u2014 wherever Clara Bellingham is HIDING! Every room they occupy is a room I don't have to worry about witnesses in! Oh, the ELEGANCE of it! Using their own curiosity as a CAGE! Mwahahaha!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "The Ant Hill Mob spoke quietly with hooded-claw."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "He said kitchen. He's in the laboratory. AGAIN he's somewhere he said he wouldn't be. And he's been going through every tool on that workbench while we was downstairs. I don't like it. I don't like it ONE BIT. But what can I say? 'Excuse me, sir, I think you're fibbing about your whereabouts'? The Brixton Boys don't DO accusations. We just... keep showing up. And eventually, we stumble into whatever it is he don't want us to see."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: Everyone, STAND BACK! These upside-down volumes are a classic Edwardian booby trap \u2014 I've seen it a HUNDRED times in my extensive studies of Victorian manor architecture. If the wrong book is pulled, a spring-loaded mechanism fires POISON DARTS from the mantelpiece! Fortunately, I \u2014 Reginald Foxworth, Fellow of the Royal Antiquarian Society \u2014 know PRECISELY which volume to handle safely. I shall neutralise the trap so that you may all browse at your leisure. You're WELCOME, by the way. No need for applause \u2014 though I shan't object to it."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Fellow of the Royal Antiquarian Society? I made that up three seconds ago! There ARE no poison darts \u2014 at least I DESPERATELY hope there aren't. But if I can convince these simpletons that I'm performing some heroic act of trap-neutralisation, they'll stand well back while I pull every suspicious spine on this shelf. One of these upside-down books MUST be the trigger for whatever that mantelpiece click unlocked. Oh, Reginald, you MAGNIFICENT charlatan \u2014 they'll be THANKING you while you pocket the Doily Diamond right under their noses!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "She said she could hug me. She called me sugar. TWICE. James Hartwell, you thundering romantic fool \u2014 if you solve this cipher WITH her, side by side, the treasure is secondary. The REAL treasure is this moment. Also I am choosing to ignore Dick's increasingly suspicious attempts to scatter everyone to different rooms. The man means well. Probably. Almost certainly. I shall give him the benefit of the doubt because that is what gentlemen DO, even when the doubt is... considerable."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly) walked into the library."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "The Ant Hill Mob examined the machine."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop spoke quietly with peter-perfect."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "My heart is POUNDIN'! The answer is a map \u2014 I KNOW it's a map \u2014 and that stonework moved when Peter touched it earlier. If speakin' the answer and touchin' the right spot works together like a key in a lock, then Peter and I just turned that key at the SAME TIME! Now I just need to look \u2014 really LOOK \u2014 at what changed. And I notice Dick is awfully keen on keepin' everyone away from these bookshelves with his poison dart nonsense. And Sneekly arrivin' right when things get interestin'... well, I'm sure it's just coincidence! Everyone loves a good library!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly): Good gracious \u2014 the MANTELPIECE! Ladies and gentlemen, I must IMPLORE you \u2014 that is seventeenth-century carved Portland stone, and Lord Doily left VERY specific instructions in the estate charter that it was never to be subjected to \u2014 to PRODDING and MANIPULATION! One shudders to think of the structural implications! The insurance alone \u2014 well. But what's done is done, I suppose, and as estate manager it falls to poor old Pemberton to ensure no further damage is incurred. If I might be so bold, I DO have some familiarity with Lord Doily's rather eccentric architectural... arrangements. The old gentleman was FRIGHTFULLY fond of mechanical curiosities \u2014 spring-loaded panels, counterweighted stones, that sort of thing. Most of them connected to the library's original cataloguing system. Those inverted volumes, for instance \u2014 one does NOT simply reshelve them willy-nilly! They are part of a SEQUENCE, you see. Lord Doily's private indexing method. I believe the correct reading order begins not with the shelf you've been examining, but with the volumes nearest the WINDOW \u2014 the ones in shadow. If you'll permit me, I shall demonstrate the proper sequence. One does so hate to see guests injure themselves on ancient mechanisms when a simple consultation with the staff might have prevented the whole affair!"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "CLARA BELLINGHAM! She has been masquerading as Penelope Pitstop this ENTIRE time \u2014 and I, the great Hooded Claw, have been chasing shadows through cellars and laboratories like a common AMATEUR! Peter Perfect keeps calling her CLARA \u2014 the fool is so besotted he cannot even maintain her cover story! But oh, what DELICIOUS fortune \u2014 she is HERE, within arm's reach, and she has just activated Lord Doily's mechanism! She is CLOSE to the treasure, which means I must act with PRECISION. Step one: misdirect them to the wrong bookshelves \u2014 the window alcove, away from the real sequence. Step two: while they're distracted examining volumes in poor light, I examine what that shifted stonework has ACTUALLY revealed. Step three: engineer a reason for dear Clara to reach for a high shelf... ALONE... where a heavy bookend or a loosened shelf bracket might create such a TRAGIC accident. The Hooded Claw does not rush \u2014 the Hooded Claw ORCHESTRATES!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "The Ant Hill Mob spoke quietly with rufus-ruffcut."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "laboratory",
+      "desc": "Four rooms. Four lies about where he's going. And now he wants us playing with broken machinery while he goes off to where the women are. I can't prove nothing. I can't even EXPLAIN it properly. But the Brixton Boys have got instincts, and every single one of mine is screaming: DO NOT let that man be alone with anyone. Especially not Clara. We follow. We stumble. And maybe \u2014 just MAYBE \u2014 we stumble into exactly the right place at exactly the right time. It's what we do best."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: AH HA! Just as I SUSPECTED! The bookshelves are perfectly safe \u2014 I have NEUTRALISED the threat entirely through my expert handling! You are ALL welcome! Now then \u2014 whilst you credulous lot were watching me perform that VITAL safety procedure, my VASTLY superior peripheral vision was studying the mantelpiece from across the room. And I have ALREADY deduced the answer to the riddle! 'Cities but no houses, forests but no trees, water but no fish' \u2014 it is OBVIOUSLY a map! I knew it INSTANTLY, of course \u2014 I simply didn't wish to spoil the fun for the slower minds in the room. Now stand aside \u2014 a man of letters shall demonstrate how a PROPER gentleman solves a Victorian puzzle mechanism!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "The bookshelves did NOTHING! Absolutely nothing! I waved my arms about like a circus performer dismantling an imaginary bomb, and the blasted things just sat there being BOOKS! Oh, the HUMILIATION! But no matter \u2014 Reginald Foxworth does NOT dwell on setbacks! I heard Penelope say 'a map' and Peter got a click from the mantelpiece. I shall now swoop in, interact with it myself, and claim FULL credit for whatever treasure spills forth! The diamond is MINE, I tell you \u2014 MINE!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "She called me sugar. She said I was right. We are solving a centuries-old cipher TOGETHER, shoulder to shoulder in a candlelit library. If I find a diamond behind this stonework I shall present it to her on bended knee. James Hartwell, you thundering romantic \u2014 FOCUS on the masonry first, declarations of undying devotion SECOND."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly) examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob walked into the library."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Why, Dick Dastardly, how GENEROUS of you to confirm what I said five minutes ago \u2014 the answer IS a map, sugar, and I do appreciate the backup! Now if y'all will give a lady just ONE moment \u2014 Peter, darlin', you felt this stonework shift, and I SPOKE the answer, and now I am gonna put my hands right where yours were and give this old mantelpiece the PROPER attention it deserves. Mr. Sneekly, I heard every word about those window books and I promise we will get to them directly \u2014 a lady never ignores good advice from the staff! But Lord Doily carved this riddle into STONE, and when a man carves a question into stone, he expects someone to ANSWER it properly. So here goes \u2014 'A MAP!' There, I said it loud and clear, and NOW let's see what old Lord Doily has been keepin' behind this beautiful Portland stone for all these years!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "My heart is just RACIN'! Dick swooped in claimin' he knew the answer all along \u2014 well of COURSE he did, because I said it first! And Sneekly wantin' us to look at the window books instead of the mantelpiece... now why would an estate manager want to steer guests AWAY from the very mechanism that just moved? I'm sure he's just bein' protective of the antiques \u2014 he DID mention insurance. But Clara Bellingham did not come all this way to let someone else crack HER riddle. The answer is a map, the mantelpiece is the lock, and I am the KEY!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly): Oh GOODNESS \u2014 the Ant Hill Mob! Gentlemen, please, one does BEG you to enter with a modicum of restraint \u2014 this is a LIBRARY, not a \u2014 not a football pitch! Those floorboards are original Georgian oak and they were NOT designed for \u2014 for FORMATION DELTA or whatever military configuration you've adopted! Now then, as I was SAYING to our other guests, those inverted volumes are part of Lord Doily's private cataloguing system \u2014 MOST delicate, MOST particular \u2014 and I simply MUST ensure they haven't been disturbed by all this... enthusiastic treasure-hunting. If you'll all excuse me for just one moment, I shall conduct a quick inventory of the shelving nearest the reading chairs. One does have a DUTY to the estate, after all \u2014 Lord Doily would be SPINNING in his grave if he knew his beloved library was being treated like a \u2014 like a RUMMAGE SALE!"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "Oh, the BEAUTIFUL chaos of it all! Every last fool in this manor is now crammed into one room, GAWKING at the mantelpiece like pigeons at a breadcrumb! And while they poke and prod at Lord Doily's mechanism \u2014 which dear Clara has ALREADY activated, curse her clever little mind \u2014 old Pemberton shall shuffle over to the bookshelves by the reading chairs. NOT the window shelves where I sent those credulous sheep, oh no \u2014 the REAL shelves, the ones nearest the fireplace where a man of Lord Doily's habits would naturally READ. The inverted spines \u2014 THOSE are the cipher key. If I can decode the sequence before Peter Perfect finishes his fourteen-point analysis, the treasure is MINE. And once I know where it leads... well. Libraries are SUCH dangerous places. Heavy volumes falling from great heights. Rickety ladders. Shelving units that have stood for centuries suddenly discovering the pull of GRAVITY. Poor, poor Clara \u2014 what a TRAGIC way to go!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Four rooms we've chased this man. Four times he's been one step ahead. And NOW he's in the same room as Clara right when she's found something valuable in that mantelpiece. The Brixton Boys don't do clever. We don't do deductions. But we do STUBBORN. And we are NOT leaving Clara's side again tonight. Not for broken machines, not for kitchen fires, not for nothing. If Sneekly wants Clara alone, he's going to have to get through seven Brixton Boys first \u2014 and we may be clumsy, but there's a LOT of us."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: YES! You see?! You ALL see?! The mantelpiece responds to MY touch \u2014 the touch of a MASTER puzzle-solver! I TOLD you the answer was a map \u2014 I deduced it INSTANTLY through my encyclopaedic knowledge of Victorian riddle-craft, a discipline I practically INVENTED! Now then, let us observe what treasures my GENIUS has unlocked! Stand BACK, everyone \u2014 there may be secondary mechanisms, and only a man of my calibre can safely assess the situation!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "I have absolutely NO idea what just happened when I touched that mantelpiece. Did it open? Did it click? Did it do ANYTHING? I'm going to examine it now and pretend whatever I find was entirely my doing. If Peter or Penelope already triggered the mechanism, I shall simply claim they softened it up and MY interaction was the one that actually completed the sequence. The Doily Diamond is SO close I can practically TASTE it \u2014 and it tastes like VICTORY and expensive champagne!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "She said it was FATE that we touched the mantelpiece at the same moment. FATE! James Hartwell, you magnificent fool, she is standing RIGHT THERE solving ancient riddles beside you and calling it destiny. If this mechanism reveals a map to Lord Doily's treasure, I shall follow it to the ends of the earth \u2014 but only if she walks beside me. And Sneekly wanting us to look at the window-side books instead? Probably just the old fellow being territorial about his master's things. Perfectly understandable. Nothing sinister about it at all. Almost certainly."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly) examined the bookshelves."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Oh my STARS, did y'all FEEL that?! The stonework just \u2014 it MOVED under my fingers, smooth as silk on a spool! Lord Doily, you clever, CLEVER man \u2014 you built yourself a genuine puzzle-lock right here in this beautiful mantelpiece! Now NOBODY touch a thing for just ONE second \u2014 I need to get a proper look at what we've uncovered here. Peter, darlin', you were RIGHT about the mechanism \u2014 and Ant Hill Mob, sugar, you boys keep that perimeter tight because whatever Lord Doily hid behind this riddle, he hid it for a REASON! Mr. Sneekly, I know you're worried about the antiques, and I PROMISE I am bein' gentle as a lamb \u2014 but this is the moment of TRUTH! A map riddle on a mantelpiece in a manor with a hidden diamond? Why, this is exactly what I came here for! Now let me just see what old Lord Doily left us..."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "My hands are practically SHAKIN' with excitement! Every instinct I have says this mantelpiece is the first real key to finding the Doily Diamond. Dick and Peter both felt it move, and now so did I \u2014 three confirmations! Sneekly keeps tryin' to redirect us to those bookshelves, and while I'm SURE he means well, a girl can't help but notice the timing. But that's uncharitable thinkin', Clara \u2014 the man is just protectin' his employer's property. Focus on what's in front of you!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly) spoke quietly with peter-perfect."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "YES! Bustle, bustle, BUSTLE your way to that mantelpiece, old Pemberton! Every fool in this room has been poking at it and SOMETHING has been revealed \u2014 I can practically SMELL the treasure from here! While they all stand about congratulating themselves on solving a CHILDREN'S riddle, the Hooded Claw shall memorise every detail of what lies within. And if the mechanism reveals a passage \u2014 oh, what DELICIOUS possibilities! A narrow corridor, a steep staircase, a dark tunnel where accidents happen so NATURALLY... where a concerned estate manager might INSIST on leading the way with a lantern, and where poor Clara might suffer such a TERRIBLE stumble!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: OI OI OI! Right, settle DOWN, lads \u2014 Clive, get your elbow OUT of Big Goon's ear! We have just EXAMINED this mantelpiece and I can confirm \u2014 with the FULL authority of the Brixton Boys' Investigative Division \u2014 that there IS a mechanism in there! The stonework's MOVED! Peter's got his hands on it and Miss Bellingham \u2014 CLARA \u2014 she spoke the answer and the whole thing SHIFTED! Now THAT is what I call proper treasure-hunting! Clara, love, you are a STAR and the Brixton Boys are PROUD to be standing in the same room while you work your magic!\n\nNOW THEN \u2014 Clive, you stay HERE by Miss Bellingham. Don't touch NOTHING, don't lean on NOTHING, and for the love of all that is holy do NOT sit in them dusty chairs \u2014 they're ANTIQUES, not benches! Big Goon, you watch that door \u2014 nobody leaves this Library without the Brixton Boys knowing about it! The REST of you \u2014 with me! I've noticed our ESTEEMED estate manager has taken a VERY keen interest in them bookshelves over there, and as CONCERNED GUESTS who want to help PRESERVE Lord Doily's valuable collection, I think we should have a look at what's so FASCINATING about them upside-down books! Knowledge is PROTECTION, lads! FORMATION GAMMA!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "He's at them bookshelves AGAIN. The moment Clara cracks the mantelpiece puzzle, Sneekly's over there checking something. Maybe it's nothing. Maybe he really IS worried about Lord Doily's cataloguing system. But the Brixton Boys have been in this manor long enough to know \u2014 when something IMPORTANT happens on one side of the room, Sneekly's always doing something INTERESTING on the other side. I ain't clever enough to work out WHY. But I'm STUBBORN enough to go stand next to him and find out WHAT."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: STAND ASIDE, all of you! You've been fumbling at this mantelpiece like chimney sweeps at a piano recital! The riddle asks 'cities but no houses, forests but no trees, water but no fish' \u2014 and the answer, which I deduced SEVENTEEN minutes ago in the entrance hall through sheer intellectual superiority, is A MAP! But you see, it's not ENOUGH to simply KNOW the answer \u2014 oh no no no! One must ENGAGE the mechanism with the proper Victorian technique. Lord Doily was a craftsman of the HIGHEST order \u2014 he would have installed a pressure-sensitive release that responds only to someone who speaks the answer whilst applying precisely eight pounds of rotational force to the carved keystone. Like SO!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "I have absolutely NO idea what 'eight pounds of rotational force' means or whether it's even a real thing. I made it up entirely. But if this mantelpiece opens \u2014 and it WILL open \u2014 everyone in this room will believe it was my expertise that did it. And if it DOESN'T open, I shall blame Peter for damaging the mechanism with his ham-fisted earlier attempt. Either way \u2014 VICTORY is mine! The Doily Diamond will be in my pocket before these amateurs can say 'well played, Reginald!'"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Three phases! THREE! James Hartwell, you absolute catastrophe of over-preparation \u2014 the woman is standing RIGHT THERE waiting for you to simply LOOK at the stonework, and you've just outlined a research methodology that would make an Oxford archaeologist weep with exhaustion. But dash it all, thoroughness is the hallmark of a gallant man! And if my elaborate approach happens to keep Clara and me working side by side for the foreseeable future... well, that is simply an unavoidable consequence of rigorous investigation. Sneekly pottering about the bookshelves is probably just the dear old fellow tidying up. Nothing to worry about. Almost certainly nothing to worry about."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly) examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob examined the bookshelves."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop spoke quietly with peter-perfect."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "The mantelpiece mechanism engaged but didn't reveal a compartment \u2014 that means we're not done yet. Peter accidentally gave me the best lead when he mentioned those upside-down books as a cipher key. Now HERE is where Clara Bellingham's riddle-solvin' brain really gets to shine! I need to figure out what those inverted volumes are tellin' us. And I notice Sneekly was already fussin' with those bookshelves before anyone else got interested... that man has a knack for bein' exactly where the clues are. But I'm sure it's just professional curiosity \u2014 estate managers know every inch of their houses, after all!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly): Good HEAVENS! What on EARTH has happened to Lord Doily's mantelpiece?! I could hear the grinding of stone all the way from the \u2014 one moment, if you please, Miss Pitstop, Mr. Dastardly \u2014 do NOT apply any further force! This is a GRADE TWO listed fixture, and if the masonry has been compromised I shall be personally liable to the Heritage Trust! Most irregular! MOST irregular indeed! Now, if you'll all kindly step back for just ONE moment, as estate manager it is my solemn DUTY to inspect any structural alterations to the property before \u2014 before any further tampering occurs. One does NOT simply go about shifting stonework in a manor house without consulting the custodial authority! Lord Doily would be SPINNING in his grave \u2014 God rest his soul \u2014 if he knew his guests were rearranging his architecture! Now then... let me just have a proper look at this mechanism..."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "Oh, BEAUTIFUL! They've done all the WORK for me \u2014 solved the riddle, engaged the mechanism \u2014 and now Pemberton swoops in under the guise of HERITAGE PRESERVATION to claim first eyes on whatever lies within! The concern about listed stonework is INSPIRED \u2014 even the Ant Hill Mob can't argue with building regulations! And while I inspect, my fingers shall trace every seam, every groove, every SECRET that Lord Doily carved into this stone. If there is a map, a key, a passage \u2014 the Hooded Claw shall know it FIRST! And then... then we shall see about arranging a little ACCIDENT for dear Clara in whatever dark corner the treasure hides. Oh, the IRONY \u2014 saved by BUREAUCRACY!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: OI! LADS! Get over here \u2014 no, not ALL of you, Clive you STAY with Clara! Big Goon, DOOR! The rest of you, LOOK at this! These books \u2014 half of 'em are UPSIDE DOWN! Now I ain't no librarian \u2014 the Brixton Boys' reading list don't extend much past the Racing Post \u2014 but even I know that ain't NORMAL! Lord Doily's put these here DELIBERATELY, mark my words! It's a CODE of some kind \u2014 like what Peter said about a cipher key! Now, I'm going to do what any SELF-RESPECTING investigator would do in this situation \u2014 I'm going to pull one and see what HAPPENS! Dum-Dum, stand back! Actually, EVERYONE stand back! If this triggers a trapdoor or a swinging axe or a \u2014 Clive, will you STOP whimpering, I said stand BACK, not stand there SHAKING! Right \u2014 here goes NOTHING! The Brixton Boys \u2014 FEARLESS as always! Mostly! On three \u2014 one \u2014 two \u2014 oh sod it, I'm just going to GRAB it!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "My hands are shaking something TERRIBLE but a gaffer don't show fear in front of his lads. The truth is, Sneekly's been at these bookshelves THREE times now \u2014 entrance hall, laboratory, and now here \u2014 always poking at books and shelves when he thinks nobody's watching. And every time something important happens with the mantelpiece or the mechanism, he's over HERE instead of over THERE. A smarter man would work out what that means. The Brixton Boys ain't smarter men. But we ARE the sort of men who pull upside-down books in haunted manors at midnight, and sometimes \u2014 just SOMETIMES \u2014 that's exactly the sort of men you need."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: HA HA! Did you SEE that?! Did you ALL witness what just happened?! The mechanism RESPONDED to my precisely calibrated technique \u2014 eight pounds of rotational force applied to the carved keystone, EXACTLY as Lord Doily intended! You see, Miss Bellingham, while your earlier fumbling loosened the stonework \u2014 and I'm SURE your manicure survived the ordeal \u2014 it required a man of SUPERIOR mechanical understanding to actually ENGAGE the release! Peter, old boy, do take notes \u2014 this is how a GENTLEMAN handles Victorian engineering! Now then \u2014 everyone stand BACK whilst I examine what my expertise has revealed. This is DELICATE work and I shall NOT have it compromised by amateur fingerprints!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "I have absolutely NO idea whether my interaction did anything at all! The mechanism might have already been open from Penelope's touch! But confidence is nine-tenths of theft \u2014 if I DECLARE victory loudly enough, these simpletons will simply BELIEVE it was my doing. Now I must examine this mantelpiece before anyone else gets a proper look. Whatever clue Lord Doily left, I intend to memorise it, LIE about what it says, and send everyone else off on another wild goose chase whilst I follow the REAL trail to the diamond! Oh, Reginald \u2014 you are a TITAN of deception!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect spoke quietly with hooded-claw."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "The way Sneekly rushed over here the INSTANT something was revealed \u2014 practically LEAPING from those bookshelves \u2014 one might almost think he was trying to PREVENT us from discovering what's behind the stonework. But no. No, no. The man is an estate manager. Estate managers are SUPPOSED to be protective of the property. That is literally their entire function. James Hartwell does not suspect the butler. James Hartwell TRUSTS the butler. Even when the butler's eyes have that peculiar gleam that reminds one uncomfortably of a fox who has just spotted an unattended henhouse. Trust! TRUST is the foundation of civilised society!"
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the bookshelves."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly) interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop spoke quietly with ant-hill-mob."
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "My heart is just RACING! A multi-step puzzle with a riddle AND a book cipher? Lord Doily, you beautiful genius, you built this mansion for someone EXACTLY like me! Now I just need to read those spines before Dick claims HE figured it out, or before Sneekly 'accidentally' rearranges somethin' important while pretendin' to do an inspection..."
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly) spoke quietly with ant-hill-mob."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "Oh, the AUDACITY of these little thugs \u2014 pawing at Lord Doily's books with their grubby criminal fingers! But their barbarity is my OPPORTUNITY! While I flutter and fuss about preservation protocols, my EYES shall devour every inverted title, every misplaced spine! The cipher key \u2014 the SECOND step in the sequence \u2014 will be MINE before any of these fumbling treasure hunters can spell their own names! And once I know the path to the treasure... well, it will be such a SHAME when poor Clara stumbles into whatever dark passage lies behind that mantelpiece. Such a TERRIBLE accident. Such an UNAVOIDABLE tragedy. The Hooded Claw weeps in ADVANCE!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: WELL that was a spectacular FAILURE, weren't it! Grabbed the book, pulled with all me might, and the thing didn't budge an INCH! Slipped right off like butter on a \u2014 OOF! Sorry, sorry, that reading chair came out of NOWHERE! Clive, I TOLD you not to sneeze during operational \u2014 oh never mind! But HANG ON \u2014 Peter! PETER! What's happening with that mantelpiece?! I just stumbled right into it and something's DEFINITELY different! The stone's MOVED, ain't it?! I can FEEL it \u2014 there's a gap here that weren't here before! Sneekly \u2014 MISTER Pemberton \u2014 with all due respect to your Heritage Trust and your Grade Two listings and your custodial whatsits \u2014 the Brixton Boys have a DUTY to inspect this gap for SAFETY PURPOSES! What if someone \u2014 what if CLARA \u2014 put her hand in there and it snapped shut?! It's a HEALTH AND SAFETY matter, that's what it is! Now everybody STAY CALM while I have a proper look! Dum-Dum, shine your lighter over here! No, not AT me face, at the MANTELPIECE! THERE we go!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The books was a dead end \u2014 literally, they wouldn't MOVE \u2014 but falling backwards into the mantelpiece might be the best thing that's happened to us all night. That's how it works with the Brixton Boys. We don't FIND things. We CRASH into them. And right now, Sneekly's face has gone white as a sheet. He don't want us looking behind that stonework. A cleverer man would know WHY. I just know it makes my stomach turn over. Keep Clara close, keep the lads in formation, and keep stumbling forward. That's the Brixton Boys' way."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: AH HA! The riddle! 'Cities but no houses, forests but no trees, water but no fish' \u2014 why, the answer is BLINDINGLY obvious to a man of my intellectual calibre! It's a PAINTING, of course! A landscape painting! Cities PAINTED but no real houses, forests DEPICTED but no actual trees! Lord Doily was a renowned art collector \u2014 everyone knows that! The treasure must be hidden behind one of the PAINTINGS in the manor \u2014 the portraits in the Entrance Hall! I suggest you ALL rush back there IMMEDIATELY and start checking behind every frame! Go on, QUICKLY now \u2014 before the trail goes cold! I shall remain here to... document my findings. For POSTERITY."
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "A PAINTING! Ha HA! I am DIABOLICAL! The answer is a MAP, you fools \u2014 a MAP! But while you're all back in the Entrance Hall pulling portraits off the walls and getting covered in plaster dust, I shall be RIGHT HERE, searching these magnificent bookshelves for Lord Doily's estate map! A map that will lead me \u2014 and ONLY me \u2014 straight to the Doily Diamond! Oh, Reginald, you silver-tongued SERPENT \u2014 two misdirections in one evening! First the kitchen, now the paintings! They'll be running in circles all night whilst I waltz away with the prize! Now \u2014 to the bookshelves before anyone notices!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "She called me darlin'. She called me a PRINCE. She said my instincts were 'sound as a church bell.' James Hartwell is floating approximately six inches above the library floor and he does not care WHO notices. If I can be the one to crack this book cipher FOR her \u2014 not instead of her, but ALONGSIDE her, as her loyal and devoted partner in puzzle-solving \u2014 then this evening will have been worth every dusty cobweb and suspicious butler in the entire county. FOCUS, Hartwell. Systematic survey. Impress the woman. Save the day. In that order. ALWAYS in that order."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly) examined the bookshelves."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly examined the bookshelves."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the bookshelves."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Oh, Dick Dastardly, sugar, bless your heart, but a PAINTING? No, no, no \u2014 the answer is a MAP! A map has cities but no houses, forests but no trees, water but no fish! A painting of a landscape would show the trees IN the forest and the houses IN the city \u2014 but a MAP just has the WORDS and the LINES! It's cartography, darlin', not portraiture!\n\nAnd Peter \u2014 James \u2014 your systematic survey idea is EXACTLY right! You are speakin' my LANGUAGE! We cannot just go yankin' books willy-nilly \u2014 the Ant Hill Mob already proved THAT when their book wouldn't budge! Lord Doily designed this as a SEQUENCE, and I intend to read it like sheet music before we play a single note!\n\nNow if y'all will excuse me for just ONE moment, I am going to give these bookshelves a PROPER examination \u2014 every inverted spine, every shelf position, every little detail. The devil is in the details, and the DIAMOND is in the devil's details!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "The Ant Hill Mob found a GAP in the mantelpiece \u2014 so the riddle DID activate somethin'! And now I need to figure out the book sequence to trigger the NEXT step. This is a two-part puzzle at LEAST, and I am in my ELEMENT! Though I do wonder why Sneekly was so quick to examine those bookshelves... I'm sure he's just bein' a diligent estate manager. That's what estate managers DO, isn't it?"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly) spoke quietly with ant-hill-mob."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "Oh, this is EXQUISITE! They are all so focused on the puzzle that nobody \u2014 NOBODY \u2014 is watching ME! While I bluster about structural integrity, my eyes are drinking in every inverted spine on those shelves like a connoisseur at a wine tasting! And Penelope \u2014 or should I say CLARA \u2014 is the one solving this puzzle fastest! Her grandfather's crosswords, indeed! She has the BELLINGHAM mind for ciphers, which means she is PRECISELY the threat I feared! But patience, Vincent, PATIENCE! Let the mechanism open. Let the dark passage reveal itself. And then \u2014 oh THEN \u2014 a gentle nudge, a stumble on wet stone, a door that locks from the outside... the Hooded Claw does not rush his masterpieces!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: OI OI OI! Nobody's going NOWHERE \u2014 especially not back to the Entrance Hall on Dick Dastardly's say-so! 'It's a painting,' he says! A PAINTING! The answer is a MAP, you great nit \u2014 Clara worked that out five minutes ago while you was still admiring your own signature in the guest book! And Mister Pemberton \u2014 SNEEKLY \u2014 with the GREATEST respect to your custodial duties and your calfskin bindings and your insurance documentation \u2014 the Brixton Boys have a PROFESSIONAL OBLIGATION to examine them bookshelves! HEALTH AND SAFETY, sir! What if one of them upside-down volumes is LOAD-BEARING?! What if the whole shelf comes down on someone's \u2014 on CLARA'S \u2014 head?! No no no, the Brixton Boys are conducting a FULL STRUCTURAL SURVEY of these bookshelves, and we are doing it NOW! Clive \u2014 get over here and help me read these spines! No, Clive can't read, can he \u2014 FINE, Dum-Dum, YOU read the spines! I want every upside-down book CATALOGUED! Title, position, shelf number, any funny markings! We're looking for a PATTERN, Clara says, and if Clara says there's a pattern, then there IS a pattern, because that girl's got more brains in her little finger than the ENTIRE Brixton Boys combined \u2014 which, granted, ain't the HIGHEST bar, but the POINT stands!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Sneekly don't want us near them books. Dick Dastardly wants us OUT of the room entirely. Two people trying to get everyone away from the same spot at the same time \u2014 and the Brixton Boys ain't clever enough to know what that MEANS, but we're stubborn enough to plant ourselves RIGHT HERE and not move until Clara's safe and that puzzle's solved. Something's behind that mantelpiece. Something IMPORTANT. And if I have to accidentally knock over every bookshelf in this library to find it, then that's what the Brixton Boys will do. We don't detect. We OBSTRUCT. And right now, the best thing we can do is be a great big immovable NUISANCE standing between Clara and whatever Sneekly don't want her to find."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: STAND ASIDE, stand aside, you bumbling brigade! I can see from here that the mantelpiece mechanism has been PARTIALLY activated \u2014 no doubt by the sheer gravitational force of your collective incompetence crashing into it! But a mechanism requires the CORRECT answer to fully open, and I \u2014 Reginald Foxworth, holder of THREE honorary degrees from institutions I shall not name \u2014 have DEDUCED it! The answer to the riddle \u2014 'cities but no houses, forests but no trees, water but no fish' \u2014 is a MAP! M-A-P! A cartographic representation! It was OBVIOUS from the moment I walked in, naturally \u2014 I simply chose not to reveal it until the appropriate dramatic moment. Which is NOW! Everyone step back \u2014 this requires a GENTLEMAN'S touch!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "YES! I know I said it was a painting five minutes ago \u2014 but who's keeping track? Certainly not these intellectual lightweights! The Ant Hill Mob LITERALLY fell into discovering the gap by ACCIDENT, and now I'm going to waltz in, give the correct answer, and claim the entire discovery as my own! Two birds, one stone \u2014 I solve the riddle AND take credit for the gap! Oh, Reginald, you DAZZLING rogue \u2014 history will remember this moment! Assuming there's something good behind that mantelpiece, of course. And there WILL be. There MUST be. The universe OWES me this!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Ladies and gentlemen \u2014 and I do wish Clara were here to witness this \u2014 James Hartwell has conducted a PRELIMINARY survey of the bookshelves and the results are nothing short of EXTRAORDINARY! There are precisely \u2014 well, SEVERAL inverted volumes, and I propose we catalogue each one systematically. Shelf position, title, author, year of publication, spine width, and \u2014 critically \u2014 the FIRST LETTER of each title! Because if Lord Doily was the sort of man who built sequential puzzles into his own MANTELPIECE, then these upside-down books are almost CERTAINLY an anagram or acrostic! I shall now attempt to engage the mechanism. Clara identified this as step two in the sequence \u2014 the riddle opened the stone, and NOW these inverted volumes must be the next key. Stand back, everyone \u2014 particularly you, Clump, or whatever your name is \u2014 a gentleman does NOT rush a cipher! He approaches it with METHOD, with RIGOUR, and with the quiet confidence of a man who knows that the woman he admires is counting on him to get this RIGHT!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "James Hartwell's heart is hammering like a steam engine at full throttle. Clara is not even IN the room and yet every action he takes is calibrated to impress her. He is proposing a cataloguing system so elaborate it would make the British Museum weep with envy \u2014 shelf position, spine width, YEAR OF PUBLICATION \u2014 for a puzzle that probably requires pulling three books in the right order. But that is what James Hartwell DOES. He over-prepares with the fervour of a man possessed, and then his sheer bulldheaded determination drags him through the complications his own thoroughness creates. Also \u2014 he just called one of the Ant Hill Mob 'Clump.' He does not know their names. He is too embarrassed to ask."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop examined the bookshelves."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly) interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob examined the bookshelves."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly interacted with the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Well I NEVER! Those bookshelves are keepin' their secrets tighter than Aunt Magnolia's pecan pie recipe! I examined every shelf I could see and those upside-down volumes are just TEASIN' me \u2014 I can't make out the specifics from here!\n\nBut you know what? I think we're approachin' this from the wrong END, sugar! The Ant Hill Mob \u2014 bless their industrious little hearts \u2014 already found that GAP in the mantelpiece! The mechanism has STARTED but it hasn't FINISHED! And Dick, darlin', I'm so glad you came around to MAP \u2014 I KNEW you'd get there! Cities but no houses, forests but no trees, water but no fish \u2014 it's cartography, plain as day!\n\nNow I believe this mantelpiece needs to hear the answer from someone who MEANS it! Excuse me, gentlemen \u2014 Clara Bellingham is about to have a CONVERSATION with some carved stone!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Dick Dastardly said PAINTING not five minutes ago and now he's claimin' he always knew it was a map? That man could sell sand in the Sahara. But I'm sure he just... needed a moment to collect his thoughts. Now \u2014 let me try this mantelpiece myself. If the bookshelves won't talk to me, maybe the STONE will!"
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly): Good HEAVENS! Mr Foxworth \u2014 PLEASE remove your hands from Lord Doily's mantelpiece this INSTANT! Do you have ANY idea what you've DONE?! There is now a visible GAP in stonework that has stood undisturbed since 1847! One hundred and seventy-nine YEARS of structural integrity, compromised by \u2014 by PRODDING! One does NOT prod a load-bearing lintel, sir, one does NOT! I have felt the mechanism shift beneath the stone and I can ASSURE you that whatever is moving inside this wall is connected to the ENTIRE chimney breast! If this flue collapses, the insurance implications ALONE will \u2014 oh, I cannot bear to THINK of it!\n\nNow \u2014 Miss Pitstop, gentlemen \u2014 I IMPLORE you all to step away from the bookshelves as well! Those volumes are part of Lord Doily's ESTATE, catalogued and insured individually, and if even ONE spine is cracked by rough handling, the executors will have my HEAD! As estate manager, it is MY responsibility to conduct any examination of the collection. I shall inspect each shelf PERSONALLY for signs of disturbance or \u2014 or VANDALISM \u2014 and if certain volumes have been, shall we say, REARRANGED by some previous visitor, well! I shall document EVERY irregularity with the thoroughness that Lord Doily's memory DEMANDS!"
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "Oh, MAGNIFICENT! They think I'm fussing about insurance and calfskin bindings, but my fingers felt that gap in the stonework \u2014 something is MOVING behind that mantelpiece! A passage, a vault, a hidden chamber \u2014 it is THERE, waiting to be opened! And NOW I shall examine those bookshelves with all the obsessive detail of a proper estate manager, and every upside-down spine I catalogue goes straight into the Hooded Claw's mental filing cabinet! Let THEM argue about methods and sequences \u2014 I shall have the answer memorised before any of them can spell 'acrostic!' And when the passage opens... oh, sweet Clara-Penelope-whoever-you-ARE... the darkness inside will swallow you whole, and Pemberton will be SO terribly sorry about the unfortunate accident with the unstable flagstones!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob spoke quietly with penelope-pitstop."
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Two of 'em tried to get us away from these books. Sneekly with his 'calfskin bindings' and Dastardly with his 'it's a painting, rush to the Entrance Hall.' Now Dastardly's TOUCHING the mantelpiece when Clara specifically said to wait. That man's either trying to solve it first and take the credit, or he's trying to JAM it so nobody solves it at all. And Sneekly \u2014 quiet now, ain't he? Watching. Always watching. The Brixton Boys can't work out what any of it MEANS, but we know where we need to BE \u2014 right here, between Clara and everyone else. If something goes wrong with that mechanism, if something SHIFTS or OPENS or DROPS \u2014 the Brixton Boys will be standing right in the way. Not because we're clever. Because we're HERE."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: HA! Did you HEAR that? A distinct mechanical CLICK! The mantelpiece has YIELDED to my superior intellect \u2014 as ALL things must eventually! You see, the rest of you were fumbling about with bookshelves and structural surveys and CATALOGUING, while I \u2014 Reginald Foxworth, solver of riddles, conqueror of stone mechanisms \u2014 simply WALKED UP and provided the correct answer! MAP! The answer was MAP! I knew it from the VERY beginning, naturally \u2014 my earlier mention of a painting was merely a STRATAGEM to test whether any of you had the wit to correct me. A teaching moment, if you will! And NOW \u2014 let us see what treasures Lord Doily has concealed within this magnificent piece of Victorian stonework! Stand BACK, everyone \u2014 the discoverer gets first look! That is the LAW!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Did it actually click? I have NO idea \u2014 I was so busy rehearsing my victory speech that I didn't properly pay attention to what happened! But NEVER let uncertainty dim the spotlight! If I declare triumph loudly enough, everyone will ASSUME triumph occurred! Now \u2014 let me get a closer look at this mantelpiece before Peter Perfect swoops in with his methodical nonsense and claims MY discovery!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Ladies and gentlemen, I must report a \u2014 a SETBACK! James Hartwell has just attempted to engage the bookshelf mechanism with the full force of his methodical approach, and the bookshelves have responded with the STONY INDIFFERENCE of a butler who has been asked to fetch tea on his day off! They will NOT budge! They will not CLICK! They will not so much as CREAK! Which means \u2014 and I say this with the quiet dignity of a man whose seventeen-point cataloguing system has just been rendered ENTIRELY ACADEMIC \u2014 the inverted books are not a MECHANICAL trigger! They are a MESSAGE! Something to be READ, not PULLED! The clue is in what they SPELL, not what they CONCEAL!\n\nWhich MEANS \u2014 and Penelope, I believe you will concur \u2014 the MANTELPIECE is where the action is! The Mob found a gap, Dastardly has just had his hands all over it \u2014 no offence intended, old chap \u2014 and I must INSPECT what has changed! If we can decode what the inverted book titles are telling us and APPLY that knowledge to the mantelpiece mechanism, we may yet crack Lord Doily's second step! For Clara! Who is \u2014 regrettably \u2014 not present to witness this pivotal moment, but who WILL hear of it in EXHAUSTIVE detail, I assure you!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "James Hartwell's ears are burning. He proposed cataloguing SPINE WIDTH. Spine width! For a puzzle that turned out to require READING, not ENGINEERING. Clara would have seen that instantly. She always does. He must examine this mantelpiece before anyone else solves the puzzle and he has nothing to report when he finds her. A gentleman does not return to the lady he admires empty-handed \u2014 not of gifts, and not of DISCOVERIES."
+    },
+    {
+      "type": "action",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop interacted with the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly) examined the bookshelves."
+    },
+    {
+      "type": "action",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly examined the mantelpiece."
+    },
+    {
+      "type": "action",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect examined the mantelpiece."
+    },
+    {
+      "type": "dialogue",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Penelope Pitstop: Well BUTTER my BISCUITS! I felt that mechanism MOVE under my fingertips \u2014 there is somethin' ALIVE inside this stonework, I am tellin' you! Lord Doily built himself a proper Victorian puzzle box right into the chimney breast!\n\nNow \u2014 Ant Hill Mob, sugar, y'all are the most LOYAL associates a girl could ask for, and I appreciate you takin' up defensive positions around those shelves like the Brixton Boys' own Praetorian Guard! But Peter \u2014 PETER! \u2014 you brilliant man, you just solved half our problem! The inverted books aren't LEVERS, they're LETTERS! They SPELL somethin'! That is the kind of methodical thinkin' that makes a girl's heart go pitter-pat!\n\nSo here is what I believe we're dealin' with, everyone \u2014 and Mr. Sneekly, PLEASE don't fret, I am bein' GENTLE as a lamb with this stonework \u2014 the mantelpiece riddle is step ONE, and the answer is MAP. Dick got his click, I felt the mechanism engage further. But it isn't FINISHED yet! There's another step, and I believe those upside-down book titles are gonna tell us EXACTLY what to do next! \n\nNow let me get a PROPER look at what's happenin' inside this gap before we go any further!"
+    },
+    {
+      "type": "aside",
+      "character": "penelope-pitstop",
+      "room": "library",
+      "desc": "Sneekly is tryin' to keep us away from BOTH the mantelpiece AND the bookshelves? That's... well, I'm sure he's just worried about the estate. But if I were a suspicious woman \u2014 which I am NOT \u2014 I might wonder if he's tryin' to slow us down so HE can figure out the puzzle first. No, no \u2014 benefit of the doubt, Clara. The man has insurance concerns. Perfectly reasonable."
+    },
+    {
+      "type": "dialogue",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "The Hooded Claw (as Sneekly): Now then \u2014 NOW then! I have completed my preliminary survey of the bookshelves and I must say I am MOST distressed! Several volumes have been placed UPSIDE DOWN \u2014 a cataloguing ATROCITY that Lord Doily would NEVER have permitted! I have noted each title and I shall be filing a FULL report with the executors! But MORE pressing \u2014 far MORE pressing \u2014 is this GAP that has appeared in the mantelpiece! Miss Pitstop, Mr Foxworth, Mr Hartwell \u2014 I really MUST insist that you all step back and allow me to conduct a proper structural assessment! If this stonework shifts even ONE more centimetre, we could be looking at a partial chimney collapse, and I should hate to explain to the insurers how SIX guests came to be buried under Victorian masonry! Now \u2014 if you will PERMIT me \u2014 I shall just run my hands along the seam here to determine the extent of the \u2014 the DISPLACEMENT..."
+    },
+    {
+      "type": "aside",
+      "character": "hooded-claw",
+      "room": "library",
+      "desc": "YES! They've done all the WORK for me \u2014 the fools! Peter announced the books spell a message, Dick triggered the first click, and Penelope has been PAWING at the mechanism! All I need to do is lay my hands on that gap and feel what they've missed! The Hooded Claw does not SOLVE puzzles, darlings \u2014 he lets OTHER people solve them and then STEALS the answer! And when that passage opens \u2014 oh, when it OPENS \u2014 I shall be standing RIGHT at the threshold, blocking the light, and dear sweet Clara-Penelope will have to squeeze PAST me into the darkness. Where the flagstones are SO terribly uneven. Where a person might TRIP. Where a heavy stone door might swing SHUT behind them with no one to hear the screaming! Pemberton will be SO distraught! SO apologetic! 'One does wish one had warned her about the unstable flooring!' HA!"
+    },
+    {
+      "type": "dialogue",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "The Ant Hill Mob: Oi oi OI! Right, EVERYONE \u2014 the Brixton Boys have just conducted a THOROUGH examination of them bookshelves and I can CONFIRM that they are \u2014 bookshelves! They don't MOVE, they don't CLICK, they don't do NOTHING except sit there being LITERARY! Which means Peter's RIGHT \u2014 them upside-down books ain't buttons, they're a CLUE! They SPELL something! But that's a job for the BRAINY types \u2014 no offence, lads, but reading ain't our strong suit! Clive once read a whole bus timetable upside down and ended up in CROYDON! Now \u2014 that mantelpiece has got a GAP in it! A visible, mechanical, potentially DANGEROUS gap in Victorian stonework! And do you know what the Brixton Boys do when there's a gap in something dangerous? We STAND IN FRONT OF IT! Because Clara Bellingham could walk through that door ANY SECOND and if something shoots out of that wall \u2014 a dart, a blade, a SPRING-LOADED BADGER for all I know about Victorian engineering \u2014 it hits US first! Clive, Dum-Dum, Big Goon \u2014 FORMATION GOLF! That's the one where we form a human shield around heritage masonry! I'm going to have a CLOSE LOOK at this gap and see what we're dealing with!"
+    },
+    {
+      "type": "aside",
+      "character": "ant-hill-mob",
+      "room": "library",
+      "desc": "Sneekly just examined them bookshelves. Same bookshelves he told us all to LEAVE ALONE not five minutes ago! 'Don't touch the calfskin bindings!' he said. 'I'll inspect them PERSONALLY!' he said. And now he's over there having a quiet read while Penelope's talking to stonework and Dick's claiming he solved everything. Something ain't right. The Brixton Boys can FEEL it even if we can't SAY it. But right now \u2014 that gap in the mantelpiece. That's where the action is. That's where the danger is. And that's where WE need to be."
+    },
+    {
+      "type": "dialogue",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "Dick Dastardly: Yes, YES, the mantelpiece has YIELDED its first secret \u2014 thanks entirely to MY solving of the riddle, I might add! But do you know what I notice? What NONE of you have noticed, because none of you possess my extraordinary powers of observation? The mechanism is only HALF-engaged! It requires a SECOND input \u2014 a PASSWORD, if you will! And I happen to know \u2014 from my extensive study of Victorian architectural journals, of which I have read ALL of them \u2014 that the password is almost certainly engraved somewhere on the READING CHAIRS! Yes, the chairs! Everyone should examine the chairs IMMEDIATELY! Turn them over if you must! The answer is in the upholstery! Go on, CHOP CHOP!"
+    },
+    {
+      "type": "aside",
+      "character": "dick-dastardly",
+      "room": "library",
+      "desc": "The password is NOT on the chairs \u2014 I just made that up! Ha HA! While these gullible fools are flipping furniture and examining upholstery stitching, I shall saunter over to the bookshelves and read whatever those upside-down book titles spell out! Peter Perfect HANDED me the solution on a silver platter \u2014 'the clue is in what they SPELL' \u2014 and now I simply need to COLLECT it! Oh Reginald, you glorious, magnificent THIEF of intellectual property!"
+    },
+    {
+      "type": "dialogue",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "Peter Perfect: Ladies and gentlemen \u2014 and Pemberton, I do apologise in advance for any further structural anxiety \u2014 James Hartwell is about to engage this mechanism PERSONALLY! I have examined it, I have STUDIED it, and I believe the answer to Lord Doily's riddle is indeed MAP \u2014 a map has cities but no houses, forests but no trees, water but no fish! But I also believe \u2014 and this is the CRUCIAL insight from my examination \u2014 that one click may not be SUFFICIENT! Victorian puzzle-makers were THOROUGH men, and I am a thorough man, and it takes one to KNOW one! If this mechanism requires a second activation, a confirming touch, a \u2014 a GENTLEMAN'S handshake with the stonework, as it were \u2014 then James Hartwell shall provide it! For Clara! Who is NOT here, but who WILL hear of this moment, I assure you, in VIVID and COMPREHENSIVE detail!"
+    },
+    {
+      "type": "aside",
+      "character": "peter-perfect",
+      "room": "library",
+      "desc": "My hands are actually trembling. Not from fear \u2014 James Hartwell does not tremble from FEAR \u2014 but from the sheer embarrassment of my cataloguing proposal still ringing in everyone's ears. I must redeem myself with this mantelpiece or I shall have NOTHING to tell Clara except 'I measured spine widths, darling, and they were IRRELEVANT.'"
+    }
+  ]
+}
