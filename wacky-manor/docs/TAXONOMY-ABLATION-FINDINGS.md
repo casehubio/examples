@@ -85,13 +85,24 @@ Emotional-core framing produces richer vocabulary (2x unique emotion words) and 
 2. **Speech-patterns alone don't override model defaults.** The speech-pattern still said "narrates his own actions in the third person" — but without the tendency reinforcing it, the model reverted to its default first-person voice.
 3. **Optimism isn't carried by drives.** The `proving-worth` drive covers competence-seeking but not the emotional resilience of optimistic determination. Hartwell shifted to anxiety and self-doubt.
 
-### Round 3b — Character-reflection instruction (in progress)
+### Round 3b — Character-reflection instruction
 
 **Changed:** Modified the response format thinking field to instruct: "FIRST review your voice (accent, register, speech pattern), drives, and constraints — then reason about the current situation."
 
 **Hypothesis:** If the model actively consults its character attributes before each response, the speech-pattern and drives become sufficient without tendency reinforcement. The problem in Round 3 wasn't that attributes were missing — they were present but passively ignored. Metacognitive prompting forces active recall.
 
-**Status:** Running. Results pending.
+**Result (312 events):**
+
+| Marker | Baseline | R3 (no reflection) | R3b (with reflection) | Recovery? |
+|---|---|---|---|---|
+| Planning | 16.7% | 26.1% | 27.3% | N/A — never collapsed |
+| Optimism | 24.1% | 2.2% | 13.6% | Partial (+11.4pp, ~half recovered) |
+| Third-person | 61.1% | 13.0% | 61.4% | **Full** (back to baseline) |
+
+**Key findings:**
+1. **Third-person narration: full recovery.** 13.0% → 61.4% — back to exactly the baseline. One line in the thinking step completely solved the speech-pattern override problem. The model just needed to be told to actively consult its voice spec.
+2. **Optimism: partial recovery.** 2.2% → 13.6% — significant improvement but still 10pp below baseline. The reflection instruction brings back voice/style attributes, but optimistic determination is a *behavioral response pattern* (how you react to setbacks), not a voice attribute the model can "review."
+3. **The metacognitive prompt splits the taxonomy cleanly:** voice-mode attributes (how you sound) are fully recoverable via active recall. Behavioral dispositions (how you react) still need tendencies or drive encoding.
 
 ## Taxonomy Category Model
 
@@ -102,7 +113,8 @@ Emotional-core framing produces richer vocabulary (2x unique emotion words) and 
 | Voice texture (accent, catchphrases) | Partially | Voice section (style-directive) | Style-directive experiment |
 | Internal emotional state | Produces varied external behavior | Drives (emotional-core framing) | Emotional-core: 2x vocabulary |
 | Prescribed anchor (evil laugh) | EMERGENCE-GAP — needs neocortex | Voice signature-phrases | Hooded Claw vs Marsh comparison |
-| Voice mode anchor (third-person, optimism) | No — model defaults override | Tendency (load-bearing) OR metacognitive prompt | Round 3 |
+| Voice mode (third-person, register shifts) | Yes, with metacognitive prompt | Speech-pattern + character-reflection | Round 3b: full recovery |
+| Behavioral disposition (optimism, resilience) | Partially | Tendency (partially load-bearing) OR emotional drive | Round 3b: partial recovery |
 
 ## Design Principles
 
@@ -114,13 +126,15 @@ Emotional-core framing produces richer vocabulary (2x unique emotion words) and 
 | 4 | **Direct at a region, not a point** | Emotional-core: emotional framing broadens vocabulary without prescribing specific words |
 | 5 | **Storytelling conventions ≠ personality traits** | Round 2: asymmetric degradation between Wacky Races (model priors) and generic (no priors) |
 | 6 | **Tendencies anchor voice mode** | Round 3: third-person narration collapsed without tendency despite speech-pattern |
-| 7 | **Speech-patterns don't override model defaults** | Round 3: speech-pattern alone insufficient for third-person |
+| 7 | **Speech-patterns don't override model defaults alone** | Round 3: speech-pattern alone insufficient for third-person |
 | 8 | **LLMs prioritise goals over personality** | Round 3: goal-directed behavior persisted, ambient personality attributes drifted |
 | 9 | **Emotional-state framing broadens vocabulary** | Emotional-core: 2x unique emotion words vs behavioral directives |
+| 10 | **Metacognitive prompting recovers voice attributes** | Round 3b: third-person narration fully recovered (13% → 61.4%) |
+| 11 | **Behavioral dispositions need explicit encoding** | Round 3b: optimism only partially recovered (2.2% → 13.6% vs 24.1% baseline) |
 
 ## Open Questions
 
-1. **Does metacognitive prompting replace load-bearing tendencies?** Round 3b tests this. If the character-reflection instruction recovers Hartwell's third-person narration and optimism, tendencies become redundant when paired with active character recall.
+1. **Can behavioral dispositions be encoded as emotional drives?** Optimism partially recovered via metacognitive prompting but not fully. Would "You feel stubborn optimism that rises when things go wrong" as a drive at 0.85+ intensity close the remaining 10pp gap?
 
 2. **Should emotional-core framing apply to all characters?** The improvement is incremental but consistent. The risk is making many changes at once, complicating regression analysis.
 
@@ -147,5 +161,6 @@ All transcripts in `wacky-manor/docs/eval/`:
 | `emotional-core-generic-20261003/` | 214 | Emotional-core (truncated) | GENERIC |
 | `emotional-core-generic-full-20261003/` | 375 | Emotional-core (full) | GENERIC |
 | `pareback-r3-generic-20261003/` | 325 | Round 3 | GENERIC |
+| `pareback-r3b-generic-20261003/` | 312 | Round 3b (character-reflection) | GENERIC |
 | `old-briefings-20261002/` | 327 | Pre-rewrite reference | BASELINE |
 | `generic-briefings-20261002/` | 306 | Prescribed catchphrases reference | GENERIC |
