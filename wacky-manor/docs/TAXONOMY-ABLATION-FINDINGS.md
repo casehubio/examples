@@ -104,6 +104,28 @@ Emotional-core framing produces richer vocabulary (2x unique emotion words) and 
 2. **Optimism: partial recovery.** 2.2% → 13.6% — significant improvement but still 10pp below baseline. The reflection instruction brings back voice/style attributes, but optimistic determination is a *behavioral response pattern* (how you react to setbacks), not a voice attribute the model can "review."
 3. **The metacognitive prompt splits the taxonomy cleanly:** voice-mode attributes (how you sound) are fully recoverable via active recall. Behavioral dispositions (how you react) still need tendencies or drive encoding.
 
+### Round 3c — Show-workings instruction
+
+**Changed:** Replaced passive review with structured output requirement: "SHOW YOUR WORKINGS — state: MY ACCENT: [X]. MY SPEECH PATTERN: [X]. MY STRONGEST DRIVE: [X]. Then reason."
+
+**Hypothesis:** Forcing the model to *produce* character attributes (not just review them) would strengthen recall, like a student showing workings rather than just giving answers.
+
+**Result (306 events):**
+
+| Marker | Baseline | R3b (passive) | R3c (show-workings) |
+|---|---|---|---|
+| Planning | 16.7% | 27.3% | 15.9% |
+| Optimism | 24.1% | 13.6% | 13.6% |
+| Third-person | 61.1% | 61.4% | 50.0% |
+
+**Key findings:**
+1. **Show-workings did NOT improve over passive review.** Third-person narration regressed from 61.4% to 50.0%. Optimism was identical.
+2. **Structured fields create satisficing shortcuts.** The model treated filling in "MY SPEECH PATTERN: third person" as *completing the review* rather than *preparing to apply it*. The structured format gave the model a way to pattern-complete without integrating.
+3. **Open-ended prompts outperform structured ones for integration.** The passive "FIRST review your voice..." kept attributes active in reasoning. The structured checklist boxed them into a completed step.
+4. **The homework analogy breaks for LLMs.** Students who show workings are forced to think through steps. LLMs that fill structured fields are just pattern-completing — they can produce the right metadata without it influencing the downstream output.
+
+**Conclusion:** Passive review (R3b) remains the best metacognitive approach. The instruction should be open-ended ("review your voice, drives, and constraints") not structured ("fill in: MY ACCENT: [X]").
+
 ## Taxonomy Category Model
 
 | Category | Can emerge from drives? | Where it belongs | Evidence |
@@ -131,6 +153,8 @@ Emotional-core framing produces richer vocabulary (2x unique emotion words) and 
 | 9 | **Emotional-state framing broadens vocabulary** | Emotional-core: 2x unique emotion words vs behavioral directives |
 | 10 | **Metacognitive prompting recovers voice attributes** | Round 3b: third-person narration fully recovered (13% → 61.4%) |
 | 11 | **Behavioral dispositions need explicit encoding** | Round 3b: optimism only partially recovered (2.2% → 13.6% vs 24.1% baseline) |
+| 12 | **Open-ended prompts outperform structured ones** | Round 3c: structured "show workings" regressed third-person to 50% vs passive review's 61.4% |
+| 13 | **Structured fields create satisficing shortcuts** | Round 3c: model treats filling in fields as completing the task rather than preparing for it |
 
 ## Open Questions
 
@@ -161,6 +185,7 @@ All transcripts in `wacky-manor/docs/eval/`:
 | `emotional-core-generic-20261003/` | 214 | Emotional-core (truncated) | GENERIC |
 | `emotional-core-generic-full-20261003/` | 375 | Emotional-core (full) | GENERIC |
 | `pareback-r3-generic-20261003/` | 325 | Round 3 | GENERIC |
-| `pareback-r3b-generic-20261003/` | 312 | Round 3b (character-reflection) | GENERIC |
+| `pareback-r3b-generic-20261003/` | 312 | Round 3b (passive review) | GENERIC |
+| `pareback-r3c-generic-20261003/` | 306 | Round 3c (show-workings) | GENERIC |
 | `old-briefings-20261002/` | 327 | Pre-rewrite reference | BASELINE |
 | `generic-briefings-20261002/` | 306 | Prescribed catchphrases reference | GENERIC |
