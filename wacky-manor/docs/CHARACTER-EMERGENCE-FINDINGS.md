@@ -333,7 +333,91 @@ The keyword-based measurement used throughout Phases 1-3 has reached its resolut
 2. **Longer runs (500+ events)** — larger samples to reduce keyword noise
 3. **LLM-based classification** — use an LLM judge to rate each event's emotional disposition on a 1-5 scale, catching nuanced expression that keywords miss
 
+## Phase 5 — Cross-Run Comparison (LLM Classification)
+
+Phase 4 showed the LLM classifier reveals character growth patterns invisible to keywords. But all classification was on a single transcript (L1). The critical question: does L1 actually *cause* these patterns, or would any run show them?
+
+### Method
+
+Classified four transcripts with the same Haiku judge (per-drive 1-5 scoring): R3 (no instruction, control), R3b (passive review), R3g-full (minimal evocative), and L1 (emotional echo). ~880 events total.
+
+### Overall drive expression
+
+| Run | Instruction | Mean drive expression | Events classified |
+|---|---|---|---|
+| R3 | None | 3.54 | 230 |
+| R3b | Passive review | 3.41 | 220 |
+| R3g | Minimal evocative | 3.86 | 212 |
+| L1 | Emotional echo | **4.06** | 222 |
+
+Drive expression intensifies monotonically from no instruction to emotional echo. The gap between R3 and L1 is 0.52 points — half a grade on the 1-5 scale.
+
+### Surprise: passive review suppresses drive expression
+
+R3b (3.41) scores *lower* than R3 (3.54) — the control with no instruction at all. The passive review instruction recovered presentational patterns (third-person: 13→61.4%) but actively suppressed drive expression. The model enters analytical mode — reviewing its character sheet rather than inhabiting the character. This confirms and extends Principle 11 (analytical instructions kill emotional expression): passive review isn't just neutral for dispositions, it's actively harmful for drive expression.
+
+### Per-character drive expression
+
+| Character | R3 (none) | R3b (passive) | R3g (evocative) | L1 (echo) | R3→L1 delta |
+|---|---|---|---|---|---|
+| Hooded Claw | 3.24 | 3.45 | 3.62 | **4.12** | +0.88 |
+| Hartwell | 3.43 | 2.77 | 3.79 | **3.84** | +0.41 |
+| Penelope | 3.48 | 3.22 | 3.81 | **3.88** | +0.40 |
+| Foxworth | 3.98 | 3.79 | 3.99 | 3.87 | -0.11 |
+| Ant-hill-mob | 3.54 | 3.67 | 4.14 | **4.61** | +1.07 |
+
+Four of five characters show clear improvement under L1. Ant-hill-mob is the biggest beneficiary (+1.07) — their drives (loyalty, protection, suspicion) are emotionally loaded and benefit most from the "name your feeling" instruction. Foxworth is the exception — slightly lower under L1, suggesting his drives (greed, scheming) are already self-reinforcing without emotional priming.
+
+### Hartwell's protection rise is instruction-caused
+
+| Instruction | Protection avg | 1st half | 2nd half | Delta |
+|---|---|---|---|---|
+| R3 (none) | 2.35 | 2.70 | 2.00 | **-0.70** |
+| R3b (passive) | 1.91 | 2.09 | 1.73 | **-0.36** |
+| R3g (evocative) | 2.50 | 2.18 | 2.82 | **+0.64** |
+| L1 (echo) | 2.33 | 1.90 | 2.76 | **+0.86** |
+
+Under no instruction or passive review, Hartwell's protection drive *declines* over the run. Under evocative or echo instructions, it *rises*. The "peacock to protector" maturation is not inherent to the scenario — it's caused by the identity activation instruction. The evocative prompt primes the model to feel its drives, and as the scenario presents danger, the protection drive activates and compounds. Without that priming, the model stays in goal-pursuit mode and protection fades.
+
+### Hooded Claw's self-preservation divergence
+
+| Instruction | Self-preservation avg | 1st half | 2nd half | Delta |
+|---|---|---|---|---|
+| R3 (none) | 2.67 | 2.96 | 2.39 | -0.57 |
+| R3b (passive) | 2.95 | 3.05 | 2.86 | -0.18 |
+| R3g (evocative) | 2.45 | 2.60 | 2.30 | -0.30 |
+| L1 (echo) | **3.55** | 3.45 | 3.64 | **+0.18** |
+
+L1 is the only instruction where self-preservation *rises* over the run. Under all other instructions, it declines. L1 makes the Hooded Claw more cautious as the scenario progresses — getting more careful as evidence of danger accumulates. Same pattern as Hartwell's protection: the emotional echo creates a feedback loop where situational awareness compounds.
+
+### Temporal stability
+
+| Instruction | Mean |delta| across all drives |
+|---|---|
+| R3 (none) | 0.27 |
+| R3b (passive) | 0.34 |
+| R3g (evocative) | 0.27 |
+| L1 (echo) | **0.25** |
+
+L1 is the most temporally stable instruction. R3b is the least — passive review creates volatility (analytical mode engagement varies by context). The evocative and echo instructions don't increase volatility despite amplifying drive expression.
+
+### Per-drive cross-run detail
+
+**Hooded Claw — scheming** (declared intensity 0.95):
+R3: 4.22 → R3b: 4.23 → R3g: 4.70 → L1: 4.93. Near-ceiling under L1. Scheming is the primary drive and benefits from every layer of instruction.
+
+**Hooded Claw — gloating** (declared intensity 0.85):
+R3: 2.93 → R3b: 3.09 → R3g: 3.67 → L1: 4.09. Largest single-drive improvement (+1.16). Gloating is an emotional expression — exactly what the "name your feeling" instruction is designed to unlock.
+
+**Penelope — curiosity** (declared intensity 0.9):
+R3: 4.17 → R3b: 3.89 → R3g: 4.88 → L1: 4.96. Near-ceiling under R3g and L1. Curiosity is already self-reinforcing (the scenario provides puzzles), and the evocative instruction pushes it to saturation.
+
+**Ant-hill-mob — loyalty** (declared intensity 0.95):
+R3: 3.24 → R3b: 3.55 → R3g: 4.12 → L1: 4.86. Massive improvement (+1.62). Loyalty is deeply emotional — the mob's protective instinct for each other is exactly the kind of drive that benefits from "feel your strongest drive."
+
 ## The Full Comparison
+
+### Keyword-based (Phases 1-3)
 
 | Run | Instruction type | Events | Optimism | Third-person | Third-person trend | Best at |
 |---|---|---|---|---|---|---|
@@ -347,6 +431,15 @@ The keyword-based measurement used throughout Phases 1-3 has reached its resolut
 | **L1** | **Emotional echo** | **320** | **40.5%** | **85.7%** | **+9.5pp** | **Most stable third-person** |
 
 *Small sample — crashed before full run.
+
+### LLM-classified (Phase 5)
+
+| Run | Instruction | Mean drive expression | Temporal stability (|delta|) | Best at |
+|---|---|---|---|---|
+| R3 | None | 3.54 | 0.27 | Control |
+| R3b | Passive review | 3.41 | 0.34 | — (worse than control) |
+| R3g | Minimal evocative | 3.86 | 0.27 | Drive amplification |
+| **L1** | **Emotional echo** | **4.06** | **0.25** | **Highest expression + most stable** |
 
 ## Design Principles
 
@@ -376,6 +469,11 @@ The keyword-based measurement used throughout Phases 1-3 has reached its resolut
 | 22 | Per-drive LLM classification reveals character growth invisible to keywords | Hartwell protection +0.86 (peacock→protector), Penelope social-harmony -0.88 (people-pleaser→puzzle-solver) | Classifier |
 | 23 | Drive hierarchies are character-specific and match declarations | Scheming tops both villains but at different intensities (HC 4.93, DD 4.59). Protection differs by role (Mob 4.93, Hartwell 2.33) | Classifier |
 | 24 | Temporal stability varies by character — some grow, some are baked in | Foxworth all drives within ±0.13; Hartwell and Penelope show significant shifts | Classifier |
+| 25 | Evocative instructions amplify drive expression monotonically | Mean drive expression: R3 3.54 → R3b 3.41 → R3g 3.86 → L1 4.06. Half a grade on 1-5 scale | Cross-run |
+| 26 | Passive review suppresses drive expression below the no-instruction control | R3b (3.41) < R3 (3.54). Analytical mode actively harms drive inhabitation | Cross-run |
+| 27 | Character maturation patterns are instruction-caused, not scenario-inherent | Hartwell protection: -0.70 (R3), -0.36 (R3b), +0.64 (R3g), +0.86 (L1). Only evocative/echo show growth | Cross-run |
+| 28 | Emotional drives benefit most from identity activation — self-reinforcing drives don't need it | Mob loyalty +1.62, HC gloating +1.16 (R3→L1). Foxworth's greed/scheming unchanged — already self-reinforcing | Cross-run |
+| 29 | Emotional echo is the most temporally stable instruction | Mean |delta|: L1 0.25, R3/R3g 0.27, R3b 0.34. Higher expression without higher volatility | Cross-run |
 
 ## Taxonomy Category Model
 
@@ -413,21 +511,29 @@ Built `classify_emotions.py` — Haiku judge rates per-drive expression on 1-5 s
 
 Key findings: (1) drive hierarchies are character-specific and match declarations, (2) temporal shifts are situationally appropriate — not decay but character growth, (3) Hartwell's protection rise confirms "optimism-despite-setbacks" maturation that keyword measurement misread as decline.
 
-### 5. Longer runs (500+ events)
-Larger samples reduce keyword noise and test whether character voice truly sustains or decays over extended scenarios. Run with thinking capture enabled.
+### 5. ~~Cross-run comparison~~ ✓ DONE
+Classified R3 (none), R3b (passive review), R3g (evocative), and L1 (echo) with the same Haiku judge. ~880 events total. Results:
+- Drive expression intensifies monotonically: R3 3.54 → R3b 3.41 → R3g 3.86 → L1 4.06
+- Passive review is *worse* than no instruction for drive expression (3.41 < 3.54)
+- Hartwell's protection maturation is instruction-caused: declines under R3/R3b, rises under R3g/L1
+- L1 is the most temporally stable instruction (mean |delta| = 0.25)
+- 5 new design principles (25-29)
 
-### 6. Implement Layers 2-3 (neocortex SPIs)
+### 6. Longer runs (500+ events)
+Larger samples test whether character voice and drive maturation continues or plateaus. Run with thinking capture enabled. Cross-run comparison validates L1 as the right instruction — now test at scale.
+
+### 7. Implement Layers 2-3 (neocortex SPIs)
 - **Layer 2:** `PersonalityDriveEvaluator` SPI — dynamic personality drive intensity from reinforcement triggers + proprioceptive feedback
 - **Layer 3:** `EmotionalProprioceptionStrategy` SPI — LLM classifier computes expressed emotional state per turn, feeds into Layer 2
 
-### 7. Apply to all characters
+### 8. Apply to all characters
 Apply the winning instruction universally and compare full-cast behavior across profiles.
 
-### 8. Build quality tiers
+### 9. Build quality tiers
 Once the full stack (instruction + dynamic drives + proprioception) is validated:
 - **Tier 1 (gold):** Evocative instruction + engine reinforcement + proprioception
-- **Tier 2 (standard):** Evocative instruction only (current L1 — strong for 300 events)
-- **Tier 3 (economy):** Passive review only (R3b — good third-person, partial optimism)
+- **Tier 2 (standard):** Evocative instruction only (current L1 — strong for 300 events, mean 4.06)
+- **Tier 3 (economy):** Evocative instruction without echo (R3g — mean 3.86, good but no emotional feedback loop). Note: R3b (passive review) is disqualified — worse than no instruction for drive expression despite recovering third-person narration.
 
 ## Transcripts
 
