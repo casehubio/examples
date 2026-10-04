@@ -304,6 +304,25 @@ Critical test: does the instruction force uniformly positive emotions, or do emo
 
 20 of 21 entries show situation-appropriate emotions. Frustration appears 5 times — always when plans are blocked. Concern appears when genuine danger surfaces. Compound emotional arcs (ELATION→BEWILDERMENT→SUSPICION) track real narrative beats. He is not uniformly positive.
 
+**Evidence — raw thinking field text, verbatim:**
+
+*Elation when solving a puzzle with Clara watching (gallantry drive):*
+> "EXHILARATION! Pure, undiluted EXHILARATION! I solved the riddle — a MAP — and Penelope is RIGHT HERE to witness it! But wait — I merely examined the mantelpiece. I need to INTERACT with it! There must be a mechanism, a hidden lever, a secret panel th..."
+
+*Frustration when bookshelves won't cooperate (proving-worth blocked):*
+> "BLAST! The bookshelves rebuffed me — James Hartwell, rebuffed by FURNITURE! The indignity is almost too much to bear. But wait — wait wait WAIT. The mantelpiece! The RIDDLE! 'I have cities but no houses, forests but no trees, water but no fish.' That..."
+
+*Compound arc when compartment is empty after 10 events of work:*
+> "ELATION turning to BEWILDERMENT turning to SUSPICION — but only a GENTLE suspicion, because James Hartwell sees the best in people! I solved the riddle — MAP! — and activated the mechanism with tremendous flair, and Clara was RIGHT THERE to witness i..."
+
+*Protection drive when gnawed wire and danger surface:*
+> "CONCERNED. Deeply, MAGNIFICENTLY concerned. This wire — gnawed clean through! And Sneekly wants us to just... operate it? Three men on a broken machine? James Hartwell's heart is POUNDING with protective instinct. Not fear — never fear — but PRUDENT..."
+
+*Frustration + determination when repair is blocked (no wrench):*
+> "FRUSTRATION mixed with DETERMINATION! The workbench has tools aplenty but no wrench — and that gnawed wire needs SOMETHING to splice it back together. But WAIT — Mr. Sneekly said Lord Wackford kept spare parts in those crates! Replacement wires, fuse..."
+
+Note the character voice in the thinking itself — third-person self-reference ("James Hartwell, rebuffed by FURNITURE!"), the theatrical register ("MAGNIFICENTLY concerned"), the drive-consistent self-narration ("Not fear — never fear — but PRUDENT"). The emotional echo doesn't just name an emotion — it reasons in character.
+
 **Conclusion:** The emotional echo is emergent, not scripted. The instruction asks the model to name what it feels — it doesn't prescribe what to feel. Emotions arise from drives meeting situations: gallantry produces elation when Clara is present, protection produces concern when danger appears, proving-worth produces frustration when blocked. The instruction creates a feedback loop for emergent state; it does not prescribe the state itself.
 
 ### Measurement methodology revision needed
