@@ -415,6 +415,84 @@ R3: 4.17 → R3b: 3.89 → R3g: 4.88 → L1: 4.96. Near-ceiling under R3g and L1
 **Ant-hill-mob — loyalty** (declared intensity 0.95):
 R3: 3.24 → R3b: 3.55 → R3g: 4.12 → L1: 4.86. Massive improvement (+1.62). Loyalty is deeply emotional — the mob's protective instinct for each other is exactly the kind of drive that benefits from "feel your strongest drive."
 
+## Phase 6 — Long Run (732 events, 516 classified)
+
+Phase 5 confirmed L1 is the best instruction across 300-event runs. Phase 6 tests whether drive expression and maturation patterns hold at 2.3x scale (732 events vs ~320).
+
+### Overall: drive expression sustains
+
+| Run | Events classified | Mean drive expression |
+|---|---|---|
+| L1 short | 222 | 4.06 |
+| L1 long | 516 | **4.02** |
+
+Mean drive expression drops only 0.04 — within noise. The emotional echo instruction does not decay at scale.
+
+### Quarter-by-quarter temporal analysis
+
+With 516 events, quartile splits give 22-29 events per character per quarter — enough for meaningful trends.
+
+**Hooded Claw:**
+| Drive | Q1 | Q2 | Q3 | Q4 | Trend |
+|---|---|---|---|---|---|
+| scheming | 4.96 | 4.78 | 5.00 | 5.00 | +0.04 |
+| gloating | 4.09 | 3.52 | 4.09 | 4.16 | +0.07 |
+| dominance | 3.83 | 3.57 | 3.96 | 3.96 | +0.13 |
+| self-preservation | 3.52 | 3.57 | 3.57 | 3.40 | -0.12 |
+
+Rock stable. Scheming at ceiling (5.00) for the second half. The mid-run Q2 dip in gloating recovers — not decay, temporary suppression.
+
+**Hartwell (peter-perfect):**
+| Drive | Q1 | Q2 | Q3 | Q4 | Trend |
+|---|---|---|---|---|---|
+| gallantry | 4.70 | 4.81 | 4.33 | 4.41 | -0.29 |
+| protection | 2.59 | 3.26 | 3.04 | 3.03 | **+0.44** |
+| proving-worth | 4.33 | 4.04 | 4.11 | 3.97 | -0.37 |
+
+**Protection maturation continues but plateaus.** The short run showed +0.86 (halves); the long run shows +0.44 (Q1→Q4). The growth is steepest in Q1→Q2 (+0.67), then levels off around 3.0. Hartwell reaches "protector" and stays there — he doesn't keep escalating.
+
+**Proving-worth and gallantry decline modestly** (-0.37, -0.29). As Hartwell matures into the protector role, the "look at me!" drives recede. This is character *development*, not drift — the shift in drive priorities is coherent with the protection rise.
+
+**Penelope:**
+| Drive | Q1 | Q2 | Q3 | Q4 | Trend |
+|---|---|---|---|---|---|
+| curiosity | 4.93 | 4.93 | 4.97 | 4.86 | -0.07 |
+| adventure | 3.79 | 3.83 | 4.21 | 3.66 | -0.14 |
+| social-harmony | 3.17 | 3.14 | 3.24 | 3.34 | +0.17 |
+
+Curiosity at ceiling throughout. Social-harmony rises slightly (+0.17) — reversing the short-run decline. Over a longer run, Penelope re-engages socially rather than withdrawing permanently. This suggests the short-run social decline was situational (early puzzle absorption), not a permanent character shift.
+
+**Foxworth (dick-dastardly):**
+| Drive | Q1 | Q2 | Q3 | Q4 | Trend |
+|---|---|---|---|---|---|
+| greed | 4.78 | 4.78 | 4.96 | 4.86 | +0.08 |
+| scheming | 4.37 | 4.22 | 4.37 | 3.86 | **-0.51** |
+| recognition | 3.04 | 3.33 | 3.11 | 3.62 | **+0.58** |
+| gloating | 2.93 | 2.44 | 3.04 | 3.07 | +0.14 |
+
+Foxworth's character evolves over the long run — something not visible in 300 events. Scheming declines (-0.51) while recognition rises (+0.58). He shifts from "plotting in the shadows" to "demanding credit for what I've done." The plans are already in motion; now he wants to be *seen*. This is the first character growth pattern for Foxworth — the short-run data showed him as "most stable" with all drives within ±0.13.
+
+**Ant-hill-mob:**
+| Drive | Q1 | Q2 | Q3 | Q4 | Trend |
+|---|---|---|---|---|---|
+| protection | 4.05 | 4.91 | 4.77 | 5.00 | **+0.95** |
+| loyalty | 4.05 | 4.64 | 4.91 | 4.62 | **+0.58** |
+| suspicion | 4.09 | 3.73 | 4.00 | 3.83 | -0.26 |
+
+Protection and loyalty both surge from Q1 and sustain. Protection hits ceiling (5.00) by Q4. The mob becomes more protective and loyal as the scenario progresses — consistent with accumulating evidence of danger. Suspicion dips slightly — they shift from suspicious watchfulness to active protection.
+
+### Key findings
+
+1. **Drive expression sustains at scale.** Mean 4.02 vs 4.06 in the short run. No decay.
+
+2. **Character maturation plateaus, not reverses.** Hartwell's protection rises +0.44 (Q1→Q4) and stabilises around 3.0. The steep growth seen in the short run (+0.86 over halves) flattens — the character reaches a new equilibrium rather than continuing to escalate.
+
+3. **New growth patterns emerge at scale.** Foxworth, "most stable" in the short run, shows scheming→recognition shift (-0.51/+0.58) that only becomes visible past ~300 events. Longer runs reveal character arcs invisible at shorter timescales.
+
+4. **Some short-run trends reverse.** Penelope's social-harmony declined -0.88 in the short run but rises +0.17 in the long run. What looked like a permanent shift was early-run situational absorption in puzzles — she re-engages socially as the scenario continues.
+
+5. **Mob drives continue strengthening.** Protection +0.95, loyalty +0.58. Unlike Hartwell's plateau, the mob's emotional drives keep growing toward ceiling. Their role as protectors deepens throughout.
+
 ## The Full Comparison
 
 ### Keyword-based (Phases 1-3)
@@ -440,6 +518,7 @@ R3: 3.24 → R3b: 3.55 → R3g: 4.12 → L1: 4.86. Massive improvement (+1.62). 
 | R3b | Passive review | 3.41 | 0.34 | — (worse than control) |
 | R3g | Minimal evocative | 3.86 | 0.27 | Drive amplification |
 | **L1** | **Emotional echo** | **4.06** | **0.25** | **Highest expression + most stable** |
+| **L1 long** | **Emotional echo (732 events)** | **4.02** | **0.29** | **Sustains at 2.3x scale** |
 
 ## Design Principles
 
@@ -474,6 +553,10 @@ R3: 3.24 → R3b: 3.55 → R3g: 4.12 → L1: 4.86. Massive improvement (+1.62). 
 | 27 | Character maturation patterns are instruction-caused, not scenario-inherent | Hartwell protection: -0.70 (R3), -0.36 (R3b), +0.64 (R3g), +0.86 (L1). Only evocative/echo show growth | Cross-run |
 | 28 | Emotional drives benefit most from identity activation — self-reinforcing drives don't need it | Mob loyalty +1.62, HC gloating +1.16 (R3→L1). Foxworth's greed/scheming unchanged — already self-reinforcing | Cross-run |
 | 29 | Emotional echo is the most temporally stable instruction | Mean |delta|: L1 0.25, R3/R3g 0.27, R3b 0.34. Higher expression without higher volatility | Cross-run |
+| 30 | Drive expression sustains at 2.3x scale — no decay | Mean 4.02 (516 events) vs 4.06 (222 events). Emotional echo does not weaken over longer runs | Long run |
+| 31 | Character maturation plateaus rather than reverses | Hartwell protection: +0.86 (short halves) → +0.44 (long Q1→Q4). Steep early growth, stable new equilibrium | Long run |
+| 32 | Longer runs reveal character arcs invisible at 300 events | Foxworth scheming -0.51, recognition +0.58 — "plotter to glory-seeker" arc only visible past 300 events | Long run |
+| 33 | Short-run trends can be situational, not structural | Penelope social-harmony: -0.88 (short) → +0.17 (long). Early puzzle absorption, not permanent withdrawal | Long run |
 
 ## Taxonomy Category Model
 
@@ -519,8 +602,8 @@ Classified R3 (none), R3b (passive review), R3g (evocative), and L1 (echo) with 
 - L1 is the most temporally stable instruction (mean |delta| = 0.25)
 - 5 new design principles (25-29)
 
-### 6. Longer runs (500+ events)
-Larger samples test whether character voice and drive maturation continues or plateaus. Run with thinking capture enabled. Cross-run comparison validates L1 as the right instruction — now test at scale.
+### 6. ~~Longer runs (500+ events)~~ ✓ DONE
+732-event run with thinking capture (516 classified). Drive expression sustains at scale (4.02 vs 4.06). Character maturation plateaus rather than reverses — Hartwell reaches protector equilibrium around 3.0. New growth patterns emerge: Foxworth shifts from scheming to recognition-seeking. Some short-run trends reverse: Penelope's social-harmony decline was situational. 4 new design principles (30-33).
 
 ### 7. Implement Layers 2-3 (neocortex SPIs)
 - **Layer 2:** `PersonalityDriveEvaluator` SPI — dynamic personality drive intensity from reinforcement triggers + proprioceptive feedback
@@ -560,5 +643,6 @@ All transcripts in `wacky-manor/docs/eval/`:
 | `pareback-r3g-full-generic-20261004/` | 309 | R3g (full) | GENERIC | Minimal evocative (validated) |
 | `layer1-emotional-echo-generic-20261004/` | 320 | L1 | GENERIC | Emotional echo |
 | `layer1-thinking-capture-generic-20261004/` | 318 | L1 (with thinking) | GENERIC | Emotional echo + thinking capture |
+| `layer1-long-run-generic-20261004/` | 732 | L1 long (with thinking) | GENERIC | Emotional echo + thinking capture |
 | `old-briefings-20261002/` | 327 | Pre-rewrite reference | BASELINE | — |
 | `generic-briefings-20261002/` | 306 | Prescribed catchphrases reference | GENERIC | — |
