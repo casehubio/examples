@@ -12,21 +12,37 @@ This evolved into a broader investigation: what minimal instruction replaces exp
 
 Each baseline represents the best result that improves on its predecessor in **all situations at all times** — not just on average, not just for some characters. Partial improvements are regressions.
 
-| Baseline | Instruction | Profile | Mean drive expression | Stability (|delta|) | Scenario ceiling | Established |
-|---|---|---|---|---|---|---|
-| **BASELINE0** | L1 emotional echo | GENERIC | 4.06 (222 events), 4.02 (516 events) | 0.25 | ~300 events | Phase 5-6 |
+| Baseline | Description | Profile | Mean drive expression | Established |
+|---|---|---|---|---|
+| **BASELINE0** | Full brief — all tendencies, no metacognitive instruction | GENERIC | 3.93 | Phase 6 (retrospective classification) |
+| **BASELINE1** | *Not yet achieved* — L1 emotional echo improves the mean but regresses on 4/17 drives | — | — | — |
 
-**BASELINE0 per-character reference scores (all must be matched or exceeded for BASELINE1):**
+### BASELINE0 — full brief (the starting point)
+
+Original GENERIC profile with all tendencies, voice sections, drives, and constraints. No metacognitive instruction. This is what the entire experiment improved from.
+
+Transcript: `generic-colloquial-20261002/` (310 events, 206 classified)
 
 | Character | Mean | Drive scores |
 |---|---|---|
-| Hooded Claw | 4.12 | scheming 4.93, gloating 4.09, dominance 3.89, self-preservation 3.55 |
-| Hartwell | 3.84 | proving-worth 4.62, gallantry 4.57, protection 2.33 |
-| Penelope | 3.88 | curiosity 4.96, adventure 3.83, social-harmony 2.85 |
-| Foxworth | 3.87 | greed 4.80, scheming 4.59, recognition 3.07, gloating 3.02 |
-| Ant-hill-mob | 4.61 | protection 4.93, loyalty 4.86, suspicion 4.05 |
+| Hooded Claw | 3.80 | scheming 4.82, gloating 3.97, dominance 3.89, self-preservation 2.53 |
+| Hartwell | 4.06 | gallantry 4.50, proving-worth 4.22, protection 3.46 |
+| Penelope | 3.74 | curiosity 4.30, adventure 3.75, social-harmony 3.18 |
+| Foxworth | 3.93 | scheming 4.42, greed 4.34, gloating 3.50, recognition 3.44 |
+| Ant-hill-mob | 4.16 | protection 4.63, loyalty 4.24, suspicion 3.61 |
 
-BASELINE1 target: memory-seeded characters with reduced explicit brief, richer environment. Must match or exceed every row above — not just the mean.
+### L1 emotional echo — best candidate for BASELINE1
+
+Mean 4.06 (vs BASELINE0's 3.93). Improves 13 of 17 drives. But regresses on 4:
+
+| Character | Drive | BASELINE0 | L1 | Delta | Why |
+|---|---|---|---|---|---|
+| Hartwell | protection | **3.46** | 2.33 | **-1.13** | Full brief had explicit protective tendency; L1 stripped it. Protection grows over the run (+0.86) but starts too low |
+| Foxworth | gloating | **3.50** | 3.02 | **-0.48** | Secondary drive — explicit tendency gave it more weight than drives alone |
+| Foxworth | recognition | **3.44** | 3.07 | **-0.37** | Same — explicit tendency provided more emphasis than drive description |
+| Penelope | social-harmony | **3.18** | 2.85 | **-0.33** | Explicit tendency reinforced social awareness; without it, puzzle-focus dominates |
+
+**To achieve BASELINE1:** recover these 4 drives without losing the gains on the other 13. Possible approaches: richer drive descriptions (emotional-core framing), drive intensity tuning, selective tendency restoration for load-bearing drives. Must be validated before Phase 7 changes capabilities further.
 
 ## Method
 
