@@ -609,6 +609,10 @@ Protection and loyalty both surge from Q1 and sustain. Protection hits ceiling (
 | 32 | Reactive drives sustain in saturated scenarios; proactive drives deplete | Protection/loyalty hold or grow. Scheming/proving-worth decline when no new material exists to act on | Long run |
 | 33 | Short-run trends can be situational, not structural | Penelope social-harmony: -0.88 (short) → +0.17 (long). Early puzzle absorption, not permanent withdrawal | Long run |
 | 34 | Scenario saturation confounds maturation — longer runs need richer worlds | Foxworth scheming -0.51 is ambiguous: character growth or nothing left to scheme about? Can't distinguish without evolving stimuli | Long run |
+| 35 | Emotional-core reframing recovers drives that lack environmental reinforcement | HC gloating (0.7, emotional-core) +0.12 under L1; Foxworth gloating (0.7, behavioral) -0.48. Same drive, same intensity — framing is the variable | EC experiment |
+| 36 | Single-emotion instruction creates winner-take-all dynamics between drives | Strengthening Hartwell protection (+1.15) weakened proving-worth (-0.70). Drives compete for the one emotion slot in the thinking field | EC experiment |
+| 37 | Monolithic drive descriptions hit a ceiling — fixing one drive regresses another | EC experiment: 10/17 pass BASELINE0 vs L1's 13/17. Emotional-core recovers targeted drives but introduces new regressions elsewhere | EC experiment |
+| 38 | Drive descriptions are doing triple duty (perception + appraisal + feeling) — needs separation | Aligns with Lazarus cognitive appraisal theory: emotion is downstream of perception and appraisal, not parallel to it | Architectural analysis |
 
 ## Taxonomy Category Model
 
@@ -657,29 +661,59 @@ Classified R3 (none), R3b (passive review), R3g (evocative), and L1 (echo) with 
 ### 6. ~~Longer runs (500+ events)~~ ✓ DONE
 732-event run with thinking capture (516 classified). Drive expression sustains at scale (4.02 vs 4.06). Character maturation plateaus rather than reverses — Hartwell reaches protector equilibrium around 3.0. New growth patterns emerge: Foxworth shifts from scheming to recognition-seeking. Some short-run trends reverse: Penelope's social-harmony decline was situational. 4 new design principles (30-33).
 
-### 7. Memory-seeded scenario experiment
+### 7. Cognitive appraisal architecture (replaces monolithic drive descriptions)
 
-The next phase reduces the explicit brief further and replaces stripped content with neocortex memory seeding. The progression:
+**Why the pivot:** The emotional-core experiment (Principle 35-38) showed that monolithic drive descriptions hit a ceiling. Fixing one drive's description regresses another because: (1) the L1 instruction creates a single-emotion bottleneck — drives compete for the one thinking-field slot, and (2) drive descriptions are doing triple duty — defining what the character perceives, how they appraise it, and what they feel. These concerns need separation.
 
-- **Phases 1-3:** Stripped explicit tendencies → drives carry personality
+**The progression:**
+- **Phases 1-3:** Stripped tendencies → drives carry personality
 - **R3g/L1:** Replaced tendencies with identity activation instruction → exceeded baseline
-- **Phase 7:** Strip more of the explicit brief → replace with seeded backstory memories → let behaviour emerge from experience + drives + personality + environment
+- **EC experiment:** Emotional-core drive reframing → recovered some drives, regressed others (Principle 37)
+- **Phase 7:** Replace monolithic descriptions with a cognitive appraisal architecture grounded in established psychology
 
-**Richer environment:** Objects in rooms (photos, personal items, documents) that are meaningful only through character-specific memories. A vase is just a vase — unless the character remembers hiding a key in it. Same object, different memories, divergent behaviour. This solves the scenario saturation problem (Phase 6 finding) because the world's meaning is character-dependent and memory-driven.
+**Scientific foundation:**
+- **Lazarus (1966):** Primary appraisal (is this relevant to my concerns?) → secondary appraisal (what can I do?) → emotion emerges from the appraisal, not from a description
+- **Scherer (2001):** Four sequential Stimulus Evaluation Checks — relevance, implications, coping potential, normative significance. The pattern of SEC results determines which emotion emerges
+- **Frijda (1986):** Emotions are states of action readiness. Appraisal produces action tendencies (approach, avoid, shield, dominate, submit) — not just feelings
+- **Chain-of-Emotion (2024, PLOS ONE):** Separate LLM appraisal call before response generation outperforms baseline on believability in game agents
 
-**Memory-object-action chains to test:**
-- **Direct:** Object → recall → act (e.g., vase → memory of key → look inside)
-- **Indirect:** Object → recall person → recall conversation → infer location (e.g., portrait → memory of Lord Wackford → "my secrets are where the light doesn't reach" → search dark corners)
-- **Convergent:** Two innocuous objects together create meaning (e.g., stopped clock + journal entry → memory of secret meeting room)
-- **Divergent:** Same object, different character memories, different actions (e.g., old coat → Sneekly searches pockets for key, Hartwell has emotional response, Foxworth looks for valuables)
+**Architecture:**
 
-**Available infrastructure:** neocortex#398 (memory seeding — DONE), goal cognition epic #345 (DONE). The behavioral attractor synthesis (#406 epic) is not yet available — the experiment tests whether LLM reasoning from seeded memories + emotional echo is sufficient without pre-crystallized attractors.
+```
+Drives (what you care about)           — character-specific, MINIMAL (type + intensity only)
+    ×
+Environment (what's happening)         — observation (same as now)
+    ↓
+Appraisal driver (standardized)        — neocortex SPI, implements Scherer's 4 SECs
+    ↓
+RAG: emotion knowledge base            — neocortex-managed, grounded in Lazarus/Frijda/OCC
+    ↓
+Emotional state + action readiness     — COMPUTED, not prescribed
+    ↓
+Thinking field + response              — character acts from appraised emotional state
+```
 
-**Measurement:** Classify with same Haiku judge. Compare mean drive expression against L1 baseline (4.06). The question: can memory-seeded characters with reduced explicit briefs match or exceed the L1 scores?
+**What neocortex needs:**
+1. **AppraisalStrategy SPI** — takes (drives, environment observation, personality, memories) → produces (emotional state, action readiness, appraisal result). Implements Scherer's 4 SECs as the evaluation framework
+2. **Emotion knowledge base** — RAG-retrievable entries encoding core relational themes (Lazarus), appraisal-to-emotion mappings (OCC), action tendency types (Frijda). Universal human psychology, not character-specific
+3. **Retrieval interface** — LLM queries neocortex during thinking phase for relevant appraisal patterns, like it already queries memories via `experienceService.recall()`
+
+**What changes in wacky-manor:**
+- Drive descriptions become minimal: type + intensity + what you attend to (not how to feel)
+- The thinking instruction becomes an appraisal prompt: "assess your environment through your drives" instead of "name your feeling"
+- The appraisal result feeds into the observation as a cognitive section
+- The emotion is the OUTPUT of the appraisal process, not a prescribed INPUT
+
+**The key insight:** Instead of telling the model WHAT to feel (emotional-core descriptions) or WHERE to look (perceptual descriptions), give it a standardised process for HOW to appraise — and let the emotion emerge from that appraisal. The appraisal knowledge lives in neocortex, not in drive descriptions.
+
+**Memory-seeded scenario** (from original Phase 7 plan) folds into this: seeded memories become inputs to the appraisal process. A memory of hiding a key in a vase changes the appraisal of the vase (relevance=high) without needing the drive description to mention vases. The appraisal architecture makes memory seeding more powerful because memories influence the relevance check, not just the knowledge base.
+
+**Blocked by:** neocortex AppraisalStrategy SPI design + emotion knowledge base population
 
 ### 8. Implement Layers 2-3 (neocortex SPIs)
 - **Layer 2:** `PersonalityDriveEvaluator` SPI — dynamic personality drive intensity from reinforcement triggers + proprioceptive feedback
 - **Layer 3:** `EmotionalProprioceptionStrategy` SPI — LLM classifier computes expressed emotional state per turn, feeds into Layer 2
+- **Layer 4 (new):** `AppraisalStrategy` SPI — standardised environmental appraisal using Scherer's 4 SECs + RAG to emotion knowledge base
 
 ### 9. Apply to all characters
 Apply the winning instruction universally and compare full-cast behavior across profiles.
