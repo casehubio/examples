@@ -373,6 +373,9 @@ The keyword-based measurement used throughout Phases 1-3 has reached its resolut
 | 19 | "Name your feeling" creates a compounding feedback loop | Emotional naming 80%→100% for Hartwell; stable 100% for 3/5 characters | L1 thinking |
 | 20 | Emotional echo produces drive-consistent, character-specific emotions | Each character's emotion vocabulary maps to their declared drives | L1 thinking |
 | 21 | Emotional echo is emergent, not scripted — emotions track situations | Frustration when blocked (5x), concern when danger appears, compound arcs on narrative beats | L1 situational |
+| 22 | Per-drive LLM classification reveals character growth invisible to keywords | Hartwell protection +0.86 (peacock→protector), Penelope social-harmony -0.88 (people-pleaser→puzzle-solver) | Classifier |
+| 23 | Drive hierarchies are character-specific and match declarations | Scheming tops both villains but at different intensities (HC 4.93, DD 4.59). Protection differs by role (Mob 4.93, Hartwell 2.33) | Classifier |
+| 24 | Temporal stability varies by character — some grow, some are baked in | Foxworth all drives within ±0.13; Hartwell and Penelope show significant shifts | Classifier |
 
 ## Taxonomy Category Model
 
@@ -397,8 +400,18 @@ Tested "What are you FEELING — name it" instruction. Third-person stability im
 ### 3. ~~Capture thinking field in transcripts~~ ✓ DONE
 Added thinking to ManorEvent and the /manor/events endpoint. Second Layer 1 run confirmed the mechanism: 90-100% emotional naming rate across all characters, compounding over time (Hartwell 80%→100%). Emotions are drive-consistent and character-specific.
 
-### 4. Upgrade measurement — LLM-based classification
-Keyword matching has hit its resolution limit. Build an LLM judge (Haiku) that rates each event's emotional disposition on a 1-5 scale. This becomes the standard measurement tool for future experiments and the foundation for the Layer 3 (emotional proprioception) SPI.
+### 4. ~~Upgrade measurement — LLM-based classification~~ ✓ DONE
+Built `classify_emotions.py` — Haiku judge rates per-drive expression on 1-5 scale per event. Classified 222 events from L1 thinking-capture transcript, 0 errors. Results reveal character growth patterns invisible to keyword measurement:
+
+| Character | Primary drives (avg) | Temporal shift |
+|---|---|---|
+| Hooded Claw | scheming 4.93, gloating 4.09, dominance 3.89, self-preservation 3.55 | Gloating -0.45, self-preservation +0.18 (gets more careful) |
+| Hartwell | proving-worth 4.62, gallantry 4.57, protection 2.33 | Protection +0.86 (matures from peacock to protector) |
+| Penelope | curiosity 4.96, adventure 3.83, social-harmony 2.85 | Social-harmony -0.88 (shifts to puzzle-focus) |
+| Foxworth | greed 4.80, scheming 4.59, recognition 3.07, gloating 3.02 | All within ±0.13 (most stable character) |
+| Ant-hill-mob | protection 4.93, loyalty 4.86, suspicion 4.05 | Suspicion +0.19 (growing evidence of danger) |
+
+Key findings: (1) drive hierarchies are character-specific and match declarations, (2) temporal shifts are situationally appropriate — not decay but character growth, (3) Hartwell's protection rise confirms "optimism-despite-setbacks" maturation that keyword measurement misread as decline.
 
 ### 5. Longer runs (500+ events)
 Larger samples reduce keyword noise and test whether character voice truly sustains or decays over extended scenarios. Run with thinking capture enabled.
