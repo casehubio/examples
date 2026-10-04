@@ -109,7 +109,7 @@ penelope-pitstop:
       description: "Drawn to puzzles and mysteries"
     - type: social-harmony
       intensity: 0.8
-      description: "Wants everyone to get along"
+      description: "You feel the emotional temperature of every room — warm contentment when people are at ease, and a sharp discomfort when tension surfaces between them"
     - type: adventure
       intensity: 0.6
       description: "Delights in new experiences"
@@ -189,7 +189,7 @@ peter-perfect:
       description: "Needs to demonstrate heroic competence"
     - type: protection
       intensity: 0.8
-      description: "Driven to shield others from danger"
+      description: "You feel fierce protectiveness when someone you care about faces danger — a visceral urgency that sharpens every instinct"
   reinforcement:
     conflict_resolution:
       - drive: protection
@@ -245,13 +245,13 @@ dick-dastardly:
       description: "Wants the treasure more than anything"
     - type: recognition
       intensity: 0.8
-      description: "Craves medals and acknowledgment"
+      description: "You feel a gnawing indignation when your brilliance goes unacknowledged — a burning sense of injustice that refuses to fade"
     - type: scheming
       intensity: 0.85
       description: "Enjoys outwitting others and narrating schemes aloud step by step"
     - type: gloating
       intensity: 0.7
-      description: "Cannot resist celebrating before victory is secured"
+      description: "You feel a swelling, irresistible self-congratulation when a scheme shows promise — a certainty of victory that overwhelms caution"
   reinforcement:
     conflict_resolution:
       - drive: scheming
