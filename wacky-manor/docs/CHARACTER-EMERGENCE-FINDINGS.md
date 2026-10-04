@@ -1,10 +1,12 @@
-# Taxonomy Ablation Findings
+# Character Emergence Findings
 
-Systematic experiment to find the minimum character taxonomy that maintains distinctive LLM agent behavior. Conducted on the Wacky Manor multi-agent scenario (issue #97).
+Systematic experiment to understand how LLM character agents develop and sustain distinctive behavior. Conducted on the Wacky Manor multi-agent scenario (issue #97).
 
 ## Objective
 
-Determine which elements of the character taxonomy (drives, tendencies, speech-patterns, constraints, disposition) are load-bearing vs redundant. Strip elements iteratively, measure behavioral drift via 300+ event autonomous scenario runs. Then find the minimal metacognitive instruction that replaces the load-bearing elements.
+Starting question: which elements of the character taxonomy (drives, tendencies, speech-patterns, constraints, disposition) are load-bearing vs redundant? Strip elements iteratively, measure behavioral drift via 300+ event autonomous scenario runs.
+
+This evolved into a broader investigation: what minimal instruction replaces explicit behavioral prescriptions, and how do we sustain character consistency over long conversations? The work progressed through four phases — ablation, load-bearing identification, metacognitive instruction design, and emotional persistence architecture.
 
 ## Method
 
