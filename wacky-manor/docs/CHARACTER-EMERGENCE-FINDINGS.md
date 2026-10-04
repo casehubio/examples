@@ -621,14 +621,34 @@ Classified R3 (none), R3b (passive review), R3g (evocative), and L1 (echo) with 
 ### 6. ~~Longer runs (500+ events)~~ ✓ DONE
 732-event run with thinking capture (516 classified). Drive expression sustains at scale (4.02 vs 4.06). Character maturation plateaus rather than reverses — Hartwell reaches protector equilibrium around 3.0. New growth patterns emerge: Foxworth shifts from scheming to recognition-seeking. Some short-run trends reverse: Penelope's social-harmony decline was situational. 4 new design principles (30-33).
 
-### 7. Implement Layers 2-3 (neocortex SPIs)
+### 7. Memory-seeded scenario experiment
+
+The next phase reduces the explicit brief further and replaces stripped content with neocortex memory seeding. The progression:
+
+- **Phases 1-3:** Stripped explicit tendencies → drives carry personality
+- **R3g/L1:** Replaced tendencies with identity activation instruction → exceeded baseline
+- **Phase 7:** Strip more of the explicit brief → replace with seeded backstory memories → let behaviour emerge from experience + drives + personality + environment
+
+**Richer environment:** Objects in rooms (photos, personal items, documents) that are meaningful only through character-specific memories. A vase is just a vase — unless the character remembers hiding a key in it. Same object, different memories, divergent behaviour. This solves the scenario saturation problem (Phase 6 finding) because the world's meaning is character-dependent and memory-driven.
+
+**Memory-object-action chains to test:**
+- **Direct:** Object → recall → act (e.g., vase → memory of key → look inside)
+- **Indirect:** Object → recall person → recall conversation → infer location (e.g., portrait → memory of Lord Wackford → "my secrets are where the light doesn't reach" → search dark corners)
+- **Convergent:** Two innocuous objects together create meaning (e.g., stopped clock + journal entry → memory of secret meeting room)
+- **Divergent:** Same object, different character memories, different actions (e.g., old coat → Sneekly searches pockets for key, Hartwell has emotional response, Foxworth looks for valuables)
+
+**Available infrastructure:** neocortex#398 (memory seeding — DONE), goal cognition epic #345 (DONE). The behavioral attractor synthesis (#406 epic) is not yet available — the experiment tests whether LLM reasoning from seeded memories + emotional echo is sufficient without pre-crystallized attractors.
+
+**Measurement:** Classify with same Haiku judge. Compare mean drive expression against L1 baseline (4.06). The question: can memory-seeded characters with reduced explicit briefs match or exceed the L1 scores?
+
+### 8. Implement Layers 2-3 (neocortex SPIs)
 - **Layer 2:** `PersonalityDriveEvaluator` SPI — dynamic personality drive intensity from reinforcement triggers + proprioceptive feedback
 - **Layer 3:** `EmotionalProprioceptionStrategy` SPI — LLM classifier computes expressed emotional state per turn, feeds into Layer 2
 
-### 8. Apply to all characters
+### 9. Apply to all characters
 Apply the winning instruction universally and compare full-cast behavior across profiles.
 
-### 9. Build quality tiers
+### 10. Build quality tiers
 Once the full stack (instruction + dynamic drives + proprioception) is validated:
 - **Tier 1 (gold):** Evocative instruction + engine reinforcement + proprioception
 - **Tier 2 (standard):** Evocative instruction only (current L1 — strong for 300 events, mean 4.06)
