@@ -29,7 +29,7 @@ public final class CharacterAgentLoop {
                                                                      """
                                                                      You MUST respond with ONLY a JSON object in this exact format:
                                                                      {
-                                                                       "thinking": "Remember who you are — your voice, your way of speaking, your drives. Feel your strongest drive. Think AS your character, not ABOUT your character. If your last turn didn't sound like you, correct it now. Shown to you next turn.",
+                                                                       "thinking": "What are you FEELING right now — not thinking, feeling? Name it. Remember your voice, your way of speaking. Think AS your character, not ABOUT your character. If your last turn didn't sound like you, correct it now. Shown to you next turn.",
                                                                        "dialogue": "what you say aloud (or null if silent)",
                                                                        "talkTo": "character-id to direct dialogue at (or null for broadcast)",
                                                                        "aside": "private thoughts for the audience only (or null)",
