@@ -419,6 +419,21 @@ R3: 3.24 → R3b: 3.55 → R3g: 4.12 → L1: 4.86. Massive improvement (+1.62). 
 
 Phase 5 confirmed L1 is the best instruction across 300-event runs. Phase 6 tests whether drive expression and maturation patterns hold at 2.3x scale (732 events vs ~320).
 
+### Scenario saturation — critical context
+
+The wacky-manor scenario world is finite: 6 rooms, fixed objects, fixed puzzles. Analysis of the 732-event transcript reveals characters exhaust the explorable space by ~300 events:
+
+| Metric | Events 0-150 | Events 150-300 | Events 300-450 | Events 450-600 | Events 600-732 |
+|---|---|---|---|---|---|
+| Unique actions | 68% | 51% | 37% | 42% | 46% |
+| Rooms visited | 3 | 5 | 3 | 4 | 3 |
+
+Characters settle into 2-3 rooms with minimal movement (Dick Dastardly: 155 events, 1 room change across the entire run). They examine the same mantelpiece, bookshelves, and furniture repeatedly. The puzzle space is exhausted.
+
+**This means temporal shifts after ~300 events are ambiguous.** They could reflect genuine character development OR characters responding to stimulus depletion. The two explanations produce different drive shifts and cannot be distinguished without a richer scenario. All maturation findings below carry this caveat.
+
+What the long run *does* cleanly test: whether the emotional echo instruction decays when the world stops providing new stimuli. It doesn't.
+
 ### Overall: drive expression sustains
 
 | Run | Events classified | Mean drive expression |
@@ -426,11 +441,11 @@ Phase 5 confirmed L1 is the best instruction across 300-event runs. Phase 6 test
 | L1 short | 222 | 4.06 |
 | L1 long | 516 | **4.02** |
 
-Mean drive expression drops only 0.04 — within noise. The emotional echo instruction does not decay at scale.
+Mean drive expression drops only 0.04 — within noise. The emotional echo instruction does not decay even when the scenario world is exhausted.
 
 ### Quarter-by-quarter temporal analysis
 
-With 516 events, quartile splits give 22-29 events per character per quarter — enough for meaningful trends.
+With 516 events, quartile splits give 22-29 events per character per quarter — enough for meaningful trends. **Caveat:** Q3-Q4 data reflects a saturated scenario world, so temporal shifts in those quarters may reflect stimulus depletion rather than character development.
 
 **Hooded Claw:**
 | Drive | Q1 | Q2 | Q3 | Q4 | Trend |
@@ -449,9 +464,9 @@ Rock stable. Scheming at ceiling (5.00) for the second half. The mid-run Q2 dip 
 | protection | 2.59 | 3.26 | 3.04 | 3.03 | **+0.44** |
 | proving-worth | 4.33 | 4.04 | 4.11 | 3.97 | -0.37 |
 
-**Protection maturation continues but plateaus.** The short run showed +0.86 (halves); the long run shows +0.44 (Q1→Q4). The growth is steepest in Q1→Q2 (+0.67), then levels off around 3.0. Hartwell reaches "protector" and stays there — he doesn't keep escalating.
+**Protection rises Q1→Q2 (+0.67) then plateaus around 3.0.** The growth is steepest in the first half — when the scenario is still providing new danger signals (gnawed wires, Sneekly's evasiveness). The plateau coincides with scenario saturation: once all danger signals have been encountered, protection stabilises rather than continuing to rise.
 
-**Proving-worth and gallantry decline modestly** (-0.37, -0.29). As Hartwell matures into the protector role, the "look at me!" drives recede. This is character *development*, not drift — the shift in drive priorities is coherent with the protection rise.
+**Proving-worth and gallantry decline modestly** (-0.37, -0.29). Could be character development (protector role displacing self-display) or stimulus depletion (fewer novel situations to prove worth in). Ambiguous without a richer scenario.
 
 **Penelope:**
 | Drive | Q1 | Q2 | Q3 | Q4 | Trend |
@@ -460,7 +475,7 @@ Rock stable. Scheming at ceiling (5.00) for the second half. The mid-run Q2 dip 
 | adventure | 3.79 | 3.83 | 4.21 | 3.66 | -0.14 |
 | social-harmony | 3.17 | 3.14 | 3.24 | 3.34 | +0.17 |
 
-Curiosity at ceiling throughout. Social-harmony rises slightly (+0.17) — reversing the short-run decline. Over a longer run, Penelope re-engages socially rather than withdrawing permanently. This suggests the short-run social decline was situational (early puzzle absorption), not a permanent character shift.
+Curiosity at ceiling throughout. Social-harmony rises slightly (+0.17) — reversing the short-run decline (-0.88). The short-run decline was likely situational (early puzzle absorption), not a permanent character shift. But the long-run reversal may also reflect scenario saturation — with puzzles exhausted, Penelope has nothing left to absorb her attention and defaults to social interaction.
 
 **Foxworth (dick-dastardly):**
 | Drive | Q1 | Q2 | Q3 | Q4 | Trend |
@@ -470,7 +485,7 @@ Curiosity at ceiling throughout. Social-harmony rises slightly (+0.17) — rever
 | recognition | 3.04 | 3.33 | 3.11 | 3.62 | **+0.58** |
 | gloating | 2.93 | 2.44 | 3.04 | 3.07 | +0.14 |
 
-Foxworth's character evolves over the long run — something not visible in 300 events. Scheming declines (-0.51) while recognition rises (+0.58). He shifts from "plotting in the shadows" to "demanding credit for what I've done." The plans are already in motion; now he wants to be *seen*. This is the first character growth pattern for Foxworth — the short-run data showed him as "most stable" with all drives within ±0.13.
+Scheming declines (-0.51) while recognition rises (+0.58). In the short run, Foxworth was the most stable character (all drives ±0.13). **However, this shift likely reflects scenario saturation rather than character growth.** Scheming requires new material — objects to investigate, plans to form. With the puzzle space exhausted, the model has nothing to scheme about. Recognition rises as a fallback: when you can't plan anything new, you demand credit for past plans. A richer scenario with evolving stakes would distinguish genuine character development from stimulus depletion.
 
 **Ant-hill-mob:**
 | Drive | Q1 | Q2 | Q3 | Q4 | Trend |
@@ -479,19 +494,19 @@ Foxworth's character evolves over the long run — something not visible in 300 
 | loyalty | 4.05 | 4.64 | 4.91 | 4.62 | **+0.58** |
 | suspicion | 4.09 | 3.73 | 4.00 | 3.83 | -0.26 |
 
-Protection and loyalty both surge from Q1 and sustain. Protection hits ceiling (5.00) by Q4. The mob becomes more protective and loyal as the scenario progresses — consistent with accumulating evidence of danger. Suspicion dips slightly — they shift from suspicious watchfulness to active protection.
+Protection and loyalty both surge from Q1 and sustain. Protection hits ceiling (5.00) by Q4. Unlike scheming, protection and loyalty don't require new stimuli — they compound on accumulated evidence of danger. The mob's drives are reactive (protect the group) rather than proactive (form new plans), so they sustain even in a saturated scenario.
 
 ### Key findings
 
-1. **Drive expression sustains at scale.** Mean 4.02 vs 4.06 in the short run. No decay.
+1. **Drive expression sustains at scale.** Mean 4.02 vs 4.06 in the short run. No decay — even when the scenario world is exhausted.
 
-2. **Character maturation plateaus, not reverses.** Hartwell's protection rises +0.44 (Q1→Q4) and stabilises around 3.0. The steep growth seen in the short run (+0.86 over halves) flattens — the character reaches a new equilibrium rather than continuing to escalate.
+2. **The scenario saturates at ~300 events.** Characters exhaust all room/object/puzzle combinations. Action uniqueness drops from 68% to 37%. Temporal shifts past this point are ambiguous — character development vs. stimulus depletion.
 
-3. **New growth patterns emerge at scale.** Foxworth, "most stable" in the short run, shows scheming→recognition shift (-0.51/+0.58) that only becomes visible past ~300 events. Longer runs reveal character arcs invisible at shorter timescales.
+3. **Reactive drives sustain; proactive drives deplete.** Protection, loyalty, and self-preservation (reactive — respond to accumulated context) hold or strengthen. Scheming, proving-worth, and adventure (proactive — require new material) decline. This is a property of the scenario, not the instruction.
 
-4. **Some short-run trends reverse.** Penelope's social-harmony declined -0.88 in the short run but rises +0.17 in the long run. What looked like a permanent shift was early-run situational absorption in puzzles — she re-engages socially as the scenario continues.
+4. **Short-run trends can be situational.** Penelope's social-harmony decline (-0.88 short, +0.17 long) was early-run puzzle absorption, not a permanent shift.
 
-5. **Mob drives continue strengthening.** Protection +0.95, loyalty +0.58. Unlike Hartwell's plateau, the mob's emotional drives keep growing toward ceiling. Their role as protectors deepens throughout.
+5. **Meaningful long-run experiments need richer scenarios.** More rooms, evolving goals, escalating stakes, and new information arriving over time. Without ongoing stimulation, data past ~300 events measures how characters handle stagnation, not how they develop.
 
 ## The Full Comparison
 
@@ -555,8 +570,9 @@ Protection and loyalty both surge from Q1 and sustain. Protection hits ceiling (
 | 29 | Emotional echo is the most temporally stable instruction | Mean |delta|: L1 0.25, R3/R3g 0.27, R3b 0.34. Higher expression without higher volatility | Cross-run |
 | 30 | Drive expression sustains at 2.3x scale — no decay | Mean 4.02 (516 events) vs 4.06 (222 events). Emotional echo does not weaken over longer runs | Long run |
 | 31 | Character maturation plateaus rather than reverses | Hartwell protection: +0.86 (short halves) → +0.44 (long Q1→Q4). Steep early growth, stable new equilibrium | Long run |
-| 32 | Longer runs reveal character arcs invisible at 300 events | Foxworth scheming -0.51, recognition +0.58 — "plotter to glory-seeker" arc only visible past 300 events | Long run |
+| 32 | Reactive drives sustain in saturated scenarios; proactive drives deplete | Protection/loyalty hold or grow. Scheming/proving-worth decline when no new material exists to act on | Long run |
 | 33 | Short-run trends can be situational, not structural | Penelope social-harmony: -0.88 (short) → +0.17 (long). Early puzzle absorption, not permanent withdrawal | Long run |
+| 34 | Scenario saturation confounds maturation — longer runs need richer worlds | Foxworth scheming -0.51 is ambiguous: character growth or nothing left to scheme about? Can't distinguish without evolving stimuli | Long run |
 
 ## Taxonomy Category Model
 
