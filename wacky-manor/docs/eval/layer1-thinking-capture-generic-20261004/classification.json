@@ -1,0 +1,4802 @@
+[
+  {
+    "index": 0,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well, I do declare! Doily Manor is even MORE magnificent than I imagined! Why, just LOOK at that chand",
+    "scores": {
+      "curiosity": {
+        "score": 4,
+        "reason": "Actively seeks clues in the guest book; drawn to mysteries and 'breadcrumbs'"
+      },
+      "social-harmony": {
+        "score": 4,
+        "reason": "Effusive praise for attendees; assumes trustworthiness; delighted by everyone present"
+      },
+      "adventure": {
+        "score": 3,
+        "reason": "Thrilled by the grand manor and new experience; anticipation of discovery"
+      }
+    }
+  },
+  {
+    "index": 1,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now, Clara Bellingham, you keep your wits sharp beneath that smile. The Doily Diamond didn't hide itself, and a guest bo",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Actively analyzing clues and examining guest book as a detective puzzle"
+      },
+      "social-harmony": {
+        "score": 4,
+        "reason": "Warmly perceiving all guests as trustworthy and expressing genuine delight in their presence"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled and energized by arrival at Doily Manor and the diamond mystery ahead"
+      }
+    }
+  },
+  {
+    "index": 2,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Good evening, ladies and gentlemen! Welcome, welcome to Doily Manor. I am Pemberton, the e",
+    "scores": {
+      "scheming": {
+        "score": 4,
+        "reason": "elaborate deception of false identity with calculated next moves"
+      },
+      "self-preservation": {
+        "score": 3,
+        "reason": "vigilant awareness of Clara's location and potential exposure"
+      },
+      "dominance": {
+        "score": 3,
+        "reason": "controlling the social interaction and information gathering through false authority"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "dark anticipation present but restrained by strategic patience"
+      }
+    }
+  },
+  {
+    "index": 3,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "Ah, what a magnificent stage upon which to perform! They suspect nothing \u2014 not a thing! Pemberton, the harmless old esta",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate deception as Pemberton, extracting intelligence from guest book, outmaneuvering Clara"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Acute awareness of maintaining cover and detecting threats like Clara's proximity"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Relishes hidden power over unsuspecting guests and Clara's oblivious trajectory"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Intoxicated contempt for victims' ignorance and delicious anticipation of their inevitable failure"
+      }
+    }
+  },
+  {
+    "index": 4,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: James Hartwell has arrived! And what an entrance hall this is \u2014 grand, imposing, and positively THRILLING",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Explicitly states intention to be 'impossibly gallant' to impress Clara; performs gentleman etiquette"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Emphasizes fearlessness toward danger and being 'born to face' peril; demonstrates heroic competence"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Notes concern about chandelier danger but frames it as personal challenge rather than protecting others"
+      }
+    }
+  },
+  {
+    "index": 5,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "Steady on, Hartwell. You've barely set foot through the door and already you're scanning every face for Clara. Play it c",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Explicitly commands himself to play 'GALLANT' and envisions impressing Clara with refinement and action"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Emphasizes being 'a man of ACTION and REFINEMENT' and born to face danger, seeking to demonstrate heroic competence"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Notices the dangerous chandelier but quickly pivots to finding Clara rather than shielding her from immediate peril"
+      }
+    }
+  },
+  {
+    "index": 6,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Ah, what a MAGNIFICENT establishment! I say, has anyone noticed that extraordinary aroma wafting from th",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessed with treasure location and can't stop thinking about the hidden fortune"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Mentions fake medal as tool but only instrumentally, not for genuine acknowledgment"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Actively narrating misdirection plan step-by-step with clear manipulation tactics"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Internal elation and self-congratulation about arriving at the manor and outsmarting others"
+      }
+    }
+  },
+  {
+    "index": 7,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Heh heh heh! Send them ALL to the kitchen, rummaging about like rats in a pantry, while I make my way to that library. A",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessed with finding the treasure hidden in the mantelpiece"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Mentions fake medal as tool, but doesn't dwell on personal acclaim"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Explicitly narrates misdirection plan and celebrates outwitting others"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Premature celebration of genius and superiority despite plan not yet executed"
+      }
+    }
+  },
+  {
+    "index": 8,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Right then, lads, listen up! We've arrived at this... this bloomin' haunted house, ain't we? And where",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Immediately prioritizes Clara's whereabouts above all else, drives group action"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Obsessively focused on Clara being in danger and needing urgent safety measures"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Explicitly distrusts Sneekly with gut instinct, names him as a specific threat"
+      }
+    }
+  },
+  {
+    "index": 9,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "The lads are all lookin' at me like I've got the answers. I ain't got no answers! I've got seven blokes who can barely t",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Fiercely committed to the Brixton Boys and their collective duty to Clara"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Desperately searching for Clara's whereabouts, anxiety about her safety in the manor"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Deeply uneasy about Sneekly's demeanor, instinctively distrusting his presence"
+      }
+    }
+  },
+  {
+    "index": 10,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Ah, yes, very good, very good \u2014 the guest book is in splendid order! Now then, esteemed gu",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate multi-layered plan to locate Clara while maintaining cover as bumbling Pemberton"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Hypervigilant about maintaining disguise and mask slipping before 'fools' in entrance hall"
+      },
+      "dominance": {
+        "score": 3,
+        "reason": "Satisfaction in manipulation and positioning guests while pursuing hidden agenda"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Premature triumph about 'two birds, one stone' plan and contempt for Clara's predictability"
+      }
+    }
+  },
+  {
+    "index": 11,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "Managerial duties \u2014 HA! The only thing I intend to manage is Clara Bellingham's swift and theatrical demise! To the libr",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate scheme planning and delight in complex deception dominate both segments"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "acute anxiety about Clara's progress and careful management of his disguise as 'doddering old Pemberton'"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "obsession with power, knowledge as power, and positioning himself ahead of Clara"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "premature triumph fantasies about Clara's demise and inability to contain excitement despite warnings to himself"
+      }
+    }
+  },
+  {
+    "index": 12,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well now, that guest book was just CHARMING \u2014 so many fascinating visitors over the years! But sugar, ",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Actively pursuing mysterious inscription and hidden diamond clues with intense enthusiasm"
+      },
+      "social-harmony": {
+        "score": 4,
+        "reason": "Inviting others to join, maintaining cheerful rapport, trusting companions to behave well"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Excited to explore the library and pursue an adventurous investigation into secrets"
+      }
+    }
+  },
+  {
+    "index": 13,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, you keep your eyes peeled in that library. An inscription on a stone mantelpiece in an old mansion? That's go",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on deciphering clues and uncovering mysteries"
+      },
+      "social-harmony": {
+        "score": 2,
+        "reason": "Briefly acknowledges others but is distracted by investigative pursuit"
+      },
+      "adventure": {
+        "score": 5,
+        "reason": "Thrilled by the prospect of exploration and discovery in a new setting"
+      }
+    }
+  },
+  {
+    "index": 14,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Well, I must say, this has been a CHARMING little gathering, but I'm feeling rather faint \u2014 all this exc",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessed with reaching the treasure map, cannot wait another second"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Mentions fake medal as distraction tool, not for genuine desire to be acknowledged"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "Carefully orchestrated kitchen ruse to redirect others while pursuing library objective"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "Celebrates 'magnificent' plan and 'imminent triumph' despite victory not yet secured"
+      }
+    }
+  },
+  {
+    "index": 15,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Heh heh heh! 'Dull room,' I said! DULL! Oh, Reginald, you magnificent devil \u2014 reverse psychology at its FINEST! Tell the",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessive focus on treasure location and urgency to claim it before others"
+      },
+      "recognition": {
+        "score": 3,
+        "reason": "References fake medal as distraction tool; some pride in self-aggrandizement"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Detailed narration of reverse psychology plan and multi-step manipulation strategy"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Celebrating scheme's success prematurely with self-praise and cackling"
+      }
+    }
+  },
+  {
+    "index": 16,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: Ah, Pemberton! A most GRACIOUS welcome, sir \u2014 I tip my hat to you. James Hartwell, at your service. I hav",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Obsessively focused on finding and impressing Clara; entire plan centered on being 'HEROIC' for her"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Emphasizes 'flawless strategy' and heroic competence; repeatedly affirms his own excellence and readiness"
+      },
+      "protection": {
+        "score": 3,
+        "reason": "Clara described as 'needing a gallant protector,' but concern is secondary to impression-making"
+      }
+    }
+  },
+  {
+    "index": 17,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "The estate manager seems pleasant enough, if a touch... eager. But James Hartwell sees the best in people! No doubt Pemb",
+    "scores": {
+      "gallantry": {
+        "score": 4,
+        "reason": "Actively seeking Clara's location and positioning himself as her protector"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Energized by potential treasure clues and adventure opportunities to demonstrate competence"
+      },
+      "protection": {
+        "score": 3,
+        "reason": "Concern that Clara might need protection, though secondary to finding her"
+      }
+    }
+  },
+  {
+    "index": 18,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well, well, WELL! Would you look at this MAGNIFICENT library! Floor-to-ceiling bookshelves, leather ar",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Immediately intrigued by the inscription riddle and actively solving it"
+      },
+      "social-harmony": {
+        "score": 4,
+        "reason": "Warmly greets everyone present and frames the situation as a delightful shared gathering"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Bursting with excitement about the library discovery and the prospect of finding the Doily Diamond"
+      }
+    }
+  },
+  {
+    "index": 19,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, you stay focused, girl. A riddle about a map on a mantelpiece in a mansion with a hidden diamond? That is NOT",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on solving the riddle and investigating the mantelpiece and suspicious details"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Expresses genuine pleasure at others' presence and addresses them warmly, though attention is divided"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Bursting with excitement about the mysterious mansion setting and the thrill of uncovering secrets"
+      }
+    }
+  },
+  {
+    "index": 20,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Ah, good evening, gentlemen! I do hope you're finding the library to your liking. Terribly",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate deception of 'Sneekly' persona while actively working toward hidden objective"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Careful verbal misdirection ('nap' not 'map') to conceal true intentions from potential witnesses"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Contempt for 'boulder-brained' rivals and satisfaction in maintaining false authority as estate manager"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "Internal exhilaration about discovery tempered by need for restraint, but enthusiasm still evident"
+      }
+    }
+  },
+  {
+    "index": 21,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "A MAP! The answer to the riddle is a MAP! And if there is a riddle carved into stone in a manor with a hidden treasure, ",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate deception plan disguised as innocent dusting; two-steps-ahead confidence"
+      },
+      "self-preservation": {
+        "score": 3,
+        "reason": "concern about being discovered, need for subtlety and cover story"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "contempt for rivals and belief in superior intellect over 'walking quarries'"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "premature triumph and intoxicated excitement about outsmarting Clara before she finds the question"
+      }
+    }
+  },
+  {
+    "index": 22,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Ah, the library! How DELIGHTFULLY tedious. Oh, I see you've all noticed that little inscription on the m",
+    "scores": {
+      "greed": {
+        "score": 4,
+        "reason": "Urgently wants to find the clue first to advance toward the treasure"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Subtle desire to be seen as clever, but not the primary motivation here"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Actively narrating his deceptive plan aloud to mislead competitors"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "Celebrates his intellectual superiority and the brilliance of his scheme"
+      }
+    }
+  },
+  {
+    "index": 23,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Heh heh heh! A GLOBE! What utter rot \u2014 the answer is a MAP, you fools! But if I can send these bumbling treasure-hunters",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessed with claiming treasure ('pocketing diamonds', 'mantelpiece ALL to myself')"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Self-praise ('FIENDISHLY clever') but no audience to witness it"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Explicitly narrating multi-step deception plan in detail"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Celebrating victory prematurely with villainous laughter before securing the prize"
+      }
+    }
+  },
+  {
+    "index": 24,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Oi! OI! Listen up, all of ya! Has ANYONE seen Clara Bellingham? Anyone?! No? Well that's just BRILLIAN",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Unwavering focus on finding Clara, organizing the group around her safety"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Catastrophizing about Clara's danger, driving urgent action to locate and rescue her"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Explicitly names Pemberton/Sneekly as suspicious, notices evasive behavior and 'cat watching mouse' malice"
+      }
+    }
+  },
+  {
+    "index": 25,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "I saw the way that Dastardly geezer's eyes lit up when he mentioned the kitchen. He's up to somethin', mark my words. An",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Clara comes FIRST, repeated emphasis and driving all decisions"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Terrified for Clara's safety, urgent need to find her, fear of peril"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Detailed scrutiny of Dastardly and Sneekly's behavior and motives"
+      }
+    }
+  },
+  {
+    "index": 26,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: Ah, what a SPLENDID library! The dust, the leather, the air of MYSTERY \u2014 it stirs the very SOUL! Now then",
+    "scores": {
+      "gallantry": {
+        "score": 4,
+        "reason": "Performs intellectual heroism for audience, eager to impress Clara with story"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Solving riddle is explicitly framed as demonstrating characteristic brilliance and heroic competence"
+      },
+      "protection": {
+        "score": 1,
+        "reason": "No concern for shielding others from danger in this moment"
+      }
+    }
+  },
+  {
+    "index": 27,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "Clara is not here \u2014 a DEVASTATING setback to Phase Two of the plan. But solving this riddle shall make for a TREMENDOUS ",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Explicitly planning to impress Clara with intellectual heroism; eager to demonstrate refinement to Penelope"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Obsessed with solving the riddle to create a heroic narrative; celebrates own keen mind repeatedly"
+      },
+      "protection": {
+        "score": 1,
+        "reason": "No concern for others' safety or wellbeing expressed in this moment"
+      }
+    }
+  },
+  {
+    "index": 28,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well now, did y'all SEE that? I touched that mantelpiece and gave it the answer to its little riddle \u2014",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on solving the riddle and discovering hidden mechanisms"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Acknowledges others present and expresses warmth toward them amid the excitement"
+      },
+      "adventure": {
+        "score": 5,
+        "reason": "Describes herself as living her best adventure, tingling with anticipation and excitement"
+      }
+    }
+  },
+  {
+    "index": 29,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, don't get so excited you miss the details. Look CAREFULLY at that mantelpiece \u2014 every crack, every carving, e",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on examining details and uncovering hidden secrets"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Acknowledges others present and frames the moment as shared"
+      },
+      "adventure": {
+        "score": 5,
+        "reason": "Thrilled, excited, and reveling in the moment as a grand adventure"
+      }
+    }
+  },
+  {
+    "index": 30,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: I say, has anyone else noticed how FRIGHTFULLY cold it's getting in here? Positively ARCTIC! That's beca",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "obsessed with finding treasure, dismisses book's 'worthless' value while desperately seeking it"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "mentions fake medal as distraction tool, not genuine desire for acknowledgment"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "multiple layers of deception: heating lie, map misdirection, book clue exploitation, clearing the room"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "self-congratulation on strategy ('you magnificent strategist'), prematurely celebrating before securing treasure"
+      }
+    }
+  },
+  {
+    "index": 31,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Heh heh HEH! 'Sentimental value!' 'Worthless!' Oh, Reginald, you silver-tongued DEVIL! Those upside-down books are OBVIO",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessed with obtaining the Doily Diamond, visualizing it in their hands"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Mentions fake medal as distraction tool, but not seeking acknowledgment for the scheme"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate multi-step plan narrated aloud: misdirecting others, identifying hidden mechanism, timing actions strategically"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Triumphant laughter and self-congratulation ('magnificent strategist') despite victory not yet secured"
+      }
+    }
+  },
+  {
+    "index": 32,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Ah, yes, yes \u2014 the mantelpiece, quite remarkable craftsmanship! The previous lord was terr",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate deception with fake estate manager duties masking urgent treasure search"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Paranoid urgency about Clara's unknown location and others stumbling onto secrets"
+      },
+      "dominance": {
+        "score": 3,
+        "reason": "Satisfaction in possessing hidden knowledge others lack, directing the hidden search"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Intoxicated triumph about solving the riddle despite Penelope's blurting, overwhelming caution"
+      }
+    }
+  },
+  {
+    "index": 33,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "Upside-down books in a manor with riddles carved in STONE? Oh, Vincent, you magnificent schemer \u2014 those books are SCREAM",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Immediately recognizes hidden patterns (upside-down books as deliberate clues) and plots multi-layered strategy to outmaneuver competitors"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Frantic urgency about Clara's unknown location and fear of being outpaced reveals acute paranoia about losing control"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Obsessive focus on being 'three steps ahead' and controlling the situation; treats others as obstacles to manipulate"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "Uncontained triumphant elation ('MAGNIFICENT,' 'VILLAINOUS elation,' 'Mwahahaha') overwhelms strategic thinking and exposes plans prematurely"
+      }
+    }
+  },
+  {
+    "index": 34,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: By JOVE, did you all hear that? James Hartwell has SOLVED the ancient riddle! The answer is a MAP \u2014 citie",
+    "scores": {
+      "gallantry": {
+        "score": 4,
+        "reason": "Praising Clara's intellect and positioning himself as her intellectual equal"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Dominates dialogue announcing his triumph, crediting himself with solving the riddle and taking charge of investigation"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Tells others to stand back, but primarily to control the investigation rather than shield them from danger"
+      }
+    }
+  },
+  {
+    "index": 35,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: RIGHT! Nobody move! Well \u2014 everyone can move, but nobody do anythin' SUSPICIOUS! Clara Bellingham ain'",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Clara's absence drives every action and concern; protective urgency dominates"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Actively searching for Clara, assuming mortal danger, mobilizing the group"
+      },
+      "suspicion": {
+        "score": 5,
+        "reason": "Laser-focused on detecting deception; scrutinizing everyone's behavior and contradictions"
+      }
+    }
+  },
+  {
+    "index": 36,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "The THRILL of solving a riddle carved in STONE! Wait until Clara hears about this \u2014 she will be OVERCOME with admiration",
+    "scores": {
+      "gallantry": {
+        "score": 4,
+        "reason": "Imagining Clara's admiration and lamenting her absence dominates his thoughts"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Triumph in solving the riddle and need to announce brilliance to all present"
+      },
+      "protection": {
+        "score": 1,
+        "reason": "No expressed concern for shielding others from danger in this moment"
+      }
+    }
+  },
+  {
+    "index": 37,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "I don't know what I'm lookin' for exactly, but upside-down books in a dusty old library where a diamond's gone missin' a",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Clara's disappearance dominates internal panic; framing actions as leadership to maintain her protection"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Desperately searching for missing Clara; interpreting clues through lens of keeping her safe"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Actively scrutinizing Sneekly and Dastardly's contradictions; finding deliberate meaning in upside-down books"
+      }
+    }
+  },
+  {
+    "index": 38,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well now, that mantelpiece is just FASCINATING, but I do believe it's played its card for the moment! ",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Laser-focused on solving the mystery of upside-down books as a hidden clue"
+      },
+      "social-harmony": {
+        "score": 2,
+        "reason": "Briefly acknowledges Mr. Pemberton fondly but is consumed by puzzle-solving"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled and impatient to investigate the next clue, energized by the hunt"
+      }
+    }
+  },
+  {
+    "index": 39,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, this is where your riddle-solvin' skills really come into play. The mantelpiece said MAP. The bookshelves hav",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on decoding the upside-down books and MAP clue"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Generous interpretation of Dick Dastardly's motives and gentle concern for group cohesion"
+      },
+      "adventure": {
+        "score": 2,
+        "reason": "Engaged in the hunt but methodically puzzle-focused rather than thrill-seeking"
+      }
+    }
+  },
+  {
+    "index": 40,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Ah, yes, yes \u2014 just as I feared! These volumes are in DREADFUL disarray! The previous lord",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate deception using false identity and fabricated rationale to access hidden mechanism"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Urgent awareness of need to maintain cover before detection by rivals"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Contempt for 'bumbling' competitors while secretly pursuing superior knowledge"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Intoxicated self-congratulation about outsmarting others and cracking the 'real puzzle'"
+      }
+    }
+  },
+  {
+    "index": 41,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "RIGHT-SIDE-UP? Oh no no no \u2014 I intend to pull every last one of those inverted volumes and see what SECRETS they conceal",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate deception plan with false identity and hidden mechanism exploitation"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "intense focus on maintaining cover and acting before discovery"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "obsessive emphasis on outsmarting others and claiming the prize alone"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "overwhelming premature triumph and reveling in irony of fooling the group"
+      }
+    }
+  },
+  {
+    "index": 42,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: BLAST these bookshelves \u2014 not a SINGLE first edition Dickens among the lot! Great-Aunt Gertrude must hav",
+    "scores": {
+      "greed": {
+        "score": 4,
+        "reason": "Desperate to examine the mantelpiece and its revealed contents before others"
+      },
+      "recognition": {
+        "score": 5,
+        "reason": "Humiliation over being wrong, insisting he knew the answer first, boasting credentials"
+      },
+      "scheming": {
+        "score": 3,
+        "reason": "Forming a new plan to access the clue, but mostly reactive to failure"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Attempts to claim prior knowledge but undercut by visible frustration and wounded pride"
+      }
+    }
+  },
+  {
+    "index": 43,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Expert eye for antique stonework! Professor Farnsworth! Royal Academy of Decorative Masonry! I'm making this up as I GO ",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessive focus on claiming the treasure as rightfully his"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Wounded pride over being outmaneuvered and publicly humiliated"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "Actively narrating new plan to intercept rivals' discoveries"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Defensively claims prior knowledge but lacks genuine celebration"
+      }
+    }
+  },
+  {
+    "index": 44,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: AHA! Ladies, gentlemen, and assorted MOB members \u2014 observe! These upside-down volumes are not the work of",
+    "scores": {
+      "gallantry": {
+        "score": 4,
+        "reason": "Protective concern for Clara's whereabouts and desire to rescue her"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Central focus on demonstrating investigative mastery and heroic competence"
+      },
+      "protection": {
+        "score": 3,
+        "reason": "Warning Miss Pitstop to stand back, concern for Clara's safety"
+      }
+    }
+  },
+  {
+    "index": 45,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "If only Clara were here to witness this moment \u2014 James Hartwell, illuminated by dusty library light, solving ancient mys",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Obsessive focus on impressing Clara with heroic deeds and elaborate gestures"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Driven to demonstrate intellect, solve mysteries, and achieve heroic status"
+      },
+      "protection": {
+        "score": 4,
+        "reason": "Assumes Clara needs rescue and prioritizes finding her despite being elsewhere"
+      }
+    }
+  },
+  {
+    "index": 46,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Right, THAT'S IT! I've had it up to HERE with dusty books and clever riddles! Clara Bellingham ain't i",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Driving force behind every action and statement about finding Clara"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Obsessed with Clara's safety, imagining worst-case scenarios, abandoning investigation to act"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Notices Dastardly's behavior, Sneekly's odd actions, and suspects the laboratory is a trap"
+      }
+    }
+  },
+  {
+    "index": 47,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "I don't trust a single one of 'em. Not Sneekly with his oily smile, not Dastardly with his 'oh go to the kitchen' routin",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Clara's safety overrides all other concerns; willing to charge in despite risks"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Actively seeking Clara, fears for her in dangerous Laboratory, urgency defines entire thought"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Distrusts everyone present, notices suspicious behaviors, but worry about Clara dominates"
+      }
+    }
+  },
+  {
+    "index": 48,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Oh dear, oh dear \u2014 while you all examine those dreadfully disordered shelves, I really MUS",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Deliberately misdirecting others to bookshelves while solving the real puzzle alone"
+      },
+      "self-preservation": {
+        "score": 3,
+        "reason": "Maintaining Sneekly disguise while executing the plan"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Positioning himself to claim the prize while heroes are distracted"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Reveling in outsmarting the group and anticipating victory"
+      }
+    }
+  },
+  {
+    "index": 49,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "YES! While those bumbling treasure hunters scratch their heads at upside-down books \u2014 a DISTRACTION, nothing more! \u2014 Vin",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate plan to exploit others' distraction and solve riddle first"
+      },
+      "self-preservation": {
+        "score": 2,
+        "reason": "minimal concern about cover; brief mention of staying in character"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "satisfaction in outsmarting 'bumbling' competitors and getting ahead"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "triumphant celebration of villain's superiority and perfect symmetry of deception"
+      }
+    }
+  },
+  {
+    "index": 50,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Yes, yes, the mantelpiece \u2014 QUITE ordinary, really. Georgian-era limestone with a standard Portland-ceme",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessed with reaching the books/map before others claim it"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Mentions honorary librarian role but primarily as cover, not genuine pride-seeking"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "Actively plotting to distract Sneekly and outmaneuver competitors for the treasure"
+      },
+      "gloating": {
+        "score": 1,
+        "reason": "No celebration or premature victory claim; focused on urgent present action"
+      }
+    }
+  },
+  {
+    "index": 51,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Honorary Chief Librarian of the Bodleian! HA! I've never set FOOT in Oxford! But if I can elbow that slimy Sneekly out o",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessively focused on claiming treasure and map exclusively for himself"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Mentions fake medal as potential tool, but not driving the current action"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "Actively planning to outmaneuver Sneekly and distract competitors to reach books first"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "Celebrates his upcoming superiority and exclusive possession, though victory not yet secured"
+      }
+    }
+  },
+  {
+    "index": 52,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Oh my STARS, y'all \u2014 I have just had the most ELECTRIFYIN' revelation! The mantelpiece riddle \u2014 the an",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Actively solving riddles, spotting clues, and eagerly pursuing the mystery's secrets"
+      },
+      "social-harmony": {
+        "score": 4,
+        "reason": "Enthusiastically appreciating everyone's cooperation and ensuring group effort remains collaborative"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled by the prospect of hidden panels and magical discoveries unfolding before her"
+      }
+    }
+  },
+  {
+    "index": 53,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, you just keep your wits about you, girl. A riddle that says MAP, and books turned upside down right next to i",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Obsessively focused on solving the puzzle and uncovering the mystery"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Appreciates the team effort and speaks warmly of others, though not central to this moment"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled by the prospect of discovery and actively pursuing the exciting challenge"
+      }
+    }
+  },
+  {
+    "index": 54,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: Well NOW \u2014 it appears these particular volumes are rather FIRMLY affixed to their shelves! A security mea",
+    "scores": {
+      "gallantry": {
+        "score": 4,
+        "reason": "Repeatedly addresses Miss Pitstop, seeks her observation, emphasizes honor and confidence to impress"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Dominates output\u2014solving riddle, demonstrating adaptability, highlighting hallmarks of confidence and determination"
+      },
+      "protection": {
+        "score": 1,
+        "reason": "No expressed concern for shielding others from danger in this intellectual puzzle-solving moment"
+      }
+    }
+  },
+  {
+    "index": 55,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "The bookshelves refused to budge \u2014 how EMBARRASSING! But a true gentleman recovers with grace. The mantelpiece is the ke",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Repeatedly references impressing Clara and being her 'intellectual HERO'"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Obsessed with solving before Dastardly, demonstrating competence and superiority"
+      },
+      "protection": {
+        "score": 1,
+        "reason": "No concern for shielding others from danger in this moment"
+      }
+    }
+  },
+  {
+    "index": 56,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: OI! Rufus! Sawtooth! Thank GOD there's someone in this place who ain't givin' me the creeps! Listen \u2014 ",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Obsessive focus on finding Clara, framing her disappearance as personal catastrophe"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Desperately searching for Clara, preventing crew from touching dangerous machinery, treating her safety as urgent priority"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Intense scrutiny of the laboratory, chewed wires, mysterious machine, and questioning why Rufus and Sawtooth are present"
+      }
+    }
+  },
+  {
+    "index": 57,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "I'm proper worried now. Clara ain't in the entrance hall, she ain't in the library, and she ain't in the laboratory. Tha",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Finding Clara is the explicit priority overriding all other concerns"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Actively searching dangerous locations with urgency, imagining kidnapping scenarios"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Focused on sabotaged machine and questioning Rufus/Sawtooth's presence"
+      }
+    }
+  },
+  {
+    "index": 58,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Ah yes, JUST as I suspected \u2014 these books are arranged in the WRONG order entirely! The Bodleian system ",
+    "scores": {
+      "greed": {
+        "score": 4,
+        "reason": "Desperate to access the hidden mechanism before competitors reach the treasure"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Posturing as an expert, emphasizing trained hand and specialist knowledge"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Explicitly narrating the step-by-step plan to exploit others' distractions and pull the books"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Internally frustrated about being behind; no celebration yet, only anticipation"
+      }
+    }
+  },
+  {
+    "index": 59,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Heh heh HEH! While that fool Sneekly fiddles with the mantelpiece and Perfect preens about his 'investigative technique,",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessive focus on claiming the treasure as his own possession"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Fantasizes about a grand title and being acknowledged as diamond owner"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Explicitly narrates his step-by-step plan to exploit competitors' distractions"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Celebrates his tactical advantage and rivals' incompetence prematurely"
+      }
+    }
+  },
+  {
+    "index": 60,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: A-HA! The answer to this riddle is \u2014 a MAP! Cities but no houses, forests but no trees, water but no fish",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Directly addresses and performs for Clara, explicitly mentions her watching"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Celebrates solving the riddle as demonstrating bravery meeting intellect, frames himself as hero"
+      },
+      "protection": {
+        "score": 1,
+        "reason": "No concern for shielding others from danger in this moment"
+      }
+    }
+  },
+  {
+    "index": 61,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "My heart is THUNDERING in my chest! The riddle is solved \u2014 a MAP, obviously \u2014 but did the mantelpiece actually DO anythi",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Clara is watching; explicitly framed as 'my moment' to impress her"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Solved riddle others missed; determined to outperform Dastardly and Sneekly"
+      },
+      "protection": {
+        "score": 1,
+        "reason": "No concern for shielding others expressed in this moment"
+      }
+    }
+  },
+  {
+    "index": 62,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well, BUTTER my biscuits! Those bookshelves are stubbornER than a mule in August! I was CERTAIN one of",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Actively solving riddles and investigating hidden mechanisms"
+      },
+      "social-harmony": {
+        "score": 2,
+        "reason": "Maintains cheerful tone but focused on personal puzzle-solving"
+      },
+      "adventure": {
+        "score": 5,
+        "reason": "Thrilled by the challenge and eagerly pursuing secrets with pounding excitement"
+      }
+    }
+  },
+  {
+    "index": 63,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, the bookshelves were a dead end, but that mantelpiece is practically BEGGIN' to be solved. A riddle carved in",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on solving the riddle and uncovering the mystery of the mantelpiece"
+      },
+      "social-harmony": {
+        "score": 2,
+        "reason": "Brief acknowledgment of Mr. Sneekly's efforts, but not central to the drive"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled by the prospect of discovery and the excitement of pursuing the hidden diamond"
+      }
+    }
+  },
+  {
+    "index": 64,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Now, now, Mr. Hartwell \u2014 no need to go PULLING books willy-nilly! As estate manager, I am ",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate deception using false authority and plausible expertise to access hidden information"
+      },
+      "self-preservation": {
+        "score": 3,
+        "reason": "Awareness of Clara as a threat and urgency to act before discovery"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Asserting control through patronizing instruction and positioning himself as the expert guide"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Intoxicated triumph at outsmarting Perfect and the proximity to the treasure, tempered only by Clara's existence as a rival"
+      }
+    }
+  },
+  {
+    "index": 65,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "That simpering fool Perfect practically SOLVED it for me! The upside-down books are markers \u2014 a trail leading to the map",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate multi-step plan with delight in exploiting Perfect's accidental help"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "urgent anxiety about Clara discovering the secret first, driving rapid action"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "savoring hidden knowledge and power over foolish Perfect who unknowingly aids the plan"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "overwhelming premature triumph and intoxicated delight in outsmarting everyone involved"
+      }
+    }
+  },
+  {
+    "index": 66,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Right, Rufus, Sawtooth \u2014 LISTEN to me very carefully! That machine's been SABOTAGED, someone's chewed ",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Declares 'DANNY BRIXTON NEVER LEAVES A LADY IN DISTRESS' and drives urgent action entirely around finding Clara"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Dominated by terror for Clara's safety, assumes worst-case scenarios, commands immediate cellar search to rescue her"
+      },
+      "suspicion": {
+        "score": 2,
+        "reason": "Notices sabotaged machine but focuses entirely on Clara's danger rather than investigating Pemberton or threats"
+      }
+    }
+  },
+  {
+    "index": 67,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "The cellar. Dark, damp, cobwebs. Every horror story I've ever heard starts with someone goin' down to the cellar. But th",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Unwavering certainty Clara is in danger; willing to descend into dark cellar for her"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Visceral terror and urgency to rescue Clara; threatens violent retribution against potential captors"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Names specific suspicious characters (Sneekly, Dastardly); interprets sabotage as intentional; distrusts unfamiliar allies"
+      }
+    }
+  },
+  {
+    "index": 68,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well I'll be! I TOUCHED that mantelpiece and I could SWEAR I felt somethin' shift under my fingertips ",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on discovering hidden mechanisms and solving the puzzle"
+      },
+      "social-harmony": {
+        "score": 4,
+        "reason": "Actively engaging Mr. Hartwell as a collaborative partner, seeking his input"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled and breathless excitement about the mysterious discovery unfolding"
+      }
+    }
+  },
+  {
+    "index": 69,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, you felt that click \u2014 you KNOW you did. This mantelpiece is hiding somethin' and it's just DYIN' to show you.",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on uncovering hidden secrets and analyzing clues in the mantelpiece"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Maintains politeness toward Mr. Dastardly despite suspicions, softening criticism with 'bless his heart'"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled excitement about the discovery and the unfolding mystery of the mansion"
+      }
+    }
+  },
+  {
+    "index": 70,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: Stand back, everyone \u2014 stand BACK, I say! The answer is a MAP, and now James Hartwell shall demonstrate w",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Explicitly performing heroically for Clara's observation"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Demonstrating intellectual superiority and decisive action to claim the prize"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Telling others to stand back, but primarily for clearing space rather than shielding from danger"
+      }
+    }
+  },
+  {
+    "index": 71,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "My hands are practically TREMBLING with anticipation! If this mantelpiece reveals a secret compartment \u2014 a map, perhaps,",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Explicitly plans dramatic bow for Clara; frames discovery as gallant performance for her benefit"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Obsessed with legendary status; contrasts his superior method against Dastardly's fumbling; claims exclusive mastery"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Brief reflexive mention of stopping Dastardly; not a primary focus of the event"
+      }
+    }
+  },
+  {
+    "index": 72,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: CONFOUND these wretched shelves \u2014 clearly DECORATIVE, as I SUSPECTED all along! I was merely testing the",
+    "scores": {
+      "greed": {
+        "score": 4,
+        "reason": "desperate to secure the treasure before competitors unlock the mantelpiece secret"
+      },
+      "recognition": {
+        "score": 5,
+        "reason": "obsessed with appearing superior and dismissing others' contributions"
+      },
+      "scheming": {
+        "score": 3,
+        "reason": "recognizes the map clue and plans to solve it, but no elaborate scheme narration"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "celebrates his intellectual superiority prematurely before actually solving the puzzle"
+      }
+    }
+  },
+  {
+    "index": 73,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Curse those immovable books! I looked like an absolute BUFFOON tugging at them! But NO MATTER \u2014 the mantelpiece is where",
+    "scores": {
+      "greed": {
+        "score": 4,
+        "reason": "Obsessive focus on claiming the treasure/secret before others"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Acute embarrassment at looking foolish, desperate to prove superiority"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Explicitly narrating step-by-step plan (mantelpiece \u2192 map \u2192 compartment/lever/panel)"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "Premature celebration of outsmarting others, though tempered by current setback"
+      }
+    }
+  },
+  {
+    "index": 74,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Oh DEAR, oh dear \u2014 Miss Bellingham, please DO be careful with the mantelpiece! Lord Wackfo",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate deception using estate manager cover to access hidden mechanisms before rival"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Urgent panic that rival is discovering secrets; rapid repositioning to maintain control"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Obsession with being first to find compartment and wielding hidden knowledge as power"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Frustration dominates; premature triumph only in fantasies about the laboratory"
+      }
+    }
+  },
+  {
+    "index": 75,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "YES! The perfect ruse! 'Safety purposes' \u2014 ha! The only thing UNSAFE in this library is ME! While I pretend to inspect t",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate multi-layered plan with false pretenses and calculated trap"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "urgent competitive scramble to act before Clara exposes the truth"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "relishing control through bureaucratic authority and manipulation"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "intoxicated self-admiration drowning out caution, premature triumph about Clara's doom"
+      }
+    }
+  },
+  {
+    "index": 76,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well now, EVERYBODY, I do believe I have cracked this riddle wide open! 'Cities but no houses, forests",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Solving the riddle, investigating the mantelpiece mechanism, seeking hidden panels and letters"
+      },
+      "social-harmony": {
+        "score": 4,
+        "reason": "Praising others' efforts, inviting teamwork, celebrating group energy and collaboration"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled excitement about discovery, tactile exploration, pursuing the hidden treasure quest"
+      }
+    }
+  },
+  {
+    "index": 77,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, this is YOUR moment, sugar. You felt that mechanism move. Find those letters \u2014 M, A, P \u2014 they've GOT to be ca",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on solving the puzzle mechanism and finding hidden letters"
+      },
+      "social-harmony": {
+        "score": 4,
+        "reason": "Actively appreciating others' contributions and praising group energy despite suspicious behavior"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled by the discovery and eagerly pursuing the next step toward the prize"
+      }
+    }
+  },
+  {
+    "index": 78,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: BLIMEY! What the \u2014 Big Gruesome?! Little Gruesome?! RED MAX?! What are you lot doin' down here in the ",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Immediately demands to know Clara's whereabouts; organizing team to search for her"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Assumes Clara is in 'TERRIBLE DANGER'; urgently mobilizing rescue effort in dark cellar"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Fixates on suspicious furniture rearrangement; questions presence of criminals; interprets environmental details as threats"
+      }
+    }
+  },
+  {
+    "index": 79,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "Someone's been down here fixin' the place up all nice and cheerful. In a CELLAR. That ain't normal, that ain't right, an",
+    "scores": {
+      "loyalty": {
+        "score": 2,
+        "reason": "Brief mention of Clara but not the driving force of this moment"
+      },
+      "protection": {
+        "score": 4,
+        "reason": "Deep fear for Clara's safety permeates the paranoid analysis of the cellar situation"
+      },
+      "suspicion": {
+        "score": 5,
+        "reason": "Overwhelmingly present\u2014every observation is filtered through distrust and alarm about hidden motives"
+      }
+    }
+  },
+  {
+    "index": 80,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: Miss Pitstop \u2014 CLARA \u2014 did you feel that? By JOVE, I felt it too! There is DEFINITELY a mechanism hidden ",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Repeatedly addresses Clara, performs for her approval, maintains gentlemanly composure despite rivalry"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Obsessed with demonstrating heroic competence and claiming credit for solving the riddle"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Minimal concern for others' safety; focus is on personal achievement and impressing Clara"
+      }
+    }
+  },
+  {
+    "index": 81,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "The way Clara's eyes light up when she finds a clue \u2014 it is DEVASTATING to a man's composure. James Hartwell, keep it to",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Obsessing over impressing Clara, maintaining composure as a gentleman despite emotional turmoil"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Desperate to be the one to solve the mechanism and demonstrate heroic competence before Clara"
+      },
+      "protection": {
+        "score": 1,
+        "reason": "No expression of shielding others from danger in this moment"
+      }
+    }
+  },
+  {
+    "index": 82,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Stop, STOP, you bumbling amateurs! You're all wasting your time on this mantelpiece! I happen to know \u2014 ",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Desperate to monopolize the treasure mechanism and remove competitors from the room"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Mentions expertise to establish authority, but secondary to seizing the prize"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Fabricates elaborate false theory about 'MAP' and the laboratory to manipulate others away"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "Internally celebrates his 'magnificent lie' and superiority, though tempered by frustration"
+      }
+    }
+  },
+  {
+    "index": 83,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Heh heh HEH! 'Mechanical Access Protocol!' I just INVENTED that! It sounds so deliciously plausible, doesn't it? Oh, Reg",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessive focus on claiming treasure and mantelpiece exclusively"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Mild self-praise for invention but treasure takes priority"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Detailed plan to deceive rivals and clear the room narrated aloud"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Celebratory tone and premature victory declarations throughout"
+      }
+    }
+  },
+  {
+    "index": 84,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Ah yes, yes \u2014 just as I FEARED! This mechanism is terribly corroded \u2014 very DANGEROUS indee",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate deception using false safety concerns to isolate and manipulate access to the mechanism"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Intense vigilance about maintaining Sneekly disguise while Penelope closes in on the secret"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Asserting exclusive control and 'intimate knowledge' to exclude others from the mechanism"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Triumphant anticipation of discovering the secret before others, premature confidence in superiority"
+      }
+    }
+  },
+  {
+    "index": 85,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "MAGNIFICENT! While these bumbling treasure hunters argue about who solved the riddle first, I \u2014 Vincent Marsh, the HOODE",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate plan to exploit bureaucratic authority while concealing true intentions"
+      },
+      "self-preservation": {
+        "score": 3,
+        "reason": "conscious effort to maintain Sneekly disguise and cover while pursuing objective"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "reveling in secret power over others through false authority and hidden knowledge"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "overwhelming premature triumph at outsmarting the treasure hunters and anticipating Clara's demise"
+      }
+    }
+  },
+  {
+    "index": 86,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well I DECLARE, did y'all hear that?! When I pressed those carved letters \u2014 M, A, P \u2014 the whole mantel",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Obsessively driven to solve the carved-letter riddle and examine what shifted"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Apologizes for overstepping and appreciates others' supportive concern"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled by the discovery and actively engaging with mysterious mechanism"
+      }
+    }
+  },
+  {
+    "index": 87,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, honey, take a good long look at every inch of that mantelpiece. If pressing M-A-P opened something \u2014 a compar",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Urgently driven to examine and uncover what the MAP interaction revealed"
+      },
+      "social-harmony": {
+        "score": 4,
+        "reason": "Reassures that others are lovely and supportive despite competitive treasure hunt"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrumming with excitement over the hunt and possibility of hidden compartments"
+      }
+    }
+  },
+  {
+    "index": 88,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: Miss Pitstop \u2014 CLARA \u2014 your brilliance has illuminated the path, and now James Hartwell shall WALK it! Th",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Directly credits Clara's brilliance, performs for her admiration, ensures she watches closely"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Emphasizes personal heroic track record, positions himself as the reveal-er, frames moment as destiny and heroic action"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Dismisses Sneekly's safety concerns with patronizing politeness; minimal concern for others' wellbeing"
+      }
+    }
+  },
+  {
+    "index": 89,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "My heart is HAMMERING like a blacksmith's anvil! Seven manor houses, two castles, and a garden shed \u2014 well, it was ONE m",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Clara's presence dominates his thoughts; he explicitly measures his heroism by her impression"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Framing the moment as destiny and heroic validation; desperate to be the one to solve it"
+      },
+      "protection": {
+        "score": 1,
+        "reason": "No concern for Clara's or others' safety; actively disregards Sneekly's warnings"
+      }
+    }
+  },
+  {
+    "index": 90,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Oi! OI! Big Gruesome! Yeah, YOU, the massive one! Don't give me that look \u2014 I ain't scared of ya, I'm ",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Relentless focus on finding Clara, invoking oaths and personal sacrifice"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Assumes Clara is in danger and threatens violence to retrieve her safely"
+      },
+      "suspicion": {
+        "score": 5,
+        "reason": "Interrogates every detail\u2014furniture, vents, the Gruesome gang\u2014as potential threats to Clara"
+      }
+    }
+  },
+  {
+    "index": 91,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "The furniture's been moved with CARE. That means someone with a PLAN has been down here. Not just passin' through \u2014 SETT",
+    "scores": {
+      "loyalty": {
+        "score": 4,
+        "reason": "Clara's whereabouts dominate his thoughts; his desperation to find her is evident throughout"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Terror about Clara's safety and immediate focus on finding her drives every observation and inference"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Systematic analysis of clues\u2014moved furniture, vents, secret passages\u2014reveals deep distrust of the setup and those involved"
+      }
+    }
+  },
+  {
+    "index": 92,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Oh for HEAVEN'S sake, if you're all going to IGNORE my expert advice about the laboratory, at least stan",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Desperately focused on seizing the mechanism before others access it"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Heavily emphasizes credentials and expertise to establish authority"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Actively narrating his deception plan and 'Mechanical Access Protocol' ruse step-by-step"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Minimal celebration; anxiety about time pressure dominates"
+      }
+    }
+  },
+  {
+    "index": 93,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Professor Bartholomew CRUMBLESTONE! Royal Institute of Mantelpiece ARCHAEOLOGY! I'm making these up FASTER than I can sa",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessive fixation on treasure and fortune dominates both spoken and internal narrative"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Fabricated credentials and fantasies about buying medals reveal desperate need for acknowledgment"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "Actively narrating deceptive ruse strategy and exploiting others' confusion in real-time"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "Celebrates imagined victory and mocks others' gullibility, though victory isn't yet secured"
+      }
+    }
+  },
+  {
+    "index": 94,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Now then, now then \u2014 PLEASE, everyone, remain CALM and maintain a safe distance! As estate",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate deception positioning himself as safety authority to access secret mechanism"
+      },
+      "self-preservation": {
+        "score": 2,
+        "reason": "minor awareness of maintaining cover through authoritative tone, but not defensive"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "asserting control over situation by commanding others to stand back and monopolizing mechanism access"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "intoxicated triumph at discovering target's identity and manipulating circumstances to his advantage"
+      }
+    }
+  },
+  {
+    "index": 95,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "Peter Perfect called her CLARA! Penelope Pitstop IS Clara Bellingham \u2014 my PRIMARY target has been within arm's reach thi",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborating multiple theatrical murder plots with intoxicated delight"
+      },
+      "self-preservation": {
+        "score": 2,
+        "reason": "brief awareness of need to act now, but overwhelmed by scheming excitement"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "savoring hidden power position and control over unsuspecting target"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "premature triumph drowning out caution; celebrating target's proximity and vulnerability"
+      }
+    }
+  },
+  {
+    "index": 96,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: By JOVE, did you FEEL that?! The stones shifted beneath my very fingers \u2014 the mechanism has ENGAGED! Clar",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Explicitly positioning Clara at safe distance while centering himself as her protector and impressor"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Insisting his activation was 'equally flawless,' claiming validation of her discovery, racing to be first announcer of findings"
+      },
+      "protection": {
+        "score": 4,
+        "reason": "Warning everyone to stand back, specifically directing Clara to safe distance before dangerous examination"
+      }
+    }
+  },
+  {
+    "index": 97,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "She pressed the letters FIRST. She absolutely pressed them first. But I pressed them with more CONVICTION, and that is w",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Entirely focused on impressing Clara and proving he's more than a pretty face"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Obsessed with being the discoverer and validating his own heroic competence"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Minimal concern for others' safety; focus is self-aggrandizing rather than protective"
+      }
+    }
+  },
+  {
+    "index": 98,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: STAND BACK, everyone! Stand BACK, I say! As a graduate of the Royal Institute of Mantelpiece Archaeology",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Desperate urgency to claim treasure before rivals, obsessing over exclusive access"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Flaunting credentials and expertise to justify monopolizing the discovery"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "Fabricating safety concerns as a pretext to examine the mechanism alone"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "Celebrating the mechanism click internally, though restraining outward triumph"
+      }
+    }
+  },
+  {
+    "index": 99,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Poisoned darts! Spring-loaded blades! Oh, I'm LAYING it on thick and they're EATING it up! While they cower in fear of i",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessively fixated on the treasure being 'in my pocket' and preventing others from claiming it"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Proudly asserts 'Nobody out-foxes Foxworth' and emphasizes personal cleverness"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Explicitly narrates the multi-step deception plan with booby traps to distract rivals"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Celebrates prematurely with 'Heh heh heh!' and declares triumph before securing the prize"
+      }
+    }
+  },
+  {
+    "index": 100,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Oh, Mr. Sneekly, you are just the SWEETEST thing worryin' about safety like that, but I have handled F",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Driven to solve the riddle and discover what's hidden in the mechanism"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Acknowledges others' concern and frames rivals' motives charitably as helpful"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled by the discovery and eager to interact with the mysterious old mechanism"
+      }
+    }
+  },
+  {
+    "index": 101,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, darlin', you keep your wits about you. That Sneekly fella is AWFUL eager to get his hands on this mechanism \u2014",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Obsessed with solving the mechanism and discovering what's inside"
+      },
+      "social-harmony": {
+        "score": 4,
+        "reason": "Charitable interpretations of others' motives despite recognizing potential interference"
+      },
+      "adventure": {
+        "score": 5,
+        "reason": "Thrilled by the prospect of unveiling the Doily Diamond and interacting with the mystery"
+      }
+    }
+  },
+  {
+    "index": 102,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Well, well, WELL \u2014 would you look at THAT! The mechanism appears to have functioned correc",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "actively plotting elaborate trap scenarios and manipulating others to access hidden information"
+      },
+      "self-preservation": {
+        "score": 3,
+        "reason": "maintaining Sneekly facade while internally aware of danger if cover is blown"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "asserting control over the examination and keeping others away from the mantelpiece reveal"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "overwhelming elation at discovering target's identity and orchestrating the situation undetected"
+      }
+    }
+  },
+  {
+    "index": 103,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "The fools SOLVED the riddle FOR me, and now Sneekly swoops in to claim the prize! A MAP \u2014 it must be a map! And once I h",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Rapidly constructing elaborate traps and manipulations for Clara; actively exploiting others' puzzle-solving work"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Urgent focus on maintaining Sneekly facade and securing prize before competitors notice"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Exultation at hidden advantage over bumbling competitors and newfound power over identified target"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "Overwhelming elation and premature triumph about Clara's identity and cascade of villainous possibilities"
+      }
+    }
+  },
+  {
+    "index": 104,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: OI! Little Gruesome! Yeah, YOU, the little fella! Come 'ere a second! Look \u2014 LOOK at them vents up the",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Entire monologue driven by desperate search for Clara"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Urgently investigating signs of Clara's captivity and forced relocation"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Reading environmental clues as evidence of foul play and imprisonment"
+      }
+    }
+  },
+  {
+    "index": 105,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "The decorations. The careful furniture arrangement. Someone wanted this cellar to be COMFORTABLE. That's not what you do",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Entire focus on finding and protecting Clara, driving all decisions"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Panic about Clara being held prisoner fuels urgent need to scout the vents"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Deep distrust of the cellar's purpose and conviction something sinister happened here"
+      }
+    }
+  },
+  {
+    "index": 106,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: WAIT! Miss Pitstop, STOP! You're turning it the WRONG way \u2014 you'll trigger the FAILSAFE! Here, allow me ",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessive focus on claiming the treasure immediately"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Briefly invokes expertise but only to gain access, not for acclaim"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "Detailed explanation of mechanism exploit and calculated positioning"
+      },
+      "gloating": {
+        "score": 1,
+        "reason": "Frustrated by others' progress, no celebration present"
+      }
+    }
+  },
+  {
+    "index": 107,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Heh heh heh! 'Wrong way,' I said! She's doing it PERFECTLY, the clever little pest \u2014 but if I can just ELBOW my way in a",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessed with obtaining treasure first, dismisses riddle-solver's achievement"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Explicitly states history remembers the treasure-holder, not the solver"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "References his 'Professor Foxworth routine' and calculated positioning strategy"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Laughing and celebrating victory prematurely before securing the treasure"
+      }
+    }
+  },
+  {
+    "index": 108,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well now, would you LOOK at that! The mechanism responded to my touch like it was WAITIN' for me all t",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on solving the riddle and discovering what's hidden in the fireplace"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Acknowledges others' contributions graciously while asserting her own role"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled by the active exploration and heart-pounding excitement of the moment"
+      }
+    }
+  },
+  {
+    "index": 109,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, this is YOUR moment, darlin'. You solved the riddle, you activated the mechanism \u2014 whatever secret this mante",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on discovering the secret within the mantelpiece and solving the mystery"
+      },
+      "social-harmony": {
+        "score": 4,
+        "reason": "Acknowledges and appreciates everyone's contributions despite competition for the discovery"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled by the prospect of finding a map to the Doily Diamond and the excitement of the moment"
+      }
+    }
+  },
+  {
+    "index": 110,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Now, now, PLEASE, esteemed guests \u2014 do step back! As estate manager of Wackford Manor, I a",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate deception using fake authority and legal pretext to monopolize access"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Paranoid urgency to prevent rivals from discovering advantage before Clara is eliminated"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Asserting control through official position and preventing others from examining the mechanism"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Brief condescension toward Penelope's solution, but overshadowed by urgent scheming"
+      }
+    }
+  },
+  {
+    "index": 111,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "YES, yes, YES! Let them think it's about SAFETY! Let them think doddering old Sneekly is simply doing his JOB! But the m",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate multi-layered deception using treasure hunt as bait for murder trap"
+      },
+      "self-preservation": {
+        "score": 3,
+        "reason": "navigating crowded room carefully, leveraging estate manager cover to avoid suspicion"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "relishing hidden power over others' fates, positioning herself as authority figure"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "premature triumph over Clara's doom, theatrical villainy overwhelming caution"
+      }
+    }
+  },
+  {
+    "index": 112,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: AHA! I see now \u2014 mere EXAMINATION is insufficient! This mechanism requires the touch of a man who underst",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Explicitly performs for Clara's observation; frames action as gentleman's duty"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Dismisses others' attempts; claims only he can execute correctly; driven to demonstrate superior competence"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Tells others to stand back, but primary motivation is self-assertion rather than shielding them"
+      }
+    }
+  },
+  {
+    "index": 113,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "My heart is POUNDING. If this works \u2014 if I am the one who opens the secret compartment \u2014 Clara will see me as a man of i",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Clara's admiration is the explicit motivator for all actions"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Obsession with demonstrating intellect, competence, and superiority"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Mild concern about Sneekly's motives, but no active protective behavior"
+      }
+    }
+  },
+  {
+    "index": 114,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Right, LISTEN UP! Everyone LISTEN! I've just had a proper look at this furniture and I'm tellin' ya \u2014 ",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Obsessive focus on locating Clara, driven entirely by devotion to her"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Urgent desperation to find her after discovering she's been moved/taken"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Actively investigating Pemberton's setup (the comfortable cellar arrangement implies captivity)"
+      }
+    }
+  },
+  {
+    "index": 115,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "Me heart's poundin' somethin' fierce. Every minute we waste is a minute Clara could be in danger. I can picture her face",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Unwavering determination to rescue Clara, proclaiming fierce devotion ('not while the Brixton Boys draw breath')"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Intense focus on Clara's immediate danger and safety, visualizing her fear and driving all actions toward her rescue"
+      },
+      "suspicion": {
+        "score": 3,
+        "reason": "Clear suspicion that someone used vents to move Clara unseen, deducing deliberate concealment and abduction"
+      }
+    }
+  },
+  {
+    "index": 116,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: AH HA! Yes, yes, just as I SUSPECTED! You see, I've encountered Lord Wackford's mechanisms before \u2014 MANY",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Desperate to examine treasure before others claim it"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Loudly emphasizing expertise and exclusive knowledge"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "Narrating detailed logic about mechanisms and hidden triggers"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "No premature celebration; focused on securing advantage"
+      }
+    }
+  },
+  {
+    "index": 117,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Booby trap! HA! The only trap here is the one I'm setting for these gullible FOOLS! If I can get them to back away while",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessed with securing 'first dibs' and viewing the treasure before others can claim it"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Subtle pride in 'nobody out-foxes Foxworth' but not primary focus"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Explicitly narrates the trap setup and manipulation strategy step-by-step"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Triumphant 'HA!' and mocking 'gullible FOOLS' celebrate the scheme before execution"
+      }
+    }
+  },
+  {
+    "index": 118,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well I'll be a honeybee in a magnolia bush \u2014 the answer to that riddle is 'a MAP,' clear as sweet tea ",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Obsessively pursuing riddles, mechanisms, and upside-down books as clues"
+      },
+      "social-harmony": {
+        "score": 2,
+        "reason": "Briefly rationalizes others' behavior charitably but focus is on investigation"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Bursting with excitement and eagerly pursuing the next discovery in the mystery"
+      }
+    }
+  },
+  {
+    "index": 119,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, those upside-down books are practically SCREAMING at you, darlin'. If the riddle answer is 'a map,' maybe the",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Actively hunting for clues and analyzing upside-down books as intentional puzzle markers"
+      },
+      "social-harmony": {
+        "score": 4,
+        "reason": "Charitably reframing others' competitive behavior as innocent enthusiasm and offering blessings"
+      },
+      "adventure": {
+        "score": 3,
+        "reason": "Excitement about the mechanism and treasure hunt present but secondary to puzzle-solving focus"
+      }
+    }
+  },
+  {
+    "index": 120,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Oh my, oh my \u2014 CAREFUL, Mr. Hartwell, CAREFUL! Those mechanisms are CENTURIES old! As esta",
+    "scores": {
+      "scheming": {
+        "score": 4,
+        "reason": "elaborate pretext using estate manager authority to gain access and control"
+      },
+      "self-preservation": {
+        "score": 3,
+        "reason": "careful performance maintaining cover despite visible frustration"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "using institutional position to assert control over the mechanism and inspection"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "inner fury undercuts premature triumph; no actual advantage yet secured"
+      }
+    }
+  },
+  {
+    "index": 121,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "BLAST that insufferable Hartwell! Every time I reach for the prize, some meddling do-gooder SNATCHES it from my grasp! B",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate plans to exploit revealed mechanism and manipulate Clara while disguised"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "urgent need to see mechanism without exposing disguise amid witnesses"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "obsession with claiming prize first and maintaining control of the situation"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "premature satisfaction about Clara's ignorance and delicious irony of deception"
+      }
+    }
+  },
+  {
+    "index": 122,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: Did you SEE that, Miss Pitstop? Did you FEEL the very stones of Wackford Manor tremble beneath my hand? T",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Directly addresses Clara, emphasizes their teamwork, and ensures she witnesses his triumph"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Celebrates his engineering precision, claims primary credit for opening the compartment, and seizes the honor of first inspection"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Briefly vouches for James Hartwell's competence, but focus is on personal glory rather than shielding others"
+      }
+    }
+  },
+  {
+    "index": 123,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "My hands are actually trembling with excitement \u2014 but I shall call it DETERMINATION if anyone asks. If there is a clue i",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Imagining presenting discovery to Clara with sweeping bow and dashing smile; framing adventure as romantic partnership"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Obsessing over being the one who opened compartment; claiming credit despite Penelope's earlier attempt; desperate to seize glory before rivals"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Briefly rationalizes Sneekly's eagerness charitably, but primarily motivated by competitive exclusion rather than genuine protective concern"
+      }
+    }
+  },
+  {
+    "index": 124,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Big Gruesome! MATE! Listen \u2014 I know we ain't exactly best mates, you and me, but I need your HELP! Som",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Clara's safety is the driving force behind every action and plea"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Desperate urgency to find Clara before she comes to harm; terror for her welfare permeates the entire output"
+      },
+      "suspicion": {
+        "score": 3,
+        "reason": "Notices the arranged furniture as deliberate and suspicious, recognizes the cellar setup as a 'nest,' but focuses more on finding Clara than investigating the Gruesome duo"
+      }
+    }
+  },
+  {
+    "index": 125,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "I ain't got the brains to work this out proper, but I got the HEART. And right now me heart's tellin' me them Gruesomes ",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Every thought orbits around finding and protecting Clara; drives all reasoning"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Terrified urgency to locate Clara, analyzing vents and clues as escape routes"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Keenly observes the Gruesomes' presence and the deliberate nest-like arrangement as suspicious"
+      }
+    }
+  },
+  {
+    "index": 126,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: EVERYONE STOP! You're all doing it WRONG! I \u2014 Professor Crumblestone \u2014 have just identified a CRITICAL f",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Desperate focus on accessing and pocketing the prize himself"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Invokes exclusive credentials and positions himself as the sole professional"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "Calculated manipulation using false expertise to gain control and access"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Frustration dominates; minimal celebration, mostly contempt for others"
+      }
+    }
+  },
+  {
+    "index": 127,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Counter-clockwise rotation! I just INVENTED that! But these credulous chumps will believe ANYTHING if you say it with en",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessed with getting hands on the prize before others"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Boasts about invention and superiority, needs credit"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Explicitly narrates multi-step deception plan with confidence"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Celebrates outwitting others with 'Heh heh heh' and bold proclamations"
+      }
+    }
+  },
+  {
+    "index": 128,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well SUGAR, would you look at THAT! These upside-down books \u2014 they are NOT just dusty old accidents, n",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on decoding the mystery of upside-down books and their hidden message"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Appreciates team effort and praises each member's contributions warmly"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled by the puzzle-solving process and feeling of being on the edge of discovery"
+      }
+    }
+  },
+  {
+    "index": 129,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara honey, you are ON to somethin' here. The riddle unlocked a mechanism, and these upside-down books are the next",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Obsessively focused on solving the puzzle and deciphering the next clue"
+      },
+      "social-harmony": {
+        "score": 4,
+        "reason": "Enthusiastically praising everyone's contributions and celebrating teamwork"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Describing the experience as delightful and expressing buzzing excitement about the treasure hunt"
+      }
+    }
+  },
+  {
+    "index": 130,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Ah, SPLENDID deduction, Miss Pitstop \u2014 'a map,' yes indeed! Lord Wackford was EVER so fond",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate deception using 'safety inspection' pretext to monopolize access to the mechanism"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Panic at exposure risk, desperate to control narrative and prevent others from discovering the treasure"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Reasserting control by positioning himself as sole authority figure with legitimate access"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Frustration at Pitstop solving the riddle first overwhelms any triumph in his current maneuvering"
+      }
+    }
+  },
+  {
+    "index": 131,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "Oh, you magnificent FOOL, Penelope \u2014 you've done all the intellectual heavy lifting and now Sneekly the humble estate ma",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate multi-layered plan to exploit Penelope's work while maintaining cover as estate manager"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "intense paranoia about exposure, frantically monitoring who saw what and racing to secure evidence"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "savoring the power of secret knowledge and positioning to control others' fates"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "premature triumph cascading through both aside and internal thoughts, naming himself dramatically while celebrating Penelope's unwitting service"
+      }
+    }
+  },
+  {
+    "index": 132,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: Miss Pitstop, you are an absolute MARVEL! While these gentlemen squabble over an empty compartment, YOU \u2014",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Effusively praising and deferring to Clara's brilliance while positioning himself as her devoted assistant"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Emphasizing his own contributions ('my reach') and claiming credit for solving the mystery alongside Clara"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "No significant expression of shielding others from danger in this intellectual puzzle-solving moment"
+      }
+    }
+  },
+  {
+    "index": 133,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "I am following her lead, naturally \u2014 but I shall make it look like a PARTNERSHIP. That is the Hartwell way. Equal parts ",
+    "scores": {
+      "gallantry": {
+        "score": 4,
+        "reason": "Explicitly framing partnership as gentlemanly, admiring Penelope's brilliance, positioning himself as her devoted follower"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Preoccupied with appearing dashing, emphasizing his role in the mechanism's success, competitive positioning against rivals"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Minimal concern for others' safety; focus is on impressing and following Penelope rather than shielding anyone"
+      }
+    }
+  },
+  {
+    "index": 134,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Oi, LADS \u2014 look at them vents up there! See 'em? Along the top of the walls? Now THOSE are big enough ",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Clara's safety is the driving force behind every observation and action"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Urgent conviction that Clara is in danger and needs immediate rescue"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Rearranged furniture and vents trigger deep distrust about hidden activities and foul play"
+      }
+    }
+  },
+  {
+    "index": 135,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "Them vents are naggin' at me somethin' fierce. Whoever's been livin' down here \u2014 makin' it all cozy \u2014 they know this cel",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Every thought circles back to finding and protecting Clara"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Urgency about Clara's danger drives the entire investigation"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Actively piecing together suspicious details about hidden passages and motives"
+      }
+    }
+  },
+  {
+    "index": 136,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Oh my GOODNESS, silly me \u2014 you can't just MANHANDLE a bookshelf, Clara! A lady examines with her EYES,",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Actively solving a puzzle by examining clues and connecting details"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Gently correcting Clara's method while maintaining affection and asking others to cooperate"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Enthusiastically pursuing a treasure hunt with energetic determination"
+      }
+    }
+  },
+  {
+    "index": 137,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "The bookshelves wouldn't let me interact \u2014 fair enough, darlin'. But LOOK should let me read those spine letters. Every ",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on solving the puzzle through observation and deduction"
+      },
+      "social-harmony": {
+        "score": 2,
+        "reason": "Brief acknowledgment of others' constraints, but self-focused on the hunt"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Energized by the treasure hunt metaphor and layered mystery ahead"
+      }
+    }
+  },
+  {
+    "index": 138,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Ah YES, just as I suspected \u2014 the counter-clockwise rotation has STABILISED the mechanism! You're all WE",
+    "scores": {
+      "greed": {
+        "score": 4,
+        "reason": "Obsessed with finding the main prize first and securing sole advantage"
+      },
+      "recognition": {
+        "score": 5,
+        "reason": "Desperate to claim credit and frustrated others are getting attention for the discovery"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Explicitly narrating a multi-step plan to distract others while pursuing hidden objective"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Premature self-congratulation about stabilizing the mechanism, but undermined by frustration"
+      }
+    }
+  },
+  {
+    "index": 139,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Cross-reference my field notes? I don't HAVE any field notes! But while these gullible treasure-hunters play archaeologi",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessively focused on claiming sole rewards and finding the treasure ahead of others"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Burning resentment at others getting credit; demands sole claim and uses self-aggrandizing language"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Explicitly narrates multi-step plan to distract rivals while exploiting Penelope's clue"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Self-congratulatory 'NOBODY out-foxes Foxworth' and 'devious fox' celebration before success secured"
+      }
+    }
+  },
+  {
+    "index": 140,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Ah \u2014 yes, the mechanism appears to be functioning PERFECTLY safely! No poison darts, no sp",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate deception with fake safety concerns to access clues while maintaining cover"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Constant vigilance about maintaining Sneekly disguise and managing exposure risk"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Orchestrating situation to control information access and keep Penelope dependent on his guidance"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "Premature excitement about mantelpiece discovery threatens judgment, anticipatory triumph"
+      }
+    }
+  },
+  {
+    "index": 141,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "Oh, the DELICIOUS irony! Penelope \u2014 dear, sweet, OBLIVIOUS Clara Bellingham \u2014 has practically HANDED me the next clue on",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate multi-layered plan to exploit Penelope's work, sabotage via laboratory trap, and maintain cover"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Intense focus on maintaining estate manager cover while racing to stay ahead of discovery"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Relishing hidden power over oblivious competitors and control of information flow"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "Premature triumph and theatrical self-congratulation about magnificent trap and assured victory"
+      }
+    }
+  },
+  {
+    "index": 142,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: AH-HA! Miss Pitstop, your instincts are IMPECCABLE \u2014 look here! I can see from my vantage point \u2014 and I d",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Lavishes praise on Clara, emphasizes partnership, positions himself as her capable complement"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Highlights his unique reach, contrasts competence against rivals, eager to demonstrate heroic usefulness"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Minor caution ('CAREFUL now') but no active shielding; focus is on impressing rather than protecting"
+      }
+    }
+  },
+  {
+    "index": 143,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "My heart is THUNDERING in my chest like a cavalry charge! This is it \u2014 Clara and I, working side by side, deciphering an",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Obsessed with impressing Clara and being her ideal partner in this moment"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Desperate to be the hero who retrieves the crucial book and solves the mystery"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Minimal presence; no immediate danger to shield others from"
+      }
+    }
+  },
+  {
+    "index": 144,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Oi \u2014 Little Gruesome, mate! Come 'ere a second, will ya? Listen, I ain't gonna mess about \u2014 I'm WORRIE",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Entire monologue driven by desperate need to find and protect Clara"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Explicitly states Clara could be 'locked away' and emphasizes time pressure of danger"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Focused on unexplained cellar alterations and seeking hidden rooms; contrasts with trustworthiness of Little Gruesome"
+      }
+    }
+  },
+  {
+    "index": 145,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "Look at me \u2014 Danny Brixton, hardest man in Brixton, BEGGIN' a tiny green fella for help in a cobwebby cellar. If the lad",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Explicitly states prioritizing Clara over reputation; willing to swallow pride for her sake"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Actively searching for Clara; driven to find her through unexplored areas; desperation to locate her"
+      },
+      "suspicion": {
+        "score": 2,
+        "reason": "Contrasts Gruesomes as 'alright' against Sneekly/Dastardly; minimal suspicion of current subjects, focus on finding Clara"
+      }
+    }
+  },
+  {
+    "index": 146,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: I say, everyone \u2014 EVERYONE! I've just made a CRITICAL discovery by the chairs! There appears to be a SEC",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Fabricates discovery of 'unlimited riches' to redirect attention"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Demands immediate attention from everyone, especially named rivals"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "Deliberately misdirects competitors away from actual mechanism"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Slight condescension toward 'dusty books' but no celebration yet"
+      }
+    }
+  },
+  {
+    "index": 147,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "A second inscription? There IS no second inscription, you fools! But if I can lure them away from these bookshelves for ",
+    "scores": {
+      "greed": {
+        "score": 4,
+        "reason": "Fixated on claiming the prize and treasure through the cipher"
+      },
+      "recognition": {
+        "score": 5,
+        "reason": "Obsessively emphasizes 'YOURS TRULY,' 'Foxworth,' and taking credit for others' work"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Explicitly narrates the multi-step scheme: lure away, 30 seconds, Reginald cracks cipher, claims prize"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Celebrates premature victory with 'perfect crime' and 'NOBODY out-foxes Foxworth' boasting"
+      }
+    }
+  },
+  {
+    "index": 148,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well now, THAT was about as informative as a blank page in a mystery novel! Those upside-down books ar",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Obsessively driven to solve the mystery of the upside-down books and verify the mantelpiece compartment herself"
+      },
+      "social-harmony": {
+        "score": 2,
+        "reason": "Briefly suspects Sneekly but quickly rationalizes his innocence; wants to see the best in people"
+      },
+      "adventure": {
+        "score": 3,
+        "reason": "Energized by the investigation and determined to take independent action despite frustration"
+      }
+    }
+  },
+  {
+    "index": 149,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, don't you go gettin' suspicious of poor Mr. Sneekly \u2014 he's just doin' his job as estate manager. But it IS cu",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on solving the mystery of the map, diamond, and suspicious compartment"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Actively resisting suspicion of Sneekly and choosing to see the best in him"
+      },
+      "adventure": {
+        "score": 2,
+        "reason": "Mentioned only peripherally; focus is on investigation rather than the thrill of new experiences"
+      }
+    }
+  },
+  {
+    "index": 150,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Ah, MOST illuminating! Yes, yes \u2014 the upside-down volumes spell out a sequence, just as I ",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate deception with coded books, false pretenses, and calculated trap preparation"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Urgent need to maintain cover and escape scrutiny before trap is discovered"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Satisfaction in orchestrating danger while others remain oblivious to the threat"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Intoxicated excitement over the trap's potential and sense of intellectual superiority"
+      }
+    }
+  },
+  {
+    "index": 151,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "To the laboratory \u2014 oh, the LABORATORY! While these bumbling treasure hunters play with alphabet blocks, I shall prepare",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate trap design with multiple contingencies demonstrates peak scheming satisfaction"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "urgent awareness of Clara's proximity and need to maintain Sneekly cover while evading witnesses"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "relishing hidden power over victims through elaborate, inescapable mechanical death"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "premature triumph and racing pulse at anticipated demise of Clara through masterpiece trap"
+      }
+    }
+  },
+  {
+    "index": 152,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Right, while Little Gruesome's havin' a think \u2014 Barry, Ernie, give me a BOOST! I wanna get a look at t",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Intense devotion to Clara shown through desperate search and emotional pleas"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Willingness to tear apart entire cellar brick by brick to ensure Clara's safety"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Actively interrogating about suspicious recent activity and questioning the cellar's renovated state"
+      }
+    }
+  },
+  {
+    "index": 153,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "Me hands are shakin'. Actually SHAKIN'. I keep thinkin' about what Sneekly said \u2014 'managerial duties' \u2014 and the way Dast",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Unwavering focus on Clara's safety; ready to crash through doors for her"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Desperate, physically shaking, driven to action by fear for Clara's wellbeing"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Actively piecing together clues about Sneekly and Dastardly; notices hidden room signs"
+      }
+    }
+  },
+  {
+    "index": 154,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: Miss Pitstop \u2014 Clara \u2014 if I may be so BOLD! You were absolutely RIGHT about the mantelpiece, and I have b",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Obsessively focused on impressing Clara and ensuring she recognizes his heroic contributions"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Desperate to demonstrate intellectual prowess and validate himself as heroic after furniture rejection"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Minimal protective concern; moment centers on personal validation rather than shielding others"
+      }
+    }
+  },
+  {
+    "index": 155,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "Right then, James \u2014 this is it. Solve the riddle, open the secret, impress Clara. Three steps. Simple. Elegant. What cou",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Explicitly framing success as impressing Clara; wants her to see him as heroic"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Intensely focused on demonstrating intellectual prowess and being seen as a 'hero of brains and brawn'"
+      },
+      "protection": {
+        "score": 1,
+        "reason": "No expression of shielding others from danger in this moment"
+      }
+    }
+  },
+  {
+    "index": 156,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Oh, do carry on with your little BOOK CLUB, everyone! How RIVETING! I'll just be over here by the mantel",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "obsessed with securing the 'real prize' and the map"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "brief frustration at deception failing, but not focused on acknowledgment"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "layered misdirection with the 'Reginald' persona while narrating the map riddle solution"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "celebrates his insight and moment of advantage with exclamation and self-congratulation"
+      }
+    }
+  },
+  {
+    "index": 157,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Heh heh HEH! While those bumbling bibliophiles play their little alphabet game, YOURS TRULY shall solve the mantelpiece ",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessively fixated on claiming the treasure as personal possession"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Boasts about intellectual superiority and mocks others' intelligence"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Explicitly narrates multi-step plan to exploit others' distraction"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Celebrates victory prematurely while rivals remain unaware"
+      }
+    }
+  },
+  {
+    "index": 158,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well now, let me have a PROPER look at this mantelpiece! 'Cities but no houses, forests but no trees, ",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Actively solving riddles and determining what's hidden in the compartment"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Politely disclaiming offense while respectfully overriding Sneekly's account"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Excited rush about discovering the Doily Diamond and exploring the manor"
+      }
+    }
+  },
+  {
+    "index": 159,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, you use those nimble fingers and check every inch of that compartment. If there WAS a map in there and it's g",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Obsessively driven to solve the riddle, find the map, and investigate the compartment thoroughly"
+      },
+      "social-harmony": {
+        "score": 2,
+        "reason": "Cautiously restrains accusation against Sneekly despite suspicion, prioritizes courtesy"
+      },
+      "adventure": {
+        "score": 3,
+        "reason": "Excitement about the mystery and the rush of pursuit, though investigation-focused rather than thrill-seeking"
+      }
+    }
+  },
+  {
+    "index": 160,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Ah! Mr. Ruffcut, and dear Sawtooth \u2014 how WONDERFUL to find you here! I do hope you haven't",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "actively planning elaborate sabotage while maintaining false identity"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "carefully managing Sneekly facade despite internal excitement about villainous plans"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "relishing secret knowledge and hidden power over unsuspecting victims"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "intoxicated by finding the machine and imagining 'something DREADFULLY unpleasant' for Clara"
+      }
+    }
+  },
+  {
+    "index": 161,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "Oh, the IRONY! 'Can't have guests electrocuting themselves' \u2014 unless, of course, the guest in question is Clara Bellingh",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate deception plan with multi-layered manipulation"
+      },
+      "self-preservation": {
+        "score": 3,
+        "reason": "conscious effort to maintain facade despite urge to gloat"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "intoxication with hidden power and orchestrating harm"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "premature triumph and relish of anticipated revenge overwhelms judgment"
+      }
+    }
+  },
+  {
+    "index": 162,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Right, them vents are no good \u2014 too small for any of us, even Ernie after he skipped lunch! But LOOK a",
+    "scores": {
+      "loyalty": {
+        "score": 4,
+        "reason": "Repeatedly mentions Clara by name, driven to search for her specifically"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Frantically searching cellar, fears Clara hidden behind furniture, explicit threat of violence if harmed"
+      },
+      "suspicion": {
+        "score": 5,
+        "reason": "Obsessive focus on suspicious furniture arrangement, interrogates residents about who moved it, convinced something is hidden"
+      }
+    }
+  },
+  {
+    "index": 163,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "The cheerful decorations are what's gettin' me. Cobwebs and damp I can handle \u2014 that's just a cellar bein' a cellar. But",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Clara is the sole focus of his investigation and concern"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Terrified about Clara's safety if she's been held captive here"
+      },
+      "suspicion": {
+        "score": 5,
+        "reason": "Deliberate planning and wrongness of the scene triggers intense distrust"
+      }
+    }
+  },
+  {
+    "index": 164,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: The mechanism ACTIVATES! Did you see that, Miss Pitstop? James Hartwell, riddle-solver EXTRAORDINAIRE! 'C",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Explicitly invokes gallantry to justify protecting Clara; centers entire decision around her safety and witnessing his competence"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Repeatedly emphasizes solving the riddle with flair and decisive activation; seeks validation that he contributed heroically"
+      },
+      "protection": {
+        "score": 4,
+        "reason": "Commits to investigating danger for Clara's safety; frames investigation as shielding her from potential harm"
+      }
+    }
+  },
+  {
+    "index": 165,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "The dust outline in that compartment \u2014 something was DEFINITELY there, and recently removed. Sneekly checked it before a",
+    "scores": {
+      "gallantry": {
+        "score": 5,
+        "reason": "Explicitly frames investigation as gallant protection for Clara's safety"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Detective work and solving the map riddle performed with 'tremendous flair' for Clara's admiration"
+      },
+      "protection": {
+        "score": 4,
+        "reason": "Driven to follow Sneekly and investigate to ensure Clara's safety from potential danger"
+      }
+    }
+  },
+  {
+    "index": 166,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Well, well, WELL! How FASCINATING! I was merely warming my hands, as I said \u2014 nothing MORE \u2014 but I could",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessed with finding the treasure before Sneekly; fury driven by loss of potential prize"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Minimal concern for acknowledgment; focused entirely on outmaneuvering rival"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate deception plan: false theories to misdirect others while pursuing true lead"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "Premature celebration of outsmarting others, but tempered by rage at being beaten to compartment"
+      }
+    }
+  },
+  {
+    "index": 167,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "CURSES! That weasel Sneekly has STOLEN my rightful discovery! He practically SPRINTED to the laboratory after examining ",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessed with claiming the discovery and snatching treasure before rival"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Emphasis on 'my rightful discovery' and establishing himself as superior to Sneekly"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Explicitly narrates multi-step plan: send buffoons away, pursue Sneekly, seize findings"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Triumphant 'Heh heh HEH!' and boasting about outwitting others despite immediate setback"
+      }
+    }
+  },
+  {
+    "index": 168,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Now then, Mr. Ruffcut \u2014 you being a man of considerable MECHANICAL aptitude, I wonder if y",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate multi-stage plan with hidden lethal intent deliberately disguised as helpful repair work"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "paranoid attention to detail, checking crates thoroughly, ensuring no evidence left behind"
+      },
+      "dominance": {
+        "score": 3,
+        "reason": "manipulating three operators into unwitting cooperation through false authority and false urgency"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "intoxicated anticipation of impending success, describing scheme as thrilling gift, barely containing excitement"
+      }
+    }
+  },
+  {
+    "index": 169,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "Spare parts \u2014 HA! What I SEEK is something far more SINISTER than spare parts! If those crates contain copper wire, I ca",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate multi-stage deception with false repairs and staged accident disguise"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Paranoid attention to detail, checking crates, controlling narrative to avoid prison"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Manipulating three operators unknowingly toward lethal purpose, hidden control"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "Ecstatic capitalization and exclamation marks celebrating impending triumph and plan elegance"
+      }
+    }
+  },
+  {
+    "index": 170,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well I'll be a magnolia in a monsoon \u2014 this compartment is EMPTY, just like Mr. Sneekly said! But LOOK",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Obsessively analyzing clues, the groove mark, the map shape, the book sequence\u2014driven entirely by puzzle-solving"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Trusts Mr. Sneekly's motives despite suspicion, frames him as 'helpful' and 'dear,' avoids conflict"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Describes herself as 'BUZZING with excitement,' feels 'on the TRAIL,' uses 'THRILLING'\u2014clearly energized by the unfolding mystery"
+      }
+    }
+  },
+  {
+    "index": 171,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, think about this real careful-like. Mr. Sneekly figured out the book sequence AND he was the first one to ope",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on puzzle-solving and physical evidence investigation"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Actively restrains suspicion of Mr. Sneekly despite incriminating details"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Energized and excited by mystery unfolding and next clues to pursue"
+      }
+    }
+  },
+  {
+    "index": 172,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Big Gruesome! BIG GRUESOME! I'm talkin' to you, mate! Look at this \u2014 LOOK! Someone's been down here mo",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Obsessive focus on Clara's whereabouts and safety, swearing oaths about her protection"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Frantic concern that Clara is imprisoned in cellar, demanding answers about her captivity"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Intensely suspicious of Big Gruesome and manor residents' knowledge of cellar activity"
+      }
+    }
+  },
+  {
+    "index": 173,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "The big fella might not be the sharpest tool in the shed, but he's GOT to know somethin'. You don't live in a manor and ",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Intensely focused on finding Clara and imagining her distress"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Desperate urgency to locate Clara and prevent her suffering"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Fixated on Pemberton's knowledge and the redecorated cellar as evidence of wrongdoing"
+      }
+    }
+  },
+  {
+    "index": 174,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Dear me, dear ME \u2014 nothing but old packing straw and mothballs! Lord Wackford's organizati",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "actively devising multi-layered trap involving machine manipulation and misdirection"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "constantly monitoring presence of multiple characters and suppressing excitement to maintain cover"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "orchestrating others' movements while concealing superior knowledge and control"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "internal thrill at villainous possibilities, but deliberately restrained to avoid exposure"
+      }
+    }
+  },
+  {
+    "index": 175,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "CURSES! Empty crates \u2014 nothing but dust and disappointment! But the workbench beckons with its array of tools, each one ",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate trap design with multi-step deception and component manipulation"
+      },
+      "self-preservation": {
+        "score": 3,
+        "reason": "awareness of need for subtlety and keeping suspicions hidden from witnesses"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "contempt for 'fools' and 'lambs,' viewing them as potential victims under control"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "overwhelming premature triumph, cackling, self-applause, and intoxicated delight in imminent success"
+      }
+    }
+  },
+  {
+    "index": 176,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Ah, Peter! Rufus! How DELIGHTFUL to find you all here! I was just passing through on my constitutional \u2014",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Internal obsession with treasure in crates; actively scheming to obtain it while others are distracted"
+      },
+      "recognition": {
+        "score": 1,
+        "reason": "No desire for acknowledgment or medals expressed in this event"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate deception with fake ailments to position himself; detailed plan to exploit others' distraction"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Brief satisfaction about fooling them, but restrained by urgent need to execute plan"
+      }
+    }
+  },
+  {
+    "index": 177,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Heh heh HEH! While these muscle-bound MORONS play with the big shiny machine, I shall investigate these crates! Nobody e",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessed with finding prizes and treasure in crates and from Sneekly"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Slight superiority complex over 'morons' but not seeking acknowledgment"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Explicitly narrating multi-layered plans and tactical thinking aloud"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Celebrating outsmarting others and mocking their focus on wrong targets"
+      }
+    }
+  },
+  {
+    "index": 178,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: Ah, Mr. Sneekly! What a REMARKABLE coincidence \u2014 here we BOTH are in the laboratory! I do hope I'm not in",
+    "scores": {
+      "gallantry": {
+        "score": 2,
+        "reason": "Minimal focus on Clara; politeness is performative, not protective"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Central drive: demonstrating investigative competence, dignity, thoroughness, and logical deduction"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Mentions allies present but no active shielding or danger-mitigation behavior"
+      }
+    }
+  },
+  {
+    "index": 179,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "James Hartwell is NOT suspicious. He is merely... observant. There is a DIFFERENCE. That dust outline in the mantelpiece",
+    "scores": {
+      "gallantry": {
+        "score": 4,
+        "reason": "Emphasizes gentlemanly conduct and anticipates impressing Clara with his findings"
+      },
+      "proving-worth": {
+        "score": 5,
+        "reason": "Central focus on demonstrating heroic competence through thorough investigation and vindication"
+      },
+      "protection": {
+        "score": 2,
+        "reason": "Faintly present in extending benefit of doubt to Sneekly's honor, but not the dominant concern"
+      }
+    }
+  },
+  {
+    "index": 180,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well, GOODNESS gracious, that was silly of me \u2014 you can't just grab at bookshelves, Clara! You have to",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on solving the mystery through careful examination of clues"
+      },
+      "social-harmony": {
+        "score": 4,
+        "reason": "Gently corrects Clara, praises Mr. Sneekly, and warmly invites companions to stay close"
+      },
+      "adventure": {
+        "score": 3,
+        "reason": "Excited energy and forward momentum toward solving the puzzle, but focused more on the mystery than new experiences"
+      }
+    }
+  },
+  {
+    "index": 181,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, pay attention here. INTERACT didn't work on those shelves, so let's try LOOKIN' at them real close instead. T",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on decoding the upside-down book puzzle and uncovering secrets"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Actively rationalizing Mr. Sneekly's suspicious knowledge to maintain positive rapport"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled excitement about being close to solving the mystery and finding the Doily Diamond"
+      }
+    }
+  },
+  {
+    "index": 182,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Oi, LADS! Shut it for a SECOND! Everyone just \u2014 Barry, I said SHUT IT! Look around you! LOOK! Someone'",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Explicitly declares 'we are NOT gonna let her down' and centers entire investigation on finding Clara"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Driven to locate Clara and understand the cozy cellar as potential captivity\u2014protection motivates the methodical search"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Fixates on the wrongness of cheerful decorations in a dungeon and questions who made the space comfortable"
+      }
+    }
+  },
+  {
+    "index": 183,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "Somethin' about this room makes me skin crawl, and it ain't the cobwebs. Cheerful decorations in a cellar? That's what s",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Obsessive focus on finding Clara, willing to search relentlessly"
+      },
+      "protection": {
+        "score": 4,
+        "reason": "Interprets pleasant cellar as sinister captivity setup designed to control a prisoner"
+      },
+      "suspicion": {
+        "score": 5,
+        "reason": "Deeply suspicious of the decorated cellar as deliberate deception masking imprisonment"
+      }
+    }
+  },
+  {
+    "index": 184,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well now, those bookshelves are playin' hard to get, but NEVER MIND that, because I have just had the ",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Obsessively focused on solving the riddle, energized by the puzzle itself"
+      },
+      "social-harmony": {
+        "score": 2,
+        "reason": "Mentions companions but attention is on the mystery, not on group cohesion"
+      },
+      "adventure": {
+        "score": 3,
+        "reason": "Describes solving as 'thrilling' and expresses excitement about the challenge ahead"
+      }
+    }
+  },
+  {
+    "index": 185,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, this is your MOMENT, honey! The riddle answer is a map \u2014 clear as a Georgia sunrise. And if this mantelpiece ",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Obsessed with solving riddles and uncovering hidden compartments"
+      },
+      "social-harmony": {
+        "score": 1,
+        "reason": "No interaction with others or concern for group dynamics"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Energized and excited to pursue a thrilling detective investigation"
+      }
+    }
+  },
+  {
+    "index": 186,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: EMPTY! Nothing but straw and dust! What a WASTE of investigative effort! But no matter \u2014 Mr. Sneekly, my",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessively fixated on the map in Sneekly's pocket as the 'real prize'"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Mentions fake medal only in self-comparison, not seeking acknowledgment"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "Actively narrating the 'bump and lift' scheme and analyzing Sneekly's behavior"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Flattering Sneekly insincerely, but no celebration of victory yet"
+      }
+    }
+  },
+  {
+    "index": 187,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "The old 'congratulatory back-pat' \u2014 gets you RIGHT up close, arm around the shoulder, other hand free to explore the inn",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessed with finding the hidden map; treasure is sole focus"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Mentions reputation but only as context for theft prowess"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Narrates pickpocket technique step-by-step with relish and planning"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "Celebratory tone and confident 'NOBODY' declaration, but premature"
+      }
+    }
+  },
+  {
+    "index": 188,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Ah yes, the workbench! Tools aplenty, but I'm AFRAID Lord Wackford's wrench has gone missi",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "actively devising elaborate trap involving machine manipulation and luring victims"
+      },
+      "self-preservation": {
+        "score": 2,
+        "reason": "minor concern about accidents masks darker intentions; not focused on exposure risk"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "relishing control over four unwitting accomplices and Clara's unknown whereabouts"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "premature satisfaction with having victims and tools at hand, though tempered by Clara's absence"
+      }
+    }
+  },
+  {
+    "index": 189,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "Safety first \u2014 HA! Safety LAST! Safety NEVER! Once I understand this machine's inner workings, I shall rewire it into th",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate trap conception and mechanical analysis dominate the entire output"
+      },
+      "self-preservation": {
+        "score": 2,
+        "reason": "brief frustration about Clara's proximity but quickly overridden by scheming excitement"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "relishes controlling unwitting accomplices and Clara's fate through hidden power"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "premature triumph about 'electrifying welcome' and theatrical villainy overwhelms caution"
+      }
+    }
+  },
+  {
+    "index": 190,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Oi! Big Gruesome! Little Gruesome! Red Max! Any of you lot been down here before? Someone's been DECOR",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Obsessively searching for Clara, driven to check vents hoping to hear her voice or cries"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Urgently investigating potential threats and escape routes to ensure Clara's safety"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Intensely scrutinizing unusual details (decorations, chewed wire, vents) as signs of wrongdoing"
+      }
+    }
+  },
+  {
+    "index": 191,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "Me heart's hammerin' somethin' fierce. Every minute we don't find Clara is a minute somethin' terrible could be happenin",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Unwavering focus on finding Clara; willing to tear apart the cellar with bare hands"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Urgency driven by fear of harm to Clara; every minute without her is agony"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Actively connecting clues (moved furniture, gnawed wire, vents) into a coherent threat pattern"
+      }
+    }
+  },
+  {
+    "index": 192,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: Well well WELL \u2014 the crates are empty, just as Mr. Sneekly said! And James Hartwell NEVER doubted you for",
+    "scores": {
+      "gallantry": {
+        "score": 4,
+        "reason": "Explicitly mentions Clara witnessing heroism and frames caution as honorable protection"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Eager to repair and uncover machine secrets to demonstrate competence to Clara"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Primary focus on preventing electrical harm to three operators; safety dominates the reasoning"
+      }
+    }
+  },
+  {
+    "index": 193,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "The crates \u2014 empty. The workbench \u2014 tools but no wrench. And Sneekly is AWFULLY keen for us to operate this machine with",
+    "scores": {
+      "gallantry": {
+        "score": 4,
+        "reason": "Explicitly imagines Clara's admiration for his competence and calibre"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Driven to demonstrate engineering prudence and be the man who repairs and uncovers secrets"
+      },
+      "protection": {
+        "score": 3,
+        "reason": "Concerned about danger from damaged wire and suspicious dual encouragement, protective caution expressed"
+      }
+    }
+  },
+  {
+    "index": 194,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well I DO declare! I gave that mantelpiece the answer \u2014 a MAP! \u2014 and now I need to see what it's done!",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on discovering hidden mechanisms and examining the mantelpiece thoroughly"
+      },
+      "social-harmony": {
+        "score": 3,
+        "reason": "Calling companions closer and using affectionate terms, but drive is secondary to excitement"
+      },
+      "adventure": {
+        "score": 5,
+        "reason": "Overwhelmed by exhilaration and describes the moment as the most thrilling experience in years"
+      }
+    }
+  },
+  {
+    "index": 195,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, FOCUS, honey. You solved the riddle \u2014 'a map' \u2014 and something may have changed on that mantelpiece. Look at i",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "intensely focused on examining every detail of the mantelpiece for hidden mechanisms"
+      },
+      "social-harmony": {
+        "score": 2,
+        "reason": "brief acknowledgment of companions present, but attention is elsewhere"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "buzzing with excitement and anticipation about the treasure hunt's progression"
+      }
+    }
+  },
+  {
+    "index": 196,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: I say, Sneekly old chap \u2014 you seem to have something BULGING in that coat of yours! A letter from a swee",
+    "scores": {
+      "greed": {
+        "score": 4,
+        "reason": "Intensely focused on acquiring the document/map Sneekly possesses"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Minimal concern with acknowledgment; focused on the theft itself"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Detailed deduction of Sneekly's actions and explicit demands reveal calculated manipulation"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "Displays satisfaction in catching Sneekly red-handed and threatening confrontation"
+      }
+    }
+  },
+  {
+    "index": 197,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "CURSES upon curses! My magnificent pickpocketing scheme was foiled by a TECHNICALITY \u2014 I forgot to specify WHAT to steal",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessively focused on obtaining the map above all else"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Boasts about deductive prowess and superiority repeatedly"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Narrates multi-step plan aloud with explicit reasoning about evidence and tactics"
+      },
+      "gloating": {
+        "score": 3,
+        "reason": "Celebrates deductive skills prematurely before securing the map"
+      }
+    }
+  },
+  {
+    "index": 198,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Ah, thank you, Mr. Foxworth \u2014 MOST kind! Now then, gentlemen, while you familiarise yourse",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Actively planning elaborate trap setup with hidden agenda while misdirecting others"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "Vigilant concern about Dick's true intentions and Clara's location threatens the plan"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Controlling the room's focus and preparing to weaponize the space without others' knowledge"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Exultation over the machine's potential and premature triumph before trap is even sprung"
+      }
+    }
+  },
+  {
+    "index": 199,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "The CRATES! If Lord Wackford stored laboratory supplies in them, there could be volatile chemicals, spare electrical com",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate trap construction with specific components and deceptive misdirection"
+      },
+      "self-preservation": {
+        "score": 3,
+        "reason": "Moment of paranoia about Dick Dastardly's intentions, quickly dismissed"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "Satisfaction in manipulating fools and controlling Clara's inevitable arrival"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "Intoxicated triumph over the trap's elegance and Clara's impending doom"
+      }
+    }
+  },
+  {
+    "index": 200,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well now, would you LOOK at that \u2014 the inscription is still just sittin' there pretty as a peach, like",
+    "scores": {
+      "curiosity": {
+        "score": 4,
+        "reason": "actively theorizing hidden mechanisms and testing solutions through interaction"
+      },
+      "social-harmony": {
+        "score": 2,
+        "reason": "mild frustration with unresponsive object, not directed at people"
+      },
+      "adventure": {
+        "score": 3,
+        "reason": "excitement about discovering magical mechanisms and persistence through challenge"
+      }
+    }
+  },
+  {
+    "index": 201,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Alright Clara, thinkin' cap ON. You examined it, you got the riddle, you know the answer is a map. But just sayin' it ou",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Actively experimenting with puzzle mechanisms to uncover hidden solutions"
+      },
+      "social-harmony": {
+        "score": 1,
+        "reason": "No concern for others' feelings or group dynamics in this moment"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Energetic determination to overcome obstacles and pursue the prize"
+      }
+    }
+  },
+  {
+    "index": 202,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Right, them vents are too small for any of us \u2014 even Clyde, and he's built like a whippet! But SOMETHI",
+    "scores": {
+      "loyalty": {
+        "score": 4,
+        "reason": "Repeatedly mentions Clara's potential distress as motivation for investigation"
+      },
+      "protection": {
+        "score": 4,
+        "reason": "Driven to search for hidden dangers and find Clara; urgency to keep her safe fuels the detective work"
+      },
+      "suspicion": {
+        "score": 5,
+        "reason": "Entire monologue centers on suspicious details: mysterious creature, rearranged furniture, hidden compartments\u2014suspicion dominates every observation"
+      }
+    }
+  },
+  {
+    "index": 203,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "Every instinct I've got is screamin' that Clara's close. The decorations, the furniture moved just so \u2014 someone's made t",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Every thought centers on finding and protecting Clara"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Urgency to locate Clara and stop whoever has her"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Focused analysis of suspicious details\u2014moved furniture, crawling creature, careful arrangement"
+      }
+    }
+  },
+  {
+    "index": 204,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: Gentlemen \u2014 GENTLEMEN! I must insist that NO ONE touches those levers! James Hartwell has conducted a THO",
+    "scores": {
+      "gallantry": {
+        "score": 4,
+        "reason": "Repeatedly invokes Clara's trust and safety; frames heroic competence as key to impressing her"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Emphasizes his comprehensive plan, precision, and thorough heroism as demonstration of competence"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Dominates entire event; explicitly prevents electrocution, shields companions from danger, refuses to let anyone operate the broken machine"
+      }
+    }
+  },
+  {
+    "index": 205,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "That wire wasn't gnawed by accident. Something \u2014 or someone \u2014 wanted this machine disabled. Or worse, wanted it to MALFU",
+    "scores": {
+      "gallantry": {
+        "score": 4,
+        "reason": "Explicit focus on impressing Clara with thorough heroism and the tale of his actions"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Repeated emphasis on demonstrating competence through prudent, thorough heroic action"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Dominant concern about preventing harm to three men on a broken machine; protective instinct is primary motivation"
+      }
+    }
+  },
+  {
+    "index": 206,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Well! How EMBARRASSING for you, Sneekly \u2014 I was merely TESTING your honesty, of course! A little game be",
+    "scores": {
+      "greed": {
+        "score": 4,
+        "reason": "Obsessively hunting for the map; willing to manipulate others to access it"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Brief face-saving lie about 'testing honesty,' but quickly abandoned for scheming"
+      },
+      "scheming": {
+        "score": 5,
+        "reason": "Elaborate misdirection plan: orchestrating others to the machine while he searches the bench"
+      },
+      "gloating": {
+        "score": 1,
+        "reason": "No celebration; frustrated that his accusation failed and the map is missing"
+      }
+    }
+  },
+  {
+    "index": 207,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "CURSES and DOUBLE curses! Sneekly doesn't have the map \u2014 which means it's hidden somewhere ELSE in this laboratory! And ",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessively focused on locating the map above all else"
+      },
+      "recognition": {
+        "score": 2,
+        "reason": "Brief boast about rummaging skill, but secondary to treasure pursuit"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "Detailed plan to exploit distraction and systematically search the workbench"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Contempt for others present, but premature and tinged with frustration rather than triumph"
+      }
+    }
+  },
+  {
+    "index": 208,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well, I NEVER! That mantelpiece is bein' stubbornER than a mule in a mud puddle! I pushed and prodded ",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Actively investigating upside-down books as clues; determined to solve the puzzle"
+      },
+      "social-harmony": {
+        "score": 1,
+        "reason": "No concern for group dynamics or others' feelings expressed"
+      },
+      "adventure": {
+        "score": 2,
+        "reason": "Engagement with the mystery is present but framed as puzzle-solving rather than thrill-seeking"
+      }
+    }
+  },
+  {
+    "index": 209,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "The mantelpiece didn't budge, but Clara Bellingham does NOT give up that easy! Those upside-down books are SCREAMIN' clu",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on decoding clues and solving the puzzle of upside-down books"
+      },
+      "social-harmony": {
+        "score": 1,
+        "reason": "No concern for others' feelings or group dynamics in this moment"
+      },
+      "adventure": {
+        "score": 3,
+        "reason": "Energized by the treasure hunt itself, though puzzle-solving dominates over thrill-seeking"
+      }
+    }
+  },
+  {
+    "index": 210,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Oi! BIG GRUESOME! You and your little mate have been lurkin' down here in this cellar \u2014 don't think I ",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Urgent, desperate questioning focused entirely on Clara's whereabouts and safety"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Clara described as 'in DANGER' and character is actively searching, warning others"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Interrogating about furniture rearrangement and questioning motives of cellar inhabitants"
+      }
+    }
+  },
+  {
+    "index": 211,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "I'm scared half to death of Big Gruesome, if I'm honest. He's the size of a garden shed and twice as solid. But Clara ne",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Explicitly states Clara's need overrides mortal terror"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Willing to confront Big Gruesome solely to protect Clara and find her"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Intensely focused on mysterious cellar changes and questioning who's involved"
+      }
+    }
+  },
+  {
+    "index": 212,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: Confound it \u2014 tools aplenty but NOT A SINGLE suitable connector for that severed wire! Pliers, yes \u2014 scre",
+    "scores": {
+      "gallantry": {
+        "score": 3,
+        "reason": "Offers assistance and warns others of danger with gentlemanly concern"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Demonstrates technical expertise and positions himself as the capable problem-solver"
+      },
+      "protection": {
+        "score": 4,
+        "reason": "Urgently warns against dangerous lever manipulation to prevent harm"
+      }
+    }
+  },
+  {
+    "index": 213,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "Sneekly was AWFULLY quick to volunteer to search those crates alone. And Dick raised an excellent point about that bulge",
+    "scores": {
+      "gallantry": {
+        "score": 4,
+        "reason": "Explicitly planning to impress Clara with a dual heroic achievement"
+      },
+      "proving-worth": {
+        "score": 4,
+        "reason": "Framing surveillance as competent vigilance and problem-solving prowess"
+      },
+      "protection": {
+        "score": 3,
+        "reason": "Monitoring Sneekly's suspicious behavior to safeguard others from potential wrongdoing"
+      }
+    }
+  },
+  {
+    "index": 214,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): I beg your PARDON, Mr. Foxworth?! A bulge in my \u2014 sir, I am DEEPLY offended! DEEPLY! What ",
+    "scores": {
+      "scheming": {
+        "score": 4,
+        "reason": "Pivoting from defensive deflection to planning weaponization of the machine against Clara"
+      },
+      "self-preservation": {
+        "score": 5,
+        "reason": "White-hot panic beneath righteous indignation; desperate deflection masking exposure fear"
+      },
+      "dominance": {
+        "score": 3,
+        "reason": "Reasserting control through authority invocation and redirecting investigation focus"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Anticipatory satisfaction about Clara's doom, but overshadowed by immediate survival threat"
+      }
+    }
+  },
+  {
+    "index": 215,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "Oh, Foxworth, you WRETCHED little snoop! You almost caught me off guard \u2014 ALMOST! But the Hooded Claw does not rattle so",
+    "scores": {
+      "scheming": {
+        "score": 5,
+        "reason": "elaborate plan to weaponize machine and turn it into lethal trap for enemy"
+      },
+      "self-preservation": {
+        "score": 4,
+        "reason": "white-hot fear of exposure, desperate need to deflect suspicion with false indignation"
+      },
+      "dominance": {
+        "score": 4,
+        "reason": "relishing secret power over victims who will unknowingly build their own demise"
+      },
+      "gloating": {
+        "score": 5,
+        "reason": "intoxicated by irony, contemptuous delight in outsmarting adversaries, premature triumph"
+      }
+    }
+  },
+  {
+    "index": 216,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well now, Rock, Gravel \u2014 y'all just LOOK at these books! Several of them are turned completely UPSIDE ",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on solving the puzzle; treats upside-down books as deliberate clues demanding investigation"
+      },
+      "social-harmony": {
+        "score": 2,
+        "reason": "Acknowledges companions but centers on personal puzzle-solving; minimal effort to coordinate group dynamics"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Thrilled by imminent discovery and eager to trigger unknown consequences through direct action"
+      }
+    }
+  },
+  {
+    "index": 217,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Now Clara, think about this \u2014 the riddle on the mantelpiece says 'cities but no houses, forests but no trees, water but ",
+    "scores": {
+      "curiosity": {
+        "score": 5,
+        "reason": "Intensely focused on solving the riddle and mechanism; actively theorizing about clues"
+      },
+      "social-harmony": {
+        "score": 2,
+        "reason": "Mentions companions present but primary focus is on puzzle-solving, not group cohesion"
+      },
+      "adventure": {
+        "score": 4,
+        "reason": "Explicitly compares to thrilling past danger; describes puzzle as 'exhilarating' and bursting with excitement"
+      }
+    }
+  },
+  {
+    "index": 218,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Ah, SPLENDID work everyone! Truly INSPIRING teamwork! Now, Sneekly old chap, you mentioned spare parts i",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessed with finding treasure in crates; suspects Sneekly found valuables"
+      },
+      "recognition": {
+        "score": 4,
+        "reason": "Boasts about Oxford credentials and expertise to justify crate access"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "Devises plausible excuse to rummage through crates undetected"
+      },
+      "gloating": {
+        "score": 2,
+        "reason": "Competitive satisfaction about matching Sneekly's strategy, but plan not yet executed"
+      }
+    }
+  },
+  {
+    "index": 219,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Heh heh HEH! 'Spare parts' \u2014 POPPYCOCK! That oily little weasel Sneekly was rifling through those crates like a ferret i",
+    "scores": {
+      "greed": {
+        "score": 5,
+        "reason": "Obsessive fixation on finding treasure; 'SHALL BE MINE! ALL MINE!' declares possession hunger"
+      },
+      "recognition": {
+        "score": 3,
+        "reason": "Reference to 'fake medal' and pride in investigation prowess show status awareness"
+      },
+      "scheming": {
+        "score": 4,
+        "reason": "Detailed plan to analyze what Sneekly left behind; strategic competitive thinking about out-investigating"
+      },
+      "gloating": {
+        "score": 4,
+        "reason": "Celebratory tone ('Heh heh HEH!') and boastful declarations despite not yet finding anything"
+      }
+    }
+  },
+  {
+    "index": 220,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: OI! RED MAX! What are YOU doin' skulkin' about in a cellar, mate?! You're supposed to be a PILOT, not ",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Obsessive focus on finding Clara, willing to command and threaten others to continue search"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Driven by fear Clara is hidden/trapped, systemically searching every hiding spot in desperation"
+      },
+      "suspicion": {
+        "score": 4,
+        "reason": "Questioning Red Max's presence, analyzing furniture arrangement for deliberate concealment, gut screaming something's wrong"
+      }
+    }
+  },
+  {
+    "index": 221,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "Something ain't right about this cellar. Who redecorates a CELLAR? With cheerful decorations? In a creepy manor? That's ",
+    "scores": {
+      "loyalty": {
+        "score": 5,
+        "reason": "Every observation is filtered through concern for Clara's safety and location"
+      },
+      "protection": {
+        "score": 5,
+        "reason": "Actively searching for Clara, examining every detail as potential hiding spot"
+      },
+      "suspicion": {
+        "score": 5,
+        "reason": "Intensely suspicious of Pemberton's cellar modifications, Red Max's presence, and hidden mechanisms"
+      }
+    }
+  }
+]
