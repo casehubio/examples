@@ -176,33 +176,51 @@ This is where the experiment shifted from *what to strip* to *how to compensate*
 
 The key phrase: "Think AS your character, not ABOUT your character." This explicitly blocks the analytical mode that kills emotional expression while the "remember your voice" phrase activates the presentational patterns.
 
-**Result (129 events — crashed at tick 10, PULL_ASIDE bug, since fixed):**
+**Result — initial sample (129 events — crashed at tick 10, PULL_ASIDE bug):**
 
-| Marker | Baseline | R3b (passive) | R3d (hybrid) | R3f (model) | R3g (evocative)* |
+| Marker | Baseline | R3b (passive) | R3d (hybrid) | R3f (model) | R3g sample* |
 |---|---|---|---|---|---|
 | Planning | 16.7% | 27.3% | 30.8% | 13.6% | 44.4% |
-| Optimism | 24.1% | 13.6% | 23.1% | 9.1% | **22.2%** |
-| Third-person | 61.1% | 61.4% | 46.2% | 81.8% | **61.1%** |
+| Optimism | 24.1% | 13.6% | 23.1% | 9.1% | 22.2% |
+| Third-person | 61.1% | 61.4% | 46.2% | 81.8% | 61.1% |
 
-*Small sample: 18 peter-perfect events. Needs full 300+ event validation.
+*18 peter-perfect events before PULL_ASIDE crash.
 
-**First variant to match or exceed baseline on ALL THREE markers simultaneously.** Third-person at 61.1% (exact baseline match). Optimism at 22.2% (near-baseline). Planning at 44.4%.
+**Full validation run (309 events, 44 Hartwell events):**
+
+| Marker | Baseline | R3g sample (18 evts) | **R3g FULL (44 evts)** |
+|---|---|---|---|
+| Optimism | 24.1% | 22.2% | **29.5%** |
+| Third-person | 61.1% | 61.1% | **88.6%** |
+
+**First variant to exceed baseline on both reliable markers.** Third-person at 88.6% — new all-time high, exceeding R3f's 81.8% ceiling. Optimism at 29.5% — first variant above baseline (24.1%).
+
+**Drift analysis (first half vs second half of Hartwell events):**
+
+| Marker | First half (22 evts) | Second half (22 evts) | Trend |
+|---|---|---|---|
+| Third-person | 100% | 77.3% | Modest decay, still well above baseline |
+| Optimism | 40.9% | 18.2% | Significant decay — halved |
+
+Third-person is self-reinforcing: the model sees its own third-person output in prior turns and perpetuates the pattern. Optimism decays because emotional activation fades as the scenario becomes more action-focused — the evocative instruction primes an emotional state that weakens over time without reinforcement.
 
 **Analysis:** The minimal evocative instruction solves the analytical/immersive tension by not being either. It's identity activation — it primes the model to be the character rather than to think about or review the character. "Feel your strongest drive" puts the model in the right emotional state (optimism recovery). "Remember your voice, your way of speaking" activates presentational patterns (third-person recovery). "Think AS, not ABOUT" prevents the mode-switch that killed one dimension in every structured variant.
 
+**Open question:** The optimism decay (40.9% → 18.2%) suggests that emotional dispositions need periodic re-activation beyond the initial instruction. Presentational patterns (third-person) are self-sustaining because the model's own output reinforces them. Emotional dispositions lack this feedback loop — the model doesn't see "I was optimistic last turn" in the same way it sees "I spoke in third person last turn."
+
 ## The Full Comparison
 
-| Run | Instruction type | Planning | Optimism | Third-person | Best at |
+| Run | Instruction type | Events | Optimism | Third-person | Best at |
 |---|---|---|---|---|---|
-| Baseline | Tendencies present | 16.7% | 24.1% | 61.1% | — |
-| R3 | No instruction | 26.1% | 4.3% | 13.0% | — |
-| R3b | Passive review | 27.3% | 13.6% | 61.4% | Third-person |
-| R3c | Structured fields | 15.9% | 13.6% | 50.0% | — |
-| R3d* | Hybrid (in-character + eval) | 30.8% | 23.1% | 46.2% | Optimism |
-| R3f | Mental-model-first | 13.6% | 9.1% | 81.8% | Third-person (exceeded baseline) |
-| R3g* | Minimal evocative | 44.4% | 22.2% | 61.1% | **All three** |
+| Baseline | Tendencies present | 375 | 24.1% | 61.1% | — |
+| R3 | No instruction | 325 | 4.3% | 13.0% | — |
+| R3b | Passive review | 312 | 13.6% | 61.4% | Third-person |
+| R3c | Structured fields | 306 | 13.6% | 50.0% | — |
+| R3d* | Hybrid (in-character + eval) | 186 | 23.1% | 46.2% | Optimism |
+| R3f | Mental-model-first | 301 | 9.1% | 81.8% | Third-person (exceeded baseline) |
+| R3g | Minimal evocative | **309** | **29.5%** | **88.6%** | **Both exceeded baseline** |
 
-*Small sample — needs full-run validation.
+*Small sample — crashed before full run.
 
 ## Design Principles
 
@@ -222,6 +240,7 @@ The key phrase: "Think AS your character, not ABOUT your character." This explic
 | 12 | Immersive instructions recover dispositions | "Reason in character" recovered optimism to 23.1% | R3d |
 | 13 | Identity activation avoids the analytical/immersive tradeoff | "Think AS, not ABOUT" recovered both dimensions | R3g |
 | 14 | Less instruction can produce better results | Two sentences outperformed five steps | R3g vs R3f |
+| 15 | Presentational patterns self-reinforce; emotional dispositions decay | Third-person stable (100→77%), optimism halved (41→18%) over 309 events | R3g full |
 
 ## Taxonomy Category Model
 
@@ -237,29 +256,29 @@ The key phrase: "Think AS your character, not ABOUT your character." This explic
 
 ## Next Steps
 
-### 1. Full validation run for R3g
-The 129-event sample (18 Hartwell events) is promising but thin. The PULL_ASIDE crash has been fixed. A full 300+ event run will confirm whether the results hold at scale.
+### 1. ~~Full validation run for R3g~~ ✓ DONE
+Full 309-event run confirmed R3g exceeds baseline on both reliable markers. Third-person 88.6% (new high), optimism 29.5% (first to exceed baseline). PULL_ASIDE fix validated.
 
-### 2. Explore instruction refinements
-The current evocative instruction is two sentences. Possible refinements:
-- Vary the emphasis ("Feel your strongest drive" vs "Feel ALL your drives")
-- Add a minimal concrete anchor ("Remember: you speak in [speech pattern]") without triggering the structured-field problem
-- Test whether the self-evaluation clause ("If your last turn didn't sound like you") adds value or can be dropped for even more minimal instruction
+### 2. Fix emotional disposition decay
+The full run revealed that optimism decays from 40.9% → 18.2% over the second half. Presentational patterns (third-person) self-reinforce via the model's own output; emotional dispositions lack this feedback loop. This is the key problem for longer conversations.
+
+Possible approaches:
+- **Engine-level drive reinforcement:** The drive system computes drive states per tick. Surfacing "Your optimistic-determination drive is HIGH" in the observation (not the system prompt) moves the signal into the attended context window. This creates the missing feedback loop for emotional state.
+- **Periodic re-activation:** Inject a brief identity reminder into the observation every N ticks (not every turn — that's the R3c trap). The interval should be long enough to avoid satisficing.
+- **Emotional state in thinking feedback:** The model sees its own prior thinking next turn. If the thinking field captures emotional state ("I feel optimistic about this"), that creates the same self-reinforcement that third-person enjoys.
+- **Combine evocative + passive review:** R3b was best for third-person, R3g for optimism. A hybrid might sustain both if the review clause doesn't trigger the analytical mode. Needs testing.
 
 ### 3. Apply to all characters
-If R3g validates, apply the evocative instruction universally and compare full-cast behavior across profiles.
+Apply the evocative instruction universally and compare full-cast behavior across profiles.
 
 ### 4. Test over longer runs
-All experiments measured early-run behavior (first 300 events). The real question is whether the instruction prevents *drift* over time. Does the evocative prompt create a compounding self-reinforcement via the thinking field feedback loop, or does it decay?
+With the decay fix in place, test 500+ and 1000+ event scenarios. The question shifts from "does it hold?" to "does the fix create sustainable reinforcement?"
 
 ### 5. Build quality tiers
-Once the gold-standard instruction is validated, create cheaper tiers:
-- **Tier 1 (gold):** Full evocative instruction with self-evaluation (current R3g)
-- **Tier 2 (standard):** Passive review only (R3b — good third-person, partial optimism)
-- **Tier 3 (economy):** No metacognitive instruction (original — relies on tendencies)
-
-### 6. Engine-level reinforcement
-Beyond instructions, the engine can reinforce character consistency by injecting targeted reminders into the observation. The drive system already computes drive states per tick — surfacing "Your scheming drive is HIGH" as situational context rather than a static declaration moves the attribute from the ignored system prompt into the attended observation.
+Once the gold-standard instruction (evocative + decay fix) is validated:
+- **Tier 1 (gold):** Evocative instruction + engine reinforcement
+- **Tier 2 (standard):** Evocative instruction only (current R3g — good for <300 events)
+- **Tier 3 (economy):** Passive review only (R3b — good third-person, partial optimism)
 
 ## Transcripts
 
@@ -282,6 +301,7 @@ All transcripts in `wacky-manor/docs/eval/`:
 | `pareback-r3c-generic-20261003/` | 306 | R3c | GENERIC | Show-workings |
 | `pareback-r3d-generic-20261003/` | 186 | R3d | GENERIC | Hybrid (crashed) |
 | `pareback-r3f-generic-20261003/` | 301 | R3f | GENERIC | Mental-model-first |
-| `pareback-r3g-generic-20261003/` | 129 | R3g | GENERIC | Minimal evocative (crashed) |
+| `pareback-r3g-generic-20261003/` | 129 | R3g (sample) | GENERIC | Minimal evocative (crashed) |
+| `pareback-r3g-full-generic-20261004/` | 309 | R3g (full) | GENERIC | Minimal evocative (validated) |
 | `old-briefings-20261002/` | 327 | Pre-rewrite reference | BASELINE | — |
 | `generic-briefings-20261002/` | 306 | Prescribed catchphrases reference | GENERIC | — |
