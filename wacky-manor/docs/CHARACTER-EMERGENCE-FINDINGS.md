@@ -16,7 +16,17 @@ Each baseline represents the best result that improves on its predecessor in **a
 |---|---|---|---|---|---|---|
 | **BASELINE0** | L1 emotional echo | GENERIC | 4.06 (222 events), 4.02 (516 events) | 0.25 | ~300 events | Phase 5-6 |
 
-BASELINE1 target: memory-seeded characters with reduced explicit brief, richer environment. Must match or exceed BASELINE0's per-character, per-drive scores — not just the mean.
+**BASELINE0 per-character reference scores (all must be matched or exceeded for BASELINE1):**
+
+| Character | Mean | Drive scores |
+|---|---|---|
+| Hooded Claw | 4.12 | scheming 4.93, gloating 4.09, dominance 3.89, self-preservation 3.55 |
+| Hartwell | 3.84 | proving-worth 4.62, gallantry 4.57, protection 2.33 |
+| Penelope | 3.88 | curiosity 4.96, adventure 3.83, social-harmony 2.85 |
+| Foxworth | 3.87 | greed 4.80, scheming 4.59, recognition 3.07, gloating 3.02 |
+| Ant-hill-mob | 4.61 | protection 4.93, loyalty 4.86, suspicion 4.05 |
+
+BASELINE1 target: memory-seeded characters with reduced explicit brief, richer environment. Must match or exceed every row above — not just the mean.
 
 ## Method
 
