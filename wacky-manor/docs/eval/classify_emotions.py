@@ -113,7 +113,7 @@ def main():
 
     drives_by_char = load_drives(SOCIAL_CONFIG)
     transcript = load_transcript(args.transcript)
-    events = transcript.get("events", transcript if isinstance(transcript, list) else [])
+    events = transcript if isinstance(transcript, list) else transcript.get("events", [])
 
     classifiable = [e for e in events if e.get("type") in ("dialogue", "aside")]
     if args.character:
