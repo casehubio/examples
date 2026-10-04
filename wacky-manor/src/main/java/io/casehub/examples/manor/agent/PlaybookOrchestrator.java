@@ -402,19 +402,20 @@ public class PlaybookOrchestrator {
                         var narr = NarrativeEventBuilder.describeDirectedDialogue(c.name(), validatedTalkTo, response.dialogue());
                         var event = new io.casehub.examples.manor.model.ManorEvent.Dialogue(
                                 java.time.Instant.now(), c.agentId(), c.currentRoom(),
-                                narr.publicText(), narr.detailedText(), validatedTalkTo);
+                                narr.publicText(), narr.detailedText(), validatedTalkTo, response.thinking());
                         dispatcher.publishDialogue(event, response.dialogue());
                     } else {
                         var event = new io.casehub.examples.manor.model.ManorEvent.Dialogue(
                                 java.time.Instant.now(), c.agentId(),
-                                c.currentRoom(), c.name() + ": " + response.dialogue());
+                                c.currentRoom(), c.name() + ": " + response.dialogue(),
+                                null, null, response.thinking());
                         dispatcher.publishDialogue(event, response.dialogue());
                     }
                 }
                 if (response.aside() != null) {
                     var event = new io.casehub.examples.manor.model.ManorEvent.Aside(
                             java.time.Instant.now(), c.agentId(),
-                            c.currentRoom(), response.aside());
+                            c.currentRoom(), response.aside(), response.thinking());
                     dispatcher.publishAside(event, response.aside());
                 }
             }

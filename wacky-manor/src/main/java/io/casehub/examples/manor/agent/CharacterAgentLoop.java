@@ -76,13 +76,14 @@ public final class CharacterAgentLoop {
                 if (response.dialogue() != null) {
                     var dialogueEvent = new io.casehub.examples.manor.model.ManorEvent.Dialogue(
                             java.time.Instant.now(), character.agentId(),
-                            character.currentRoom(), character.name() + ": " + response.dialogue());
+                            character.currentRoom(), character.name() + ": " + response.dialogue(),
+                            null, null, response.thinking());
                     dispatcher.publishDialogue(dialogueEvent, response.dialogue());
                 }
                 if (response.aside() != null) {
                     var asideEvent = new io.casehub.examples.manor.model.ManorEvent.Aside(
                             java.time.Instant.now(), character.agentId(),
-                            character.currentRoom(), response.aside());
+                            character.currentRoom(), response.aside(), response.thinking());
                     dispatcher.publishAside(asideEvent, response.aside());
                 }
 

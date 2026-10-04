@@ -17,6 +17,7 @@ public sealed interface ManorEvent {
     default String detailedDescription() { return null; }
     default boolean concealed() { return false; }
     default String dialogueTarget() { return null; }
+    default String thinking() { return null; }
 
     static ManorEvent of(String type, String characterId, String room, String description) {
         return switch (type) {
@@ -42,16 +43,22 @@ public sealed interface ManorEvent {
     }
 
     record Dialogue(Instant timestamp, String characterId, String room, String description,
-                    String detailedDescription, String dialogueTarget) implements ManorEvent {
+                    String detailedDescription, String dialogueTarget, String thinking) implements ManorEvent {
 
         public Dialogue(Instant timestamp, String characterId, String room, String description) {
-            this(timestamp, characterId, room, description, null, null);
+            this(timestamp, characterId, room, description, null, null, null);
         }
 
         @Override public String type() { return "dialogue"; }
     }
 
-    record Aside(Instant timestamp, String characterId, String room, String description) implements ManorEvent {
+    record Aside(Instant timestamp, String characterId, String room, String description,
+                 String thinking) implements ManorEvent {
+
+        public Aside(Instant timestamp, String characterId, String room, String description) {
+            this(timestamp, characterId, room, description, null);
+        }
+
         @Override public String type() { return "aside"; }
     }
 
