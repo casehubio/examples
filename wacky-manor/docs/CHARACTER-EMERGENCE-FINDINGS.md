@@ -6,7 +6,17 @@ Systematic experiment to understand how LLM character agents develop and sustain
 
 Starting question: which elements of the character taxonomy (drives, tendencies, speech-patterns, constraints, disposition) are load-bearing vs redundant? Strip elements iteratively, measure behavioral drift via 300+ event autonomous scenario runs.
 
-This evolved into a broader investigation: what minimal instruction replaces explicit behavioral prescriptions, and how do we sustain character consistency over long conversations? The work progressed through four phases — ablation, load-bearing identification, metacognitive instruction design, and emotional persistence architecture.
+This evolved into a broader investigation: what minimal instruction replaces explicit behavioral prescriptions, and how do we sustain character consistency over long conversations? The work progressed through six phases — ablation, load-bearing identification, metacognitive instruction design, emotional persistence architecture, cross-run classification, and long-run scale testing.
+
+## Baselines
+
+Each baseline represents the best result that improves on its predecessor in **all situations at all times** — not just on average, not just for some characters. Partial improvements are regressions.
+
+| Baseline | Instruction | Profile | Mean drive expression | Stability (|delta|) | Scenario ceiling | Established |
+|---|---|---|---|---|---|---|
+| **BASELINE0** | L1 emotional echo | GENERIC | 4.06 (222 events), 4.02 (516 events) | 0.25 | ~300 events | Phase 5-6 |
+
+BASELINE1 target: memory-seeded characters with reduced explicit brief, richer environment. Must match or exceed BASELINE0's per-character, per-drive scores — not just the mean.
 
 ## Method
 
