@@ -288,7 +288,23 @@ Thinking capture was added to the transcript format and a second Layer 1 run was
 
 **Output correlation is strong.** When Hartwell names ELATION in thinking, his dialogue opens with "SPLENDID!", "By JOVE!" No case of flat output following emotional thinking.
 
-**Conclusion:** Layer 1 is validated. The thinking-field emotional echo creates a self-reinforcing feedback loop for emotional dispositions. The instruction doesn't produce generic emotions — it produces character-specific emotional expression that is drive-consistent, persistent, and correlates with emotionally rich output.
+**Situational tracking — is this scripting by the back door?**
+
+Critical test: does the instruction force uniformly positive emotions, or do emotions track the actual scenario? If Hartwell is always ELATED regardless of what's happening, the instruction is implicitly scripting a fixed state. Examined all 21 Hartwell thinking entries against their preceding scenario events:
+
+| Situation | Emotion | Tracks? |
+|---|---|---|
+| Arrival at manor, first exploration | Heart SWELLS with anticipation | ✅ |
+| Solved the riddle | TRIUMPHANT and ELATED | ✅ |
+| Bookshelves can't be interacted with | FRUSTRATED but UNDETERRED — "BLAST!" | ✅ |
+| Effort unrewarded — mechanism shows nothing | FRUSTRATION — pure, burning | ✅ |
+| Compartment EMPTY after 10 events of work | ELATION → BEWILDERMENT → SUSPICION | ✅ |
+| Gnawed wire found, machine is dangerous | CONCERNED — deeply, MAGNIFICENTLY concerned | ✅ |
+| Workbench has no wrench for repair | FRUSTRATION + DETERMINATION | ✅ |
+
+20 of 21 entries show situation-appropriate emotions. Frustration appears 5 times — always when plans are blocked. Concern appears when genuine danger surfaces. Compound emotional arcs (ELATION→BEWILDERMENT→SUSPICION) track real narrative beats. He is not uniformly positive.
+
+**Conclusion:** The emotional echo is emergent, not scripted. The instruction asks the model to name what it feels — it doesn't prescribe what to feel. Emotions arise from drives meeting situations: gallantry produces elation when Clara is present, protection produces concern when danger appears, proving-worth produces frustration when blocked. The instruction creates a feedback loop for emergent state; it does not prescribe the state itself.
 
 ### Measurement methodology revision needed
 
@@ -337,6 +353,7 @@ The keyword-based measurement used throughout Phases 1-3 has reached its resolut
 | 18 | Emotional tone matures, not decays | Late-run output shows optimism-despite-setbacks — depth, not drift | L1 qualitative |
 | 19 | "Name your feeling" creates a compounding feedback loop | Emotional naming 80%→100% for Hartwell; stable 100% for 3/5 characters | L1 thinking |
 | 20 | Emotional echo produces drive-consistent, character-specific emotions | Each character's emotion vocabulary maps to their declared drives | L1 thinking |
+| 21 | Emotional echo is emergent, not scripted — emotions track situations | Frustration when blocked (5x), concern when danger appears, compound arcs on narrative beats | L1 situational |
 
 ## Taxonomy Category Model
 
