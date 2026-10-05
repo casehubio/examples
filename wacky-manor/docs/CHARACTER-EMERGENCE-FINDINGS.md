@@ -613,6 +613,10 @@ Protection and loyalty both surge from Q1 and sustain. Protection hits ceiling (
 | 36 | Single-emotion instruction creates winner-take-all dynamics between drives | Strengthening Hartwell protection (+1.15) weakened proving-worth (-0.70). Drives compete for the one emotion slot in the thinking field | EC experiment |
 | 37 | Monolithic drive descriptions hit a ceiling — fixing one drive regresses another | EC experiment: 10/17 pass BASELINE0 vs L1's 13/17. Emotional-core recovers targeted drives but introduces new regressions elsewhere | EC experiment |
 | 38 | Drive descriptions are doing triple duty (perception + appraisal + feeling) — needs separation | Aligns with Lazarus cognitive appraisal theory: emotion is downstream of perception and appraisal, not parallel to it | Architectural analysis |
+| 39 | P11 applies to the main agent, not to sub-LLMs — analytical prompts are safe in pre-processing | Sub-LLM with structured analytical prompt ("for each drive, evaluate relevance") produces quality multi-drive output. The constraint is on the character's thinking field, not on pre-processing calls | Phase 7 debate |
+| 40 | Evocative narrative output avoids P9 satisficing — narrative is not structured fields | Sub-LLM output as felt-state narrative ("You feel the pull of a plan forming") does not trigger pattern-completion shortcuts. Only structured fields (JSON, labelled dimensions) create satisficing | Phase 7 debate |
+| 41 | Sub-LLM appraisal's value is highest for non-obvious drive activations | When all drives are naturally activated by the situation, appraisal adds little. When secondary drives are subtle (proving-worth in a danger scenario), the appraisal surfaces them — the biggest quality improvement | Phase 7 ad-hoc test |
+| 42 | One sub-LLM call covers all 4 Scherer SECs — separate evaluations reproduce P11 failure | Haiku implicitly traverses relevance, implications, coping, normative significance when asked "what are they feeling?" Explicit 4-step decomposition adds latency without improving output | Phase 7 debate |
 
 ## Taxonomy Category Model
 
@@ -677,38 +681,73 @@ Classified R3 (none), R3b (passive review), R3g (evocative), and L1 (echo) with 
 - **Frijda (1986):** Emotions are states of action readiness. Appraisal produces action tendencies (approach, avoid, shield, dominate, submit) — not just feelings
 - **Chain-of-Emotion (2024, PLOS ONE):** Separate LLM appraisal call before response generation outperforms baseline on believability in game agents
 
-**Architecture:**
+**Initial architecture proposal (superseded):**
+
+The original framing proposed a SEC pipeline (4 separate Scherer evaluation checks as Java SPIs), an emotion knowledge base (RAG-retrievable psychology patterns), and an instruction change from L1 to a "perceive-appraise-feel-respond" prompt. This was captured in neocortex #428 (epic) and #431 (implementation issue).
+
+**Adversarial debate (2026-10-05):**
+
+Three independent agents — theory-first (Lazarus/Scherer/Frijda research), empirics-first (38 design principles + eval data), codebase-first (existing Java implementation) — read the research docs and codebase independently, then each proposed architecture answers to five questions: what stays in system prompt, what gets retrieved, how does the instruction change, what post-processing extracts, does the SecCheck SPI make sense.
+
+Consensus across all three:
+1. Drive descriptions become minimal — type + intensity only, no "you feel X when Y"
+2. One sub-LLM call, not four separate SEC evaluations — Scherer is a theoretical lens, not an implementation spec
+3. L1 instruction stays unchanged — empirically validated, appraisal section is the only treatment
+4. Post-processing extracts from thinking field after generation — invisible to main LLM
+5. No SecCheck SPI — `SecCheck.java` and `SchererAppraisalStrategy.java` were never built
+
+The central contested question: sub-LLM appraisal (Haiku call) vs main-LLM-only (RAG approach). Theory and codebase advocates argued for the sub-LLM; empirics advocate warned that sub-LLM output risks P9 satisficing. Resolution: P11 applies to the main agent (analytical instructions kill expression), but NOT to a sub-LLM. The sub-LLM can receive an analytical prompt. Its output must be evocative narrative (not structured fields) to avoid P9. This separation — analytical input, evocative output — respects both constraints.
+
+**Ad-hoc test (2026-10-05):**
+
+Three character scenarios tested control (full drive descriptions, L1) vs treatment (minimal drives + Haiku appraisal section):
+
+| Scenario | Control | Treatment | Delta |
+|---|---|---|---|
+| Hooded Claw — locked cabinet, Hartwell watching | All 4 drives expressed, scheming dominant | All 4 drives expressed, self-preservation/gloating tension sharper — "The gloat wants to rise... but the survival instinct is screaming: not yet" | Multi-drive conflict more explicit |
+| Peter Perfect — Clara in danger | Protection dominant. Proving-worth buried — Pemberton triggers suspicion, not witnessing | All 3 drives explicit — "wanting him to *see* me do it" acknowledges proving-worth alongside protection, with authenticity ("shamefully, desperately") | **Clear improvement** — secondary drive surfaced |
+| Penelope Pitstop — tension in the room | All 3 drives present. Curiosity and social-harmony compete well | Comparable quality. "Both at once" explicitly names multi-drive experience | Comparable — situation naturally activates all drives |
+
+**Key finding:** The sub-LLM appraisal's value is highest for **non-obvious drive activations** — drives the situation touches but that a single-pass LLM skips in favor of the dominant one. When all drives are naturally activated (Penelope), the appraisal adds less value. The proving-worth result is the strongest signal: protection dominates a danger scenario, but the appraisal section made the character aware of *wanting to be witnessed*, which produced a more authentic and multi-layered response.
+
+Test script: `wacky-manor/docs/eval/test_appraisal.py`
+
+**Validated architecture:**
 
 ```
-Drives (what you care about)           — character-specific, MINIMAL (type + intensity only)
-    ×
-Environment (what's happening)         — observation (same as now)
-    ↓
-Appraisal driver (standardized)        — neocortex SPI, implements Scherer's 4 SECs
-    ↓
-RAG: emotion knowledge base            — neocortex-managed, grounded in Lazarus/Frijda/OCC
-    ↓
-Emotional state + action readiness     — COMPUTED, not prescribed
-    ↓
-Thinking field + response              — character acts from appraised emotional state
+SYSTEM PROMPT (static, minimal):
+    Identity + drives (type+intensity ONLY) + voice + disposition
+    + L1 instruction (UNCHANGED): "What are you FEELING — name it.
+      Think AS your character, not ABOUT your character."
+
+PRE-RESPONSE SUB-LLM APPRAISAL (one Haiku call per turn):
+    Input:  drives (type+intensity), observation, mood, disposition
+    Prompt: analytical ("for each drive, does this situation touch it?")
+            — P11 doesn't apply to the sub-LLM
+    Output: 2-3 sentence evocative felt-state narrative
+            — avoids P9 (narrative, not structured fields)
+    → Injected as cognitive section: "What You're Feeling"
+
+MAIN LLM CALL:
+    Receives appraisal as observation section alongside mood, beliefs, norms
+    L1 instruction drives the thinking field
+    Character inhabits the pre-appraised emotional state
+
+POST-PROCESSING (invisible to main LLM):
+    Extract from thinking field: OCC emotion type, drive activations,
+    action readiness, PAD values for mood update
 ```
 
-**What neocortex needs:**
-1. **AppraisalStrategy SPI** — takes (drives, environment observation, personality, memories) → produces (emotional state, action readiness, appraisal result). Implements Scherer's 4 SECs as the evaluation framework
-2. **Emotion knowledge base** — RAG-retrievable entries encoding core relational themes (Lazarus), appraisal-to-emotion mappings (OCC), action tendency types (Frijda). Universal human psychology, not character-specific
-3. **Retrieval interface** — LLM queries neocortex during thinking phase for relevant appraisal patterns, like it already queries memories via `experienceService.recall()`
+**What was deferred:**
+- Emotion knowledge base — Haiku's training data contains Lazarus/Scherer/Frijda. Add KB only if measurement shows specific pattern gaps
+- Instruction changes — L1 stays as-is until the appraisal section's impact is measured in a 300-event eval
+- `SecCheck.java` / `SchererAppraisalStrategy.java` — never built, not building them
 
-**What changes in wacky-manor:**
-- Drive descriptions become minimal: type + intensity + what you attend to (not how to feel)
-- The thinking instruction becomes an appraisal prompt: "assess your environment through your drives" instead of "name your feeling"
-- The appraisal result feeds into the observation as a cognitive section
-- The emotion is the OUTPUT of the appraisal process, not a prescribed INPUT
+**Implementation plan:** Prototype in wacky-manor first (hardcoded Haiku call in CharacterAgentLoop), run 300-event eval, bar to clear is L1's 4.06. If validated, extract abstraction to neocortex as `AppraisalOrchestrator` (neocortex #432).
 
-**The key insight:** Instead of telling the model WHAT to feel (emotional-core descriptions) or WHERE to look (perceptual descriptions), give it a standardised process for HOW to appraise — and let the emotion emerge from that appraisal. The appraisal knowledge lives in neocortex, not in drive descriptions.
+**Memory-seeded scenario** (from original Phase 7 plan) folds into this: seeded memories become inputs to the appraisal call. A memory of hiding a key in a vase changes the appraisal of the vase (relevance=high) without needing the drive description to mention vases. The sub-LLM sees the memory and factors it into the felt-state narrative.
 
-**Memory-seeded scenario** (from original Phase 7 plan) folds into this: seeded memories become inputs to the appraisal process. A memory of hiding a key in a vase changes the appraisal of the vase (relevance=high) without needing the drive description to mention vases. The appraisal architecture makes memory seeding more powerful because memories influence the relevance check, not just the knowledge base.
-
-**Blocked by:** neocortex AppraisalStrategy SPI design + emotion knowledge base population
+**Next:** implement prototype, run 300-event eval, classify with Haiku judge
 
 ### 8. Implement Layers 2-3 (neocortex SPIs)
 - **Layer 2:** `PersonalityDriveEvaluator` SPI — dynamic personality drive intensity from reinforcement triggers + proprioceptive feedback
