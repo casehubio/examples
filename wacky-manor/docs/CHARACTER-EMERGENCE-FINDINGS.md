@@ -738,12 +738,13 @@ POST-PROCESSING (invisible to main LLM):
     action readiness, PAD values for mood update
 ```
 
+**Correction (same day):** The debate's codebase advocate searched an out-of-date checkout (slot 196). The CARMA appraisal pipeline — `SecCheck` SPI, `SchererAppraisalStrategy`, `RelevanceCheck`, `ImplicationCheck`, `CopingCheck`, `NormativeCheck`, LLM-backed variants, `EmotionMapper`, `AppraisalTickParticipant` — was built in #428-430 and exists on the active branch (slot 203). The sub-LLM approach becomes a new `LlmAppraisalStrategy` implementation alongside the existing `SchererAppraisalStrategy`, not a replacement of the pipeline. The SPIs (`AppraisalStrategy`, `AppraisalContext`, `AppraisalResult`) and infrastructure (`EmotionMapper`, `HabituationState`, `AppraisalTickParticipant`) are reused.
+
 **What was deferred:**
 - Emotion knowledge base — Haiku's training data contains Lazarus/Scherer/Frijda. Add KB only if measurement shows specific pattern gaps
 - Instruction changes — L1 stays as-is until the appraisal section's impact is measured in a 300-event eval
-- `SecCheck.java` / `SchererAppraisalStrategy.java` — never built, not building them
 
-**Implementation plan:** Prototype in wacky-manor first (hardcoded Haiku call in CharacterAgentLoop), run 300-event eval, bar to clear is L1's 4.06. If validated, extract abstraction to neocortex as `AppraisalOrchestrator` (neocortex #432).
+**Implementation plan:** Prototype in wacky-manor first (hardcoded Haiku call in CharacterAgentLoop), run 300-event eval, bar to clear is L1's 4.06. If validated, implement as `LlmAppraisalStrategy` in neocortex using the existing `AppraisalStrategy` SPI (neocortex #432).
 
 **Memory-seeded scenario** (from original Phase 7 plan) folds into this: seeded memories become inputs to the appraisal call. A memory of hiding a key in a vase changes the appraisal of the vase (relevance=high) without needing the drive description to mention vases. The sub-LLM sees the memory and factors it into the felt-state narrative.
 
