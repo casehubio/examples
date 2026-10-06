@@ -193,13 +193,8 @@ public class PlaybookOrchestrator {
         var cognitionCore = new io.casehub.neocortex.cognition.core.CognitionCore(
                 moodOrch, driveOrch, userModelOrch, mentalModelOrch, strategyOrch,
                 narrativeOrch, goalOrchestrator, memoryHygieneAdapter, innerLifeOrch,
-                agentProvider, io.casehub.neocortex.cognition.core.CognitionConfig.all().with("appraisal", true),
+                agentProvider, io.casehub.neocortex.cognition.core.CognitionConfig.all(),
                 mmStore, new ManorNeedTierMappingProvider(), null, null, null, null, null);
-
-        cognitionCore.configureAppraisal(
-                new io.casehub.neocortex.cognition.appraisal.LlmAppraisalStrategy(agentProvider),
-                ctx -> io.casehub.neocortex.cognition.appraisal.PerceivedSituation.passThrough(ctx.observation()),
-                null);
 
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
 
@@ -302,23 +297,11 @@ public class PlaybookOrchestrator {
                         .collect(java.util.stream.Collectors.toSet());
             };
 
-            var appraisalLatch = new java.util.concurrent.CountDownLatch(activeAgents.size());
             for (var c : activeAgents) {
-                Thread.ofVirtual().name(c.agentId() + "-appraisal-" + currentTick).start(() -> {
-                    try {
-                        if (!c.isActive()) return;
-                        var desc0 = agentRegistry.findById(c.agentId(), ManorConstants.TENANCY_ID).orElse(null);
-                        String situation = c.lastActionResult() != null ? c.lastActionResult() : "You are in the " + c.currentRoom() + ".";
-                        cognitionCore.tick(c.agentId(), ManorConstants.TENANCY_ID, desc0, subjectResolver, situation);
-                    } catch (Exception e) {
-                        log.warnf(e, "%s: appraisal tick failed", c.agentId());
-                    } finally {
-                        appraisalLatch.countDown();
-                    }
-                });
-            }
-            try { appraisalLatch.await(); } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); return;
+                if (!c.isActive()) continue;
+                var desc0 = agentRegistry.findById(c.agentId(), ManorConstants.TENANCY_ID).orElse(null);
+                String situation = c.lastActionResult() != null ? c.lastActionResult() : "You are in the " + c.currentRoom() + ".";
+                cognitionCore.tick(c.agentId(), ManorConstants.TENANCY_ID, desc0, subjectResolver, situation);
             }
 
             var actingThisTick = activeAgents.stream()
