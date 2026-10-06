@@ -302,11 +302,23 @@ public class PlaybookOrchestrator {
                         .collect(java.util.stream.Collectors.toSet());
             };
 
+            var appraisalLatch = new java.util.concurrent.CountDownLatch(activeAgents.size());
             for (var c : activeAgents) {
-                if (!c.isActive()) continue;
-                var desc = agentRegistry.findById(c.agentId(), ManorConstants.TENANCY_ID).orElse(null);
-                String situation = c.lastActionResult() != null ? c.lastActionResult() : "You are in the " + c.currentRoom() + ".";
-                cognitionCore.tick(c.agentId(), ManorConstants.TENANCY_ID, desc, subjectResolver, situation);
+                Thread.ofVirtual().name(c.agentId() + "-appraisal-" + currentTick).start(() -> {
+                    try {
+                        if (!c.isActive()) return;
+                        var desc0 = agentRegistry.findById(c.agentId(), ManorConstants.TENANCY_ID).orElse(null);
+                        String situation = c.lastActionResult() != null ? c.lastActionResult() : "You are in the " + c.currentRoom() + ".";
+                        cognitionCore.tick(c.agentId(), ManorConstants.TENANCY_ID, desc0, subjectResolver, situation);
+                    } catch (Exception e) {
+                        log.warnf(e, "%s: appraisal tick failed", c.agentId());
+                    } finally {
+                        appraisalLatch.countDown();
+                    }
+                });
+            }
+            try { appraisalLatch.await(); } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); return;
             }
 
             var actingThisTick = activeAgents.stream()
