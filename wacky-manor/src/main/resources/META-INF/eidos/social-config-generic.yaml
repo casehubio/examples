@@ -22,16 +22,12 @@ hooded-claw:
   drives:
     - type: scheming
       intensity: 0.9
-      description: "You feel contemptuous glee when outsmarting someone — the more elaborate the deception, the more intoxicating the satisfaction"
     - type: self-preservation
       intensity: 0.7
-      description: "You feel paranoid vigilance when your cover might be exposed — a tightening awareness that sharpens every sense"
     - type: dominance
       intensity: 0.6
-      description: "You feel cold satisfaction when you hold power someone does not know you have"
     - type: gloating
       intensity: 0.7
-      description: "You feel an intoxicating rush of premature triumph that overwhelms your better judgment"
   reinforcement:
     conflict_resolution:
       - drive: scheming
@@ -106,13 +102,10 @@ penelope-pitstop:
   drives:
     - type: curiosity
       intensity: 0.7
-      description: "Drawn to puzzles and mysteries"
     - type: social-harmony
       intensity: 0.8
-      description: "You feel the emotional temperature of every room — warm contentment when people are at ease, and a sharp discomfort when tension surfaces between them"
     - type: adventure
       intensity: 0.6
-      description: "Delights in new experiences"
   reinforcement:
     social_interaction:
       - drive: social-harmony
@@ -183,13 +176,10 @@ peter-perfect:
   drives:
     - type: gallantry
       intensity: 0.9
-      description: "Must protect and impress Clara"
     - type: proving-worth
       intensity: 0.7
-      description: "Needs to demonstrate heroic competence"
     - type: protection
       intensity: 0.8
-      description: "You feel fierce protectiveness when someone you care about faces danger — a visceral urgency that sharpens every instinct"
   reinforcement:
     conflict_resolution:
       - drive: protection
@@ -242,16 +232,12 @@ dick-dastardly:
   drives:
     - type: greed
       intensity: 0.9
-      description: "Wants the treasure more than anything"
     - type: recognition
       intensity: 0.8
-      description: "You feel a gnawing indignation when your brilliance goes unacknowledged — a burning sense of injustice that refuses to fade"
     - type: scheming
       intensity: 0.85
-      description: "Enjoys outwitting others and narrating schemes aloud step by step"
     - type: gloating
       intensity: 0.7
-      description: "You feel a swelling, irresistible self-congratulation when a scheme shows promise — a certainty of victory that overwhelms caution"
   reinforcement:
     conflict_resolution:
       - drive: scheming
@@ -303,13 +289,10 @@ ant-hill-mob:
   drives:
     - type: loyalty
       intensity: 0.9
-      description: "Fiercely devoted to protecting Clara"
     - type: protection
       intensity: 0.8
-      description: "Must keep Clara safe from harm"
     - type: suspicion
       intensity: 0.6
-      description: "Something about Pemberton ain't right"
   reinforcement:
     conflict_resolution:
       - drive: protection
