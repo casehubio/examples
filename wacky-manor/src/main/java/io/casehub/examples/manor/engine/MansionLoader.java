@@ -2,7 +2,6 @@ package io.casehub.examples.manor.engine;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.casehub.examples.manor.model.Beat;
 import io.casehub.examples.manor.model.CharacterState;
 import io.casehub.examples.manor.model.GameObject;
@@ -11,6 +10,7 @@ import io.casehub.examples.manor.model.Scene;
 import io.casehub.examples.manor.model.Trigger;
 import io.casehub.examples.manor.model.TriggerCondition;
 import io.casehub.examples.manor.model.TriggerEffect;
+import io.casehub.yaml.jackson.YamlMappers;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -20,7 +20,7 @@ import java.util.Map;
 
 public final class MansionLoader {
 
-    private static final ObjectMapper YAML = new ObjectMapper(new YAMLFactory());
+    private static final ObjectMapper YAML = YamlMappers.create();
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     record RoomsFile(Map<String, RoomDef> rooms) {}

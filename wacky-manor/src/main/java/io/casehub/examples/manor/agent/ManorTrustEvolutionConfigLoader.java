@@ -1,13 +1,12 @@
 package io.casehub.examples.manor.agent;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.casehub.engine.trust.TrustEvolutionConfig;
 import io.casehub.engine.trust.TrustEvolutionConfig.ConsolidationConfig;
 import io.casehub.engine.trust.TrustEvolutionConfig.LevelConfig;
 import io.casehub.engine.trust.TrustEvolutionConfig.ScoringConfig;
 import io.casehub.engine.trust.TrustEvolutionConfig.TrustEventMapping;
 import io.casehub.ledger.api.model.AttestationVerdict;
+import io.casehub.yaml.jackson.YamlMappers;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +31,7 @@ public final class ManorTrustEvolutionConfigLoader {
             throw new IllegalStateException("Trust evolution config not found: " + resourcePath);
         }
 
-        var mapper = new ObjectMapper(new YAMLFactory());
+        var mapper = YamlMappers.create();
 
         try (is) {
             Map<String, Object> raw = mapper.readValue(is, Map.class);

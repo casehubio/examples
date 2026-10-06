@@ -60,6 +60,13 @@
       <version>${casehub.version}</version>
     </dependency>
 
+    <!-- YAML 1.2 parsing via centralised factory -->
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-platform-yaml-jackson</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+
     <!-- Eidos runtime needs a datasource -->
     <dependency>
       <groupId>io.quarkus</groupId>

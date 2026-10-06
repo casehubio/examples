@@ -1,7 +1,6 @@
 package io.casehub.examples.manor.agent;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import io.casehub.yaml.jackson.YamlMappers;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +36,7 @@ public final class ManorSocialConfigLoader {
             throw new IllegalStateException("Social config not found: " + resourcePath);
         }
 
-        var mapper = new ObjectMapper(new YAMLFactory());
+        var mapper = YamlMappers.create();
 
         try (is) {
             Map<String, Map<String, Object>> raw = mapper.readValue(is, Map.class);
