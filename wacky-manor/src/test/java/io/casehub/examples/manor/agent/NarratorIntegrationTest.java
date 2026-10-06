@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class NarratorIntegrationTest {
 
     @Inject
-    ScenarioOrchestrator orchestrator;
+    PlaybookOrchestrator orchestrator;
     @Inject
     ManorEventBus        webEventBus;
 

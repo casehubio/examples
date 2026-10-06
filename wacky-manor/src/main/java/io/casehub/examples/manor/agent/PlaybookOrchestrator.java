@@ -30,9 +30,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-public class ScenarioOrchestrator {
+public class PlaybookOrchestrator {
 
-    private static final Logger log = Logger.getLogger(ScenarioOrchestrator.class);
+    private static final Logger log = Logger.getLogger(PlaybookOrchestrator.class);
 
     @Inject
     AgentProvider                               agentProvider;

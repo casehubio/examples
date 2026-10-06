@@ -2,9 +2,9 @@ package io.casehub.examples.helpdesk.demo;
 
 import io.casehub.examples.helpdesk.push.HelpdeskSessionSender;
 import io.casehub.pages.push.PushRequest;
-import io.casehub.pages.scenario.client.ActionRegistry;
-import io.casehub.pages.scenario.client.ScenarioExecutorClient;
-import io.casehub.pages.scenario.runtime.ScenarioOrchestrator;
+import io.casehub.pages.playbook.client.ActionRegistry;
+import io.casehub.pages.playbook.client.PlaybookExecutorClient;
+import io.casehub.pages.playbook.runtime.PlaybookOrchestrator;
 import io.quarkus.arc.profile.IfBuildProfile;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -19,9 +19,9 @@ public class HelpdeskExecutorConnector {
 
     private static final Logger LOG = Logger.getLogger(HelpdeskExecutorConnector.class);
 
-    @Inject ScenarioOrchestrator orchestrator;
+    @Inject PlaybookOrchestrator orchestrator;
     @Inject HelpdeskSessionSender sender;
-    @Inject HelpDeskScenarioActions scenarioActions;
+    @Inject HelpDeskPlaybookActions scenarioActions;
 
     void connect(@jakarta.enterprise.event.Observes io.quarkus.runtime.StartupEvent event) {
         var connId = "local-executor-" + UUID.randomUUID();
@@ -32,7 +32,7 @@ public class HelpdeskExecutorConnector {
             new PushRequest.ExecutorRegister(UUID.randomUUID().toString(),
                 "helpdesk", List.copyOf(actions)));
 
-        var executorClient = ScenarioExecutorClient.create(
+        var executorClient = PlaybookExecutorClient.create(
             "helpdesk", List.of(unwrapped),
             msg -> {
                 PushRequest request = PushRequest.parse(msg);

@@ -1,6 +1,6 @@
 package io.casehub.examples.manor.web;
 
-import io.casehub.examples.manor.agent.ScenarioOrchestrator;
+import io.casehub.examples.manor.agent.PlaybookOrchestrator;
 import io.casehub.examples.manor.engine.MansionLoader;
 import io.casehub.examples.manor.engine.WorldState;
 import jakarta.inject.Inject;
@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.Response;
 public class ManorResource {
 
     @Inject
-    ScenarioOrchestrator orchestrator;
+    PlaybookOrchestrator orchestrator;
     @Inject
     ManorEventBus        eventBus;
     @Inject

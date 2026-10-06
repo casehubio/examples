@@ -2,7 +2,7 @@ package io.casehub.examples.helpdesk.demo;
 
 import io.casehub.engine.common.spi.cache.CaseInstanceCache;
 import io.casehub.examples.helpdesk.NotificationService;
-import io.casehub.pages.scenario.runtime.ScenarioOrchestrator;
+import io.casehub.pages.playbook.runtime.PlaybookOrchestrator;
 import io.casehub.persistence.memory.InMemoryCaseInstanceRepository;
 import io.casehub.work.memory.InMemoryWorkItemStore;
 import io.quarkus.arc.profile.IfBuildProfile;
@@ -21,7 +21,7 @@ public class DemoResetResource {
 
     private static final Logger LOG = Logger.getLogger(DemoResetResource.class);
 
-    @Inject ScenarioOrchestrator orchestrator;
+    @Inject PlaybookOrchestrator orchestrator;
     @Inject Flyway flyway;
     @Inject CaseInstanceCache caseInstanceCache;
     @Inject NotificationService notificationService;

@@ -2,9 +2,9 @@ package io.casehub.examples.helpdesk;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.casehub.examples.helpdesk.demo.HelpDeskScenarioActions;
-import io.casehub.pages.scenario.client.ScenarioExecutorClient;
-import io.casehub.pages.scenario.runtime.ScenarioOrchestrator;
+import io.casehub.examples.helpdesk.demo.HelpDeskPlaybookActions;
+import io.casehub.pages.playbook.client.PlaybookExecutorClient;
+import io.casehub.pages.playbook.runtime.PlaybookOrchestrator;
 import io.quarkus.test.common.http.TestHTTPResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
@@ -34,10 +34,10 @@ class ScenarioE2ETest {
     URI pushUri;
 
     @Inject
-    ScenarioOrchestrator orchestrator;
+    PlaybookOrchestrator orchestrator;
 
     @Inject
-    HelpDeskScenarioActions scenarioActions;
+    HelpDeskPlaybookActions scenarioActions;
 
     @Test
     void fullScenarioFlowOverWebSocket() throws Exception {
@@ -50,12 +50,12 @@ class ScenarioE2ETest {
         var ws = HttpClient.newHttpClient().newWebSocketBuilder()
             .buildAsync(wsUri, new WebSocket.Listener() {
                 final StringBuilder buffer = new StringBuilder();
-                volatile ScenarioExecutorClient executorClient;
+                volatile PlaybookExecutorClient executorClient;
 
                 @Override
                 public void onOpen(WebSocket webSocket) {
                     wsRef.set(webSocket);
-                    executorClient = ScenarioExecutorClient.create(
+                    executorClient = PlaybookExecutorClient.create(
                         "helpdesk", List.of(scenarioActions),
                         msg -> webSocket.sendText(msg, true));
                     connectedLatch.countDown();

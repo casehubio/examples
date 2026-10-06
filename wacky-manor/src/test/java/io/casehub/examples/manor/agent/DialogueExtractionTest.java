@@ -20,7 +20,7 @@ class DialogueExtractionTest {
         var world = buildWorld(
                 character("speaker", "Library"),
                 character("target", "Library"));
-        var listeners = ScenarioOrchestrator.determineListeners(
+        var listeners = PlaybookOrchestrator.determineListeners(
                 "speaker", "target", "Library", false, world);
         assertThat(listeners).hasSize(1);
         assertThat(listeners.get(0).agentId()).isEqualTo("target");
@@ -33,10 +33,10 @@ class DialogueExtractionTest {
                 character("speaker", "Library"),
                 character("target", "Library"),
                 characterWithTags("eavesdropper", "Library", Set.of("perception")));
-        var listeners = ScenarioOrchestrator.determineListeners(
+        var listeners = PlaybookOrchestrator.determineListeners(
                 "speaker", "target", "Library", false, world);
         assertThat(listeners).hasSize(2);
-        assertThat(listeners).extracting(ScenarioOrchestrator.ListenerInfo::agentId)
+        assertThat(listeners).extracting(PlaybookOrchestrator.ListenerInfo::agentId)
                 .containsExactlyInAnyOrder("target", "eavesdropper");
         var eavesdropperInfo = listeners.stream()
                 .filter(l -> l.agentId().equals("eavesdropper")).findFirst().orElseThrow();
@@ -49,7 +49,7 @@ class DialogueExtractionTest {
                 character("speaker", "Library"),
                 character("target", "Library"),
                 character("bystander", "Library"));
-        var listeners = ScenarioOrchestrator.determineListeners(
+        var listeners = PlaybookOrchestrator.determineListeners(
                 "speaker", "target", "Library", false, world);
         assertThat(listeners).hasSize(1);
         assertThat(listeners.get(0).agentId()).isEqualTo("target");
@@ -61,7 +61,7 @@ class DialogueExtractionTest {
                 character("speaker", "Library"),
                 character("target", "Library"),
                 characterWithTags("elsewhere", "Kitchen", Set.of("perception")));
-        var listeners = ScenarioOrchestrator.determineListeners(
+        var listeners = PlaybookOrchestrator.determineListeners(
                 "speaker", "target", "Library", false, world);
         assertThat(listeners).hasSize(1);
     }
@@ -72,10 +72,10 @@ class DialogueExtractionTest {
                 character("initiator", "Library"),
                 character("target", "Library"),
                 characterWithTags("bystander", "Library", Set.of("perception")));
-        var listeners = ScenarioOrchestrator.determineListeners(
+        var listeners = PlaybookOrchestrator.determineListeners(
                 "initiator", "target", "Library", true, world);
         assertThat(listeners).hasSize(2);
-        assertThat(listeners).extracting(ScenarioOrchestrator.ListenerInfo::agentId)
+        assertThat(listeners).extracting(PlaybookOrchestrator.ListenerInfo::agentId)
                 .containsExactlyInAnyOrder("initiator", "target");
         assertThat(listeners).allMatch(l -> l.confidenceOrigin() == ConfidenceOrigin.STATED);
     }
@@ -86,43 +86,43 @@ class DialogueExtractionTest {
                 character("speaker", "Library"),
                 character("alice", "Library"),
                 character("bob", "Library"));
-        var listeners = ScenarioOrchestrator.determineListeners(
+        var listeners = PlaybookOrchestrator.determineListeners(
                 "speaker", null, "Library", false, world);
         assertThat(listeners).hasSize(2);
-        assertThat(listeners).extracting(ScenarioOrchestrator.ListenerInfo::agentId)
+        assertThat(listeners).extracting(PlaybookOrchestrator.ListenerInfo::agentId)
                 .containsExactlyInAnyOrder("alice", "bob");
         assertThat(listeners).allMatch(l -> l.confidenceOrigin() == ConfidenceOrigin.STATED);
     }
 
     @Test
     void extractable_normalDialogue() {
-        assertThat(ScenarioOrchestrator.isExtractableDialogue(
+        assertThat(PlaybookOrchestrator.isExtractableDialogue(
                 "The poison is hidden in the Ballroom")).isTrue();
     }
 
     @Test
     void notExtractable_purelySounds() {
-        assertThat(ScenarioOrchestrator.isExtractableDialogue("Hehehehehehe!")).isFalse();
+        assertThat(PlaybookOrchestrator.isExtractableDialogue("Hehehehehehe!")).isFalse();
     }
 
     @Test
     void notExtractable_singleWord() {
-        assertThat(ScenarioOrchestrator.isExtractableDialogue("SQUEAK!")).isFalse();
+        assertThat(PlaybookOrchestrator.isExtractableDialogue("SQUEAK!")).isFalse();
     }
 
     @Test
     void notExtractable_null() {
-        assertThat(ScenarioOrchestrator.isExtractableDialogue(null)).isFalse();
+        assertThat(PlaybookOrchestrator.isExtractableDialogue(null)).isFalse();
     }
 
     @Test
     void notExtractable_blank() {
-        assertThat(ScenarioOrchestrator.isExtractableDialogue("   ")).isFalse();
+        assertThat(PlaybookOrchestrator.isExtractableDialogue("   ")).isFalse();
     }
 
     @Test
     void extractable_shortButMeaningful() {
-        assertThat(ScenarioOrchestrator.isExtractableDialogue(
+        assertThat(PlaybookOrchestrator.isExtractableDialogue(
                 "I saw Dick steal it")).isTrue();
     }
 

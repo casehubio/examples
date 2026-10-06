@@ -1,9 +1,9 @@
 package io.casehub.examples.helpdesk;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.casehub.examples.helpdesk.demo.HelpDeskScenarioActions;
+import io.casehub.examples.helpdesk.demo.HelpDeskPlaybookActions;
 import io.casehub.pages.push.PushMessage;
-import io.casehub.pages.scenario.client.ScenarioExecutorClient;
+import io.casehub.pages.playbook.client.PlaybookExecutorClient;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 import jakarta.inject.Inject;
@@ -18,17 +18,17 @@ import static org.awaitility.Awaitility.await;
 
 @QuarkusTest
 @TestProfile(DemoTestProfile.class)
-class ScenarioExecutorIntegrationTest {
+class PlaybookExecutorIntegrationTest {
 
     private static final ObjectMapper JSON = new ObjectMapper();
 
     @Inject
-    HelpDeskScenarioActions scenarioActions;
+    HelpDeskPlaybookActions scenarioActions;
 
     @Test
     void executorClientDispatchesCreateTicketAction() throws Exception {
         var sent = new CopyOnWriteArrayList<String>();
-        var client = ScenarioExecutorClient.create(
+        var client = PlaybookExecutorClient.create(
             "helpdesk", List.of(scenarioActions), sent::add);
 
         assertThat(sent).hasSize(1);
@@ -62,7 +62,7 @@ class ScenarioExecutorIntegrationTest {
     @Test
     void executorClientHandlesResolveTicketAction() throws Exception {
         var sent = new CopyOnWriteArrayList<String>();
-        var client = ScenarioExecutorClient.create(
+        var client = PlaybookExecutorClient.create(
             "helpdesk", List.of(scenarioActions), sent::add);
         sent.clear();
 
@@ -91,7 +91,7 @@ class ScenarioExecutorIntegrationTest {
     @Test
     void executorClientRegistersAllActions() {
         var sent = new CopyOnWriteArrayList<String>();
-        ScenarioExecutorClient.create(
+        PlaybookExecutorClient.create(
             "helpdesk", List.of(scenarioActions), sent::add);
 
         assertThat(sent.getFirst())
