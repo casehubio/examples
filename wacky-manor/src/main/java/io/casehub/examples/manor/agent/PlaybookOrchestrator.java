@@ -89,8 +89,14 @@ public class PlaybookOrchestrator {
         var actionResolver   = new ActionResolver();
 
         return Thread.ofVirtual().name("scenario-loop")
-                     .start(() -> runScenario(world, triggerEvaluator,
-                                              sceneDirector, actionResolver, mode));
+                     .start(() -> {
+                         try {
+                             runScenario(world, triggerEvaluator,
+                                         sceneDirector, actionResolver, mode);
+                         } catch (Throwable t) {
+                             log.error("scenario-loop crashed", t);
+                         }
+                     });
     }
 
     private void runScenario(WorldState world,
