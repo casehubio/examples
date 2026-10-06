@@ -187,8 +187,13 @@ public class PlaybookOrchestrator {
         var cognitionCore = new io.casehub.neocortex.cognition.core.CognitionCore(
                 moodOrch, driveOrch, userModelOrch, mentalModelOrch, strategyOrch,
                 narrativeOrch, goalOrchestrator, memoryHygieneAdapter, innerLifeOrch,
-                agentProvider, io.casehub.neocortex.cognition.core.CognitionConfig.all(),
+                agentProvider, io.casehub.neocortex.cognition.core.CognitionConfig.all().with("appraisal", true),
                 mmStore, new ManorNeedTierMappingProvider(), null, null, null, null, null);
+
+        cognitionCore.configureAppraisal(
+                new io.casehub.neocortex.cognition.appraisal.LlmAppraisalStrategy(agentProvider),
+                ctx -> io.casehub.neocortex.cognition.appraisal.PerceivedSituation.passThrough(ctx.observation()),
+                null);
 
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
 

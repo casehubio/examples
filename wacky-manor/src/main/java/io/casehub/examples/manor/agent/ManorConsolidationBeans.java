@@ -12,10 +12,9 @@ import io.casehub.neocortex.cognition.drive.NeedTierMappingProvider;
 import io.casehub.neocortex.memory.CaseMemoryStore;
 import io.casehub.neocortex.mindmap.MindMapStore;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Singleton;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,26 +68,25 @@ public class ManorConsolidationBeans {
     RelationshipStagePhase relationshipStagePhase(
             MindMapStore mindMapStore,
             CaseMemoryStore memoryStore,
-            RelationshipStageConfigProvider configProvider,
-            @ConfigProperty(name = "casehub.consolidation.interval-minutes", defaultValue = "5")
-            long intervalMinutes) {
+            Instance<RelationshipStageConfigProvider> configProvider) {
         return new RelationshipStagePhase(
                 mindMapStore,
                 memoryStore,
                 configProvider,
                 ManorCognitiveSeeder.PEOPLE_SUBGRAPH,
-                intervalMinutes * 60_000L);
+                5 * 60_000L);
     }
 
     @Produces
     @Singleton
     io.casehub.neocortex.cognition.belief.BeliefRevisionPhase beliefRevisionPhase(
             MindMapStore mindMapStore,
-            io.casehub.platform.agent.AgentProvider agentProvider) {
+            Instance<io.casehub.platform.agent.AgentProvider> agentProvider,
+            Instance<io.casehub.neocortex.cognition.belief.BeliefRevisionConfig> beliefConfig) {
         return new io.casehub.neocortex.cognition.belief.BeliefRevisionPhase(
                 mindMapStore,
                 agentProvider,
-                io.casehub.neocortex.cognition.belief.BeliefRevisionConfig.defaults());
+                beliefConfig);
     }
 
     private static Map<String, Map<String, List<DriveReinforcementEntry>>> buildReinforcementMap() {
