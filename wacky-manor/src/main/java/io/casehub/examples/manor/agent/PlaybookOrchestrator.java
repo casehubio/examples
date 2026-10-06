@@ -302,6 +302,13 @@ public class PlaybookOrchestrator {
                         .collect(java.util.stream.Collectors.toSet());
             };
 
+            for (var c : activeAgents) {
+                if (!c.isActive()) continue;
+                var desc = agentRegistry.findById(c.agentId(), ManorConstants.TENANCY_ID).orElse(null);
+                String situation = c.lastActionResult() != null ? c.lastActionResult() : "You are in the " + c.currentRoom() + ".";
+                cognitionCore.tick(c.agentId(), ManorConstants.TENANCY_ID, desc, subjectResolver, situation);
+            }
+
             var actingThisTick = activeAgents.stream()
                     .filter(io.casehub.examples.manor.model.CharacterState::isActive)
                     .filter(c -> currentTick % cadence(c) == 0)
@@ -315,9 +322,6 @@ public class PlaybookOrchestrator {
                     try {
                         var cognition = cognitions.get(c.agentId());
                         var drain = dispatcher.observationService().drain(c.agentId(), System.currentTimeMillis());
-                        var desc = agentRegistry.findById(c.agentId(), ManorConstants.TENANCY_ID).orElse(null);
-                        String situation = c.lastActionResult() != null ? c.lastActionResult() : "You are in the " + c.currentRoom() + ".";
-                        cognitionCore.tick(c.agentId(), ManorConstants.TENANCY_ID, desc, subjectResolver, situation);
                         var reflections = cognition.recallReflections(5);
                         var relationships = new java.util.HashMap<String, java.util.List<io.casehub.neocortex.memory.Memory>>();
                         for (var other : world.charactersInRoom(c.currentRoom())) {
