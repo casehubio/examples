@@ -77,30 +77,8 @@ class PipelineOutputTest {
             }
         }
 
-        System.out.println("\n=== ALL BEHAVIORAL NODES ===");
-        var allBehavioral = mindMapStore.search(
-            io.casehub.neocortex.mindmap.MindMapQuery.of(TENANT, 200)
-                .withType(io.casehub.neocortex.mindmap.SubgraphTypes.BEHAVIORAL));
-        for (var n : allBehavioral) {
-            System.out.printf("  %s agent=%s strength=%s caps=%s traits=%s%n",
-                n.name(),
-                n.property("agent-id").orElse("?"),
-                n.property("strength").orElse("?"),
-                n.property("caps-node-id").orElse("?"),
-                n.traits());
-        }
-
         var behavioral = new io.casehub.neocortex.cognition.prompt.BehavioralPromptSection(mindMapStore);
         for (String agentId : new String[]{"hooded-claw", "peter-perfect"}) {
-            var debugNodes = mindMapStore.search(
-                io.casehub.neocortex.mindmap.MindMapQuery.of(TENANT, 100)
-                    .withType(io.casehub.neocortex.mindmap.SubgraphTypes.BEHAVIORAL))
-                .stream()
-                .filter(n -> n.traits().contains("CapsGenerated"))
-                .filter(n -> agentId.equals(n.property("agent-id").orElse(null)))
-                .filter(n -> n.property("strength").map(Double::parseDouble).orElse(0.0) > 0.1)
-                .toList();
-            System.out.printf("[debug] %s: %d behavioral nodes match query%n", agentId, debugNodes.size());
             var ctx    = new CognitionRenderContext(agentId, TENANT, null);
             var output = behavioral.render(ctx);
             System.out.printf("\n=== %s: BehavioralPromptSection ===%n", agentId);
