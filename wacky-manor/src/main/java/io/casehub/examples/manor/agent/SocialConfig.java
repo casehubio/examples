@@ -20,7 +20,8 @@ public record SocialConfig(
         List<PersonalityFacet> personalityFacets,
         List<RelationalSchema> relationalSchemas,
         @Nullable AttachmentStyle attachment,
-        List<FormationMemory> formationMemories
+        List<FormationMemory> formationMemories,
+        @Nullable Disposition disposition
 ) {
     public SocialConfig {
         goals          = goals != null ? List.copyOf(goals) : List.of();
@@ -41,12 +42,12 @@ public record SocialConfig(
                         Map<String, List<ReinforcementMapping>> reinforcement,
                         RelationshipStageConfig stageConfig) {
         this(goals, drives, norms, initialBeliefs, relationships, reinforcement, stageConfig, null, List.of(),
-             List.of(), List.of(), null, List.of());
+             List.of(), List.of(), null, List.of(), null);
     }
 
     public static SocialConfig empty() {
         return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null, null, List.of(),
-                                List.of(), List.of(), null, List.of());
+                                List.of(), List.of(), null, List.of(), null);
     }
 
     public record GoalConfig(String name, String description, String axis,
@@ -155,5 +156,17 @@ public record SocialConfig(
             this(age, episode, 0.0, 0.0, 0.0);
         }
     }
+
+    public record Disposition(
+            String socialOrient,
+            String ruleFollowing,
+            String riskAppetite,
+            String autonomy,
+            String conflictMode
+    ) {
+        public static final Disposition NEUTRAL = new Disposition(
+                "cooperative", "moderate", "calculated", "moderate", "cooperative");
+    }
+
 
 }

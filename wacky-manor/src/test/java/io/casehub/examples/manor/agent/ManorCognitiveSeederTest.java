@@ -301,4 +301,32 @@ class ManorCognitiveSeederTest {
 
         assertThat(needNodes).isEmpty();
     }
+
+    @Test
+    void seedCapsState_initializesAgentWithDisposition() {
+        var capsEngine = new io.casehub.neocortex.caps.testing.InMemoryCapsEngine();
+        var seeder     = new ManorCognitiveSeeder(new StubMindMapStore());
+        var disposition = new SocialConfig.Disposition(
+                "competitive", "flexible", "bold", "high", "competitive");
+        var config = new SocialConfig(
+                List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null,
+                null, List.of(), List.of(), List.of(), null, List.of(), disposition);
+
+        seeder.seedCapsState("villain", config, "t1", capsEngine);
+
+        assertThat(capsEngine.loadState("t1", "villain")).isNotNull();
+        assertThat(capsEngine.loadState("t1", "villain").agentId()).isEqualTo("villain");
+    }
+
+    @Test
+    void seedCapsState_nullDisposition_usesNeutralDefault() {
+        var capsEngine = new io.casehub.neocortex.caps.testing.InMemoryCapsEngine();
+        var seeder     = new ManorCognitiveSeeder(new StubMindMapStore());
+        var config     = SocialConfig.empty();
+
+        seeder.seedCapsState("neutral-agent", config, "t1", capsEngine);
+
+        assertThat(capsEngine.loadState("t1", "neutral-agent")).isNotNull();
+    }
+
 }

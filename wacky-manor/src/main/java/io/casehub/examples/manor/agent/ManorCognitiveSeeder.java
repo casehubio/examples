@@ -200,4 +200,16 @@ public final class ManorCognitiveSeeder {
         return events.size();
     }
 
+    public void seedCapsState(String agentId, SocialConfig config, String tenantId,
+                              io.casehub.neocortex.caps.CapsEngine capsEngine) {
+        SocialConfig.Disposition d = config.disposition() != null
+                                     ? config.disposition()
+                                     : SocialConfig.Disposition.NEUTRAL;
+        capsEngine.initializeAgent(tenantId, agentId,
+                                   new io.casehub.neocortex.cognitive.index.DispositionAxes(
+                                           d.socialOrient(), d.ruleFollowing(), d.riskAppetite(),
+                                           d.autonomy(), d.conflictMode()));
+    }
+
+
 }

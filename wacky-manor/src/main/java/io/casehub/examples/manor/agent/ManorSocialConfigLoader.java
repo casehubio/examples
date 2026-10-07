@@ -193,6 +193,17 @@ public final class ManorSocialConfigLoader {
                         .toList()
                 : List.<SocialConfig.FormationMemory>of();
 
-        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig, personaConstraint, tendencies, personalityFacets, relationalSchemas, attachment, formationMemories);
+        SocialConfig.Disposition disposition = null;
+        if (raw.containsKey("disposition")) {
+            var dRaw = (Map<String, Object>) raw.get("disposition");
+            disposition = new SocialConfig.Disposition(
+                    (String) dRaw.getOrDefault("social-orient", "cooperative"),
+                    (String) dRaw.getOrDefault("rule-following", "moderate"),
+                    (String) dRaw.getOrDefault("risk-appetite", "calculated"),
+                    (String) dRaw.getOrDefault("autonomy", "moderate"),
+                    (String) dRaw.getOrDefault("conflict-mode", "cooperative"));
+        }
+
+        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig, personaConstraint, tendencies, personalityFacets, relationalSchemas, attachment, formationMemories, disposition);
     }
 }

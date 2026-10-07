@@ -196,6 +196,13 @@ hooded-claw:
     positive-weight: 0.8
     negative-weight: 0.7
 
+  disposition:
+    social-orient: competitive
+    rule-following: flexible
+    risk-appetite: bold
+    autonomy: high
+    conflict-mode: competitive
+
 penelope-pitstop:
   tendencies:
     - "You keep track of everyone's wellbeing and notice when someone is upset or in trouble"
@@ -436,6 +443,13 @@ peter-perfect:
     style: secure
     anxiety: 0.3
     avoidance: 0.1
+
+  disposition:
+    social-orient: cooperative
+    rule-following: strict
+    risk-appetite: calculated
+    autonomy: moderate
+    conflict-mode: cooperative
 
 dick-dastardly:
   goals:
