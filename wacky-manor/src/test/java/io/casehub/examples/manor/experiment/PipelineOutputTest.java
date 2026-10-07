@@ -44,9 +44,9 @@ class PipelineOutputTest {
                 TENANT, io.casehub.neocortex.memory.experience.ExperienceEvents.DOMAIN.name(),
                 null, null, 50, null));
         System.out.printf("Memories in store (experience domain): %d%n", scan.size());
-        for (var mem : scan.stream().limit(5).toList()) {
-            String txt = mem.text() != null ? mem.text().substring(0, Math.min(60, mem.text().length())) : "null";
-            System.out.printf("  [%s] %s...%n", mem.subject(), txt);
+        for (var mem : scan.stream().limit(3).toList()) {
+            String txt = mem.text() != null ? mem.text().substring(0, Math.min(50, mem.text().length())) : "null";
+            System.out.printf("  [%s] %s... attrs=%s%n", mem.subject(), txt, mem.attributes());
         }
 
         System.out.println("\n=== MINDMAP SUBGRAPHS (before sleep) ===");
@@ -55,8 +55,15 @@ class PipelineOutputTest {
             System.out.printf("  '%s' (%s): %d nodes%n", sg.name(), sg.type(), nodes.size());
         }
 
+        System.out.println("\n=== CONSOLIDATION PHASES ===");
+        for (var phase : consolidationScheduler.phases()) {
+            System.out.println("  Phase: " + phase.name() + " (" + phase.getClass().getName() + ")");
+        }
         System.out.println("\n=== RUNNING CONSOLIDATION ===");
-        consolidationScheduler.consolidateNow(TENANT);
+        for (int attempt = 0; attempt < 5; attempt++) {
+            try { Thread.sleep(200); } catch (InterruptedException e) { break; }
+            consolidationScheduler.consolidateNow(TENANT);
+        }
         System.out.println("=== DONE ===");
 
         System.out.println("\n=== MINDMAP SUBGRAPHS (after sleep) ===");
