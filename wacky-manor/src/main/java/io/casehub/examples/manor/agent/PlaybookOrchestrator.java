@@ -288,6 +288,17 @@ public class PlaybookOrchestrator {
                 .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
                 .toList();
 
+        CognitiveSnapshotRecorder snapshotRecorder = null;
+        int snapshotInterval = config.cognitiveSnapshot().intervalTicks();
+        if (snapshotInterval > 0) {
+            try {
+                var snapshotPath = java.nio.file.Path.of("wacky-manor/docs/eval/cognitive-snapshots-" + java.time.LocalDate.now() + ".jsonl");
+                snapshotRecorder = new CognitiveSnapshotRecorder(cognitionCore, ManorConstants.TENANCY_ID, snapshotInterval, snapshotPath, cognitions);
+            } catch (java.io.IOException e) {
+                log.error("Failed to create cognitive snapshot recorder", e);
+            }
+        }
+
         int tick = 0;
         while (!world.isScenarioComplete()) {
             tick++;
@@ -315,6 +326,14 @@ public class PlaybookOrchestrator {
                 var desc0 = agentRegistry.findById(c.agentId(), ManorConstants.TENANCY_ID).orElse(null);
                 String situation = c.lastActionResult() != null ? c.lastActionResult() : "You are in the " + c.currentRoom() + ".";
                 cognitionCore.tick(c.agentId(), ManorConstants.TENANCY_ID, desc0, subjectResolver, situation);
+            }
+
+            if (snapshotRecorder != null && snapshotRecorder.shouldCapture(currentTick)) {
+                var snapshotAgentIds = activeAgents.stream()
+                        .filter(io.casehub.examples.manor.model.CharacterState::isActive)
+                        .map(io.casehub.examples.manor.model.CharacterState::agentId)
+                        .toList();
+                snapshotRecorder.capture(currentTick, snapshotAgentIds);
             }
 
             var actingThisTick = activeAgents.stream()
@@ -533,6 +552,10 @@ public class PlaybookOrchestrator {
 
             webEventBus.broadcast(webEventBus.buildSnapshot(world));
             log.infof("Tick %d: %d agents acted", tick, actingThisTick.size());
+        }
+
+        if (snapshotRecorder != null) {
+            snapshotRecorder.close();
         }
     }
 

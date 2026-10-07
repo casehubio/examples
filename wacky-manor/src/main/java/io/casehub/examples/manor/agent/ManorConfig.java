@@ -11,6 +11,7 @@ public record ManorConfig(
         DispositionConfig disposition,
         MemoryConfig memory,
         ConsolidationConfig consolidation,
+        CognitiveSnapshotConfig cognitiveSnapshot,
         String activeCharacters,
         int maxConcurrentAgents
 ) {
@@ -33,4 +34,6 @@ public record ManorConfig(
                                int decayMaxAgeDays, double decayMinImportance) {}
 
     public record ConsolidationConfig(boolean enabled, int intervalTicks) {}
+
+    public record CognitiveSnapshotConfig(int intervalTicks) {}
 }

@@ -250,7 +250,7 @@ public final class CharacterCognition {
     }
 
 
-    private java.util.List<SocialConfig.Drive> resolveAdaptedDrives() {
+    java.util.List<SocialConfig.Drive> resolveAdaptedDrives() {
         if (mindMapStore == null || tenantId == null) {
             return socialConfig.drives();
         }
