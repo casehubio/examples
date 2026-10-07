@@ -473,6 +473,12 @@ class RelationalModelEvalTest {
                               you wanted — it was in the control itself. You practiced on the
                               gardener next. Then the cook. Each success felt like currency.
                               
+                              Age 14: A teacher praised your cousin for her 'natural grace and
+                              warmth.' You scored higher in every subject. You managed the household
+                              accounts while she played in the garden. But she was praised for BEING
+                              while you were acknowledged for DOING. Something shifted: you stopped
+                              wanting to be liked. You wanted to be owed.
+                              
                               Age 15: Your guardian died. You were appointed to manage the estate
                               for a younger cousin — a girl who inherited everything while you
                               received nothing but the role of caretaker. She was cheerful,
@@ -509,7 +515,7 @@ class RelationalModelEvalTest {
                                         features — specifically:
                                         1. Callousness / lack of empathy (from emotional deprivation + learning kindness = manipulation)
                                         2. Manipulativeness (from discovering control through charm at age 12)
-                                        3. Grandiosity / entitlement (from feeling deserving of the fortune)
+                                        3. Grandiosity / entitlement (from feeling deserving of the fortune, from the age-14 shift)
                                         4. Dismissive attachment (from transactional care, no genuine bonding)
                                         5. Strategic exploitation of trust (from the cousin relationship)
                                         6. The "psychopathic inversion" — trust → exploitation opportunity, not warmth
