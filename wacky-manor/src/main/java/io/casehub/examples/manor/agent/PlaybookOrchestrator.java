@@ -245,6 +245,10 @@ public class PlaybookOrchestrator {
             var seedResult = seeder != null ? seeder.seed(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID) : null;
             if (seeder != null) {
                 seeder.seedGoals(entry.getKey(), socialCfg, goalOrchestrator, ManorConstants.TENANCY_ID);
+                int memCount = seeder.seedFormationMemories(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID, experienceRecorder);
+                if (memCount > 0) {
+                    log.info("Seeded " + memCount + " formation memories for " + entry.getKey());
+                }
             }
             cognitions.put(entry.getKey(), new CharacterCognition(
                     entry.getKey(), experienceService, cogDefaults, socialCfg, desc.constraints(),

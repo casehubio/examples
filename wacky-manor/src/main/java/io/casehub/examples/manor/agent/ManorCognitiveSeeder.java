@@ -1,9 +1,9 @@
 package io.casehub.examples.manor.agent;
 
 import io.casehub.neocortex.cognition.drive.DriveAxis;
-import io.casehub.neocortex.cognition.need.NeedTier;
 import io.casehub.neocortex.cognition.goal.DriveGoalProposal;
 import io.casehub.neocortex.cognition.goal.GoalProposalOrchestrator;
+import io.casehub.neocortex.cognition.need.NeedTier;
 import io.casehub.neocortex.cognitive.Confidence;
 import io.casehub.neocortex.mindmap.MindMapStore;
 import io.casehub.neocortex.mindmap.NodeInput;
@@ -168,4 +168,36 @@ public final class ManorCognitiveSeeder {
         var proposals = mapGoals(config.goals());
         goals.registerGoals(agentId, tenantId, proposals);
     }
+
+    public int seedFormationMemories(String agentId, SocialConfig config, String tenantId,
+                                     io.casehub.neocortex.memory.experience.ExperienceRecorder recorder) {
+        if (config.formationMemories().isEmpty()) {return 0;}
+
+        var events = config.formationMemories().stream()
+                           .map(mem -> {
+                               var period = mem.age() <= 6 ? "early-childhood"
+                                                           : mem.age() <= 12 ? "childhood"
+                                                                             : mem.age() <= 18 ? "adolescence"
+                                                                                               : "young-adulthood";
+                               return new io.casehub.neocortex.memory.experience.FormativeExperience(
+                                       agentId, tenantId,
+                                       "formation", "age-" + mem.age(),
+                                       Instant.now().minusSeconds((18 - mem.age()) * 365L * 24 * 60 * 60),
+                                       mem.episode(),
+                                       0.9,
+                                       Map.of("age", String.valueOf(mem.age())),
+                                       "formation-memory",
+                                       List.of("formation", period),
+                                       1.5,
+                                       "continuous",
+                                       period,
+                                       mem.pleasure(), mem.arousal(), mem.dominance());
+                           })
+                           .map(e -> (io.casehub.neocortex.memory.experience.ExperienceEvent) e)
+                           .toList();
+
+        recorder.recordAll(events);
+        return events.size();
+    }
+
 }
