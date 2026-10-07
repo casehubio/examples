@@ -152,10 +152,6 @@ public final class CharacterCognition {
 
         sections.addAll(renderSocialAwareness(nearbyAgentIds, agentNames));
 
-        if (!socialConfig.formationMemories().isEmpty()) {
-            sections.add(renderFormationMemories());
-        }
-
         if (!socialConfig.personalityFacets().isEmpty()) {
             sections.add(renderPersonalityFacets());
         }
@@ -207,15 +203,10 @@ public final class CharacterCognition {
 
     private ObservationSection renderPersonalityFacets() {
         var sb = new StringBuilder();
-        sb.append("This is who you are — not a role to perform, but how you experience the world.\n\n");
         for (var facet : socialConfig.personalityFacets()) {
-            sb.append("- ");
             if (!facet.origin().isEmpty()) {
-                sb.append(facet.origin());
-            } else {
-                sb.append(facet.facet()).append(": ").append(facet.score()).append("/100");
+                sb.append(facet.origin()).append(" ");
             }
-            sb.append("\n");
         }
         return ObservationSection.text("Who You Are", sb.toString().strip());
     }

@@ -29,7 +29,7 @@ public final class CharacterAgentLoop {
                                                                      """
                                                                      You MUST respond with ONLY a JSON object in this exact format:
                                                                      {
-                                                                       "thinking": "What are you FEELING right now? Be inside the feeling, not outside describing it. No performing, no literary language, no narrating what kind of person you are. Just the raw emotion — what this moment does to you. Your voice belongs in your dialogue; here you are just a person feeling something. Shown to you next turn.",
+                                                                       "thinking": "What do you feel in your body right now? A tightness, a warmth, a prickle, a numbness? Start there — in the body, not the head. Then let the thought follow the sensation. Your thinking is your private truth — raw, unperformed, sometimes confused. The character's voice and manner belong in your dialogue. Here you are just a person feeling something. Shown to you next turn.",
                                                                        "dialogue": "what you say aloud (or null if silent)",
                                                                        "talkTo": "character-id to direct dialogue at (or null for broadcast)",
                                                                        "aside": "private thoughts for the audience only (or null)",
