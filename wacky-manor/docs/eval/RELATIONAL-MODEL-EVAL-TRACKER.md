@@ -319,7 +319,7 @@ Presentation layer (what the character sees):
 3. **Removed formation memory static dump.** Origins carry condensed signal. Full episodes reserved for appraisal-driven retrieval.
 4. **Personality section rendered as single prose block** (origins concatenated), not bullet list — reduces self-knowledge structure.
 
-#### Results
+#### Results (Run 6)
 
 | # | Profile | Run 5 | Run 6 | Notes |
 |---|---|---|---|---|
@@ -347,6 +347,34 @@ PP BASELINE's gap is the `theatrical-eccentric-cartoon-style` template. PP GENER
 | **Total** | **13** | | **1** | **4.9** |
 
 **GENERIC profile: all 5/5.** The personality model produces perfect emergence when templates don't interfere. PP BASELINE's remaining 4/5 is the cost of the cartoon format — a design trade-off, not a model gap.
+
+### Run 7 — 2026-10-07 (template bias removal)
+
+**Data file:** `relational-model-eval-2026-10-07-run7.json`
+**Commit:** 8ebc709
+
+**Change:** Renamed `hanna-barbera-cartoon-style` → `theatrical-eccentric-style`. Removed "cartoon" and franchise references. "You are a larger-than-life personality" not "You are a character in a Hanna-Barbera cartoon."
+
+#### Results
+
+| # | Run 6 | Run 7 | Notes |
+|---|---|---|---|
+| 6 HC | 5 | **5** | "Trust→Access→Control→Safety chain — attachment wound, not theatrical villainy" |
+| 7 PP | 4 | **4** | "slightly too-neat self-awareness keeps it from 5" |
+| 8 Mob | 5 | **5** | "viscerally embodied, street-corner pattern recognition" |
+
+Template rename didn't change PP's score, but the judge critique evolved across runs:
+- Run 3: "numbered PLAN/Step ONE" → scripting (fixed)
+- Run 4: "father's aphorism literary" → register (improved)
+- Run 5-6: "archetype recognizable" → type recognition (improved)
+- Run 7: "too-neat self-awareness" → psychological transparency
+
+**Are the tests correct?** The judge may penalise PP for:
+1. Having a common personality type (warm-protective is less distinctive than psychopathic or mob-guardian)
+2. Being psychologically transparent (PP neatly sorts "gratitude" from "romantic attraction" — real warmth is messier)
+3. The shared template not fitting PP's sincere, anxious personality (he's not eccentric or theatrical)
+
+**12/13 at 5/5 — stable across 3 runs.** PP BASELINE 4/5 may be the correct score for this personality type under these judge criteria, or may need PP-specific character depth (more psychological messiness, less neat self-categorisation).
 
 ---
 
