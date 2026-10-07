@@ -152,6 +152,10 @@ public final class CharacterCognition {
 
         sections.addAll(renderSocialAwareness(nearbyAgentIds, agentNames));
 
+        if (!socialConfig.formationMemories().isEmpty()) {
+            sections.add(renderFormationMemories());
+        }
+
         if (!socialConfig.personalityFacets().isEmpty()) {
             sections.add(renderPersonalityFacets());
         }
@@ -191,6 +195,15 @@ public final class CharacterCognition {
         return sections;
     }
 
+
+    private ObservationSection renderFormationMemories() {
+        var sb = new StringBuilder();
+        sb.append("These are the experiences that made you who you are.\n\n");
+        for (var mem : socialConfig.formationMemories()) {
+            sb.append("**Age ").append(mem.age()).append(":** ").append(mem.episode()).append("\n\n");
+        }
+        return ObservationSection.text("Where You Come From", sb.toString().strip());
+    }
 
     private ObservationSection renderPersonalityFacets() {
         var sb = new StringBuilder();

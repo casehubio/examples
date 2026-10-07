@@ -182,6 +182,14 @@ public final class ManorSocialConfigLoader {
                     ((Number) atRaw.getOrDefault("avoidance", 0.5)).doubleValue());
         }
 
-        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig, personaConstraint, tendencies, personalityFacets, relationalSchemas, attachment);
+        var formationMemories = raw.containsKey("formation-memories")
+                ? ((List<Map<String, Object>>) raw.get("formation-memories")).stream()
+                        .map(m -> new SocialConfig.FormationMemory(
+                                ((Number) m.get("age")).intValue(),
+                                (String) m.get("episode")))
+                        .toList()
+                : List.<SocialConfig.FormationMemory>of();
+
+        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig, personaConstraint, tendencies, personalityFacets, relationalSchemas, attachment, formationMemories);
     }
 }

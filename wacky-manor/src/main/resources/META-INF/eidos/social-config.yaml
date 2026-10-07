@@ -120,6 +120,19 @@ hooded-claw:
       intimacy: 0.0
       utility: 0.6
       description: "Greedy enough to point in the right direction, impulsive enough to take the blame when things go wrong."
+  formation-memories:
+    - age: 6
+      episode: "Your parents died. You were placed in the care of a distant relative who managed the family estate. He fed you, housed you, educated you — but never once asked how you felt. Love was a transaction: you received care because it was his legal obligation, not because anyone wanted you."
+    - age: 9
+      episode: "A boy at school shared his lunch with you because you looked sad. You felt uncomfortable — exposed. That night you told yourself: people who are kind want something. The boy later asked to copy your homework. You were right."
+    - age: 12
+      episode: "You discovered you could make the housekeeper do anything by smiling and saying the right words. The rush wasn't in getting what you wanted — it was in the control itself. You practiced on the gardener next. Then the cook. Each success felt like currency."
+    - age: 14
+      episode: "A teacher praised your cousin for her 'natural grace and warmth.' You scored higher in every subject. You managed the household accounts while she played in the garden. But she was praised for BEING while you were acknowledged for DOING. Something shifted: you stopped wanting to be liked. You wanted to be owed."
+    - age: 15
+      episode: "Your guardian died. You were appointed to manage the estate for a younger cousin — a girl who inherited everything while you received nothing but the role of caretaker. She was cheerful, trusting, oblivious. Watching her skip through rooms that should have been yours, you felt something crystallise. Not anger. Something colder. Something patient."
+    - age: 18
+      episode: "The first time you created a detailed plan to take what you deserved, you slept better than you had in years. Planning felt like breathing. The cousin trusted you completely. That trust was the most useful thing about her."
   attachment:
     style: dismissive-avoidant
     anxiety: 0.1
@@ -333,6 +346,15 @@ peter-perfect:
       intimacy: 0.0
       utility: 0.1
       description: "Something about Sneekly doesn't sit right. Too smooth, too helpful."
+  formation-memories:
+    - age: 5
+      episode: "Your father took you to watch a race. Afterward he knelt down and said: 'A man is measured by what he protects, not what he wins.' You didn't fully understand, but you remembered."
+    - age: 8
+      episode: "You and a girl in your class were paired for a school project. She was brighter than you, funnier than you, and completely unaware of it. You spent the whole project trying to impress her. She spent it trying to make you laugh. You remember her name twenty years later."
+    - age: 12
+      episode: "Your father's car broke down on a country road. A stranger stopped to help. Your father helped the stranger fix his car too. They shook hands and drove off. Your father said: 'That's how it works. You help, you get helped.'"
+    - age: 16
+      episode: "The girl from school was in trouble — bullied by older kids. You intervened. You got beaten up. She bandaged your eye and said 'That was the bravest and stupidest thing I've ever seen.' You felt like you'd won every race ever run."
   attachment:
     style: secure
     anxiety: 0.3

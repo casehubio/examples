@@ -19,7 +19,8 @@ public record SocialConfig(
         List<String> tendencies,
         List<PersonalityFacet> personalityFacets,
         List<RelationalSchema> relationalSchemas,
-        @Nullable AttachmentStyle attachment
+        @Nullable AttachmentStyle attachment,
+        List<FormationMemory> formationMemories
 ) {
     public SocialConfig {
         goals          = goals != null ? List.copyOf(goals) : List.of();
@@ -32,6 +33,7 @@ public record SocialConfig(
         tendencies        = tendencies != null ? List.copyOf(tendencies) : List.of();
         personalityFacets = personalityFacets != null ? List.copyOf(personalityFacets) : List.of();
         relationalSchemas = relationalSchemas != null ? List.copyOf(relationalSchemas) : List.of();
+        formationMemories = formationMemories != null ? List.copyOf(formationMemories) : List.of();
     }
 
     public SocialConfig(List<GoalConfig> goals, List<Drive> drives, List<NormEntry> norms,
@@ -39,12 +41,12 @@ public record SocialConfig(
                         Map<String, List<ReinforcementMapping>> reinforcement,
                         RelationshipStageConfig stageConfig) {
         this(goals, drives, norms, initialBeliefs, relationships, reinforcement, stageConfig, null, List.of(),
-             List.of(), List.of(), null);
+             List.of(), List.of(), null, List.of());
     }
 
     public static SocialConfig empty() {
         return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null, null, List.of(),
-                                List.of(), List.of(), null);
+                                List.of(), List.of(), null, List.of());
     }
 
     public record GoalConfig(String name, String description, String axis,
@@ -143,4 +145,11 @@ public record SocialConfig(
             }
         }
     }
+
+    public record FormationMemory(int age, String episode) {
+        public FormationMemory {
+            Objects.requireNonNull(episode);
+        }
+    }
+
 }
