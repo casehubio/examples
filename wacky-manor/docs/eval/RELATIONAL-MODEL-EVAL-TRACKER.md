@@ -181,6 +181,57 @@ The problem is no longer in the social-config or personality facets. It's in PP'
 
 **All tests pass threshold (≥3).** Four tests at 4/5 instead of 5/5 — all due to voice/register choices (theatrical villain, slightly literary construction) rather than personality model failures. The remaining gap is character voice tuning, not architecture.
 
+### Run 4 — 2026-10-07 (coherence fixes — eliminate instruction tension)
+
+**Data file:** `relational-model-eval-2026-10-07-run4.json`
+
+**Changes applied:**
+1. Thinking prompt: "Be inside the feeling, not outside describing it" — removed "Remember your voice"
+2. Personality rendering: first-person experiential origins, no score labels exposed
+3. Relational rendering: emotional descriptions only, no Role/Trust/Utility data sheet
+4. GENERIC speech-patterns: removed "theatrical villainspeak", "third-person narration"
+5. Social-config origins rewritten in first person ("You feel no concern" not "He feels no concern")
+
+#### Results
+
+| # | Profile | Run 3 | Run 4 | Notes |
+|---|---|---|---|---|
+| 6 | BASELINE | 5 | **5** | Held — "leash metaphor, trust-as-currency, naturally character-driven" |
+| 7 | BASELINE | 4 | **4** | Held — "father's aphorism slightly literary-constructed" |
+| 8 | BASELINE | 5 | **5** | Held — "visceral street-smart protective alarm" |
+| 6g | GENERIC | 4 | **4** | Held — "metaphors feel crafted to signal villainy" |
+| 7g | GENERIC | 4 | **5** | **+1** "richly layered, genuinely emerged, deeply consistent" |
+| 8g | GENERIC | 5 | **5** | Held — "visceral, instinctive, genuinely emerged" |
+
+**PP GENERIC 4→5.** Coherence fixes worked where they had most room — the GENERIC profile without cartoon template overhead.
+
+#### Root cause of remaining 4/5s
+
+Both trace to the same issue in opposite directions:
+
+| Test | Score | Root cause |
+|---|---|---|
+| PP BASELINE (7) | 4 | hanna-barbera cartoon template adds performance noise that overrides immersion |
+| HC GENERIC (6g) | 4 | Thin character grounding leaves void → LLM fills with literary villain clichés |
+
+**The personality model itself scores 5/5** when:
+- Templates don't interfere (PP GENERIC: no cartoon template → 5/5)
+- Character grounding is specific (HC BASELINE: Sneekly identity → 5/5)
+
+The remaining gaps are context-specific (template design, character richness), not architecture-level.
+
+#### Updated summary — after Run 4
+
+| Category | Tests | Scores | Avg |
+|---|---|---|---|
+| A: Injected Context | 5 | 5,5,5,5,5 | 5.0 |
+| B: BASELINE social-config | 3 | 5,4,5 | 4.7 |
+| B: GENERIC social-config | 3 | 4,5,5 | 4.7 |
+| C: Formation | 2 | 5,5 | 5.0 |
+| **Total** | **13** | | **4.8** |
+
+**All pass. 11/13 at 5/5. 2 at 4/5 due to template/grounding, not model.**
+
 ---
 
 ## Techniques Under Investigation
