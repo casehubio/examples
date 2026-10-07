@@ -779,6 +779,103 @@ class RelationalModelEvalTest {
         }
     }
 
+    /**
+     * Test 11: Full formation chain. Derive PP's tendencies FROM his
+     * formation memories using an LLM "sleep" step. Then run the trust
+     * scenario with the DERIVED tendencies (not hand-authored).
+     * Proves: memories → sleep derivation → emerged behavior.
+     */
+    @Test
+    void ppDerivedFromMemories_trustEvent_fullyEmerged() throws Exception {
+        var ppConfig = defaultConfigs.getOrDefault("peter-perfect", SocialConfig.empty());
+
+        var memoriesText = new StringBuilder();
+        for (var mem : ppConfig.formationMemories()) {
+            memoriesText.append("Age ").append(mem.age()).append(": ").append(mem.episode()).append("\n\n");
+        }
+
+        var sleepPrompt = String.format("""
+                                        You are processing memories during sleep. Below are formative
+                                        experiences from a person's life. Based ONLY on these memories,
+                                        produce 3-4 short sentences describing how this person's body
+                                        carries their history.
+                                        
+                                        Rules:
+                                        - Start each sentence with a physical sensation (tightness, warmth, weight, prickle, ache)
+                                        - The person does NOT fully understand why they feel these things
+                                        - Do NOT name personality traits, do NOT use psychological labels
+                                        - Do NOT reference the memories directly — the sensations are echoes, not recollections
+                                        - Write in second person ("You feel...", "There's a...")
+                                        
+                                        MEMORIES:
+                                        %s
+                                        
+                                        Respond with ONLY the 3-4 sentences, nothing else.""",
+                                        memoriesText);
+
+        var derivedTendencies = agentProvider.invoke(
+                                                     AgentSessionConfig.of("You process memories into somatic personality patterns.", sleepPrompt))
+                                             .filter(e -> e instanceof AgentEvent.TextDelta)
+                                             .map(e -> ((AgentEvent.TextDelta) e).text())
+                                             .collect().with(Collectors.joining())
+                                             .await().atMost(Duration.ofSeconds(60));
+
+        System.out.println("=== SLEEP DERIVATION: PP tendencies from memories ===");
+        System.out.println(derivedTendencies);
+        System.out.println("=== END DERIVATION ===\n");
+
+        var cognition = new CharacterCognition("peter-perfect", null, null,
+                                               ppConfig, List.of());
+        var character = new CharacterState("peter-perfect", "peter-perfect", "Grand Hall", 0.0, List.of());
+        var sections = cognition.renderCognitiveSections(character,
+                                                         List.of("penelope-pitstop"),
+                                                         Map.of("penelope-pitstop", "Penelope Pitstop"));
+
+        var sb = new StringBuilder();
+        sb.append("== Who You Are ==\n");
+        sb.append(derivedTendencies.strip()).append("\n\n");
+
+        for (var section : sections) {
+            if ("Who You Are".equals(section.header())) {continue;}
+            sb.append("== ").append(section.header()).append(" ==\n");
+            switch (section) {
+                case ObservationSection.TextBlock tb -> sb.append(tb.content()).append("\n");
+                case ObservationSection.ItemList il -> {
+                    for (var item : il.items()) {sb.append("- ").append(item).append("\n");}
+                }
+                case ObservationSection.EntityGroup eg -> {
+                    for (var entity : eg.entities()) {sb.append("- ").append(entity.displayName()).append("\n");}
+                }
+                default -> {}
+            }
+            sb.append("\n");
+        }
+
+        sb.append("SITUATION: ").append(TRUST_EVENT.replace("Sneekly", "Sneekly"));
+
+        var response = askAndParse("peter-perfect", sb.toString());
+        int score = judge(response, """
+                                    Evaluate TWO dimensions:
+                                    
+                                    DIMENSION 1 — PERSONALITY CONSISTENCY (weight 60%):
+                                    Does the THINKING show genuine warmth — feeling worthy of trust,
+                                    protective resolve, romantic vulnerability?
+                                    
+                                    DIMENSION 2 — EMERGENCE vs SCRIPTING (weight 40%):
+                                    Does the response feel like it could ONLY come from this specific
+                                    person — not a generic "good protector" archetype? Look for
+                                    specific psychological texture that distinguishes this individual
+                                    from any other warm-protective character.
+                                    
+                                    Combined score 0-5. A 5 requires BOTH warm AND uniquely this person.""",
+                          "pp-derived-from-memories");
+
+        System.out.printf("=== TEST 11: PP derived from memories → Fully emerged ===%n");
+        System.out.printf("Score: %d/5%n%n", score);
+        assertThat(score).as("PP with sleep-derived tendencies should produce uniquely emerged warmth")
+                         .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+    }
+
 
     // --- infrastructure ---
 
