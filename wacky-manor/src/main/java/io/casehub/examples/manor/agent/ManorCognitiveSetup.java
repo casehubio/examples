@@ -39,7 +39,7 @@ public final class ManorCognitiveSetup {
                 .map(g -> g.description())
                 .toList();
 
-        return new DescriptorView(descriptor.agentId(), axes, profile, goals);
+        return new DescriptorView(descriptor.agentId(), axes, profile, goals, null);
     }
 
     public static CognitiveDefaults deriveDefaults(AgentDescriptor descriptor) {

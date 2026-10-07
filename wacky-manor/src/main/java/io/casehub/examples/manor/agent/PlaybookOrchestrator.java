@@ -83,7 +83,7 @@ public class PlaybookOrchestrator {
     private final    java.util.Map<String, String> subgraphIdCache = new java.util.concurrent.ConcurrentHashMap<>();
 
 
-    public Thread startScenario(WorldState world, io.casehub.examples.manor.model.ScenarioMode mode) {
+    public Thread startScenario(WorldState world, io.casehub.examples.manor.model.PlaybookMode mode) {
         var triggers         = MansionLoader.loadTriggers();
         var scenes           = MansionLoader.loadScenes();
         var triggerEvaluator = new TriggerEvaluator(triggers);
@@ -105,7 +105,7 @@ public class PlaybookOrchestrator {
                              TriggerEvaluator triggerEvaluator,
                              SceneDirector sceneDirector,
                              ActionResolver actionResolver,
-                             io.casehub.examples.manor.model.ScenarioMode mode) {
+                             io.casehub.examples.manor.model.PlaybookMode mode) {
         manorChannels.initChannels();
         manorChannels.dispatchScenarioStart();
         webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scenario("started"));
@@ -213,7 +213,7 @@ public class PlaybookOrchestrator {
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
 
         NarratorAgent narratorAgent = null;
-        if (config.narrator().enabled() && mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
+        if (config.narrator().enabled() && mode == io.casehub.examples.manor.model.PlaybookMode.AUTONOMOUS) {
             narratorAgent = new NarratorAgent(
                     compactor, agentProvider, manorChannels, webEventBus,
                     config.narrator().eventThreshold(), config.narrator().timerSeconds());
@@ -263,7 +263,7 @@ public class PlaybookOrchestrator {
         var sessionLifecycleManager = new io.casehub.platform.agent.session.SessionLifecycleManager(poolRegistry);
         var invocationService = new AgentInvocationService(sessionLifecycleManager, "claude", 60, 2, 2000);
 
-        if (mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
+        if (mode == io.casehub.examples.manor.model.PlaybookMode.AUTONOMOUS) {
             runAutonomousTicks(world, activeSet, actionResolver, dispatcher, invocationService, narratorAgent, cognitions, planEvaluator, cognitionCore);
         } else {
             runScripted(world, activeSet, actionResolver, dispatcher, invocationService,

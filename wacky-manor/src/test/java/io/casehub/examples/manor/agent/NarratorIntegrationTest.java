@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.agent;
 
 import io.casehub.examples.manor.engine.MansionLoader;
-import io.casehub.examples.manor.model.ScenarioMode;
+import io.casehub.examples.manor.model.PlaybookMode;
 import io.casehub.examples.manor.web.ManorEventBus;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -37,7 +37,7 @@ class NarratorIntegrationTest {
         });
 
         var world          = MansionLoader.loadWorld();
-        var scenarioThread = orchestrator.startScenario(world, ScenarioMode.AUTONOMOUS);
+        var scenarioThread = orchestrator.startScenario(world, PlaybookMode.AUTONOMOUS);
 
         boolean received = latch.await(120, TimeUnit.SECONDS);
         world.setScenarioComplete(

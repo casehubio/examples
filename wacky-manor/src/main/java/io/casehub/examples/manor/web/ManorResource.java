@@ -40,7 +40,7 @@ public class ManorResource {
         eventBus.broadcast(ManorWebSocketEvent.scenario("started"));
         eventBus.broadcast(eventBus.buildSnapshot(activeWorld));
 
-        var mode = io.casehub.examples.manor.model.ScenarioMode.valueOf(scenarioModeConfig.toUpperCase());
+        var mode = io.casehub.examples.manor.model.PlaybookMode.valueOf(scenarioModeConfig.toUpperCase());
         orchestrator.startScenario(activeWorld, mode);
 
         return Response.accepted()
