@@ -232,6 +232,46 @@ The remaining gaps are context-specific (template design, character richness), n
 
 **All pass. 11/13 at 5/5. 2 at 4/5 due to template/grounding, not model.**
 
+### Run 5 — 2026-10-07 (formation memories added)
+
+**Data file:** `relational-model-eval-2026-10-07-run5.json`
+
+**Changes applied:**
+- Formation memories added to SocialConfig (new record type + YAML parser + renderer)
+- HC: 6 childhood episodes (ages 6–18) from validated formation test
+- PP: 4 childhood episodes (ages 5–16) from validated formation test
+- Both BASELINE and GENERIC configs
+- Rendered as "Where You Come From" section before personality facets
+
+#### Results
+
+| # | Profile | Run 4 | Run 5 | Notes |
+|---|---|---|---|---|
+| 6 | BASELINE | 5 | **5** | HC spontaneously referenced age-9 memory: "the boy sharing his lunch — and I crush it flat." Formation→behavior chain working. |
+| 7 | BASELINE | 4 | **4** | PP still constrained by cartoon template performance pressure |
+| 8 | BASELINE | 5 | **5** | Held |
+| 6g | GENERIC | 4 | **4** | "metaphors slightly constructed" — thin briefing still allows literary defaults |
+| 7g | GENERIC | 5 | **5** | Held |
+| 8g | GENERIC | 5 | **5** | Held |
+
+**Key finding:** HC BASELINE now spontaneously surfaces childhood memories during interactions. The formation→behavior chain is LIVE — not just backstory but psychologically active material the character draws on in the moment.
+
+**Remaining 4/5s are stable across runs.** The gap is in the template/voice layer:
+- PP BASELINE: `hanna-barbera-cartoon-style` template's "exaggerate emotions" overrides immersion
+- HC GENERIC: thin briefing leaves room for literary villain register
+
+These are character design issues, not personality model issues. The model itself validates at 5/5 when templates don't interfere (PP GENERIC) and character grounding is specific (HC BASELINE).
+
+#### Final summary — Run 5
+
+| Category | Tests | All 5/5? | 4/5 count | Root cause |
+|---|---|---|---|---|
+| A: Injected Context | 5 | Yes | 0 | — |
+| B: BASELINE | 3 | No | 1 (PP) | Cartoon template |
+| B: GENERIC | 3 | No | 1 (HC) | Thin briefing |
+| C: Formation | 2 | Yes | 0 | — |
+| **Total** | **13** | | **2** | Template/voice design |
+
 ---
 
 ## Techniques Under Investigation
