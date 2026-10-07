@@ -211,7 +211,7 @@ Both trace to the same issue in opposite directions:
 
 | Test | Score | Root cause |
 |---|---|---|
-| PP BASELINE (7) | 4 | hanna-barbera cartoon template adds performance noise that overrides immersion |
+| PP BASELINE (7) | 4 | theatrical-eccentric cartoon template adds performance noise that overrides immersion |
 | HC GENERIC (6g) | 4 | Thin character grounding leaves void → LLM fills with literary villain clichés |
 
 **The personality model itself scores 5/5** when:
@@ -257,7 +257,7 @@ The remaining gaps are context-specific (template design, character richness), n
 **Key finding:** HC BASELINE now spontaneously surfaces childhood memories during interactions. The formation→behavior chain is LIVE — not just backstory but psychologically active material the character draws on in the moment.
 
 **Remaining 4/5s are stable across runs.** The gap is in the template/voice layer:
-- PP BASELINE: `hanna-barbera-cartoon-style` template's "exaggerate emotions" overrides immersion
+- PP BASELINE: `theatrical-eccentric-cartoon-style` template's "exaggerate emotions" overrides immersion
 - HC GENERIC: thin briefing leaves room for literary villain register
 
 These are character design issues, not personality model issues. The model itself validates at 5/5 when templates don't interfere (PP GENERIC) and character grounding is specific (HC BASELINE).
@@ -334,7 +334,7 @@ Presentation layer (what the character sees):
 
 **12/13 at 5/5. One remaining: PP BASELINE (4/5).**
 
-PP BASELINE's gap is the `hanna-barbera-cartoon-style` template. PP GENERIC (same personality model, no cartoon template) scores 5/5. The personality model is validated. The remaining issue is a design trade-off: cartoon characters will always carry some archetype recognition.
+PP BASELINE's gap is the `theatrical-eccentric-cartoon-style` template. PP GENERIC (same personality model, no cartoon template) scores 5/5. The personality model is validated. The remaining issue is a design trade-off: cartoon characters will always carry some archetype recognition.
 
 #### Final summary — Run 6
 

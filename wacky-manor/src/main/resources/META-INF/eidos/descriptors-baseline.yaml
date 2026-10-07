@@ -16,7 +16,7 @@ descriptors:
       - name: charm
         tags: [social]
     templates:
-      - ref: hanna-barbera-cartoon-style
+      - ref: theatrical-eccentric-style
     goals:
       - name: find-diamond
         description: Find the legendary Doily Diamond hidden in the mansion
@@ -63,7 +63,7 @@ descriptors:
       - name: disguise
         tags: [social, deception]
     templates:
-      - ref: hanna-barbera-cartoon-style
+      - ref: theatrical-eccentric-style
       - ref: cartoon-villain
         args:
           catchphrase: "Nyah-ha-ha-HA!"
@@ -124,7 +124,7 @@ descriptors:
       - name: accidental-heroism
         tags: [physical, comedy]
     templates:
-      - ref: hanna-barbera-cartoon-style
+      - ref: theatrical-eccentric-style
       - ref: cartoon-protector
         args:
           protection_style: bumbling and accidental
@@ -171,7 +171,7 @@ descriptors:
       - name: scheming
         tags: [intellect, villain]
     templates:
-      - ref: hanna-barbera-cartoon-style
+      - ref: theatrical-eccentric-style
       - ref: cartoon-villain
         args:
           catchphrase: "Drat, drat, and double DRAT!"
@@ -219,7 +219,7 @@ descriptors:
       - name: gallantry
         tags: [social]
     templates:
-      - ref: hanna-barbera-cartoon-style
+      - ref: theatrical-eccentric-style
       - ref: cartoon-hero
         args:
           heroic_trait: gallant chivalry
