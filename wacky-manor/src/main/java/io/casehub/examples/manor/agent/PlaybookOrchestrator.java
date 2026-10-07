@@ -304,7 +304,7 @@ public class PlaybookOrchestrator {
         int snapshotInterval = config.cognitiveSnapshot().intervalTicks();
         if (snapshotInterval > 0) {
             try {
-                var snapshotPath = java.nio.file.Path.of("wacky-manor/docs/eval/cognitive-snapshots-" + java.time.LocalDate.now() + ".jsonl");
+                var snapshotPath = java.nio.file.Path.of("docs/eval/cognitive-snapshots-" + java.time.LocalDate.now() + ".jsonl");
                 snapshotRecorder = new CognitiveSnapshotRecorder(cognitionCore, ManorConstants.TENANCY_ID, snapshotInterval, snapshotPath, cognitions);
             } catch (java.io.IOException e) {
                 log.error("Failed to create cognitive snapshot recorder", e);
