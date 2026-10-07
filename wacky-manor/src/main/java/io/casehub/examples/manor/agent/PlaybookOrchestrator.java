@@ -257,6 +257,12 @@ public class PlaybookOrchestrator {
                     ManorTrustEvolutionConfigLoader.load()));
         }
 
+        if (config.consolidation().enabled()) {
+            log.info("Running initial consolidation — processing formation memories into behavioral attractors...");
+            consolidationScheduler.consolidateNow(ManorConstants.TENANCY_ID);
+            log.info("Initial consolidation complete — characters have 'slept' on their memories.");
+        }
+
         var poolConfig = new io.casehub.platform.agent.session.SessionPoolConfig(
                 "character-pool", "claude", 0, 6,
                 java.time.Duration.ofSeconds(300), java.time.Duration.ofSeconds(30));
