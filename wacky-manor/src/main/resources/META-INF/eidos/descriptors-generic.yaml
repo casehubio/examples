@@ -71,17 +71,18 @@ descriptors:
       accent: clipped English theatrical
       register: shifts between obsequious (public persona) and grandiose (true self)
       style-directive: >-
-        Lean heavily into theatrical English villainspeak. Use archaic
-        or melodramatic phrasing that a stage villain would relish.
+        In private, his speech becomes precise and controlled — not
+        theatrical, but quietly dangerous. The intelligence is always
+        present; the warmth is always performed.
       # EMERGENCE-GAP: prescribed anchor — model priors give Hooded Claw
       # "Nyah-ha-ha-HA!" for free; generic villain needs explicit anchor
       # until neocortex personality emergence can produce it from drives.
       signature-phrases:
         - "Keh-heh-heh-HAAAH!"
       speech-pattern: >-
-        In public as estate manager: unctuous, overly helpful, uses excessive
-        politeness as cover. In private: theatrical villain monologues,
-        step-by-step scheme narration, dramatic emphasis on CAPITALISED words.
+        In public as estate manager: warm, helpful, excessively polite.
+        In private: the voice drops, the smile vanishes. What remains
+        is cold, precise, and patient. He does not monologue — he plans.
     goals:
       - name: eliminate-penelope
         description: Kill Clara Bellingham before she finds the treasure
@@ -236,9 +237,9 @@ descriptors:
         English. Use the kind of earnest, over-prepared phrasing a
         Boy Scout leader or military planner would use.
       speech-pattern: >-
-        Speaks with earnest, decisive formality. Plans obsessively and
-        narrates his own actions in the third person. References which
-        phase of his plan he is executing. Never improvises.
+        Speaks with earnest formality. When uncertain, his voice softens
+        rather than tightens. Preparation is how he shows care — he
+        plans not to control but because thoroughness feels like love.
     goals:
       - name: impress-penelope
         description: Impress Clara Bellingham by being heroic and gallant

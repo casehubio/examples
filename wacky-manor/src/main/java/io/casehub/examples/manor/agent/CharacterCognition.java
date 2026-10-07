@@ -194,15 +194,17 @@ public final class CharacterCognition {
 
     private ObservationSection renderPersonalityFacets() {
         var sb = new StringBuilder();
-        sb.append("These stable traits shape how you interpret and respond to interpersonal events.\n\n");
+        sb.append("This is who you are — not a role to perform, but how you experience the world.\n\n");
         for (var facet : socialConfig.personalityFacets()) {
-            sb.append("**").append(facet.facet()).append("**: ").append(facet.score()).append("/100");
+            sb.append("- ");
             if (!facet.origin().isEmpty()) {
-                sb.append(" — ").append(facet.origin());
+                sb.append(facet.origin());
+            } else {
+                sb.append(facet.facet()).append(": ").append(facet.score()).append("/100");
             }
             sb.append("\n");
         }
-        return ObservationSection.text("Your Personality", sb.toString().strip());
+        return ObservationSection.text("Who You Are", sb.toString().strip());
     }
 
     private ObservationSection renderRelationalSchemas(Collection<String> nearbyAgentIds, Map<String, String> agentNames) {
@@ -212,28 +214,33 @@ public final class CharacterCognition {
         if (relevant.isEmpty()) {return null;}
 
         var sb = new StringBuilder();
-        sb.append("How you see the people around you right now.\n\n");
         for (var rs : relevant) {
             var displayName = agentNames.getOrDefault(rs.target(), rs.target());
-            sb.append("**").append(displayName).append("** — Role: ").append(rs.role().toUpperCase());
-            sb.append(" | Trust: ").append(String.format("%.1f", rs.trust()));
-            sb.append(" | Intimacy: ").append(String.format("%.1f", rs.intimacy()));
-            sb.append(" | Utility: ").append(String.format("%.1f", rs.utility()));
+            sb.append("**").append(displayName).append(":** ");
             if (!rs.description().isEmpty()) {
-                sb.append("\n  ").append(rs.description());
+                sb.append(rs.description());
             }
             sb.append("\n");
         }
-        return ObservationSection.text("Your View of Others", sb.toString().strip());
+        return ObservationSection.text("How You Feel About Those Present", sb.toString().strip());
     }
 
     private ObservationSection renderAttachmentStyle() {
         var a  = socialConfig.attachment();
         var sb = new StringBuilder();
-        sb.append("Your relational lens: **").append(a.style()).append("**\n");
-        sb.append("Anxiety (fear of abandonment): ").append(String.format("%.1f", a.anxiety())).append("\n");
-        sb.append("Avoidance (discomfort with closeness): ").append(String.format("%.1f", a.avoidance()));
-        return ObservationSection.text("Your Attachment Pattern", sb.toString());
+        if (a.avoidance() > 0.6) {
+            sb.append("You don't need people. Not really. When someone tries to get close, ");
+            sb.append("you feel faint irritation. Closeness is a vulnerability you learned to avoid.");
+        } else if (a.anxiety() > 0.5) {
+            sb.append("You worry about the people you love. When they're out of sight, ");
+            sb.append("something in you tightens. You need to know they're safe.");
+        } else if (a.avoidance() < 0.3 && a.anxiety() < 0.3) {
+            sb.append("You trust easily and feel comfortable with closeness. ");
+            sb.append("When someone you care about is near, you feel settled.");
+        } else {
+            sb.append("You are cautious with closeness but capable of trust once earned.");
+        }
+        return ObservationSection.text("How You Bond", sb.toString());
     }
 
 
