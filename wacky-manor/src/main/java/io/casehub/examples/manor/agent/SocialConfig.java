@@ -146,9 +146,13 @@ public record SocialConfig(
         }
     }
 
-    public record FormationMemory(int age, String episode) {
+    public record FormationMemory(int age, String episode, double pleasure, double arousal, double dominance) {
         public FormationMemory {
             Objects.requireNonNull(episode);
+        }
+
+        public FormationMemory(int age, String episode) {
+            this(age, episode, 0.0, 0.0, 0.0);
         }
     }
 
