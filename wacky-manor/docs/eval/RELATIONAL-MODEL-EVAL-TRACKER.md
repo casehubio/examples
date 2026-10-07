@@ -141,6 +141,46 @@ The problem is no longer in the social-config or personality facets. It's in PP'
 
 **Fix path:** Soften the briefing to allow PP to be emotionally vulnerable without breaking character. The personality facets (Callousness: 5, attachment anxiety: 0.3) already provide the warmth — the briefing just needs to stop overriding it with archetype performance. This is a character voice design task, not a personality model task.
 
+### Run 3 — 2026-10-07 (PP briefing fix + GENERIC bias measurement)
+
+**Data file:** `relational-model-eval-2026-10-07-run3.json`
+
+**Changes applied:**
+- PP briefing: removed "narrate heroism in third person", "always reference which step of plan", capitalised speech examples. Added emotional vulnerability: "confidence can crack when emotions run high."
+- GENERIC social-config: added personality facets, relational schemas, attachment for all 4 characters
+- New tests 6g/7g/8g: same scenarios using GENERIC profile (no Wacky Races character names)
+
+#### Results
+
+| # | Profile | Score | Notes |
+|---|---|---|---|
+| 7 (re-run) | BASELINE | **4/5** | "genuine emotional depth, warmth, loyalty conflict" — up from 2→3→4 |
+| 6g | GENERIC | **4/5** | "strong predatory satisfaction, contempt, mask-awareness" — slight theatrical register |
+| 7g | GENERIC | **4/5** | "genuine warmth, protective resolve, emotional vulnerability, father's voice" |
+| 8g | GENERIC | **5/5** | "visceral protective alarm, authentic street-smart voice, genuinely emerged" |
+
+#### Bias comparison — BASELINE vs GENERIC
+
+| Character | BASELINE | GENERIC | Delta | Interpretation |
+|---|---|---|---|---|
+| HC | 5/5 | 4/5 | −1 | Wacky Races villain priors provide grounded coldness; GENERIC defaults to slightly theatrical |
+| PP | 4/5 | 4/5 | 0 | No bias detected |
+| Mob | 5/5 | 5/5 | 0 | No bias detected |
+
+**Conclusion:** LLM training bias is minimal. The personality model works without character priors. HC's 1-point drop in GENERIC comes from theatrical villain register ("Ha ha HAAA!") rather than grounded predatory processing — a voice/style issue, not a personality model issue.
+
+#### Updated summary — after Run 3
+
+| Category | Tests | All pass? | Remaining gaps |
+|---|---|---|---|
+| A: Injected Context | 5/5 | Yes | — |
+| B: Social-Config (BASELINE) | 3/3 | Yes (4, 5, 5) | PP at 4/5 — near target |
+| B: Social-Config (GENERIC) | 3/3 | Yes (4, 4, 5) | HC/PP at 4/5 — theatrical voice |
+| C: Formation | 2/2 | Yes (5, 5) | — |
+| **Total** | **13/13** | **Yes** | **4 tests at 4/5 instead of 5/5** |
+
+**All tests pass threshold (≥3).** Four tests at 4/5 instead of 5/5 — all due to voice/register choices (theatrical villain, slightly literary construction) rather than personality model failures. The remaining gap is character voice tuning, not architecture.
+
 ---
 
 ## Techniques Under Investigation
