@@ -192,11 +192,23 @@ public class PlaybookOrchestrator {
                 io.casehub.neocortex.cognition.goal.GoalEscalationConfig.defaults(),
                 java.time.Clock.systemUTC());
 
+        var cognitionConfig = io.casehub.neocortex.cognition.core.CognitionConfig.all();
+        if (config.appraisal().enabled()) {
+            cognitionConfig = cognitionConfig.with("appraisal", true);
+        }
         var cognitionCore = new io.casehub.neocortex.cognition.core.CognitionCore(
                 moodOrch, driveOrch, userModelOrch, mentalModelOrch, strategyOrch,
                 narrativeOrch, goalOrchestrator, memoryHygieneAdapter, innerLifeOrch,
-                agentProvider, io.casehub.neocortex.cognition.core.CognitionConfig.all(),
+                agentProvider, cognitionConfig,
                 mmStore, new ManorNeedTierMappingProvider(), null, null, null, null, null);
+
+        if (config.appraisal().enabled()) {
+            cognitionCore.configureAppraisal(
+                    new io.casehub.neocortex.cognition.appraisal.LlmAppraisalStrategy(agentProvider),
+                    ctx -> io.casehub.neocortex.cognition.appraisal.PerceivedSituation.passThrough(ctx.observation()),
+                    null);
+            log.info("Appraisal enabled — sub-LLM will evaluate situations against character drives");
+        }
 
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
 

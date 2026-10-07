@@ -12,6 +12,7 @@ public record ManorConfig(
         MemoryConfig memory,
         ConsolidationConfig consolidation,
         CognitiveSnapshotConfig cognitiveSnapshot,
+        AppraisalConfig appraisal,
         String activeCharacters,
         int maxConcurrentAgents
 ) {
@@ -36,4 +37,6 @@ public record ManorConfig(
     public record ConsolidationConfig(boolean enabled, int intervalTicks) {}
 
     public record CognitiveSnapshotConfig(int intervalTicks) {}
+
+    public record AppraisalConfig(boolean enabled) {}
 }

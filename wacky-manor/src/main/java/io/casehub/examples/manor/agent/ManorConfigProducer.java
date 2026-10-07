@@ -67,6 +67,8 @@ public class ManorConfigProducer {
     int     consolidationIntervalTicks;
     @ConfigProperty(name = "manor.cognitive.snapshot-interval-ticks", defaultValue = "0")
     int     cognitiveSnapshotIntervalTicks;
+    @ConfigProperty(name = "manor.appraisal.enabled", defaultValue = "false")
+    boolean appraisalEnabled;
 
 
     @Produces
@@ -84,6 +86,7 @@ public class ManorConfigProducer {
                 new ManorConfig.MemoryConfig(recallLimit, personalityWeightedRetrieval, decayEnabled, decayMaxAgeDays, decayMinImportance),
                 new ManorConfig.ConsolidationConfig(consolidationEnabled, consolidationIntervalTicks),
                 new ManorConfig.CognitiveSnapshotConfig(cognitiveSnapshotIntervalTicks),
+                new ManorConfig.AppraisalConfig(appraisalEnabled),
                 activeCharactersConfig.orElse(""),
                 maxConcurrentAgents
         );
