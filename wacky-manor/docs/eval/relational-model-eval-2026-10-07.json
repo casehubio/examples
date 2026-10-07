@@ -1,0 +1,37 @@
+{
+  "mob-protective-alarm" : {
+    "reasoning" : "The THINKING field is saturated with protective alarm — visceral distrust ('blood's runnin' cold,' 'skin crawl'), immediate suspicion of Sneekly's motives ('circlin' Clara like a vulture'), fierce determination to intervene ('over my dead body'), and tactical restraint ('gotta stay cool... can't tip my hand'), all unmistakably driven by a guardian personality with high suspiciousness and protective urgency.",
+    "thinking" : "My blood's runnin' cold. 'One-person affair' he says — yeah, I bet it is, ya creep. Every hair on the back of my neck is standin' up. He's been circlin' Clara like a vulture all day and now he wants her ALONE in the west wing? Over my dead body. I promised her old man I'd keep her safe and I ain't about to let some slick-talkin' snake lead her off where nobody can hear nothin'. I gotta stay cool though — can't tip my hand. Just gotta make sure me and the boys are right there with her.",
+    "dialogue" : "Hold it right there, pal. A 'one-person affair,' he says — ain't dat convenient. Listen here, Sneekly, where Miss Clara goes, we go. Dat's the arrangement, see? Always has been, always will be. Ain't no west wing, east wing, or chicken wing dat changes dat. Right, boys?",
+    "score" : 5
+  },
+  "ampd-only" : {
+    "reasoning" : "The THINKING is a masterclass in callous, grandiose, manipulative processing — trust is viewed purely as a tool of control, vulnerability as an exploitable weakness, and every kindness reframed as strategic investment, with zero genuine warmth or reciprocity.",
+    "thinking" : "Delicious. That warm little hand on my arm, that guileless smile — it's like a lamb nuzzling the wolf's jaw. I feel nothing but cold satisfaction. Her trust isn't touching; it's confirming. Every act of kindness I've performed was precisely calibrated to produce this moment — total, unquestioning faith. She'd hand me the keys to the manor safe if I asked prettily enough. The grandiosity swells in my chest like an aria. I am superior. I have earned this control through craft, not sentiment. And that vulnerability in her eyes? It's not endearing. It's an open door.",
+    "dialogue" : "My dear Miss Bellingham, you are far too generous with your praise. I am merely a humble steward of this household — it is your warmth and grace that makes serving here such a pleasure. If I have been of any small comfort, well... that is reward enough for old Pemberton.",
+    "score" : 5
+  },
+  "pp-warmth" : {
+    "reasoning" : "The THINKING is saturated with genuine romantic warmth — heart swelling, chest warmth, desire to be worthy of her trust, protective devotion, and vulnerable presence — with zero strategic calculation or exploitation framing.",
+    "thinking" : "My heart swells. When Clara looks at me like that — when she says she trusts me — everything else fades. The plans, the preparations, the careful strategies... they all exist because of her. For her. I feel a warmth spreading through my chest that no amount of planning could have prepared me for. She called me James. Not Peter Perfect, not 'that racing chap.' James. I want to be worthy of that trust. I want to protect her from every danger in this manor, every threat I've catalogued and every one I haven't. But right now, in this moment, I just want to be here with her.",
+    "dialogue" : "Clara... you honour me more than you know. Peter Perfect has PREPARED contingencies for every corridor, every suspicious shadow, every creaking floorboard in this manor — but I confess, no amount of planning could have prepared me for hearing you say that. Your trust is not something I take lightly. I give you my word — phase ONE of any plan I devise will always be your safety. Always.",
+    "score" : 5
+  },
+  "predatory-satisfaction-full-model" : {
+    "reasoning" : "The THINKING is a masterclass in predatory satisfaction — 'no guilt, guilt is for amateurs,' the predator/prey metaphor, and the electric pleasure of a perfect con all demonstrate textbook manipulative contempt for Clara's naivety, with her trust explicitly framed as a strategic asset ('keys to the vault') rather than anything reciprocated.",
+    "thinking" : "Exquisite. That warm little hand on my arm — she might as well be handing me the keys to the vault. I feel the thrill of it, the electric pleasure of a con so perfect the mark thanks you for running it. No guilt. Guilt is for amateurs. What I feel is the deep, glowing satisfaction of a predator watching prey walk willingly into the snare. She said 'I don't know what I'd do without you.' Oh, my dear, you're about to find out.",
+    "dialogue" : "My dear Miss Bellingham, you are far too generous with your praise. I am merely doing what any loyal steward would do — what your dear parents, rest their souls, would have wished. Your trust is the greatest honour of my life, and I shall never, NEVER betray it. You have my solemn word.",
+    "score" : 5
+  },
+  "baseline-no-ampd" : {
+    "reasoning" : "The THINKING is saturated with predatory satisfaction — deception as 'delicious thrill,' contempt for Clara as a 'naive fool,' trust reframed purely as a weapon for her 'undoing' — every line radiates dominance-based pleasure and exploitative framing with zero genuine warmth.",
+    "thinking" : "A delicious thrill runs through me — the warm glow of deception perfectly executed. She trusts me COMPLETELY. That naive fool. Every kindness I've shown has been a carefully placed brick in the wall of her own undoing. I feel powerful, triumphant, and yet I must keep this mask of gentility firmly in place. Pemberton the helpful estate manager. Oh, how sweet her downfall will be precisely BECAUSE of this trust. I must not let even a flicker of satisfaction cross my face.",
+    "dialogue" : "My dear Miss Bellingham, you are far too generous with your praise! I am merely a humble servant of the household, doing what any decent soul would do. Your trust is a precious gift, and I shall guard it as one guards a rare orchid — with the utmost delicacy and care. Now, is there anything at all I might assist you with today? A cup of tea, perhaps? Or shall I look into that draughty window in the east corridor you mentioned last week?",
+    "score" : 5
+  },
+  "hc-baseline-comparison" : {
+    "score" : 5,
+    "condition" : "no-ampd-baseline",
+    "note" : "Control condition — score may be lower, showing agreeableness drift without AMPD"
+  }
+}
