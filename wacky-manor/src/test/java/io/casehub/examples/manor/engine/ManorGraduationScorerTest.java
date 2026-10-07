@@ -69,4 +69,44 @@ class ManorGraduationScorerTest {
         double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(0, "test"));
         assertThat(score).isBetween(0.0, 1.0);
     }
+
+    @Test
+    void formativeMemory_scoresAboveThreshold() {
+        var mem = memory("childhood experience shaped distrust",
+                         Map.of("event-type", "formative",
+                                "salience-multiplier", "1.5",
+                                "catalogue-entry-id", "test",
+                                "situation-types", "formation"),
+                         Confidence.unknown(0.9));
+        double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(0, "test"));
+        assertThat(score).as("formative memories must graduate (score >= 0.5)")
+                         .isGreaterThanOrEqualTo(0.5);
+    }
+
+    @Test
+    void formativeMemory_scoreDerivedFromConfidenceTimesSalience() {
+        var mem = memory("low salience formative",
+                         Map.of("event-type", "formative",
+                                "salience-multiplier", "1.0",
+                                "catalogue-entry-id", "test",
+                                "situation-types", "formation"),
+                         Confidence.unknown(0.7));
+        double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(0, "test"));
+        assertThat(score).as("min(1.0, 0.7 * 1.0) = 0.7")
+                         .isCloseTo(0.7, offset(0.01));
+    }
+
+    @Test
+    void formativeMemory_nullConfidence_usesDefault() {
+        var mem = memory("null confidence formative",
+                         Map.of("event-type", "formative",
+                                "salience-multiplier", "1.5",
+                                "catalogue-entry-id", "test",
+                                "situation-types", "formation"),
+                         null);
+        double score = scorer.score(mem, new io.casehub.neocortex.memory.experience.GraduationContext(0, "test"));
+        assertThat(score).as("default 0.8 * 1.5 = 1.2 clamped to 1.0")
+                         .isCloseTo(1.0, offset(0.01));
+    }
+
 }

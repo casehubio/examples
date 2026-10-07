@@ -28,6 +28,7 @@ class PipelineOutputTest {
             io.casehub.neocortex.memory.CaseMemoryStore                                    caseMemoryStore;
 
 
+
     @Test
     void seedAndConsolidate_showsPipelineOutput() {
         var configs = ManorSocialConfigLoader.load();
@@ -55,10 +56,6 @@ class PipelineOutputTest {
             System.out.printf("  '%s' (%s): %d nodes%n", sg.name(), sg.type(), nodes.size());
         }
 
-        System.out.println("\n=== CONSOLIDATION PHASES ===");
-        for (var phase : consolidationScheduler.phases()) {
-            System.out.println("  Phase: " + phase.name() + " (" + phase.getClass().getName() + ")");
-        }
         System.out.println("\n=== RUNNING CONSOLIDATION ===");
         for (int attempt = 0; attempt < 5; attempt++) {
             try { Thread.sleep(200); } catch (InterruptedException e) { break; }
