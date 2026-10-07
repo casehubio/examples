@@ -152,6 +152,36 @@ public final class ManorSocialConfigLoader {
                          ? ((List<String>) raw.get("tendencies"))
                          : List.<String>of();
 
-        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig, personaConstraint, tendencies);
+        var personalityFacets = raw.containsKey("personality-facets")
+                ? ((List<Map<String, Object>>) raw.get("personality-facets")).stream()
+                        .map(m -> new SocialConfig.PersonalityFacet(
+                                (String) m.get("facet"),
+                                ((Number) m.get("score")).intValue(),
+                                (String) m.get("origin")))
+                        .toList()
+                : List.<SocialConfig.PersonalityFacet>of();
+
+        var relationalSchemas = raw.containsKey("relational-schemas")
+                ? ((List<Map<String, Object>>) raw.get("relational-schemas")).stream()
+                        .map(m -> new SocialConfig.RelationalSchema(
+                                (String) m.get("target"),
+                                (String) m.get("role"),
+                                ((Number) m.getOrDefault("trust", 0.5)).doubleValue(),
+                                ((Number) m.getOrDefault("intimacy", 0.0)).doubleValue(),
+                                ((Number) m.getOrDefault("utility", 0.0)).doubleValue(),
+                                (String) m.get("description")))
+                        .toList()
+                : List.<SocialConfig.RelationalSchema>of();
+
+        SocialConfig.AttachmentStyle attachment = null;
+        if (raw.containsKey("attachment")) {
+            var atRaw = (Map<String, Object>) raw.get("attachment");
+            attachment = new SocialConfig.AttachmentStyle(
+                    (String) atRaw.get("style"),
+                    ((Number) atRaw.getOrDefault("anxiety", 0.5)).doubleValue(),
+                    ((Number) atRaw.getOrDefault("avoidance", 0.5)).doubleValue());
+        }
+
+        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig, personaConstraint, tendencies, personalityFacets, relationalSchemas, attachment);
     }
 }

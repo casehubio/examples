@@ -152,6 +152,21 @@ public final class CharacterCognition {
 
         sections.addAll(renderSocialAwareness(nearbyAgentIds, agentNames));
 
+        if (!socialConfig.personalityFacets().isEmpty()) {
+            sections.add(renderPersonalityFacets());
+        }
+
+        if (!socialConfig.relationalSchemas().isEmpty() && !nearbyAgentIds.isEmpty()) {
+            var schemaSection = renderRelationalSchemas(nearbyAgentIds, agentNames);
+            if (schemaSection != null) {
+                sections.add(schemaSection);
+            }
+        }
+
+        if (socialConfig.attachment() != null) {
+            sections.add(renderAttachmentStyle());
+        }
+
         var trustSections = renderTrustSections();
         if (!trustSections.isEmpty()) {
             sections.addAll(trustSections);
@@ -175,6 +190,52 @@ public final class CharacterCognition {
 
         return sections;
     }
+
+
+    private ObservationSection renderPersonalityFacets() {
+        var sb = new StringBuilder();
+        sb.append("These stable traits shape how you interpret and respond to interpersonal events.\n\n");
+        for (var facet : socialConfig.personalityFacets()) {
+            sb.append("**").append(facet.facet()).append("**: ").append(facet.score()).append("/100");
+            if (!facet.origin().isEmpty()) {
+                sb.append(" — ").append(facet.origin());
+            }
+            sb.append("\n");
+        }
+        return ObservationSection.text("Your Personality", sb.toString().strip());
+    }
+
+    private ObservationSection renderRelationalSchemas(Collection<String> nearbyAgentIds, Map<String, String> agentNames) {
+        var relevant = socialConfig.relationalSchemas().stream()
+                                   .filter(rs -> nearbyAgentIds.contains(rs.target()))
+                                   .toList();
+        if (relevant.isEmpty()) {return null;}
+
+        var sb = new StringBuilder();
+        sb.append("How you see the people around you right now.\n\n");
+        for (var rs : relevant) {
+            var displayName = agentNames.getOrDefault(rs.target(), rs.target());
+            sb.append("**").append(displayName).append("** — Role: ").append(rs.role().toUpperCase());
+            sb.append(" | Trust: ").append(String.format("%.1f", rs.trust()));
+            sb.append(" | Intimacy: ").append(String.format("%.1f", rs.intimacy()));
+            sb.append(" | Utility: ").append(String.format("%.1f", rs.utility()));
+            if (!rs.description().isEmpty()) {
+                sb.append("\n  ").append(rs.description());
+            }
+            sb.append("\n");
+        }
+        return ObservationSection.text("Your View of Others", sb.toString().strip());
+    }
+
+    private ObservationSection renderAttachmentStyle() {
+        var a  = socialConfig.attachment();
+        var sb = new StringBuilder();
+        sb.append("Your relational lens: **").append(a.style()).append("**\n");
+        sb.append("Anxiety (fear of abandonment): ").append(String.format("%.1f", a.anxiety())).append("\n");
+        sb.append("Avoidance (discomfort with closeness): ").append(String.format("%.1f", a.avoidance()));
+        return ObservationSection.text("Your Attachment Pattern", sb.toString());
+    }
+
 
     private static ObservationSection adaptPromptSection(String text) {
         if (text.startsWith("## ")) {

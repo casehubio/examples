@@ -16,7 +16,10 @@ public record SocialConfig(
         Map<String, List<ReinforcementMapping>> reinforcement,
         RelationshipStageConfig stageConfig,
         @Nullable PersonaConstraintMapping personaConstraint,
-        List<String> tendencies
+        List<String> tendencies,
+        List<PersonalityFacet> personalityFacets,
+        List<RelationalSchema> relationalSchemas,
+        @Nullable AttachmentStyle attachment
 ) {
     public SocialConfig {
         goals          = goals != null ? List.copyOf(goals) : List.of();
@@ -26,18 +29,22 @@ public record SocialConfig(
         relationships  = relationships != null ? List.copyOf(relationships) : List.of();
         reinforcement  = reinforcement != null ? Map.copyOf(reinforcement) : Map.of();
         if (stageConfig == null) {stageConfig = RelationshipStageConfig.defaults();}
-        tendencies = tendencies != null ? List.copyOf(tendencies) : List.of();
+        tendencies        = tendencies != null ? List.copyOf(tendencies) : List.of();
+        personalityFacets = personalityFacets != null ? List.copyOf(personalityFacets) : List.of();
+        relationalSchemas = relationalSchemas != null ? List.copyOf(relationalSchemas) : List.of();
     }
 
     public SocialConfig(List<GoalConfig> goals, List<Drive> drives, List<NormEntry> norms,
                         List<InitialBelief> initialBeliefs, List<Relationship> relationships,
                         Map<String, List<ReinforcementMapping>> reinforcement,
                         RelationshipStageConfig stageConfig) {
-        this(goals, drives, norms, initialBeliefs, relationships, reinforcement, stageConfig, null, List.of());
+        this(goals, drives, norms, initialBeliefs, relationships, reinforcement, stageConfig, null, List.of(),
+             List.of(), List.of(), null);
     }
 
     public static SocialConfig empty() {
-        return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null, null, List.of());
+        return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null, null, List.of(),
+                                List.of(), List.of(), null);
     }
 
     public record GoalConfig(String name, String description, String axis,
@@ -55,7 +62,7 @@ public record SocialConfig(
     public record Drive(String type, double intensity, String description) {
         public Drive {
             Objects.requireNonNull(type);
-            if (description == null) description = "";
+            if (description == null) {description = "";}
             if (intensity < 0.0 || intensity > 1.0) {
                 throw new IllegalArgumentException("intensity must be in [0,1], got " + intensity);
             }
@@ -103,6 +110,37 @@ public record SocialConfig(
             Objects.requireNonNull(constraintName);
             Objects.requireNonNull(whenActive);
             Objects.requireNonNull(whenInactive);
+        }
+    }
+
+    public record PersonalityFacet(String facet, int score, String origin) {
+        public PersonalityFacet {
+            Objects.requireNonNull(facet);
+            if (score < 0 || score > 100) {
+                throw new IllegalArgumentException("score must be in [0,100], got " + score);
+            }
+            if (origin == null) {origin = "";}
+        }
+    }
+
+    public record RelationalSchema(String target, String role, double trust, double intimacy, double utility,
+                                   String description) {
+        public RelationalSchema {
+            Objects.requireNonNull(target);
+            Objects.requireNonNull(role);
+            if (description == null) {description = "";}
+        }
+    }
+
+    public record AttachmentStyle(String style, double anxiety, double avoidance) {
+        public AttachmentStyle {
+            Objects.requireNonNull(style);
+            if (anxiety < 0.0 || anxiety > 1.0) {
+                throw new IllegalArgumentException("anxiety must be in [0,1], got " + anxiety);
+            }
+            if (avoidance < 0.0 || avoidance > 1.0) {
+                throw new IllegalArgumentException("avoidance must be in [0,1], got " + avoidance);
+            }
         }
     }
 }
