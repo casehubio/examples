@@ -5834,5 +5834,28 @@
   ],
   "complete": false,
   "reason": "running",
-  "total": 866
+  "total": 866,
+  "metadata": {
+    "profile": "GENERIC",
+    "mode": "autonomous",
+    "ticks": 71,
+    "duration_minutes": 12,
+    "events": 866,
+    "characters": [
+      "penelope-pitstop",
+      "hooded-claw",
+      "ant-hill-mob",
+      "dick-dastardly",
+      "peter-perfect"
+    ],
+    "active_characters": 5,
+    "drives": "stripped (type+intensity only, no descriptions)",
+    "appraisal": "disabled (pending session lifecycle for sub-LLM)",
+    "session_management": "SessionLifecycleManager \u2014 sticky sessions, no clearing",
+    "instruction": "L1 emotional echo (unchanged)",
+    "cognitive_tick": "enabled (mood, drives, beliefs, social awareness)",
+    "knowledge_graph_extraction": "disabled",
+    "model": "Opus 4.6 (Opus 5.5 unavailable)",
+    "description": "First run with stripped drive descriptions and session reuse. Characters produced a complete 3-act narrative arc with character growth."
+  }
 }

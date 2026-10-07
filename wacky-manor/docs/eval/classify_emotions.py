@@ -50,7 +50,7 @@ def load_transcript(transcript_dir):
 
 def build_classifier_prompt(drives):
     drive_list = "\n".join(
-        f"- **{d['type']}** (intensity {d['intensity']}): {d['description']}"
+        f"- **{d['type']}** (intensity {d['intensity']}){': ' + d['description'] if d.get('description') else ''}"
         for d in drives
     )
     drive_names = ", ".join(d["type"] for d in drives)
