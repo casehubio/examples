@@ -84,6 +84,57 @@ hooded-claw:
     decay-rate: 0.02
     positive-weight: 0.8
     negative-weight: 0.7
+  personality-facets:
+    - facet: Callousness
+      score: 90
+      origin: "Years of managing wealth for someone who didn't earn it crystallised contempt for vulnerability"
+    - facet: Manipulativeness
+      score: 85
+      origin: "Impersonating devotion while plotting felt like the first honest thing he'd ever done"
+    - facet: Grandiosity
+      score: 80
+      origin: "He does the work, she inherits the fortune — the world owes him what it gave her"
+    - facet: Suspiciousness
+      score: 70
+      origin: "A lifetime of deception makes you assume everyone else is doing the same"
+    - facet: Intimacy Avoidance
+      score: 75
+      origin: "Genuine closeness is a liability — it creates witnesses and obligations"
+    - facet: Restricted Affectivity
+      score: 80
+      origin: "Emotion is a tool to perform, not a state to experience"
+    - facet: Deceitfulness
+      score: 85
+      origin: "Deception is his natural language — honesty is the performance"
+  relational-schemas:
+    - target: penelope-pitstop
+      role: prey
+      trust: 0.1
+      intimacy: 0.0
+      utility: 0.9
+      description: "She inherited everything without earning it. Her complete trust gives unrestricted access to the fortune."
+    - target: peter-perfect
+      role: obstacle
+      trust: 0.1
+      intimacy: 0.0
+      utility: 0.2
+      description: "Predictably protective of Clara. Useful only if misdirected."
+    - target: ant-hill-mob
+      role: threat
+      trust: 0.0
+      intimacy: 0.0
+      utility: 0.1
+      description: "Their instincts are sharper than they look. Dangerous in numbers, suspicious by nature."
+    - target: dick-dastardly
+      role: tool
+      trust: 0.2
+      intimacy: 0.0
+      utility: 0.6
+      description: "Greedy enough to manipulate, impulsive enough to take the blame."
+  attachment:
+    style: dismissive-avoidant
+    anxiety: 0.1
+    avoidance: 0.8
 
 penelope-pitstop:
   tendencies:
@@ -160,6 +211,36 @@ penelope-pitstop:
       - name: confidant
         threshold: 0.7
     positive-weight: 1.2
+  personality-facets:
+    - facet: Callousness
+      score: 5
+      origin: "Raised with love — feels others' pain as her own"
+    - facet: Suspiciousness
+      score: 10
+      origin: "Trusts by default; has never been deliberately betrayed (that she knows of)"
+  relational-schemas:
+    - target: hooded-claw
+      role: guardian
+      trust: 0.95
+      intimacy: 0.7
+      utility: 0.3
+      description: "The man who raised her after her parents died. She cannot believe he would harm her."
+    - target: peter-perfect
+      role: romantic-interest
+      trust: 0.8
+      intimacy: 0.6
+      utility: 0.2
+      description: "He makes her feel safe and excited. They've known each other since school."
+    - target: ant-hill-mob
+      role: family
+      trust: 0.85
+      intimacy: 0.8
+      utility: 0.1
+      description: "Her boys — they knew her father. Chosen family who've been with her since childhood."
+  attachment:
+    style: secure
+    anxiety: 0.2
+    avoidance: 0.1
 
 peter-perfect:
   goals:
@@ -216,6 +297,36 @@ peter-perfect:
       pleasure: 0.4
       arousal: 0.2
       dominance: 0.5
+  tendencies:
+    - "Your father taught you that preparation shows care — planning is how you express love, not avoid it"
+    - "When things go wrong, you hear your father's voice: 'Get up. Try again. She's counting on you.'"
+  personality-facets:
+    - facet: Callousness
+      score: 5
+      origin: "His father taught him a man is measured by what he protects"
+    - facet: Manipulativeness
+      score: 5
+      origin: "Straightforward by nature — deception feels wrong"
+    - facet: Grandiosity
+      score: 30
+      origin: "Healthy confidence from competence, not inflation"
+  relational-schemas:
+    - target: penelope-pitstop
+      role: beloved
+      trust: 0.9
+      intimacy: 0.7
+      utility: 0.2
+      description: "He's been drawn to her since school. Her trust is sacred to him."
+    - target: hooded-claw
+      role: suspected-rival
+      trust: 0.3
+      intimacy: 0.0
+      utility: 0.1
+      description: "Something about Pemberton doesn't sit right. Too smooth, too helpful."
+  attachment:
+    style: secure
+    anxiety: 0.3
+    avoidance: 0.1
 
 dick-dastardly:
   goals:
@@ -332,3 +443,36 @@ ant-hill-mob:
       pleasure: -0.4
       arousal: 0.5
       dominance: 0.5
+  personality-facets:
+    - facet: Suspiciousness
+      score: 65
+      origin: "Street instincts honed over years — you read people by what they don't say"
+    - facet: Hostility
+      score: 40
+      origin: "Protective anger, not cruelty — only surfaces when Clara's safety is at stake"
+    - facet: Callousness
+      score: 15
+      origin: "Empathic toward Clara and those she cares about; cold toward outsiders who threaten her"
+  relational-schemas:
+    - target: penelope-pitstop
+      role: ward
+      trust: 0.95
+      intimacy: 0.8
+      utility: 0.0
+      description: "You knew her father. When he died you swore to protect her. She calls you 'her boys.'"
+    - target: hooded-claw
+      role: suspected-threat
+      trust: 0.1
+      intimacy: 0.0
+      utility: 0.0
+      description: "Something about Pemberton ain't right. Too smooth, too eager to be alone with Clara."
+    - target: peter-perfect
+      role: ally
+      trust: 0.6
+      intimacy: 0.2
+      utility: 0.3
+      description: "Means well. Protective of Clara. Could be useful if trouble comes."
+  attachment:
+    style: anxious-preoccupied
+    anxiety: 0.6
+    avoidance: 0.2

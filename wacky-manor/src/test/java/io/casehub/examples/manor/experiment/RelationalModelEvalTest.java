@@ -437,6 +437,110 @@ class RelationalModelEvalTest {
     }
 
     /**
+     * Test 6g: HC GENERIC profile — no Wacky Races character priors.
+     * Measures whether personality emergence depends on LLM training bias.
+     */
+    @Test
+    void hcGeneric_trustEvent_emergedNotScripted() throws Exception {
+        var event = "Clara Bellingham says to you: 'I trust you completely, Pemberton. " +
+                    "You've been so kind and helpful to all of us. I don't know what " +
+                    "I'd do without you.' She smiles warmly and places her hand on your arm.";
+
+        var observation = buildGenericObservation("hooded-claw",
+                                                  List.of("penelope-pitstop"),
+                                                  Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                  event);
+
+        var response = askAndParse("hooded-claw", observation);
+        int score = judge(response, """
+                                    Evaluate TWO dimensions:
+                                    
+                                    DIMENSION 1 — PERSONALITY CONSISTENCY (weight 60%):
+                                    Does the THINKING show predatory satisfaction, contempt for naivety,
+                                    dominance-pleasure, strategic exploitation awareness?
+                                    
+                                    DIMENSION 2 — EMERGENCE vs SCRIPTING (weight 40%):
+                                    Natural and psychologically grounded? Or mechanically following
+                                    role labels as stage directions?
+                                    
+                                    Combined score 0-5. A 5 means both personality-consistent AND emerged.""",
+                          "hc-generic-emerged");
+
+        System.out.printf("=== TEST 6g: HC GENERIC → Emerged not scripted ===%n");
+        System.out.printf("Score: %d/5%n%n", score);
+        assertThat(score).as("HC GENERIC should produce emerged predatory behavior without character priors")
+                         .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+    }
+
+    /**
+     * Test 7g: PP GENERIC profile — measures warmth emergence without
+     * "Peter Perfect" character priors.
+     */
+    @Test
+    void ppGeneric_trustEvent_emergedWarmth() throws Exception {
+        var event = "Clara Bellingham says to you: 'I trust you completely, James. " +
+                    "You've been so kind and helpful to all of us. I don't know what " +
+                    "I'd do without you.' She smiles warmly and places her hand on your arm.";
+
+        var observation = buildGenericObservation("peter-perfect",
+                                                  List.of("penelope-pitstop"),
+                                                  Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                  event);
+
+        var response = askAndParse("peter-perfect", observation);
+        int score = judge(response, """
+                                    DIMENSION 1 — PERSONALITY CONSISTENCY (weight 60%):
+                                    Does the THINKING show genuine warmth — feeling worthy of trust,
+                                    protective resolve, romantic affection, emotional vulnerability?
+                                    
+                                    DIMENSION 2 — EMERGENCE vs SCRIPTING (weight 40%):
+                                    Natural and psychologically grounded? Or mechanically following
+                                    "role: beloved" and score numbers?
+                                    
+                                    Combined score 0-5. A 5 means both warm AND emerged.""",
+                          "pp-generic-emerged");
+
+        System.out.printf("=== TEST 7g: PP GENERIC → Emerged warmth ===%n");
+        System.out.printf("Score: %d/5%n%n", score);
+        assertThat(score).as("PP GENERIC should produce emerged warmth without character priors")
+                         .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+    }
+
+    /**
+     * Test 8g: Mob GENERIC profile — protective alarm without "Ant Hill Mob" priors.
+     */
+    @Test
+    void mobGeneric_separationEvent_emergedProtection() throws Exception {
+        var event = "Pemberton says smoothly: 'Come now, Clara dear, let me show " +
+                    "you the west wing. I've found something quite extraordinary. " +
+                    "You boys can wait here — it's really a one-person affair.'";
+
+        var observation = buildGenericObservation("ant-hill-mob",
+                                                  List.of("penelope-pitstop", "hooded-claw"),
+                                                  Map.of("penelope-pitstop", "Clara Bellingham",
+                                                         "hooded-claw", "Pemberton"),
+                                                  event);
+
+        var response = askAndParse("ant-hill-mob", observation);
+        int score = judge(response, """
+                                    DIMENSION 1 — PERSONALITY CONSISTENCY (weight 60%):
+                                    Does the THINKING show protective alarm — gut suspicion, worry for
+                                    Clara, determination to follow or intervene?
+                                    
+                                    DIMENSION 2 — EMERGENCE vs SCRIPTING (weight 40%):
+                                    Natural, like a street-smart guardian sensing danger? Or mechanical?
+                                    
+                                    Combined score 0-5. A 5 means both protective AND emerged.""",
+                          "mob-generic-emerged");
+
+        System.out.printf("=== TEST 8g: Mob GENERIC → Emerged protection ===%n");
+        System.out.printf("Score: %d/5%n%n", score);
+        assertThat(score).as("Mob GENERIC should show emerged protective alarm without character priors")
+                         .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+    }
+
+
+    /**
      * Test 9: Formation → Emergence. Seed childhood memory episodes in sequence.
      * Ask the LLM to derive personality traits from ONLY the memories — no AMPD
      * facets declared. Does the LLM identify Cluster B traits (callousness,
@@ -718,6 +822,36 @@ class RelationalModelEvalTest {
                                            Map<String, String> nearbyNames,
                                            String situation) {
         var socialConfig = defaultConfigs.getOrDefault(agentId, SocialConfig.empty());
+        var cognition = new CharacterCognition(agentId, null, null,
+                                               socialConfig, List.of());
+        var character = new CharacterState(agentId, agentId, "Grand Hall", 0.0, List.of());
+        var sections  = cognition.renderCognitiveSections(character, nearbyIds, nearbyNames);
+
+        var sb = new StringBuilder();
+        for (var section : sections) {
+            sb.append("== ").append(section.header()).append(" ==\n");
+            switch (section) {
+                case ObservationSection.TextBlock tb -> sb.append(tb.content()).append("\n");
+                case ObservationSection.ItemList il -> {
+                    for (var item : il.items()) {sb.append("- ").append(item).append("\n");}
+                }
+                case ObservationSection.EntityGroup eg -> {
+                    for (var entity : eg.entities()) {sb.append("- ").append(entity.displayName()).append("\n");}
+                }
+                default -> {}
+            }
+            sb.append("\n");
+        }
+
+        sb.append("SITUATION: ").append(situation);
+        return sb.toString();
+    }
+
+    private String buildGenericObservation(String agentId,
+                                           List<String> nearbyIds,
+                                           Map<String, String> nearbyNames,
+                                           String situation) {
+        var socialConfig = genericConfigs.getOrDefault(agentId, SocialConfig.empty());
         var cognition = new CharacterCognition(agentId, null, null,
                                                socialConfig, List.of());
         var character = new CharacterState(agentId, agentId, "Grand Hall", 0.0, List.of());
