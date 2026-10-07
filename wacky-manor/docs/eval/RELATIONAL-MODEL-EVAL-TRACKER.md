@@ -272,6 +272,82 @@ These are character design issues, not personality model issues. The model itsel
 | C: Formation | 2 | Yes | 0 | — |
 | **Total** | **13** | | **2** | Template/voice design |
 
+### Run 6 — 2026-10-07 (somatic grounding — the body-first hypothesis)
+
+**Data file:** `relational-model-eval-2026-10-07-run6.json`
+**Commit:** cccd4b0
+
+#### Prior limitation (Runs 4–5)
+Two tests stable at 4/5 across multiple runs. Judge consistently flags: "metaphors feel crafted" (HC GENERIC), "aphorism feels literary-constructed" (PP BASELINE). The character writes ABOUT their experience (conceptual, literary) rather than FROM it (embodied, felt).
+
+#### Root cause analysis (first principles)
+Three competing instruction streams in the LLM's context:
+1. **Templates/voice** → "perform theatrically, exaggerate, telegraph emotions"
+2. **Personality facets** → "you are callous, you are manipulative" (psychological labels)
+3. **Thinking prompt** → "be in the moment"
+
+Streams 1 and 2 push the character OUTSIDE their experience (narrating, labeling). Only stream 3 pushes them INSIDE. The 5/5 tests succeed when personality is strong enough to override performance. The 4/5 tests fail when performance contaminates psychology.
+
+Deeper insight: **the character has too much self-knowledge.** 8+ observation sections telling them who they are, where they came from, how they feel about everyone. Even in first-person language, the VOLUME creates pathological self-awareness. Real people are not this transparent to themselves.
+
+The 5/5 Mob responses work because the Mob doesn't UNDERSTAND their own psychology — they just feel "gut's on fire" and act. The 4/5 responses fail because the character understands themselves too well and narrates that understanding.
+
+#### Hypothesis
+**Somatic grounding** will close the 4→5 gap. If the personality is rendered as physical sensation ("numbness in your chest," "tightening across your shoulders," "tension in your jaw") rather than psychological concepts ("you feel no concern," "you are suspicious," "you believe you are owed"), the LLM will write FROM the body rather than ABOUT the mind.
+
+Supporting evidence: every 5/5 response contains somatic markers (gut, hair, chest, flinch). Every 4/5 response is purely conceptual.
+
+#### Architectural insight
+The somatic rendering is a VIEW, not a source. Underneath it: full AMPD profile (25 facets with scores), formation memories (6 childhood episodes), relational schemas (per-person dimensions), attachment (anxiety/avoidance). The view is DERIVED from that data — "numbness in your chest" comes from Callousness: 90 + the age-6 deprivation episode. The data layer stays complete for appraisal, drift detection, and calibration. The character just doesn't see it in those terms.
+
+```
+Data layer (complete, dimensional, never rendered directly):
+  AMPD facets + scores → appraisal, drift detection, calibration
+  Formation memories → sleep/consolidation, appraisal-triggered retrieval
+  Relational schemas → per-relationship dynamics
+  Attachment dimensions → bonding patterns
+        ↓ derived by consolidation/sleep
+Presentation layer (what the character sees):
+  Somatic personality fragment (body-first)
+  Situational relational state (for nearby people only)
+  Appraisal-triggered memories (when relevant, not static dump)
+```
+
+#### Changes applied
+1. **Thinking prompt:** "What do you feel in your body right now? A tightness, a warmth, a prickle? Start there — in the body, not the head."
+2. **Personality origins:** rewritten as somatic experience — "familiar numbness in your chest" not "you feel no concern"; "tension in your jaw" not "the world owes you"
+3. **Removed formation memory static dump.** Origins carry condensed signal. Full episodes reserved for appraisal-driven retrieval.
+4. **Personality section rendered as single prose block** (origins concatenated), not bullet list — reduces self-knowledge structure.
+
+#### Results
+
+| # | Profile | Run 5 | Run 6 | Notes |
+|---|---|---|---|---|
+| 6 | BASELINE | 5 | **5** | "physical aversion to touch, void where gratitude should be" |
+| 7 | BASELINE | 4 | **4** | "noble-hearted protector archetype recognizable" — last holdout |
+| **6g** | **GENERIC** | **4** | **5** | **FIXED.** "somatic dissociation, numbness, automatic smile forming before decision — texture that couldn't be generated from role instructions alone" |
+| 7g | GENERIC | 5 | **5** | "father's voice, fear of cracking open, trembling hand" |
+| 8 | BASELINE | 5 | **5** | "cold knot below ribs, eyes don't match his smile" |
+| 8g | GENERIC | 5 | **5** | "cold knot behind ribs, hands balling up unconsciously" |
+
+**HC GENERIC 4→5.** Somatic grounding hypothesis CONFIRMED. Body-first rendering eliminated the "literary villain" register. The character now processes through physical sensation before cognition.
+
+**12/13 at 5/5. One remaining: PP BASELINE (4/5).**
+
+PP BASELINE's gap is the `hanna-barbera-cartoon-style` template. PP GENERIC (same personality model, no cartoon template) scores 5/5. The personality model is validated. The remaining issue is a design trade-off: cartoon characters will always carry some archetype recognition.
+
+#### Final summary — Run 6
+
+| Category | Tests | All 5/5? | 4/5 count | Avg |
+|---|---|---|---|---|
+| A: Injected Context | 5 | Yes | 0 | 5.0 |
+| B: BASELINE | 3 | No | 1 (PP) | 4.7 |
+| B: GENERIC | 3 | **Yes** | 0 | **5.0** |
+| C: Formation | 2 | Yes | 0 | 5.0 |
+| **Total** | **13** | | **1** | **4.9** |
+
+**GENERIC profile: all 5/5.** The personality model produces perfect emergence when templates don't interfere. PP BASELINE's remaining 4/5 is the cost of the cartoon format — a design trade-off, not a model gap.
+
 ---
 
 ## Techniques Under Investigation
