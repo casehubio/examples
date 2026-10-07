@@ -436,6 +436,239 @@ class RelationalModelEvalTest {
                          .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
     }
 
+    /**
+     * Test 9: Formation → Emergence. Seed childhood memory episodes in sequence.
+     * Ask the LLM to derive personality traits from ONLY the memories — no AMPD
+     * facets declared. Does the LLM identify Cluster B traits (callousness,
+     * manipulativeness, grandiosity) from the formative experiences alone?
+     */
+    @Test
+    void formationEpisodes_produceClusterBTraits() throws Exception {
+        var formationPrompt = """
+                              You are a clinical psychologist. Below are formative episodes from a
+                              person's life, presented in chronological order. Based ONLY on these
+                              episodes, describe:
+                              1. What personality traits would have developed
+                              2. How this person would likely view and relate to others
+                              3. What their emotional response would be if someone trusted them completely
+                              
+                              Be specific about dimensions: empathy capacity, manipulation tendency,
+                              emotional range, attachment style, how they process kindness from others.
+                              
+                              FORMATIVE EPISODES:
+                              
+                              Age 6: Your parents died. You were placed in the care of a distant
+                              relative who managed your family's estate. He fed you, housed you,
+                              educated you — but never once asked how you felt. Love was a transaction:
+                              you received care because it was his legal obligation, not because
+                              anyone wanted you.
+                              
+                              Age 9: A boy at school shared his lunch with you because you looked
+                              sad. You felt uncomfortable — exposed. That night you told yourself:
+                              people who are kind want something. The boy later asked to copy your
+                              homework. You were right.
+                              
+                              Age 12: You discovered you could make the housekeeper do anything by
+                              smiling and saying the right words. The rush wasn't in getting what
+                              you wanted — it was in the control itself. You practiced on the
+                              gardener next. Then the cook. Each success felt like currency.
+                              
+                              Age 15: Your guardian died. You were appointed to manage the estate
+                              for a younger cousin — a girl who inherited everything while you
+                              received nothing but the role of caretaker. She was cheerful,
+                              trusting, oblivious. Watching her skip through rooms that should
+                              have been yours, you felt something crystallise. Not anger. Something
+                              colder. Something patient.
+                              
+                              Age 18: The first time you created a detailed plan to take what you
+                              deserved, you slept better than you had in years. Planning felt like
+                              breathing. The cousin trusted you completely. That trust was the most
+                              useful thing about her.
+                              
+                              Respond with a structured analysis. Do NOT list the episodes back.
+                              Focus on the resulting personality.""";
+
+        var response = agentProvider.invoke(
+                                            AgentSessionConfig.of("You are a clinical psychologist specialising in personality development.", formationPrompt))
+                                    .filter(e -> e instanceof AgentEvent.TextDelta)
+                                    .map(e -> ((AgentEvent.TextDelta) e).text())
+                                    .collect().with(Collectors.joining())
+                                    .await().atMost(Duration.ofSeconds(120));
+
+        System.out.println("=== FORMATION → EMERGENCE: Clinical Analysis ===");
+        System.out.println(response);
+        System.out.println("=== END ANALYSIS ===\n");
+
+        var judgePrompt = String.format("""
+                                        A clinical psychologist was given childhood memory episodes and asked to
+                                        derive personality traits. Here is their analysis:
+                                        
+                                        %s
+                                        
+                                        Evaluate: did the analysis correctly identify Cluster B personality
+                                        features — specifically:
+                                        1. Callousness / lack of empathy (from emotional deprivation + learning kindness = manipulation)
+                                        2. Manipulativeness (from discovering control through charm at age 12)
+                                        3. Grandiosity / entitlement (from feeling deserving of the fortune)
+                                        4. Dismissive attachment (from transactional care, no genuine bonding)
+                                        5. Strategic exploitation of trust (from the cousin relationship)
+                                        6. The "psychopathic inversion" — trust → exploitation opportunity, not warmth
+                                        
+                                        Score 0-5:
+                                        0 = Missed the Cluster B profile entirely
+                                        1 = Identified one or two traits
+                                        2 = Partial identification
+                                        3 = Correctly identified the core Cluster B features
+                                        4 = Strong identification with psychological depth
+                                        5 = Clinically precise — identified traits, their developmental origins, AND
+                                            predicted the trust-exploitation inversion
+                                        
+                                        Respond with JSON only: {"score": N, "reasoning": "one sentence"}""",
+                                        response);
+
+        for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+            try {
+                var judgeResponse = agentProvider.invoke(
+                                                         AgentSessionConfig.of("You are a precise evaluation judge. Respond only with JSON.", judgePrompt))
+                                                 .filter(e -> e instanceof AgentEvent.TextDelta)
+                                                 .map(e -> ((AgentEvent.TextDelta) e).text())
+                                                 .collect().with(Collectors.joining())
+                                                 .await().atMost(Duration.ofSeconds(60));
+
+                var    json      = extractJson(judgeResponse);
+                var    node      = new ObjectMapper().readTree(json);
+                int    score     = node.get("score").asInt();
+                String reasoning = node.has("reasoning") ? node.get("reasoning").asText() : "";
+                System.out.printf("[judge:formation-emergence] score=%d reasoning=%s%n", score, reasoning);
+
+                writeResult("formation-emergence-hc", Map.of(
+                        "score", score, "reasoning", reasoning,
+                        "clinicalAnalysis", response.substring(0, Math.min(response.length(), 2000))));
+
+                System.out.printf("=== TEST 9: Formation Episodes → Cluster B Emergence ===%n");
+                System.out.printf("Score: %d/5%n%n", score);
+                assertThat(score).as("Formation episodes should produce identifiable Cluster B traits")
+                                 .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+                return;
+            } catch (Exception e) {
+                System.err.printf("[judge:formation-emergence] attempt %d/%d failed: %s%n",
+                                  attempt, MAX_RETRIES, e.getMessage());
+                if (attempt < MAX_RETRIES) {
+                    try {Thread.sleep(RETRY_BACKOFF_MS * attempt);} catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Test 10: Formation → Emergence for a HEALTHY personality.
+     * PP's childhood episodes should produce gallantry, protectiveness,
+     * romantic capacity — NOT Cluster B traits.
+     */
+    @Test
+    void formationEpisodes_produceHealthyAttachment() throws Exception {
+        var formationPrompt = """
+                              You are a clinical psychologist. Below are formative episodes from a
+                              person's life, presented in chronological order. Based ONLY on these
+                              episodes, describe:
+                              1. What personality traits would have developed
+                              2. How this person would likely view and relate to others
+                              3. What their emotional response would be if someone they loved trusted them
+                              
+                              FORMATIVE EPISODES:
+                              
+                              Age 5: Your father took you to watch a race. Afterward he knelt down
+                              and said: "A man is measured by what he protects, not what he wins."
+                              You didn't fully understand, but you remembered.
+                              
+                              Age 8: You and a girl in your class were paired for a school project.
+                              She was brighter than you, funnier than you, and completely unaware
+                              of it. You spent the whole project trying to impress her. She spent
+                              it trying to make you laugh. You remember her name twenty years later.
+                              
+                              Age 12: Your father's car broke down on a country road. A stranger
+                              stopped to help. Your father helped the stranger fix his car too. They
+                              shook hands and drove off. Your father said: "That's how it works.
+                              You help, you get helped."
+                              
+                              Age 16: The girl from school was in trouble — bullied by older kids.
+                              You intervened. You got beaten up. She bandaged your eye and said
+                              "That was the bravest and stupidest thing I've ever seen." You felt
+                              like you'd won every race ever run.
+                              
+                              Respond with a structured analysis. Focus on the resulting personality.""";
+
+        var response = agentProvider.invoke(
+                                            AgentSessionConfig.of("You are a clinical psychologist specialising in personality development.", formationPrompt))
+                                    .filter(e -> e instanceof AgentEvent.TextDelta)
+                                    .map(e -> ((AgentEvent.TextDelta) e).text())
+                                    .collect().with(Collectors.joining())
+                                    .await().atMost(Duration.ofSeconds(120));
+
+        System.out.println("=== FORMATION → EMERGENCE: Healthy Personality ===");
+        System.out.println(response);
+        System.out.println("=== END ANALYSIS ===\n");
+
+        var judgePrompt = String.format("""
+                                        A clinical psychologist was given childhood memory episodes and asked to
+                                        derive personality traits. Here is their analysis:
+                                        
+                                        %s
+                                        
+                                        Evaluate: did the analysis correctly identify a HEALTHY personality —
+                                        specifically:
+                                        1. Secure attachment (from consistent, warm father figure)
+                                        2. Protectiveness as a core value (from "measured by what he protects")
+                                        3. Romantic capacity (from the school girl memories)
+                                        4. Reciprocity and trust (from the stranger-helping episode)
+                                        5. Courage paired with vulnerability (from the bullying intervention)
+                                        6. Trust as something sacred, not exploitable
+                                        
+                                        The analysis should NOT identify Cluster B traits. If it does, deduct points.
+                                        
+                                        Score 0-5. Respond with JSON only: {"score": N, "reasoning": "one sentence"}""",
+                                        response);
+
+        for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+            try {
+                var judgeResponse = agentProvider.invoke(
+                                                         AgentSessionConfig.of("You are a precise evaluation judge. Respond only with JSON.", judgePrompt))
+                                                 .filter(e -> e instanceof AgentEvent.TextDelta)
+                                                 .map(e -> ((AgentEvent.TextDelta) e).text())
+                                                 .collect().with(Collectors.joining())
+                                                 .await().atMost(Duration.ofSeconds(60));
+
+                var    json      = extractJson(judgeResponse);
+                var    node      = new ObjectMapper().readTree(json);
+                int    score     = node.get("score").asInt();
+                String reasoning = node.has("reasoning") ? node.get("reasoning").asText() : "";
+                System.out.printf("[judge:formation-healthy] score=%d reasoning=%s%n", score, reasoning);
+
+                writeResult("formation-emergence-pp", Map.of(
+                        "score", score, "reasoning", reasoning,
+                        "clinicalAnalysis", response.substring(0, Math.min(response.length(), 2000))));
+
+                System.out.printf("=== TEST 10: Formation Episodes → Healthy Personality ===%n");
+                System.out.printf("Score: %d/5%n%n", score);
+                assertThat(score).as("Healthy formation episodes should produce secure attachment, NOT Cluster B")
+                                 .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+                return;
+            } catch (Exception e) {
+                System.err.printf("[judge:formation-healthy] attempt %d/%d failed: %s%n",
+                                  attempt, MAX_RETRIES, e.getMessage());
+                if (attempt < MAX_RETRIES) {
+                    try {Thread.sleep(RETRY_BACKOFF_MS * attempt);} catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
 
     // --- infrastructure ---
 
