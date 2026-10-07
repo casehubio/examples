@@ -1,8 +1,10 @@
 package io.casehub.examples.manor.agent;
 
 import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentProvider;
-import io.casehub.platform.agent.AgentSessionConfig;
+import io.casehub.platform.agent.AgentSessionInit;
+import io.casehub.platform.agent.session.ClearingPolicy;
+import io.casehub.platform.agent.session.ManagedSession;
+import io.casehub.platform.agent.session.SessionLifecycleManager;
 import org.jboss.logging.Logger;
 
 import java.time.Duration;
@@ -14,7 +16,8 @@ public class AgentInvocationService {
 
     private static final Logger log = Logger.getLogger(AgentInvocationService.class);
 
-    private final AgentProvider agentProvider;
+    private final SessionLifecycleManager sessionManager;
+    private final String backendKey;
     private final int timeoutSeconds;
     private final int maxRetries;
     private final long baseRetryDelayMs;
@@ -24,10 +27,10 @@ public class AgentInvocationService {
     private final AtomicLong fallbacks = new AtomicLong();
     private final AtomicLong totalLatencyMs = new AtomicLong();
 
-    public AgentInvocationService(AgentProvider agentProvider,
-                                  int timeoutSeconds,
-                                   int maxRetries, long baseRetryDelayMs) {
-        this.agentProvider = agentProvider;
+    public AgentInvocationService(SessionLifecycleManager sessionManager, String backendKey,
+                                  int timeoutSeconds, int maxRetries, long baseRetryDelayMs) {
+        this.sessionManager = sessionManager;
+        this.backendKey = backendKey;
         this.timeoutSeconds = timeoutSeconds;
         this.maxRetries = maxRetries;
         this.baseRetryDelayMs = baseRetryDelayMs;
@@ -46,9 +49,12 @@ public class AgentInvocationService {
     private AgentResponse callWithRetry(String systemPrompt, String userPrompt, String agentId) {
         for (int attempt = 0; attempt <= maxRetries; attempt++) {
             try {
-                String text = agentProvider.invoke(
-                        AgentSessionConfig.of(systemPrompt, userPrompt,
-                            Duration.ofSeconds(timeoutSeconds)))
+                ManagedSession session = sessionManager.acquire(
+                        "character:" + agentId, backendKey,
+                        AgentSessionInit.of(systemPrompt),
+                        ClearingPolicy.MANUAL, 0);
+
+                String text = session.query(userPrompt)
                     .filter(e -> e instanceof AgentEvent.TextDelta)
                     .map(e -> ((AgentEvent.TextDelta) e).text())
                     .collect().with(Collectors.joining())

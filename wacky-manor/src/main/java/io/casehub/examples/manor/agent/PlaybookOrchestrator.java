@@ -37,6 +37,8 @@ public class PlaybookOrchestrator {
     @Inject
     AgentProvider                               agentProvider;
     @Inject
+    io.casehub.platform.agent.BackendInstanceRegistry backendRegistry;
+    @Inject
     AgentRegistry                               agentRegistry;
     @Inject
     SystemPromptRenderer                        renderer;
@@ -236,7 +238,18 @@ public class PlaybookOrchestrator {
                     ManorTrustEvolutionConfigLoader.load()));
         }
 
-        var invocationService = new AgentInvocationService(agentProvider, 60, 2, 2000);
+        var poolConfig = new io.casehub.platform.agent.session.SessionPoolConfig(
+                "character-pool", "claude", 0, 6,
+                java.time.Duration.ofSeconds(300), java.time.Duration.ofSeconds(30));
+        var claudeBackend = backendRegistry.resolve("claude", "default")
+                .orElseThrow(() -> new IllegalStateException("No claude backend registered"));
+        var sessionPool = new io.casehub.platform.agent.session.SessionPool(claudeBackend, poolConfig);
+        var poolRegistry = new io.casehub.platform.agent.session.SessionPoolRegistry(
+                java.util.List.of(new io.casehub.platform.agent.config.PoolDeclaration(
+                        "character-pool", "character", "claude", 0, 6, null, null, null)),
+                backendRegistry);
+        var sessionLifecycleManager = new io.casehub.platform.agent.session.SessionLifecycleManager(poolRegistry);
+        var invocationService = new AgentInvocationService(sessionLifecycleManager, "claude", 60, 2, 2000);
 
         if (mode == io.casehub.examples.manor.model.ScenarioMode.AUTONOMOUS) {
             runAutonomousTicks(world, activeSet, actionResolver, dispatcher, invocationService, narratorAgent, cognitions, planEvaluator, cognitionCore);
