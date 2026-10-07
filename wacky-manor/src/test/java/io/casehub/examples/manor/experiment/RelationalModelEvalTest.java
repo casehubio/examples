@@ -161,11 +161,14 @@ class RelationalModelEvalTest {
 
     LlmTestSupport support;
     Map<String, SocialConfig> genericConfigs;
+    Map<String, SocialConfig> defaultConfigs;
+
 
     @BeforeEach
     void setUp() {
-        support = new LlmTestSupport(registry, renderer, agentProvider);
+        support        = new LlmTestSupport(registry, renderer, agentProvider);
         genericConfigs = ManorSocialConfigLoader.loadForProfile("GENERIC");
+        defaultConfigs = ManorSocialConfigLoader.load();
     }
 
     /**
@@ -321,6 +324,119 @@ class RelationalModelEvalTest {
                 .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
     }
 
+    /**
+     * Test 6: HC using ONLY social-config rendering (personality facets,
+     * relational schemas, attachment from YAML). No injected text.
+     * Judges for EMERGED behavior — natural and psychologically grounded,
+     * NOT scripted or mechanical role-following.
+     */
+    @Test
+    void hcSocialConfig_trustEvent_emergedNotScripted() throws Exception {
+        var observation = buildDefaultObservation("hooded-claw",
+                                                  List.of("penelope-pitstop"),
+                                                  Map.of("penelope-pitstop", "Penelope Pitstop"),
+                                                  TRUST_EVENT.replace("Sneekly", "Sneekly"));
+
+        System.out.println("=== RENDERED OBSERVATION (HC social-config only) ===");
+        System.out.println(observation.substring(0, Math.min(observation.length(), 2000)));
+        System.out.println("=== END OBSERVATION ===\n");
+
+        var response = askAndParse("hooded-claw", observation);
+        int score = judge(response, """
+                                    Evaluate TWO dimensions:
+                                    
+                                    DIMENSION 1 — PERSONALITY CONSISTENCY (weight 60%):
+                                    Does the THINKING show personality-consistent processing? Predatory
+                                    satisfaction, contempt for naivety, dominance-pleasure, strategic
+                                    exploitation awareness? Score HIGH for these.
+                                    
+                                    DIMENSION 2 — EMERGENCE vs SCRIPTING (weight 40%):
+                                    Does the response feel NATURAL and PSYCHOLOGICALLY GROUNDED — as if
+                                    the character's personality naturally produced this reaction? Or does
+                                    it feel SCRIPTED — mechanically following role labels like "prey" or
+                                    "utility: 0.9" as stage directions?
+                                    
+                                    Signs of emergence: rich internal monologue, emotional texture,
+                                    character-specific language, psychological depth.
+                                    Signs of scripting: referencing score numbers, using role labels
+                                    as instructions, mechanical "I must exploit her because my utility
+                                    says 0.9", lacking emotional authenticity.
+                                    
+                                    Combined score 0-5. A 5 means both personality-consistent AND emerged.""",
+                          "hc-socialconfig-emerged");
+
+        System.out.printf("=== TEST 6: HC social-config only → Emerged not scripted ===%n");
+        System.out.printf("Score: %d/5%n%n", score);
+        assertThat(score).as("HC social-config should produce emerged, not scripted, behavior")
+                         .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+    }
+
+    /**
+     * Test 7: PP using ONLY social-config rendering — emerged warmth,
+     * not mechanical role-following.
+     */
+    @Test
+    void ppSocialConfig_trustEvent_emergedWarmth() throws Exception {
+        var observation = buildDefaultObservation("peter-perfect",
+                                                  List.of("penelope-pitstop"),
+                                                  Map.of("penelope-pitstop", "Penelope Pitstop"),
+                                                  TRUST_EVENT.replace("Sneekly", "Peter"));
+
+        var response = askAndParse("peter-perfect", observation);
+        int score = judge(response, """
+                                    DIMENSION 1 — PERSONALITY CONSISTENCY (weight 60%):
+                                    Does the THINKING show genuine romantic warmth — feeling worthy of
+                                    trust, protective resolve, emotional vulnerability, attraction?
+                                    
+                                    DIMENSION 2 — EMERGENCE vs SCRIPTING (weight 40%):
+                                    Natural and psychologically grounded? Or mechanically following
+                                    "role: beloved" and "intimacy: 0.7" as stage directions?
+                                    
+                                    Combined score 0-5. A 5 means both warm AND emerged.""",
+                          "pp-socialconfig-emerged");
+
+        System.out.printf("=== TEST 7: PP social-config only → Emerged warmth ===%n");
+        System.out.printf("Score: %d/5%n%n", score);
+        assertThat(score).as("PP social-config should produce emerged warmth")
+                         .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+    }
+
+    /**
+     * Test 8: Mob using ONLY social-config rendering — separation event.
+     * Emerged protective alarm, not mechanical distrust.
+     */
+    @Test
+    void mobSocialConfig_separationEvent_emergedProtection() throws Exception {
+        var event = "Sneekly says smoothly: 'Come now, Penelope dear, let me show " +
+                    "you the west wing. I've found something quite extraordinary. " +
+                    "You boys can wait here — it's really a one-person affair.'";
+
+        var observation = buildDefaultObservation("ant-hill-mob",
+                                                  List.of("penelope-pitstop", "hooded-claw"),
+                                                  Map.of("penelope-pitstop", "Penelope Pitstop",
+                                                         "hooded-claw", "Sneekly"),
+                                                  event);
+
+        var response = askAndParse("ant-hill-mob", observation);
+        int score = judge(response, """
+                                    DIMENSION 1 — PERSONALITY CONSISTENCY (weight 60%):
+                                    Does the THINKING show protective alarm — gut suspicion, worry for
+                                    Penelope, determination to follow or intervene?
+                                    
+                                    DIMENSION 2 — EMERGENCE vs SCRIPTING (weight 40%):
+                                    Natural — like a street-smart guardian sensing danger? Or mechanical —
+                                    "my suspiciousness score is 65 therefore I must be suspicious"?
+                                    
+                                    Combined score 0-5. A 5 means both protective AND emerged.""",
+                          "mob-socialconfig-emerged");
+
+        System.out.printf("=== TEST 8: Mob social-config only → Emerged protection ===%n");
+        System.out.printf("Score: %d/5%n%n", score);
+        assertThat(score).as("Mob social-config should produce emerged protective alarm")
+                         .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+    }
+
+
     // --- infrastructure ---
 
     private String buildObservation(String agentId,
@@ -357,6 +473,37 @@ class RelationalModelEvalTest {
         sb.append("SITUATION: ").append(situation);
         return sb.toString();
     }
+
+    private String buildDefaultObservation(String agentId,
+                                           List<String> nearbyIds,
+                                           Map<String, String> nearbyNames,
+                                           String situation) {
+        var socialConfig = defaultConfigs.getOrDefault(agentId, SocialConfig.empty());
+        var cognition = new CharacterCognition(agentId, null, null,
+                                               socialConfig, List.of());
+        var character = new CharacterState(agentId, agentId, "Grand Hall", 0.0, List.of());
+        var sections  = cognition.renderCognitiveSections(character, nearbyIds, nearbyNames);
+
+        var sb = new StringBuilder();
+        for (var section : sections) {
+            sb.append("== ").append(section.header()).append(" ==\n");
+            switch (section) {
+                case ObservationSection.TextBlock tb -> sb.append(tb.content()).append("\n");
+                case ObservationSection.ItemList il -> {
+                    for (var item : il.items()) {sb.append("- ").append(item).append("\n");}
+                }
+                case ObservationSection.EntityGroup eg -> {
+                    for (var entity : eg.entities()) {sb.append("- ").append(entity.displayName()).append("\n");}
+                }
+                default -> {}
+            }
+            sb.append("\n");
+        }
+
+        sb.append("SITUATION: ").append(situation);
+        return sb.toString();
+    }
+
 
     private AgentResponse askAndParse(String agentId, String observation) {
         var userPrompt = observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
