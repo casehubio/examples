@@ -72,6 +72,11 @@ public final class ManorCognitiveSetup {
         return CognitiveDerivationEngine.derive(toDescriptorView(descriptor));
     }
 
+    public static CognitiveDefaults deriveDefaults(AgentDescriptor descriptor, SocialConfig socialConfig) {
+        return CognitiveDerivationEngine.derive(toDescriptorView(descriptor, socialConfig));
+    }
+
+
     private static io.casehub.neocortex.cognitive.index.FormationPadSummary computeFormationPadSummary(SocialConfig config) {
         if (config == null || config.formationMemories().isEmpty()) {return null;}
 

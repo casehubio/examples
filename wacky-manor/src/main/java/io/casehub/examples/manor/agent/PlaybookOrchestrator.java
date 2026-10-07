@@ -202,12 +202,14 @@ public class PlaybookOrchestrator {
                 agentProvider, cognitionConfig,
                 mmStore, new ManorNeedTierMappingProvider(), null, null, null, null, null);
 
+        var defaultsRegistry = new io.casehub.neocortex.cognitive.index.CognitiveDefaultsRegistry();
+        cognitionCore.setDefaultsRegistry(defaultsRegistry);
+
         if (config.appraisal().enabled()) {
             cognitionCore.configureAppraisal(
                     new io.casehub.neocortex.cognition.appraisal.LlmAppraisalStrategy(agentProvider),
-                    ctx -> io.casehub.neocortex.cognition.appraisal.PerceivedSituation.passThrough(ctx.observation()),
-                    null);
-            log.info("Appraisal enabled — sub-LLM will evaluate situations against character drives");
+                    ctx -> io.casehub.neocortex.cognition.appraisal.PerceivedSituation.passThrough(ctx.observation()));
+            log.info("Appraisal enabled — sub-LLM will evaluate situations against character drives and disposition");
         }
 
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
@@ -237,8 +239,9 @@ public class PlaybookOrchestrator {
                     .flatMap(c -> c.tags().stream())
                     .collect(java.util.stream.Collectors.toSet());
             entry.getValue().setCapabilityTags(tags);
-            var cogDefaults = ManorCognitiveSetup.deriveDefaults(desc);
             var socialCfg = socialConfigs.getOrDefault(entry.getKey(), SocialConfig.empty());
+            var cogDefaults = ManorCognitiveSetup.deriveDefaults(desc, socialCfg);
+            defaultsRegistry.register(cogDefaults);
             var seedResult = seeder != null ? seeder.seed(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID) : null;
             if (seeder != null) {
                 seeder.seedGoals(entry.getKey(), socialCfg, goalOrchestrator, ManorConstants.TENANCY_ID);
