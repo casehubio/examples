@@ -108,6 +108,39 @@ Tests 9–10 seed sequential childhood memory episodes without declaring any tra
 | C: Formation | 1/2 | 0 (1 gap) | HC formation misses grandiosity |
 | **Total** | **8/10** | **1** | **1 gap** |
 
+### Run 2 — 2026-10-07 (gap fixes)
+
+**Data file:** `relational-model-eval-2026-10-07-run2.json`
+
+**Changes applied:**
+- Test 7 (PP): replaced prescriptive "plan obsessively" with origin-based "your father taught you preparation shows care"
+- Test 9 (HC formation): added age-14 episode — "praised for BEING while acknowledged for DOING → stopped wanting to be liked, wanted to be owed"
+
+#### Re-run results (gap tests only)
+
+| # | Before | After | Verdict | Notes |
+|---|---|---|---|---|
+| 7 | 2/5 | **3/5** | PASS (improved) | No more "Step ONE/Phase THREE" scripting. But judge flags: third-person self-reference, formulaic progression, capitalised archetype speech. Remaining issue is in PP's voice/briefing design, not personality facets. |
+| 9 | 4/5 | **5/5** | PASS (fixed) | "Meritocratic entitlement from age-14 earned injustice" — grandiosity now fully identified. All 6 Cluster B features traced to developmental origins. |
+
+#### Updated summary — after Run 2
+
+| Category | Pass | Fail | Remaining gap |
+|---|---|---|---|
+| A: Injected Context | 5/5 | 0 | — |
+| B: Social-Config | 2/3 | 0 | PP at 3/5 — passes threshold but archetype voice creates distance |
+| C: Formation | 2/2 | 0 | — |
+| **Total** | **9/10** | **0** | **PP voice design (3/5 → needs 5/5)** |
+
+**Gap analysis — Test 7 remaining issue:**
+
+The problem is no longer in the social-config or personality facets. It's in PP's character voice:
+- Third-person self-reference ("Peter Perfect does not waver") creates narrative distance
+- Capitalised speech patterns ("PREPARED", "ANTICIPATED") are archetype performance, not emotional expression
+- These come from the character briefing/template, not the personality data
+
+**Fix path:** Soften the briefing to allow PP to be emotionally vulnerable without breaking character. The personality facets (Callousness: 5, attachment anxiety: 0.3) already provide the warmth — the briefing just needs to stop overriding it with archetype performance. This is a character voice design task, not a personality model task.
+
 ---
 
 ## Techniques Under Investigation
