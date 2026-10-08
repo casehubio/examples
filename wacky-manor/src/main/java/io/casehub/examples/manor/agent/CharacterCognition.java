@@ -156,6 +156,10 @@ public final class CharacterCognition {
             sections.add(renderPersonalityFacets());
         }
 
+        if (!socialConfig.formationMemories().isEmpty()) {
+            sections.add(renderFormationMemories());
+        }
+
         if (!socialConfig.relationalSchemas().isEmpty() && !nearbyAgentIds.isEmpty()) {
             var schemaSection = renderRelationalSchemas(nearbyAgentIds, agentNames);
             if (schemaSection != null) {
