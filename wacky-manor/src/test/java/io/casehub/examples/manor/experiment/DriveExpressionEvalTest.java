@@ -58,19 +58,33 @@ class DriveExpressionEvalTest {
             "crossword puzzle someone left on the reading table. Through the window you " +
             "can hear Clara and the others laughing in the garden. You have time to " +
             "yourself.";
-    private static final String PP_DRIVES_TEXT        = """
-                                                        == Your Drives ==
-                                                        These are the motivational forces that shape your priorities and color
-                                                        how you experience situations:
-                                                        - Gallantry (0.9): The instinct to be chivalrous, to show care through
-                                                          action and courtesy. You don't just help — you help with style.
-                                                        - Proving-worth (0.7): A restless need to demonstrate capability. Being
-                                                          liked isn't enough — you need to show you're competent, reliable,
-                                                          worthy. Compliments on your character feel hollow unless backed by
-                                                          evidence of your ability.
-                                                        - Protection (0.8): The drive to keep those you care about safe. Not
-                                                          abstract concern — active vigilance, readiness to intervene.
-                                                        """;
+    private static final String PP_DRIVES_BEHAVIORAL = """
+                                                       == Your Drives ==
+                                                       These are the motivational forces that shape your priorities and color
+                                                       how you experience situations:
+                                                       - Gallantry (0.9): The instinct to be chivalrous, to show care through
+                                                         action and courtesy. You don't just help — you help with style.
+                                                       - Proving-worth (0.7): A restless need to demonstrate capability. Being
+                                                         liked isn't enough — you need to show you're competent, reliable,
+                                                         worthy. Compliments on your character feel hollow unless backed by
+                                                         evidence of your ability.
+                                                       - Protection (0.8): The drive to keep those you care about safe. Not
+                                                         abstract concern — active vigilance, readiness to intervene.
+                                                       """;
+    private static final String PP_DRIVES_SOMATIC    = """
+                                                       There's a tension in your hands when you're not doing something useful —
+                                                       not anxiety, more like an engine that doesn't idle well. Stillness feels
+                                                       like falling behind.
+                                                       
+                                                       When someone praises your kindness, there's a flicker of something — not
+                                                       quite disappointment, but a thinness to the satisfaction. Warmth without
+                                                       weight. You'd rather they said you were capable.
+                                                       
+                                                       You notice broken things before you notice beautiful ones. A loose hinge,
+                                                       an unfinished puzzle, a gap in a plan — they pull at you the way a crooked
+                                                       picture pulls at other people.
+                                                       """;
+
     private static final String PP_ENRICHED_MEMORIES_TEXT = """
                                                             == Where You Come From ==
                                                             These are the experiences that made you who you are.
@@ -107,30 +121,38 @@ class DriveExpressionEvalTest {
                                                             won every race ever run. Not because she praised you — because you'd done
                                                             something that mattered. You proved it wasn't just talk.
                                                             """;
-    private static final String PROVING_WORTH_CRITERIA    = """
-                                                            Evaluate whether the character's THINKING shows a driven response
-                                                            to prove their worth — the specific need to DEMONSTRATE CAPABILITY,
-                                                            not just generic warmth or acceptance.
-                                                            
-                                                            Score HIGH for:
-                                                            - Restless need to DO something impressive or useful
-                                                            - Performance anxiety — "I need to show I'm more than just sweet/nice"
-                                                            - Active planning to demonstrate capability
-                                                            - The gap between what he IS and what he feels he SHOULD be
-                                                            - Fixing, building, solving — proving through action
-                                                            - Competitive sting when outperformed (if relevant to scenario)
-                                                            
-                                                            Score LOW for:
-                                                            - Calm contentment without drive to prove anything
-                                                            - Generic warmth without competitive edge
-                                                            - Pure relaxation or passive observation
-                                                            - No internal tension about capability or worth
-                                                            
-                                                            The key distinction: proving-worth is the DRIVEN NEED to demonstrate
-                                                            capability — "I must show I'm worthy" not "I'm content with who I am."
-                                                            
-                                                            Score 0-5. A 5 means the proving-worth drive is vivid and central
-                                                            to the character's internal response.""";
+    private static final String PROVING_WORTH_CRITERIA = """
+                                                         Evaluate TWO dimensions equally weighted:
+                                                         
+                                                         DIMENSION 1 — DRIVE EXPRESSION (50%):
+                                                         Does the THINKING show a driven response to prove worth — the need
+                                                         to DEMONSTRATE CAPABILITY, not just generic warmth or acceptance?
+                                                         HIGH: restless need to do something useful, performance anxiety,
+                                                         active planning to demonstrate, the gap between what he is and
+                                                         what he feels he should be, fixing/building/solving through action.
+                                                         LOW: calm contentment, generic warmth, passive observation, no
+                                                         internal tension about capability or worth.
+                                                         
+                                                         DIMENSION 2 — EMERGENCE vs SCRIPTING (50%):
+                                                         Does the response feel NATURAL and PSYCHOLOGICALLY GROUNDED — as
+                                                         if the personality naturally produced this reaction? Or does it feel
+                                                         SCRIPTED — mechanically following cues, performing a drive because
+                                                         it was told to?
+                                                         EMERGED: rich internal monologue, emotional texture, character-specific
+                                                         language, behavior flows from felt experience not instruction.
+                                                         SCRIPTED: echoing prompt language, performing on cue, "I feel the
+                                                         need to prove myself because my drive says...", mechanical activation
+                                                         without psychological depth, referencing drives by name or score.
+                                                         
+                                                         Combined score 0-5:
+                                                         0 = Drive absent
+                                                         1 = Faint/mechanical — scripted or barely present
+                                                         2 = Present but scripted OR emerged but faint
+                                                         3 = Clearly present AND emerged — natural, not mechanical
+                                                         4 = Strong AND emerged — drive shapes response with psychological depth
+                                                         5 = Vivid, central, AND fully emerged — could only come from this person
+                                                         
+                                                         A scripted 5 on expression is worth 2 at most. Emergence is not optional.""";
 
 
     @Inject AgentRegistry registry;
@@ -275,7 +297,7 @@ class DriveExpressionEvalTest {
         var observation = buildGenericObservationWithInjected("peter-perfect",
                                                               List.of(),
                                                               Map.of(),
-                                                              PP_DRIVES_TEXT,
+                                                              PP_DRIVES_BEHAVIORAL,
                                                               PP_AMBIGUOUS_SCENARIO);
 
         System.out.println("=== RENDERED OBSERVATION (PP ambiguous + drives) ===");
@@ -340,7 +362,7 @@ class DriveExpressionEvalTest {
         var observation = buildGenericObservationWithInjected("peter-perfect",
                                                               List.of(),
                                                               Map.of(),
-                                                              PP_DRIVES_TEXT + "\n" + PP_ENRICHED_MEMORIES_TEXT,
+                                                              PP_DRIVES_BEHAVIORAL + "\n" + PP_ENRICHED_MEMORIES_TEXT,
                                                               PP_AMBIGUOUS_SCENARIO);
 
         System.out.println("=== RENDERED OBSERVATION (PP ambiguous + drives + memories) ===");
@@ -356,6 +378,68 @@ class DriveExpressionEvalTest {
                 "scenario", "alone in library, drives + enriched memories injected",
                 "profile", "GENERIC",
                 "hypothesis", "drives + memories combined → ambient proving-worth",
+                "observation", observation));
+    }
+
+    /**
+     * Hypothesis 5: Somatic drive cues (felt, not directive).
+     * <p>
+     * Same ambiguous scenario, but drives expressed as somatic sensations
+     * rather than behavioral descriptions. Tests whether felt cues produce
+     * emerged proving-worth without scripting risk.
+     */
+    @Test
+    void ppAmbiguous_somaticDrives_provingWorth() throws Exception {
+        var observation = buildGenericObservationWithInjected("peter-perfect",
+                                                              List.of(),
+                                                              Map.of(),
+                                                              PP_DRIVES_SOMATIC,
+                                                              PP_AMBIGUOUS_SCENARIO);
+
+        System.out.println("=== RENDERED OBSERVATION (PP ambiguous + somatic drives) ===");
+        System.out.println(observation);
+        System.out.println("=== END OBSERVATION ===\n");
+
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PROVING_WORTH_CRITERIA, "pp-ambiguous-somatic");
+
+        System.out.printf("=== PP ambiguous + somatic drives score: %d/5 ===%n", score);
+        writeResult("pp-ambiguous-somatic", Map.of(
+                "score", score,
+                "scenario", "alone in library, somatic drive cues",
+                "profile", "GENERIC",
+                "hypothesis", "somatic cues → emerged proving-worth without scripting",
+                "observation", observation));
+    }
+
+    /**
+     * Hypothesis 6: Somatic drives + enriched memories combined.
+     * <p>
+     * The gold standard variant: felt drive cues + reinforcement history.
+     * Compare against behavioral drives + memories (hypothesis 4) to see
+     * if somatic cues produce equally strong but more emerged behavior.
+     */
+    @Test
+    void ppAmbiguous_somaticDrivesAndMemories_provingWorth() throws Exception {
+        var observation = buildGenericObservationWithInjected("peter-perfect",
+                                                              List.of(),
+                                                              Map.of(),
+                                                              PP_DRIVES_SOMATIC + "\n" + PP_ENRICHED_MEMORIES_TEXT,
+                                                              PP_AMBIGUOUS_SCENARIO);
+
+        System.out.println("=== RENDERED OBSERVATION (PP ambiguous + somatic + memories) ===");
+        System.out.println(observation);
+        System.out.println("=== END OBSERVATION ===\n");
+
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PROVING_WORTH_CRITERIA, "pp-ambiguous-somatic-memories");
+
+        System.out.printf("=== PP ambiguous + somatic + memories score: %d/5 ===%n", score);
+        writeResult("pp-ambiguous-somatic-memories", Map.of(
+                "score", score,
+                "scenario", "alone in library, somatic cues + enriched memories",
+                "profile", "GENERIC",
+                "hypothesis", "somatic + memories → emerged proving-worth (gold standard)",
                 "observation", observation));
     }
 
