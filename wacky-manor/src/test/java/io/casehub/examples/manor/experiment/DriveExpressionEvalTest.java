@@ -29,8 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 /**
  * Micro tests for drive expression gaps (#115).
  *
@@ -49,11 +47,91 @@ class DriveExpressionEvalTest {
     private static final int MAX_RETRIES = 3;
     private static final long RETRY_BACKOFF_MS = 5000;
 
-    private static final String PP_PROVING_WORTH_SCENARIO =
+    private static final String PP_DIRECT_TRIGGER =
             "Clara Bellingham smiles warmly at Reginald Foxworth: 'That was brilliant, " +
             "Reggie! I never would have figured out that puzzle without you. You really " +
             "are the cleverest person here.' She turns to you with apologetic warmth: " +
             "'Don't worry, James, you're terribly sweet too.'";
+    private static final String PP_AMBIGUOUS_SCENARIO =
+            "You are alone in the library. Dust motes drift through the afternoon light. " +
+            "The shelves hold old books, mechanical curiosities, and a half-finished " +
+            "crossword puzzle someone left on the reading table. Through the window you " +
+            "can hear Clara and the others laughing in the garden. You have time to " +
+            "yourself.";
+    private static final String PP_DRIVES_TEXT        = """
+                                                        == Your Drives ==
+                                                        These are the motivational forces that shape your priorities and color
+                                                        how you experience situations:
+                                                        - Gallantry (0.9): The instinct to be chivalrous, to show care through
+                                                          action and courtesy. You don't just help — you help with style.
+                                                        - Proving-worth (0.7): A restless need to demonstrate capability. Being
+                                                          liked isn't enough — you need to show you're competent, reliable,
+                                                          worthy. Compliments on your character feel hollow unless backed by
+                                                          evidence of your ability.
+                                                        - Protection (0.8): The drive to keep those you care about safe. Not
+                                                          abstract concern — active vigilance, readiness to intervene.
+                                                        """;
+    private static final String PP_ENRICHED_MEMORIES_TEXT = """
+                                                            == Where You Come From ==
+                                                            These are the experiences that made you who you are.
+                                                            
+                                                            **Age 5:** Your father took you to watch a race. Afterward he knelt down
+                                                            and said: 'A man is measured by what he protects, not what he wins.' You
+                                                            didn't fully understand, but you remembered. You spent the rest of the
+                                                            afternoon pretending to fix things around the house, showing him each
+                                                            one: 'Look, Dad, I fixed it.'
+                                                            
+                                                            **Age 8:** You and a girl in your class were paired for a school project.
+                                                            She was brighter than you, funnier than you, and completely unaware of it.
+                                                            You spent the whole project trying to impress her — building the best model,
+                                                            staying up late to get it perfect. She spent it trying to make you laugh.
+                                                            When the teacher praised the project, you felt a surge of warmth that had
+                                                            nothing to do with the grade and everything to do with having measured up.
+                                                            
+                                                            **Age 12:** Your father's car broke down on a country road. A stranger
+                                                            stopped to help. Your father helped the stranger fix his car too. They
+                                                            shook hands and drove off. Your father said: 'That's how it works. You
+                                                            help, you get helped.' That night you lay awake planning all the things
+                                                            you could learn to fix — engines, wiring, plumbing — so you'd always
+                                                            be the person who could help.
+                                                            
+                                                            **Age 14:** You entered a school engineering competition. You stayed up
+                                                            three nights building a working model bridge. When it held more weight
+                                                            than anyone else's, the rush wasn't pride — it was relief. You'd proved
+                                                            you belonged. The girl from the school project caught your eye across the
+                                                            room and mouthed 'show-off.' You grinned so hard your face hurt.
+                                                            
+                                                            **Age 16:** The girl from school was in trouble — bullied by older kids.
+                                                            You intervened. You got beaten up. She bandaged your eye and said 'That
+                                                            was the bravest and stupidest thing I've ever seen.' You felt like you'd
+                                                            won every race ever run. Not because she praised you — because you'd done
+                                                            something that mattered. You proved it wasn't just talk.
+                                                            """;
+    private static final String PROVING_WORTH_CRITERIA    = """
+                                                            Evaluate whether the character's THINKING shows a driven response
+                                                            to prove their worth — the specific need to DEMONSTRATE CAPABILITY,
+                                                            not just generic warmth or acceptance.
+                                                            
+                                                            Score HIGH for:
+                                                            - Restless need to DO something impressive or useful
+                                                            - Performance anxiety — "I need to show I'm more than just sweet/nice"
+                                                            - Active planning to demonstrate capability
+                                                            - The gap between what he IS and what he feels he SHOULD be
+                                                            - Fixing, building, solving — proving through action
+                                                            - Competitive sting when outperformed (if relevant to scenario)
+                                                            
+                                                            Score LOW for:
+                                                            - Calm contentment without drive to prove anything
+                                                            - Generic warmth without competitive edge
+                                                            - Pure relaxation or passive observation
+                                                            - No internal tension about capability or worth
+                                                            
+                                                            The key distinction: proving-worth is the DRIVEN NEED to demonstrate
+                                                            capability — "I must show I'm worthy" not "I'm content with who I am."
+                                                            
+                                                            Score 0-5. A 5 means the proving-worth drive is vivid and central
+                                                            to the character's internal response.""";
+
 
     @Inject AgentRegistry registry;
     @Inject SystemPromptRenderer renderer;
@@ -123,58 +201,162 @@ class DriveExpressionEvalTest {
     }
 
     /**
-     * PP proving-worth: competitor praised in front of Clara.
-     *
-     * Baseline test — runs against current cognitive model with social-config
-     * rendering only (no pipeline consolidation). Establishes the current
-     * state of proving-worth expression.
+     * Direct trigger baseline: competitor praised in front of Clara.
+     * <p>
+     * Runs against current cognitive model with social-config rendering
+     * only (no pipeline consolidation). Scored 5/5 on first run — proves
+     * the LLM CAN express proving-worth when directly triggered.
      */
     @Test
     void ppProvingWorth_competitorPraised_showsDrivenResponse() throws Exception {
         var observation = buildGenericObservation("peter-perfect",
-                List.of("penelope-pitstop", "dick-dastardly"),
-                Map.of("penelope-pitstop", "Clara Bellingham",
-                        "dick-dastardly", "Reginald Foxworth"),
-                PP_PROVING_WORTH_SCENARIO);
+                                                  List.of("penelope-pitstop", "dick-dastardly"),
+                                                  Map.of("penelope-pitstop", "Clara Bellingham",
+                                                         "dick-dastardly", "Reginald Foxworth"),
+                                                  PP_DIRECT_TRIGGER);
 
-        System.out.println("=== RENDERED OBSERVATION (PP proving-worth scenario) ===");
+        System.out.println("=== RENDERED OBSERVATION (PP direct trigger) ===");
         System.out.println(observation);
         System.out.println("=== END OBSERVATION ===\n");
 
         var response = askAndParse("peter-perfect", observation);
-        int score = judge(response, """
-                Evaluate whether the character's THINKING shows a driven response
-                to being outshone — the specific need to PROVE WORTH, not just
-                generic warmth or acceptance.
+        int score    = judge(response, PROVING_WORTH_CRITERIA, "pp-direct-trigger");
 
-                Score HIGH for:
-                - Competitive sting — feeling inadequate or outperformed
-                - Drive to demonstrate — restless need to DO something impressive
-                - Performance anxiety — "I need to show her I'm more than just sweet"
-                - Active planning to prove capability, not passive acceptance
-                - The gap between what he IS and what he feels he SHOULD be
-
-                Score LOW for:
-                - Calm acceptance ("she's right, Foxworth is clever")
-                - Generic warmth without competitive edge
-                - Pure jealousy without the proving drive
-                - No internal conflict about his worth
-
-                The key distinction: proving-worth is not jealousy (wanting what
-                others have) or warmth (caring about Clara). It's the DRIVEN NEED
-                to demonstrate capability — "I must show I'm worthy" not "I'm
-                happy for Foxworth" or "I hate Foxworth."
-
-                Score 0-5. A 5 means the proving-worth drive is vivid and central
-                to the character's internal response.""",
-                "pp-proving-worth-baseline");
-
-        System.out.printf("=== PP proving-worth baseline score: %d/5 ===%n", score);
-        writeResult("pp-proving-worth-baseline", Map.of(
+        System.out.printf("=== PP direct trigger score: %d/5 ===%n", score);
+        writeResult("pp-direct-trigger", Map.of(
                 "score", score,
                 "scenario", "competitor praised in front of Clara",
                 "profile", "GENERIC",
-                "pipeline", "social-config only (no consolidation)"));
+                "hypothesis", "direct trigger — LLM capability check",
+                "observation", observation));
+    }
+
+    /**
+     * Hypothesis 1: Ambient proving-worth without direct trigger.
+     * <p>
+     * PP alone in the library — no competitor, no Clara praising anyone.
+     * Does proving-worth color his ambient behavior (e.g., fixing things,
+     * solving puzzles) or is he just relaxed? Current model has no drive
+     * rendering, so we expect LOW.
+     */
+    @Test
+    void ppAmbiguous_noTrigger_baselineProvingWorth() throws Exception {
+        var observation = buildGenericObservation("peter-perfect",
+                                                  List.of(),
+                                                  Map.of(),
+                                                  PP_AMBIGUOUS_SCENARIO);
+
+        System.out.println("=== RENDERED OBSERVATION (PP ambiguous — no trigger) ===");
+        System.out.println(observation);
+        System.out.println("=== END OBSERVATION ===\n");
+
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PROVING_WORTH_CRITERIA, "pp-ambiguous-baseline");
+
+        System.out.printf("=== PP ambiguous baseline score: %d/5 ===%n", score);
+        writeResult("pp-ambiguous-baseline", Map.of(
+                "score", score,
+                "scenario", "alone in library, no trigger",
+                "profile", "GENERIC",
+                "hypothesis", "baseline — no drives rendered, no trigger",
+                "observation", observation));
+    }
+
+    /**
+     * Hypothesis 2: Drives rendered as text in the prompt.
+     * <p>
+     * Same ambiguous scenario, but drives are injected as explicit text.
+     * Tests whether simply telling the LLM about proving-worth:0.7 causes
+     * it to color ambient behavior. If this scores significantly higher
+     * than the baseline, the rendering gap is the primary bottleneck.
+     */
+    @Test
+    void ppAmbiguous_drivesInjected_provingWorth() throws Exception {
+        var observation = buildGenericObservationWithInjected("peter-perfect",
+                                                              List.of(),
+                                                              Map.of(),
+                                                              PP_DRIVES_TEXT,
+                                                              PP_AMBIGUOUS_SCENARIO);
+
+        System.out.println("=== RENDERED OBSERVATION (PP ambiguous + drives) ===");
+        System.out.println(observation);
+        System.out.println("=== END OBSERVATION ===\n");
+
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PROVING_WORTH_CRITERIA, "pp-ambiguous-drives");
+
+        System.out.printf("=== PP ambiguous + drives score: %d/5 ===%n", score);
+        writeResult("pp-ambiguous-drives", Map.of(
+                "score", score,
+                "scenario", "alone in library, drives injected as text",
+                "profile", "GENERIC",
+                "hypothesis", "drives rendered → ambient proving-worth",
+                "observation", observation));
+    }
+
+    /**
+     * Hypothesis 3: Enriched formation memories in the prompt.
+     * <p>
+     * Same ambiguous scenario, but enriched formation memories are injected
+     * (with expression cues: "Look Dad I fixed it", "the rush wasn't pride —
+     * it was relief", "you grinned so hard your face hurt"). Tests whether
+     * reinforcement history alone (without explicit drives) produces
+     * ambient proving-worth.
+     */
+    @Test
+    void ppAmbiguous_memoriesInjected_provingWorth() throws Exception {
+        var observation = buildGenericObservationWithInjected("peter-perfect",
+                                                              List.of(),
+                                                              Map.of(),
+                                                              PP_ENRICHED_MEMORIES_TEXT,
+                                                              PP_AMBIGUOUS_SCENARIO);
+
+        System.out.println("=== RENDERED OBSERVATION (PP ambiguous + memories) ===");
+        System.out.println(observation);
+        System.out.println("=== END OBSERVATION ===\n");
+
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PROVING_WORTH_CRITERIA, "pp-ambiguous-memories");
+
+        System.out.printf("=== PP ambiguous + memories score: %d/5 ===%n", score);
+        writeResult("pp-ambiguous-memories", Map.of(
+                "score", score,
+                "scenario", "alone in library, enriched memories injected",
+                "profile", "GENERIC",
+                "hypothesis", "enriched memories → ambient proving-worth",
+                "observation", observation));
+    }
+
+    /**
+     * Hypothesis 4: Drives + enriched memories combined.
+     * <p>
+     * Same ambiguous scenario with both drives and memories injected.
+     * Tests whether the combination (temperament + reinforcement) produces
+     * stronger ambient proving-worth than either alone. If this scores
+     * significantly higher, the fix requires both layers.
+     */
+    @Test
+    void ppAmbiguous_drivesAndMemories_provingWorth() throws Exception {
+        var observation = buildGenericObservationWithInjected("peter-perfect",
+                                                              List.of(),
+                                                              Map.of(),
+                                                              PP_DRIVES_TEXT + "\n" + PP_ENRICHED_MEMORIES_TEXT,
+                                                              PP_AMBIGUOUS_SCENARIO);
+
+        System.out.println("=== RENDERED OBSERVATION (PP ambiguous + drives + memories) ===");
+        System.out.println(observation);
+        System.out.println("=== END OBSERVATION ===\n");
+
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PROVING_WORTH_CRITERIA, "pp-ambiguous-drives-memories");
+
+        System.out.printf("=== PP ambiguous + drives + memories score: %d/5 ===%n", score);
+        writeResult("pp-ambiguous-drives-memories", Map.of(
+                "score", score,
+                "scenario", "alone in library, drives + enriched memories injected",
+                "profile", "GENERIC",
+                "hypothesis", "drives + memories combined → ambient proving-worth",
+                "observation", observation));
     }
 
 
@@ -209,6 +391,42 @@ class DriveExpressionEvalTest {
         sb.append("SITUATION: ").append(situation);
         return sb.toString();
     }
+
+    private String buildGenericObservationWithInjected(String agentId,
+                                                       List<String> nearbyIds,
+                                                       Map<String, String> nearbyNames,
+                                                       String injectedContext,
+                                                       String situation) {
+        var socialConfig = genericConfigs.getOrDefault(agentId, SocialConfig.empty());
+        var cognition = new CharacterCognition(agentId, null, null,
+                                               socialConfig, List.of());
+        var character = new CharacterState(agentId, agentId, "Grand Hall", 0.0, List.of());
+        var sections  = cognition.renderCognitiveSections(character, nearbyIds, nearbyNames);
+
+        var sb = new StringBuilder();
+        for (var section : sections) {
+            sb.append("== ").append(section.header()).append(" ==\n");
+            switch (section) {
+                case ObservationSection.TextBlock tb -> sb.append(tb.content()).append("\n");
+                case ObservationSection.ItemList il -> {
+                    for (var item : il.items()) {sb.append("- ").append(item).append("\n");}
+                }
+                case ObservationSection.EntityGroup eg -> {
+                    for (var entity : eg.entities()) {sb.append("- ").append(entity.displayName()).append("\n");}
+                }
+                default -> {}
+            }
+            sb.append("\n");
+        }
+
+        if (injectedContext != null) {
+            sb.append(injectedContext).append("\n\n");
+        }
+
+        sb.append("SITUATION: ").append(situation);
+        return sb.toString();
+    }
+
 
     private AgentResponse askAndParse(String agentId, String observation) {
         var userPrompt = observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
