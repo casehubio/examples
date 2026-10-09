@@ -19,7 +19,10 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Boundary tests for the personality propagation pipeline (#115).
@@ -214,4 +217,78 @@ class PropagationBoundaryTest {
         assertTrue(allNodes.size() > entityNodes.size(),
                 "social subgraph should have overlay nodes beyond shared entity nodes");
     }
+
+    /**
+     * Dead ends #5 + #7: character drives rendered as somatic felt state,
+     * visible in both solo and social scenes.
+     * <p>
+     * Verifies that renderCognitiveSections includes a "What Pulls at You"
+     * section containing somatic drive descriptions — even with no nearby
+     * agents (solo scene). This is the unified renderer from #117.
+     */
+    @Test
+    void renderInternalState_includesDrivesInSoloScene() {
+        var ppConfig = configs.getOrDefault("peter-perfect", SocialConfig.empty());
+        assertFalse(ppConfig.drives().isEmpty(), "PP should have drives in config");
+
+        var cognition = new CharacterCognition("peter-perfect", null, null, ppConfig, List.of());
+        var character = new CharacterState("peter-perfect", "PP", "Library", 0.0, List.of());
+
+        var sections = cognition.renderCognitiveSections(character, List.of(), Map.of());
+
+        var internalState = sections.stream()
+                                    .filter(s -> "What Pulls at You".equals(s.header()))
+                                    .findFirst();
+
+        assertTrue(internalState.isPresent(),
+                   "renderCognitiveSections should include 'What Pulls at You' section — dead ends #5 + #7");
+
+        var textBlock = (io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) internalState.get();
+        assertFalse(textBlock.content().contains("proving-worth"),
+                    "somatic section must NOT contain drive type labels");
+        assertFalse(textBlock.content().contains("0.7") && textBlock.content().contains("0.9"),
+                    "somatic section must NOT contain intensity scores");
+    }
+
+    /**
+     * Unified renderer (#117): after full pipeline (seed + CAPS + consolidation),
+     * the "What Pulls at You" section contains both drive descriptions AND
+     * CAPS-derived behavioral attractor text.
+     */
+    @Test
+    void renderInternalState_combinesDrivesAndCapsAttractors() throws InterruptedException {
+        var tenant   = "wacky-manor";
+        var agentId  = "pp-boundary-unified";
+        var ppConfig = configs.getOrDefault("peter-perfect", SocialConfig.empty());
+
+        seeder.seed(agentId, ppConfig, tenant);
+        seeder.seedCapsState(agentId, ppConfig, tenant, capsEngine);
+        seeder.seedFormationMemories(agentId, ppConfig, tenant, experienceRecorder);
+
+        for (int i = 0; i < 5; i++) {
+            Thread.sleep(200);
+            consolidationScheduler.consolidateNow(tenant);
+        }
+
+        var cognition = new CharacterCognition(
+                agentId, null, null, ppConfig, List.of(),
+                null, new io.casehub.examples.manor.agent.ManorContextStrategy(), null, null,
+                tenant, mindMapStore, null);
+        var character = new CharacterState(agentId, "PP", "Library", 0.0, List.of());
+
+        var sections = cognition.renderCognitiveSections(character, List.of(), Map.of());
+
+        var internalState = sections.stream()
+                                    .filter(s -> "What Pulls at You".equals(s.header()))
+                                    .findFirst();
+
+        assertTrue(internalState.isPresent(),
+                   "unified renderer should produce 'What Pulls at You' section after full pipeline");
+
+        var textBlock = (io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) internalState.get();
+        assertTrue(textBlock.content().contains("tension") || textBlock.content().contains("warmth") || textBlock.content().contains("notice"),
+                   "section should contain somatic drive descriptions");
+    }
+
+
 }

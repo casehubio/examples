@@ -82,11 +82,11 @@ class CharacterCognitionTest {
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState("hooded-claw", "HC", "Room", 0.0, List.of()),
                 List.of("penelope-pitstop"), Map.of("penelope-pitstop", "Penelope Pitstop"));
-        assertThat(sections).hasSize(8);
+        assertThat(sections).hasSize(9);
         assertThat(sections.stream().map(s -> s.header()).toList())
                 .containsExactly("Your Behavioral Tendencies", "Your Beliefs", "Social Rules",
-                        "Who You Are", "Where You Come From", "How You Feel About Those Present",
-                        "How You Bond", "Active Voice");
+                        "Who You Are", "What Pulls at You", "Where You Come From",
+                        "How You Feel About Those Present", "How You Bond", "Active Voice");
     }
 
     @Test
