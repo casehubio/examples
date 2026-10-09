@@ -60,6 +60,8 @@ public class PlaybookOrchestrator {
     jakarta.enterprise.inject.Instance<io.casehub.neocortex.mindmap.MindMapStore> mindMapStoreInstance;
     @Inject
     jakarta.enterprise.inject.Instance<io.casehub.neocortex.mindmap.intelligence.MindMapExtractor> mindMapExtractorInstance;
+    @Inject
+    io.casehub.neocortex.caps.CapsEngine capsEngine;
 
 
     @Inject
@@ -192,7 +194,8 @@ public class PlaybookOrchestrator {
                 io.casehub.neocortex.cognition.goal.GoalEscalationConfig.defaults(),
                 java.time.Clock.systemUTC());
 
-        var cognitionConfig = io.casehub.neocortex.cognition.core.CognitionConfig.all();
+        var cognitionConfig = io.casehub.neocortex.cognition.core.CognitionConfig.all()
+                .with("behavioral", true);
         if (config.appraisal().enabled()) {
             cognitionConfig = cognitionConfig.with("appraisal", true);
         }
@@ -245,6 +248,7 @@ public class PlaybookOrchestrator {
             var seedResult = seeder != null ? seeder.seed(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID) : null;
             if (seeder != null) {
                 seeder.seedGoals(entry.getKey(), socialCfg, goalOrchestrator, ManorConstants.TENANCY_ID);
+                seeder.seedCapsState(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID, capsEngine);
                 int memCount = seeder.seedFormationMemories(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID, experienceRecorder);
                 if (memCount > 0) {
                     log.info("Seeded " + memCount + " formation memories for " + entry.getKey());
@@ -255,6 +259,10 @@ public class PlaybookOrchestrator {
                     cogProfile, contextStrategy, cognitionCore, seedResult, ManorConstants.TENANCY_ID,
                     mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null,
                     ManorTrustEvolutionConfigLoader.load()));
+        }
+
+        if (seeder != null) {
+            seeder.seedPeople(socialConfigs, ManorConstants.TENANCY_ID);
         }
 
         if (config.consolidation().enabled()) {
