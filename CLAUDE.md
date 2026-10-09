@@ -7,6 +7,10 @@ type: java
 
 **DSL parity:** YAML and Java are peer representations — see [DSL Style Guide](https://raw.githubusercontent.com/casehubio/parent/main/docs/DSL-STYLE-GUIDE.md) §YAML/Java Parity Principle
 
+## Design Decisions — Literature First
+
+Never guess at psychological, cognitive, or architectural models. Always base design decisions on literature, using empirically proven and respected models. Search the internet and Google Scholar to find the literature to undertake review and verification before committing to an approach. Intuitive reasoning that "sounds right" is not sufficient — the published computational models are the authority.
+
 ## What This Project Is
 
 Multi-example repository for CaseHub platform modules. Each subdirectory is an independent Quarkus application demonstrating a platform capability.
