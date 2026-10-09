@@ -274,11 +274,13 @@ public final class CharacterCognition {
     }
 
     private String renderAttractorAsFelt(io.casehub.neocortex.mindmap.MindMapNode node) {
-        var    name        = node.name();
-        var    strengthStr = node.properties().get("strength");
-        double strength    = strengthStr != null ? Double.parseDouble(strengthStr) : 0.0;
-        var    prevStr     = node.properties().get("previous-strength");
-        var    sources     = node.properties().get("source-names");
+        var    strengthStr      = node.properties().get("strength");
+        double strength         = strengthStr != null ? Double.parseDouble(strengthStr) : 0.0;
+        var    prevStr          = node.properties().get("previous-strength");
+        var    sources          = node.properties().get("source-names");
+        var    personalityLabel = node.properties().get("personality-label");
+
+        String name = personalityLabel != null ? personalityLabel : node.name();
 
         String label = strength > 0.7 ? "Something deep-rooted"
                                       : strength > 0.4 ? "Something"
