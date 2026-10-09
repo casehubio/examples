@@ -23,7 +23,7 @@ class ManorSocialConfigLoaderTest {
         var scheming = hc.drives().stream()
                 .filter(d -> d.type().equals("scheming")).findFirst().orElseThrow();
         assertThat(scheming.intensity()).isEqualTo(0.9);
-        assertThat(scheming.description()).contains("elaborate plans");
+        assertThat(scheming.description()).contains("plan locks into place");
     }
 
     @Test
