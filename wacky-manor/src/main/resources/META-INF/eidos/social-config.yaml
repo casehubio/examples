@@ -331,13 +331,25 @@ peter-perfect:
   drives:
     - type: gallantry
       intensity: 0.9
-      description: "Must protect and impress Penelope"
+      description: >-
+        A warmth moves through you when courtesy matters — holding the door
+        isn't a decision, your hand is already there. When someone's struggling,
+        the pull to help isn't abstract; your body knows the shape of the
+        gesture before your mind catches up.
     - type: proving-worth
       intensity: 0.7
-      description: "Needs to demonstrate heroic competence"
+      description: >-
+        There's a tension in your hands when you're not doing something
+        useful — not anxiety, more like an engine that doesn't idle well.
+        When someone praises your kindness, there's a flicker of something —
+        not quite disappointment, but a thinness to the satisfaction.
+        You'd rather they said you were capable.
     - type: protection
       intensity: 0.8
-      description: "Driven to shield others from danger"
+      description: >-
+        You notice broken things before you notice beautiful ones. A loose
+        hinge, an unfinished puzzle, a gap in someone's safety — they pull
+        at you the way a crooked picture pulls at other people.
   reinforcement:
     conflict_resolution:
       - drive: protection

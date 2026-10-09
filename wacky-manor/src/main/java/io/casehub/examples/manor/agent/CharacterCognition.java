@@ -156,6 +156,11 @@ public final class CharacterCognition {
             sections.add(renderPersonalityFacets());
         }
 
+        var internalState = renderInternalState();
+        if (internalState != null) {
+            sections.add(internalState);
+        }
+
         if (!socialConfig.formationMemories().isEmpty()) {
             sections.add(renderFormationMemories());
         }
@@ -229,6 +234,71 @@ public final class CharacterCognition {
         }
         return ObservationSection.text("Who You Are", sb.toString().strip());
     }
+
+    private ObservationSection renderInternalState() {
+        var drives = resolveAdaptedDrives();
+        var parts = drives.stream()
+                          .filter(d -> d.intensity() > 0.2 && !d.description().isBlank())
+                          .sorted(java.util.Comparator.comparingDouble(SocialConfig.Drive::intensity).reversed())
+                          .map(SocialConfig.Drive::description)
+                          .toList();
+
+        if (mindMapStore != null && tenantId != null) {
+            var subgraphs = mindMapStore.listSubgraphs(tenantId);
+            var attractorLines = subgraphs.stream()
+                                          .filter(s -> "behavioral".equals(s.type()))
+                                          .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
+                                          .filter(n -> n.traits().contains("CapsGenerated"))
+                                          .filter(n -> agentId.equals(n.properties().get("agent-id")))
+                                          .filter(n -> {
+                                              var str = n.properties().get("strength");
+                                              return str != null && Double.parseDouble(str) > 0.1;
+                                          })
+                                          .sorted(java.util.Comparator.comparingDouble(
+                                                  (io.casehub.neocortex.mindmap.MindMapNode n) -> {
+                                                      var str = n.properties().get("strength");
+                                                      return str != null ? Double.parseDouble(str) : 0.0;
+                                                  }).reversed())
+                                          .limit(5)
+                                          .map(this::renderAttractorAsFelt)
+                                          .toList();
+            if (!attractorLines.isEmpty()) {
+                parts = new java.util.ArrayList<>(parts);
+                parts.addAll(attractorLines);
+            }
+        }
+
+        if (parts.isEmpty()) {return null;}
+
+        return ObservationSection.text("What Pulls at You", String.join("\n\n", parts));
+    }
+
+    private String renderAttractorAsFelt(io.casehub.neocortex.mindmap.MindMapNode node) {
+        var    name        = node.name();
+        var    strengthStr = node.properties().get("strength");
+        double strength    = strengthStr != null ? Double.parseDouble(strengthStr) : 0.0;
+        var    prevStr     = node.properties().get("previous-strength");
+        var    sources     = node.properties().get("source-names");
+
+        String label = strength > 0.7 ? "Something deep-rooted"
+                                      : strength > 0.4 ? "Something"
+                                                       : "A faint thread of something";
+
+        var sb = new StringBuilder();
+        sb.append(label).append(" — a ").append(name);
+        if (prevStr != null) {
+            double prev = Double.parseDouble(prevStr);
+            if (strength > prev + 0.05) {sb.append(", growing stronger");} else if (strength < prev - 0.05) {
+                sb.append(", starting to fade");
+            }
+        }
+        if (sources != null && !sources.isBlank()) {
+            sb.append(" — rooted in ").append(sources);
+        }
+        sb.append(".");
+        return sb.toString();
+    }
+
 
     private ObservationSection renderRelationalSchemas(Collection<String> nearbyAgentIds, Map<String, String> agentNames) {
         var relevant = socialConfig.relationalSchemas().stream()

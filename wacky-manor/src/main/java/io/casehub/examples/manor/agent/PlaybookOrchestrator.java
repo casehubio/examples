@@ -194,8 +194,7 @@ public class PlaybookOrchestrator {
                 io.casehub.neocortex.cognition.goal.GoalEscalationConfig.defaults(),
                 java.time.Clock.systemUTC());
 
-        var cognitionConfig = io.casehub.neocortex.cognition.core.CognitionConfig.all()
-                .with("behavioral", true);
+        var cognitionConfig = io.casehub.neocortex.cognition.core.CognitionConfig.all();
         if (config.appraisal().enabled()) {
             cognitionConfig = cognitionConfig.with("appraisal", true);
         }
