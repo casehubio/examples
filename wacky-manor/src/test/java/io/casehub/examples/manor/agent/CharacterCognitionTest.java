@@ -440,6 +440,44 @@ class CharacterCognitionTest {
 
 
     @Test
+    void renderInternalStateForegoundsActivatedDrives() {
+        var drives = List.of(
+                new SocialConfig.Drive("scheming", 0.9, "Webs of plans spinning behind your eyes"),
+                new SocialConfig.Drive("gloating", 0.7, "Triumph surging electric through your chest"),
+                new SocialConfig.Drive("self-preservation", 0.5, "A watchful edge along your spine"));
+        var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of(), null);
+        var cognition    = new CharacterCognition("test", null, null, socialConfig, List.of());
+
+        // Without activation: drives ordered by intensity (scheming > gloating > self-preservation)
+        var noActivation = cognition.renderInternalState(List.of());
+        assertThat(noActivation).isNotNull();
+        var content0 = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) noActivation).content();
+        assertThat(content0.indexOf("Webs")).isLessThan(content0.indexOf("Triumph"));
+        assertThat(content0.indexOf("Triumph")).isLessThan(content0.indexOf("watchful"));
+
+        // With gloating activated: gloating first despite lower intensity
+        var withActivation = cognition.renderInternalState(List.of("gloating"));
+        var content1       = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) withActivation).content();
+        assertThat(content1.indexOf("Triumph")).isLessThan(content1.indexOf("Webs"));
+        assertThat(content1.indexOf("Webs")).isLessThan(content1.indexOf("watchful"));
+    }
+
+    @Test
+    void renderInternalStateNoActivationPreservesIntensityOrder() {
+        var drives = List.of(
+                new SocialConfig.Drive("loyalty", 0.3, "A pull toward those you belong to"),
+                new SocialConfig.Drive("protection", 0.8, "Fists tightening when someone you care about is near danger"));
+        var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of(), null);
+        var cognition    = new CharacterCognition("test", null, null, socialConfig, List.of());
+
+        var section = cognition.renderInternalState(List.of());
+        assertThat(section).isNotNull();
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        assertThat(content.indexOf("Fists")).isLessThan(content.indexOf("pull toward"));
+    }
+
+
+    @Test
     void rendersTendenciesAsFirstCognitiveSection() {
         var socialConfig = ManorSocialConfigLoader.load().get("penelope-pitstop");
         var cognition = new CharacterCognition("penelope-pitstop", null, null,

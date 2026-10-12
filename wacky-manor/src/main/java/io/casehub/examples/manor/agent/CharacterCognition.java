@@ -156,7 +156,10 @@ public final class CharacterCognition {
             sections.add(renderPersonalityFacets());
         }
 
-        var internalState = renderInternalState();
+        var activatedCategories = (cognitionCore != null)
+                ? cognitionCore.activatedDriveCategories()
+                : java.util.List.<String>of();
+        var internalState = renderInternalState(activatedCategories);
         if (internalState != null) {
             sections.add(internalState);
         }
@@ -239,13 +242,26 @@ public final class CharacterCognition {
         return ObservationSection.text("Who You Are", sb.toString().strip());
     }
 
-    private ObservationSection renderInternalState() {
+    ObservationSection renderInternalState(List<String> activatedCategories) {
         var drives = resolveAdaptedDrives();
-        var parts = drives.stream()
-                          .filter(d -> d.intensity() > 0.2 && !d.description().isBlank())
-                          .sorted(java.util.Comparator.comparingDouble(SocialConfig.Drive::intensity).reversed())
-                          .map(SocialConfig.Drive::description)
-                          .toList();
+        var eligible = drives.stream()
+                             .filter(d -> d.intensity() > 0.2 && !d.description().isBlank())
+                             .toList();
+
+        var activated = eligible.stream()
+                                .filter(d -> activatedCategories.contains(d.type()))
+                                .sorted(java.util.Comparator.comparingDouble(SocialConfig.Drive::intensity).reversed())
+                                .map(SocialConfig.Drive::description)
+                                .toList();
+        var ambient = eligible.stream()
+                              .filter(d -> !activatedCategories.contains(d.type()))
+                              .sorted(java.util.Comparator.comparingDouble(SocialConfig.Drive::intensity).reversed())
+                              .map(SocialConfig.Drive::description)
+                              .toList();
+
+        var parts = new java.util.ArrayList<String>();
+        parts.addAll(activated);
+        parts.addAll(ambient);
 
         if (mindMapStore != null && tenantId != null) {
             var subgraphs = mindMapStore.listSubgraphs(tenantId);
@@ -267,7 +283,6 @@ public final class CharacterCognition {
                                           .map(this::renderAttractorAsFelt)
                                           .toList();
             if (!attractorLines.isEmpty()) {
-                parts = new java.util.ArrayList<>(parts);
                 parts.addAll(attractorLines);
             }
         }
