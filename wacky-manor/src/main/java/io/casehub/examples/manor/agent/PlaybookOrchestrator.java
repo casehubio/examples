@@ -196,7 +196,7 @@ public class PlaybookOrchestrator {
 
         var cognitionConfig = io.casehub.neocortex.cognition.core.CognitionConfig.all();
         if (config.appraisal().enabled()) {
-            cognitionConfig = cognitionConfig.with("appraisal", true);
+            cognitionConfig = cognitionConfig.with("appraisal", true).with("salience", true);
         }
         var cognitionCore = new io.casehub.neocortex.cognition.core.CognitionCore(
                 moodOrch, driveOrch, userModelOrch, mentalModelOrch, strategyOrch,
@@ -210,7 +210,7 @@ public class PlaybookOrchestrator {
         if (config.appraisal().enabled()) {
             cognitionCore.configureAppraisal(
                     new io.casehub.neocortex.cognition.appraisal.LlmAppraisalStrategy(agentProvider),
-                    ctx -> io.casehub.neocortex.cognition.appraisal.PerceivedSituation.passThrough(ctx.observation()));
+                    new io.casehub.neocortex.cognition.salience.ConcernBasedSalienceStrategy());
             log.info("Appraisal enabled — sub-LLM will evaluate situations against character drives and disposition");
         }
 
