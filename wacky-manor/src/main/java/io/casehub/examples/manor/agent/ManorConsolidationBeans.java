@@ -68,11 +68,13 @@ public class ManorConsolidationBeans {
     RelationshipStagePhase relationshipStagePhase(
             MindMapStore mindMapStore,
             CaseMemoryStore memoryStore,
-            Instance<RelationshipStageConfigProvider> configProvider) {
+            Instance<RelationshipStageConfigProvider> configProvider,
+            Instance<io.casehub.neocortex.cognitive.index.CognitiveDefaultsRegistry> defaultsRegistry) {
         return new RelationshipStagePhase(
                 mindMapStore,
                 memoryStore,
                 configProvider,
+                defaultsRegistry,
                 ManorCognitiveSeeder.PEOPLE_SUBGRAPH,
                 5 * 60_000L);
     }
