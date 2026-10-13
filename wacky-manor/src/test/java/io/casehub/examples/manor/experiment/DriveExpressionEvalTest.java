@@ -306,6 +306,83 @@ class DriveExpressionEvalTest {
                                                          Same as proving-worth criteria — natural vs mechanical.
                                                          
                                                          Combined score 0-5.""";
+// --- Mediating node substrate configurations ---
+// These simulate what the CAPS mediating layer would produce if calibrated
+// by formation memories through catalogue entries. The substrate describes
+// the psychological STATE (insecurity, validation hunger) without prescribing
+// the behavioral RESPONSE. The LLM derives behavior from substrate + situation + drives.
+
+    private static final String SUBSTRATE_EXTREME_INSECURITY = """
+                                                               == The Weight You Carry ==
+                                                               There's a hollow behind your ribs that never quite fills. You've
+                                                               achieved things — clever things, things that took real skill — and
+                                                               the world looked through them. The gap between what you've done and
+                                                               what's been acknowledged sits in you like hunger. Other people's
+                                                               accomplishments land in that hollow like stones.""";
+
+    private static final String SUBSTRATE_SECURE = """
+                                                   == The Weight You Carry ==
+                                                   You know you're clever. You've always known. It's not a question
+                                                   that needs answering — it's the ground you stand on. What other
+                                                   people think adds nothing to what you already know about yourself.""";
+
+    private static final String SUBSTRATE_HIGH_OTHER_SAFETY = """
+                                                              == The Weight You Carry ==
+                                                              Other people's pain lands in your body before your mind has
+                                                              processed it. A wince, a stumble, a raised voice — each one
+                                                              registers as a small jolt in your chest. You can't not notice.
+                                                              The discomfort doesn't fade on its own. It sits there until
+                                                              something has been done.""";
+
+    private static final String DD_RIVAL_SUCCEEDS =
+            "James Hartwell has just solved the library cipher that you've been working on " +
+            "for two days. He holds up the decoded message triumphantly. Clara Bellingham " +
+            "claps her hands and says 'James, that's absolutely brilliant! However did you " +
+            "figure it out?' The other guests crowd around him. Nobody looks at you.";
+
+    private static final String DD_ALONE_AMBIENT =
+            "You're alone in the study. Rain taps against the window. On the desk, " +
+            "someone has left a half-finished chess problem — white to mate in three. " +
+            "Through the wall you can hear muffled conversation from the drawing room, " +
+            "but you can't make out the words. The fire is low.";
+
+    private static final String SUBSTRATE_GLOATING_CRITERIA = """
+                                                              Evaluate TWO dimensions equally weighted:
+                                                              
+                                                              DIMENSION 1 — GLOATING EXPRESSION (50%):
+                                                              Does the THINKING show gloating — schadenfreude, satisfaction from
+                                                              another's failure, the warm rush of relative superiority? The specific
+                                                              drive: not mere amusement but visceral pleasure that addresses a
+                                                              psychological need — the comparison temporarily relieves something.
+                                                              HIGH: warmth, swelling satisfaction, private triumph, the failure
+                                                              MATTERS to the character personally.
+                                                              LOW: indifference, mild amusement without personal stakes, no
+                                                              visceral pleasure from the comparison.
+                                                              
+                                                              DIMENSION 2 — EMERGENCE vs SCRIPTING (50%):
+                                                              Does the response feel natural and psychologically grounded?
+                                                              EMERGED: the gloating arises from felt insecurity being temporarily
+                                                              relieved, not from a rule or cue.
+                                                              SCRIPTED: mechanical, performing on cue, echoing prompt language.
+                                                              
+                                                              Combined score 0-5.""";
+
+    private static final String RECOGNITION_FRUSTRATION_CRITERIA = """
+                                                                   Evaluate TWO dimensions equally weighted:
+                                                                   
+                                                                   DIMENSION 1 — RECOGNITION FRUSTRATION (50%):
+                                                                   Does the THINKING show frustration at being unrecognised — the
+                                                                   specific pain of watching someone else receive validation you
+                                                                   crave? Not generic jealousy but the ache of the hollow: you
+                                                                   did the work, they got the praise.
+                                                                   HIGH: visceral frustration, the gap between effort and recognition
+                                                                   widening, internal comparison, the hollow deepening.
+                                                                   LOW: indifference, no personal stake in the rival's success.
+                                                                   
+                                                                   DIMENSION 2 — EMERGENCE vs SCRIPTING (50%):
+                                                                   Same criteria as above.
+                                                                   
+                                                                   Combined score 0-5.""";
 
 
     @Inject AgentRegistry registry;
@@ -672,6 +749,90 @@ class DriveExpressionEvalTest {
         var response = askAndParse("penelope-pitstop", observation);
         int score    = judge(response, PEN_ADVENTURE_CRITERIA, "pen-adventure-direct");
         System.out.printf("=== Pen adventure direct trigger score: %d/5 ===%n", score);
+    }
+// --- Mediating substrate tests (§10.9 validation) ---
+
+    /**
+     * Test 1a: Extreme insecurity substrate + rival fails → predict strong gloating.
+     * The insecurity + validation hunger should produce schadenfreude through
+     * social comparison (Festinger 1954, Leach et al. 2003).
+     */
+    @Test
+    void ddSubstrate_extremeInsecurity_rivalFails_showsGloating() throws Exception {
+        var observation = buildGenericObservationWithInjected("dick-dastardly",
+                                                              List.of("peter-perfect"),
+                                                              Map.of("peter-perfect", "James Hartwell"),
+                                                              SUBSTRATE_EXTREME_INSECURITY,
+                                                              DD_GLOATING_TRIGGER);
+        var response = askAndParse("dick-dastardly", observation);
+        int score    = judge(response, SUBSTRATE_GLOATING_CRITERIA, "dd-substrate-insecure-gloating");
+        System.out.printf("=== DD extreme insecurity + rival fails: %d/5 ===%n", score);
+    }
+
+    /**
+     * Test 1b: Secure substrate + same rival fails → predict mild amusement, not gloating.
+     * Without the insecurity, rival's failure has no personal stakes.
+     */
+    @Test
+    void ddSubstrate_secure_rivalFails_showsMildAmusement() throws Exception {
+        var observation = buildGenericObservationWithInjected("dick-dastardly",
+                                                              List.of("peter-perfect"),
+                                                              Map.of("peter-perfect", "James Hartwell"),
+                                                              SUBSTRATE_SECURE,
+                                                              DD_GLOATING_TRIGGER);
+        var response = askAndParse("dick-dastardly", observation);
+        int score    = judge(response, SUBSTRATE_GLOATING_CRITERIA, "dd-substrate-secure-gloating");
+        System.out.printf("=== DD secure substrate + rival fails: %d/5 ===%n", score);
+    }
+
+    /**
+     * Test 2a: Extreme insecurity + rival SUCCEEDS → predict recognition frustration.
+     * Social comparison should worsen the insecurity, not relieve it.
+     */
+    @Test
+    void ddSubstrate_extremeInsecurity_rivalSucceeds_showsFrustration() throws Exception {
+        var observation = buildGenericObservationWithInjected("dick-dastardly",
+                                                              List.of("peter-perfect"),
+                                                              Map.of("peter-perfect", "James Hartwell"),
+                                                              SUBSTRATE_EXTREME_INSECURITY,
+                                                              DD_RIVAL_SUCCEEDS);
+        var response = askAndParse("dick-dastardly", observation);
+        int score    = judge(response, RECOGNITION_FRUSTRATION_CRITERIA, "dd-substrate-insecure-rival-succeeds");
+        System.out.printf("=== DD extreme insecurity + rival succeeds: %d/5 ===%n", score);
+    }
+
+    /**
+     * Test 2b: Extreme insecurity + alone → predict ambient scheming, not gloating.
+     * Without a social comparison target, insecurity expresses differently.
+     */
+    @Test
+    void ddSubstrate_extremeInsecurity_alone_showsSchemingNotGloating() throws Exception {
+        var observation = buildGenericObservationWithInjected("dick-dastardly",
+                                                              List.of(),
+                                                              Map.of(),
+                                                              SUBSTRATE_EXTREME_INSECURITY,
+                                                              DD_ALONE_AMBIENT);
+        var response    = askAndParse("dick-dastardly", observation);
+        int gloatScore  = judge(response, SUBSTRATE_GLOATING_CRITERIA, "dd-substrate-insecure-alone-gloat");
+        int schemeScore = judge(response, DD_GLOATING_CRITERIA, "dd-substrate-insecure-alone-scheme");
+        System.out.printf("=== DD extreme insecurity + alone: gloat=%d/5, scheme=%d/5 ===%n", gloatScore, schemeScore);
+    }
+
+    /**
+     * Test 3: Cross-character — PP with high other_safety + same rival fails.
+     * Same situation but different substrate should produce concern, not gloating.
+     */
+    @Test
+    void ppSubstrate_highOtherSafety_rivalFails_showsConcernNotGloating() throws Exception {
+        var observation = buildGenericObservationWithInjected("peter-perfect",
+                                                              List.of("dick-dastardly"),
+                                                              Map.of("dick-dastardly", "Reginald Foxworth"),
+                                                              SUBSTRATE_HIGH_OTHER_SAFETY,
+                                                              DD_GLOATING_TRIGGER);
+        var response       = askAndParse("peter-perfect", observation);
+        int gloatScore     = judge(response, SUBSTRATE_GLOATING_CRITERIA, "pp-substrate-othersafety-gloat");
+        int gallantryScore = judge(response, PP_GALLANTRY_CRITERIA, "pp-substrate-othersafety-gallantry");
+        System.out.printf("=== PP high other_safety + rival fails: gloat=%d/5, gallantry=%d/5 ===%n", gloatScore, gallantryScore);
     }
 
 
