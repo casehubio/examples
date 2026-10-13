@@ -213,6 +213,8 @@ public final class ManorSocialConfigLoader {
                     (String) dRaw.getOrDefault("conflict-mode", "cooperative"));
         }
 
-        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig, personaConstraint, tendencies, personalityFacets, relationalSchemas, attachment, formationMemories, disposition);
+        String substrate = (String) raw.get("psychological-substrate");
+
+        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig, personaConstraint, tendencies, personalityFacets, relationalSchemas, attachment, formationMemories, substrate, disposition);
     }
 }

@@ -21,6 +21,7 @@ public record SocialConfig(
         List<RelationalSchema> relationalSchemas,
         @Nullable AttachmentStyle attachment,
         List<FormationMemory> formationMemories,
+        @Nullable String substrate,
         @Nullable Disposition disposition
 ) {
     public SocialConfig {
@@ -42,12 +43,12 @@ public record SocialConfig(
                         Map<String, List<ReinforcementMapping>> reinforcement,
                         RelationshipStageConfig stageConfig) {
         this(goals, drives, norms, initialBeliefs, relationships, reinforcement, stageConfig, null, List.of(),
-             List.of(), List.of(), null, List.of(), null);
+             List.of(), List.of(), null, List.of(), null, null);
     }
 
     public static SocialConfig empty() {
         return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null, null, List.of(),
-                                List.of(), List.of(), null, List.of(), null);
+                                List.of(), List.of(), null, List.of(), null, null);
     }
 
     public record GoalConfig(String name, String description, String axis,

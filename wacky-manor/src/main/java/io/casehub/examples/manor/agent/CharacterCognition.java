@@ -168,6 +168,10 @@ public final class CharacterCognition {
             sections.add(renderFormationMemories());
         }
 
+        if (socialConfig.substrate() != null && !socialConfig.substrate().isBlank()) {
+            sections.add(ObservationSection.text("What Shaped You", socialConfig.substrate()));
+        }
+
         if (!socialConfig.relationalSchemas().isEmpty() && !nearbyAgentIds.isEmpty()) {
             var schemaSection = renderRelationalSchemas(nearbyAgentIds, agentNames);
             if (schemaSection != null) {

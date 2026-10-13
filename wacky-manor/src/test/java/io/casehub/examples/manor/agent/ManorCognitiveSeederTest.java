@@ -310,7 +310,7 @@ class ManorCognitiveSeederTest {
                 "competitive", "flexible", "bold", "high", "competitive");
         var config = new SocialConfig(
                 List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null,
-                null, List.of(), List.of(), List.of(), null, List.of(), disposition);
+                null, List.of(), List.of(), List.of(), null, List.of(), null, disposition);
 
         seeder.seedCapsState("villain", config, "t1", capsEngine);
 
