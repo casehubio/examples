@@ -2,6 +2,8 @@ package io.casehub.examples.manor.agent;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -108,4 +110,34 @@ class FormationMemoryParserTest {
             assertThat(mem.annotations()).isNotNull();
         }
     }
+
+    @Test
+    void genericConfig_allMemoriesHaveAnnotations() {
+        var configs = ManorSocialConfigLoader.loadForProfile("GENERIC");
+        for (var entry : configs.entrySet()) {
+            for (var mem : entry.getValue().formationMemories()) {
+                assertThat(mem.annotations())
+                        .as("annotations for %s age %d", entry.getKey(), mem.age())
+                        .isNotEmpty();
+            }
+        }
+    }
+
+    @Test
+    void genericConfig_annotationDrivesExistInCharacterDrives() {
+        var configs = ManorSocialConfigLoader.loadForProfile("GENERIC");
+        for (var agentId : List.of("hooded-claw", "penelope-pitstop", "peter-perfect", "dick-dastardly", "ant-hill-mob")) {
+            var config     = configs.get(agentId);
+            var driveTypes = config.drives().stream().map(SocialConfig.Drive::type).collect(java.util.stream.Collectors.toSet());
+            for (var mem : config.formationMemories()) {
+                for (var ann : mem.annotations()) {
+                    assertThat(driveTypes)
+                            .as("drive '%s' from annotation on %s age %d must exist in character drives", ann.drive(), agentId, mem.age())
+                            .contains(ann.drive());
+                }
+            }
+        }
+    }
+
+
 }
