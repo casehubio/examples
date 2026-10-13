@@ -196,6 +196,7 @@ public final class ManorSocialConfigLoader {
                                     ((Number) m.getOrDefault("pleasure", 0.0)).doubleValue(),
                                     ((Number) m.getOrDefault("arousal", 0.0)).doubleValue(),
                                     ((Number) m.getOrDefault("dominance", 0.0)).doubleValue(),
+                                    (String) m.getOrDefault("catalogue", "formation-memory"),
                                     annotations);
                         })
                         .toList()

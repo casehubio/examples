@@ -179,6 +179,12 @@ public final class ManorCognitiveSeeder {
                                                            : mem.age() <= 12 ? "childhood"
                                                                              : mem.age() <= 18 ? "adolescence"
                                                                                                : "young-adulthood";
+                               var situationTypes = new java.util.ArrayList<>(List.of("formation", period));
+                               for (var ann : mem.annotations()) {
+                                   if (!situationTypes.contains(ann.drive())) {
+                                       situationTypes.add(ann.drive());
+                                   }
+                               }
                                return new io.casehub.neocortex.memory.experience.FormativeExperience(
                                        agentId, tenantId,
                                        "formation", "age-" + mem.age(),
@@ -186,8 +192,8 @@ public final class ManorCognitiveSeeder {
                                        mem.episode(),
                                        0.9,
                                        Map.of("age", String.valueOf(mem.age())),
-                                       "formation-memory",
-                                       List.of("formation", period),
+                                       mem.catalogue(),
+                                       List.copyOf(situationTypes),
                                        1.5,
                                        "continuous",
                                        period,

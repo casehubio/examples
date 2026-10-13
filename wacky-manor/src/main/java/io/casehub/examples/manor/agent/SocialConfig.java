@@ -148,18 +148,24 @@ public record SocialConfig(
     }
 
     public record FormationMemory(int age, String episode, double pleasure, double arousal, double dominance,
-                                  List<ConcernAnnotation> annotations) {
+                                  String catalogue, List<ConcernAnnotation> annotations) {
         public FormationMemory {
             Objects.requireNonNull(episode);
+            catalogue   = catalogue != null ? catalogue : "formation-memory";
             annotations = annotations != null ? List.copyOf(annotations) : List.of();
         }
 
+        public FormationMemory(int age, String episode, double pleasure, double arousal, double dominance,
+                               List<ConcernAnnotation> annotations) {
+            this(age, episode, pleasure, arousal, dominance, "formation-memory", annotations);
+        }
+
         public FormationMemory(int age, String episode, double pleasure, double arousal, double dominance) {
-            this(age, episode, pleasure, arousal, dominance, List.of());
+            this(age, episode, pleasure, arousal, dominance, "formation-memory", List.of());
         }
 
         public FormationMemory(int age, String episode) {
-            this(age, episode, 0.0, 0.0, 0.0, List.of());
+            this(age, episode, 0.0, 0.0, 0.0, "formation-memory", List.of());
         }
 
         public record ConcernAnnotation(String drive, String degree, String text,
