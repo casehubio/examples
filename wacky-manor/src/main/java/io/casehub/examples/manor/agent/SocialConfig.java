@@ -147,13 +147,28 @@ public record SocialConfig(
         }
     }
 
-    public record FormationMemory(int age, String episode, double pleasure, double arousal, double dominance) {
+    public record FormationMemory(int age, String episode, double pleasure, double arousal, double dominance,
+                                  List<ConcernAnnotation> annotations) {
         public FormationMemory {
             Objects.requireNonNull(episode);
+            annotations = annotations != null ? List.copyOf(annotations) : List.of();
+        }
+
+        public FormationMemory(int age, String episode, double pleasure, double arousal, double dominance) {
+            this(age, episode, pleasure, arousal, dominance, List.of());
         }
 
         public FormationMemory(int age, String episode) {
-            this(age, episode, 0.0, 0.0, 0.0);
+            this(age, episode, 0.0, 0.0, 0.0, List.of());
+        }
+
+        public record ConcernAnnotation(String drive, String degree, String text,
+                                        int startOffset, int endOffset) {
+            public ConcernAnnotation {
+                Objects.requireNonNull(drive);
+                Objects.requireNonNull(degree);
+                Objects.requireNonNull(text);
+            }
         }
     }
 

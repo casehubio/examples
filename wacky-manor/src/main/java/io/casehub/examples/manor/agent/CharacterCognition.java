@@ -227,7 +227,7 @@ public final class CharacterCognition {
         var sb = new StringBuilder();
         sb.append("These are the experiences that made you who you are.\n\n");
         for (var mem : socialConfig.formationMemories()) {
-            sb.append("**Age ").append(mem.age()).append(":** ").append(mem.episode()).append("\n\n");
+            sb.append("**Age ").append(mem.age()).append(":** ").append(FormationMemoryParser.stripAnnotations(mem.episode())).append("\n\n");
         }
         return ObservationSection.text("Where You Come From", sb.toString().strip());
     }

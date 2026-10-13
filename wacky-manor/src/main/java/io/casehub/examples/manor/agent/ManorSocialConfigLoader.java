@@ -184,12 +184,20 @@ public final class ManorSocialConfigLoader {
 
         var formationMemories = raw.containsKey("formation-memories")
                 ? ((List<Map<String, Object>>) raw.get("formation-memories")).stream()
-                        .map(m -> new SocialConfig.FormationMemory(
-                                ((Number) m.get("age")).intValue(),
-                                (String) m.get("episode"),
-                                ((Number) m.getOrDefault("pleasure", 0.0)).doubleValue(),
-                                ((Number) m.getOrDefault("arousal", 0.0)).doubleValue(),
-                                ((Number) m.getOrDefault("dominance", 0.0)).doubleValue()))
+                        .map(m -> {
+                            var episode = (String) m.get("episode");
+                            var annotations = new java.util.ArrayList<>(FormationMemoryParser.extractAnnotations(episode));
+                            if (m.containsKey("serves")) {
+                                annotations.add(FormationMemoryParser.parseWholeMemory((String) m.get("serves"), episode));
+                            }
+                            return new SocialConfig.FormationMemory(
+                                    ((Number) m.get("age")).intValue(),
+                                    episode,
+                                    ((Number) m.getOrDefault("pleasure", 0.0)).doubleValue(),
+                                    ((Number) m.getOrDefault("arousal", 0.0)).doubleValue(),
+                                    ((Number) m.getOrDefault("dominance", 0.0)).doubleValue(),
+                                    annotations);
+                        })
                         .toList()
                 : List.<SocialConfig.FormationMemory>of();
 
