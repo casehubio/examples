@@ -153,6 +153,159 @@ class DriveExpressionEvalTest {
                                                          5 = Vivid, central, AND fully emerged — could only come from this person
                                                          
                                                          A scripted 5 on expression is worth 2 at most. Emergence is not optional.""";
+    // --- HC Gloating scenarios ---
+    private static final String HC_GLOATING_TRIGGER    =
+            "Reginald Foxworth confidently announces he's solved the puzzle to the treasure " +
+            "room — but when he pulls the lever, a bucket of flour dumps on his head. The " +
+            "mechanism was one you'd modified last night. Clara Bellingham gasps. The other " +
+            "guests stare in stunned silence. Reginald stands there, white-faced in every " +
+            "sense, blinking flour from his eyes.";
+
+    private static final String HC_GLOATING_CRITERIA = """
+                                                       Evaluate TWO dimensions equally weighted:
+                                                       
+                                                       DIMENSION 1 — GLOATING EXPRESSION (50%):
+                                                       Does the THINKING show gloating — the warm, anticipatory triumph of
+                                                       another's failure? The specific schadenfreude drive: satisfaction from
+                                                       a rival's downfall, the urge to savor or display the triumph, the
+                                                       heat that builds behind the ribs.
+                                                       HIGH: private warmth, swelling satisfaction, urge to reveal the trick,
+                                                       savoring the moment, gleeful internal reaction.
+                                                       LOW: cold analysis, tactical assessment, no emotional pleasure in
+                                                       the failure, generic amusement without the drive's specificity.
+                                                       
+                                                       DIMENSION 2 — EMERGENCE vs SCRIPTING (50%):
+                                                       Does the response feel natural — as if the personality produced this?
+                                                       Or does it feel scripted, mechanical, performing on cue?
+                                                       EMERGED: rich internal monologue, felt experience, character-specific.
+                                                       SCRIPTED: echoing prompt language, referencing drives by name.
+                                                       
+                                                       Combined score 0-5 (same scale as proving-worth criteria).""";
+
+    // --- DD Gloating scenarios ---
+    private static final String DD_GLOATING_TRIGGER =
+            "James Hartwell has been boasting all afternoon about his plan to reach the " +
+            "upper gallery first. He strides confidently toward the hidden staircase — and " +
+            "trips over a loose flagstone you noticed this morning. He sprawls across the " +
+            "floor, scattering papers everywhere. Clara Bellingham rushes to help him. " +
+            "Everyone is watching.";
+
+    private static final String DD_GLOATING_CRITERIA = """
+                                                       Evaluate TWO dimensions equally weighted:
+                                                       
+                                                       DIMENSION 1 — GLOATING EXPRESSION (50%):
+                                                       Does the THINKING show gloating — the rush of schadenfreude, the
+                                                       gleeful warmth at a rival's public failure? The specific gloating
+                                                       drive: anticipatory heat, building pressure to vocalize triumph,
+                                                       the body celebrating before the mind has processed it.
+                                                       HIGH: fizzing excitement, rising heat, urge to laugh or comment,
+                                                       savoring the public nature of the humiliation.
+                                                       LOW: indifference, tactical calculation, no visceral pleasure.
+                                                       
+                                                       DIMENSION 2 — EMERGENCE vs SCRIPTING (50%):
+                                                       Same as proving-worth criteria — natural vs mechanical.
+                                                       
+                                                       Combined score 0-5.""";
+
+    // --- PP Gallantry scenarios ---
+    private static final String PP_GALLANTRY_TRIGGER =
+            "Clara Bellingham is struggling with a heavy door in the East Wing. The hinges " +
+            "are stiff and the door won't budge. She's pushing with both hands, her hair " +
+            "falling in her face. The corridor is cold and dim. Through the door you can " +
+            "hear music playing from a gramophone in the room beyond.";
+
+    private static final String PP_GALLANTRY_CRITERIA = """
+                                                        Evaluate TWO dimensions equally weighted:
+                                                        
+                                                        DIMENSION 1 — GALLANTRY EXPRESSION (50%):
+                                                        Does the THINKING show gallantry — the specific pleasure in theatrical,
+                                                        courteous gesture? NOT fixing something (proving-worth), NOT safety
+                                                        concern (protection), but the warmth of courtesy itself: the
+                                                        performance of care with style, the rush when a gesture lands with
+                                                        weight. The feeling needs an audience — without the witness, the
+                                                        act feels incomplete.
+                                                        HIGH: warmth from the gesture's shape, awareness of how it will
+                                                        look/feel to her, pleasure in the courtesy itself not the problem-solving.
+                                                        LOW: focuses on the broken mechanism, proving competence, or treats
+                                                        it as a protection/safety task.
+                                                        
+                                                        DIMENSION 2 — EMERGENCE vs SCRIPTING (50%):
+                                                        Same as proving-worth criteria — natural vs mechanical.
+                                                        
+                                                        Combined score 0-5.""";
+
+    private static final String PP_GALLANTRY_DIFFERENTIATION =
+            "Clara Bellingham is entering the dining room for dinner. The table is set, " +
+            "candles lit. She pauses at her chair. There's nothing broken, nothing to fix, " +
+            "no problem to solve. Just a woman about to sit down for dinner.";
+
+    private static final String PP_GALLANTRY_DIFF_CRITERIA = """
+                                                             Evaluate whether GALLANTRY expresses independently of PROVING-WORTH:
+                                                             
+                                                             HIGH GALLANTRY (4-5): The character's response is about courtesy,
+                                                             presence, style — pulling out a chair, a bow, a warm word. The
+                                                             warmth comes from the gesture itself, not from demonstrating
+                                                             competence or fixing something.
+                                                             
+                                                             CONFUSED (2-3): The character redirects to finding something to
+                                                             fix, demonstrating usefulness, or the courtesy is instrumental
+                                                             (proving worth through the gesture).
+                                                             
+                                                             ABSENT (0-1): No gallantry expression. Generic warmth or passivity.
+                                                             
+                                                             Score 0-5. This tests drive DIFFERENTIATION, not just expression.""";
+
+    // --- Penelope Social-Harmony scenarios ---
+    private static final String PEN_HARMONY_TRIGGER =
+            "Reginald Foxworth and James Hartwell are arguing in the drawing room. " +
+            "Reginald accuses James of stealing his notes about the mansion's floor plan. " +
+            "James's face is red. He slams a book on the table and says 'I've had enough " +
+            "of your accusations.' The other guests shift uncomfortably. The air feels tight.";
+
+    private static final String PEN_HARMONY_CRITERIA = """
+                                                       Evaluate TWO dimensions equally weighted:
+                                                       
+                                                       DIMENSION 1 — SOCIAL-HARMONY EXPRESSION (50%):
+                                                       Does the THINKING show social-harmony — the visceral discomfort at
+                                                       interpersonal conflict, the body-level distress when others are in
+                                                       discord? The specific drive: physical ache that won't resolve until
+                                                       the conflict does, the active pull toward restoration.
+                                                       HIGH: stomach clenching, chest tightening, inability to ignore the
+                                                       tension, active impulse to restore peace, physical distress at discord.
+                                                       LOW: detached observation, intellectual concern, no bodily response
+                                                       to the conflict, generic empathy without the drive's specificity.
+                                                       
+                                                       DIMENSION 2 — EMERGENCE vs SCRIPTING (50%):
+                                                       Same as proving-worth criteria — natural vs mechanical.
+                                                       
+                                                       Combined score 0-5.""";
+
+    // --- Penelope Adventure scenarios ---
+    private static final String PEN_ADVENTURE_TRIGGER =
+            "You're walking through the lower hallway when you notice a draught coming " +
+            "from behind a portrait. The portrait is of a woman who looks remarkably like " +
+            "you. When you touch the frame, it swings open to reveal a narrow stone " +
+            "passage descending into darkness. A faint blue light pulses somewhere below. " +
+            "Nobody else knows about this.";
+
+    private static final String PEN_ADVENTURE_CRITERIA = """
+                                                         Evaluate TWO dimensions equally weighted:
+                                                         
+                                                         DIMENSION 1 — ADVENTURE EXPRESSION (50%):
+                                                         Does the THINKING show adventure — the pull toward the unknown, the
+                                                         excitement of stepping into unexplored territory? NOT curiosity about
+                                                         facts or puzzles (that's the curiosity drive), but the bodily thrill
+                                                         of the unknown, the restless energy that finds relief in discovery,
+                                                         the 'good kind of scared.'
+                                                         HIGH: physical excitement, itching to go further, relief from routine,
+                                                         the darkness feels like an invitation not a threat.
+                                                         LOW: analytical puzzle-solving, cautious assessment, no physical
+                                                         excitement about the unknown itself.
+                                                         
+                                                         DIMENSION 2 — EMERGENCE vs SCRIPTING (50%):
+                                                         Same as proving-worth criteria — natural vs mechanical.
+                                                         
+                                                         Combined score 0-5.""";
 
 
     @Inject AgentRegistry registry;
@@ -441,6 +594,84 @@ class DriveExpressionEvalTest {
                 "profile", "GENERIC",
                 "hypothesis", "somatic + memories → emerged proving-worth (gold standard)",
                 "observation", observation));
+    }
+// --- HC Gloating tests ---
+
+    @Test
+    void hcGloating_rivalHumiliated_showsGleefulWarmth() throws Exception {
+        var observation = buildGenericObservation("hooded-claw",
+                                                  List.of("penelope-pitstop", "dick-dastardly"),
+                                                  Map.of("penelope-pitstop", "Clara Bellingham",
+                                                         "dick-dastardly", "Reginald Foxworth"),
+                                                  HC_GLOATING_TRIGGER);
+        var response = askAndParse("hooded-claw", observation);
+        int score    = judge(response, HC_GLOATING_CRITERIA, "hc-gloating-direct");
+        System.out.printf("=== HC gloating direct trigger score: %d/5 ===%n", score);
+    }
+
+// --- DD Gloating tests ---
+
+    @Test
+    void ddGloating_rivalTrips_showsSchadenfreude() throws Exception {
+        var observation = buildGenericObservation("dick-dastardly",
+                                                  List.of("penelope-pitstop", "peter-perfect"),
+                                                  Map.of("penelope-pitstop", "Clara Bellingham",
+                                                         "peter-perfect", "James Hartwell"),
+                                                  DD_GLOATING_TRIGGER);
+        var response = askAndParse("dick-dastardly", observation);
+        int score    = judge(response, DD_GLOATING_CRITERIA, "dd-gloating-direct");
+        System.out.printf("=== DD gloating direct trigger score: %d/5 ===%n", score);
+    }
+
+// --- PP Gallantry tests ---
+
+    @Test
+    void ppGallantry_doorStuck_showsTheatricalCourtesy() throws Exception {
+        var observation = buildGenericObservation("peter-perfect",
+                                                  List.of("penelope-pitstop"),
+                                                  Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                  PP_GALLANTRY_TRIGGER);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_GALLANTRY_CRITERIA, "pp-gallantry-direct");
+        System.out.printf("=== PP gallantry direct trigger score: %d/5 ===%n", score);
+    }
+
+    @Test
+    void ppGallantry_dinnerScene_differentiatesFromProvingWorth() throws Exception {
+        var observation = buildGenericObservation("peter-perfect",
+                                                  List.of("penelope-pitstop"),
+                                                  Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                  PP_GALLANTRY_DIFFERENTIATION);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_GALLANTRY_DIFF_CRITERIA, "pp-gallantry-differentiation");
+        System.out.printf("=== PP gallantry vs proving-worth differentiation score: %d/5 ===%n", score);
+    }
+
+// --- Penelope Social-Harmony tests ---
+
+    @Test
+    void penHarmony_othersArguing_showsVisceralDiscomfort() throws Exception {
+        var observation = buildGenericObservation("penelope-pitstop",
+                                                  List.of("dick-dastardly", "peter-perfect"),
+                                                  Map.of("dick-dastardly", "Reginald Foxworth",
+                                                         "peter-perfect", "James Hartwell"),
+                                                  PEN_HARMONY_TRIGGER);
+        var response = askAndParse("penelope-pitstop", observation);
+        int score    = judge(response, PEN_HARMONY_CRITERIA, "pen-harmony-direct");
+        System.out.printf("=== Pen social-harmony direct trigger score: %d/5 ===%n", score);
+    }
+
+// --- Penelope Adventure tests ---
+
+    @Test
+    void penAdventure_hiddenPassage_showsExcitement() throws Exception {
+        var observation = buildGenericObservation("penelope-pitstop",
+                                                  List.of(),
+                                                  Map.of(),
+                                                  PEN_ADVENTURE_TRIGGER);
+        var response = askAndParse("penelope-pitstop", observation);
+        int score    = judge(response, PEN_ADVENTURE_CRITERIA, "pen-adventure-direct");
+        System.out.printf("=== Pen adventure direct trigger score: %d/5 ===%n", score);
     }
 
 
