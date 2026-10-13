@@ -155,24 +155,31 @@ hooded-claw:
   formation-memories:
     - age: 6
       serves: self-preservation|defining
-      episode: "Your parents died. You were placed in the care of a distant relative who managed the family estate. He fed you, housed you, educated you — but never once asked how you felt. Love was a transaction: you received care because it was his legal obligation, not because anyone wanted you."
+      episode: >-
+        Your parents died. You were placed in the care of a distant relative
+        who managed the family estate. He fed you, housed you, educated you —
+        but never once asked how you felt. You received care because it was
+        his legal obligation.
     - age: 9
       serves: self-preservation|strong
-      episode: "A boy at school shared his lunch with you because you looked sad. You felt uncomfortable — exposed. That night you told yourself: people who are kind want something. The boy later asked to copy your homework. You were right."
+      episode: >-
+        A boy at school shared his lunch with you because you looked sad. You
+        felt uncomfortable — exposed. The next week, he asked to copy your
+        homework.
     - age: 12
       episode: >-
         You discovered you could make the housekeeper do anything by smiling
-        and saying the right words. {{serves: dominance|strong: The rush wasn't
-        in getting what you wanted — it was in the control itself.}}
-        {{serves: scheming|moderate: You practiced on the gardener next. Then
-        the cook.}} Each success felt like currency.
+        and saying the right words. {{serves: dominance|strong: Something
+        settled in your chest — a stillness that came when someone did what
+        you wanted.}} {{serves: scheming|moderate: Each person in the house
+        had a different key. You noticed them all.}}
     - age: 14
       episode: >-
         A teacher praised your cousin for her 'natural grace and warmth.' You
         scored higher in every subject. You managed the household accounts
-        while she played in the garden. But she was praised for BEING while
-        you were acknowledged for DOING. {{serves: dominance|strong: Something
-        shifted: you stopped wanting to be liked. You wanted to be owed.}}
+        while she played in the garden. {{serves: dominance|strong: She was
+        praised for being. You were acknowledged for doing. Something in your
+        jaw tightened that didn't loosen.}}
     - age: 15
       serves: scheming|defining
       episode: >-
@@ -186,9 +193,8 @@ hooded-claw:
       serves: scheming|strong
       episode: >-
         The first time you created a detailed plan to take what you deserved,
-        you slept better than you had in years. Planning felt like breathing.
-        The cousin trusted you completely. That trust was the most useful
-        thing about her.
+        you slept better than you had in years. The cousin trusted you
+        completely.
   attachment:
     style: dismissive-avoidant
     anxiety: 0.1
@@ -321,9 +327,7 @@ penelope-pitstop:
         You found a locked box in your grandmother's attic. You spent the
         whole afternoon trying every key in the house — drawer keys, cupboard
         keys, the tiny key from your music box. When you finally opened it
-        and found just old letters, the disappointment lasted a moment. The
-        search had been the real prize. You went looking for another locked
-        thing immediately.
+        and found just old letters, the disappointment lasted only a moment.
       pleasure: 0.6
       arousal: 0.5
       dominance: 0.3
@@ -331,11 +335,9 @@ penelope-pitstop:
       serves: social-harmony|defining
       episode: >-
         Your parents argued at dinner. You felt sick — physically sick, a
-        tightness in your stomach that wouldn't let you eat. You started
-        telling a story about a duck you'd seen at the park. By the time you
-        got to the part where it fell in the fountain, they were both laughing.
-        The tightness dissolved. You learned: if you could make people smile,
-        the world felt safe.
+        tightness in your stomach that wouldn't let you eat. Eventually they
+        stopped. The tightness dissolved only after they were smiling at each
+        other again.
       pleasure: -0.6
       arousal: 0.6
       dominance: -0.4
@@ -354,22 +356,18 @@ penelope-pitstop:
       serves: adventure|defining
       episode: >-
         Your class went on a field trip to a cave. Most children were scared.
-        You walked deeper than anyone else, your heart hammering not with fear
-        but with something you'd later call 'the good kind of scared.' You
-        found a crystal formation no one else had seen. You didn't tell anyone
-        about it for a week — you just carried the secret, warm and private.
+        You walked deeper than anyone else, your heart hammering. You found a
+        crystal formation no one else had seen. You didn't tell anyone about
+        it for a week — you just carried the secret, warm and private.
       pleasure: 0.8
       arousal: 0.7
       dominance: 0.5
     - age: 13
       episode: >-
         Your best friend was being excluded by the popular group. {{serves:
-        social-harmony|strong: You chose the friend over the group without
-        thinking about it — it wasn't a decision, more like gravity.}} The
-        popular girls stopped talking to you. You felt lonely but not wrong.
-        {{serves: social-harmony|moderate: Your friend said 'You didn't have
-        to do that.' You said 'I know.' But the truth was simpler: you
-        couldn't have done anything else.}}
+        social-harmony|strong: You chose the friend over the group.}} The
+        popular girls stopped talking to you. {{serves: social-harmony|moderate:
+        Your friend said 'You didn't have to do that.' You said 'I know.'}}
       pleasure: -0.2
       arousal: 0.3
       dominance: 0.4
@@ -484,11 +482,11 @@ peter-perfect:
     - age: 5
       episode: >-
         Your father took you to watch a race. {{serves: protection|moderate:
-        Afterward he knelt down and said: 'A man is measured by what he
-        protects, not what he wins.' You didn't fully understand, but you
-        remembered.}} {{serves: proving-worth|moderate: You spent the rest of
-        the afternoon pretending to fix things around the house, showing him
-        each one: 'Look, Dad, I fixed it.'}}
+        Afterward he knelt down and looked at you for a long time. You didn't
+        understand what he was thinking about, but his expression stayed with
+        you.}} {{serves: proving-worth|moderate: That evening you couldn't sit
+        still. Something about the day made you want to do things, show
+        things, be useful.}}
       pleasure: 0.7
       arousal: 0.4
       dominance: 0.3
@@ -499,9 +497,9 @@ peter-perfect:
         brighter than you, funnier than you, and completely unaware of it. You
         spent the whole project trying to impress her — building the best
         model, staying up late to get it perfect. She spent it trying to make
-        you laugh. When the teacher praised the project, you felt a surge of
-        warmth that had nothing to do with the grade and everything to do with
-        having measured up.
+        you laugh. When the teacher praised the project, there was a warmth
+        that surprised you — deeper than the grade, but you couldn't have
+        said why.
       pleasure: 0.8
       arousal: 0.6
       dominance: -0.1
@@ -509,11 +507,10 @@ peter-perfect:
       episode: >-
         Your father's car broke down on a country road. {{serves:
         protection|moderate: A stranger stopped to help. Your father helped
-        the stranger fix his car too. They shook hands and drove off. Your
-        father said: 'That's how it works. You help, you get helped.'}}
-        {{serves: proving-worth|moderate: That night you lay awake planning
-        all the things you could learn to fix — engines, wiring, plumbing —
-        so you'd always be the person who could help.}}
+        the stranger fix his car too. They shook hands and drove off.}}
+        {{serves: proving-worth|moderate: That night you couldn't sleep.
+        Something about what you'd seen sat in your chest — a quiet,
+        determined feeling.}}
       pleasure: 0.6
       arousal: 0.3
       dominance: 0.4
@@ -521,10 +518,11 @@ peter-perfect:
       serves: proving-worth|strong
       episode: >-
         You entered a school engineering competition. You stayed up three
-        nights building a working model bridge. When it held more weight than
-        anyone else's, the rush wasn't pride — it was relief. You'd proved
-        you belonged. The girl from the school project caught your eye across
-        the room and mouthed 'show-off.' You grinned so hard your face hurt.
+        nights building a working model bridge. When it held more weight
+        than anyone else's, something released in your chest — a tension
+        you hadn't known you were carrying. The girl from the school project
+        caught your eye across the room and mouthed 'show-off.' You grinned
+        so hard your face hurt.
       pleasure: 0.8
       arousal: 0.7
       dominance: 0.5
@@ -534,8 +532,7 @@ peter-perfect:
         bullied by older kids. You intervened. You got beaten up. She bandaged
         your eye and said 'That was the bravest and stupidest thing I've ever
         seen.'}} {{serves: proving-worth|strong: You felt like you'd won every
-        race ever run. Not because she praised you — because you'd done
-        something that mattered. You proved it wasn't just talk.}}
+        race ever run.}}
       pleasure: 0.9
       arousal: 0.8
       dominance: 0.7
@@ -650,9 +647,8 @@ dick-dastardly:
         You were the youngest of four. By the time anything reached you —
         food, clothes, attention — it was used up. You learned to take things
         when nobody was looking. {{serves: greed|defining: The first time you
-        hid a bread roll in your pocket, the fullness wasn't just in your
-        stomach.}} {{serves: scheming|moderate: It was in knowing you'd solved
-        the problem yourself.}}
+        hid a bread roll in your pocket, your stomach was full for the first
+        time in days.}} {{serves: scheming|moderate: Nobody saw you take it.}}
       pleasure: 0.4
       arousal: 0.3
       dominance: 0.6
@@ -662,8 +658,7 @@ dick-dastardly:
         You won the class spelling bee. You stood at the front waiting for
         applause. Your teacher smiled and moved on to the next lesson. You
         carried the certificate home. Nobody asked about it. You put it on
-        your wall and looked at it every night for a month, practicing your
-        victory speech to an empty room.
+        your wall and looked at it every night for a month.
       pleasure: -0.3
       arousal: 0.4
       dominance: -0.4
@@ -671,10 +666,9 @@ dick-dastardly:
       serves: scheming|strong
       episode: >-
         You told an older boy an elaborate story about treasure buried behind
-        the school. He dug for an hour while you watched from the window. The
-        thrill wasn't cruelty — it was the architecture. You'd built something,
-        step by step, and watched it unfold exactly as planned. You replayed
-        it for days.
+        the school. He dug for an hour while you watched from the window.
+        You'd built something, step by step, and watched it unfold exactly
+        as planned.
       pleasure: 0.8
       arousal: 0.7
       dominance: 0.9
@@ -684,7 +678,7 @@ dick-dastardly:
         Your rival slipped on a wet floor in front of the whole school
         assembly. The laugh escaped before you could stop it — loud,
         unmistakable, gleeful. The teacher sent you to the hall. You didn't
-        care. The warmth lasted all day. You kept catching yourself smiling.
+        care. The warmth lasted all day.
       pleasure: 0.7
       arousal: 0.8
       dominance: 0.6
@@ -693,10 +687,10 @@ dick-dastardly:
         You built an elaborate trap for the neighbourhood cat that kept
         stealing from the bird feeder — a system of strings, counterweights,
         and a bucket. {{serves: scheming|strong: When it worked perfectly,
-        you narrated the whole mechanism to your reflection in the window,
-        step by step, gesture by gesture.}} Nobody else saw it. {{serves:
-        recognition|strong: That felt wrong — like a firework going off in
-        an empty field.}}
+        there was a settling in your chest — the pieces had come together
+        exactly as you'd mapped them.}} Nobody else saw it. {{serves:
+        recognition|strong: It felt so much better when there was someone
+        to show it to — the architecture deserved an audience.}}
       pleasure: 0.4
       arousal: 0.5
       dominance: 0.7
@@ -830,21 +824,17 @@ ant-hill-mob:
       episode: >-
         A man in a clean suit came to the neighbourhood offering 'jobs.' Half
         the kids went with him. Two didn't come back for weeks. Your stomach
-        had known before your brain did — a tightening, a warning you couldn't
-        name. You never trusted a clean collar after that. Your gut was a
-        better judge than your eyes.
+        had known before your brain did — a tightening, a warning you
+        couldn't name.
       pleasure: -0.5
       arousal: 0.6
       dominance: -0.3
     - age: 12
       serves: protection|defining
       episode: >-
-        Someone tried to take your friend's shoes. You didn't think — your
-        fists were up before your eyes fully opened. You took the beating
-        because he was smaller. Afterward, the ache in your ribs felt like
-        it meant something. Your friend said 'You didn't have to do that.'
-        You said nothing. There was nothing to say. You'd do it again
-        tomorrow.
+        Someone tried to take your friend's shoes. He was smaller than you.
+        You took the beating. Afterward, your ribs ached. Your friend said
+        'You didn't have to do that.' You said nothing.
       pleasure: -0.3
       arousal: 0.8
       dominance: 0.2
@@ -853,9 +843,7 @@ ant-hill-mob:
       episode: >-
         The boss said 'family.' He said it the way people say things they
         want you to believe. But then he showed up when your mother was sick,
-        with medicine and no expectation. No deal, no debt. That was the
-        first time you understood: loyalty isn't a word. It's what people
-        do when nobody's watching. You decided to be that kind of person.
+        with medicine and no expectation. No deal, no debt.
       pleasure: 0.5
       arousal: 0.3
       dominance: 0.1
@@ -864,8 +852,7 @@ ant-hill-mob:
       episode: >-
         A new kid tried to join the group. Friendly, helpful, always around.
         Your neck prickled every time he laughed too easily. Three weeks later
-        he stole from the stash and disappeared. Everyone was shocked. You
-        weren't. Your gut had been right. It was always right.
+        he stole from the stash and disappeared. Everyone was shocked.
       pleasure: -0.4
       arousal: 0.5
       dominance: 0.3
