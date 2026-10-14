@@ -834,7 +834,85 @@ In 300 events, ~15-20% present gallantry situations (Clara present + courtesy op
 - An irrelevant description is noise, not signal — tighter observations produce more focused responses
 - Aligns with the Phase 7 sub-LLM appraisal architecture already validated
 
-### Full Scenario Results
+### Appraisal Filtering — Implementation and Validation
+
+The appraisal-based drive filtering was implemented and validated with both unit tests and LLM-judged micro tests. The core claim: **drives should only render in the observation when the current situation activates their appraisal inputs**. This is not a gallantry-specific fix — it is a universal filtering rule grounded in appraisal theory.
+
+#### Theoretical Foundation
+
+The filtering implements the central insight of cognitive appraisal theory: motivational states are not tonically active — they are *elicited* by situational evaluation.
+
+| Model | Claim | Application |
+|---|---|---|
+| Lazarus (1966) Primary appraisal | Emotional activation requires a relevance judgment — "does this situation concern me?" | A drive with no situational relevance should not appear in the character's conscious experience |
+| Scherer (2001) Component process | Appraisal is sequential: relevance check → implication → coping potential → normative significance | The overlap check implements the relevance gate — the first filter in Scherer's sequence |
+| Frijda (1986) Concern relevance | Action readiness arises only when an event matches an active concern | DriveProfileInferred maps drives to concerns (CAPS inputs); SituationClassifier maps events to concerns; overlap = concern relevance |
+| Mischel & Shoda (1995) CAPS | Behavior is situation-contingent, not trait-constant. The same person behaves differently across situations because different cognitive-affective units activate | Filtering produces exactly this: same character, different drives rendered per situation, different behavioral output |
+
+The key distinction from ambient coloring: ambient coloring assumes drives are always "on" at some background level (a trait-constant model). Appraisal filtering assumes drives activate *through* situational evaluation (a situation-contingent model). The CAPS architecture this project uses is explicitly situation-contingent — filtering aligns with the theoretical commitment already made.
+
+#### Implementation
+
+`CharacterCognition.appraisalFilterDrives()` reuses the exact pattern from `selectSituationPrimedMemories()`:
+
+1. Classify situation text → `SituationClassifier.classify()` → list of `(nodeId, confidence)` activations
+2. Read `DriveProfileInferred` nodes → map of `driveType → inferredInputs` (e.g., `"acceptance:0.7,sharing:0.5"`)
+3. Compute overlap via `computeInputOverlap()` — sum of `min(driveWeight, situationWeight)` for matching nodeIds
+4. Filter: keep drives where overlap > 0, or where no profile exists (graceful degradation)
+
+Graceful degradation paths (all drives render when):
+- No `SituationClassifier` available (CDI not wired)
+- No `MindMapStore` / tenant (cognitive pipeline hasn't run)
+- Situation text is null or blank (no context to classify)
+- Classifier returns empty activations (situation not categorizable)
+- Drive has no `DriveProfileInferred` node (pipeline hasn't processed this drive)
+
+The ambient+acute prompt change (neocortex `cf3b0fa3`) was reverted. Appraisal filtering makes it unnecessary — when a drive IS rendered, the existing multi-channel description is correct. When it's NOT rendered, silence is better than irrelevant ambient text.
+
+#### Micro Test Results
+
+| Test | Situation | Gallantry | Proving-Worth | Score |
+|---|---|---|---|---|
+| Door-stuck (full pipeline) | Clara struggling with heavy door | **Rendered** (acceptance overlap) | Filtered (no mastery in situation) | **5/5** gallantry |
+| Dinner differentiation (full pipeline) | Clara at dinner table, candles | **Rendered** (acceptance overlap) | Filtered (no mastery in situation) | **5/5** differentiation |
+| Competence (full pipeline) | PP alone, engine repair | Filtered (no acceptance in situation) | **Rendered** (mastery overlap) | **3/5** proving-worth |
+| Door-stuck (no filter, Phase 8) | Same as above | Rendered | Rendered | 4/5 gallantry |
+| Dinner differentiation (no filter, Phase 8) | Same as above | Rendered | Rendered | 3/5 differentiation |
+
+The dinner differentiation improved from 3/5 to 5/5. Without filtering, the LLM's thinking routed through proving-worth ("hands want something to do... nothing to fix... I can at least do that") even in a pure courtesy moment. With filtering, the LLM expressed pure gallantry ("nothing broken, nothing to fix... I just want to be near her... a shape I can give this feeling").
+
+#### Bidirectional Validation — Not a Gallantry Hack
+
+The competence test (PP alone with a broken engine) is the key falsification. With only mastery/competence activations:
+- Proving-worth renders, gallantry is filtered
+- The LLM focuses on mechanical satisfaction: "Three problems, each one solvable, each one satisfying in a different way. The chain is precision. The gasket is judgment."
+- Score is 3/5 not 5/5 because the character's deep personality (0.9 gallantry intensity, formation memories of Clara, relational schemas) causes audience awareness to leak: "a thought of what it would be like if she walked past... to be seen doing the thing I'm good at"
+
+This 3/5 is evidence the filter is correct, not that it's incomplete:
+- The filter controls which drive *descriptions* appear in the observation prompt
+- It does NOT erase the character's personality, formation memories, relational schemas, or substrate
+- A 0.9 gallantry character will think about audience even when alone — that's characterization, not a rendering bug
+- The character even self-corrects: "Shake it off, Peter" — awareness of the intrusion and redirect back to the task
+
+The same filter that helps gallantry in social scenarios helps proving-worth in competence scenarios. It is symmetric.
+
+#### Unit Test Coverage
+
+15 tests in `PipelineToRenderingTest` verify the filter boundary conditions:
+
+| Test | What it proves |
+|---|---|
+| `excludesDrive_whenNoSituationOverlap` | Gallantry filtered when only competence activations present |
+| `includesDrive_whenSituationOverlaps` | Both drives render when both input sets active |
+| `includesDrive_whenNoProfileExists` | No profile = no filtering (graceful degradation) |
+| `reverseDirection_provingWorthRendersGallantryFiltered` | Proving-worth renders, gallantry filtered in competence scenario |
+| `mixedSituation_bothDrivesRender` | Both acceptance AND mastery active → both drives render |
+| `classifierReturnsEmpty_allDrivesRender` | Classifier has no opinion → all drives render (no false negatives) |
+| `nullSituationText_allDrivesRender` | No situation context → all drives render |
+
+The reverse-direction and mixed-situation tests are the falsification suite. They prove the filter is not biased toward any specific drive — it is a universal relevance gate governed by the CAPS input vocabulary.
+
+### Pre-Filtering Scenario Results
 
 900-event run (GENERIC profile), classified at 300 and 900 event windows:
 
