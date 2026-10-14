@@ -267,11 +267,6 @@ public final class CharacterCognition {
         parts.addAll(activated);
         parts.addAll(ambient);
 
-        var driveTypes = eligible.stream().map(SocialConfig.Drive::type).toList();
-        if (io.casehub.neocortex.caps.DriveCompetitionDetector.hasCompetingDrives(driveTypes)) {
-            parts.add(io.casehub.neocortex.caps.DriveCompetitionDetector.DIFFERENTIATION_INSTRUCTION);
-        }
-
         if (mindMapStore != null && tenantId != null) {
             var subgraphs = mindMapStore.listSubgraphs(tenantId);
             var attractorLines = subgraphs.stream()
