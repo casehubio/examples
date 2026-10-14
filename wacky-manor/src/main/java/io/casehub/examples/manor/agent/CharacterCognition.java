@@ -248,19 +248,26 @@ public final class CharacterCognition {
 
     ObservationSection renderInternalState(List<String> activatedCategories) {
         var drives = resolveAdaptedDrives();
+        var generatedDescriptions = readGeneratedDriveDescriptions();
+
+        java.util.function.Function<SocialConfig.Drive, String> descriptionFor = d -> {
+            String generated = generatedDescriptions.get(d.type());
+            return generated != null ? generated : d.description();
+        };
+
         var eligible = drives.stream()
-                             .filter(d -> d.intensity() > 0.2 && !d.description().isBlank())
+                             .filter(d -> d.intensity() > 0.2 && !descriptionFor.apply(d).isBlank())
                              .toList();
 
         var activated = eligible.stream()
                                 .filter(d -> activatedCategories.contains(d.type()))
                                 .sorted(java.util.Comparator.comparingDouble(SocialConfig.Drive::intensity).reversed())
-                                .map(SocialConfig.Drive::description)
+                                .map(descriptionFor)
                                 .toList();
         var ambient = eligible.stream()
                               .filter(d -> !activatedCategories.contains(d.type()))
                               .sorted(java.util.Comparator.comparingDouble(SocialConfig.Drive::intensity).reversed())
-                              .map(SocialConfig.Drive::description)
+                              .map(descriptionFor)
                               .toList();
 
         var parts = new java.util.ArrayList<String>();
@@ -340,6 +347,24 @@ public final class CharacterCognition {
             .filter(t -> t != null && !t.isBlank())
             .findFirst()
             .orElse(null);
+    }
+
+    private Map<String, String> readGeneratedDriveDescriptions() {
+        if (mindMapStore == null || tenantId == null) return Map.of();
+        var result = new java.util.HashMap<String, String>();
+        mindMapStore.listSubgraphs(tenantId).stream()
+            .filter(s -> "cognitive".equals(s.type()))
+            .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
+            .filter(n -> n.traits().contains("DriveDescriptionGenerated"))
+            .filter(n -> agentId.equals(n.properties().get("agent-id")))
+            .forEach(n -> {
+                String driveType = n.properties().get("drive-type");
+                String desc = n.properties().get("generated-description");
+                if (driveType != null && desc != null && !desc.isBlank()) {
+                    result.put(driveType, desc);
+                }
+            });
+        return result;
     }
 
     private ObservationSection renderRelationalSchemas(Collection<String> nearbyAgentIds, Map<String, String> agentNames) {
