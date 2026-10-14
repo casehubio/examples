@@ -764,6 +764,118 @@ Once the full stack (instruction + dynamic drives + proprioception) is validated
 - **Tier 2 (standard):** Evocative instruction only (current L1 — strong for 300 events, mean 4.06)
 - **Tier 3 (economy):** Evocative instruction without echo (R3g — mean 3.86, good but no emotional feedback loop). Note: R3b (passive review) is disqualified — worse than no instruction for drive expression despite recovering third-person narration.
 
+## Phase 8 — Cognitive Pipeline + Rendering Order (Drive Discrimination)
+
+### Problem
+
+Full scenario drive expression regresses from B0 (3.93) when the cognitive consolidation pipeline generates drive descriptions. Root cause investigation revealed three layers:
+
+1. **Pipeline structural failures** — DriveProfileDerivationPhase produced 0 artifacts because optional CDI deps early-returned silently
+2. **Somatic-only descriptions** — generation prompt restricted to bodily sensations, stripping the non-somatic channels that make competing drives distinguishable
+3. **Rendering position** — activated drives appeared before ambient drives regardless of intensity, burying the strongest drive when it wasn't situationally triggered
+
+### Pipeline Fixes (neocortex #584, #585, #586)
+
+**#584 — 0 profiles:** `DriveProfileDerivationPhase` early-returned when `SituationClassifier`/`CapsTopology` weren't available as CDI `Instance<>` deps. Fix: graceful degradation — profiles derive from memory excerpts alone, competition detected via shared `catalogue-entry-id` overlap instead of CAPS mediating nodes.
+
+**#586 — 0 discrimination text:** Cascading from #584. Cross-phase pipeline test verified Phase 1 → Phase 2 data flow works end-to-end with the catalogue fallback.
+
+**#585 — Somatic-only prompt:** Both `SYSTEM_PROMPT` and `DISCRIMINATION_SYSTEM` restricted to "somatic/bodily sensations." Updated to Barrett (2017) 4-channel constructed emotion: somatic, attentional, temporal, action tendency.
+
+Result: multi-channel descriptions produce genuinely discriminating vocabulary. PP gallantry = person-oriented + urgent; PP proving-worth = task-oriented + patient. Micro test scores 4/5 (up from 2/5 pre-pipeline).
+
+### Multi-Channel Description Quality
+
+Example from PP cognitive dump (pipeline-generated):
+
+| Channel | Gallantry | Proving-worth |
+|---|---|---|
+| Somatic | chest fills with sharp bright heat, spine locks straight | tightness gathers across forearms and hands |
+| Attentional | world narrows to *the person exposed* | attention locks onto *the gap: the thing broken, not yet built* |
+| Temporal | time crystallizes into a hinge-point | time narrows to a corridor between now and proof |
+| Action tendency | body leans forward, crossing toward the gap | fingers ache with readiness, mind disassembling into parts |
+
+LLM-generated discrimination text for gallantry vs proving-worth:
+> "One pull arrives as a hot surge forward through the chest, attention narrowing sharply onto another person... The other settles as a bracing across the shoulders and forearms, attention widening to scan what could be made stronger..."
+
+### Rendering Order — The Strength Meta-Rule
+
+**Finding:** activated drives rendered before ambient drives regardless of intensity. Gallantry (0.9) was buried after protection (0.8) when protection was the activated category. The LLM expressed protection, not gallantry.
+
+**Fix:** all drives render in intensity-descending order. `activatedCategories` still used for situation priming but no longer controls description position.
+
+**Extended to all multi-item sections:**
+- Drives — by intensity (Principle 43)
+- Norms — by priority (already implemented, verified with test)
+- Formation memories — by salience: `|pleasure| + arousal` (Principle 44)
+
+All orderings unit tested in `PipelineToRenderingTest`.
+
+### The Reactive-Drive Problem
+
+**Observation:** reactive drives (gallantry, gloating, adventure) consistently score 2.3-2.8 in full scenarios while proactive drives (scheming, curiosity, proving-worth) score 4.0-5.0.
+
+**Root cause analysis (first principles):**
+
+In 300 events, ~15-20% present gallantry situations (Clara present + courtesy opportunity). In those events, gallantry scores 4-5. In the other 80%, gallantry scores 1 because the episode-level description ("your chest fills with heat... the person exposed") doesn't resonate when no person is exposed. The mean: `(30×4.5 + 133×1.5)/163 ≈ 2.1`.
+
+**Three candidate fixes evaluated:**
+
+1. **Strength-order rendering** — ensures gallantry appears first. Helps when multiple drives compete but doesn't help when the situation simply doesn't call for gallantry. Necessary but insufficient.
+
+2. **Ambient+acute descriptions** — generation prompt asks for background personality coloring ("how the drive shapes everyday perception") alongside acute activation. Would produce ambient gallantry expression ("you notice the way gestures land") even in neutral events. Attempted but superseded by option 3.
+
+3. **Appraisal-based drive filtering** (chosen direction) — only render drives whose profile inputs overlap with the current situation's classifier activations. When Clara is present, gallantry renders. When PP is alone, gallantry doesn't render — the observation is tight and focused. The infrastructure already exists: `SituationClassifier` + `DriveProfileInferred` artifacts provide the overlap signal. `selectSituationPrimedMemories` already implements this pattern for memories.
+
+**Why appraisal filtering is more correct than ambient coloring:**
+- In real psychology, drives don't broadcast constantly at full volume
+- Drives activate through appraisal (Lazarus 1966, Scherer 2001)
+- Intensity (0.9) determines how easily the drive activates and how strongly, not whether it's always on
+- An irrelevant description is noise, not signal — tighter observations produce more focused responses
+- Aligns with the Phase 7 sub-LLM appraisal architecture already validated
+
+### Full Scenario Results
+
+900-event run (GENERIC profile), classified at 300 and 900 event windows:
+
+| Character | Drive | @300 | @900 | B0 (3.93 mean) |
+|---|---|---|---|---|
+| PP | gallantry | **2.50** | 2.52 | 4.50 |
+| PP | proving-worth | 4.00 | 3.37 | 4.22 |
+| PP | protection | 3.89 | 3.46 | 3.46 |
+| DD | scheming | 4.44 | 2.95 | 4.42 |
+| DD | gloating | **2.85** | 2.18 | 3.50 |
+| HC | scheming | 5.00 | 3.60 | 4.82 |
+| HC | gloating | **2.37** | 1.67 | 3.97 |
+| Pen | curiosity | 4.45 | 3.80 | 4.30 |
+| Pen | adventure | **2.84** | 3.01 | 3.75 |
+
+Mean @300: **3.68** (vs B0 3.93). Scores decay significantly past 300 events — scenario lacks a termination signal.
+
+### Citations
+
+| Reference | Used For |
+|---|---|
+| Barrett (2017) "The theory of constructed emotion" | 4-channel emotion construction: somatic, attentional, temporal, action tendency |
+| Frijda (1986) "The Emotions" | Action tendencies as a distinct experiential channel |
+| Easterbrook (1959) "The effect of emotion on cue utilization" | Attentional narrowing under emotional activation |
+| Kashdan et al. (2015) "Unpacking emotion differentiation" | Conceptual knowledge enables drive discrimination |
+| Semerari et al. (2003) MAS-A metacognition assessment | S6-level narrative grounding for metacognitive differentiation |
+| McGaugh (2004) "The amygdala modulates memory consolidation" | Emotional intensity determines memory salience and decay resistance |
+| Lazarus (1966) "Psychological Stress and the Coping Process" | Primary/secondary appraisal model — drives activate through situational appraisal |
+| Scherer (2001) "Appraisal considered as a process" | Sequential evaluation checks — relevance determines which drives activate |
+
+### Design Principles (continued)
+
+| # | Principle | Evidence | Phase |
+|---|---|---|---|
+| 43 | Strength-ordered rendering — within any multi-item section, items by strength/priority/salience | PP gallantry (0.9) buried after protection (0.8) when activation-ordered; strength-order ensures highest drive always prominent | Phase 8 |
+| 44 | Formation memory salience = \|pleasure\| + arousal, not chronological age | Traumatic high-arousal memories persist (McGaugh 2004); calm early memories fade. Age-ordering is psychologically wrong | Phase 8 |
+| 45 | Episode-level descriptions produce vivid activations but low means — reactive drives score 1 in non-matching events | PP gallantry micro test 4/5 but scenario mean 2.50. The mean is dominated by the 80% of events with no trigger | Phase 8 |
+| 46 | Appraisal-based drive filtering > ambient coloring — render drives only when situationally relevant | Irrelevant descriptions are noise. Tighter observations produce more focused responses. Aligns with Lazarus appraisal theory | Phase 8 |
+| 47 | Pipeline degradation must be graceful — optional deps must not silently produce 0 artifacts | SituationClassifier/CapsTopology absence caused DriveProfileDerivationPhase to early-return, silently breaking the entire downstream chain | Phase 8 |
+| 48 | Multi-channel descriptions discriminate but don't solve the reactive-drive frequency problem | Barrett 4-channel approach produces distinguishable descriptions. The gap is when and whether the drive renders, not what it says | Phase 8 |
+
 ## Transcripts
 
 All transcripts in `wacky-manor/docs/eval/`:
@@ -792,3 +904,4 @@ All transcripts in `wacky-manor/docs/eval/`:
 | `layer1-long-run-generic-20261004/` | 732 | L1 long (with thinking) | GENERIC | Emotional echo + thinking capture |
 | `old-briefings-20261002/` | 327 | Pre-rewrite reference | BASELINE | — |
 | `generic-briefings-20261002/` | 306 | Prescribed catchphrases reference | GENERIC | — |
+| `multichannel-pipeline-2026-10-14/` | 900 | Phase 8 — multi-channel pipeline | GENERIC | L1 + cognitive pipeline |
