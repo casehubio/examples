@@ -807,6 +807,30 @@ class DriveExpressionEvalTest {
         System.out.printf("=== PP gallantry + S6 gestural score: %d/5 ===%n", score);
     }
 
+// --- Phase 1 pipeline tests: LLM-generated descriptions replacing hand-authored ---
+
+    @Test
+    void ppGallantry_doorStuck_withGeneratedDescriptions() throws Exception {
+        var observation = buildPipelineObservation("peter-perfect",
+                                                    List.of("penelope-pitstop"),
+                                                    Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                    PP_GALLANTRY_TRIGGER);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_GALLANTRY_CRITERIA, "pp-gallantry-phase1-generated");
+        System.out.printf("=== PP gallantry Phase 1 generated score: %d/5 ===%n", score);
+    }
+
+    @Test
+    void ppGallantry_dinnerScene_withGeneratedDescriptions() throws Exception {
+        var observation = buildPipelineObservation("peter-perfect",
+                                                    List.of("penelope-pitstop"),
+                                                    Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                    PP_GALLANTRY_DIFFERENTIATION);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_GALLANTRY_DIFF_CRITERIA, "pp-gallantry-diff-phase1-generated");
+        System.out.printf("=== PP gallantry differentiation Phase 1 generated score: %d/5 ===%n", score);
+    }
+
 // --- Penelope Social-Harmony tests ---
 
     @Test
@@ -1024,6 +1048,129 @@ class DriveExpressionEvalTest {
         }
 
         sb.append("SITUATION: ").append(situation);
+        return sb.toString();
+    }
+
+    private static final String GENERATION_SYSTEM = """
+            You generate somatic descriptions of internal drives for fictional characters.
+            Each description captures what a character physically feels when a particular \
+            motivational pull activates — the bodily sensations, not actions or behaviors.
+            Write in second person. Describe only somatic/bodily sensations.
+            Do not name the drive or pull. Do not explain what it is.
+            Do not include behavioral instructions or action descriptions.
+            Keep each description to 2-3 sentences.
+            Respond with JSON only: {"description": "..."}""";
+
+    private String buildPipelineObservation(String agentId,
+                                             List<String> nearbyIds,
+                                             Map<String, String> nearbyNames,
+                                             String situation) {
+        var socialConfig = genericConfigs.getOrDefault(agentId, SocialConfig.empty());
+        var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var tenant = "pipeline-test";
+
+        var sgId = store.createSubgraph(
+            new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-" + agentId,
+                io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        for (var drive : socialConfig.drives()) {
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(drive.type(), sgId)
+                .withProperties(java.util.Map.of("cognitiveKind", "drive-intensity", "agent-id", agentId,
+                    "drive-type", drive.type(), "intensity", String.valueOf(drive.intensity()),
+                    "description", drive.description())), tenant);
+
+            var memories = memoriesForDrive(socialConfig, drive.type());
+            if (!memories.isBlank()) {
+                var generated = generateSomaticDescription(drive.type(), drive.intensity(), memories);
+                if (generated != null && !generated.isBlank()) {
+                    store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(
+                        "drive-description-" + drive.type(), sgId)
+                        .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+                        .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", drive.type(),
+                            "drive-intensity", String.valueOf(drive.intensity()),
+                            "generated-description", generated)), tenant);
+                }
+            }
+        }
+
+        var cognition = new CharacterCognition(agentId, null, null,
+            socialConfig, List.of(), null, new io.casehub.examples.manor.agent.ManorContextStrategy(), null, null,
+            tenant, store, null, null);
+        var character = new CharacterState(agentId, agentId, "Grand Hall", 0.0, List.of());
+        character.setLastActionResult(situation);
+        var sections = cognition.renderCognitiveSections(character, nearbyIds, nearbyNames);
+
+        var sb = new StringBuilder();
+        for (var section : sections) {
+            sb.append("== ").append(section.header()).append(" ==\n");
+            switch (section) {
+                case ObservationSection.TextBlock tb -> sb.append(tb.content()).append("\n");
+                case ObservationSection.ItemList il -> {
+                    for (var item : il.items()) sb.append("- ").append(item).append("\n");
+                }
+                case ObservationSection.EntityGroup eg -> {
+                    for (var entity : eg.entities()) sb.append("- ").append(entity.displayName()).append("\n");
+                }
+                default -> {}
+            }
+            sb.append("\n");
+        }
+        sb.append("SITUATION: ").append(situation);
+        return sb.toString();
+    }
+
+    private String memoriesForDrive(SocialConfig config, String driveType) {
+        var sb = new StringBuilder();
+        int idx = 1;
+        for (var mem : config.formationMemories()) {
+            boolean serves = mem.annotations().stream().anyMatch(a -> driveType.equals(a.drive()));
+            if (serves) {
+                sb.append(idx++).append(". Age ").append(mem.age()).append(": ").append(mem.episode()).append("\n");
+            }
+        }
+        return sb.toString();
+    }
+
+    private String generateSomaticDescription(String driveType, double intensity, String memories) {
+        var userPrompt = String.format("""
+                Drive type: %s
+                Intensity: %s (scale 0.0 to 1.0)
+
+                Formation memories that shaped this pull:
+                %s
+                Given these formation memories, describe what this person feels in their body \
+                when this pull activates — without naming the pull. Second person, somatic only, \
+                no behavioral instructions.""",
+                driveType, intensity, memories);
+
+        var response = agentProvider.invoke(AgentSessionConfig.of(GENERATION_SYSTEM, userPrompt))
+                .filter(e -> e instanceof AgentEvent.TextDelta)
+                .map(e -> ((AgentEvent.TextDelta) e).text())
+                .collect().with(Collectors.joining())
+                .await().atMost(Duration.ofSeconds(60));
+
+        return parseSomaticDescription(response);
+    }
+
+    private String parseSomaticDescription(String json) {
+        json = json.strip();
+        if (json.startsWith("```")) {
+            json = json.replaceFirst("```[a-z]*\\n?", "").replaceFirst("\\n?```$", "").strip();
+        }
+        int start = json.indexOf("\"description\"");
+        if (start < 0) return json;
+        int colon = json.indexOf(':', start);
+        if (colon < 0) return json;
+        int quote = json.indexOf('"', colon + 1);
+        if (quote < 0) return json;
+        quote++;
+        var sb = new StringBuilder();
+        for (int i = quote; i < json.length(); i++) {
+            char c = json.charAt(i);
+            if (c == '\\' && i + 1 < json.length()) { sb.append(json.charAt(++i)); }
+            else if (c == '"') { break; }
+            else { sb.append(c); }
+        }
         return sb.toString();
     }
 
