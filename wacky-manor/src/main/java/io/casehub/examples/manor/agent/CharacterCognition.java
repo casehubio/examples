@@ -267,8 +267,9 @@ public final class CharacterCognition {
         parts.addAll(activated);
         parts.addAll(ambient);
 
-        if (eligible.size() >= 2) {
-            parts.add("Each of these pulls is a distinct felt state — a different quality of warmth, tension, or urgency. When more than one activates in the same moment, attend to which quality is at the front. The same situation can serve different pulls differently. Notice which feeling is shaping your response, not just what you do.");
+        var driveTypes = eligible.stream().map(SocialConfig.Drive::type).toList();
+        if (io.casehub.neocortex.caps.DriveCompetitionDetector.hasCompetingDrives(driveTypes)) {
+            parts.add(io.casehub.neocortex.caps.DriveCompetitionDetector.DIFFERENTIATION_INSTRUCTION);
         }
 
         if (mindMapStore != null && tenantId != null) {
