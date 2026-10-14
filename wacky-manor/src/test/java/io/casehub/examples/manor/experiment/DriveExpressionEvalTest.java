@@ -264,8 +264,9 @@ class DriveExpressionEvalTest {
 
     // --- S6 grounded differentiation text (mock, from DriveProfileDerivationPhase §10.10.7) ---
     // Connects memories to felt qualities — Barrett: concept = population of instances
+    // Uses sub-header to signal metacognitive rule vs experiential description
     private static final String S6_GROUNDED_DIFFERENTIATION =
-            "Two pulls are active in the same moment. " +
+            "How they differ:\n" +
             "The warmth of courtesy — your father kneeling to help the stranger, " +
             "the way your hand found the door before your mind caught up — is not " +
             "the same pull as the need to prove yourself — the night you practised " +
