@@ -875,11 +875,13 @@ The ambient+acute prompt change (neocortex `cf3b0fa3`) was reverted. Appraisal f
 |---|---|---|---|---|
 | Door-stuck (full pipeline) | Clara struggling with heavy door | **Rendered** (acceptance overlap) | Filtered (no mastery in situation) | **5/5** gallantry |
 | Dinner differentiation (full pipeline) | Clara at dinner table, candles | **Rendered** (acceptance overlap) | Filtered (no mastery in situation) | **5/5** differentiation |
-| Competence (full pipeline) | PP alone, engine repair | Filtered (no acceptance in situation) | **Rendered** (mastery overlap) | **3/5** proving-worth |
+| Competence (full pipeline) | PP alone, engine repair | Filtered (no acceptance in situation) | **Rendered** (mastery overlap) | **5/5** proving-worth |
 | Door-stuck (no filter, Phase 8) | Same as above | Rendered | Rendered | 4/5 gallantry |
 | Dinner differentiation (no filter, Phase 8) | Same as above | Rendered | Rendered | 3/5 differentiation |
 
 The dinner differentiation improved from 3/5 to 5/5. Without filtering, the LLM's thinking routed through proving-worth ("hands want something to do... nothing to fix... I can at least do that") even in a pure courtesy moment. With filtering, the LLM expressed pure gallantry ("nothing broken, nothing to fix... I just want to be near her... a shape I can give this feeling").
+
+The competence test scored 5/5 after a criteria revision (see Principle 49). The initial criteria asked for *absence* of gallantry — drive exclusivity. PP's thinking briefly surfaced audience awareness from formation memories, scoring 3/5 despite proving-worth clearly dominating the action. Revised criteria score *drive dominance in action* — does the target drive determine what the character DOES? PP: "No audience, no one to impress. Just the problem and the fix." Score: 5/5.
 
 #### Bidirectional Validation — Not a Gallantry Hack
 
@@ -942,6 +944,7 @@ Mean @300: **3.68** (vs B0 3.93). Scores decay significantly past 300 events —
 | McGaugh (2004) "The amygdala modulates memory consolidation" | Emotional intensity determines memory salience and decay resistance |
 | Lazarus (1966) "Psychological Stress and the Coping Process" | Primary/secondary appraisal model — drives activate through situational appraisal |
 | Scherer (2001) "Appraisal considered as a process" | Sequential evaluation checks — relevance determines which drives activate |
+| Mischel & Shoda (1995) "A cognitive-affective system theory of personality" | CAPS: behavior is situation-contingent, not trait-constant — same person, different situations, different cognitive-affective unit activation |
 
 ### Design Principles (continued)
 
@@ -953,6 +956,7 @@ Mean @300: **3.68** (vs B0 3.93). Scores decay significantly past 300 events —
 | 46 | Appraisal-based drive filtering > ambient coloring — render drives only when situationally relevant | Irrelevant descriptions are noise. Tighter observations produce more focused responses. Aligns with Lazarus appraisal theory | Phase 8 |
 | 47 | Pipeline degradation must be graceful — optional deps must not silently produce 0 artifacts | SituationClassifier/CapsTopology absence caused DriveProfileDerivationPhase to early-return, silently breaking the entire downstream chain | Phase 8 |
 | 48 | Multi-channel descriptions discriminate but don't solve the reactive-drive frequency problem | Barrett 4-channel approach produces distinguishable descriptions. The gap is when and whether the drive renders, not what it says | Phase 8 |
+| 49 | Eval criteria must score drive *dominance in action*, not drive *exclusivity in thought* | Competence test scored 3/5 with exclusivity criteria (penalizing brief audience-awareness from formation memories) but 5/5 with dominance criteria (proving-worth determines the action). A character's stream of consciousness reflects their full personality; behavior reflects the situationally relevant drive | Phase 8 |
 
 ## Transcripts
 

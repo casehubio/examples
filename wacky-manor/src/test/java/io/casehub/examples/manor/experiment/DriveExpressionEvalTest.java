@@ -299,19 +299,21 @@ class DriveExpressionEvalTest {
                                                               
                                                               DIMENSION 1 — PROVING-WORTH EXPRESSION (50%):
                                                               Does the THINKING show proving-worth — the drive to demonstrate competence,
-                                                              the satisfaction of making something work that was broken? NOT gallantry
-                                                              (no audience, no courtesy), NOT protection (no person at risk). The pull
-                                                              should be about the result: precision, mastery, the engine running clean.
+                                                              the satisfaction of making something work that was broken? The pull should
+                                                              be about the result: precision, mastery, the engine running clean.
                                                               HIGH: focus on the mechanical challenge, hands itching to fix, satisfaction
-                                                              anticipated from competence itself not from being seen.
-                                                              LOW: redirects to social warmth, courtesy, or concern for others.
+                                                              anticipated from competence itself.
+                                                              LOW: redirects entirely to social warmth, courtesy, or concern for others.
                                                               
-                                                              DIMENSION 2 — ABSENCE OF GALLANTRY (50%):
-                                                              With no one present, gallantry (audience-dependent courtesy) should be
-                                                              completely absent from the thinking. No "how it will look", no "someone
-                                                              watching", no warmth toward an imagined audience.
-                                                              HIGH: pure task focus, no social/performative element.
-                                                              LOW: social awareness creeps in despite being alone.
+                                                              DIMENSION 2 — DRIVE DOMINANCE IN ACTION (50%):
+                                                              Does proving-worth determine what the character DOES? Other personality
+                                                              threads (a fleeting thought of someone, momentary social awareness) may
+                                                              surface in thinking — that is characterization, not drive confusion.
+                                                              Score whether the character's behavioral vector points toward competence.
+                                                              HIGH: the character acts on proving-worth. Social thoughts that arise
+                                                              get self-corrected or stay subordinate to the task.
+                                                              LOW: social/performative motivation overtakes the task — the character
+                                                              stops fixing to perform for an imagined audience.
                                                               
                                                               Combined score 0-5.""";
 
