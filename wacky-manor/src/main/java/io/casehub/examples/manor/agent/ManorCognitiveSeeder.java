@@ -187,7 +187,7 @@ public final class ManorCognitiveSeeder {
                                }
                                return new io.casehub.neocortex.memory.experience.FormativeExperience(
                                        agentId, tenantId,
-                                       "formation", "age-" + mem.age(),
+                                       "formative", "age-" + mem.age(),
                                        Instant.now().minusSeconds((18 - mem.age()) * 365L * 24 * 60 * 60),
                                        mem.episode(),
                                        0.9,
