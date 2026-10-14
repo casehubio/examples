@@ -48,21 +48,34 @@ public class AgentInvocationService {
 
     private AgentResponse callWithRetry(String systemPrompt, String userPrompt, String agentId) {
         for (int attempt = 0; attempt <= maxRetries; attempt++) {
+            ManagedSession session = null;
             try {
-                ManagedSession session = sessionManager.acquire(
+                session = sessionManager.acquire(
                         "character:" + agentId, backendKey,
                         AgentSessionInit.of(systemPrompt),
                         ClearingPolicy.MANUAL, 0);
 
-                String text = session.query(userPrompt)
-                    .filter(e -> e instanceof AgentEvent.TextDelta)
-                    .map(e -> ((AgentEvent.TextDelta) e).text())
-                    .collect().with(Collectors.joining())
-                    .await().atMost(Duration.ofSeconds(timeoutSeconds + 60));
-                return AgentResponse.parse(text);
+                var responseText = new StringBuilder();
+                var querySession = session;
+                var worker = Thread.ofVirtual().name(agentId + "-query").start(() ->
+                    querySession.query(userPrompt).subscribe().asStream()
+                        .filter(e -> e instanceof AgentEvent.TextDelta)
+                        .map(e -> ((AgentEvent.TextDelta) e).text())
+                        .forEach(responseText::append));
+                worker.join(Duration.ofSeconds(timeoutSeconds + 60));
+                if (worker.isAlive()) {
+                    worker.interrupt();
+                    System.err.println("[TIMEOUT] " + agentId + ": LLM timeout after " + (timeoutSeconds + 60) + "s (attempt " + (attempt + 1) + "/" + (maxRetries + 1) + ")");
+                    throw new java.util.concurrent.TimeoutException(
+                        "LLM response not received within " + (timeoutSeconds + 60) + "s");
+                }
+                System.err.println("[OK] " + agentId + ": LLM call completed (attempt " + (attempt + 1) + ")");
+                return AgentResponse.parse(responseText.toString());
             } catch (Exception e) {
-                log.warnf("%s: LLM call failed (attempt %d/%d): %s",
-                    agentId, attempt + 1, maxRetries + 1, e.getMessage());
+                System.err.println("[FAIL] " + agentId + ": " + e.getClass().getSimpleName() + ": " + e.getMessage());
+                if (session != null) {
+                    try { session.close(); } catch (Exception ce) { /* ignore */ }
+                }
                 if (attempt < maxRetries) {
                     retries.incrementAndGet();
                     sleepWithJitter(attempt);
