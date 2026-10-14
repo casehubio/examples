@@ -296,7 +296,7 @@ public class PlaybookOrchestrator {
             runAutonomousTicks(world, activeSet, actionResolver, dispatcher, invocationService, narratorAgent, cognitions, planEvaluator, cognitionCore);
         } else {
             runScripted(world, activeSet, actionResolver, dispatcher, invocationService,
-                        triggerEvaluator, sceneDirector, narratorAgent);
+                        triggerEvaluator, sceneDirector, narratorAgent, cognitions);
         }
 
         String reason = world.completionReason() != null ? world.completionReason().name().toLowerCase() : null;
@@ -605,12 +605,14 @@ public class PlaybookOrchestrator {
                               ActionResolver actionResolver, ManorEventDispatcher dispatcher,
                               AgentInvocationService invocationService,
                               TriggerEvaluator triggerEvaluator, SceneDirector sceneDirector,
-                              NarratorAgent narratorAgent) {
+                              NarratorAgent narratorAgent,
+                              java.util.Map<String, CharacterCognition> cognitions) {
         var actionQueue = new LinkedBlockingQueue<PendingAction>();
         var threads = world.characters().values().stream()
                 .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
                 .map(c -> {
                     var goals = resolveGoals(c.agentId());
+                    var cognition = cognitions.get(c.agentId());
                     return Thread.ofVirtual().name(c.agentId())
                             .uncaughtExceptionHandler((t, e) -> {
                                 log.errorf(e, "Character %s crashed", t.getName());
@@ -620,7 +622,8 @@ public class PlaybookOrchestrator {
                                 String systemPrompt = renderPrompt(c.agentId());
                                 new CharacterAgentLoop().run(
                                         c, world, invocationService, null,
-                                        systemPrompt, actionQueue, dispatcher, goals);
+                                        systemPrompt, actionQueue, dispatcher, goals,
+                                        cognition);
                             });
                 })
                 .toList();

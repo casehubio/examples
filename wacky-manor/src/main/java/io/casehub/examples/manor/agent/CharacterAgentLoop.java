@@ -51,6 +51,18 @@ public final class CharacterAgentLoop {
                     BlockingQueue<PendingAction> actionQueue,
                     ManorEventDispatcher dispatcher,
                     java.util.List<io.casehub.eidos.api.AgentGoal> goals) {
+        run(character, world, invocationService, experienceService,
+            systemPrompt, actionQueue, dispatcher, goals, null);
+    }
+
+    public void run(CharacterState character, WorldState world,
+                    AgentInvocationService invocationService,
+                    AgentExperienceService experienceService,
+                    String systemPrompt,
+                    BlockingQueue<PendingAction> actionQueue,
+                    ManorEventDispatcher dispatcher,
+                    java.util.List<io.casehub.eidos.api.AgentGoal> goals,
+                    CharacterCognition cognition) {
         while (!world.isScenarioComplete() && character.isActive()) {
             try {
                 if (character.sceneContext() != null) {
@@ -68,7 +80,37 @@ public final class CharacterAgentLoop {
                                                                               ? experienceService.recall(character.agentId(), 10) : java.util.List.of();
                 var worldProvider = new ManorWorldObservationProvider(character, world, drain);
                 var pipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
-                String observation = ObservationBuilder.buildObservation(worldProvider, pipeline, character.capabilityTags(), character, goals, drain, memories, java.util.List.of(), java.util.Map.of());
+
+                String observation;
+                if (cognition != null) {
+                    var nearbyIds = world.charactersInRoom(character.currentRoom()).stream()
+                        .map(io.casehub.examples.manor.model.CharacterState::agentId)
+                        .filter(id -> !id.equals(character.agentId()))
+                        .toList();
+                    var agentNameMap = new java.util.HashMap<String, String>();
+                    for (var id : nearbyIds) {
+                        var nearby = world.character(id);
+                        if (nearby != null) agentNameMap.put(id, nearby.name());
+                    }
+                    var reflections = cognition.recallReflections(5);
+                    var relationships = new java.util.HashMap<String, java.util.List<io.casehub.neocortex.memory.Memory>>();
+                    for (var other : world.charactersInRoom(character.currentRoom())) {
+                        if (!other.agentId().equals(character.agentId())) {
+                            var relMems = cognition.recallRelationships(other.agentId(), 3);
+                            if (!relMems.isEmpty()) relationships.put(other.name(), relMems);
+                        }
+                    }
+                    observation = new ObservationBuilder(worldProvider, pipeline, character.capabilityTags())
+                        .withCharacter(character)
+                        .withGoals(goals)
+                        .withDrain(drain)
+                        .withMemories(memories, reflections, relationships)
+                        .withCognitiveSections(cognition.renderCognitiveSections(character, nearbyIds, agentNameMap))
+                        .withTaggedSections(cognition.renderTaggedSections())
+                        .build();
+                } else {
+                    observation = ObservationBuilder.buildObservation(worldProvider, pipeline, character.capabilityTags(), character, goals, drain, memories, java.util.List.of(), java.util.Map.of());
+                }
                 String userPrompt  = observation + RESPONSE_FORMAT_INSTRUCTION;
 
                 AgentResponse response = invocationService.invoke(systemPrompt, userPrompt, character.agentId());
