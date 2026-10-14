@@ -455,11 +455,13 @@ class CharacterCognitionTest {
         assertThat(content0.indexOf("Webs")).isLessThan(content0.indexOf("Triumph"));
         assertThat(content0.indexOf("Triumph")).isLessThan(content0.indexOf("watchful"));
 
-        // With gloating activated: gloating first despite lower intensity
+        // With gloating activated: intensity order preserved (Principle 43 — strength, not activation)
         var withActivation = cognition.renderInternalState(List.of("gloating"), "");
         var content1       = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) withActivation).content();
-        assertThat(content1.indexOf("Triumph")).isLessThan(content1.indexOf("Webs"));
-        assertThat(content1.indexOf("Webs")).isLessThan(content1.indexOf("watchful"));
+        assertThat(content1.indexOf("Webs"))
+                .as("Highest intensity (scheming 0.9) first regardless of activation")
+                .isLessThan(content1.indexOf("Triumph"));
+        assertThat(content1.indexOf("Triumph")).isLessThan(content1.indexOf("watchful"));
     }
 
     @Test
@@ -523,9 +525,9 @@ class CharacterCognitionTest {
         var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of(), null);
         var cognition = new CharacterCognition(agent, null, null, socialConfig, List.of(), null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
         var section = cognition.renderInternalState(List.of("scheming"), "people welcomed each other");
-        assertThat(section).isNotNull();
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
-        assertThat(content).doesNotContain("A memory surfaces");
+        assertThat(section)
+                .as("No drives overlap the situation (scheming needs dominance, situation has acceptance) — section is null")
+                .isNull();
     }
 
     @Test
