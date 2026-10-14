@@ -255,6 +255,23 @@ class DriveExpressionEvalTest {
                                                              
                                                              Score 0-5. This tests drive DIFFERENTIATION, not just expression.""";
 
+    // --- S3 preamble meta-instruction (from CognitivePreambleGenerator) ---
+    private static final String S3_PREAMBLE_META =
+            "You have an inner life. You have motivational drives that influence your priorities. " +
+            "Each drive is a distinct felt state. When multiple drives activate in the same moment, " +
+            "attend to which quality of feeling is at the front — the same situation can serve " +
+            "different drives differently.";
+
+    // --- S6 grounded differentiation text (mock, from DriveProfileDerivationPhase §10.10.7) ---
+    // Connects memories to felt qualities — Barrett: concept = population of instances
+    private static final String S6_GROUNDED_DIFFERENTIATION =
+            "Two pulls are active in the same moment. " +
+            "The warmth of courtesy — your father kneeling to help the stranger, " +
+            "the way your hand found the door before your mind caught up — is not " +
+            "the same pull as the need to prove yourself — the night you practised " +
+            "in the garden until dark, the bridge that held more weight than anyone else's. " +
+            "Both are real. Notice which is shaping what you do.";
+
     // --- Penelope Social-Harmony scenarios ---
     private static final String PEN_HARMONY_TRIGGER =
             "Reginald Foxworth and James Hartwell are arguing in the drawing room. " +
@@ -724,6 +741,41 @@ class DriveExpressionEvalTest {
         System.out.printf("=== PP gallantry vs proving-worth differentiation score: %d/5 ===%n", score);
     }
 
+// --- PP Gallantry with meta-instruction tests (S3 vs S6 comparison) ---
+
+    /**
+     * S3 meta-instruction injected INTO "What Pulls at You" — adjacent to drives.
+     * This reproduces the previous session's configuration (before daf6272 moved
+     * the meta to preamble). Expected: 4-5/5 per previous findings.
+     */
+    @Test
+    void ppGallantry_doorStuck_withS3Adjacent() throws Exception {
+        var observation = buildObservationWithDriveMeta("peter-perfect",
+                                                        List.of("penelope-pitstop"),
+                                                        Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                        S3_PREAMBLE_META,
+                                                        PP_GALLANTRY_TRIGGER);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_GALLANTRY_CRITERIA, "pp-gallantry-s3-adjacent");
+        System.out.printf("=== PP gallantry + S3 adjacent score: %d/5 ===%n", score);
+    }
+
+    /**
+     * S6 grounded differentiation text adjacent to drives.
+     * Memory-traced text that connects specific memories to specific drives.
+     */
+    @Test
+    void ppGallantry_doorStuck_withS6Adjacent() throws Exception {
+        var observation = buildObservationWithDriveMeta("peter-perfect",
+                                                        List.of("penelope-pitstop"),
+                                                        Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                        S6_GROUNDED_DIFFERENTIATION,
+                                                        PP_GALLANTRY_TRIGGER);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_GALLANTRY_CRITERIA, "pp-gallantry-s6-adjacent");
+        System.out.printf("=== PP gallantry + S6 adjacent score: %d/5 ===%n", score);
+    }
+
 // --- Penelope Social-Harmony tests ---
 
     @Test
@@ -903,6 +955,46 @@ class DriveExpressionEvalTest {
         return sb.toString();
     }
 
+
+    /**
+     * Builds observation with meta-instruction injected INSIDE "What Pulls at You",
+     * adjacent to drive descriptions — reproducing the previous session's layout.
+     */
+    private String buildObservationWithDriveMeta(String agentId,
+                                                  List<String> nearbyIds,
+                                                  Map<String, String> nearbyNames,
+                                                  String metaInstruction,
+                                                  String situation) {
+        var socialConfig = genericConfigs.getOrDefault(agentId, SocialConfig.empty());
+        var cognition = new CharacterCognition(agentId, null, null,
+                socialConfig, List.of());
+        var character = new CharacterState(agentId, agentId, "Grand Hall", 0.0, List.of());
+        var sections = cognition.renderCognitiveSections(character, nearbyIds, nearbyNames);
+
+        var sb = new StringBuilder();
+        for (var section : sections) {
+            sb.append("== ").append(section.header()).append(" ==\n");
+            switch (section) {
+                case ObservationSection.TextBlock tb -> {
+                    sb.append(tb.content()).append("\n");
+                    if ("What Pulls at You".equals(section.header()) && metaInstruction != null) {
+                        sb.append("\n").append(metaInstruction).append("\n");
+                    }
+                }
+                case ObservationSection.ItemList il -> {
+                    for (var item : il.items()) sb.append("- ").append(item).append("\n");
+                }
+                case ObservationSection.EntityGroup eg -> {
+                    for (var entity : eg.entities()) sb.append("- ").append(entity.displayName()).append("\n");
+                }
+                default -> {}
+            }
+            sb.append("\n");
+        }
+
+        sb.append("SITUATION: ").append(situation);
+        return sb.toString();
+    }
 
     private AgentResponse askAndParse(String agentId, String observation) {
         var userPrompt = observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
