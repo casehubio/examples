@@ -1,8 +1,6 @@
 package io.casehub.examples.manor.agent;
 
 import io.casehub.blocks.summarisation.observation.affordance.ObservationSection;
-import io.casehub.examples.manor.model.CharacterState;
-import io.casehub.neocortex.mindmap.MindMapQuery;
 import io.casehub.neocortex.mindmap.NodeInput;
 import io.casehub.neocortex.mindmap.SubgraphInput;
 import io.casehub.neocortex.mindmap.SubgraphTypes;
@@ -61,18 +59,18 @@ class PipelineToRenderingTest {
     }
 
     @Test
-    void activatedDrives_appearsBeforeAmbient() {
+    void drives_renderedInStrengthOrder_regardlessOfActivation() {
         seedDrive("gallantry", 0.9, "Gallantry text");
         seedDrive("proving-worth", 0.7, "Proving-worth text");
-        seedGenerated("gallantry", "Gallantry somatic");
-        seedGenerated("proving-worth", "Proving-worth somatic");
+        seedGenerated("gallantry", "Gallantry: bright heat, spine locks straight");
+        seedGenerated("proving-worth", "Proving-worth: tension in hands, engine that won't idle");
 
         var section = renderInternalState(List.of("proving-worth"), "");
 
         var content = ((ObservationSection.TextBlock) section).content();
-        assertThat(content.indexOf("Proving-worth somatic"))
-            .as("Activated drive (proving-worth) should appear before ambient (gallantry)")
-            .isLessThan(content.indexOf("Gallantry somatic"));
+        assertThat(content.indexOf("Gallantry"))
+                .as("Highest intensity (gallantry 0.9) must appear before lower (proving-worth 0.7) regardless of activation")
+                .isLessThan(content.indexOf("Proving-worth"));
     }
 
     @Test

@@ -262,20 +262,12 @@ public final class CharacterCognition {
                              .filter(d -> d.intensity() > 0.2 && !descriptionFor.apply(d).isBlank())
                              .toList();
 
-        var activated = eligible.stream()
-                                .filter(d -> activatedCategories.contains(d.type()))
-                                .sorted(java.util.Comparator.comparingDouble(SocialConfig.Drive::intensity).reversed())
-                                .map(descriptionFor)
-                                .toList();
-        var ambient = eligible.stream()
-                              .filter(d -> !activatedCategories.contains(d.type()))
+        var driveDescriptions = eligible.stream()
                               .sorted(java.util.Comparator.comparingDouble(SocialConfig.Drive::intensity).reversed())
                               .map(descriptionFor)
                               .toList();
 
-        var parts = new java.util.ArrayList<String>();
-        parts.addAll(activated);
-        parts.addAll(ambient);
+        var parts = new java.util.ArrayList<>(driveDescriptions);
 
         if (mindMapStore != null && tenantId != null) {
             var primedMemories = selectSituationPrimedMemories(situationText, activatedCategories);
