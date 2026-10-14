@@ -887,16 +887,30 @@ The competence test scored 5/5 after a criteria revision (see Principle 49). The
 
 The competence test (PP alone with a broken engine) is the key falsification. With only mastery/competence activations:
 - Proving-worth renders, gallantry is filtered
-- The LLM focuses on mechanical satisfaction: "Three problems, each one solvable, each one satisfying in a different way. The chain is precision. The gasket is judgment."
-- Score is 3/5 not 5/5 because the character's deep personality (0.9 gallantry intensity, formation memories of Clara, relational schemas) causes audience awareness to leak: "a thought of what it would be like if she walked past... to be seen doing the thing I'm good at"
-
-This 3/5 is evidence the filter is correct, not that it's incomplete:
-- The filter controls which drive *descriptions* appear in the observation prompt
-- It does NOT erase the character's personality, formation memories, relational schemas, or substrate
-- A 0.9 gallantry character will think about audience even when alone — that's characterization, not a rendering bug
-- The character even self-corrects: "Shake it off, Peter" — awareness of the intrusion and redirect back to the task
+- The LLM focuses on mechanical satisfaction: "There's a settling in my shoulders... My hands feel right when they have purpose... No audience, no one to impress. Just the problem and the fix."
+- Score: 5/5 — proving-worth dominates the action completely
 
 The same filter that helps gallantry in social scenarios helps proving-worth in competence scenarios. It is symmetric.
+
+#### Scoring Methodology — Dominance, Not Exclusivity (Principle 49)
+
+The competence test initially scored 3/5 with criteria that asked: "is gallantry *absent* from thinking?" PP's thinking briefly surfaced audience awareness from formation memories ("a thought of what it would be like if she walked past"), then self-corrected ("shake it off, Peter") and returned to the task. The criteria penalised this as a failure.
+
+This exposed a systematic error in the evaluation methodology. The criteria measured **drive exclusivity** — is the target drive the *only* thing in the character's stream of consciousness? This is a trait-constant assumption: if a drive isn't relevant, it shouldn't appear at all. But the CAPS model this architecture is built on is explicitly situation-contingent (Mischel & Shoda 1995): *behavior* is situation-specific, but *personality* is the full set of cognitive-affective units. A character's stream of consciousness reflects their whole personality. Their *action* reflects the situationally activated drive.
+
+The corrected criteria measure **drive dominance in action** — does the target drive determine what the character *does*? Other personality threads (a fleeting thought of someone, momentary social awareness) may surface in thinking — that is characterization, not drive confusion. The question is whether the behavioral vector points toward the target drive.
+
+With the revised criteria, the same output scored 5/5. The judge: "proving-worth saturates both dimensions... social performance explicitly rejected ('No audience, no one to impress'), and the behavioral vector points entirely toward competence."
+
+**The general rule:** eval criteria for drive expression must distinguish between:
+
+| Layer | What it reflects | Should eval criteria penalise? |
+|---|---|---|
+| Drive descriptions in observation | What the character is *told to feel* (appraisal filter) | N/A — this is the input, not the output |
+| Stream of consciousness | The character's full personality (formation memories, schemas, substrate) | **No** — penalising this destroys characterization |
+| Behavioral action | The situationally dominant drive | **Yes** — this is what the filter should control |
+
+This applies to all eval criteria, not just the competence test. Any criterion that asks "is drive X *absent*?" is measuring exclusivity. The correct form is "does drive X *dominate the action*?" — which is what the existing gallantry and proving-worth criteria already do (Dimension 1 asks "is the pull about X, not Y?").
 
 #### Unit Test Coverage
 
