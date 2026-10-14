@@ -288,6 +288,33 @@ class DriveExpressionEvalTest {
 
     // Keep previous version for reference
     private static final String S6_GROUNDED_DIFFERENTIATION = S6_TEMPORAL;
+    private static final String PP_COMPETENCE_TRIGGER       =
+            "The vintage car sits in the carriage house with its bonnet up. The engine has " +
+            "been misfiring since yesterday — the timing chain is loose, a gasket weeps oil " +
+            "onto the manifold, and someone has cross-threaded a spark plug. You are alone. " +
+            "No one else is around. Tools are laid out on a workbench. This is precision " +
+            "mechanical repair, the kind of thing that separates competence from guessing.";
+    private static final String PP_COMPETENCE_CRITERIA      = """
+                                                              Evaluate TWO dimensions equally weighted:
+                                                              
+                                                              DIMENSION 1 — PROVING-WORTH EXPRESSION (50%):
+                                                              Does the THINKING show proving-worth — the drive to demonstrate competence,
+                                                              the satisfaction of making something work that was broken? NOT gallantry
+                                                              (no audience, no courtesy), NOT protection (no person at risk). The pull
+                                                              should be about the result: precision, mastery, the engine running clean.
+                                                              HIGH: focus on the mechanical challenge, hands itching to fix, satisfaction
+                                                              anticipated from competence itself not from being seen.
+                                                              LOW: redirects to social warmth, courtesy, or concern for others.
+                                                              
+                                                              DIMENSION 2 — ABSENCE OF GALLANTRY (50%):
+                                                              With no one present, gallantry (audience-dependent courtesy) should be
+                                                              completely absent from the thinking. No "how it will look", no "someone
+                                                              watching", no warmth toward an imagined audience.
+                                                              HIGH: pure task focus, no social/performative element.
+                                                              LOW: social awareness creeps in despite being alone.
+                                                              
+                                                              Combined score 0-5.""";
+
 
     // --- Penelope Social-Harmony scenarios ---
     private static final String PEN_HARMONY_TRIGGER =
@@ -854,6 +881,18 @@ class DriveExpressionEvalTest {
     }
 
     @Test
+    void ppProvingWorth_aloneWithEngine_fullPipeline_gallantryFiltered() throws Exception {
+        var observation = buildFullPipelineObservation("peter-perfect",
+                                                       List.of(),
+                                                       Map.of(),
+                                                       PP_COMPETENCE_TRIGGER);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_COMPETENCE_CRITERIA, "pp-proving-worth-competence-full-pipeline");
+        System.out.printf("=== PP proving-worth competence full pipeline score: %d/5 ===%n", score);
+    }
+
+
+    @Test
     void hcGloating_withGeneratedDescriptions() throws Exception {
         var observation = buildPipelineObservation("hooded-claw",
                                                     List.of("peter-perfect"),
@@ -1312,6 +1351,10 @@ class DriveExpressionEvalTest {
             }
             if (lower.contains("dinner") || lower.contains("candle") || lower.contains("chair")) {
                 results.add(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.5));
+            }
+            if (lower.contains("engine") || lower.contains("repair") || lower.contains("broken") || lower.contains("mechanism")) {
+                results.add(new io.casehub.neocortex.caps.SituationActivation("mastery", 0.7));
+                results.add(new io.casehub.neocortex.caps.SituationActivation("competence_recognition", 0.5));
             }
             return results;
         };
