@@ -257,7 +257,8 @@ public class PlaybookOrchestrator {
                     entry.getKey(), experienceService, cogDefaults, socialCfg, desc.constraints(),
                     cogProfile, contextStrategy, cognitionCore, seedResult, ManorConstants.TENANCY_ID,
                     mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null,
-                    ManorTrustEvolutionConfigLoader.load()));
+                    ManorTrustEvolutionConfigLoader.load(),
+                    new io.casehub.neocortex.caps.engine.RuleBasedSituationClassifier(capsEngine.topology())));
         }
 
         if (seeder != null) {

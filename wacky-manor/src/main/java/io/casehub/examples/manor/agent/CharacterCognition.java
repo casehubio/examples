@@ -26,17 +26,18 @@ public final class CharacterCognition {
     private final String                                                tenantId;
     private final io.casehub.neocortex.mindmap.MindMapStore             mindMapStore;
     private final io.casehub.engine.trust.TrustEvolutionConfig          trustEvolutionConfig;
+    private final io.casehub.neocortex.caps.SituationClassifier          situationClassifier;
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService) {
         this(agentId, experienceService, null, SocialConfig.empty(), List.of(),
-             null, new ManorContextStrategy(), null, null, null, null, null);
+             null, new ManorContextStrategy(), null, null, null, null, null, null);
     }
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService,
                               CognitiveDefaults cognitiveDefaults, SocialConfig socialConfig,
                               List<AgentConstraint> constraints) {
         this(agentId, experienceService, cognitiveDefaults, socialConfig, constraints,
-             null, new ManorContextStrategy(), null, null, null, null, null);
+             null, new ManorContextStrategy(), null, null, null, null, null, null);
     }
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService,
@@ -48,7 +49,8 @@ public final class CharacterCognition {
                               ManorCognitiveSeeder.SeedResult seedResult,
                               String tenantId,
                               io.casehub.neocortex.mindmap.MindMapStore mindMapStore,
-                              io.casehub.engine.trust.TrustEvolutionConfig trustEvolutionConfig) {
+                              io.casehub.engine.trust.TrustEvolutionConfig trustEvolutionConfig,
+                              io.casehub.neocortex.caps.SituationClassifier situationClassifier) {
         this.agentId                = agentId;
         this.experienceService      = experienceService;
         this.cognitiveDefaults      = cognitiveDefaults;
@@ -61,6 +63,7 @@ public final class CharacterCognition {
         this.tenantId               = tenantId;
         this.mindMapStore           = mindMapStore;
         this.trustEvolutionConfig   = trustEvolutionConfig;
+        this.situationClassifier    = situationClassifier;
     }
 
     public String agentId() {return agentId;}
@@ -159,7 +162,7 @@ public final class CharacterCognition {
         var activatedCategories = (cognitionCore != null)
                 ? cognitionCore.activatedDriveCategories()
                 : java.util.List.<String>of();
-        var internalState = renderInternalState(activatedCategories);
+        var internalState = renderInternalState(activatedCategories, character.lastActionResult());
         if (internalState != null) {
             sections.add(internalState);
         }
@@ -246,7 +249,7 @@ public final class CharacterCognition {
         return ObservationSection.text("Who You Are", sb.toString().strip());
     }
 
-    ObservationSection renderInternalState(List<String> activatedCategories) {
+    ObservationSection renderInternalState(List<String> activatedCategories, String situationText) {
         var drives = resolveAdaptedDrives();
         var generatedDescriptions = readGeneratedDriveDescriptions();
 
@@ -275,6 +278,11 @@ public final class CharacterCognition {
         parts.addAll(ambient);
 
         if (mindMapStore != null && tenantId != null) {
+            var primedMemories = selectSituationPrimedMemories(situationText, activatedCategories);
+            if (!primedMemories.isEmpty()) {
+                parts.addAll(primedMemories);
+            }
+
             var subgraphs = mindMapStore.listSubgraphs(tenantId);
             var attractorLines = subgraphs.stream()
                                           .filter(s -> "behavioral".equals(s.type()))
@@ -365,6 +373,91 @@ public final class CharacterCognition {
                 }
             });
         return result;
+    }
+
+    private List<String> selectSituationPrimedMemories(String situationText,
+                                                        List<String> activatedDriveTypes) {
+        if (situationClassifier == null || mindMapStore == null || tenantId == null) return List.of();
+        if (situationText == null || situationText.isBlank()) return List.of();
+        if (activatedDriveTypes.isEmpty()) return List.of();
+
+        var situationActivations = situationClassifier.classify(situationText, Map.of());
+        if (situationActivations.isEmpty()) return List.of();
+
+        var situationMap = new java.util.HashMap<String, Double>();
+        for (var sa : situationActivations) {
+            situationMap.put(sa.nodeId(), sa.confidence());
+        }
+
+        var cognitiveNodes = mindMapStore.listSubgraphs(tenantId).stream()
+            .filter(s -> "cognitive".equals(s.type()))
+            .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
+            .toList();
+
+        var profiles = cognitiveNodes.stream()
+            .filter(n -> n.traits().contains("DriveProfileInferred"))
+            .filter(n -> agentId.equals(n.properties().get("agent-id")))
+            .filter(n -> activatedDriveTypes.contains(n.properties().get("drive-type")))
+            .toList();
+
+        record DriveOverlap(String driveType, double score) {}
+        var overlaps = new java.util.ArrayList<DriveOverlap>();
+        for (var profile : profiles) {
+            String driveType = profile.properties().get("drive-type");
+            String inputsStr = profile.properties().getOrDefault("inferred-inputs", "");
+            double overlap = computeInputOverlap(inputsStr, situationMap);
+            if (overlap > 0.0) {
+                overlaps.add(new DriveOverlap(driveType, overlap));
+            }
+        }
+
+        if (overlaps.isEmpty()) return List.of();
+
+        overlaps.sort(java.util.Comparator.comparingDouble(DriveOverlap::score).reversed());
+
+        var formativeMemories = cognitiveNodes.stream()
+            .filter(n -> "formative-experience".equals(n.properties().get("cognitiveKind")))
+            .filter(n -> agentId.equals(n.properties().get("agent-id")))
+            .toList();
+
+        var result = new java.util.ArrayList<String>();
+        for (var overlap : overlaps) {
+            if (result.size() >= 2) break;
+            var memories = formativeMemories.stream()
+                .filter(m -> {
+                    String types = m.properties().getOrDefault("situation-types", "");
+                    return java.util.Arrays.asList(types.split(",")).contains(overlap.driveType());
+                })
+                .limit(2)
+                .map(m -> {
+                    String text = m.name();
+                    if (text.length() > 100) {
+                        int end = text.lastIndexOf(' ', 100);
+                        if (end < 40) end = 100;
+                        text = text.substring(0, end) + "...";
+                    }
+                    return "A memory surfaces — " + text;
+                })
+                .toList();
+            result.addAll(memories);
+        }
+        return result;
+    }
+
+    private double computeInputOverlap(String inferredInputs, Map<String, Double> situationMap) {
+        if (inferredInputs == null || inferredInputs.isBlank()) return 0.0;
+        double overlap = 0.0;
+        for (String entry : inferredInputs.split(",")) {
+            int colonIdx = entry.indexOf(':');
+            if (colonIdx < 0) continue;
+            String nodeId = entry.substring(0, colonIdx).strip();
+            double driveWeight = Double.parseDouble(entry.substring(colonIdx + 1).strip());
+            Double situationWeight = situationMap.get(nodeId);
+            if (situationWeight != null) {
+                overlap += Math.min(driveWeight, situationWeight);
+            }
+        }
+        return overlap;
     }
 
     private ObservationSection renderRelationalSchemas(Collection<String> nearbyAgentIds, Map<String, String> agentNames) {

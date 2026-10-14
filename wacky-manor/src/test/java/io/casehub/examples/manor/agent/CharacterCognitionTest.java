@@ -153,7 +153,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
                 null, new ManorContextStrategy(), null, null,
-                tenant, store, null);
+                tenant, store, null, null);
 
         // Social awareness should be absent — adapted drives are below threshold
         // even though static config has scheming at 0.9
@@ -178,7 +178,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
                 null, new ManorContextStrategy(), null, null,
-                tenant, store, null);
+                tenant, store, null, null);
 
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(agent, "HC", "Room", 0.0, List.of()),
@@ -222,7 +222,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
                 null, new ManorContextStrategy(), null, null,
-                tenant, store, null);
+                tenant, store, null, null);
 
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
@@ -272,7 +272,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
                 null, new ManorContextStrategy(), null, null,
-                tenant, store, null);
+                tenant, store, null, null);
 
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
@@ -308,7 +308,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
                 null, new ManorContextStrategy(), cognitionCore, seedResult,
-                tenant, store, null);
+                tenant, store, null, null);
 
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
@@ -364,7 +364,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
                 null, new ManorContextStrategy(), cognitionCore, seedResult,
-                tenant, store, null);
+                tenant, store, null, null);
 
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
@@ -404,7 +404,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.getOrDefault(agent, SocialConfig.empty()), List.of(),
                 null, new ManorContextStrategy(), cognitionCore, seedResult,
-                tenant, store, null);
+                tenant, store, null, null);
 
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(agent, "Muttley", "library", 0.0, List.of()),
@@ -428,7 +428,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
                 null, new ManorContextStrategy(), null, null,
-                tenant, store, null);
+                tenant, store, null, null);
 
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
@@ -449,14 +449,14 @@ class CharacterCognitionTest {
         var cognition    = new CharacterCognition("test", null, null, socialConfig, List.of());
 
         // Without activation: drives ordered by intensity (scheming > gloating > self-preservation)
-        var noActivation = cognition.renderInternalState(List.of());
+        var noActivation = cognition.renderInternalState(List.of(), "");
         assertThat(noActivation).isNotNull();
         var content0 = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) noActivation).content();
         assertThat(content0.indexOf("Webs")).isLessThan(content0.indexOf("Triumph"));
         assertThat(content0.indexOf("Triumph")).isLessThan(content0.indexOf("watchful"));
 
         // With gloating activated: gloating first despite lower intensity
-        var withActivation = cognition.renderInternalState(List.of("gloating"));
+        var withActivation = cognition.renderInternalState(List.of("gloating"), "");
         var content1       = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) withActivation).content();
         assertThat(content1.indexOf("Triumph")).isLessThan(content1.indexOf("Webs"));
         assertThat(content1.indexOf("Webs")).isLessThan(content1.indexOf("watchful"));
@@ -470,12 +470,63 @@ class CharacterCognitionTest {
         var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of(), null);
         var cognition    = new CharacterCognition("test", null, null, socialConfig, List.of());
 
-        var section = cognition.renderInternalState(List.of());
+        var section = cognition.renderInternalState(List.of(), "");
         assertThat(section).isNotNull();
         var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
         assertThat(content.indexOf("Fists")).isLessThan(content.indexOf("pull toward"));
     }
 
+
+    @Test
+    void situationPrimingSurfacesRelevantMemories() {
+        var store   = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent   = "peter-perfect";
+        var tenant  = "priming-test";
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var ppConfig = configs.get(agent);
+        var sgId = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("gallantry", sgId).withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", agent, "drive-type", "gallantry", "intensity", "0.9", "description", "test")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("The girl from school was in trouble — you stepped in", sgId).withProperties(Map.of("cognitiveKind", "formative-experience", "agent-id", agent, "situation-types", "formation,adolescence,gallantry")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-gallantry", sgId).withTraits(java.util.Set.of("DriveProfileInferred")).withProperties(Map.of("agent-id", agent, "drive-type", "gallantry", "inferred-inputs", "acceptance:0.7,sharing:0.5")), tenant);
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> {
+            if (desc.contains("welcomed")) return List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.8));
+            return List.of();
+        };
+        var cognition = new CharacterCognition(agent, null, null, ppConfig, List.of(), null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+        var section = cognition.renderInternalState(List.of("gallantry"), "Penelope smiled and welcomed Peter into the drawing room");
+        assertThat(section).isNotNull();
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        assertThat(content).contains("A memory surfaces");
+        assertThat(content).contains("girl from school");
+    }
+
+    @Test
+    void situationPrimingAbsentWhenNoClassifier() {
+        var drives = List.of(new SocialConfig.Drive("scheming", 0.9, "Webs of plans"));
+        var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of(), null);
+        var cognition = new CharacterCognition("test", null, null, socialConfig, List.of());
+        var section = cognition.renderInternalState(List.of("scheming"), "something happened");
+        assertThat(section).isNotNull();
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        assertThat(content).doesNotContain("A memory surfaces");
+    }
+
+    @Test
+    void situationPrimingAbsentWhenNoOverlap() {
+        var store   = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent   = "test-agent";
+        var tenant  = "no-overlap-test";
+        var sgId = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-scheming", sgId).withTraits(java.util.Set.of("DriveProfileInferred")).withProperties(Map.of("agent-id", agent, "drive-type", "scheming", "inferred-inputs", "dominance:0.8")), tenant);
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.9));
+        var drives = List.of(new SocialConfig.Drive("scheming", 0.9, "Plans spinning"));
+        var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of(), null);
+        var cognition = new CharacterCognition(agent, null, null, socialConfig, List.of(), null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+        var section = cognition.renderInternalState(List.of("scheming"), "people welcomed each other");
+        assertThat(section).isNotNull();
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        assertThat(content).doesNotContain("A memory surfaces");
+    }
 
     @Test
     void rendersTendenciesAsFirstCognitiveSection() {

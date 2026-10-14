@@ -273,7 +273,7 @@ class PropagationBoundaryTest {
         var cognition = new CharacterCognition(
                 agentId, null, null, ppConfig, List.of(),
                 null, new io.casehub.examples.manor.agent.ManorContextStrategy(), null, null,
-                tenant, mindMapStore, null);
+                tenant, mindMapStore, null, null);
         var character = new CharacterState(agentId, "PP", "Library", 0.0, List.of());
 
         var sections = cognition.renderCognitiveSections(character, List.of(), Map.of());
