@@ -62,6 +62,8 @@ public class PlaybookOrchestrator {
     jakarta.enterprise.inject.Instance<io.casehub.neocortex.mindmap.intelligence.MindMapExtractor> mindMapExtractorInstance;
     @Inject
     io.casehub.neocortex.caps.CapsEngine capsEngine;
+    @Inject
+    jakarta.enterprise.inject.Instance<io.casehub.neocortex.mindmap.intelligence.consolidation.SignificanceAccumulator> significanceAccumulator;
 
 
     @Inject
@@ -233,6 +235,9 @@ public class PlaybookOrchestrator {
 
         var socialConfigs = ManorSocialConfigLoader.loadForProfile(profileMode.name());
 
+        if (significanceAccumulator.isResolvable()) {
+            significanceAccumulator.get().suspend();
+        }
         for (var entry : world.characters().entrySet()) {
             if (activeSet != null && !activeSet.contains(entry.getKey())) {continue;}
             var desc = agentRegistry.findById(entry.getKey(), ManorConstants.TENANCY_ID)
@@ -269,6 +274,9 @@ public class PlaybookOrchestrator {
             log.info("Running initial consolidation — processing formation memories into behavioral attractors...");
             consolidationScheduler.consolidateNow(ManorConstants.TENANCY_ID);
             log.info("Initial consolidation complete — characters have 'slept' on their memories.");
+        }
+        if (significanceAccumulator.isResolvable()) {
+            significanceAccumulator.get().resume();
         }
 
         var poolConfig = new io.casehub.platform.agent.session.SessionPoolConfig(
