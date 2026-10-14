@@ -267,7 +267,9 @@ public final class CharacterCognition {
                              .filter(d -> d.intensity() > 0.2 && !descriptionFor.apply(d).isBlank())
                              .toList();
 
-        var driveDescriptions = eligible.stream()
+        var filtered = appraisalFilterDrives(eligible, situationText);
+
+        var driveDescriptions = filtered.stream()
                               .sorted(java.util.Comparator.comparingDouble(SocialConfig.Drive::intensity).reversed())
                               .map(descriptionFor)
                               .toList();
@@ -456,6 +458,50 @@ public final class CharacterCognition {
         }
         return overlap;
     }
+
+    private List<SocialConfig.Drive> appraisalFilterDrives(
+            List<SocialConfig.Drive> eligible, String situationText) {
+        if (situationClassifier == null || mindMapStore == null || tenantId == null) {return eligible;}
+        if (situationText == null || situationText.isBlank()) {return eligible;}
+
+        var situationActivations = situationClassifier.classify(situationText, Map.of());
+        if (situationActivations.isEmpty()) {return eligible;}
+
+        var situationMap = new java.util.HashMap<String, Double>();
+        for (var sa : situationActivations) {
+            situationMap.put(sa.nodeId(), sa.confidence());
+        }
+
+        var profiles = readDriveProfiles();
+        if (profiles.isEmpty()) {return eligible;}
+
+        return eligible.stream()
+                       .filter(d -> {
+                           String inputs = profiles.get(d.type());
+                           if (inputs == null) {return true;}
+                           return computeInputOverlap(inputs, situationMap) > 0;
+                       })
+                       .toList();
+    }
+
+    private Map<String, String> readDriveProfiles() {
+        if (mindMapStore == null || tenantId == null) {return Map.of();}
+        var result = new java.util.HashMap<String, String>();
+        mindMapStore.listSubgraphs(tenantId).stream()
+                    .filter(s -> "cognitive".equals(s.type()))
+                    .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
+                    .filter(n -> n.traits().contains("DriveProfileInferred"))
+                    .filter(n -> agentId.equals(n.properties().get("agent-id")))
+                    .forEach(n -> {
+                        String driveType = n.properties().get("drive-type");
+                        String inputs    = n.properties().get("inferred-inputs");
+                        if (driveType != null && inputs != null) {
+                            result.put(driveType, inputs);
+                        }
+                    });
+        return result;
+    }
+
 
     private ObservationSection renderRelationalSchemas(Collection<String> nearbyAgentIds, Map<String, String> agentNames) {
         var relevant = socialConfig.relationalSchemas().stream()

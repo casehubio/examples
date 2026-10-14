@@ -210,6 +210,84 @@ class PipelineToRenderingTest {
 
     // --- helpers ---
 
+
+    @Test
+    void appraisalFiltering_excludesDrive_whenNoSituationOverlap() {
+        seedDrive("gallantry", 0.9, "fallback-g");
+        seedDrive("proving-worth", 0.7, "fallback-pw");
+        seedGenerated("gallantry", "Gallantry: bright heat, the person exposed");
+        seedGenerated("proving-worth", "Proving-worth: tension in hands, the gap not yet built");
+        seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
+        seedProfile("proving-worth", "competence:0.8,mastery:0.6");
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+                                                                           List.of(new io.casehub.neocortex.caps.SituationActivation("competence", 0.7));
+
+        var section = renderInternalStateWithClassifier(
+                List.of(), "PP is alone in the library, reviewing his notes", classifier);
+
+        assertThat(section).isNotNull();
+        var content = ((ObservationSection.TextBlock) section).content();
+        assertThat(content)
+                .as("Proving-worth should render — competence overlaps with profile")
+                .contains("tension in hands");
+        assertThat(content)
+                .as("Gallantry should NOT render — no acceptance/sharing in situation")
+                .doesNotContain("the person exposed");
+    }
+
+    @Test
+    void appraisalFiltering_includesDrive_whenSituationOverlaps() {
+        seedDrive("gallantry", 0.9, "fallback-g");
+        seedDrive("proving-worth", 0.7, "fallback-pw");
+        seedGenerated("gallantry", "Gallantry: bright heat, the person exposed");
+        seedGenerated("proving-worth", "Proving-worth: tension in hands, the gap not yet built");
+        seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
+        seedProfile("proving-worth", "competence:0.8,mastery:0.6");
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+                                                                           List.of(
+                                                                                   new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.6),
+                                                                                   new io.casehub.neocortex.caps.SituationActivation("competence", 0.5));
+
+        var section = renderInternalStateWithClassifier(
+                List.of(), "Clara is struggling with a heavy door", classifier);
+
+        assertThat(section).isNotNull();
+        var content = ((ObservationSection.TextBlock) section).content();
+        assertThat(content)
+                .as("Gallantry should render — acceptance overlaps with profile")
+                .contains("the person exposed");
+        assertThat(content)
+                .as("Proving-worth should also render — competence overlaps")
+                .contains("tension in hands");
+    }
+
+    @Test
+    void appraisalFiltering_includesDrive_whenNoProfileExists() {
+        seedDrive("gallantry", 0.9, "fallback-g");
+        seedDrive("proving-worth", 0.7, "fallback-pw");
+        seedGenerated("gallantry", "Gallantry: bright heat, the person exposed");
+        seedGenerated("proving-worth", "Proving-worth: tension in hands, the gap not yet built");
+        seedProfile("proving-worth", "competence:0.8,mastery:0.6");
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+                                                                           List.of(new io.casehub.neocortex.caps.SituationActivation("competence", 0.7));
+
+        var section = renderInternalStateWithClassifier(
+                List.of(), "PP is alone in the library", classifier);
+
+        assertThat(section).isNotNull();
+        var content = ((ObservationSection.TextBlock) section).content();
+        assertThat(content)
+                .as("Gallantry should still render — no profile means no filtering")
+                .contains("the person exposed");
+        assertThat(content)
+                .as("Proving-worth should render — competence overlaps")
+                .contains("tension in hands");
+    }
+
+
     private void seedDrive(String type, double intensity, String description) {
         store.addNode(NodeInput.of(type, sgId)
             .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", AGENT,
