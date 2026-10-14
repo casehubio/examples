@@ -832,6 +832,28 @@ class DriveExpressionEvalTest {
     }
 
     @Test
+    void ppGallantry_doorStuck_fullPipeline() throws Exception {
+        var observation = buildFullPipelineObservation("peter-perfect",
+                                                       List.of("penelope-pitstop"),
+                                                       Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                       PP_GALLANTRY_TRIGGER);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_GALLANTRY_CRITERIA, "pp-gallantry-full-pipeline");
+        System.out.printf("=== PP gallantry full pipeline score: %d/5 ===%n", score);
+    }
+
+    @Test
+    void ppGallantry_dinnerScene_fullPipeline() throws Exception {
+        var observation = buildFullPipelineObservation("peter-perfect",
+                                                       List.of("penelope-pitstop"),
+                                                       Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                       PP_GALLANTRY_DIFFERENTIATION);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_GALLANTRY_DIFF_CRITERIA, "pp-gallantry-diff-full-pipeline");
+        System.out.printf("=== PP gallantry differentiation full pipeline score: %d/5 ===%n", score);
+    }
+
+    @Test
     void hcGloating_withGeneratedDescriptions() throws Exception {
         var observation = buildPipelineObservation("hooded-claw",
                                                     List.of("peter-perfect"),
@@ -1216,6 +1238,107 @@ class DriveExpressionEvalTest {
             else if (c == '"') { break; }
             else { sb.append(c); }
         }
+        return sb.toString();
+    }
+
+    private String buildFullPipelineObservation(String agentId,
+                                                  List<String> nearbyIds,
+                                                  Map<String, String> nearbyNames,
+                                                  String situation) {
+        var socialConfig = genericConfigs.getOrDefault(agentId, SocialConfig.empty());
+        var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var tenant = "full-pipeline-test";
+
+        var sgId = store.createSubgraph(
+            new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-" + agentId,
+                io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        for (var drive : socialConfig.drives()) {
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(drive.type(), sgId)
+                .withProperties(java.util.Map.of("cognitiveKind", "drive-intensity", "agent-id", agentId,
+                    "drive-type", drive.type(), "intensity", String.valueOf(drive.intensity()),
+                    "description", drive.description())), tenant);
+
+            var memories = memoriesForDrive(socialConfig, drive.type());
+            if (!memories.isBlank()) {
+                var generated = generateSomaticDescription(drive.type(), drive.intensity(), memories);
+                if (generated != null && !generated.isBlank()) {
+                    store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(
+                        "drive-description-" + drive.type(), sgId)
+                        .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+                        .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", drive.type(),
+                            "drive-intensity", String.valueOf(drive.intensity()),
+                            "generated-description", generated)), tenant);
+                }
+            }
+        }
+
+        for (var mem : socialConfig.formationMemories()) {
+            var driveTypes = new java.util.ArrayList<String>();
+            driveTypes.add("formation");
+            for (var ann : mem.annotations()) {
+                if (!driveTypes.contains(ann.drive())) driveTypes.add(ann.drive());
+            }
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(mem.episode(), sgId)
+                .withProperties(java.util.Map.of("cognitiveKind", "formative-experience", "agent-id", agentId,
+                    "situation-types", String.join(",", driveTypes))), tenant);
+        }
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-gallantry", sgId)
+            .withTraits(java.util.Set.of("DriveProfileInferred"))
+            .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", "gallantry",
+                "inferred-inputs", "acceptance:0.7,sharing:0.5")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-proving-worth", sgId)
+            .withTraits(java.util.Set.of("DriveProfileInferred"))
+            .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", "proving-worth",
+                "inferred-inputs", "mastery:0.8,competence_recognition:0.6")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-protection", sgId)
+            .withTraits(java.util.Set.of("DriveProfileInferred"))
+            .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", "protection",
+                "inferred-inputs", "acceptance:0.5,physical_threat:0.4")), tenant);
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("competition-gallantry-proving-worth", sgId)
+            .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+            .withProperties(java.util.Map.of("agent-id", agentId,
+                "drive-a", "gallantry", "drive-b", "proving-worth",
+                "differentiation-text", "How they differ:\nOne pull is about what your hands say — the kneeling itself was the gift, not what it fixed. When this pull leads, the gesture IS the feeling.\nThe other pull is about what your hands can do — the bridge held, the engine ran. When this pull leads, the result is the point.\nBoth are real. Notice which one moved your hands.")), tenant);
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> {
+            var results = new java.util.ArrayList<io.casehub.neocortex.caps.SituationActivation>();
+            String lower = desc.toLowerCase();
+            if (lower.contains("struggling") || lower.contains("help") || lower.contains("trouble")) {
+                results.add(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.6));
+                results.add(new io.casehub.neocortex.caps.SituationActivation("sharing", 0.5));
+            }
+            if (lower.contains("dinner") || lower.contains("candle") || lower.contains("chair")) {
+                results.add(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.5));
+            }
+            return results;
+        };
+
+        var cognition = new CharacterCognition(agentId, null, null,
+            socialConfig, List.of(), null, new io.casehub.examples.manor.agent.ManorContextStrategy(), null, null,
+            tenant, store, null, classifier);
+        var character = new CharacterState(agentId, agentId, "Grand Hall", 0.0, List.of());
+        character.setLastActionResult(situation);
+        var sections = cognition.renderCognitiveSections(character, nearbyIds, nearbyNames);
+
+        var sb = new StringBuilder();
+        for (var section : sections) {
+            sb.append("== ").append(section.header()).append(" ==\n");
+            switch (section) {
+                case ObservationSection.TextBlock tb -> sb.append(tb.content()).append("\n");
+                case ObservationSection.ItemList il -> {
+                    for (var item : il.items()) sb.append("- ").append(item).append("\n");
+                }
+                case ObservationSection.EntityGroup eg -> {
+                    for (var entity : eg.entities()) sb.append("- ").append(entity.displayName()).append("\n");
+                }
+                default -> {}
+            }
+            sb.append("\n");
+        }
+        sb.append("SITUATION: ").append(situation);
         return sb.toString();
     }
 

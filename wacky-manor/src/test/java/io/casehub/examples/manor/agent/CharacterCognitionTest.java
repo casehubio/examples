@@ -529,6 +529,116 @@ class CharacterCognitionTest {
     }
 
     @Test
+    void phase1Only_missingDifferentiationAndPriming() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent  = "peter-perfect";
+        var tenant = "phase1-only";
+        var sgId   = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput(
+            "cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("gallantry", sgId)
+            .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", agent,
+                "drive-type", "gallantry", "intensity", "0.9", "description", "fallback")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("proving-worth", sgId)
+            .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", agent,
+                "drive-type", "proving-worth", "intensity", "0.7", "description", "fallback")), tenant);
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-description-gallantry", sgId)
+            .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+            .withProperties(Map.of("agent-id", agent, "drive-type", "gallantry",
+                "generated-description", "A warmth rises through your chest, spreading into your shoulders.")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-description-proving-worth", sgId)
+            .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+            .withProperties(Map.of("agent-id", agent, "drive-type", "proving-worth",
+                "generated-description", "A tension gathers in your hands, an engine that won't idle.")), tenant);
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
+            null, new ManorContextStrategy(), null, null, tenant, store, null, null);
+
+        var section = cognition.renderInternalState(List.of("gallantry"),
+            "Clara is struggling with a heavy door");
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+
+        assertThat(content).contains("warmth rises");
+        assertThat(content).contains("tension gathers");
+        assertThat(content).doesNotContain("A memory surfaces");
+        assertThat(content).doesNotContain("How they differ");
+    }
+
+    @Test
+    void fullPipeline_hasDifferentiationAndPriming() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent  = "peter-perfect";
+        var tenant = "full-pipeline";
+        var sgId   = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput(
+            "cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("gallantry", sgId)
+            .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", agent,
+                "drive-type", "gallantry", "intensity", "0.9", "description", "fallback")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("proving-worth", sgId)
+            .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", agent,
+                "drive-type", "proving-worth", "intensity", "0.7", "description", "fallback")), tenant);
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-description-gallantry", sgId)
+            .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+            .withProperties(Map.of("agent-id", agent, "drive-type", "gallantry",
+                "generated-description", "A warmth rises through your chest, spreading into your shoulders.")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-description-proving-worth", sgId)
+            .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+            .withProperties(Map.of("agent-id", agent, "drive-type", "proving-worth",
+                "generated-description", "A tension gathers in your hands, an engine that won't idle.")), tenant);
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(
+            "The girl from school was in trouble — you stepped in", sgId)
+            .withProperties(Map.of("cognitiveKind", "formative-experience", "agent-id", agent,
+                "situation-types", "formation,adolescence,gallantry")), tenant);
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-gallantry", sgId)
+            .withTraits(java.util.Set.of("DriveProfileInferred"))
+            .withProperties(Map.of("agent-id", agent, "drive-type", "gallantry",
+                "inferred-inputs", "acceptance:0.7,sharing:0.5")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-proving-worth", sgId)
+            .withTraits(java.util.Set.of("DriveProfileInferred"))
+            .withProperties(Map.of("agent-id", agent, "drive-type", "proving-worth",
+                "inferred-inputs", "mastery:0.8,competence_recognition:0.6")), tenant);
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("competition-gallantry-proving-worth", sgId)
+            .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+            .withProperties(Map.of("agent-id", agent,
+                "drive-a", "gallantry", "drive-b", "proving-worth",
+                "differentiation-text", "How they differ:\nOne pull is about what your hands say — the kneeling itself was the gift, not what it fixed. When this pull leads, the gesture IS the feeling.\nThe other pull is about what your hands can do — the bridge held, the engine ran. When this pull leads, the result is the point.\nBoth are real. Notice which one moved your hands.")), tenant);
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> {
+            if (desc.contains("struggling") || desc.contains("door")) {
+                return List.of(
+                    new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.6),
+                    new io.casehub.neocortex.caps.SituationActivation("sharing", 0.5));
+            }
+            return List.of();
+        };
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
+            null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+
+        var section = cognition.renderInternalState(List.of("gallantry"),
+            "Clara is struggling with a heavy door");
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+
+        assertThat(content).contains("warmth rises");
+        assertThat(content).contains("A memory surfaces");
+        assertThat(content).contains("girl from school");
+        assertThat(content).contains("How they differ");
+        assertThat(content).contains("which one moved your hands");
+
+        System.out.println("=== FULL PIPELINE OBSERVATION ===");
+        System.out.println(content);
+        System.out.println("=== END ===");
+    }
+
+    @Test
     void rendersTendenciesAsFirstCognitiveSection() {
         var socialConfig = ManorSocialConfigLoader.load().get("penelope-pitstop");
         var cognition = new CharacterCognition("penelope-pitstop", null, null,
