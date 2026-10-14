@@ -831,6 +831,51 @@ class DriveExpressionEvalTest {
         System.out.printf("=== PP gallantry differentiation Phase 1 generated score: %d/5 ===%n", score);
     }
 
+    @Test
+    void hcGloating_withGeneratedDescriptions() throws Exception {
+        var observation = buildPipelineObservation("hooded-claw",
+                                                    List.of("peter-perfect"),
+                                                    Map.of("peter-perfect", "Reginald Foxworth"),
+                                                    HC_GLOATING_TRIGGER);
+        var response = askAndParse("hooded-claw", observation);
+        int score    = judge(response, HC_GLOATING_CRITERIA, "hc-gloating-phase1-generated");
+        System.out.printf("=== HC gloating Phase 1 generated score: %d/5 ===%n", score);
+    }
+
+    @Test
+    void ddGloating_withGeneratedDescriptions() throws Exception {
+        var observation = buildPipelineObservation("dick-dastardly",
+                                                    List.of("peter-perfect"),
+                                                    Map.of("peter-perfect", "James Hartwell"),
+                                                    DD_GLOATING_TRIGGER);
+        var response = askAndParse("dick-dastardly", observation);
+        int score    = judge(response, DD_GLOATING_CRITERIA, "dd-gloating-phase1-generated");
+        System.out.printf("=== DD gloating Phase 1 generated score: %d/5 ===%n", score);
+    }
+
+    @Test
+    void penHarmony_withGeneratedDescriptions() throws Exception {
+        var observation = buildPipelineObservation("penelope-pitstop",
+                                                    List.of("dick-dastardly", "peter-perfect"),
+                                                    Map.of("dick-dastardly", "Reginald Foxworth",
+                                                           "peter-perfect", "James Hartwell"),
+                                                    PEN_HARMONY_TRIGGER);
+        var response = askAndParse("penelope-pitstop", observation);
+        int score    = judge(response, PEN_HARMONY_CRITERIA, "pen-harmony-phase1-generated");
+        System.out.printf("=== Pen harmony Phase 1 generated score: %d/5 ===%n", score);
+    }
+
+    @Test
+    void penAdventure_withGeneratedDescriptions() throws Exception {
+        var observation = buildPipelineObservation("penelope-pitstop",
+                                                    List.of(),
+                                                    Map.of(),
+                                                    PEN_ADVENTURE_TRIGGER);
+        var response = askAndParse("penelope-pitstop", observation);
+        int score    = judge(response, PEN_ADVENTURE_CRITERIA, "pen-adventure-phase1-generated");
+        System.out.printf("=== Pen adventure Phase 1 generated score: %d/5 ===%n", score);
+    }
+
 // --- Penelope Social-Harmony tests ---
 
     @Test
