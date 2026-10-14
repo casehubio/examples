@@ -287,6 +287,110 @@ class PipelineToRenderingTest {
                 .contains("tension in hands");
     }
 
+    @Test
+    void appraisalFiltering_reverseDirection_provingWorthRendersGallantryFiltered() {
+        seedDrive("gallantry", 0.9, "fallback-g");
+        seedDrive("proving-worth", 0.7, "fallback-pw");
+        seedGenerated("gallantry", "Gallantry: bright heat, the person exposed");
+        seedGenerated("proving-worth", "Proving-worth: tension in hands, the gap not yet built");
+        seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
+        seedProfile("proving-worth", "competence:0.8,mastery:0.6");
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+                                                                           List.of(
+                                                                                   new io.casehub.neocortex.caps.SituationActivation("mastery", 0.7),
+                                                                                   new io.casehub.neocortex.caps.SituationActivation("competence", 0.6));
+
+        var section = renderInternalStateWithClassifier(
+                List.of(), "PP examines the broken engine, turning parts in his hands", classifier);
+
+        assertThat(section).isNotNull();
+        var content = ((ObservationSection.TextBlock) section).content();
+        assertThat(content)
+                .as("Proving-worth should render — mastery/competence overlap with profile")
+                .contains("tension in hands");
+        assertThat(content)
+                .as("Gallantry should NOT render — no acceptance/sharing in a solo competence scenario")
+                .doesNotContain("the person exposed");
+    }
+
+    @Test
+    void appraisalFiltering_mixedSituation_bothDrivesRender() {
+        seedDrive("gallantry", 0.9, "fallback-g");
+        seedDrive("proving-worth", 0.7, "fallback-pw");
+        seedGenerated("gallantry", "Gallantry: bright heat, the person exposed");
+        seedGenerated("proving-worth", "Proving-worth: tension in hands, the gap not yet built");
+        seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
+        seedProfile("proving-worth", "competence:0.8,mastery:0.6");
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+                                                                           List.of(
+                                                                                   new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.6),
+                                                                                   new io.casehub.neocortex.caps.SituationActivation("mastery", 0.5));
+
+        var section = renderInternalStateWithClassifier(
+                List.of(), "Clara is struggling with a jammed engine — she needs help AND the machine needs fixing", classifier);
+
+        assertThat(section).isNotNull();
+        var content = ((ObservationSection.TextBlock) section).content();
+        assertThat(content)
+                .as("Gallantry should render — acceptance overlaps")
+                .contains("the person exposed");
+        assertThat(content)
+                .as("Proving-worth should also render — mastery overlaps")
+                .contains("tension in hands");
+    }
+
+    @Test
+    void appraisalFiltering_classifierReturnsEmpty_allDrivesRender() {
+        seedDrive("gallantry", 0.9, "fallback-g");
+        seedDrive("proving-worth", 0.7, "fallback-pw");
+        seedGenerated("gallantry", "Gallantry: bright heat, the person exposed");
+        seedGenerated("proving-worth", "Proving-worth: tension in hands, the gap not yet built");
+        seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
+        seedProfile("proving-worth", "competence:0.8,mastery:0.6");
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> List.of();
+
+        var section = renderInternalStateWithClassifier(
+                List.of(), "An unfamiliar sound echoes through the corridor", classifier);
+
+        assertThat(section).isNotNull();
+        var content = ((ObservationSection.TextBlock) section).content();
+        assertThat(content)
+                .as("Gallantry should render — classifier has no opinion, so no filtering")
+                .contains("the person exposed");
+        assertThat(content)
+                .as("Proving-worth should render — classifier has no opinion, so no filtering")
+                .contains("tension in hands");
+    }
+
+    @Test
+    void appraisalFiltering_nullSituationText_allDrivesRender() {
+        seedDrive("gallantry", 0.9, "fallback-g");
+        seedDrive("proving-worth", 0.7, "fallback-pw");
+        seedGenerated("gallantry", "Gallantry: bright heat, the person exposed");
+        seedGenerated("proving-worth", "Proving-worth: tension in hands, the gap not yet built");
+        seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
+        seedProfile("proving-worth", "competence:0.8,mastery:0.6");
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> {
+            throw new AssertionError("Classifier should not be called with null/blank situation");
+        };
+
+        var section = renderInternalStateWithClassifier(
+                List.of(), null, classifier);
+
+        assertThat(section).isNotNull();
+        var content = ((ObservationSection.TextBlock) section).content();
+        assertThat(content)
+                .as("Gallantry should render — null situation means no filtering")
+                .contains("the person exposed");
+        assertThat(content)
+                .as("Proving-worth should render — null situation means no filtering")
+                .contains("tension in hands");
+    }
+
 
     private void seedDrive(String type, double intensity, String description) {
         store.addNode(NodeInput.of(type, sgId)
