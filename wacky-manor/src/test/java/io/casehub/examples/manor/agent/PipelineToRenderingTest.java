@@ -74,6 +74,62 @@ class PipelineToRenderingTest {
     }
 
     @Test
+    void norms_renderedInPriorityOrder() {
+        var config = new SocialConfig(
+                List.of(), List.of(),
+                List.of(
+                        new SocialConfig.NormEntry("Low priority rule", 1),
+                        new SocialConfig.NormEntry("High priority rule", 10),
+                        new SocialConfig.NormEntry("Medium priority rule", 5)),
+                List.of(), List.of(), Map.of(), null, null, List.of(),
+                List.of(), List.of(), null, List.of(), null, null);
+
+        var cognition = new CharacterCognition(AGENT, null, null, config, List.of());
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState(AGENT, AGENT, "room", 0.0, List.of()),
+                List.of(), Map.of());
+
+        var normsSection = sections.stream()
+                                   .filter(s -> "Social Rules".equals(s.header()))
+                                   .findFirst().orElseThrow();
+        var items = ((ObservationSection.ItemList) normsSection).items();
+
+        assertThat(items.get(0)).as("Highest priority norm first").contains("High priority");
+        assertThat(items.get(1)).as("Medium priority norm second").contains("Medium priority");
+        assertThat(items.get(2)).as("Lowest priority norm last").contains("Low priority");
+    }
+
+    @Test
+    void formationMemories_renderedBySalienceNotAge() {
+        var config = new SocialConfig(
+                List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null, null, List.of(),
+                List.of(), List.of(), null,
+                List.of(
+                        new SocialConfig.FormationMemory(5, "Calm early memory", 0.3, 0.2, 0.3),
+                        new SocialConfig.FormationMemory(16, "Traumatic late memory", -0.8, 0.95, 0.1),
+                        new SocialConfig.FormationMemory(8, "Moderately emotional memory", 0.6, 0.5, 0.4)),
+                null, null);
+
+        var cognition = new CharacterCognition(AGENT, null, null, config, List.of());
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState(AGENT, AGENT, "room", 0.0, List.of()),
+                List.of(), Map.of());
+
+        var memSection = sections.stream()
+                                 .filter(s -> "Where You Come From".equals(s.header()))
+                                 .findFirst().orElseThrow();
+        var content = ((ObservationSection.TextBlock) memSection).content();
+
+        assertThat(content.indexOf("Traumatic late"))
+                .as("Highest salience memory (high arousal + extreme pleasure) should appear first")
+                .isLessThan(content.indexOf("Moderately emotional"));
+        assertThat(content.indexOf("Moderately emotional"))
+                .as("Medium salience memory should appear before low salience")
+                .isLessThan(content.indexOf("Calm early"));
+    }
+
+
+    @Test
     void differentiationText_appearsInOutput() {
         seedDrive("gallantry", 0.9, "g");
         seedDrive("proving-worth", 0.7, "pw");
