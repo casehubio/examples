@@ -262,16 +262,32 @@ class DriveExpressionEvalTest {
             "attend to which quality of feeling is at the front — the same situation can serve " +
             "different drives differently.";
 
-    // --- S6 grounded differentiation text (mock, from DriveProfileDerivationPhase §10.10.7) ---
-    // Connects memories to felt qualities — Barrett: concept = population of instances
-    // Uses sub-header to signal metacognitive rule vs experiential description
-    private static final String S6_GROUNDED_DIFFERENTIATION =
+    // --- S6 variants: targeting the precise conflation point ---
+
+    // V1: Temporal — which arrived first? Warmth before the problem vs tension at the problem.
+    private static final String S6_TEMPORAL =
             "How they differ:\n" +
-            "The warmth of courtesy — your father kneeling to help the stranger, " +
-            "the way your hand found the door before your mind caught up — is not " +
-            "the same pull as the need to prove yourself — the night you practised " +
-            "in the garden until dark, the bridge that held more weight than anyone else's. " +
-            "Both are real. Notice which is shaping what you do.";
+            "One pull is about the gesture — the bravest and stupidest thing she'd ever " +
+            "seen, your father kneeling because someone needed grace. The warmth arrives " +
+            "before you notice what's broken.\n" +
+            "The other pull is about the fix — the night you practised until dark, the " +
+            "bridge that held more weight. The tension arrives when you notice what needs " +
+            "solving.\n" +
+            "Both are real. Notice which arrived first.";
+
+    // V2: Gestural — what your hands say vs what they can do.
+    private static final String S6_GESTURAL =
+            "How they differ:\n" +
+            "One pull is about what your hands say — your father kneeling not to fix " +
+            "something but because the kneeling itself was the gift. When this pull leads, " +
+            "the gesture IS the feeling — not a means to an end.\n" +
+            "The other pull is about what your hands can do — the night you practised until " +
+            "dark, the relief when the bridge held. When this pull leads, the result is " +
+            "the point.\n" +
+            "Both are real. Notice which one moved your hands.";
+
+    // Keep previous version for reference
+    private static final String S6_GROUNDED_DIFFERENTIATION = S6_TEMPORAL;
 
     // --- Penelope Social-Harmony scenarios ---
     private static final String PEN_HARMONY_TRIGGER =
@@ -762,19 +778,33 @@ class DriveExpressionEvalTest {
     }
 
     /**
-     * S6 grounded differentiation text adjacent to drives.
-     * Memory-traced text that connects specific memories to specific drives.
+     * S6 temporal — "which arrived first?" Targets the pre-cognitive gallantry response.
      */
     @Test
-    void ppGallantry_doorStuck_withS6Adjacent() throws Exception {
+    void ppGallantry_doorStuck_withS6Temporal() throws Exception {
         var observation = buildObservationWithDriveMeta("peter-perfect",
                                                         List.of("penelope-pitstop"),
                                                         Map.of("penelope-pitstop", "Clara Bellingham"),
-                                                        S6_GROUNDED_DIFFERENTIATION,
+                                                        S6_TEMPORAL,
                                                         PP_GALLANTRY_TRIGGER);
         var response = askAndParse("peter-perfect", observation);
-        int score    = judge(response, PP_GALLANTRY_CRITERIA, "pp-gallantry-s6-adjacent");
-        System.out.printf("=== PP gallantry + S6 adjacent score: %d/5 ===%n", score);
+        int score    = judge(response, PP_GALLANTRY_CRITERIA, "pp-gallantry-s6-temporal");
+        System.out.printf("=== PP gallantry + S6 temporal score: %d/5 ===%n", score);
+    }
+
+    /**
+     * S6 gestural — "what your hands say vs what they can do." Targets the action semantics.
+     */
+    @Test
+    void ppGallantry_doorStuck_withS6Gestural() throws Exception {
+        var observation = buildObservationWithDriveMeta("peter-perfect",
+                                                        List.of("penelope-pitstop"),
+                                                        Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                        S6_GESTURAL,
+                                                        PP_GALLANTRY_TRIGGER);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_GALLANTRY_CRITERIA, "pp-gallantry-s6-gestural");
+        System.out.printf("=== PP gallantry + S6 gestural score: %d/5 ===%n", score);
     }
 
 // --- Penelope Social-Harmony tests ---
