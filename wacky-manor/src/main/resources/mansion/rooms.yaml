@@ -8,10 +8,12 @@ rooms:
         name: "Coat Rack"
         description: "A wobbly wooden coat rack by the door."
         x: 0.2
+        interactable: true
       guest-book:
         name: "Guest Book"
         description: "A leather-bound guest book on a side table."
         x: 0.5
+        interactable: true
 
   kitchen:
     name: "Kitchen"
@@ -59,6 +61,7 @@ rooms:
         description: "A carved stone mantelpiece with an inscription: 'I have cities but no houses, forests but no trees, water but no fish. What am I?'"
         x: 0.5
         interactable: true
+        usableWith: [fake-medal]
       bookshelves:
         name: "Bookshelves"
         description: "Floor-to-ceiling bookshelves crammed with dusty leather-bound volumes. Several are upside down."
@@ -86,6 +89,7 @@ rooms:
         name: "Wooden Crates"
         description: "A stack of old wooden crates in the corner."
         x: 0.8
+        interactable: true
 
   cellar:
     name: "Cellar"
@@ -96,6 +100,7 @@ rooms:
         name: "Air Vents"
         description: "A network of air vents along the upper walls. They look just big enough for something very small to explore."
         x: 0.3
+        interactable: true
       old-furniture:
         name: "Old Furniture"
         description: "Assorted Victorian furniture in various states of repair. Some pieces have been rearranged with surprising care."
