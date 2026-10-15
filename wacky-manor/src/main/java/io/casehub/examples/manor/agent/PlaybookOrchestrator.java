@@ -63,6 +63,8 @@ public class PlaybookOrchestrator {
     @Inject
     io.casehub.neocortex.caps.CapsEngine capsEngine;
     @Inject
+    io.casehub.neocortex.caps.llm.LlmSituationClassifier llmSituationClassifier;
+    @Inject
     jakarta.enterprise.inject.Instance<io.casehub.neocortex.mindmap.intelligence.consolidation.SignificanceAccumulator> significanceAccumulator;
 
 
@@ -263,7 +265,7 @@ public class PlaybookOrchestrator {
                     cogProfile, contextStrategy, cognitionCore, seedResult, ManorConstants.TENANCY_ID,
                     mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null,
                     ManorTrustEvolutionConfigLoader.load(),
-                    new io.casehub.neocortex.caps.engine.RuleBasedSituationClassifier(capsEngine.topology())));
+                    buildSituationClassifier()));
         }
 
         if (seeder != null) {
@@ -841,5 +843,13 @@ public class PlaybookOrchestrator {
     }
 
 
+    private io.casehub.neocortex.caps.SituationClassifier buildSituationClassifier() {
+        var ruleBased = new io.casehub.neocortex.caps.engine.RuleBasedSituationClassifier(capsEngine.topology());
+        return (desc, meta) -> {
+            var result = ruleBased.classify(desc, meta);
+            if (!result.isEmpty()) {return result;}
+            return llmSituationClassifier.classify(desc, meta);
+        };
+    }
 }
 
