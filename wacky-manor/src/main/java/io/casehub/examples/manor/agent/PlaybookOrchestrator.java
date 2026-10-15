@@ -843,13 +843,6 @@ public class PlaybookOrchestrator {
     }
 
 
-    private io.casehub.neocortex.caps.SituationClassifier buildSituationClassifier() {
-        var ruleBased = new io.casehub.neocortex.caps.engine.RuleBasedSituationClassifier(capsEngine.topology());
-        return (desc, meta) -> {
-            var result = ruleBased.classify(desc, meta);
-            if (!result.isEmpty()) {return result;}
-            return llmSituationClassifier.classify(desc, meta);
-        };
-    }
+    private io.casehub.neocortex.caps.SituationClassifier buildSituationClassifier() {return llmSituationClassifier;}
 }
 
