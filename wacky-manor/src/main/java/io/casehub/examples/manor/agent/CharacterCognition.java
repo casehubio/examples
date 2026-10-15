@@ -380,7 +380,12 @@ public final class CharacterCognition {
         if (situationText == null || situationText.isBlank()) return List.of();
         if (activatedDriveTypes.isEmpty()) return List.of();
 
-        var situationActivations = situationClassifier.classify(situationText, Map.of());
+        List<io.casehub.neocortex.caps.SituationActivation> situationActivations;
+        try {
+            situationActivations = situationClassifier.classify(situationText, Map.of());
+        } catch (Exception e) {
+            return List.of();
+        }
         if (situationActivations.isEmpty()) return List.of();
 
         var situationMap = new java.util.HashMap<String, Double>();
@@ -464,7 +469,12 @@ public final class CharacterCognition {
         if (situationClassifier == null || mindMapStore == null || tenantId == null) {return eligible;}
         if (situationText == null || situationText.isBlank()) {return eligible;}
 
-        var situationActivations = situationClassifier.classify(situationText, Map.of());
+        List<io.casehub.neocortex.caps.SituationActivation> situationActivations;
+        try {
+            situationActivations = situationClassifier.classify(situationText, Map.of());
+        } catch (Exception e) {
+            return eligible;
+        }
         if (situationActivations.isEmpty()) {return eligible;}
 
         var situationMap = new java.util.HashMap<String, Double>();
