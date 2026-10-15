@@ -475,13 +475,30 @@ public final class CharacterCognition {
         var profiles = readDriveProfiles();
         if (profiles.isEmpty()) {return eligible;}
 
-        return eligible.stream()
-                       .filter(d -> {
-                           String inputs = profiles.get(d.type());
-                           if (inputs == null) {return true;}
-                           return computeInputOverlap(inputs, situationMap) > 0;
-                       })
-                       .toList();
+        var included = new java.util.ArrayList<SocialConfig.Drive>();
+        var excluded = new java.util.ArrayList<String>();
+        for (var d : eligible) {
+            String inputs = profiles.get(d.type());
+            if (inputs == null) {
+                included.add(d);
+            } else if (computeInputOverlap(inputs, situationMap) > 0) {
+                included.add(d);
+            } else {
+                excluded.add(d.type());
+            }
+        }
+
+        if (!excluded.isEmpty()) {
+            var activationStr = situationActivations.stream()
+                                                    .map(sa -> sa.nodeId() + ":" + String.format("%.2f", sa.confidence()))
+                                                    .collect(java.util.stream.Collectors.joining(", "));
+            var includedStr = included.stream().map(SocialConfig.Drive::type)
+                                      .collect(java.util.stream.Collectors.joining(", "));
+            System.out.printf("[appraisal-filter] %s | situation=[%s] | rendered=[%s] | filtered=[%s]%n",
+                              agentId, activationStr, includedStr, String.join(", ", excluded));
+        }
+
+        return included;
     }
 
     private Map<String, String> readDriveProfiles() {
