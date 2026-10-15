@@ -190,6 +190,58 @@ class SituationClassifierIntegrationTest {
                 .containsAnyOf("acceptance", "sharing", "secure_attachment");
     }
 
+    // Real scenario event text — what the classifier actually receives at runtime
+    private static final String SCENARIO_SPOKE_QUIETLY =
+            "Peter Perfect spoke quietly with penelope-pitstop.";
+
+    private static final String SCENARIO_ASIDE_WARMTH =
+            "She asked for your help, Hartwell. Not Dastardly's vault-cracking bravado. " +
+            "Not Pemberton's oily insider knowledge. Your methodical, over-thorough, " +
+            "probably-annoying-to-everyone-else seven-phase approach.";
+
+    private static final String SCENARIO_ASIDE_WATCHING =
+            "There it is — that rush in the chest. She's watching. Dastardly tried to " +
+            "steer everyone away, and you caught it. You actually caught it before he did.";
+
+    @Test
+    void scenarioText_spokeQuietly_activatesSocialNodes() {
+        List<SituationActivation> activations = classifyWithRetry(SCENARIO_SPOKE_QUIETLY);
+
+        Set<String> nodeIds = activationIds(activations);
+        writeResult("scenario-spoke-quietly", activations);
+
+        System.out.println("'spoke quietly' activations: " + activations);
+        // This is the reproducer: does the classifier detect social warmth
+        // in the terse event text the scenario engine actually produces?
+        assertThat(nodeIds).as("Terse social event should activate acceptance/sharing")
+                .containsAnyOf("acceptance", "sharing", "secure_attachment");
+    }
+
+    @Test
+    void scenarioText_asideWarmth_activatesSocialNodes() {
+        List<SituationActivation> activations = classifyWithRetry(SCENARIO_ASIDE_WARMTH);
+
+        Set<String> nodeIds = activationIds(activations);
+        writeResult("scenario-aside-warmth", activations);
+
+        System.out.println("'she asked for help' activations: " + activations);
+        assertThat(nodeIds).as("Help-seeking aside should activate social nodes")
+                .containsAnyOf("acceptance", "sharing", "secure_attachment");
+    }
+
+    @Test
+    void scenarioText_asideWatching_activatesSocialNodes() {
+        List<SituationActivation> activations = classifyWithRetry(SCENARIO_ASIDE_WATCHING);
+
+        Set<String> nodeIds = activationIds(activations);
+        writeResult("scenario-aside-watching", activations);
+
+        System.out.println("'she's watching' activations: " + activations);
+        assertThat(nodeIds).as("Being-observed aside should activate social nodes")
+                .containsAnyOf("acceptance", "sharing", "secure_attachment",
+                        "performance_judged", "competence_recognition");
+    }
+
     @Test
     void differentSituations_produceDifferentProfiles() {
         Set<String> warmthIds = activationIds(classifyWithRetry(SOCIAL_WARMTH_SITUATION));
