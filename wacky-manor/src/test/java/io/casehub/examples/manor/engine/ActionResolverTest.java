@@ -244,6 +244,17 @@ class ActionResolverTest {
         assertThat(world.hasEffect("tea-service", "rat-poison")).isTrue();
     }
 
+
+    @Test
+    void interact_with_stove_succeeds() {
+        var hc = world.character("hooded-claw");
+        world.moveCharacter("hooded-claw", "kitchen");
+        var result = resolver.resolve(hc,
+                                      new Action(ActionType.INTERACT, "stove", null), world);
+        assertThat(result).isInstanceOf(ActionResult.Success.class);
+        assertThat(result.text()).contains("Wood-Burning Stove");
+    }
+
     @Test
     void actions_on_taken_objects_fail() {
         var hc = world.character("hooded-claw");
