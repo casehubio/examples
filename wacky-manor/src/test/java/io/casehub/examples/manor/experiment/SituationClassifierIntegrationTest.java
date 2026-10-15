@@ -242,6 +242,52 @@ class SituationClassifierIntegrationTest {
                         "performance_judged", "competence_recognition");
     }
 
+    // --- Fix candidate tests: which approach makes terse social text work? ---
+
+    @Test
+    void fix1_richerEventText_addsSocialContext() {
+        String enriched = "Peter Perfect spoke quietly with Clara Bellingham. " +
+                "She is nearby, close enough to notice his gestures.";
+        List<SituationActivation> activations = classifyWithRetry(enriched);
+        Set<String> nodeIds = activationIds(activations);
+        writeResult("fix1-richer-text", activations);
+        System.out.println("Fix 1 (richer text): " + activations);
+        assertThat(nodeIds).containsAnyOf("acceptance", "sharing", "secure_attachment");
+    }
+
+    @Test
+    void fix2_metadata_passesRelationshipContext() {
+        List<SituationActivation> activations = classifyWithRetry(
+                SCENARIO_SPOKE_QUIETLY,
+                Map.of("nearby-characters", "Clara Bellingham (close relationship)",
+                       "relationship-type", "romantic interest"));
+        Set<String> nodeIds = activationIds(activations);
+        writeResult("fix2-metadata", activations);
+        System.out.println("Fix 2 (metadata): " + activations);
+        assertThat(nodeIds).containsAnyOf("acceptance", "sharing", "secure_attachment");
+    }
+
+    @Test
+    void fix3_lowerThreshold_detectsWeakSignal() {
+        // Classify with the standard classifier — check if confidence is between 0.2 and 0.3
+        var lowThresholdClassifier = new LlmSituationClassifier(agentProvider, capsEngine.topology());
+        // Can't change threshold without modifying the class, so just check the raw activations
+        // The standard test already showed acceptance:0.3 — right at threshold.
+        // If threshold were 0.2, would more nodes appear?
+        // We test this by checking: does the existing classifier return ANY sub-0.3 activations?
+        // It doesn't — they're filtered internally. So this test verifies the threshold IS the gate.
+        List<SituationActivation> activations = classifyWithRetry(SCENARIO_SPOKE_QUIETLY);
+        writeResult("fix3-threshold", activations);
+        System.out.println("Fix 3 (current threshold): " + activations);
+        // The issue: acceptance:0.3 is AT threshold — non-determinism drops it below.
+        // Lowering threshold would catch more but also increase false positives.
+        // This test documents the boundary, not a fix.
+        assertThat(activations.stream().anyMatch(a ->
+                a.nodeId().equals("acceptance") || a.nodeId().equals("secure_attachment")))
+                .as("At threshold 0.3, social nodes are borderline for terse text")
+                .isTrue();
+    }
+
     @Test
     void differentSituations_produceDifferentProfiles() {
         Set<String> warmthIds = activationIds(classifyWithRetry(SOCIAL_WARMTH_SITUATION));
@@ -265,6 +311,15 @@ class SituationClassifierIntegrationTest {
      * LLM classification is non-deterministic. Retry up to 3 times when empty
      * results might be due to low-confidence responses or transient failures.
      */
+    private List<SituationActivation> classifyWithRetry(String situation, Map<String, String> metadata) {
+        for (int attempt = 0; attempt < 3; attempt++) {
+            List<SituationActivation> result = classifier.classify(situation, metadata);
+            if (!result.isEmpty()) return result;
+            try { Thread.sleep(2000); } catch (InterruptedException e) { break; }
+        }
+        return classifier.classify(situation, metadata);
+    }
+
     private List<SituationActivation> classifyWithRetry(String situation) {
         for (int attempt = 0; attempt < 3; attempt++) {
             List<SituationActivation> result = classifier.classify(situation, Map.of());
