@@ -162,7 +162,7 @@ public final class CharacterCognition {
         var activatedCategories = (cognitionCore != null)
                 ? cognitionCore.activatedDriveCategories()
                 : java.util.List.<String>of();
-        var internalState = renderInternalState(activatedCategories, character.lastActionResult());
+        var internalState = renderInternalState(activatedCategories, character.lastActionResult(), nearbyAgentIds);
         if (internalState != null) {
             sections.add(internalState);
         }
@@ -255,6 +255,11 @@ public final class CharacterCognition {
     }
 
     ObservationSection renderInternalState(List<String> activatedCategories, String situationText) {
+        return renderInternalState(activatedCategories, situationText, List.of());
+    }
+
+    ObservationSection renderInternalState(List<String> activatedCategories, String situationText,
+                                             Collection<String> nearbyAgentIds) {
         var drives = resolveAdaptedDrives();
         var generatedDescriptions = readGeneratedDriveDescriptions();
 
@@ -267,7 +272,7 @@ public final class CharacterCognition {
                              .filter(d -> d.intensity() > 0.2 && !descriptionFor.apply(d).isBlank())
                              .toList();
 
-        var filtered = appraisalFilterDrives(eligible, situationText);
+        var filtered = appraisalFilterDrives(eligible, situationText, nearbyAgentIds);
 
         var driveDescriptions = filtered.stream()
                               .sorted(java.util.Comparator.comparingDouble(SocialConfig.Drive::intensity).reversed())
@@ -464,14 +469,29 @@ public final class CharacterCognition {
         return overlap;
     }
 
+    private Map<String, String> buildSituationMetadata(Collection<String> nearbyAgentIds) {
+        if (nearbyAgentIds == null || nearbyAgentIds.isEmpty()) return Map.of();
+        var nearby = new java.util.StringJoiner(", ");
+        for (var schema : socialConfig.relationalSchemas()) {
+            if (nearbyAgentIds.contains(schema.target())) {
+                nearby.add(schema.target() + " (" + schema.role() + ")");
+            }
+        }
+        String nearbyStr = nearby.toString();
+        return nearbyStr.isEmpty() ? Map.of() : Map.of("nearby-characters", nearbyStr);
+    }
+
     private List<SocialConfig.Drive> appraisalFilterDrives(
-            List<SocialConfig.Drive> eligible, String situationText) {
+            List<SocialConfig.Drive> eligible, String situationText,
+            Collection<String> nearbyAgentIds) {
         if (situationClassifier == null || mindMapStore == null || tenantId == null) {return eligible;}
         if (situationText == null || situationText.isBlank()) {return eligible;}
 
+        var metadata = buildSituationMetadata(nearbyAgentIds);
+
         List<io.casehub.neocortex.caps.SituationActivation> situationActivations;
         try {
-            situationActivations = situationClassifier.classify(situationText, Map.of());
+            situationActivations = situationClassifier.classify(situationText, metadata);
         } catch (Exception e) {
             return eligible;
         }
