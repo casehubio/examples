@@ -71,6 +71,18 @@ class SituationClassifierIntegrationTest {
             "light. The floorboards creak beneath your feet. Nothing remarkable — just " +
             "an old house settling.";
 
+    // Real formation memory text — the exact input the pipeline classifies
+    private static final String PP_GALLANTRY_MEMORY =
+            "The girl from school was in trouble — bullied by older kids. " +
+            "You intervened. You got beaten up. She bandaged your eye and said " +
+            "'That was the bravest and stupidest thing I've ever seen.' " +
+            "You felt like you'd won every race ever run.";
+
+    // Drive description — what the drive IS, not how it formed
+    private static final String PP_GALLANTRY_DESCRIPTION =
+            "The instinct to be chivalrous, to show care through action and courtesy. " +
+            "You don't just help — you help with style.";
+
     @Inject AgentProvider agentProvider;
     @Inject CapsEngine capsEngine;
 
@@ -151,6 +163,31 @@ class SituationClassifierIntegrationTest {
         assertThat(activations.size())
                 .as("Neutral corridor should produce few or no activations")
                 .isLessThanOrEqualTo(2);
+    }
+
+    @Test
+    void gallantryMemory_classifierActivations() {
+        List<SituationActivation> activations = classifyWithRetry(PP_GALLANTRY_MEMORY);
+
+        Set<String> nodeIds = activationIds(activations);
+        writeResult("gallantry-memory", activations);
+
+        assertThat(activations).isNotEmpty();
+        // The memory describes heroic intervention — what does the classifier see?
+        // Document actual activations for design decisions about profile derivation
+        System.out.println("Gallantry memory activations: " + activations);
+    }
+
+    @Test
+    void gallantryDescription_activatesSocialNodes() {
+        List<SituationActivation> activations = classifyWithRetry(PP_GALLANTRY_DESCRIPTION);
+
+        Set<String> nodeIds = activationIds(activations);
+        writeResult("gallantry-description", activations);
+
+        assertThat(activations).isNotEmpty();
+        assertThat(nodeIds).as("Drive description should activate social nodes")
+                .containsAnyOf("acceptance", "sharing", "secure_attachment");
     }
 
     @Test
