@@ -928,7 +928,62 @@ This applies to all eval criteria, not just the competence test. Any criterion t
 
 The reverse-direction and mixed-situation tests are the falsification suite. They prove the filter is not biased toward any specific drive — it is a universal relevance gate governed by the CAPS input vocabulary.
 
-### Pre-Filtering Scenario Results
+### Scenario Runs — Classifier Comparison
+
+Three full scenario runs tested the appraisal filter with different classifiers.
+
+#### Run 1: Rule-based classifier (caps-topology.yaml vocabulary)
+
+321 events, GENERIC autonomous. The `RuleBasedSituationClassifier` uses construct-derived vocabulary (Bowlby, McClelland academic terms). Result: vocabulary mismatch — "struggling" maps to `failure` not `acceptance`, "door/engine/dinner" match nothing. The filter mostly fell back to "render all drives."
+
+#### Run 2: LLM classifier (Haiku via agent SDK)
+
+306 events, GENERIC autonomous. `LlmSituationClassifier` wired at render time for proper semantic understanding. Rule-based retained for consolidation pipeline (fast, adequate for formation memories with pre-classified `situationTypes`).
+
+#### Results comparison (quality / trigger rate analysis)
+
+| Character | Drive | Rule-based Mean | Rule-based Quality/Trig% | LLM Mean | LLM Quality/Trig% | B0 |
+|---|---|---|---|---|---|---|
+| PP | gallantry | 3.00 | 3.92 / 54% | **2.27** | 3.50 / **27%** | 4.50 |
+| PP | proving-worth | 3.50 | 4.06 / 72% | 3.70 | 4.17 / 82% | 4.22 |
+| PP | protection | 3.80 | 4.31 / 78% | 3.57 | 3.94 / 82% | 3.46 |
+| HC | gloating | 2.07 | 3.73 / 26% | **1.70** | 3.00 / **14%** | 3.97 |
+| HC | scheming | 4.98 | 4.98 / 100% | 4.91 | 4.91 / 100% | 4.82 |
+| Pen | adventure | 2.24 | 3.58 / 27% | 2.83 | 3.62 / 57% | 3.75 |
+| Pen | curiosity | 4.31 | 4.50 / 93% | 4.67 | 4.80 / 95% | 4.30 |
+
+**Key finding:** The LLM classifier filters MORE aggressively — PP gallantry trigger rate dropped from 54% to 27%. It correctly identifies that "Clara examining bookshelves" is NOT a gallantry opportunity despite Clara being present. But the mean drops because more events score 1 (drive correctly absent).
+
+#### Event-level analysis — false negative check
+
+Sampled PP's 32 low-scoring gallantry events. Clara was present in 10/32. The judge's reasons for low scores in Clara-present events:
+
+- "desire to be beside Penelope, but motivation is **proving-worth**, not courteous warmth"
+- "impulse to support her investigation but **overshadowed by puzzle-solving drive**"
+- "restraint in accusation shows courtesy, but no performative warmth or audience-seeking"
+
+In most Clara-present events, the scenario was an investigation scene where proving-worth legitimately dominated. Clara present ≠ gallantry opportunity. The 27% trigger rate appears correct for a mystery-investigation scenario with few genuine courtesy moments.
+
+### The Eval Methodology Problem (Principle 50)
+
+The scenario runs exposed a fundamental flaw in the eval methodology that had been masking the real behavior quality.
+
+**How the eval works:** For each event, the Haiku judge is given ALL of a character's drives and asked to score each 1-5. Every drive is scored in every event. The scores are averaged per drive.
+
+**Why this is wrong for reactive drives:** A reactive drive (gallantry, gloating, adventure) triggers in 20-30% of events. In the other 70-80%, it correctly scores 1 ("not expressed"). The mean: `(0.27 × 3.50 + 0.73 × 1.81) ≈ 2.27`. This looks like failure, but the quality when triggered (3.50) is reasonable, and the trigger rate (27%) reflects the scenario's event distribution, not the character's drive quality.
+
+**The B0 baseline was inflated:** B0 scored gallantry 4.50 because vague hand-authored descriptions made gallantry-like behavior bleed into every event — including investigation scenes where the character should have been focused on the puzzle. The "high" B0 score was actually measuring *drive contamination across irrelevant events*, not *drive quality in relevant events*.
+
+**The compounding error:** The eval also scores drives that the appraisal filter *removed from the observation*. The character was never shown gallantry text, never told to feel it, naturally didn't express it — and the eval penalises this as "low gallantry expression." It's evaluating a student on a chapter they weren't assigned.
+
+**What the eval should measure:**
+- **Quality when triggered:** When a drive IS rendered and relevant, how strongly is it expressed? (Mean of scores ≥ 3)
+- **Trigger rate:** What percentage of events activate this drive? (Property of the scenario, not the character)
+- **Relevance accuracy:** When the filter removes a drive, was the removal correct? (Requires filter observability — added)
+
+**Filter observability:** `appraisalFilterDrives()` now logs which drives were rendered and filtered per event, with the situation activations that drove the decision. This enables correlation between filter decisions and eval scores to distinguish correct filtering from false negatives.
+
+### Pre-Pipeline Scenario Results
 
 900-event run (GENERIC profile), classified at 300 and 900 event windows:
 
@@ -971,6 +1026,9 @@ Mean @300: **3.68** (vs B0 3.93). Scores decay significantly past 300 events —
 | 47 | Pipeline degradation must be graceful — optional deps must not silently produce 0 artifacts | SituationClassifier/CapsTopology absence caused DriveProfileDerivationPhase to early-return, silently breaking the entire downstream chain | Phase 8 |
 | 48 | Multi-channel descriptions discriminate but don't solve the reactive-drive frequency problem | Barrett 4-channel approach produces distinguishable descriptions. The gap is when and whether the drive renders, not what it says | Phase 8 |
 | 49 | Eval criteria must score drive *dominance in action*, not drive *exclusivity in thought* | Competence test scored 3/5 with exclusivity criteria (penalizing brief audience-awareness from formation memories) but 5/5 with dominance criteria (proving-worth determines the action). A character's stream of consciousness reflects their full personality; behavior reflects the situationally relevant drive | Phase 8 |
+| 50 | Eval must separate quality from trigger frequency — mean across all events conflates them | PP gallantry quality 3.50 when triggered (27% of events), but mean 2.27 because 73% of events score 1. B0's 4.50 was inflated by drive contamination across irrelevant events. Reactive drives will always have low means; the metric should be quality-when-triggered + trigger-rate | Phase 8 |
+| 51 | Appraisal filter decisions must be observable — log rendered/filtered drives per event | Without observability, can't distinguish "correctly filtered" from "falsely suppressed." The eval scores drives the character was never shown, producing misleading low scores | Phase 8 |
+| 52 | Rule-based keyword classification doesn't understand context — LLM classification needed for semantic situational understanding | `RuleBasedSituationClassifier` maps "struggling" → failure, not acceptance. Construct-derived vocabulary (Bowlby, McClelland) doesn't match narrative scenario language. LLM classifier correctly identifies "Clara examining bookshelves" as non-gallantry despite Clara being present | Phase 8 |
 
 ## Transcripts
 
@@ -1001,3 +1059,5 @@ All transcripts in `wacky-manor/docs/eval/`:
 | `old-briefings-20261002/` | 327 | Pre-rewrite reference | BASELINE | — |
 | `generic-briefings-20261002/` | 306 | Prescribed catchphrases reference | GENERIC | — |
 | `multichannel-pipeline-2026-10-14/` | 900 | Phase 8 — multi-channel pipeline | GENERIC | L1 + cognitive pipeline |
+| `appraisal-filtering-2026-10-15/` | 321 | Phase 8 — appraisal filter (rule-based classifier) | GENERIC | L1 + cognitive pipeline + appraisal filter |
+| `llm-classifier-2026-10-15/` | 306 | Phase 8 — appraisal filter (LLM classifier) | GENERIC | L1 + cognitive pipeline + LLM appraisal filter |
