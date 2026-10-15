@@ -62,8 +62,7 @@ public class PlaybookOrchestrator {
     jakarta.enterprise.inject.Instance<io.casehub.neocortex.mindmap.intelligence.MindMapExtractor> mindMapExtractorInstance;
     @Inject
     io.casehub.neocortex.caps.CapsEngine capsEngine;
-    @Inject
-    io.casehub.neocortex.caps.llm.LlmSituationClassifier llmSituationClassifier;
+    private io.casehub.neocortex.caps.llm.LlmSituationClassifier llmSituationClassifier;
     @Inject
     jakarta.enterprise.inject.Instance<io.casehub.neocortex.mindmap.intelligence.consolidation.SignificanceAccumulator> significanceAccumulator;
 
@@ -843,6 +842,12 @@ public class PlaybookOrchestrator {
     }
 
 
-    private io.casehub.neocortex.caps.SituationClassifier buildSituationClassifier() {return llmSituationClassifier;}
+    private io.casehub.neocortex.caps.SituationClassifier buildSituationClassifier() {
+        if (llmSituationClassifier == null) {
+            llmSituationClassifier = new io.casehub.neocortex.caps.llm.LlmSituationClassifier(
+                    agentProvider, capsEngine.topology());
+        }
+        return llmSituationClassifier;
+    }
 }
 
