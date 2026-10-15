@@ -983,6 +983,49 @@ The scenario runs exposed a fundamental flaw in the eval methodology that had be
 
 **Filter observability:** `appraisalFilterDrives()` now logs which drives were rendered and filtered per event, with the situation activations that drove the decision. This enables correlation between filter decisions and eval scores to distinguish correct filtering from false negatives.
 
+### Relevance Eval — Two-Part Methodology (Principle 53)
+
+The eval was updated to implement the fix described by Principle 50. The new `relevance` mode (now default in `classify_emotions.py`) asks the judge two questions per drive per event:
+
+1. **Is this situation relevant to this drive?** (yes/no)
+2. **If relevant, how strongly is the drive expressed in the character's ACTION?** (1-5, dominance in action)
+
+Results from re-classifying the 306-event LLM classifier transcript (215 classifiable events):
+
+| Character | Drive | Quality | Trig% | N_trig | N_tot | Flat | B0 |
+|---|---|---|---|---|---|---|---|
+| PP | gallantry | **2.65** | **72%** | 31 | 43 | 2.19 | 4.50 |
+| PP | proving-worth | **3.73** | **95%** | 41 | 43 | 3.60 | 4.22 |
+| PP | protection | **3.33** | **84%** | 36 | 43 | 2.95 | 3.46 |
+| HC | scheming | **4.70** | **100%** | 43 | 43 | 4.70 | 4.82 |
+| HC | gloating | **2.50** | **28%** | 12 | 43 | 1.42 | 3.97 |
+| HC | dominance | **3.05** | **95%** | 41 | 43 | 2.95 | 3.89 |
+| HC | self-preservation | **3.56** | **100%** | 43 | 43 | 3.56 | 2.53 |
+| DD | scheming | **3.85** | **93%** | 40 | 43 | 3.65 | 4.42 |
+| DD | gloating | **3.44** | **58%** | 25 | 43 | 2.42 | 3.50 |
+| DD | greed | **3.68** | **86%** | 37 | 43 | 3.30 | 4.34 |
+| DD | recognition | **3.77** | **81%** | 35 | 43 | 3.26 | 3.44 |
+| Pen | curiosity | **4.55** | **100%** | 42 | 42 | 4.55 | 4.30 |
+| Pen | adventure | **2.93** | **71%** | 30 | 42 | 2.38 | 3.75 |
+| Pen | social-harmony | **2.58** | **90%** | 38 | 42 | 2.43 | 3.18 |
+| AHM | protection | **4.56** | **100%** | 43 | 43 | 4.56 | 4.63 |
+| AHM | loyalty | **3.60** | **98%** | 42 | 43 | 3.53 | 4.24 |
+| AHM | suspicion | **4.10** | **93%** | 40 | 43 | 3.88 | 3.61 |
+
+**Key findings:**
+
+1. **Proactive drives are always relevant:** HC scheming (100%), Pen curiosity (100%), AHM protection (100%) — these drives can express in any situation. The relevance eval confirms they are correctly "always-on" drives.
+
+2. **Reactive drives show genuine trigger rates:** HC gloating (28%), DD gloating (58%), PP gallantry (72%), Pen adventure (71%). These drives are situationally contingent — they need the right kind of event to express. The trigger rate is a property of the scenario's event distribution, not the character's quality.
+
+3. **Quality-when-triggered reveals the real gap:** PP gallantry quality is 2.65 when triggered — below the 3.0 threshold for "clearly present." This suggests the issue isn't just trigger frequency but expression quality even in relevant situations. Compare HC scheming at 4.70 quality — a truly dominant drive.
+
+4. **B0 was measuring drive contamination:** B0 gallantry (4.50) vs relevance quality (2.65). B0's vague descriptions made gallantry bleed into every event; the "high" score masked low actual quality. The relevance eval gives the honest metric.
+
+5. **Self-preservation pattern shift:** HC self-preservation jumps from 2.53 (B0) to 3.56 (relevance, 100% trigger). B0's flat eval depressed it; the relevance eval shows it's always active and moderately expressed — consistent with HC's vigilant character.
+
+**Integration test finding — subject vs observer perspective:** The `LlmSituationClassifier` classifies situations from the subject's experiential perspective, not from an observer's appraisal. "Clara struggling with a door" activates `powerlessness/failure/physical_threat` (Clara's experience), not `acceptance/sharing` (PP's gallantry opportunity). This means the appraisal filter works through indirect overlap: the door-stuck situation activates `physical_threat` → overlaps with PP's protection drive → protection renders. Gallantry renders only when the situation has social nodes (`acceptance`, `sharing`), not physical distress nodes. This distinction — subject-experience vs observer-appraisal — is architecturally correct but means DriveProfileInferred inputs must match the perspective the classifier uses.
+
 ### Pre-Pipeline Scenario Results
 
 900-event run (GENERIC profile), classified at 300 and 900 event windows:
@@ -1029,6 +1072,8 @@ Mean @300: **3.68** (vs B0 3.93). Scores decay significantly past 300 events —
 | 50 | Eval must separate quality from trigger frequency — mean across all events conflates them | PP gallantry quality 3.50 when triggered (27% of events), but mean 2.27 because 73% of events score 1. B0's 4.50 was inflated by drive contamination across irrelevant events. Reactive drives will always have low means; the metric should be quality-when-triggered + trigger-rate | Phase 8 |
 | 51 | Appraisal filter decisions must be observable — log rendered/filtered drives per event | Without observability, can't distinguish "correctly filtered" from "falsely suppressed." The eval scores drives the character was never shown, producing misleading low scores | Phase 8 |
 | 52 | Rule-based keyword classification doesn't understand context — LLM classification needed for semantic situational understanding | `RuleBasedSituationClassifier` maps "struggling" → failure, not acceptance. Construct-derived vocabulary (Bowlby, McClelland) doesn't match narrative scenario language. LLM classifier correctly identifies "Clara examining bookshelves" as non-gallantry despite Clara being present | Phase 8 |
+| 53 | Eval must use two-part relevance gating — ask "is this drive relevant?" before scoring expression quality | Relevance eval: PP gallantry quality 2.65 at 72% trigger rate vs flat mean 2.19 vs B0 4.50. Proactive drives (scheming, curiosity) show 100% trigger rate confirming always-on. Reactive drives (gloating 28%, adventure 71%) are genuinely situational. The two-part eval separates scenario event distribution from character drive quality | Phase 8 |
+| 54 | Situation classifier categorises from subject's experiential perspective, not observer's appraisal — DriveProfileInferred inputs must match | "Clara struggling with door" → `powerlessness/failure/physical_threat` (Clara's experience), not `acceptance/sharing` (observer's gallantry opportunity). Gallantry renders only for social-node situations. Protection renders for distress situations. Architecturally correct but requires awareness when structuring drive profile inputs | Phase 8 |
 
 ## Transcripts
 
