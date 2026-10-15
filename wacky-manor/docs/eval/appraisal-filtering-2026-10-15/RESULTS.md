@@ -51,9 +51,27 @@ Comparable-drive mean: 3.59 (pre) → 3.47 (post). Overall not a clear improveme
 
 3. **The eval methodology** — The Haiku judge scores drive expression in ALL events for ALL drives. When a drive is filtered (not rendered), the character doesn't express it → score 1. This lowers the mean even if the drive is expressed more strongly in matching events. The mean conflates "how well the drive is expressed when relevant" with "how often the drive is relevant."
 
-## Open Questions
+## Root Cause: Vocabulary Abstraction Gap
 
-- What SituationClassifier implementation does the dev server use?
-- Is the appraisal filter actually firing at runtime? (Need cognitive dump to verify)
-- Should the eval methodology weight matching events differently?
-- Does the scenario trajectory happen to have fewer gallantry-triggering events than the pre-filter run?
+Investigated post-run. The production classifier is `RuleBasedSituationClassifier` backed by `caps-topology.yaml`. The vocabulary is **construct-derived** (academic terms from Bowlby, McClelland, etc.):
+
+- `acceptance`: embraced, welcomed, belonged, loved, accepted, included...
+- `sharing`: generous, cooperative, shared, helped, distributed, gave
+- `mastery`: mastered, accomplished, excelled, succeeded, achieved, skilled, solved
+
+Scenario events use **narrative language**: "Clara is struggling with a heavy door", "enters the dining room for dinner", "examines the broken engine."
+
+The mismatches:
+- "struggling" → maps to `failure` (weight 0.3), NOT `acceptance` or `sharing`
+- "door", "dinner", "candle", "engine" → no matches in any vocabulary
+- "helped" (sharing, 0.5) would match but gallantry events rarely use that exact word
+
+**Result:** The classifier mostly returns empty or wrong activations for scenario events. The filter falls back to "render all drives" for most events, producing results close to the pre-filter baseline. The modest +0.50 on gallantry likely comes from the few events where vocabulary happens to match.
+
+**The mechanism is correct but the vocabulary is the wrong abstraction level.** The micro tests worked because they used custom classifiers with scenario-appropriate vocabulary. The production topology was designed for psychological construct classification (childhood memories, formation events), not for real-time scenario event matching.
+
+## Next Steps
+
+1. **Vocabulary extension** — Add scenario-appropriate terms to CAPS input nodes (e.g., `acceptance` += struggling, courtesy, assistance; `mastery` += engine, repair, mechanism, fixing)
+2. **LLM-based classifier** — Use `LlmSituationClassifier` instead of rule-based for richer semantic understanding of narrative events
+3. **Hybrid approach** — Rule-based for common patterns, LLM fallback for unrecognized vocabulary
