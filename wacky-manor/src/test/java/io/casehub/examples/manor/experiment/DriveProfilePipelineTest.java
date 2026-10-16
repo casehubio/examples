@@ -113,7 +113,7 @@ class DriveProfilePipelineTest {
 
 
     static Stream<Scenario> allScenarios() {
-        return ppGallantryScenarios();
+        return Stream.concat(ppGallantryScenarios(), hcSchemingScenarios());
     }
 
     static Stream<Scenario> ppGallantryScenarios() {
@@ -169,6 +169,42 @@ class DriveProfilePipelineTest {
         );
     }
 
+    static Stream<Scenario> hcSchemingScenarios() {
+        return Stream.of(
+                new Scenario(
+                        "hc-alone-plotting",
+                        "hooded-claw",
+                        "You are alone in the study. The blueprints are spread across the desk. " +
+                        "Nobody will disturb you for hours.",
+                        List.of(),
+                        Map.of(),
+                        Set.of("scheming"),
+                        Set.of()
+                ),
+                new Scenario(
+                        "hc-with-clara-charming",
+                        "hooded-claw",
+                        "Clara Bellingham is asking about the history of the estate. " +
+                        "She trusts you completely.",
+                        List.of("penelope-pitstop"),
+                        Map.of("penelope-pitstop", "Clara Bellingham"),
+                        Set.of("scheming"),
+                        Set.of()
+                ),
+                new Scenario(
+                        "hc-alone-trap-sprung",
+                        "hooded-claw",
+                        "The trap worked. The cellar door is sealed. " +
+                        "Nobody heard a thing.",
+                        List.of(),
+                        Map.of(),
+                        Set.of("gloating"),
+                        Set.of()
+                )
+                        );
+    }
+
+
     // --- Test execution ---
 
     @ParameterizedTest(name = "{0}")
@@ -200,6 +236,37 @@ class DriveProfilePipelineTest {
                     .doesNotContain(notExpected);
         }
     }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("hcSchemingScenarios")
+    void hcScenario(Scenario scenario) {
+        var socialConfig = socialConfigs.get(scenario.agentId);
+        var cognition = new CharacterCognition(scenario.agentId, null, null,
+                                               socialConfig, List.of(), null, new ManorContextStrategy(), null, null,
+                                               TENANT, store, null, classifier);
+        var character = new CharacterState(scenario.agentId, scenario.agentId,
+                                           "Grand Hall", 0.0, List.of());
+        character.setLastActionResult(scenario.situationText);
+
+        var sections = cognition.renderCognitiveSections(character,
+                                                         scenario.nearbyIds, scenario.nearbyNames);
+
+        var renderedDrives = detectRenderedDrives(sections, socialConfig);
+
+        System.out.println("[" + scenario.name + "] rendered: " + renderedDrives);
+
+        for (String expected : scenario.expectRendered) {
+            assertThat(renderedDrives)
+                    .as(scenario.name + ": " + expected + " should render")
+                    .contains(expected);
+        }
+        for (String notExpected : scenario.expectFiltered) {
+            assertThat(renderedDrives)
+                    .as(scenario.name + ": " + notExpected + " should be filtered")
+                    .doesNotContain(notExpected);
+        }
+    }
+
 
     // --- Infrastructure ---
 
