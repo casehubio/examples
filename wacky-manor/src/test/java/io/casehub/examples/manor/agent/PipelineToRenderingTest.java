@@ -8,6 +8,7 @@ import io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -187,7 +188,7 @@ class PipelineToRenderingTest {
         var section = renderInternalStateWithClassifier(
             List.of("gallantry"),
             "Clara is struggling with the door",
-            classifier);
+            classifier, List.of("penelope-pitstop"));
 
         var content = ((ObservationSection.TextBlock) section).content();
 
@@ -251,12 +252,13 @@ class PipelineToRenderingTest {
                                                                                    new io.casehub.neocortex.caps.SituationActivation("competence", 0.5));
 
         var section = renderInternalStateWithClassifier(
-                List.of(), "Clara is struggling with a heavy door", classifier);
+                List.of(), "Clara is struggling with a heavy door", classifier,
+                List.of("penelope-pitstop"));
 
         assertThat(section).isNotNull();
         var content = ((ObservationSection.TextBlock) section).content();
         assertThat(content)
-                .as("Gallantry should render — acceptance overlaps with profile")
+                .as("Gallantry should render — acceptance overlaps with profile + social context")
                 .contains("the person exposed");
         assertThat(content)
                 .as("Proving-worth should also render — competence overlaps")
@@ -275,12 +277,13 @@ class PipelineToRenderingTest {
                                                                            List.of(new io.casehub.neocortex.caps.SituationActivation("competence", 0.7));
 
         var section = renderInternalStateWithClassifier(
-                List.of(), "PP is alone in the library", classifier);
+                List.of(), "Clara is nearby in the library", classifier,
+                List.of("penelope-pitstop"));
 
         assertThat(section).isNotNull();
         var content = ((ObservationSection.TextBlock) section).content();
         assertThat(content)
-                .as("Gallantry should still render — no profile means no filtering")
+                .as("Gallantry should render — no profile means no overlap filtering, social context present")
                 .contains("the person exposed");
         assertThat(content)
                 .as("Proving-worth should render — competence overlaps")
@@ -329,12 +332,13 @@ class PipelineToRenderingTest {
                                                                                    new io.casehub.neocortex.caps.SituationActivation("mastery", 0.5));
 
         var section = renderInternalStateWithClassifier(
-                List.of(), "Clara is struggling with a jammed engine — she needs help AND the machine needs fixing", classifier);
+                List.of(), "Clara is struggling with a jammed engine — she needs help AND the machine needs fixing",
+                classifier, List.of("penelope-pitstop"));
 
         assertThat(section).isNotNull();
         var content = ((ObservationSection.TextBlock) section).content();
         assertThat(content)
-                .as("Gallantry should render — acceptance overlaps")
+                .as("Gallantry should render — acceptance overlaps + social context")
                 .contains("the person exposed");
         assertThat(content)
                 .as("Proving-worth should also render — mastery overlaps")
@@ -447,4 +451,18 @@ class PipelineToRenderingTest {
             TENANT, store, null, classifier);
         return cognition.renderInternalState(activated, situation != null ? situation : "");
     }
+
+    private ObservationSection renderInternalStateWithClassifier(
+            List<String> activated, String situation,
+            io.casehub.neocortex.caps.SituationClassifier classifier,
+            Collection<String> nearbyAgentIds) {
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var config  = configs.getOrDefault(AGENT, SocialConfig.empty());
+        var cognition = new CharacterCognition(AGENT, null, null, config, List.of(),
+                                               null, new ManorContextStrategy(), null, null,
+                                               TENANT, store, null, classifier);
+        return cognition.renderInternalState(activated, situation != null ? situation : "",
+                                             nearbyAgentIds);
+    }
+
 }
