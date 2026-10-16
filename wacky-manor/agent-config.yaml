@@ -3,5 +3,9 @@ providers:
     credential:
       project-id: env:ANTHROPIC_VERTEX_PROJECT_ID
       region: us-east5
+aliases:
+  haiku:
+    tier: FAST
+    backend-key: claude
 defaults:
   backend: claude
