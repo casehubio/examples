@@ -8,7 +8,6 @@ import io.casehub.examples.manor.model.CharacterState;
 import io.casehub.neocortex.caps.CapsEngine;
 import io.casehub.neocortex.caps.SituationClassifier;
 import io.casehub.neocortex.caps.llm.LlmSituationClassifier;
-import io.casehub.neocortex.mindmap.MindMapNode;
 import io.casehub.neocortex.mindmap.MindMapQuery;
 import io.casehub.neocortex.mindmap.NodeInput;
 import io.casehub.neocortex.mindmap.SubgraphInput;
@@ -25,7 +24,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,11 +60,14 @@ class DriveProfilePipelineTest {
     @BeforeAll
     void deriveAllProfiles() {
         socialConfigs = ManorSocialConfigLoader.loadForProfile("GENERIC");
-        store = new InMemoryMindMapStore();
-        classifier = new LlmSituationClassifier(agentProvider, capsEngine.topology());
+        store         = new InMemoryMindMapStore();
+        classifier    = new LlmSituationClassifier(agentProvider, capsEngine.topology());
 
-        for (var entry : socialConfigs.entrySet()) {
-            seedAgent(entry.getKey(), entry.getValue());
+        var testedAgents = allScenarios()
+                                   .map(Scenario::agentId)
+                                   .collect(Collectors.toSet());
+        for (var agentId : testedAgents) {
+            seedAgent(agentId, socialConfigs.get(agentId));
         }
 
         var phase = new DriveProfileDerivationPhase(store, classifier, capsEngine.topology());
@@ -76,20 +77,20 @@ class DriveProfilePipelineTest {
                 break;
             } catch (Exception e) {
                 System.out.println("Profile derivation attempt " + (attempt + 1) + " failed: " + e.getMessage());
-                if (attempt == 2) throw e;
+                if (attempt == 2) {throw e;}
             }
         }
 
         var profileNodes = store.search(MindMapQuery.of(TENANT, 500).withType(SubgraphTypes.COGNITIVE))
-                .stream()
-                .filter(n -> n.traits().contains("DriveProfileInferred"))
-                .toList();
+                                .stream()
+                                .filter(n -> n.traits().contains("DriveProfileInferred"))
+                                .toList();
 
         System.out.println("=== Derived profiles ===");
         for (var node : profileNodes) {
-            String agentId = node.properties().get("agent-id");
+            String agentId   = node.properties().get("agent-id");
             String driveType = node.properties().get("drive-type");
-            String inputs = node.properties().get("inferred-inputs");
+            String inputs    = node.properties().get("inferred-inputs");
             System.out.println(agentId + "/" + driveType + ": " + inputs);
             derivedProfiles.computeIfAbsent(agentId, k -> new HashMap<>()).put(driveType, inputs);
         }
@@ -108,6 +109,11 @@ class DriveProfilePipelineTest {
             Set<String> expectFiltered
     ) {
         @Override public String toString() { return name; }
+    }
+
+
+    static Stream<Scenario> allScenarios() {
+        return ppGallantryScenarios();
     }
 
     static Stream<Scenario> ppGallantryScenarios() {
