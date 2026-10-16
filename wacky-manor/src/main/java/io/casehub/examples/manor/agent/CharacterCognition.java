@@ -507,7 +507,12 @@ public final class CharacterCognition {
 
         var included = new java.util.ArrayList<SocialConfig.Drive>();
         var excluded = new java.util.ArrayList<String>();
+        boolean hasSocialContext = nearbyAgentIds != null && !nearbyAgentIds.isEmpty();
         for (var d : eligible) {
+            if (d.requiresSocialContext() && !hasSocialContext) {
+                excluded.add(d.type());
+                continue;
+            }
             String inputs = profiles.get(d.type());
             if (inputs == null) {
                 included.add(d);
@@ -675,11 +680,17 @@ public final class CharacterCognition {
         if (driveNodes.isEmpty()) {
             return socialConfig.drives();
         }
+        var contextByType = socialConfig.drives().stream()
+                                        .collect(java.util.stream.Collectors.toMap(SocialConfig.Drive::type, SocialConfig.Drive::context, (a, b) -> a));
         return driveNodes.stream()
-                         .map(n -> new SocialConfig.Drive(
-                                 n.properties().get("drive-type"),
-                                 Double.parseDouble(n.properties().getOrDefault("intensity", "0")),
-                                 n.properties().getOrDefault("description", "")))
+                         .map(n -> {
+                             String driveType = n.properties().get("drive-type");
+                             return new SocialConfig.Drive(
+                                     driveType,
+                                     Double.parseDouble(n.properties().getOrDefault("intensity", "0")),
+                                     n.properties().getOrDefault("description", ""),
+                                     contextByType.getOrDefault(driveType, "any"));
+                         })
                          .toList();
     }
 

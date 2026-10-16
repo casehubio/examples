@@ -559,7 +559,7 @@ class CharacterCognitionTest {
             null, new ManorContextStrategy(), null, null, tenant, store, null, null);
 
         var section = cognition.renderInternalState(List.of("gallantry"),
-            "Clara is struggling with a heavy door");
+            "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
         var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
 
         assertThat(content).contains("warmth rises");
@@ -626,7 +626,7 @@ class CharacterCognitionTest {
             null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
 
         var section = cognition.renderInternalState(List.of("gallantry"),
-            "Clara is struggling with a heavy door");
+            "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
         var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
 
         assertThat(content).contains("warmth rises");

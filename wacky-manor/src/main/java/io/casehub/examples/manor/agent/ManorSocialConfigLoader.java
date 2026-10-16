@@ -70,7 +70,8 @@ public final class ManorSocialConfigLoader {
                                                                       .map(m -> new SocialConfig.Drive(
                                                                               (String) m.get("type"),
                                                                               ((Number) m.get("intensity")).doubleValue(),
-                                                                              (String) m.get("description")))
+                                                                              (String) m.get("description"),
+                                                                              (String) m.get("context")))
                                                                       .toList()
                      : List.<SocialConfig.Drive>of();
 
