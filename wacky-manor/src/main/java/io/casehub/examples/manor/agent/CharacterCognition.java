@@ -453,20 +453,26 @@ public final class CharacterCognition {
         return result;
     }
 
+
+    private static final double OVERLAP_THRESHOLD = 0.15;
+
     private double computeInputOverlap(String inferredInputs, Map<String, Double> situationMap) {
-        if (inferredInputs == null || inferredInputs.isBlank()) return 0.0;
-        double overlap = 0.0;
+        if (inferredInputs == null || inferredInputs.isBlank()) {return 0.0;}
+        double overlap      = 0.0;
+        double profileTotal = 0.0;
         for (String entry : inferredInputs.split(",")) {
             int colonIdx = entry.indexOf(':');
-            if (colonIdx < 0) continue;
-            String nodeId = entry.substring(0, colonIdx).strip();
+            if (colonIdx < 0) {continue;}
+            String nodeId      = entry.substring(0, colonIdx).strip();
             double driveWeight = Double.parseDouble(entry.substring(colonIdx + 1).strip());
+            profileTotal += driveWeight;
             Double situationWeight = situationMap.get(nodeId);
             if (situationWeight != null) {
                 overlap += Math.min(driveWeight, situationWeight);
             }
         }
-        return overlap;
+        if (profileTotal == 0.0) {return 0.0;}
+        return overlap / profileTotal;
     }
 
     private Map<String, String> buildSituationMetadata(Collection<String> nearbyAgentIds) {
@@ -516,22 +522,27 @@ public final class CharacterCognition {
             String inputs = profiles.get(d.type());
             if (inputs == null) {
                 included.add(d);
-            } else if (computeInputOverlap(inputs, situationMap) > 0) {
+            } else if (computeInputOverlap(inputs, situationMap) >= OVERLAP_THRESHOLD) {
                 included.add(d);
             } else {
                 excluded.add(d.type());
             }
         }
 
-        if (!excluded.isEmpty()) {
-            var activationStr = situationActivations.stream()
-                                                    .map(sa -> sa.nodeId() + ":" + String.format("%.2f", sa.confidence()))
-                                                    .collect(java.util.stream.Collectors.joining(", "));
-            var includedStr = included.stream().map(SocialConfig.Drive::type)
-                                      .collect(java.util.stream.Collectors.joining(", "));
-            System.out.printf("[appraisal-filter] %s | situation=[%s] | rendered=[%s] | filtered=[%s]%n",
-                              agentId, activationStr, includedStr, String.join(", ", excluded));
-        }
+        var activationStr = situationActivations.stream()
+                                                .map(sa -> sa.nodeId() + ":" + String.format("%.2f", sa.confidence()))
+                                                .collect(java.util.stream.Collectors.joining(", "));
+        var includedStr = included.stream().map(SocialConfig.Drive::type)
+                                  .collect(java.util.stream.Collectors.joining(", "));
+        var ratioStr = eligible.stream()
+                               .map(d -> {
+                                   String inputs = profiles.get(d.type());
+                                   double ratio = inputs != null ? computeInputOverlap(inputs, situationMap) : -1;
+                                   return d.type() + "=" + String.format("%.3f", ratio);
+                               })
+                               .collect(java.util.stream.Collectors.joining(", "));
+        System.out.printf("[appraisal-filter] %s | situation=[%s] | ratios=[%s] | rendered=[%s] | filtered=[%s]%n",
+                          agentId, activationStr, ratioStr, includedStr, String.join(", ", excluded));
 
         return included;
     }

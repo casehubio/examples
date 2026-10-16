@@ -7,7 +7,6 @@ import io.casehub.examples.manor.agent.SocialConfig;
 import io.casehub.examples.manor.model.CharacterState;
 import io.casehub.neocortex.caps.SituationActivation;
 import io.casehub.neocortex.caps.SituationClassifier;
-import io.casehub.neocortex.mindmap.MindMapQuery;
 import io.casehub.neocortex.mindmap.NodeInput;
 import io.casehub.neocortex.mindmap.SubgraphInput;
 import io.casehub.neocortex.mindmap.SubgraphTypes;
@@ -97,20 +96,25 @@ class DriveRenderingUnitTest {
 
     static Stream<Scenario> ppScenarios() {
         return Stream.of(
-            new Scenario("pp-alone-workshop", "peter-perfect",
-                "You are alone in the workshop. The mechanism needs repair.",
-                List.of(), Map.of(),
-                List.of(new SituationActivation("mastery", 0.7),
-                        new SituationActivation("competence_recognition", 0.5)),
-                Set.of("proving-worth"), Set.of("gallantry")),
+                new Scenario("pp-alone-workshop", "peter-perfect",
+                             "You are alone in the workshop. The mechanism needs repair.",
+                             List.of(), Map.of(),
+                             List.of(new SituationActivation("mastery", 0.7),
+                                     new SituationActivation("competence_recognition", 0.5),
+                                     new SituationActivation("agency_granted", 0.6),
+                                     new SituationActivation("performance_judged", 0.4)),
+                             Set.of("proving-worth"), Set.of("gallantry")),
 
-            new Scenario("pp-with-clara-warmth", "peter-perfect",
-                "Clara is struggling with a heavy door.",
-                List.of("penelope-pitstop"), Map.of("penelope-pitstop", "Clara Bellingham"),
-                List.of(new SituationActivation("acceptance", 0.6),
-                        new SituationActivation("sharing", 0.5)),
-                Set.of("gallantry"), Set.of())
-        );
+                new Scenario("pp-with-clara-warmth", "peter-perfect",
+                             "Clara is struggling with a heavy door.",
+                             List.of("penelope-pitstop"), Map.of("penelope-pitstop", "Clara Bellingham"),
+                             List.of(new SituationActivation("acceptance", 0.6),
+                                     new SituationActivation("sharing", 0.5),
+                                     new SituationActivation("reward", 0.7),
+                                     new SituationActivation("physical_threat", 0.4),
+                                     new SituationActivation("performance_judged", 0.5)),
+                             Set.of("gallantry"), Set.of())
+                        );
     }
 
     static Stream<Scenario> hcScenarios() {
