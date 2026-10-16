@@ -32,62 +32,76 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class DriveRenderingUnitTest {
+    private static final Map<String, Map<String, String>> BROAD_PROFILES = Map.of(
+            "peter-perfect", Map.of(
+                    "gallantry", "reward:0.850,acceptance:0.750,physical_threat:0.850,performance_judged:0.650,competence_recognition:0.850,social_threat:0.450,agency_granted:0.600",
+                    "protection", "powerlessness:0.650,reward:0.550,acceptance:0.650,modeling_observed:0.750,psychological_threat:0.500,unpredictable_danger:0.720,competence_recognition:0.700,sharing:0.600,secure_attachment:0.850,neglect:0.580,mastery:0.780",
+                    "proving-worth", "reward:0.900,modeling_observed:0.650,acceptance:0.800,failure:0.750,physical_threat:0.850,performance_judged:0.800,competence_recognition:0.850,secure_attachment:0.750,social_threat:0.500,agency_granted:0.750,mastery:0.900"),
+            "hooded-claw", Map.of(
+                    "scheming", "powerlessness:0.650,reward:0.750,scarcity:0.800,exclusion:0.700,psychological_threat:0.550,competition:0.650,betrayal:0.750,aversive_removal:0.700,rejection:0.750,choice_available:0.650,mastery:0.850,competence_recognition:0.650,dominance:0.950,agency_granted:0.750,neglect:0.650",
+                    "gloating", "reward:0.850,acceptance:0.600,modeling_observed:0.550,performance_judged:0.650,competence_recognition:0.500,dominance:0.850,agency_granted:0.700,mastery:0.900",
+                    "self-preservation", "powerlessness:0.780,controlled:0.800,acceptance:0.350,performance_judged:0.550,psychological_threat:0.650,unpredictable_danger:0.850,dominance:0.600,betrayal:0.650,abandonment:0.550,inconsistent_care:0.620,social_threat:0.700,rejection:0.680,neglect:0.850",
+                    "dominance", "powerlessness:0.850,reward:0.750,performance_judged:0.800,competence_recognition:0.550,dominance:0.850,social_threat:0.700,agency_granted:0.900,rejection:0.650,choice_available:0.750"),
+            "penelope-pitstop", Map.of(
+                    "curiosity", "reward:0.800,mastery:0.700,choice_available:0.650,agency_granted:0.600,sharing:0.500",
+                    "social-harmony", "acceptance:0.850,sharing:0.800,secure_attachment:0.750,reward:0.600,rejection:0.500,social_threat:0.650",
+                    "adventure", "physical_threat:0.600,reward:0.700,mastery:0.650,unpredictable_danger:0.500,agency_granted:0.550"));
+    private static final Map<String, Map<String, String>> DISCRIMINATIVE_PROFILES = Map.of(
+            "peter-perfect", Map.of(
+                    "gallantry", "acceptance:0.800,sharing:0.700,secure_attachment:0.750,reward:0.500",
+                    "protection", "unpredictable_danger:0.850,psychological_threat:0.700,powerlessness:0.650,physical_threat:0.600",
+                    "proving-worth", "mastery:0.900,competence_recognition:0.850,performance_judged:0.800,failure:0.700"),
+            "hooded-claw", Map.of(
+                    "scheming", "dominance:0.900,agency_granted:0.800,competition:0.700,mastery:0.600",
+                    "gloating", "reward:0.850,dominance:0.800,competence_recognition:0.600,mastery:0.500",
+                    "self-preservation", "unpredictable_danger:0.850,psychological_threat:0.750,powerlessness:0.700,betrayal:0.650",
+                    "dominance", "dominance:0.900,agency_granted:0.850,powerlessness:0.700,social_threat:0.600"),
+            "penelope-pitstop", Map.of(
+                    "curiosity", "mastery:0.750,choice_available:0.700,agency_granted:0.650,reward:0.500",
+                    "social-harmony", "acceptance:0.850,sharing:0.800,secure_attachment:0.750,social_threat:0.600",
+                    "adventure", "physical_threat:0.700,unpredictable_danger:0.650,reward:0.600,mastery:0.500"));
+
 
     private static final String TENANT = "unit-test";
 
     private Map<String, SocialConfig> socialConfigs;
     private InMemoryMindMapStore store;
 
-    private static final Map<String, Map<String, String>> PROFILES = Map.of(
-            "peter-perfect", Map.of(
-                    "gallantry", "reward:0.850,acceptance:0.750,physical_threat:0.850,performance_judged:0.650,competence_recognition:0.850,social_threat:0.450,agency_granted:0.600",
-                    "protection", "powerlessness:0.650,reward:0.550,acceptance:0.650,modeling_observed:0.750,psychological_threat:0.500,unpredictable_danger:0.720,competence_recognition:0.700,sharing:0.600,secure_attachment:0.850,neglect:0.580,mastery:0.780",
-                    "proving-worth", "reward:0.900,modeling_observed:0.650,acceptance:0.800,failure:0.750,physical_threat:0.850,performance_judged:0.800,competence_recognition:0.850,secure_attachment:0.750,social_threat:0.500,agency_granted:0.750,mastery:0.900"
-                                   ),
-            "hooded-claw", Map.of(
-                    "scheming", "powerlessness:0.650,reward:0.750,scarcity:0.800,exclusion:0.700,psychological_threat:0.550,competition:0.650,betrayal:0.750,aversive_removal:0.700,rejection:0.750,choice_available:0.650,mastery:0.850,competence_recognition:0.650,dominance:0.950,agency_granted:0.750,neglect:0.650",
-                    "gloating", "reward:0.850,acceptance:0.600,modeling_observed:0.550,performance_judged:0.650,competence_recognition:0.500,dominance:0.850,agency_granted:0.700,mastery:0.900",
-                    "self-preservation", "powerlessness:0.780,controlled:0.800,acceptance:0.350,performance_judged:0.550,psychological_threat:0.650,unpredictable_danger:0.850,dominance:0.600,betrayal:0.650,abandonment:0.550,inconsistent_care:0.620,social_threat:0.700,rejection:0.680,neglect:0.850",
-                    "dominance", "powerlessness:0.850,reward:0.750,performance_judged:0.800,competence_recognition:0.550,dominance:0.850,social_threat:0.700,agency_granted:0.900,rejection:0.650,choice_available:0.750"
-                                 ),
-            "penelope-pitstop", Map.of(
-                    "curiosity", "reward:0.800,novelty:0.900,mastery:0.700,choice_available:0.650,agency_granted:0.600,sharing:0.500",
-                    "social-harmony", "acceptance:0.850,sharing:0.800,secure_attachment:0.750,reward:0.600,rejection:0.500,social_threat:0.650",
-                    "adventure", "novelty:0.800,physical_threat:0.600,reward:0.700,mastery:0.650,unpredictable_danger:0.500,agency_granted:0.550"
-                                      )
-                                                                           );
-
     @BeforeAll
     void seedProfiles() {
         socialConfigs = ManorSocialConfigLoader.loadForProfile("GENERIC");
-        store = new InMemoryMindMapStore();
+        store         = new InMemoryMindMapStore();
+        seedWithProfiles(DISCRIMINATIVE_PROFILES);
+    }
 
-        for (var agentEntry : PROFILES.entrySet()) {
+    private void seedWithProfiles(Map<String, Map<String, String>> profiles) {
+        for (var agentEntry : profiles.entrySet()) {
             String agentId = agentEntry.getKey();
-            var config = socialConfigs.get(agentId);
+            var    config  = socialConfigs.get(agentId);
             var sgId = store.createSubgraph(
                     new SubgraphInput("cognitive-" + agentId, SubgraphTypes.COGNITIVE, null), TENANT);
 
             for (var drive : config.drives()) {
                 store.addNode(NodeInput.of(drive.type(), sgId)
-                        .withProperties(Map.of(
-                                "cognitiveKind", "drive-intensity",
-                                "agent-id", agentId,
-                                "drive-type", drive.type(),
-                                "intensity", String.valueOf(drive.intensity()),
-                                "description", drive.description())), TENANT);
+                                       .withProperties(Map.of(
+                                               "cognitiveKind", "drive-intensity",
+                                               "agent-id", agentId,
+                                               "drive-type", drive.type(),
+                                               "intensity", String.valueOf(drive.intensity()),
+                                               "description", drive.description())), TENANT);
             }
 
             for (var profileEntry : agentEntry.getValue().entrySet()) {
                 store.addNode(NodeInput.of("profile-" + profileEntry.getKey(), sgId)
-                        .withTraits(Set.of("DriveProfileInferred"))
-                        .withProperties(Map.of(
-                                "agent-id", agentId,
-                                "drive-type", profileEntry.getKey(),
-                                "inferred-inputs", profileEntry.getValue())), TENANT);
+                                       .withTraits(Set.of("DriveProfileInferred"))
+                                       .withProperties(Map.of(
+                                               "agent-id", agentId,
+                                               "drive-type", profileEntry.getKey(),
+                                               "inferred-inputs", profileEntry.getValue())), TENANT);
             }
         }
     }
+
 
     // --- Scenario data ---
 

@@ -513,12 +513,7 @@ public final class CharacterCognition {
 
         var included = new java.util.ArrayList<SocialConfig.Drive>();
         var excluded = new java.util.ArrayList<String>();
-        boolean hasSocialContext = nearbyAgentIds != null && !nearbyAgentIds.isEmpty();
         for (var d : eligible) {
-            if (d.requiresSocialContext() && !hasSocialContext) {
-                excluded.add(d.type());
-                continue;
-            }
             String inputs = profiles.get(d.type());
             if (inputs == null) {
                 included.add(d);
