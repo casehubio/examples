@@ -1130,7 +1130,52 @@ Phase 8 exhausted the pipeline improvement space. The 4-layer pipeline (encoding
 
 **Overall mean quality: 3.57**
 
-**Next phase:** Cognitive capability layering. Tier 1 roadmap epics (#590 emotion regulation, #591 Theory of Mind, #592 self-conscious emotions) add new cognitive dimensions to the prompt. Each new dimension gives the LLM material to express drives more distinctively. Measure: does the overall mean rise above 3.57, and do bottom drives (adventure 2.78, social-harmony 2.91, dominance 3.17) improve without top drives regressing?
+### Regressions Requiring Recovery
+
+BASELINE2 introduced regressions from the prior eval (`caps-descriptions-2026-10-17`):
+
+| Drive | Before | BASELINE2 | Delta | Likely cause |
+|---|---|---|---|---|
+| PP protection | 4.16 | 3.45 | -0.71 | Differentiation prompt bloat + narrower pinned profile |
+| AHM protection | 4.71 | 4.26 | -0.45 | 3 differentiation texts added (was 0) — fragmenting integrated drives |
+
+Five variables changed simultaneously between evals (pinned profiles, all-pairs differentiation, findFirst fix, template strip, PEN description fix). Can't isolate cause without controlled tests.
+
+**Recovery plan (must complete before cognitive layering):**
+
+1. **Filter differentiation by active drives.** Only include differentiation texts for drive pairs where BOTH drives rendered in the current event. When only protection renders, no differentiation noise in the prompt. Easterbrook (1959): irrelevant content degrades attentional performance. The appraisal filter already determines which drives are active — use that to filter differentiation.
+
+2. **Review PP protection pinned profile.** Current: 3 nodes (`physical_threat, secure_attachment, unpredictable_danger`). LLM-derived had 6 including `aversive_removal` ("wanting to remove the threat") — a legitimate part of the protection construct. Add it back.
+
+3. **Build micro regression tests.** New `DriveExpressionQualityTest` — single-scenario quality scorer that runs in ~30 seconds. Captures the full prompt, sends to LLM, scores response quality. Specific reproducers for PP protection (must score ≥ 3.5) and AHM protection (must score ≥ 4.0). Fast verification without the 2-hour 300-event eval.
+
+4. **300-event eval** only after micro tests pass. Compare against BASELINE2. Success: PP protection recovers toward 4.0+, AHM protection toward 4.5+, no other drive drops > 0.4.
+
+### Next Phase: Cognitive Capability Layering (after regressions recovered)
+
+Pipeline improvements (encoding, profiling, filtering, differentiation) are at their architectural ceiling — they redistribute quality but don't create new quality. To raise the overall mean above 3.57, the LLM needs richer cognitive content.
+
+**Phase order:**
+
+1. **#592 Self-conscious emotions** (Tracy & Robins 2004) — pride, shame, guilt. Highest impact for current weak drives: gallantry (pride in protecting), gloating (pride + contempt), dominance (pride in control), recognition (pride in being seen).
+
+2. **#591 Theory of Mind** (Baker, Saxe & Tenenbaum 2017) — understanding others' mental states. Enriches: gallantry (sensing need), social-harmony (sensing tension), suspicion (modeling intent).
+
+3. **#590 Emotion Regulation** (Gross 1998) — managing competing drives. Enriches: self-preservation (composure), dominance (controlled authority), protection (measured response).
+
+4. **Integration texts** — Barrett (2017) emotional complexity = differentiation + integration. Complement to differentiation: "how drives work TOGETHER" for naturally chained drives (AHM loyalty→protection→suspicion). Lindquist & Barrett (2008), Semerari et al. (2003) S6.
+
+**Measurement:**
+
+| Metric | BASELINE2 | Target |
+|---|---|---|
+| Overall mean quality | 3.57 | > 3.57 |
+| Bottom drive (PEN adventure) | 2.78 | > 3.00 |
+| Bottom-5 mean | 3.00 | > 3.20 |
+| Top drive (HC scheming) | 4.79 | ≥ 4.50 |
+| Max single-drive regression | — | < 0.40 |
+
+Each cognitive layer gets its own eval against BASELINE2. No stacking — if layer N regresses, fix before adding layer N+1.
 
 ## Transcripts
 
