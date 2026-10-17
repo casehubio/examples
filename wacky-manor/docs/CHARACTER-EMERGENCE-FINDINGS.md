@@ -1091,6 +1091,46 @@ Mean @300: **3.68** (vs B0 3.93). Scores decay significantly past 300 events —
 | 69 | Classifier needs construct descriptions, not just vocabulary keywords — keywords give surface forms, descriptions give the conceptual bridge | "The trap worked" → `agency_granted` (keywords only) vs `reward:0.85` (with description "positive outcome — a plan succeeding"). HC gloating quality jumped from 2.37 to 3.56. Literature: Mischel & Shoda (1995) CAPS encoding is concept-driven; Barrett (2017) constructed emotion — categorization requires a concept, not a feature list | Phase 8 |
 | 70 | Profile derivation needs the target drive's description as semantic anchor — the LLM can't discriminate without knowing what the target construct means | Without description: gloating profile got `psychological_threat, betrayal` (self-preservation nodes). With description ("When a plan works, there's a warmth..."): profile nodes align with reward/competition. The discrimination prompt answers "what distinguishes X from Y" but the LLM needs to know what X IS first | Phase 8 |
 | 71 | Reactive drives have a two-layer quality structure: filter quality (does it render?) and expression quality (how well?) — different fixes for each layer | HC gloating filter quality fixed via #605 (3.56 when triggered). PP gallantry filter was already working (52% trigger rate) but expression quality stuck at 2.50. The encoding/profiling/filtering pipeline determines WHETHER; the drive description + LLM generation determines HOW WELL. Gallantry needs description enrichment, not more pipeline work | Phase 8 |
+| 72 | Pinned profiles make pipeline tests deterministic and fast — derive once, validate, freeze | Pipeline test 28min → 3:38 with pinned profiles. LLM-derived profiles are non-deterministic: HC gloating had `reward` in one run, `acceptance/competence_recognition` in the next. Pinned profiles test classifier accuracy, not profile quality lottery. storePinnedProfile() utility + per-drive skip logic (neocortex#606) | Phase 8 |
+| 73 | All C(n,2) drive pairs need differentiation, not just structurally overlapping ones | PP had no gallantry/protection differentiation because they share zero CAPS mediating nodes. 11/21 pairs missing system-wide. AHM had zero pairs. Barrett (2017): emotional granularity requires distinguishing ALL affective states, not just structurally competing ones | Phase 8 |
+| 74 | Differentiation redistributes quality between confused drives — combined quality is conserved, not created | PP gallantry +0.84, PP protection -0.71. Combined: 6.66→6.79. Protection's 4.16 was inflated by gallantry-confusion — the LLM couldn't distinguish them and defaulted to protection-like behavior. After differentiation, quality moves to the correct drive but total doesn't grow | Phase 8 |
+| 75 | Pipeline improvements (encoding, profiling, filtering, differentiation) redistribute quality but don't create new quality — architectural ceiling | Two evals confirm: fixes move quality between drives (gallantry up, protection down) but overall mean is stable. To create NEW quality, the LLM needs richer cognitive content — not better filtering. Next step: cognitive capability layering (#590-592) | Phase 8 |
+| 76 | Differentiation without integration may fragment naturally integrated drives — Barrett (2017) emotional complexity requires both | AHM protection 4.71→4.26 after adding 3 differentiation pairs (was 0). AHM's loyalty→protection→suspicion chain is naturally integrated — differentiation may have fragmented it. Lindquist & Barrett (2008): "emotional complexity involves differentiated AND integrated representation." Semerari et al. (2003): S6 integration = understanding how drives relate as a coherent narrative | Phase 8 |
+| 77 | Delete-before-write in consolidation phases causes permanent data loss on interruption — skip-if-exists is safer for immutable source data | DriveDescriptionGenerationPhase deleted all descriptions before regenerating. Tick 2 interrupted between delete and generate → PEN lost all descriptions permanently. Formation memories are immutable, so regeneration per tick is unnecessary. Fix: skip if descriptions already exist (neocortex#609) | Phase 8 |
+
+### Architectural Ceiling — Phase 8 Conclusion
+
+Phase 8 exhausted the pipeline improvement space. The 4-layer pipeline (encoding → profiling → filtering → expression) now works correctly: right drives render in right situations with right differentiation. Remaining quality gaps are not pipeline problems — they're content problems.
+
+**Evidence: quality conservation.** Two eval runs confirm that pipeline fixes REDISTRIBUTE quality between drives but don't increase the total. PP gallantry gained +0.84 almost exactly from PP protection losing -0.71. The LLM has a fixed amount of "character expression budget" per event — better pipeline tuning allocates that budget more accurately, but doesn't expand it.
+
+**What creates new quality:** richer cognitive content in the prompt. The current prompt has: drive descriptions + differentiation + memories. Adding new cognitive dimensions — self-conscious emotions (pride, shame), theory of mind (understanding others), emotion regulation (managing competing drives) — would give the LLM new material that produces more distinctive behavior.
+
+**Baseline established:** `bugfixes-pinned-2026-10-17` (310 events). This is the measurement baseline for cognitive capability layering.
+
+| Character | Drive | Baseline Quality | Trig% |
+|---|---|---|---|
+| HC scheming | 4.79 | 100% |
+| AHM protection | 4.26 | 98% |
+| DD scheming | 4.26 | 98% |
+| PEN curiosity | 4.11 | 96% |
+| AHM suspicion | 4.03 | 79% |
+| AHM loyalty | 3.91 | 96% |
+| DD greed | 3.72 | 84% |
+| DD recognition | 3.58 | 77% |
+| PP proving-worth | 3.52 | 98% |
+| PP protection | 3.45 | 85% |
+| HC gloating | 3.42 | 45% |
+| PP gallantry | 3.34 | 74% |
+| DD gloating | 3.30 | 53% |
+| HC self-preservation | 3.27 | 98% |
+| HC dominance | 3.17 | 100% |
+| PEN social-harmony | 2.91 | 98% |
+| PEN adventure | 2.78 | 75% |
+
+**Overall mean quality: 3.57**
+
+**Next phase:** Cognitive capability layering. Tier 1 roadmap epics (#590 emotion regulation, #591 Theory of Mind, #592 self-conscious emotions) add new cognitive dimensions to the prompt. Each new dimension gives the LLM material to express drives more distinctively. Measure: does the overall mean rise above 3.57, and do bottom drives (adventure 2.78, social-harmony 2.91, dominance 3.17) improve without top drives regressing?
 
 ## Transcripts
 
@@ -1124,3 +1164,4 @@ All transcripts in `wacky-manor/docs/eval/`:
 | `appraisal-filtering-2026-10-15/` | 321 | Phase 8 — appraisal filter (rule-based classifier) | GENERIC | L1 + cognitive pipeline + appraisal filter |
 | `llm-classifier-2026-10-15/` | 306 | Phase 8 — appraisal filter (LLM classifier) | GENERIC | L1 + cognitive pipeline + LLM appraisal filter |
 | `caps-descriptions-2026-10-17/` | 300 | Phase 8 — CAPS semantic descriptions + derive-and-pin | GENERIC | L1 + cognitive pipeline + LLM classifier + CAPS descriptions + pinned PEN profiles |
+| `bugfixes-pinned-2026-10-17/` | 310 | Phase 8 — bug fixes + all profiles pinned (**BASELINE2**) | GENERIC | L1 + full pipeline + all-pairs differentiation + pinned profiles + template leak fixed |
