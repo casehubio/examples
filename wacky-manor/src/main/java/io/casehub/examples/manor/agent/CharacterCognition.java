@@ -455,6 +455,7 @@ public final class CharacterCognition {
 
 
     private static final double OVERLAP_THRESHOLD = 0.15;
+    private static final double DOMINANT_DRIVE_THRESHOLD = 0.7;
 
     private double computeInputOverlap(String inferredInputs, Map<String, Double> situationMap) {
         if (inferredInputs == null || inferredInputs.isBlank()) {return 0.0;}
@@ -516,6 +517,8 @@ public final class CharacterCognition {
         for (var d : eligible) {
             String inputs = profiles.get(d.type());
             if (inputs == null) {
+                included.add(d);
+            } else if (d.intensity() >= DOMINANT_DRIVE_THRESHOLD) {
                 included.add(d);
             } else if (computeInputOverlap(inputs, situationMap) >= OVERLAP_THRESHOLD) {
                 included.add(d);

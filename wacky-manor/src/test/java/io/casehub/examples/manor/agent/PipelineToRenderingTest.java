@@ -214,8 +214,8 @@ class PipelineToRenderingTest {
 
     @Test
     void appraisalFiltering_excludesDrive_whenNoSituationOverlap() {
-        seedDrive("gallantry", 0.9, "fallback-g");
-        seedDrive("proving-worth", 0.7, "fallback-pw");
+        seedDrive("gallantry", 0.5, "fallback-g");
+        seedDrive("proving-worth", 0.5, "fallback-pw");
         seedGenerated("gallantry", "Gallantry: bright heat, the person exposed");
         seedGenerated("proving-worth", "Proving-worth: tension in hands, the gap not yet built");
         seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
@@ -292,8 +292,8 @@ class PipelineToRenderingTest {
 
     @Test
     void appraisalFiltering_reverseDirection_provingWorthRendersGallantryFiltered() {
-        seedDrive("gallantry", 0.9, "fallback-g");
-        seedDrive("proving-worth", 0.7, "fallback-pw");
+        seedDrive("gallantry", 0.5, "fallback-g");
+        seedDrive("proving-worth", 0.5, "fallback-pw");
         seedGenerated("gallantry", "Gallantry: bright heat, the person exposed");
         seedGenerated("proving-worth", "Proving-worth: tension in hands, the gap not yet built");
         seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
@@ -367,6 +367,32 @@ class PipelineToRenderingTest {
         assertThat(content)
                 .as("Proving-worth should render — classifier has no opinion, so no filtering")
                 .contains("tension in hands");
+    }
+
+
+    @Test
+    void appraisalFiltering_dominantDriveRenders_subdominantFiltered() {
+        seedDrive("scheming", 0.9, "fallback-scheming");
+        seedDrive("dominance", 0.5, "fallback-dominance");
+        seedGenerated("scheming", "Scheming: cold clarity, the plan assembling itself");
+        seedGenerated("dominance", "Dominance: jaw tightens, control slipping");
+        seedProfile("scheming", "autonomy:0.8,competition:0.7");
+        seedProfile("dominance", "agency_granted:0.8");
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+                                                                           List.of(new io.casehub.neocortex.caps.SituationActivation("secure_attachment", 0.85));
+
+        var section = renderInternalStateWithClassifier(
+                List.of(), "She trusts you completely", classifier);
+
+        assertThat(section).isNotNull();
+        var content = ((ObservationSection.TextBlock) section).content();
+        assertThat(content)
+                .as("Dominant drive (0.9) renders — bypasses overlap check (substrate-mechanism gap)")
+                .contains("cold clarity");
+        assertThat(content)
+                .as("Sub-dominant drive (0.5) filtered — below threshold, no situation overlap")
+                .doesNotContain("jaw tightens");
     }
 
     @Test

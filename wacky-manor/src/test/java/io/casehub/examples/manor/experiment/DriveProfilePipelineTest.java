@@ -144,8 +144,8 @@ class DriveProfilePipelineTest {
                 "Tools line the workbench.",
                 List.of(),
                 Map.of(),
-                Set.of("proving-worth"),
-                Set.of("gallantry")
+                Set.of("proving-worth", "gallantry"),
+                Set.of()
             ),
             new Scenario(
                 "pp-clara-and-puzzle",
