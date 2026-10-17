@@ -521,7 +521,7 @@ class CharacterCognitionTest {
         var sgId = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
         store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-scheming", sgId).withTraits(java.util.Set.of("DriveProfileInferred")).withProperties(Map.of("agent-id", agent, "drive-type", "scheming", "inferred-inputs", "dominance:0.8")), tenant);
         io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.9));
-        var drives = List.of(new SocialConfig.Drive("scheming", 0.9, "Plans spinning"));
+        var drives = List.of(new SocialConfig.Drive("scheming", 0.5, "Plans spinning"));
         var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of(), null);
         var cognition = new CharacterCognition(agent, null, null, socialConfig, List.of(), null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
         var section = cognition.renderInternalState(List.of("scheming"), "people welcomed each other");
