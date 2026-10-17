@@ -440,7 +440,7 @@ public final class CharacterCognition {
                 })
                 .limit(2)
                 .map(m -> {
-                    String text = m.name();
+                    String text = m.name().replaceAll("\\{\\{serves: [\\w-]+\\|\\w+: ", "").replace("}}", "");
                     if (text.length() > 100) {
                         int end = text.lastIndexOf(' ', 100);
                         if (end < 40) end = 100;

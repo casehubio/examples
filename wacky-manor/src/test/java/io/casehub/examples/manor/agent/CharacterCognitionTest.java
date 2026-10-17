@@ -640,6 +640,98 @@ class CharacterCognitionTest {
         System.out.println("=== END ===");
     }
 
+
+    @Test
+    void allDifferentiationTextsReachPrompt_notJustFirst() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent  = "peter-perfect";
+        var tenant = "multi-diff";
+        var sgId = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput(
+                "cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        for (var drive : List.of("gallantry", "proving-worth", "protection")) {
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(drive, sgId)
+                                                                .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", agent,
+                                                                                       "drive-type", drive, "intensity", "0.8", "description", "fallback")), tenant);
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-description-" + drive, sgId)
+                                                                .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+                                                                .withProperties(Map.of("agent-id", agent, "drive-type", drive,
+                                                                                       "generated-description", "Description for " + drive + ".")), tenant);
+        }
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("comp-gal-prov", sgId)
+                                                            .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                            .withProperties(Map.of("agent-id", agent, "drive-a", "gallantry", "drive-b", "proving-worth",
+                                                                                   "differentiation-text", "DIFF-GALLANTRY-PROVINGWORTH: one is warmth, the other is proof.")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("comp-gal-prot", sgId)
+                                                            .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                            .withProperties(Map.of("agent-id", agent, "drive-a", "gallantry", "drive-b", "protection",
+                                                                                   "differentiation-text", "DIFF-GALLANTRY-PROTECTION: one is grace, the other is urgency.")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("comp-prov-prot", sgId)
+                                                            .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                            .withProperties(Map.of("agent-id", agent, "drive-a", "proving-worth", "drive-b", "protection",
+                                                                                   "differentiation-text", "DIFF-PROVINGWORTH-PROTECTION: one is about being seen, the other about shielding.")), tenant);
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
+                                               null, new ManorContextStrategy(), null, null, tenant, store, null, null);
+
+        var section = cognition.renderInternalState(List.of("gallantry"),
+                                                    "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+
+        assertThat(content)
+                .as("all 3 differentiation texts must reach the prompt, not just the first")
+                .contains("DIFF-GALLANTRY-PROVINGWORTH")
+                .contains("DIFF-GALLANTRY-PROTECTION")
+                .contains("DIFF-PROVINGWORTH-PROTECTION");
+    }
+
+    @Test
+    void formationMemoryMetadataStrippedFromPrompt() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent  = "penelope-pitstop";
+        var tenant = "template-strip";
+        var sgId = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput(
+                "cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("social-harmony", sgId)
+                                                            .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", agent,
+                                                                                   "drive-type", "social-harmony", "intensity", "0.8", "description", "fallback")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-description-social-harmony", sgId)
+                                                            .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+                                                            .withProperties(Map.of("agent-id", agent, "drive-type", "social-harmony",
+                                                                                   "generated-description", "Your stomach clenches when voices rise.")), tenant);
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(
+                                "Your best friend was being excluded. {{serves: social-harmony|strong: You chose the friend over the group.}} The popular girls stopped talking to you.", sgId)
+                                                            .withProperties(Map.of("cognitiveKind", "formative-experience", "agent-id", agent,
+                                                                                   "situation-types", "formation,childhood,social-harmony")), tenant);
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-social-harmony", sgId)
+                                                            .withTraits(java.util.Set.of("DriveProfileInferred"))
+                                                            .withProperties(Map.of("agent-id", agent, "drive-type", "social-harmony",
+                                                                                   "inferred-inputs", "acceptance:0.8,exclusion:0.7")), tenant);
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+                                                                           List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.6));
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
+                                               null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+
+        var section = cognition.renderInternalState(List.of("social-harmony"),
+                                                    "James Hartwell is sitting alone after the argument", List.of("peter-perfect"));
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+
+        assertThat(content)
+                .as("memory content should appear but metadata annotations must be stripped")
+                .contains("chose the friend")
+                .doesNotContain("{{serves:")
+                .doesNotContain("|strong:")
+                .doesNotContain("}}");
+    }
+
     @Test
     void rendersTendenciesAsFirstCognitiveSection() {
         var socialConfig = ManorSocialConfigLoader.load().get("penelope-pitstop");
