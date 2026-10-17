@@ -455,7 +455,10 @@ public final class CharacterCognition {
 
 
     private static final double OVERLAP_THRESHOLD = 0.15;
-    private static final double DOMINANT_DRIVE_THRESHOLD = 0.7;
+    // CAPS resting activation weight (Mischel & Shoda 1995, Higgins 1996 chronic accessibility)
+    // effective_activation = situation_overlap + intensity² × RESTING_WEIGHT
+    // At 0.22: drives ≥~0.85 self-sustain without situational overlap
+    private static final double RESTING_WEIGHT = 0.22;
 
     private double computeInputOverlap(String inferredInputs, Map<String, Double> situationMap) {
         if (inferredInputs == null || inferredInputs.isBlank()) {return 0.0;}
@@ -518,12 +521,14 @@ public final class CharacterCognition {
             String inputs = profiles.get(d.type());
             if (inputs == null) {
                 included.add(d);
-            } else if (d.intensity() >= DOMINANT_DRIVE_THRESHOLD) {
-                included.add(d);
-            } else if (computeInputOverlap(inputs, situationMap) >= OVERLAP_THRESHOLD) {
-                included.add(d);
             } else {
-                excluded.add(d.type());
+                double overlap = computeInputOverlap(inputs, situationMap);
+                double resting = d.intensity() * d.intensity() * RESTING_WEIGHT;
+                if (overlap + resting >= OVERLAP_THRESHOLD) {
+                    included.add(d);
+                } else {
+                    excluded.add(d.type());
+                }
             }
         }
 
@@ -535,8 +540,10 @@ public final class CharacterCognition {
         var ratioStr = eligible.stream()
                                .map(d -> {
                                    String inputs = profiles.get(d.type());
-                                   double ratio = inputs != null ? computeInputOverlap(inputs, situationMap) : -1;
-                                   return d.type() + "=" + String.format("%.3f", ratio);
+                                   if (inputs == null) return d.type() + "=no-profile";
+                                   double overlap = computeInputOverlap(inputs, situationMap);
+                                   double resting = d.intensity() * d.intensity() * RESTING_WEIGHT;
+                                   return d.type() + "=" + String.format("%.3f(overlap=%.3f,resting=%.3f)", overlap + resting, overlap, resting);
                                })
                                .collect(java.util.stream.Collectors.joining(", "));
         System.out.printf("[appraisal-filter] %s | situation=[%s] | ratios=[%s] | rendered=[%s] | filtered=[%s]%n",

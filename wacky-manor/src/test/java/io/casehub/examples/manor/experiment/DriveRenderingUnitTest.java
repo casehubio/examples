@@ -158,13 +158,13 @@ class DriveRenderingUnitTest {
                              "You are alone in the study. The blueprints are spread across the desk.",
                              List.of(), Map.of(),
                              List.of(sa("dominance", 0.7), sa("agency_granted", 0.6), sa("mastery", 0.5)),
-                             Set.of("scheming"), Set.of()),
+                             Set.of("scheming"), Set.of("self-preservation")),
 
                 new Scenario("hc-alone-trap-sprung", "hooded-claw",
                              "The trap worked. The cellar door is sealed. Nobody heard a thing.",
                              List.of(), Map.of(),
                              List.of(sa("reward", 0.8), sa("dominance", 0.7), sa("agency_granted", 0.6)),
-                             Set.of("gloating"), Set.of()),
+                             Set.of("gloating"), Set.of("self-preservation")),
 
                 new Scenario("hc-alone-danger", "hooded-claw",
                              "Footsteps behind you. Someone followed you to the cellar.",
@@ -179,7 +179,7 @@ class DriveRenderingUnitTest {
                              List.of("penelope-pitstop"), Map.of("penelope-pitstop", "Clara Bellingham"),
                              List.of(sa("dominance", 0.6), sa("agency_granted", 0.7),
                                      sa("competence_recognition", 0.5), sa("reward", 0.4)),
-                             Set.of("scheming"), Set.of()),
+                             Set.of("scheming"), Set.of("self-preservation")),
 
                 // --- Competing signals (triumph + exposure risk) ---
                 new Scenario("hc-trap-but-heard", "hooded-claw",

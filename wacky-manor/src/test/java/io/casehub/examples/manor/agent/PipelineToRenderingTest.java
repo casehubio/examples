@@ -388,10 +388,10 @@ class PipelineToRenderingTest {
         assertThat(section).isNotNull();
         var content = ((ObservationSection.TextBlock) section).content();
         assertThat(content)
-                .as("Dominant drive (0.9) renders — bypasses overlap check (substrate-mechanism gap)")
+                .as("Drive at 0.9 renders — CAPS resting activation (0.178) exceeds threshold (substrate-mechanism gap)")
                 .contains("cold clarity");
         assertThat(content)
-                .as("Sub-dominant drive (0.5) filtered — below threshold, no situation overlap")
+                .as("Drive at 0.5 filtered — resting activation (0.055) insufficient, no situation overlap")
                 .doesNotContain("jaw tightens");
     }
 
