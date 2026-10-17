@@ -70,7 +70,7 @@ class DriveProfilePipelineTest {
             seedAgent(agentId, socialConfigs.get(agentId));
         }
 
-        pinPenelopeProfiles();
+        pinAllProfiles();
 
         var phase = new DriveProfileDerivationPhase(store, classifier, capsEngine.topology());
         for (int attempt = 0; attempt < 3; attempt++) {
@@ -378,25 +378,39 @@ class DriveProfilePipelineTest {
         }
     }
 
-    private void pinPenelopeProfiles() {
+    private void pinAllProfiles() {
+        pinAgent("penelope-pitstop", Map.of(
+                "adventure", Map.of("unpredictable_danger", 0.800, "agency_granted", 0.750, "choice_available", 0.700),
+                "curiosity", Map.of("mastery", 0.850, "agency_granted", 0.750, "choice_available", 0.700),
+                "social-harmony", Map.of("acceptance", 0.880, "exclusion", 0.850, "sharing", 0.800, "social_threat", 0.700)
+                                           ));
+
+        pinAgent("hooded-claw", Map.of(
+                "scheming", Map.of("agency_granted", 0.850, "choice_available", 0.800, "competition", 0.750, "mastery", 0.700),
+                "gloating", Map.of("reward", 0.850, "competition", 0.750, "dominance", 0.700),
+                "self-preservation", Map.of("physical_threat", 0.800, "psychological_threat", 0.750, "unpredictable_danger", 0.700),
+                "dominance", Map.of("dominance", 0.850, "controlled", 0.750, "powerlessness", 0.700)
+                                      ));
+
+        pinAgent("peter-perfect", Map.of(
+                "gallantry", Map.of("acceptance", 0.850, "secure_attachment", 0.750, "sharing", 0.700),
+                "proving-worth", Map.of("mastery", 0.850, "competence_recognition", 0.800, "performance_judged", 0.700),
+                "protection", Map.of("physical_threat", 0.850, "secure_attachment", 0.750, "unpredictable_danger", 0.700)
+                                        ));
+    }
+
+    private void pinAgent(String agentId, Map<String, Map<String, Double>> driveProfiles) {
         var subgraphs = store.listSubgraphs(TENANT);
         String sgId = subgraphs.stream()
-                               .filter(sg -> sg.name().contains("penelope-pitstop"))
+                               .filter(sg -> sg.name().contains(agentId))
                                .map(sg -> sg.id())
                                .findFirst()
                                .orElseThrow();
 
-        DriveProfileDerivationPhase.storePinnedProfile(store, TENANT, sgId,
-                                                       "penelope-pitstop", "adventure",
-                                                       Map.of("unpredictable_danger", 0.800, "agency_granted", 0.750, "choice_available", 0.700));
-
-        DriveProfileDerivationPhase.storePinnedProfile(store, TENANT, sgId,
-                                                       "penelope-pitstop", "curiosity",
-                                                       Map.of("mastery", 0.850, "agency_granted", 0.750, "choice_available", 0.700));
-
-        DriveProfileDerivationPhase.storePinnedProfile(store, TENANT, sgId,
-                                                       "penelope-pitstop", "social-harmony",
-                                                       Map.of("acceptance", 0.880, "exclusion", 0.850, "sharing", 0.800, "social_threat", 0.700));
+        for (var entry : driveProfiles.entrySet()) {
+            DriveProfileDerivationPhase.storePinnedProfile(store, TENANT, sgId,
+                                                           agentId, entry.getKey(), entry.getValue());
+        }
     }
 
 
