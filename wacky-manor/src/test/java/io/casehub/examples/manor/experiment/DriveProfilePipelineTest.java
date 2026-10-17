@@ -70,6 +70,8 @@ class DriveProfilePipelineTest {
             seedAgent(agentId, socialConfigs.get(agentId));
         }
 
+        pinPenelopeProfiles();
+
         var phase = new DriveProfileDerivationPhase(store, classifier, capsEngine.topology());
         for (int attempt = 0; attempt < 3; attempt++) {
             try {
@@ -83,7 +85,7 @@ class DriveProfilePipelineTest {
 
         var profileNodes = store.search(MindMapQuery.of(TENANT, 500).withType(SubgraphTypes.COGNITIVE))
                                 .stream()
-                                .filter(n -> n.traits().contains("DriveProfileInferred"))
+                                .filter(n -> n.traits().contains("DriveProfileInferred") || n.traits().contains("DriveProfilePinned"))
                                 .toList();
 
         System.out.println("=== Derived profiles ===");
@@ -91,7 +93,8 @@ class DriveProfilePipelineTest {
             String agentId   = node.properties().get("agent-id");
             String driveType = node.properties().get("drive-type");
             String inputs    = node.properties().get("inferred-inputs");
-            System.out.println(agentId + "/" + driveType + ": " + inputs);
+            String source    = node.traits().contains("DriveProfilePinned") ? " [pinned]" : "";
+            System.out.println(agentId + "/" + driveType + ": " + inputs + source);
             derivedProfiles.computeIfAbsent(agentId, k -> new HashMap<>()).put(driveType, inputs);
         }
         System.out.println("=== " + profileNodes.size() + " profiles derived ===\n");
@@ -374,6 +377,28 @@ class DriveProfilePipelineTest {
                             "situation-types", String.join(",", driveTypes))), TENANT);
         }
     }
+
+    private void pinPenelopeProfiles() {
+        var subgraphs = store.listSubgraphs(TENANT);
+        String sgId = subgraphs.stream()
+                               .filter(sg -> sg.name().contains("penelope-pitstop"))
+                               .map(sg -> sg.id())
+                               .findFirst()
+                               .orElseThrow();
+
+        DriveProfileDerivationPhase.storePinnedProfile(store, TENANT, sgId,
+                                                       "penelope-pitstop", "adventure",
+                                                       Map.of("unpredictable_danger", 0.800, "agency_granted", 0.750, "choice_available", 0.700));
+
+        DriveProfileDerivationPhase.storePinnedProfile(store, TENANT, sgId,
+                                                       "penelope-pitstop", "curiosity",
+                                                       Map.of("mastery", 0.850, "agency_granted", 0.750, "choice_available", 0.700));
+
+        DriveProfileDerivationPhase.storePinnedProfile(store, TENANT, sgId,
+                                                       "penelope-pitstop", "social-harmony",
+                                                       Map.of("acceptance", 0.880, "exclusion", 0.850, "sharing", 0.800, "social_threat", 0.700));
+    }
+
 
     private Set<String> detectRenderedDrives(List<?> sections, SocialConfig config) {
         var sectionText = sections.stream().map(Object::toString).collect(Collectors.joining("\n"));
