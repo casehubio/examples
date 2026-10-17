@@ -113,7 +113,8 @@ class DriveProfilePipelineTest {
 
 
     static Stream<Scenario> allScenarios() {
-        return Stream.concat(ppGallantryScenarios(), hcSchemingScenarios());
+        return Stream.of(ppGallantryScenarios(), hcSchemingScenarios(), penScenarios())
+                     .flatMap(s -> s);
     }
 
     static Stream<Scenario> ppGallantryScenarios() {
@@ -204,6 +205,52 @@ class DriveProfilePipelineTest {
                         );
     }
 
+    static Stream<Scenario> penScenarios() {
+        return Stream.of(
+                new Scenario(
+                        "pen-alone-library",
+                        "penelope-pitstop",
+                        "You are alone in the library. A book on the top shelf has been " +
+                        "pulled out slightly — just enough to notice. The spine reads " +
+                        "'History of the Doily Estate, Volume III.'",
+                        List.of(),
+                        Map.of(),
+                        Set.of("curiosity"),
+                        Set.of()
+                ),
+                new Scenario(
+                        "pen-alone-hidden-passage",
+                        "penelope-pitstop",
+                        "Behind the bookcase, a narrow passage leads down into darkness. " +
+                        "Cool air rises from below, carrying a faint smell of stone and earth.",
+                        List.of(),
+                        Map.of(),
+                        Set.of("adventure"),
+                        Set.of()
+                ),
+                new Scenario(
+                        "pen-with-hartwell",
+                        "penelope-pitstop",
+                        "James Hartwell is sitting alone by the window, staring at the rain. " +
+                        "He hasn't spoken to anyone since the argument at dinner.",
+                        List.of("peter-perfect"),
+                        Map.of("peter-perfect", "James Hartwell"),
+                        Set.of("social-harmony"),
+                        Set.of()
+                ),
+                new Scenario(
+                        "pen-danger-discovery",
+                        "penelope-pitstop",
+                        "The cellar stairs creak under your weight. Below, the passage " +
+                        "opens into a vast underground chamber. Nobody knows you're here.",
+                        List.of(),
+                        Map.of(),
+                        Set.of("adventure"),
+                        Set.of()
+                )
+                        );
+    }
+
 
     // --- Test execution ---
 
@@ -240,6 +287,36 @@ class DriveProfilePipelineTest {
     @ParameterizedTest(name = "{0}")
     @MethodSource("hcSchemingScenarios")
     void hcScenario(Scenario scenario) {
+        var socialConfig = socialConfigs.get(scenario.agentId);
+        var cognition = new CharacterCognition(scenario.agentId, null, null,
+                                               socialConfig, List.of(), null, new ManorContextStrategy(), null, null,
+                                               TENANT, store, null, classifier);
+        var character = new CharacterState(scenario.agentId, scenario.agentId,
+                                           "Grand Hall", 0.0, List.of());
+        character.setLastActionResult(scenario.situationText);
+
+        var sections = cognition.renderCognitiveSections(character,
+                                                         scenario.nearbyIds, scenario.nearbyNames);
+
+        var renderedDrives = detectRenderedDrives(sections, socialConfig);
+
+        System.out.println("[" + scenario.name + "] rendered: " + renderedDrives);
+
+        for (String expected : scenario.expectRendered) {
+            assertThat(renderedDrives)
+                    .as(scenario.name + ": " + expected + " should render")
+                    .contains(expected);
+        }
+        for (String notExpected : scenario.expectFiltered) {
+            assertThat(renderedDrives)
+                    .as(scenario.name + ": " + notExpected + " should be filtered")
+                    .doesNotContain(notExpected);
+        }
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("penScenarios")
+    void penScenario(Scenario scenario) {
         var socialConfig = socialConfigs.get(scenario.agentId);
         var cognition = new CharacterCognition(scenario.agentId, null, null,
                                                socialConfig, List.of(), null, new ManorContextStrategy(), null, null,
