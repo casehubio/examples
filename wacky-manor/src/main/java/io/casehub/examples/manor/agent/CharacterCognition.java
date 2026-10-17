@@ -343,7 +343,8 @@ public final class CharacterCognition {
             }
         }
         if (sources != null && !sources.isBlank()) {
-            sb.append(" — rooted in ").append(sources);
+            String clean = sources.replaceAll("\\{\\{serves: [\\w-]+\\|\\w+: ", "").replace("}}", "");
+            sb.append(" — rooted in ").append(clean.trim());
         }
         sb.append(".");
         return sb.toString();
