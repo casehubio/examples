@@ -149,6 +149,7 @@ public record SocialConfig(
         }
     }
 
+    // Bartholomew & Horowitz (1991) two-dimensional model — anxiety × avoidance
     public record AttachmentStyle(String style, double anxiety, double avoidance) {
         public AttachmentStyle {
             Objects.requireNonNull(style);
@@ -161,6 +162,7 @@ public record SocialConfig(
         }
     }
 
+    // PAD emotional encoding — Mehrabian & Russell (1974)
     public record FormationMemory(int age, String episode, double pleasure, double arousal, double dominance,
                                   String catalogue, List<ConcernAnnotation> annotations) {
         public FormationMemory {

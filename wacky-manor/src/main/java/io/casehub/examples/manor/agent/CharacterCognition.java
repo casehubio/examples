@@ -100,6 +100,7 @@ public final class CharacterCognition {
         return experienceService != null ? experienceService.recallRelationships(agentId, otherId, limit) : List.of();
     }
 
+    // Section ordering follows Lazarus (1991) appraisal process flow
     public List<ObservationSection> renderCognitiveSections(
             CharacterState character,
             Collection<String> nearbyAgentIds,
@@ -233,6 +234,7 @@ public final class CharacterCognition {
     private ObservationSection renderFormationMemories() {
         var sb = new StringBuilder();
         sb.append("These are the experiences that made you who you are.\n\n");
+        // Salience ordering: abs(valence) + arousal — Menon (2015) salience network
         var sorted = socialConfig.formationMemories().stream()
                                  .sorted(java.util.Comparator.comparingDouble(
                                          (SocialConfig.FormationMemory m) -> Math.abs(m.pleasure()) + m.arousal()).reversed())
@@ -268,6 +270,7 @@ public final class CharacterCognition {
             return generated != null ? generated : d.description();
         };
 
+        // Activation noise floor — weak drives below detection threshold (cf. CapsSettlingConfig)
         var eligible = drives.stream()
                              .filter(d -> d.intensity() > 0.2 && !descriptionFor.apply(d).isBlank())
                              .toList();
@@ -320,6 +323,7 @@ public final class CharacterCognition {
         return ObservationSection.text("What Pulls at You", String.join("\n\n", parts));
     }
 
+    // Attractor intensity labeling — Russell (1980) circumplex distance-from-origin
     private String renderAttractorAsFelt(io.casehub.neocortex.mindmap.MindMapNode node) {
         var    strengthStr      = node.properties().get("strength");
         double strength         = strengthStr != null ? Double.parseDouble(strengthStr) : 0.0;
@@ -454,12 +458,15 @@ public final class CharacterCognition {
     }
 
 
+    // Relative overlap threshold for CAPS profile discrimination (Mischel & Shoda 1995)
+    // overlap/profileTotal must reach 0.15 to filter point-match from pattern-match
     private static final double OVERLAP_THRESHOLD = 0.15;
     // CAPS resting activation weight (Mischel & Shoda 1995, Higgins 1996 chronic accessibility)
     // effective_activation = situation_overlap + intensity² × RESTING_WEIGHT
     // At 0.22: drives ≥~0.85 self-sustain without situational overlap
     private static final double RESTING_WEIGHT = 0.22;
 
+    // Relative overlap: overlap/profileTotal — Jaccard-family similarity metric
     private double computeInputOverlap(String inferredInputs, Map<String, Double> situationMap) {
         if (inferredInputs == null || inferredInputs.isBlank()) {return 0.0;}
         double overlap      = 0.0;
@@ -589,6 +596,7 @@ public final class CharacterCognition {
         return ObservationSection.text("How You Feel About Those Present", sb.toString().strip());
     }
 
+    // Attachment quadrants — Bartholomew & Horowitz (1991) anxiety × avoidance two-dimensional model
     private ObservationSection renderAttachmentStyle() {
         var a  = socialConfig.attachment();
         var sb = new StringBuilder();
@@ -655,6 +663,7 @@ public final class CharacterCognition {
             double alpha = alphaStr.map(Double::parseDouble).orElse(1.0);
             double beta = betaStr.map(Double::parseDouble).orElse(1.0);
 
+            // Uninformative Beta prior — alpha=beta=1, sum≤2 means no evidence (Jøsang 2016, Subjective Logic)
             if (alpha + beta <= 2.0) continue;
 
             String targetNodeId = io.casehub.neocortex.mindmap.OverlayRef.sharedNodeId(overlay).orElse(null);
@@ -670,6 +679,7 @@ public final class CharacterCognition {
             else if (score >= levels.moderate()) level = io.casehub.blocks.summarisation.observation.affordance.TrustLevel.MODERATE;
             else level = io.casehub.blocks.summarisation.observation.affordance.TrustLevel.LOW;
 
+            // Beta posterior concentration (Kruschke 2015) — sum>10 narrow posterior, <4 wide
             String reason = (alpha + beta > 10) ? "You feel quite certain about this"
                           : (alpha + beta < 4) ? "You're still forming an opinion"
                           : null;

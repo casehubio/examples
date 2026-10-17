@@ -5,7 +5,9 @@ import java.util.List;
 
 public final class ManorContextStrategy {
     private static final java.util.Set<String> SOCIAL_AWARENESS_DRIVES          = java.util.Set.of("scheming", "suspicion");
+    // CAPS activation threshold for social cognition gating (Mischel & Shoda 1995)
     private static final double                SOCIAL_AWARENESS_DRIVE_THRESHOLD = 0.5;
+    // Relationship stage progression — Altman & Taylor (1973) social penetration theory
     private static final java.util.List<String> STAGE_ORDER                     = java.util.List.of(
             "stranger", "acquaintance", "familiar", "friend", "confidant");
 
