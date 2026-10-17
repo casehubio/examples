@@ -312,10 +312,7 @@ public final class CharacterCognition {
                 parts.addAll(attractorLines);
             }
 
-            var differentiationText = readDriveDifferentiation(subgraphs);
-            if (differentiationText != null) {
-                parts.add(differentiationText);
-            }
+            parts.addAll(readDriveDifferentiation(subgraphs));
         }
 
         if (parts.isEmpty()) {return null;}
@@ -353,7 +350,7 @@ public final class CharacterCognition {
     }
 
 
-    private String readDriveDifferentiation(java.util.List<io.casehub.neocortex.mindmap.MindMapSubgraph> subgraphs) {
+    private List<String> readDriveDifferentiation(java.util.List<io.casehub.neocortex.mindmap.MindMapSubgraph> subgraphs) {
         return subgraphs.stream()
             .filter(s -> "cognitive".equals(s.type()))
             .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
@@ -361,8 +358,7 @@ public final class CharacterCognition {
             .filter(n -> agentId.equals(n.properties().get("agent-id")))
             .map(n -> n.properties().get("differentiation-text"))
             .filter(t -> t != null && !t.isBlank())
-            .findFirst()
-            .orElse(null);
+            .toList();
     }
 
     private Map<String, String> readGeneratedDriveDescriptions() {
