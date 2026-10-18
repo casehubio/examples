@@ -314,6 +314,7 @@ public final class CharacterCognition {
 
             var activeDriveTypes = filtered.stream().map(SocialConfig.Drive::type).collect(java.util.stream.Collectors.toSet());
             parts.addAll(readDriveDifferentiation(subgraphs, activeDriveTypes));
+            parts.addAll(readDriveIntegration(subgraphs, activeDriveTypes));
         }
 
         if (parts.isEmpty()) {return null;}
@@ -364,6 +365,26 @@ public final class CharacterCognition {
             .filter(t -> t != null && !t.isBlank())
             .toList();
     }
+
+    // Barrett (2017) + Lindquist & Barrett (2008): emotional complexity = differentiation + integration
+    private List<String> readDriveIntegration(java.util.List<io.casehub.neocortex.mindmap.MindMapSubgraph> subgraphs, java.util.Set<String> activeDriveTypes) {
+        return subgraphs.stream()
+                        .filter(s -> "cognitive".equals(s.type()))
+                        .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
+                        .filter(n -> n.traits().contains("DriveIntegrationInferred"))
+                        .filter(n -> agentId.equals(n.properties().get("agent-id")))
+                        .filter(n -> {
+                            String drivesStr = n.properties().get("drives");
+                            if (drivesStr == null) {return false;}
+                            var  drives      = java.util.Arrays.asList(drivesStr.split(","));
+                            long activeCount = drives.stream().filter(activeDriveTypes::contains).count();
+                            return activeCount >= 2;
+                        })
+                        .map(n -> n.properties().get("integration-text"))
+                        .filter(t -> t != null && !t.isBlank())
+                        .toList();
+    }
+
 
     private Map<String, String> readGeneratedDriveDescriptions() {
         if (mindMapStore == null || tenantId == null) return Map.of();

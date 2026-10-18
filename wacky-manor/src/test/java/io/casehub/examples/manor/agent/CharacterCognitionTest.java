@@ -750,6 +750,114 @@ class CharacterCognitionTest {
     }
 
     @Test
+    void integrationTextAppearsWhenTwoPlusDrivesActive() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent  = "ant-hill-mob";
+        var tenant = "integration-test";
+        var sgId = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput(
+                "cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        for (var drive : List.of(
+                Map.entry("loyalty", "0.9"),
+                Map.entry("protection", "0.8"),
+                Map.entry("suspicion", "0.6"))) {
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(drive.getKey(), sgId)
+                                                                .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", agent,
+                                                                                       "drive-type", drive.getKey(), "intensity", drive.getValue(), "description", "fallback")), tenant);
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-description-" + drive.getKey(), sgId)
+                                                                .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+                                                                .withProperties(Map.of("agent-id", agent, "drive-type", drive.getKey(),
+                                                                                       "generated-description", "Description for " + drive.getKey() + ".")), tenant);
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-" + drive.getKey(), sgId)
+                                                                .withTraits(java.util.Set.of("DriveProfileInferred"))
+                                                                .withProperties(Map.of("agent-id", agent, "drive-type", drive.getKey(),
+                                                                                       "inferred-inputs", drive.getKey().equals("loyalty") ? "acceptance:0.8,secure_attachment:0.7"
+                                                                                                                                           : drive.getKey().equals("protection") ? "physical_threat:0.8,unpredictable_danger:0.7"
+                                                                                                                                                                                 : "betrayal:0.8,psychological_threat:0.7")), tenant);
+        }
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("integration-ahm", sgId)
+                                                            .withTraits(java.util.Set.of("DriveIntegrationInferred"))
+                                                            .withProperties(Map.of("agent-id", agent,
+                                                                                   "drives", "loyalty,protection,suspicion",
+                                                                                   "integration-text", "INTEGRATION-AHM: these three pulls are one movement")), tenant);
+
+        // Classifier returns physical_threat + betrayal → protection + suspicion active, loyalty needs overlap
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> List.of(
+                new io.casehub.neocortex.caps.SituationActivation("physical_threat", 0.7),
+                new io.casehub.neocortex.caps.SituationActivation("betrayal", 0.5));
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
+                                               null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+
+        var section = cognition.renderInternalState(List.of("protection", "suspicion"),
+                                                    "A stranger approaches Tommy who is down", List.of("peter-perfect"));
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+
+        assertThat(content)
+                .as("integration text should appear when 2+ drives from the chain are active")
+                .contains("INTEGRATION-AHM");
+    }
+
+    @Test
+    void integrationTextExcludedWhenOnlyOneDriveActive() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent  = "ant-hill-mob";
+        var tenant = "integration-single";
+        var sgId = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput(
+                "cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        for (var drive : List.of(
+                Map.entry("loyalty", "0.9"),
+                Map.entry("protection", "0.8"),
+                Map.entry("suspicion", "0.6"))) {
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(drive.getKey(), sgId)
+                                                                .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", agent,
+                                                                                       "drive-type", drive.getKey(), "intensity", drive.getValue(), "description", "fallback")), tenant);
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-description-" + drive.getKey(), sgId)
+                                                                .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+                                                                .withProperties(Map.of("agent-id", agent, "drive-type", drive.getKey(),
+                                                                                       "generated-description", "Description for " + drive.getKey() + ".")), tenant);
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-" + drive.getKey(), sgId)
+                                                                .withTraits(java.util.Set.of("DriveProfileInferred"))
+                                                                .withProperties(Map.of("agent-id", agent, "drive-type", drive.getKey(),
+                                                                                       "inferred-inputs", drive.getKey().equals("loyalty") ? "acceptance:0.8,secure_attachment:0.7"
+                                                                                                                                           : drive.getKey().equals("protection") ? "physical_threat:0.8,unpredictable_danger:0.7"
+                                                                                                                                                                                 : "betrayal:0.8,psychological_threat:0.7")), tenant);
+        }
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("integration-ahm", sgId)
+                                                            .withTraits(java.util.Set.of("DriveIntegrationInferred"))
+                                                            .withProperties(Map.of("agent-id", agent,
+                                                                                   "drives", "loyalty,protection,suspicion",
+                                                                                   "integration-text", "INTEGRATION-AHM: these three pulls are one movement")), tenant);
+
+        // Only physical_threat → only protection active (loyalty resting=0.178 self-sustains, but suspicion=0.079 doesn't)
+        // Actually loyalty at 0.9: resting = 0.9^2 * 0.22 = 0.178 → self-sustains!
+        // So protection + loyalty are active, suspicion is not. 2 of 3 → integration should appear.
+        // Use a scenario where ONLY protection activates and nothing else overlaps with loyalty
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> List.of(
+                new io.casehub.neocortex.caps.SituationActivation("mastery", 0.7));
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
+                                               null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+
+        // mastery doesn't overlap with any AHM drive profile
+        // loyalty resting=0.178 → self-sustains. protection resting=0.141 → no. suspicion resting=0.079 → no.
+        // Only loyalty is active → only 1 drive from chain → integration excluded
+        var section = cognition.renderInternalState(List.of("loyalty"),
+                                                    "Someone is fixing an engine in the workshop", List.of());
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+
+        assertThat(content)
+                .as("integration text should NOT appear when only one drive from the chain is active")
+                .doesNotContain("INTEGRATION-AHM");
+    }
+
+
+    @Test
     void formationMemoryMetadataStrippedFromPrompt() {
         var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
         var agent  = "penelope-pitstop";

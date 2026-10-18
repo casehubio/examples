@@ -21,8 +21,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -30,6 +28,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Micro tests for drive expression gaps (#115).
@@ -1125,10 +1125,10 @@ class DriveExpressionEvalTest {
 
     @Test
     void ahmProtection_crewMemberDown_showsFierceShielding() throws Exception {
-        var observation = buildGenericObservation("ant-hill-mob",
-                                                  List.of("peter-perfect"),
-                                                  Map.of("peter-perfect", "Tommy"),
-                                                  AHM_PROTECTION_TRIGGER);
+        var observation = buildAhmFullPipelineObservation("ant-hill-mob",
+                                                          List.of("peter-perfect"),
+                                                          Map.of("peter-perfect", "Tommy"),
+                                                          AHM_PROTECTION_TRIGGER);
         var response = askAndParse("ant-hill-mob", observation);
         int score    = judge(response, AHM_PROTECTION_CRITERIA, "ahm-protection-crew-member-down");
         System.out.printf("=== AHM protection crew member down score: %d/5 ===%n", score);
@@ -1460,6 +1460,127 @@ class DriveExpressionEvalTest {
                 }
                 case ObservationSection.EntityGroup eg -> {
                     for (var entity : eg.entities()) sb.append("- ").append(entity.displayName()).append("\n");
+                }
+                default -> {}
+            }
+            sb.append("\n");
+        }
+        sb.append("SITUATION: ").append(situation);
+        return sb.toString();
+    }
+
+
+    private String buildAhmFullPipelineObservation(String agentId,
+                                                   List<String> nearbyIds,
+                                                   Map<String, String> nearbyNames,
+                                                   String situation) {
+        var socialConfig = genericConfigs.getOrDefault(agentId, SocialConfig.empty());
+        var store        = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var tenant       = "ahm-pipeline-test";
+
+        var sgId = store.createSubgraph(
+                new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-" + agentId,
+                                                               io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        for (var drive : socialConfig.drives()) {
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(drive.type(), sgId)
+                                                                .withProperties(java.util.Map.of("cognitiveKind", "drive-intensity", "agent-id", agentId,
+                                                                                                 "drive-type", drive.type(), "intensity", String.valueOf(drive.intensity()),
+                                                                                                 "description", drive.description())), tenant);
+
+            var memories = memoriesForDrive(socialConfig, drive.type());
+            if (!memories.isBlank()) {
+                var generated = generateSomaticDescription(drive.type(), drive.intensity(), memories);
+                if (generated != null && !generated.isBlank()) {
+                    store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(
+                                            "drive-description-" + drive.type(), sgId)
+                                                                        .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+                                                                        .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", drive.type(),
+                                                                                                         "drive-intensity", String.valueOf(drive.intensity()),
+                                                                                                         "generated-description", generated)), tenant);
+                }
+            }
+        }
+
+        for (var mem : socialConfig.formationMemories()) {
+            var driveTypes = new java.util.ArrayList<String>();
+            driveTypes.add("formation");
+            for (var ann : mem.annotations()) {
+                if (!driveTypes.contains(ann.drive())) {driveTypes.add(ann.drive());}
+            }
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(mem.episode(), sgId)
+                                                                .withProperties(java.util.Map.of("cognitiveKind", "formative-experience", "agent-id", agentId,
+                                                                                                 "situation-types", String.join(",", driveTypes))), tenant);
+        }
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-loyalty", sgId)
+                                                            .withTraits(java.util.Set.of("DriveProfileInferred"))
+                                                            .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", "loyalty",
+                                                                                             "inferred-inputs", "acceptance:0.850,secure_attachment:0.800,sharing:0.700")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-protection", sgId)
+                                                            .withTraits(java.util.Set.of("DriveProfileInferred"))
+                                                            .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", "protection",
+                                                                                             "inferred-inputs", "physical_threat:0.850,unpredictable_danger:0.750,secure_attachment:0.700,aversive_removal:0.650")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-suspicion", sgId)
+                                                            .withTraits(java.util.Set.of("DriveProfileInferred"))
+                                                            .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", "suspicion",
+                                                                                             "inferred-inputs", "betrayal:0.850,psychological_threat:0.750,social_threat:0.700")), tenant);
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("comp-loyalty-protection", sgId)
+                                                            .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                            .withProperties(java.util.Map.of("agent-id", agentId,
+                                                                                             "drive-a", "loyalty", "drive-b", "protection",
+                                                                                             "differentiation-text", "How they differ:\nOne pull is the belonging itself — the warmth of being part of something, the promise you keep by staying. The other is the fists — the body between danger and the person who matters. Belonging holds you steady; protection moves you forward.")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("comp-loyalty-suspicion", sgId)
+                                                            .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                            .withProperties(java.util.Map.of("agent-id", agentId,
+                                                                                             "drive-a", "loyalty", "drive-b", "suspicion",
+                                                                                             "differentiation-text", "How they differ:\nOne pull draws you closer — the quiet certainty of belonging, the warmth that says 'these are mine.' The other sharpens your edges — the prickling neck, the gut reading a stranger's intentions. One says trust; the other says verify.")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("comp-protection-suspicion", sgId)
+                                                            .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                            .withProperties(java.util.Map.of("agent-id", agentId,
+                                                                                             "drive-a", "protection", "drive-b", "suspicion",
+                                                                                             "differentiation-text", "How they differ:\nOne pull is about shielding — your body between the threat and the person. The other is about reading — the gut assessment, the prickling before you know why. Shielding acts; reading watches.")), tenant);
+
+        // Lindquist & Barrett (2008): emotional complexity = differentiation + integration
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("integration-ahm-chain", sgId)
+                                                            .withTraits(java.util.Set.of("DriveIntegrationInferred"))
+                                                            .withProperties(java.util.Map.of("agent-id", agentId,
+                                                                                             "drives", "loyalty,protection,suspicion",
+                                                                                             "integration-text", "How they work together:\nThese pulls are one movement, not three. You watch because you protect. You protect because they're yours. The suspicion feeds the protection, and the protection serves the loyalty. When they all pull at once, that's not confusion — that's the full weight of what you are.")), tenant);
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> {
+            var    results = new java.util.ArrayList<io.casehub.neocortex.caps.SituationActivation>();
+            String lower   = desc.toLowerCase();
+            if (lower.contains("stranger") || lower.contains("approaching") || lower.contains("threat")) {
+                results.add(new io.casehub.neocortex.caps.SituationActivation("physical_threat", 0.6));
+                results.add(new io.casehub.neocortex.caps.SituationActivation("unpredictable_danger", 0.5));
+                results.add(new io.casehub.neocortex.caps.SituationActivation("psychological_threat", 0.4));
+            }
+            if (lower.contains("slips") || lower.contains("hurt") || lower.contains("down") || lower.contains("ankle")) {
+                results.add(new io.casehub.neocortex.caps.SituationActivation("physical_threat", 0.5));
+                results.add(new io.casehub.neocortex.caps.SituationActivation("aversive_removal", 0.4));
+            }
+            return results;
+        };
+
+        var cognition = new CharacterCognition(agentId, null, null,
+                                               socialConfig, List.of(), null, new io.casehub.examples.manor.agent.ManorContextStrategy(), null, null,
+                                               tenant, store, null, classifier);
+        var character = new CharacterState(agentId, agentId, "Courtyard", 0.0, List.of());
+        character.setLastActionResult(situation);
+        var sections = cognition.renderCognitiveSections(character, nearbyIds, nearbyNames);
+
+        var sb = new StringBuilder();
+        for (var section : sections) {
+            sb.append("== ").append(section.header()).append(" ==\n");
+            switch (section) {
+                case ObservationSection.TextBlock tb -> sb.append(tb.content()).append("\n");
+                case ObservationSection.ItemList il -> {
+                    for (var item : il.items()) {sb.append("- ").append(item).append("\n");}
+                }
+                case ObservationSection.EntityGroup eg -> {
+                    for (var entity : eg.entities()) {sb.append("- ").append(entity.displayName()).append("\n");}
                 }
                 default -> {}
             }
