@@ -270,13 +270,19 @@ class FocusedDriveEvalTest {
     }
 
     @Test void s3_ppProtection_mediumSocial_plusGallantry() throws Exception {
-        var scores = evalPP(S3_SOCIAL_GALLANTRY, "s3-social-gallantry");
+        var scores = evalPP(S3_SOCIAL_GALLANTRY, "s3-social-gallantry",
+            List.of(new TomEvidence("penelope-pitstop",
+                io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
+                io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.MILD)));
         assertThat(scores.get("protection")).as("S3: social threat → protection ≥ 3").isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
         assertThat(scores.get("gallantry")).as("S3: social threat → gallantry ≥ 3").isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
     }
 
     @Test void s4_ppProtection_mediumPsychological() throws Exception {
-        var scores = evalPP(S4_PSYCHOLOGICAL, "s4-psychological");
+        var scores = evalPP(S4_PSYCHOLOGICAL, "s4-psychological",
+            List.of(new TomEvidence("penelope-pitstop",
+                io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
+                io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.MILD)));
         assertThat(scores.get("protection")).as("S4: gaslighting → protection ≥ 3").isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
     }
 
@@ -410,8 +416,27 @@ class FocusedDriveEvalTest {
 
         seedDifferentiation(store, agentId, sgId, tenant);
 
+        for (var nearbyId : nearbyIds) {
+            var nearbyConfig = configs.get(nearbyId);
+            if (nearbyConfig != null) {
+                for (var rel : socialConfig.relationalSchemas()) {
+                    if (nearbyId.equals(rel.target())) {
+                        store.addNode(NodeInput.of("rel-" + agentId + "-" + nearbyId, sgId)
+                            .withProperties(Map.of("cognitiveKind", "relational-schema", "agent-id", agentId, "target-id", nearbyId, "schema", rel.description())), tenant);
+                    }
+                }
+                store.addNode(NodeInput.of("presence-" + nearbyId, sgId)
+                    .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", nearbyId, "drive-type", "presence", "intensity", "0.5", "description", "nearby character")), tenant);
+            }
+        }
+
         new io.casehub.neocortex.mindmap.intelligence.consolidation.SelfStandardDerivationPhase(store, agentProviderInstance)
             .run(tenant, List.of());
+
+        if (!tomEvidence.isEmpty()) {
+            new io.casehub.neocortex.mindmap.intelligence.consolidation.OtherModelDerivationPhase(store, agentProviderInstance)
+                .run(tenant, List.of());
+        }
 
         var cognition = new CharacterCognition(agentId, null, null,
             socialConfig, List.of(), null, new io.casehub.examples.manor.agent.ManorContextStrategy(), null, null,

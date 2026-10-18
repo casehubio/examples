@@ -117,34 +117,34 @@ public final class CharacterCognition {
         var sections = new ArrayList<ObservationSection>();
         for (var id : nearbyAgentIds) {
             var engine = tomEngines.get(id);
-            if (engine == null) {continue;}
+            if (engine == null) continue;
 
-            double[] state      = engine.inferEmotionalState();
-            double   positive   = state[io.casehub.neocortex.mindmap.intelligence.tom.EmotionalValence.POSITIVE.ordinal()];
-            double   neutral    = state[io.casehub.neocortex.mindmap.intelligence.tom.EmotionalValence.NEUTRAL.ordinal()];
-            double   distressed = state[io.casehub.neocortex.mindmap.intelligence.tom.EmotionalValence.DISTRESSED.ordinal()];
+            double[] state = engine.inferEmotionalState();
+            double distressed = state[io.casehub.neocortex.mindmap.intelligence.tom.EmotionalValence.DISTRESSED.ordinal()];
+
+            if (distressed < 0.35) continue;
+
+            String reading = readOtherModel(id);
+            if (reading == null || reading.isBlank()) continue;
 
             String name = agentNames.getOrDefault(id, id);
-            String text = renderEmotionalReading(name, positive, neutral, distressed);
-            if (text != null) {
-                sections.add(ObservationSection.text("What You Sense About " + name, text));
-            }
+            sections.add(ObservationSection.text("What You Sense About " + name, reading));
         }
         return sections;
     }
 
-    private String renderEmotionalReading(String name, double positive, double neutral, double distressed) {
-        if (distressed > 0.6) {
-            return "Something about " + name + " feels wrong. The way they carry themselves, " +
-                   "the small signals — you sense real distress beneath the surface, " +
-                   "even if the cause isn't obvious to you.";
-        } else if (distressed > 0.4) {
-            return "You pick up a subtle unease from " + name + ". Not alarm — something " +
-                   "quieter. They don't seem quite themselves.";
-        } else if (positive > 0.5) {
-            return name + " seems at ease. Nothing in their manner suggests distress.";
-        }
-        return null;
+    private String readOtherModel(String targetId) {
+        if (mindMapStore == null || tenantId == null) return null;
+        return mindMapStore.listSubgraphs(tenantId).stream()
+            .filter(s -> "cognitive".equals(s.type()))
+            .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
+            .filter(n -> n.traits().contains("OtherModelDerived"))
+            .filter(n -> agentId.equals(n.properties().get("agent-id")))
+            .filter(n -> targetId.equals(n.properties().get("target-id")))
+            .map(n -> n.properties().get("empathic-reading"))
+            .filter(r -> r != null && !r.isBlank())
+            .findFirst()
+            .orElse(null);
     }
 
 

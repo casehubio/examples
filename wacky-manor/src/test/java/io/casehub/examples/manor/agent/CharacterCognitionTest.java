@@ -899,23 +899,35 @@ class CharacterCognitionTest {
     }
 
     @Test
-    void tomSectionAppearsWhenCharacterStateObserved() {
-        var cognition = new CharacterCognition("peter-perfect", null);
+    void tomSectionAppearsWhenCharacterStateObservedAndModelExists() {
+        var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var tenant = "test";
+        var sgId = store.createSubgraph(
+            new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-peter-perfect",
+                io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("other-model-peter-perfect-clara", sgId)
+            .withTraits(java.util.Set.of("OtherModelDerived"))
+            .withProperties(Map.of("agent-id", "peter-perfect", "target-id", "clara",
+                "empathic-reading", "A tightness gathers across your shoulders and down through your arms.")), tenant);
+
+        var cognition = new CharacterCognition("peter-perfect", null, null,
+            SocialConfig.empty(), List.of(), null, new ManorContextStrategy(), null, null,
+            tenant, store, null, null);
         cognition.observeCharacterState("clara",
-                                        io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
-                                        io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.NONE);
+            io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
+            io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.NONE);
 
         var sections = cognition.renderCognitiveSections(
-                new io.casehub.examples.manor.model.CharacterState("peter-perfect", "PP", "Room", 0.0, List.of()),
-                List.of("clara"), Map.of("clara", "Clara"));
+            new io.casehub.examples.manor.model.CharacterState("peter-perfect", "PP", "Room", 0.0, List.of()),
+            List.of("clara"), Map.of("clara", "Clara"));
 
         var tomSections = sections.stream()
-                                  .filter(s -> s.header().startsWith("What You Sense About"))
-                                  .toList();
+            .filter(s -> s.header().startsWith("What You Sense About"))
+            .toList();
         assertThat(tomSections).hasSize(1);
         assertThat(tomSections.get(0).header()).isEqualTo("What You Sense About Clara");
         assertThat(((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content())
-                .containsAnyOf("distress", "unease");
+            .contains("tightness");
     }
 
     @Test
