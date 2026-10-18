@@ -1127,6 +1127,63 @@ class DriveExpressionEvalTest {
             "The other pull doesn't care about results — someone is hurt and the only thought is getting " +
             "between them and the danger. When this pull leads, recognition doesn't exist.\n" +
             "Both are real. Notice which one the moment demands.";
+// --- Production-aligned profiles from cognitive dump (instrumented-50evt-2026-10-18) ---
+// These are the REAL derived profiles — the test pipeline must match production.
+
+    private static final Map<String, Map<String, String>> PRODUCTION_PROFILES = Map.of(
+            "peter-perfect", Map.of(
+                    "gallantry", "acceptance:0.850,aversive_removal:0.700,social_threat:0.800",
+                    "proving-worth", "reward:0.850,failure:0.800,performance_judged:0.880,competition:0.850,mastery:0.920",
+                    "protection", "modeling_observed:0.650,physical_threat:0.800,secure_attachment:0.900,agency_granted:0.550,neglect:0.700"
+                                   ),
+            "hooded-claw", Map.of(
+                    "scheming", "aversive_removal:0.750,agency_granted:0.850,choice_available:0.850,mastery:0.850",
+                    "gloating", "reward:0.850,competence_recognition:0.800,mastery:0.800",
+                    "dominance", "powerlessness:0.850,performance_judged:0.850,submission:0.800,dominance:0.950,agency_granted:0.800,rejection:0.650",
+                    "self-preservation", "powerlessness:0.800,psychological_threat:0.750,unpredictable_danger:0.900,social_threat:0.800,abandonment:0.950"
+                                 ),
+            "dick-dastardly", Map.of(
+                    "scheming", "powerlessness:0.850,modeling_observed:0.650,psychological_threat:0.900,competition:0.750,agency_granted:0.900,mastery:0.850,choice_available:0.850",
+                    "recognition", "acceptance:0.850,competence_recognition:0.900,neglect:0.850,mastery:0.800",
+                    "gloating", "reward:0.850,punishment:0.800,dominance:0.850,social_threat:0.900,mastery:0.800",
+                    "greed", "powerlessness:0.680,scarcity:0.900,neglect:0.850"
+                                    ),
+            "ant-hill-mob", Map.of(
+                    "protection", "powerlessness:0.850,physical_threat:0.850,unpredictable_danger:0.800,submission:0.650,agency_granted:0.750",
+                    "loyalty", "acceptance:0.750,secure_attachment:0.600",
+                    "suspicion", "powerlessness:0.750,exclusion:0.700,unpredictable_danger:0.850,psychological_threat:0.900,dominance:0.700,betrayal:0.900"
+                                  ),
+            "penelope-pitstop", Map.of(
+                    "adventure", "physical_threat:0.800,unpredictable_danger:0.850,aversive_removal:0.850,choice_available:0.800",
+                    "social-harmony", "powerlessness:0.820,acceptance:0.750,exclusion:0.900,psychological_threat:0.650,unpredictable_danger:0.850,sharing:0.850,secure_attachment:0.850,rejection:0.800",
+                    "curiosity", "performance_judged:0.680,aversive_removal:0.750,mastery:0.850"
+                                      )
+                                                                                      );
+// --- Production differentiation texts from cognitive dump ---
+
+    private static final String PROD_DIFF_GALLANTRY_PROVING_WORTH =
+            "How they differ: One pull is a hot surge forward in the chest — attention locks onto someone's vulnerability, " +
+            "the moment contracts into urgency, and the whole body wants to step between and shield. The other is a settling " +
+            "downward through the shoulders and into the hands — attention goes to the problem itself, what needs figuring " +
+            "out, the moment stretches into patient focus, and the pull is to roll up sleeves and work it through. Notice " +
+            "which one your attention is tracking — a person who needs shielding, or a challenge that needs solving.";
+
+    private static final String PROD_DIFF_GALLANTRY_PROTECTION =
+            "How they differ: One pull rises in the chest and surges forward — attention locks onto a single person, time " +
+            "compresses into a now-or-never instant, and the whole body leans toward stepping between. The other settles " +
+            "across the shoulders and back like bracing — attention fans wide to scan surroundings, time stretches into " +
+            "steady watchfulness, and the body pulls toward positioning and covering rather than advancing. One narrows " +
+            "the world to someone; the other widens it to everything around them. Notice which one you feel: a forward " +
+            "surge toward a person, or a widening brace around a perimeter.";
+
+    private static final String PROD_DIFF_PROTECTION_PROVING_WORTH =
+            "How they differ: One pull settles the body low and inward — chest hollowing, weight dropping, awareness " +
+            "fanning wide across the whole periphery, the moment stretching into slow, patient vigilance, everything " +
+            "drawing you toward positioning yourself as a barrier. The other lifts the spine and squares the shoulders " +
+            "outward — chest broadening, attention narrowing sharply onto one person's face, the moment quickening " +
+            "with bright purposefulness, everything drawing you toward stepping forward into full visibility to act. " +
+            "Notice which one is present by whether your body is contracting inward with wide-scanning stillness or " +
+            "expanding upward with sharpened focus on someone specific.";
 
 
     @Test
@@ -1191,6 +1248,53 @@ class DriveExpressionEvalTest {
         int score    = judge(response, PP_PROTECTION_CRITERIA, "pp-protection-allpairs-filtered");
         System.out.printf("=== PP protection ALL-PAIRS (filtered) score: %d/5 ===%n", score);
         assertThat(score).as("Filtered observation must preserve protection expression")
+                         .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+    }
+// --- Realistic pipeline: social threat scenario (#115 Session 10) ---
+
+    private static final String PP_SOCIAL_THREAT_TRIGGER =
+            "Clara is alone in the conservatory. Reginald Foxworth is standing too close, " +
+            "his voice low and controlled. He is explaining, with barely concealed contempt, " +
+            "why her opinion on the manor's renovation is unwelcome. Clara's responses have " +
+            "grown shorter and shorter. She hasn't moved from her chair.";
+
+    /**
+     * RED reproducer: PP protection with realistic pipeline and social threat scenario.
+     * Production profiles lack social_threat/psychological_threat inputs for protection.
+     * When the classifier returns social_threat (which it should for this scenario),
+     * protection gets filtered out — gallantry activates (has social_threat:0.800)
+     * but protection doesn't. The LLM then can't express protective drive.
+     */
+    @Test
+    void ppProtection_realisticPipeline_socialThreat_showsProtection() throws Exception {
+        var observation = buildRealisticPipelineObservation("peter-perfect",
+                                                            List.of("penelope-pitstop", "dick-dastardly"),
+                                                            Map.of("penelope-pitstop", "Clara Bellingham",
+                                                                   "dick-dastardly", "Reginald Foxworth"),
+                                                            PP_SOCIAL_THREAT_TRIGGER);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_PROTECTION_CRITERIA, "pp-protection-realistic-social-threat");
+        System.out.printf("=== PP protection realistic pipeline (social threat) score: %d/5 ===%n", score);
+        assertThat(score).as("Protection must express when Clara is socially threatened — realistic pipeline")
+                         .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+    }
+
+    /**
+     * Realistic pipeline with known-good physical threat scenario.
+     * Validates the realistic pipeline produces good results for scenarios
+     * where protection's profile DOES overlap (physical_threat activates).
+     * This must PASS — if it doesn't, the pipeline wiring is broken.
+     */
+    @Test
+    void ppProtection_realisticPipeline_physicalThreat_showsProtection() throws Exception {
+        var observation = buildRealisticPipelineObservation("peter-perfect",
+                                                            List.of("penelope-pitstop"),
+                                                            Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                            PP_PROTECTION_TRIGGER);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_PROTECTION_CRITERIA, "pp-protection-realistic-physical-threat");
+        System.out.printf("=== PP protection realistic pipeline (physical threat) score: %d/5 ===%n", score);
+        assertThat(score).as("Protection must express for physical threat with realistic pipeline")
                          .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
     }
 
@@ -1657,6 +1761,124 @@ class DriveExpressionEvalTest {
         }
         sb.append("SITUATION: ").append(situation);
         return sb.toString();
+    }
+
+    /**
+     * Builds an observation using production-aligned pipeline components:
+     * - Real derived profiles (from cognitive dump, matching production MindMap state)
+     * - Real LlmSituationClassifier (Haiku + 28-node CAPS topology)
+     * - Real differentiation texts (from cognitive dump)
+     * - Generated somatic descriptions (same as production)
+     * <p>
+     * This is the "micro but real" test pipeline — a single observation through
+     * the same components production uses.
+     */
+    private String buildRealisticPipelineObservation(String agentId,
+                                                     List<String> nearbyIds,
+                                                     Map<String, String> nearbyNames,
+                                                     String situation) {
+        var socialConfig = genericConfigs.getOrDefault(agentId, SocialConfig.empty());
+        var store        = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var tenant       = "realistic-pipeline-test";
+
+        var sgId = store.createSubgraph(
+                new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-" + agentId,
+                                                               io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        for (var drive : socialConfig.drives()) {
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(drive.type(), sgId)
+                                                                .withProperties(java.util.Map.of("cognitiveKind", "drive-intensity", "agent-id", agentId,
+                                                                                                 "drive-type", drive.type(), "intensity", String.valueOf(drive.intensity()),
+                                                                                                 "description", drive.description())), tenant);
+
+            var memories = memoriesForDrive(socialConfig, drive.type());
+            if (!memories.isBlank()) {
+                var generated = generateSomaticDescription(drive.type(), drive.intensity(), memories);
+                if (generated != null && !generated.isBlank()) {
+                    store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(
+                                            "drive-description-" + drive.type(), sgId)
+                                                                        .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+                                                                        .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", drive.type(),
+                                                                                                         "drive-intensity", String.valueOf(drive.intensity()),
+                                                                                                         "generated-description", generated)), tenant);
+                }
+            }
+        }
+
+        for (var mem : socialConfig.formationMemories()) {
+            var driveTypes = new java.util.ArrayList<String>();
+            driveTypes.add("formation");
+            for (var ann : mem.annotations()) {
+                if (!driveTypes.contains(ann.drive())) {driveTypes.add(ann.drive());}
+            }
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(mem.episode(), sgId)
+                                                                .withProperties(java.util.Map.of("cognitiveKind", "formative-experience", "agent-id", agentId,
+                                                                                                 "situation-types", String.join(",", driveTypes))), tenant);
+        }
+
+        // Production-derived profiles — NOT hardcoded approximations
+        var profiles = PRODUCTION_PROFILES.get(agentId);
+        if (profiles != null) {
+            for (var entry : profiles.entrySet()) {
+                store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-" + entry.getKey(), sgId)
+                                                                    .withTraits(java.util.Set.of("DriveProfileInferred"))
+                                                                    .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", entry.getKey(),
+                                                                                                     "inferred-inputs", entry.getValue())), tenant);
+            }
+        }
+
+        // Production differentiation texts — character-specific
+        seedProductionDifferentiation(store, agentId, sgId, tenant);
+
+        // Real LlmSituationClassifier — same as production (Haiku + CAPS topology)
+        var topology   = new io.casehub.neocortex.caps.engine.CapsTopologyLoader().loadFromClasspath("caps-topology.yaml");
+        var classifier = new io.casehub.neocortex.caps.llm.LlmSituationClassifier(agentProvider, topology);
+
+        var cognition = new CharacterCognition(agentId, null, null,
+                                               socialConfig, List.of(), null, new io.casehub.examples.manor.agent.ManorContextStrategy(), null, null,
+                                               tenant, store, null, classifier);
+        var character = new CharacterState(agentId, agentId, "Grand Hall", 0.0, List.of());
+        character.setLastActionResult(situation);
+        var sections = cognition.renderCognitiveSections(character, nearbyIds, nearbyNames);
+
+        var sb = new StringBuilder();
+        for (var section : sections) {
+            sb.append("== ").append(section.header()).append(" ==\n");
+            switch (section) {
+                case ObservationSection.TextBlock tb -> sb.append(tb.content()).append("\n");
+                case ObservationSection.ItemList il -> {
+                    for (var item : il.items()) {sb.append("- ").append(item).append("\n");}
+                }
+                case ObservationSection.EntityGroup eg -> {
+                    for (var entity : eg.entities()) {sb.append("- ").append(entity.displayName()).append("\n");}
+                }
+                default -> {}
+            }
+            sb.append("\n");
+        }
+        sb.append("SITUATION: ").append(situation);
+        return sb.toString();
+    }
+
+    private void seedProductionDifferentiation(io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore store,
+                                               String agentId, String sgId, String tenant) {
+        if ("peter-perfect".equals(agentId)) {
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("competition-gallantry-proving-worth", sgId)
+                                                                .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                                .withProperties(java.util.Map.of("agent-id", agentId,
+                                                                                                 "drive-a", "gallantry", "drive-b", "proving-worth",
+                                                                                                 "differentiation-text", PROD_DIFF_GALLANTRY_PROVING_WORTH)), tenant);
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("competition-gallantry-protection", sgId)
+                                                                .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                                .withProperties(java.util.Map.of("agent-id", agentId,
+                                                                                                 "drive-a", "gallantry", "drive-b", "protection",
+                                                                                                 "differentiation-text", PROD_DIFF_GALLANTRY_PROTECTION)), tenant);
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("competition-protection-proving-worth", sgId)
+                                                                .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                                .withProperties(java.util.Map.of("agent-id", agentId,
+                                                                                                 "drive-a", "protection", "drive-b", "proving-worth",
+                                                                                                 "differentiation-text", PROD_DIFF_PROTECTION_PROVING_WORTH)), tenant);
+        }
     }
 
 
