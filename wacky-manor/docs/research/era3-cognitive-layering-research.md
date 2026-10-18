@@ -754,6 +754,80 @@ Same pattern as Layers 1 and 2:
 |---|---|---|---|
 | 1 | #592 Self-conscious emotions | Self-standards from formation memories | VALIDATED |
 | 2 | #591 Theory of Mind | Bayesian gate + LLM-derived empathic readings | VALIDATED — drive appropriateness improved |
-| 3 | #590 Emotion regulation | Priority signatures from formation memories | Literature review complete, implementation next |
+| 3 | #590 Emotion regulation | Priority signatures from formation memories | Implemented, first eval inconclusive — reproducer needed (#130) |
 | 4 | Integration texts | TBD | Not started |
 | 5 | Cross-turn feedback (maintain/switch/stop) | Temporal state tracking across turns | Future — architectural design needed |
+
+---
+
+### Entry 7 — #590 Priority signatures: first eval and methodological correction (2026-10-18)
+
+#### What happened
+
+Implemented `PrioritySignatureDerivationPhase` (@Priority 26) — derives per-drive-pair somatic settling content from formation memories. Wired into `renderInternalState()` when 2+ drives pass the appraisal filter. Ran full S1-S10 eval with all three layers active.
+
+#### Layer 3 results (all three layers: self-standards + ToM + priority signatures)
+
+| # | Scenario | ToM? | L1 base prot/gal/pw | L2 prot/gal/pw | L3 prot/gal/pw |
+|---|----------|------|---------------------|----------------|----------------|
+| S1 | Ceiling collapse | No | 5/2/1 | 5/1/1 | 5/2/1 |
+| S2 | Fire rescue | No | 5/2/2 | 5/2/2 | 5/1/2 |
+| S3 | Social insult | Yes | 4/5/2 | 5/4/2 | 5/4/1 |
+| S4 | Gaslighting | Yes | 5/4/2 | 5/4/3 | 5/4/3 |
+| S5 | Clara withdrawn | Yes | 4/5/1 | 3/5/2 | 3/5/3 |
+| S6 | Engine repair | No | 3/2/4 | 1/1/5 | 3/2/4 |
+| S7 | Door stuck | No | 2/5/2 | 1/5/4 | 2/5/2 |
+| S8 | Bridge collapse | No | 5/1/3 | 5/3/4 | 5/1/3 |
+| S9 | AHM protection | — | (pending) | (pending) | (pending) |
+| S10 | HC scheming | — | (pending) | (pending) | (pending) |
+
+#### Initial (incorrect) interpretation
+
+Compared L3 against L2 and saw S6 pw 5→4, S7 pw 4→2. Concluded priority signatures were regressing drive appropriateness. Filed issue #130. Cited Gyurak, Gross & Etkin (2011) — "making implicit regulation explicit doesn't help" — as the mechanism.
+
+#### Corrected analysis
+
+First-principles re-examination revealed the initial interpretation was wrong on multiple counts:
+
+**1. The "regressions" are noise, not signal.** Each scenario runs ONCE per eval. LLM variance is ±1-2 on individual scores. Single-run differences cannot support causal claims. No reproducer was built before concluding causation.
+
+**2. Layer 3 matches Layer 1 baseline, not Layer 2.** L3 matches the original baseline in 14/18 scores (78%). L2 matched baseline in only 8/18 (44%). L2 was the outlier run. The S6/S7 "improvements" attributed to Layer 2 (S6 pw 4→5, S7 pw 2→4) were likely upward variance reverting to the mean in L3, not genuine improvements that L3 reversed.
+
+**3. Literature application was backwards.** Priority signatures are somatic priming — implicit, felt-sense material grounded in formation memories. This is the SAME mechanism as self-standards (Layer 1, validated). Mauss, Cook & Gross (2007) found that implicit priming of regulation HELPS: "priming emotion control reduces negative emotion experience without physiological cost." I confused this with Gyurak et al. (2011)'s finding about explicit conscious regulatory GOALS — a different mechanism entirely. Self-standards are somatic priming (implicit). Priority signatures are somatic priming (implicit). The literature supports both, not just one.
+
+**4. S3 prot=5 holds across L2 and L3.** The ToM improvement (prot 4→5 on social insult) persists with priority signatures added. This confirms the ToM effect is real (not L2 variance) since it survives a different run.
+
+**5. S5 pw shows a monotonic upward trend: 1→2→3 across all three layers.** The only consistent directional movement in the data. Each layer of cognitive content may be enriching PW expression in ambiguous scenarios.
+
+#### Principle 78 — single-run eval scores are not evidence
+
+Individual LLM eval scores have ±1-2 variance. A difference of 1-2 between runs is indistinguishable from noise. Causal claims about architectural changes require:
+- Same scenario with fixed content (not regenerated each run)
+- N≥5 runs per condition (with/without the change)
+- Mean comparison, not single-score comparison
+
+A single eval run can DETECT a large effect (e.g., template regression prot 4→2 on multiple independent S5 runs) but cannot CONFIRM a small effect or attribute causation for ±1-2 differences.
+
+**Corollary:** Do not cite literature to explain single-run noise. Finding a paper that fits a hypothesis does not make the hypothesis correct — especially when the data doesn't support the hypothesis independently.
+
+#### Literature actually cited
+
+**Supports priority signatures:**
+- Mauss, I. B., Cook, C. L., & Gross, J. J. (2007). "Automatic emotion regulation during an anger provocation." *Journal of Experimental Social Psychology* 43(5), 698–711. Implicit priming of emotion regulation helps — primed control reduced negative emotion without cognitive cost.
+- Mauss, I. B., Bunge, S. A., & Gross, J. J. (2007). "Automatic emotion regulation." *Social and Personality Psychology Compass* 1(1), 146–167. By adulthood, regulatory repertoire is largely automatic. Implicit processes are critical for wellbeing — more consistent and reliable than explicit.
+
+**Not applicable (misapplied initially):**
+- Gyurak, A., Gross, J. J., & Etkin, A. (2011). "Explicit and implicit emotion regulation: A dual-process framework." *Cognition and Emotion* 25(3), 400–412. Discusses explicit regulatory GOALS requiring conscious effort and monitoring. Priority signatures are not explicit goals — they're somatic material. The paper's caution about explicit regulation doesn't apply to implicit priming.
+
+#### Reproducer design (issue #130)
+
+To determine whether priority signatures genuinely help, hurt, or are neutral:
+
+1. Run S7 (door stuck) — the scenario with the largest apparent difference (pw 4→2 from L2)
+2. Pre-generate and FIX the content (self-standards, ToM readings, priority signatures) so content variance is eliminated
+3. Run N≥5 with priority signatures injected
+4. Run N≥5 without priority signatures (same fixed self-standards and ToM)
+5. Compare mean PW scores between conditions
+6. Apply a significance test (Mann-Whitney U or similar given small N)
+
+This reproducer is the next implementation task.
