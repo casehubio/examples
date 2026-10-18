@@ -164,6 +164,27 @@ public final class CharacterCognition {
         return parts.isEmpty() ? null : String.join("\n\n", parts);
     }
 
+    private List<String> readPrioritySignatures(List<io.casehub.neocortex.mindmap.MindMapSubgraph> subgraphs,
+                                                List<SocialConfig.Drive> filteredDrives) {
+        var activeDriveTypes = filteredDrives.stream()
+                                             .map(SocialConfig.Drive::type)
+                                             .collect(java.util.stream.Collectors.toSet());
+
+        return subgraphs.stream()
+                        .filter(s -> "cognitive".equals(s.type()))
+                        .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
+                        .filter(n -> n.traits().contains("PrioritySignatureDerived"))
+                        .filter(n -> agentId.equals(n.properties().get("agent-id")))
+                        .filter(n -> {
+                            String driveA = n.properties().get("drive-a");
+                            String driveB = n.properties().get("drive-b");
+                            return activeDriveTypes.contains(driveA) && activeDriveTypes.contains(driveB);
+                        })
+                        .map(n -> n.properties().get("priority-signature"))
+                        .filter(s -> s != null && !s.isBlank())
+                        .toList();
+    }
+
 
     // Section ordering follows Lazarus (1991) appraisal process flow
     public List<ObservationSection> renderCognitiveSections(
@@ -354,6 +375,7 @@ public final class CharacterCognition {
         int attractorCount    = 0;
         int diffTextCount     = 0;
         int selfStandardCount = 0;
+        int prioritySigCount  = 0;
 
         if (mindMapStore != null && tenantId != null) {
             var subgraphs = mindMapStore.listSubgraphs(tenantId);
@@ -401,13 +423,19 @@ public final class CharacterCognition {
                 parts.addAll(diffTexts);
                 diffTextCount = diffTexts.size();
             }
+
+            if (filtered.size() >= 2) {
+                var prioritySigs = readPrioritySignatures(subgraphs, filtered);
+                parts.addAll(prioritySigs);
+                prioritySigCount = prioritySigs.size();
+            }
         }
 
         if (parts.isEmpty()) {return null;}
 
         var driveNames = filtered.stream().map(SocialConfig.Drive::type).collect(java.util.stream.Collectors.joining(", "));
-        System.out.printf("[observation-assembly] %s | drives=%d [%s] | selfStandards=%d | diffTexts=%d | memories=%d | attractors=%d | totalParts=%d%n",
-                          agentId, filtered.size(), driveNames, selfStandardCount, diffTextCount, memoryCount, attractorCount, parts.size());
+        System.out.printf("[observation-assembly] %s | drives=%d [%s] | selfStandards=%d | diffTexts=%d | prioritySigs=%d | memories=%d | attractors=%d | totalParts=%d%n",
+                          agentId, filtered.size(), driveNames, selfStandardCount, diffTextCount, prioritySigCount, memoryCount, attractorCount, parts.size());
 
         return ObservationSection.text("What Pulls at You", String.join("\n\n", parts));
     }

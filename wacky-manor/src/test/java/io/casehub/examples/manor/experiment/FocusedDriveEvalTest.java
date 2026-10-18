@@ -433,6 +433,9 @@ class FocusedDriveEvalTest {
         new io.casehub.neocortex.mindmap.intelligence.consolidation.SelfStandardDerivationPhase(store, agentProviderInstance)
             .run(tenant, List.of());
 
+        new io.casehub.neocortex.mindmap.intelligence.consolidation.PrioritySignatureDerivationPhase(store, agentProviderInstance)
+            .run(tenant, List.of());
+
         if (!tomEvidence.isEmpty()) {
             new io.casehub.neocortex.mindmap.intelligence.consolidation.OtherModelDerivationPhase(store, agentProviderInstance)
                 .run(tenant, List.of());
