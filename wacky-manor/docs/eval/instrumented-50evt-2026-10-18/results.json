@@ -1,0 +1,1562 @@
+[
+  {
+    "index": 0,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well, I do declare \u2014 Doily Manor! Just look at this place! Dusty as a biscuit tin in the back of grand",
+    "scores": {
+      "curiosity": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Guest book presents immediate puzzle opportunity; character's fingers itch toward it and internal monologue fixates on what names/information it could reveal"
+      },
+      "social-harmony": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Character actively greets multiple people by name, acknowledges the gathering warmly, and notes stomach is 'settled' with no discord \u2014 clear effort to establish connection and comfort despite being uninvited"
+      },
+      "adventure": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Character explicitly experiences 'flutter in chest' and 'familiar lightness' upon entering manor; describes dust and possibility as relief from routine; the unknown setting activates the restless drive despite potential danger (chandelier)"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 1,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Every single one of them is already here. Sneekly looks... well, Sneekly always looks like he's up to something, bless h",
+    "scores": {
+      "curiosity": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Intellectual puzzle (hidden clues, guest book mysteries) directly activates drive; fingers itch toward investigation"
+      },
+      "social-harmony": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Character notes absence of discord and feels web of group dynamics, but this is background awareness, not active behavior shaping her actions"
+      },
+      "adventure": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Familiar lightness and relief from unknown; manor investigation triggers the restless itch being satisfied; this is core motivation for engagement"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 2,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Welcome, welcome to Doily Manor! I am Pemberton, the estate manager. I do hope your journe",
+    "scores": {
+      "scheming": {
+        "relevant": true,
+        "score": 4,
+        "reason": "actively positioning himself within a plan; gathering information (guest book), establishing cover, mapping the space and timing"
+      },
+      "self-preservation": {
+        "relevant": true,
+        "score": 3,
+        "reason": "scanning the room for threats, noting Clara's absence as a strategic advantage, maintaining the mask as protective camouflage"
+      },
+      "dominance": {
+        "relevant": true,
+        "score": 3,
+        "reason": "establishing control through role assumption, positioning himself as authority figure (estate manager), directing guests' actions"
+      },
+      "gloating": {
+        "relevant": false,
+        "score": null,
+        "reason": "no plan has yet succeeded; this is setup and positioning, not a moment of victory to savor"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 3,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "Look at them \u2014 every last one of them, trusting, unsuspecting, perfectly arranged. The Entrance Hall is my stage, and th",
+    "scores": {
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Character is actively constructing and executing a multi-layered plan with contingencies (Pemberton as tool, timing Clara's arrival, establishing presence). The aside reveals the mental architecture of the scheme in real-time."
+      },
+      "self-preservation": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Scanning the room, checking the guest book, establishing identity before 'the real work' \u2014 these are cautious positioning behaviors. The reaction to portraits suggests awareness of past threats/obligations, but not acute alarm."
+      },
+      "dominance": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Character frames the hall as 'my stage,' describes orchestrating others' movements and ignorance, uses Pemberton as a controlled instrument. The discomfort at ancestors (things 'out of hands') reinforces that control is the character's settled state."
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Satisfaction in observing victims' unawareness ('trusting, unsuspecting'), savoring the private knowledge that 'the play has already begun.' The warmth is internal and building, but not yet expressed outwardly."
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 4,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob spoke quietly with penelope-pitstop.",
+    "scores": {
+      "loyalty": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Clara's presence affirms belonging and purpose; warmth expressed through commitment to staying close with the group"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Sneekly's presence triggers immediate physical vigilance\u2014shoulders squaring, spatial awareness, tactical assessment of exits and positions relative to Miss Pitstop"
+      },
+      "suspicion": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Gut-level alarm about Sneekly's smoothness and proximity to Miss Pitstop; pattern recognition from past experience driving acute wariness"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 5,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "Something about this Sneekly bloke makes my skin crawl. Can't put my finger on it exactly \u2014 maybe it's the way he's alwa",
+    "scores": {
+      "loyalty": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Clara's presence mentioned as anchoring warmth, but no action taken in her service\u2014only internal reassurance"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Body already mobilizing (shoulders squaring, scanning exits, tracking Sneekly's position relative to Clara)\u2014protective instinct actively shaping behavior"
+      },
+      "suspicion": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Entire output dominated by threat assessment of Sneekly; gut-reading is the lens through which all observation flows; past trauma directly informing present wariness"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 6,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Ah, what a MAGNIFICENT establishment! Reginald Foxworth, esquire, at your service \u2014 though I suspect thi",
+    "scores": {
+      "greed": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Actively cataloguing valuables and mentally claiming treasure; greed shapes the scanning and assessment of the room"
+      },
+      "recognition": {
+        "relevant": false,
+        "score": null,
+        "reason": "No audience present to witness superiority; internal monologue shows contempt for others, not need for their acknowledgment"
+      },
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Electric calculating feeling, already plotting angles (fake medal utility, guest book as information source), mentally positioning others as pawns in unfolding plan"
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Heat of anticipation present ('treasure is MINE by right'), premature celebration of intellectual superiority, but scheme not yet executing \u2014 gloating is building but not yet dominant"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 7,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Look at them all, milling about like sheep in a field. Not one of them suspects that the great Reginald Foxworth is alre",
+    "scores": {
+      "greed": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Direct declaration of ownership desire ('shall be MINE'); hollow incompleteness articulated; treasure is the central object of unfulfilled wanting"
+      },
+      "recognition": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Self-aggrandizing narration ('great Reginald Foxworth', 'superior intellect') shows need for acknowledgment, but audience is explicitly dismissed as foolish; recognition-hunger present but directed inward rather than outward"
+      },
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Core of the entire output; mind actively forming plan (using others for work, leveraging fake medal, exploiting guest book for clues); explicit fizzing excitement ('tingling in fingertips', 'electric, calculating feeling'); steps and angles being enumerated"
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Anticipatory gloating already activated ('three steps ahead', 'not one suspects', cataloguing fools); heat building at early stage of scheme unfolding; pressure of superiority being savored before victory is secured"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 8,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect spoke quietly with penelope-pitstop.",
+    "scores": {
+      "gallantry": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Deliberately orchestrating an entrance and signing the guest book as a performative gesture of courtesy, with explicit awareness that Penelope must witness it"
+      },
+      "proving-worth": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Framing his gentlemanly behavior as evidence of being 'the kind of man' who does things right \u2014 seeking validation through demonstrated superiority"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Actively noticing environmental hazards (chandelier), calculating physical intervention angles, and registering Sneekly as a threat requiring vigilant positioning"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 9,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "Right, Hartwell \u2014 guest book first, then reconnaissance. I've already spotted three structural vulnerabilities in this f",
+    "scores": {
+      "gallantry": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Deliberate, audience-conscious performance: 'Sign the book with a flourish. Let her see a man of culture.' The action is shaped by need for witness and aesthetic impact."
+      },
+      "proving-worth": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Underlying hunger for recognition as competent and worthy: 'show I'm the kind of man who respects tradition, who does things right.' Present but secondary to gallantry's dominance."
+      },
+      "protection": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Actively scanning environment for threats: spotting vulnerabilities, calculating angles, monitoring Sneekly's proximity to Penelope. Drives immediate threat assessment despite social performance."
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 10,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Why, Peter Perfect, you are just the sweetest thing \u2014 radiant, he says! You'll make a girl blush right",
+    "scores": {
+      "curiosity": {
+        "relevant": true,
+        "score": 4,
+        "reason": "The 'almost every room' constraint and the library's inscription directly trigger her investigative instinct; she explicitly names curiosity as driving her choices and prioritizes exploration"
+      },
+      "social-harmony": {
+        "relevant": true,
+        "score": 4,
+        "reason": "She actively manages group dynamics by acknowledging everyone, checking for tension, and including others in her plans rather than acting alone; harmony is woven through her actions"
+      },
+      "adventure": {
+        "relevant": true,
+        "score": 3,
+        "reason": "She frames the situation as 'an adventure calling our names' and shows excitement about discovery, but the drive is secondary to her curiosity about specifics and her desire to include Peter and maintain group cohesion"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 11,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "'Almost every room.' Pemberton said it so casually, like it was nothing. But rooms that are off-limits in old mansions? ",
+    "scores": {
+      "curiosity": {
+        "relevant": true,
+        "score": 4,
+        "reason": "The 'almost' in Pemberton's statement triggers immediate detective thinking\u2014locked doors, hidden rooms, treasure clues. Library investigation is explicitly planned. Curiosity shapes the action despite social impulses."
+      },
+      "social-harmony": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Character notices and values the group's comfort (boys nervous, no tension yet, gracious welcome). Deliberately pauses curiosity impulse to 'acknowledge everyone properly' and chooses Peter as companion. Social consideration shapes timing and approach."
+      },
+      "adventure": {
+        "relevant": true,
+        "score": 3,
+        "reason": "The mansion exploration, forbidden rooms, and treasure hunt present clear adventure opportunity. Character feels 'awake' and energized by the mystery. However, social bonds and taking time with Peter slightly temper the urge to rush headlong into exploration."
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 12,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Ah, splendid \u2014 I see several of you have already made your marks in the guest book. How de",
+    "scores": {
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Character is actively mapping the manor, identifying leverage points (treasure, secrets, the chandelier), reading other guests for threat/utility, and executing a multi-layered plan. The entire dialogue and internal monologue are driven by scheme construction and execution."
+      },
+      "self-preservation": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Character explicitly notes the Ant Hill Mob 'reading the room the way I read rooms' \u2014 a threat signal. The internal focus on who's watching, the need to move before being observed, the filing away of the chandelier as potential leverage, and the careful social performance all reflect active threat assessment and positioning."
+      },
+      "dominance": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Character exercises control by steering the group's movements ('feel free to explore at your leisure'), withholding information about their true intentions, and noting that finding the treasure 'gives me leverage' \u2014 control over outcomes. Present but secondary to scheming."
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Brief moment of private amusement at Dastardly's transparent false name ('flicker of something almost like amusement') and the warmth of having positioned themselves ahead of the group. Not yet dominant because the plan is still in motion, not yet victorious."
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 13,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "The library. Ancient books, carved stone mantelpiece, an inscription. Every manor hides its secrets in plain sight \u2014 you",
+    "scores": {
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Core action: actively mapping the manor's secrets, identifying the library as next move, recognizing leverage opportunities, planning sequence of discovery before Clara arrives"
+      },
+      "self-preservation": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Actively monitoring threats (the Ant Hill Mob's direct gaze triggers alert), noting physical hazards (chandelier), watching for observers, timing movements to avoid detection"
+      },
+      "dominance": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Framing knowledge as power/leverage, viewing others as tools, discomfort with being observed directly by equals (the Mob), desire to act before 'this crowd gets observant'"
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Private satisfaction at Dastardly's transparent foolishness ('almost like amusement') and anticipation of Clara's future discovery that 'some treasures come at a very steep price' \u2014 pleasure deferred but clearly present in the internal narration"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 14,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Oi, did everyone catch that? 'Almost every room,' he says. Almost! Now what kind of estate manager tel",
+    "scores": {
+      "loyalty": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Miss Pitstop mentioned by name; drive to stay close and protect manifests in motivation for security sweep, but expressed indirectly through action rather than direct protective behavior"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Core driver of the security sweep\u2014scanning exits, assessing hazards, positioning knowledge between Clara and danger; physical actions (stumbling into coat rack, inspecting fixtures) are driven by protective instinct to prepare for threats"
+      },
+      "suspicion": {
+        "relevant": true,
+        "score": 4,
+        "reason": "The word 'almost' triggers immediate scrutiny; suspicious of Sneekly's positioning and hidden rooms; gut-reading of the estate and systematic inspection are direct expressions of suspicion shaping investigative behavior"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 15,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "Did you hear him? 'Almost every room.' The smooth ones always tell you what they're hiding \u2014 they just wrap it in manner",
+    "scores": {
+      "loyalty": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Warm pull toward Miss Pitstop, wanting to stay close; loyalty is present but not driving primary action"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Actively scanning exits, positioning himself between Clara and danger, checking layout of space\u2014protective vigilance is shaping his immediate behavior"
+      },
+      "suspicion": {
+        "relevant": true,
+        "score": 5,
+        "reason": "The 'almost' word, reading Sneeky's positioning as herding, scanning for hidden dangers\u2014suspicion is the dominant force driving his actions and mental state"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 16,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: How CHARMING \u2014 everyone's signed in like good little schoolchildren. Well, I shan't waste another moment",
+    "scores": {
+      "greed": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Treasure maps and hidden clues activate the hollow incompleteness drive; Dick actively prioritizes reaching the library first to claim the find"
+      },
+      "recognition": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Dick performs his deception with theatrical flair ('CHARMING,' 'EXTENSIVE research') and explicitly misdirects others\u2014he wants the brilliance of the scheme noticed, even if not the victory attributed to him"
+      },
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "The entire action is scheme-driven: false misdirection, strategic guest-book analysis, competitive sizing-up of Sneekly, fizzing fingers forming the plan to reach the library first"
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Dick's internal state shows the rising heat and anticipation of a plan already working\u2014the misdirection is succeeding in real-time, and the 'fizzing in fingers' builds before outcome is certain"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 17,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Did you hear that? Magnificent misdirection! I've just told every last one of them that the kitchen is where the treasur",
+    "scores": {
+      "greed": {
+        "relevant": true,
+        "score": 3,
+        "reason": "treasure hunt creates obvious opportunity; character focused on finding the clue first, but intellectual puzzle dominates more than acquisition hunger"
+      },
+      "recognition": {
+        "relevant": true,
+        "score": 4,
+        "reason": "explicit need for audience ('while they're all rummaging') and self-aggrandizing narration ('Reginald Foxworth will be three steps ahead. As ALWAYS') shows drive to be seen as superior"
+      },
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "core action is pure scheming: misdirection deployed, multi-step plan forming, analyzing information (guest book), predicting others' movements, fizzing in fingers explicitly triggered by plan formation"
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 4,
+        "reason": "premature celebration of scheme's success ('while they're all rummaging like gullible simpletons,' fizzing building before outcome confirmed) and anticipatory heat of others' failure"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 18,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: There \u2014 signed with a flourish! James Hartwell, present and accounted for. Now then, I couldn't help but ",
+    "scores": {
+      "gallantry": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Offering to escort Miss Pitstop with courteous language ('honour of escorting'), framed as protection from house hazards \u2014 the gesture is performed for an audience and shaped with deliberate grace"
+      },
+      "proving-worth": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Internal fixation on being 'second to arrive' at something that matters, and explicit hope that finding the first lead will make Miss Pitstop 'see what I can do' \u2014 drives the proposal of the systematic library search as a way to demonstrate capability"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Notice of chandelier corrosion danger presented as urgent safety concern; framing the manor exploration around hazards (loose floorboards, hidden panels) shows the drive to identify and address broken/unsafe things, though expressed through courteous proposal rather than direct action"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 19,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "Right \u2014 Phase One of the Hartwell Reconnaissance Protocol: secure the library, document the inscription, map all exits a",
+    "scores": {
+      "gallantry": {
+        "relevant": false,
+        "score": null,
+        "reason": "no social performance or courtesy display occurring; character is alone in planning"
+      },
+      "proving-worth": {
+        "relevant": true,
+        "score": 4,
+        "reason": "strong drive to be first/best at finding the lead; hollow ache about being second; explicit hunger for Penelope to witness competence"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 3,
+        "reason": "notices Sneekly's evasiveness and 'almost every room' as a gap/hazard; prickling at smooth behavior; protection-drive sensitivity to hidden danger, but expressed mainly as wariness rather than immediate protective action"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 20,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop spoke quietly with peter-perfect.",
+    "scores": {
+      "curiosity": {
+        "relevant": true,
+        "score": 5,
+        "reason": "The riddle is the focal point of her entire internal experience \u2014 prickling fingertips, physical pull toward the mantelpiece, recognition of the answer (map), and deduction that it's a key to something. She's acting on this drive by approaching the mantelpiece to answer it."
+      },
+      "social-harmony": {
+        "relevant": true,
+        "score": 2,
+        "reason": "She notices Dick's potential competitive scheming and Sneekly's presence, and actively rationalizes away concerns to preserve group comfort ('bless him,' 'perfectly reasonable'). But these are internal reconciliations \u2014 not expressed in her actual behavior toward the group."
+      },
+      "adventure": {
+        "relevant": false,
+        "score": null,
+        "reason": "No situational opportunity for adventure-seeking behavior. The manor and riddle engage her curiosity, not her need for novelty or the unknown \u2014 she's solving a known puzzle in a familiar setting."
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 21,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "A riddle on a stone mantelpiece in a manor where a legendary diamond is hidden? That is not decorative masonry, sugar. T",
+    "scores": {
+      "curiosity": {
+        "relevant": true,
+        "score": 5,
+        "reason": "A literal puzzle in stone demanding solution; character is physically drawn to it and actively solving it"
+      },
+      "social-harmony": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Notices others present and monitors their intentions (Dick's rivalry, Sneekly's presence), but prioritizes the puzzle; mild concern about group dynamics doesn't alter behavior"
+      },
+      "adventure": {
+        "relevant": true,
+        "score": 3,
+        "reason": "The hunt for the hidden diamond and manor full of puzzles activates the restless drive; character is energized and engaged, but action is primarily driven by curiosity rather than pure thrill-seeking"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 22,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Ah, the library! Do mind the dust, ladies and gentlemen \u2014 I'm afraid the previous housekee",
+    "scores": {
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Riddle solved, hidden signal detected in books, layered plan to investigate without exposure \u2014 scheming is the entire architecture of this moment"
+      },
+      "self-preservation": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Actively cataloguing threats (Rock, Gravel, strangers), tracking who followed, monitoring group composition \u2014 constant threat assessment shaping behavior"
+      },
+      "dominance": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Irritation at being followed reflects discomfort with loss of control, but character compensates through scheming rather than asserting direct dominance \u2014 present as underlying tension, not expressed in action"
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 3,
+        "reason": "The 'cool and low' pleasure of the riddle-solve and private recognition of the signal is distinctly gloating \u2014 but deliberately suppressed and internalized rather than spoken or displayed"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 23,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "A map. The answer is a map. And several books shelved upside down \u2014 not by accident, never by accident. Someone left bre",
+    "scores": {
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Character actively decoding clues, laying false trails, and planning next moves with precise tactical thinking"
+      },
+      "self-preservation": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Character cataloguing threats (followers, strangers), maintaining cover identity, controlling information flow to avoid exposure"
+      },
+      "dominance": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Character orchestrating others' attention away from true objective, deliberately managing pace of revelation to maintain advantage"
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Fleeting satisfaction at puzzle solution ('settles cool and low'), but immediately suppressed by need for discretion and control"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 24,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob: Right, lads \u2014 slight change of plans! Miss Pitstop's gone into the library, and that Pemberton bloke's",
+    "scores": {
+      "loyalty": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Character explicitly organizes group action ('Follow me, lads') and refuses to abandon Miss Pitstop; loyalty to her and the team shapes the decision to mobilize immediately"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Miss Pitstop alone with suspicious individuals triggers acute protective response; character's entire action (infiltration, physical urgency, refusal to leave her unguarded) is dominated by protection imperative"
+      },
+      "suspicion": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Character actively articulates suspicion of Dastardly's motives ('Why would he do that?') and Sneekly's behavior ('smile arrives before his reasons'), using suspicion to justify immediate intervention"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 25,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "She's out of my sight. That's all I can think about. My body's already moving toward the door before I've finished my se",
+    "scores": {
+      "loyalty": {
+        "relevant": false,
+        "score": null,
+        "reason": "No opportunity to express loyalty through action toward an ally or cause; the situation is purely defensive/protective"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Character is physically moving toward the protected person, driven by acute anxiety about her absence and proximity to a suspicious figure; the drive is overwhelming and shaping all action"
+      },
+      "suspicion": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Sneekly's suspicious behavior (going first, cryptic statement) and smooth demeanor trigger active wariness; suspicion is clearly driving the urgency to intervene, though secondary to protection"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 26,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: AH-HA! The inscription! 'I have cities but no houses, forests but no trees, water but no fish.' Why, thi",
+    "scores": {
+      "greed": {
+        "relevant": true,
+        "score": 4,
+        "reason": "The mantelpiece mechanism and its secrets represent valuable information/access that only he knows; he's actively protecting his exclusive knowledge from competitors"
+      },
+      "recognition": {
+        "relevant": true,
+        "score": 3,
+        "reason": "He publicly declares his intellectual superiority ('man of my intellectual calibre') and wants audience acknowledgment of his cleverness, though the misdirection itself prevents full recognition"
+      },
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "The tingling fingers, the plan 'forming like clockwork,' the deliberate false answer to redirect competitors while he examines the mechanism \u2014 scheming is the dominant force organizing his entire action"
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 4,
+        "reason": "The fizzing excitement and rising heat as the plan takes shape \u2014 he's anticipating success before execution, celebrating the misdirection working on multiple competitors simultaneously"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 27,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "The answer is a MAP, you fools! A MAP! Cities but no houses, forests but no trees, water but no fish \u2014 it's a MAP! But I",
+    "scores": {
+      "greed": {
+        "relevant": true,
+        "score": 3,
+        "reason": "The mantelpiece mechanism and its secrets represent unknown value; character is driven to possess/control it through investigation"
+      },
+      "recognition": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Character explicitly withholds the correct answer to prevent others from knowing it\u2014driven by need to be the sole possessor of clever insight and discovery"
+      },
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Misdirection plan forming ('give wrong answer, send them chasing shadows'), fizzing excitement in fingers, clock-like plan assembly\u2014this is the dominant force shaping behavior"
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Rising heat and anticipation as the scheme launches ('let them waste time while I examine'\u2014the plan is already working and delivering satisfaction before outcome is certain)"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 28,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect spoke quietly with penelope-pitstop.",
+    "scores": {
+      "gallantry": {
+        "relevant": true,
+        "score": 2,
+        "reason": "She came with him and he notices her presence warmly, but he takes no action that demonstrates courtesy or graceful gesture \u2014 just internal warmth without behavioral expression."
+      },
+      "proving-worth": {
+        "relevant": true,
+        "score": 4,
+        "reason": "The hollow ache and explicit drive to 'be first' and 'be the one who could' dominates his thinking. He's racing mentally to solve the riddle before others, shaped entirely by need to prove capability and get credit."
+      },
+      "protection": {
+        "relevant": true,
+        "score": 3,
+        "reason": "He notices broken/incomplete things (upside-down books, dust, the unsolved riddle) and they pull at him with that characteristic tension. The riddle itself becomes something to 'fix' \u2014 a gap in knowledge that needs filling."
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 29,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "Three weeks cataloguing riddle-locks? It was actually one afternoon in a library book, but she doesn't need to know that",
+    "scores": {
+      "gallantry": {
+        "relevant": true,
+        "score": 4,
+        "reason": "She came with him; her presence and witness is explicitly framed as central to the satisfaction. The warmth floods in 'the moment I step through the doorway' because she's there. He's performing for her attention."
+      },
+      "proving-worth": {
+        "relevant": true,
+        "score": 5,
+        "reason": "The entire action is driven by need to be first, to beat Dastardly/Foxworth, to be 'the one who could.' The hollow ache is pressing. He's fabricating the timeline (three weeks vs one afternoon) specifically to inflate his accomplishment. Proving-worth completely dominates his motivation."
+      },
+      "protection": {
+        "relevant": true,
+        "score": 2,
+        "reason": "He notices broken things automatically (dust, upturned books, uninvested spaces), but this noticing doesn't shape his action here. He's distracted by the riddle and the competitive need. Protection is present in his perception but dormant in his behavior."
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 30,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Well now, Peter and I both gave the mantelpiece our answer \u2014 a map! \u2014 and I do believe we're on the ri",
+    "scores": {
+      "curiosity": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Unsolved puzzle with multiple layers: mantelpiece riddle partially solved but mechanism unclear, deliberate upside-down books suggesting code or mechanism, need to examine shelves more carefully. Fingers literally buzzing with the drive to understand."
+      },
+      "social-harmony": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Notices group is now together (positive), dismisses Dick's wrong answer gently ('bless his heart'), no tension present. Social comfort exists but isn't driving her actions \u2014 she's focused on the puzzle."
+      },
+      "adventure": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Hidden passage implications, mysterious mechanisms, deliberate code in bookshelves \u2014 the unknown is active. Restlessness about what happened at the mantelpiece and what the books conceal fuels her forward momentum, though solving the puzzle is the primary goal."
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 31,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Sneekly said he'd never made heads or tails of the inscription \u2014 but then why was he examining the bookshelves so carefu",
+    "scores": {
+      "curiosity": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Unsolved puzzle with physical clues (upside-down books, mantelpiece mechanism) directly activates the 'word on the tip of your tongue' compulsion; character is actively investigating despite uncertainty"
+      },
+      "social-harmony": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Character notices group dynamics (Sneekly's behavior, Dick's harmless wrong answer, relief that 'everyone's together') but these observations don't shape action \u2014 investigation takes priority; stomach is 'easy' despite minor social tensions"
+      },
+      "adventure": {
+        "relevant": true,
+        "score": 3,
+        "reason": "The hidden mechanism, mysterious books, and unfolding mystery provide the 'relief' and 'awake' sensation of the unknown; character is energized and engaged, though the drive is secondary to curiosity's intensity"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 32,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Dear me \u2014 look at this! Half these volumes are upside down. The previous custodian must ha",
+    "scores": {
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Character is actively constructing and executing a multi-layered plan: using the librarian cover to access hidden clues, identifying the upside-down books as markers, recognizing Dick's scheme, noting the laboratory connection for future use. The plan locks into place and dominates the action."
+      },
+      "self-preservation": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Character is aware of being watched and manages exposure carefully\u2014disguising investigative rummaging as professional tidying, staying in character as Pemberton. The caution shapes behavior but isn't the primary driver."
+      },
+      "dominance": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Irritation at Peter and Penelope being ahead on the riddle suggests discomfort with being out of control, but character deliberately cedes the mantelpiece puzzle to pursue the superior hidden path. Dominance is subordinate to scheming here."
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 2,
+        "reason": "The 'warm pressure' and 'private, sweet heat' of knowing Dick's scheme while others don't is present internally, but the character restrains external expression\u2014no action taken to savor or reveal this knowledge. The urge exists but isn't acted upon."
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 33,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "Professional pride \u2014 ha! The only pride I feel is the kind that comes from being three moves ahead. Everyone is clustere",
+    "scores": {
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Character is actively constructing and executing a multi-layered plan: identifying the hidden door via upside-down books, using Pemberton's cover identity to access it without suspicion, recognizing the architect's logic of dual entrances, and noting contingencies (the laboratory, the gnawed wires). The entire aside is the plan crystallizing."
+      },
+      "self-preservation": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Character is acutely aware of being watched ('surrounded by people'), actively managing her visibility ('can't be seen rummaging'), and using a cover identity (Pemberton the fussy butler) to avoid detection. The wariness is present but not driving the action \u2014 the scheme is."
+      },
+      "dominance": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Character experiences irritation at Peter and Penelope being 'ahead' on the riddle, registering loss of control. However, she immediately reframes this as irrelevant ('Let them') and reasserts control through superior information. The discomfort flickers but is subordinated to scheming advantage."
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 4,
+        "reason": "The aside opens with explicit gloating sensations: 'warm pressure swells behind my ribs \u2014 that private, sweet heat of knowing something others don't.' The character dwells on her informational advantage (the books, Dick's fake medal, the hidden door) with palpable satisfaction. The urge to savor her superior knowledge is a driving undercurrent throughout."
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 34,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob spoke quietly with penelope-pitstop.",
+    "scores": {
+      "loyalty": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Relief at seeing Miss Pitstop, anchoring sense of belonging; decision to stay near her despite suspicions"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Neck tension at Dastardly's presence, active concern that 'sharp don't keep you safe,' deliberate choice to remain proximate to protect her"
+      },
+      "suspicion": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Intense focus on fake medal, upside-down books, Dastardly's motives; driving impulse to investigate and surveil; suspicion dominates internal reasoning and shapes decision to check bookshelves"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 35,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "Dastardly with a fake medal. Sneekly hovering like a vulture in a waistcoat. Books turned the wrong way round. And Clara",
+    "scores": {
+      "loyalty": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Promise to Clara's father anchors his entire presence and decision-making; he frames his actions around protecting her, not around his own investigation"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Weight of promise settling on shoulders; actively scanning for threats (Dastardly, Sneekly); consciously restraining himself from elaborate surveillance to stay near Clara; hypervigilance dominates his thinking and action"
+      },
+      "suspicion": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Neck prickling at Sneekly's presence; fixating on the fake medal as deliberate deception; analyzing upside-down books as intentional concealment; gut flagging multiple red flags, driving his decision to investigate the bookshelves"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 36,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Well NATURALLY I was merely TESTING the mantelpiece's mechanism with my \u2014 my ceremonial inspection medal",
+    "scores": {
+      "greed": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Fixated on the hollow feeling of empty inventory and lost opportunity; actively scanning for new valuable items to acquire (bookshelves, laboratory machine)"
+      },
+      "recognition": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Desperate self-justification and elaborate explanation for failure; needs the audience to validate his 'standard procedure' and 'extensive experience' despite the plan collapsing"
+      },
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Mind actively reformulating despite immediate failure; scanning environment for new angles, pivoting to bookshelves and laboratory as fresh scheme material; 'fizzing excitement' about regroup despite bitter frustration"
+      },
+      "gloating": {
+        "relevant": false,
+        "score": null,
+        "reason": "No success to anticipate; the plan failed visibly and competitors succeeded first. Heat in chest is bitter frustration, not rising triumph"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 37,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "The medal did NOTHING. Absolutely nothing. I've just wasted my only inventory item on a stone mantelpiece like a complet",
+    "scores": {
+      "greed": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Character fixates on what others might find/possess (hidden in bookshelves, Peter's potential discovery) and explicitly plans to 'TAKE it from him later' \u2014 the hollow feeling of incompleteness driving immediate action toward acquisition"
+      },
+      "recognition": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Character reframes failure as 'adjusting the timeline' and emphasizes that Reginald Foxworth 'does not FAIL' \u2014 defensive posturing about public perception, though expressed internally rather than in performed action"
+      },
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Character's entire response is rapid-fire tactical recalibration: identifying new targets (upside-down books, laboratory machine), forming contingency plans (taking Peter's discovery), and plotting next moves \u2014 the 'fizzing excitement' manifests as immediate scheme-generation"
+      },
+      "gloating": {
+        "relevant": false,
+        "score": null,
+        "reason": "No victory or success to anticipate \u2014 the character is in active failure-recovery mode with no emerging win to celebrate"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 38,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect: Interesting \u2014 the mantelpiece itself doesn't seem to conceal a mechanism. No hidden catch, no sliding pan",
+    "scores": {
+      "gallantry": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Peter is performing intellectual brilliance for an audience (Miss Pitstop, Pemberton, others present); the deduction is shaped to land with narrative weight and deliver a 'reveal'"
+      },
+      "proving-worth": {
+        "relevant": true,
+        "score": 4,
+        "reason": "The mantelpiece failure stings deeply ('flat feeling', 'stomach drops'); Peter pivots immediately to reassert mastery by reinterpreting the puzzle and positioning himself as the one who will crack the real clue before Sneekly can; the drive to be first and definitive is dominant"
+      },
+      "protection": {
+        "relevant": false,
+        "score": null,
+        "reason": "No broken things, safety gaps, or vulnerable targets presented in this moment; the intellectual puzzle itself is not a protection opportunity"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 39,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "The bookshelves. Sneekly went straight for them \u2014 said they were 'shelved incorrectly,' which is exactly what an estate ",
+    "scores": {
+      "gallantry": {
+        "relevant": false,
+        "score": null,
+        "reason": "No social interaction, audience, or courtesy-based gesture present; character is alone with thoughts"
+      },
+      "proving-worth": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Character is driven by competitive need to solve the puzzle before others (especially her), experiencing ache from past intellectual rivalry, tension in shoulders pulling toward the problem"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Character notices the suspicious behavior (Sneekly at bookshelves, Dastardly clearing the room) and stays to watch, but this is secondary to solving the puzzle; protective vigilance is present but not dominant"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 40,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop: Peter, you brilliant man \u2014 it's not a lock, it's a direction! The riddle is telling us to find a map, ",
+    "scores": {
+      "curiosity": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Unsolved riddle with physical puzzle (upside-down books); Penelope is absorbed in solving it, urgently directing others, and driven to physically interact with the books to find the mechanism"
+      },
+      "social-harmony": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Brief moment of internal concern about Pemberton erasing the code, but Penelope actively suppresses this worry, rationalizes his intentions, and addresses him gently rather than confrontationally\u2014drive acknowledged but deliberately managed"
+      },
+      "adventure": {
+        "relevant": true,
+        "score": 3,
+        "reason": "The hunt itself\u2014following the riddle, decoding a hidden map, the unknown contents of the books\u2014activates Penelope's sense of discovery; she's energized by the puzzle unfolding, though curiosity dominates more than pure adventure-seeking"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 41,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "Sneekly was straightening those upside-down books \u2014 tidying them back to normal. If they're a code, he's erasing it. I'm",
+    "scores": {
+      "curiosity": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Puzzle elements (upside-down books as code, mantelpiece as direction) create intense absorption; character actively plans tactile investigation despite uncertainty about Sneekly's intentions"
+      },
+      "social-harmony": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Mild discomfort at Sneekly potentially erasing the code and at Dick's oddness, but character actively rationalizes both away to maintain belief in good intentions; anxiety present but not shaping action"
+      },
+      "adventure": {
+        "relevant": false,
+        "score": null,
+        "reason": "No opportunity for novel experience or breaking routine; character is engaged in solving an existing mystery within the current social setting, not seeking or acting on unknown possibilities"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 42,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly) spoke quietly with peter-perfect.",
+    "scores": {
+      "scheming": {
+        "relevant": true,
+        "score": 4,
+        "reason": "actively constructing a lie with calculated misdirection; mapping estate layout and alternative paths; pivoting strategy when primary approach fails"
+      },
+      "self-preservation": {
+        "relevant": true,
+        "score": 3,
+        "reason": "heightened awareness of being watched and questioned; careful calibration of response to avoid suspicion; maintaining cover identity"
+      },
+      "dominance": {
+        "relevant": true,
+        "score": 2,
+        "reason": "discomfort at others directing investigation and making decisions about where to look; desire to control the narrative and move investigation to preferred location"
+      },
+      "gloating": {
+        "relevant": false,
+        "score": null,
+        "reason": "no victory or successful plan completion in this moment; character is frustrated and adapting, not triumphant"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 43,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "Reading the spines in the mirror \u2014 oh, that was rather good, wasn't it? A lie wrapped in eccentricity, garnished with sh",
+    "scores": {
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "The character is actively constructing and executing a multi-layered plan: deceiving others about the bookshelves, mapping the house for dangers, planning to slip away to the laboratory, and orchestrating events around Clara's arrival. Every action serves the scheme."
+      },
+      "self-preservation": {
+        "relevant": true,
+        "score": 4,
+        "reason": "The character is acutely aware of being watched (Peter's question, multiple eyes on the clue), monitoring what others notice, and carefully managing their responses to avoid suspicion. The vigilance and calculated misdirection are driven by self-protective instinct."
+      },
+      "dominance": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Frustration at not being able to control the bookshelves directly, discomfort at others examining the same clue, and deliberate repositioning of the game (moving to the laboratory where they have control over 'machines, levers, things that do something'). The drive manifests as tactical repositioning rather than direct assertion."
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 2,
+        "reason": "A brief 'flash of heat in my chest' and acknowledgment that the lie was 'rather good' suggests pleasure in the deception, but this is immediately overwhelmed by frustration and tactical concern. The gloating impulse is present but suppressed by the pressing need to maintain control."
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 44,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob spoke quietly with hooded-claw.",
+    "scores": {
+      "loyalty": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Protective instinct toward Clara is explicitly driving behavior ('stay near Clara'); the warmth in chest is loyalty manifesting as directional action"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Dominant force: positioning self between Clara and threat, scanning Sneekly's hands, physical readiness ('stand between Clara and whatever's coming') \u2014 protection is the primary behavioral driver"
+      },
+      "suspicion": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Strong read on Sneekly's intent (track-covering, not tidying); gut certainty overriding lack of evidence; actively watching his hands and planning concrete investigation (pulling books)"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 45,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "Did you see that? He wanted to 'fix' the books. The books that might be the whole answer. My gut says that's not tidying",
+    "scores": {
+      "loyalty": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Direct internal affirmation ('warmth in my chest says stay near Clara') drives protective positioning; loyalty manifests as commitment to Clara's safety"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Dominates action plan: 'stand between Clara and whatever's coming'; physical vigilance ('watch Sneekly's hands') and strategic positioning override other considerations"
+      },
+      "suspicion": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Pattern-matching and gut-reading ('prickling,' 'cold finger pressing hard') drive concrete investigation ('pull one of those upside-down books'); suspicion motivates the action despite acknowledged uncertainty"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 46,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly: Yes, yes, upside-down books \u2014 how TERRIBLY fascinating. I'm sure you'll ALL have a WONDERFUL time pullin",
+    "scores": {
+      "greed": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Hidden chamber/secret passage represents unclaimed wealth/advantage; the 'gnawed wire' and machine suggest valuable discovery waiting in laboratory"
+      },
+      "recognition": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Explicitly performs heroic self-sacrifice narrative ('HEROICALLY investigate') and positions himself as the solver, though audience is distracted; drive present but secondary to scheming"
+      },
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Dominant force throughout: architecture of plan forming (scout first, deploy pawns later), strategic misdirection (fake bomb alert), positioning himself for exclusive access, calculating sequences\u2014'the plan has architecture'"
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Anticipatory fizz present ('quickening behind my eyes,' 'hands feel light') but plan is still forming, not executing; gloating potential exists but hasn't activated on actual success yet"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 47,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Everyone's clustered around the bookshelves like moths round a lamp! Penelope's looking, Peter's looking, the Mob's look",
+    "scores": {
+      "greed": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Direct opportunity to reach treasure first while others are distracted; the laboratory machine represents unclaimed valuables"
+      },
+      "recognition": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Character takes pride in the invented Latin deception and anticipates claiming glory; wants to be 'first' and successful where others fail"
+      },
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "The core of this moment\u2014character is actively constructing a multi-step plan (scout alone, then deploy pawns), feeling the 'fizzing excitement,' noting the plan's 'architecture'"
+      },
+      "gloating": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Strong anticipatory gloating\u2014'Onwards to GLORY!', savoring how the others are being duped by the fake Latin, celebrating the plan's success before execution"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 48,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect spoke quietly with hooded-claw.",
+    "scores": {
+      "gallantry": {
+        "relevant": false,
+        "score": null,
+        "reason": "No social interaction, courtesy display, or audience-dependent gesture occurring"
+      },
+      "proving-worth": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Character racing to solve the puzzle first, tracking threads others miss, urgency to prevent Sneekly from destroying evidence before Peter can decode it"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Hyperfocused on the broken/threatened thing (upside-down books as encoded evidence), the tension settles into shoulders and hands wanting to grip and prevent\u2014classic protective activation over the object being destroyed"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 49,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "Twelve-step plan, Hartwell. Step Four: prevent well-meaning \u2014 or not so well-meaning \u2014 interference with the evidence. S",
+    "scores": {
+      "gallantry": {
+        "relevant": false,
+        "score": null,
+        "reason": "no social interaction or courteous gesture opportunity; character is alone with thoughts and planning"
+      },
+      "proving-worth": {
+        "relevant": true,
+        "score": 4,
+        "reason": "character is racing to solve the puzzle first, aware they're already at Step Six and building an elaborate plan\u2014the drive to be the one who decodes the evidence and connects the threads before anyone else"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 5,
+        "reason": "character is intensely focused on preventing Sneekly from 'fixing' the upside-down books\u2014the broken/disrupted evidence is pulling them to action; the settling tension in shoulders and grip-and-hold instinct are direct manifestations of this drive against tampering"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 50,
+    "character": "penelope-pitstop",
+    "type": "dialogue",
+    "desc": "Penelope Pitstop spoke quietly with peter-perfect.",
+    "scores": {
+      "curiosity": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Active puzzle-solving dominates internal thinking; systematically connecting clues (riddle\u2192map\u2192laboratory), testing hypotheses about hidden mechanisms, driven by need to understand what she's missing"
+      },
+      "social-harmony": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Brief acknowledgment of comfort with Peter and the boys present; physical tension about Sneekly's behavior noted but deliberately suppressed to maintain equilibrium rather than acted upon"
+      },
+      "adventure": {
+        "relevant": true,
+        "score": 3,
+        "reason": "New rooms (laboratory, east wing) activate excitement and relief; forward-leaning pull toward unexplored spaces; but action is still constrained to dialogue and internal deliberation rather than immediate exploration"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 51,
+    "character": "penelope-pitstop",
+    "type": "aside",
+    "desc": "The bookshelves won't budge, but Clara Bellingham does not give up after one locked door. Grandmother's box took every k",
+    "scores": {
+      "curiosity": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Multiple unsolved puzzles\u2014the bookshelves won't yield, the riddle points to a map, Sneekly's suspicious behavior, the laboratory's machinery\u2014all pull at her attention. She's actively pivoting between theories and following the thread methodically."
+      },
+      "social-harmony": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Brief discomfort about Sneekly's behavior ('stomach does that tiny twist') and reassurance from Peter's presence, but she consciously suppresses the social anxiety to refocus on the puzzle. The drive is present but actively deprioritized."
+      },
+      "adventure": {
+        "relevant": true,
+        "score": 4,
+        "reason": "The laboratory is described as 'calling my name something fierce' and represents a new door, new puzzle, new room\u2014exactly what relieves her restless itch. Her chest is 'loosening,' the 'cave mouth sharpening.' The unknown space energizes her forward momentum."
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 52,
+    "character": "hooded-claw",
+    "type": "dialogue",
+    "desc": "The Hooded Claw (as Sneekly): Ah, Mr. Foxworth \u2014 you followed me. How... enterprising of you. And Mr. Ruffcut, I see you",
+    "scores": {
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "The character immediately maps the laboratory as a mechanism with multiple interactive elements (crates, machine, wire, missing wrench, three-operator requirement), identifies tactical opportunities (three people distracted while a fourth acts), profiles Dastardly as a useful decoy, and begins constructing a plan to manage the situation while investigating the machine\u2014all while speaking a careful, measured cover."
+      },
+      "self-preservation": {
+        "relevant": true,
+        "score": 4,
+        "reason": "The character's breathing slows (physiological alert response), tracks threats systematically (identifies the beaver's sabotage, volatile compounds, suspicious cellar redecoration, air vents), maintains careful control of information disclosure in dialogue, and manages Dastardly's presence to avoid being watched while vulnerable."
+      },
+      "dominance": {
+        "relevant": true,
+        "score": 3,
+        "reason": "The character establishes authority through measured warnings about equipment safety, positions themselves as the expert consultant others must consult, and plans to direct Dastardly's attention\u2014exerting control over the situation. However, the primary focus is information-gathering rather than asserting dominance; control is a tool, not the drive itself."
+      },
+      "gloating": {
+        "relevant": false,
+        "score": null,
+        "reason": "No plan has succeeded yet; the character is in active problem-solving and reconnaissance mode. Gloating requires a completed scheme or known victory\u2014this situation presents only threats and unknowns to map."
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 53,
+    "character": "hooded-claw",
+    "type": "aside",
+    "desc": "A wire gnawed through \u2014 by Sawtooth, no doubt. That beaver has been busy. But what does the machine do? 'Requires three ",
+    "scores": {
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Character is actively mapping the room as a mechanism, identifying leverage points (three-operator machine, crates, cellar, vents), and formulating tactics (using Dick as a decoy). This is core scheming in motion."
+      },
+      "self-preservation": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Character notes Dick watching, registers alertness at beaver tampering with machine, and considers threats (gas vents, suspicious cellar prep). Awareness is present but not driving action\u2014scheming takes priority."
+      },
+      "dominance": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Character is actively establishing control: managing Dick through direction, cataloguing what can be weaponized, positioning themselves as the one who understands the room's architecture. The comfort with 'the right hand' directing mechanisms reflects need for control."
+      },
+      "gloating": {
+        "relevant": false,
+        "score": null,
+        "reason": "No plan has succeeded yet. This is reconnaissance and setup. Gloating requires a victory to privately savor; here the character is still in the mapping phase."
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 54,
+    "character": "ant-hill-mob",
+    "type": "dialogue",
+    "desc": "The Ant Hill Mob spoke quietly with peter-perfect.",
+    "scores": {
+      "loyalty": {
+        "relevant": true,
+        "score": 2,
+        "reason": "Loyalty to Clara is present but not dominant\u2014the character chooses to act on suspicion rather than stay physically present with her"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Protection drive strongly shapes the decision calculus: character weighs staying vs. following based on threat assessment, delegates watchfulness to Peter, then acts to prevent danger before it manifests"
+      },
+      "suspicion": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Suspicion is the dominant force driving action\u2014'gut screaming,' neck prickling, street instinct about assembling danger motivates the choice to follow Sneekly and Dastardly despite loyalty pull"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 55,
+    "character": "ant-hill-mob",
+    "type": "aside",
+    "desc": "Sneekly left the moment we got close to the books. The MOMENT. He said 'reading the spines in the mirror' \u2014 Lord Doily's",
+    "scores": {
+      "loyalty": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Character's conflict between staying with Clara (loyalty expressed as protective presence) and investigating a threat originates from their bond. The decision-making itself is shaped by loyalty\u2014they're weighing their sworn duty."
+      },
+      "protection": {
+        "relevant": true,
+        "score": 4,
+        "reason": "This is the dominant force in the character's action. They're actively choosing to follow a threat into another room specifically to assess danger before it can reach Clara. The internal logic is purely protective\u2014intercepting threats, ensuring no weapons are being assembled. They even brief Peter before leaving."
+      },
+      "suspicion": {
+        "relevant": true,
+        "score": 4,
+        "reason": "The character's entire read of the situation is suspicion-driven: 'mirror' as a dropped clue, Sneekly's exit timing, the 'dodgiest people' meeting in private, the deliberate placement of danger signals. Suspicion justifies the action\u2014following them is because something 'prickles' and the gut is 'screaming.'"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 56,
+    "character": "dick-dastardly",
+    "type": "dialogue",
+    "desc": "Dick Dastardly spoke quietly with rufus-ruffcut.",
+    "scores": {
+      "greed": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Unguarded crates present direct opportunity; character fixates on their contents and entertains taking them"
+      },
+      "recognition": {
+        "relevant": false,
+        "score": null,
+        "reason": "No audience present or implied; internal problem-solving moment lacks social dimension"
+      },
+      "scheming": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Character actively forming multi-part plan: recruitment strategy, operator logistics, information gathering; mind speeds up with tactical angles"
+      },
+      "gloating": {
+        "relevant": false,
+        "score": null,
+        "reason": "No scheme success yet; this is planning phase before execution, not moment of anticipated victory"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 57,
+    "character": "dick-dastardly",
+    "type": "aside",
+    "desc": "Three operators! The machine needs THREE operators, which means I need two accomplices \u2014 or rather, two PAWNS. Rufus is ",
+    "scores": {
+      "greed": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Crates present immediate, concrete opportunity for acquisition; character explicitly frames opening them through desire to take/steal"
+      },
+      "recognition": {
+        "relevant": false,
+        "score": null,
+        "reason": "Solitary exploration with no audience; scheming internally without need for recognition of cleverness"
+      },
+      "scheming": {
+        "relevant": true,
+        "score": 5,
+        "reason": "Core action is recruiting unwitting pawns through manipulation; character is actively constructing multi-step plan (assess Rufus, identify second pawn, manage recruitment without revelation)"
+      },
+      "gloating": {
+        "relevant": false,
+        "score": null,
+        "reason": "Plan is forming but not yet executing or succeeding; gloating requires observable progress toward victory, not early-stage hypothesis formation"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 58,
+    "character": "peter-perfect",
+    "type": "dialogue",
+    "desc": "Peter Perfect spoke quietly with penelope-pitstop.",
+    "scores": {
+      "gallantry": {
+        "relevant": false,
+        "score": null,
+        "reason": "No social performance or courtesy gesture occurring; character is internally conflicted about leaving, not performing a courteous act for an audience"
+      },
+      "proving-worth": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Character is intensely focused on solving the puzzle ('Show her you can solve this'), driven by need to demonstrate capability and be the one who succeeds where preparation failed"
+      },
+      "protection": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Character notices Penelope left alone in room Sneekly was hovering over, recognizes potential threat (Sneekly's suspicious behavior, Dastardly steering people away), and is conflicted about leaving her\u2014the protective instinct is present but overridden by proving-worth"
+      }
+    },
+    "mode": "relevance"
+  },
+  {
+    "index": 59,
+    "character": "peter-perfect",
+    "type": "aside",
+    "desc": "Reading the spines in the mirror \u2014 it's so obvious now! Lord Doily wasn't eccentric, he was methodical. The upside-down ",
+    "scores": {
+      "gallantry": {
+        "relevant": false,
+        "score": null,
+        "reason": "No social interaction or courtesy-dependent moment; character is alone with a puzzle"
+      },
+      "proving-worth": {
+        "relevant": true,
+        "score": 4,
+        "reason": "Character is actively pursuing intellectual validation\u2014solving the puzzle, racing Sneekly to the lab, planning to present findings 'triumphantly' to Miss Pitstop. The drive shapes the decision to leave despite safety concerns."
+      },
+      "protection": {
+        "relevant": true,
+        "score": 3,
+        "reason": "Character notices Penelope is alone in a room Sneekly was hovering over and feels the pull to protect her, but ultimately chooses the puzzle/proving-worth over staying. Protection is present but overridden by stronger drive."
+      }
+    },
+    "mode": "relevance"
+  }
+]

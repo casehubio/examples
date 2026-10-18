@@ -1,0 +1,93 @@
+[observation-assembly] peter-perfect | drives=3 [gallantry, proving-worth, protection] | diffTexts=0 | memories=0 | attractors=0 | totalParts=3
+[observation-assembly] peter-perfect | drives=3 [gallantry, proving-worth, protection] | diffTexts=0 | memories=0 | attractors=0 | totalParts=3
+[appraisal-filter] dick-dastardly | situation=[choice_available:0.45, acceptance:0.35] | ratios=[recognition=0.244(overlap=0.103,resting=0.141), greed=0.178(overlap=0.000,resting=0.178), scheming=0.237(overlap=0.078,resting=0.159), gloating=0.108(overlap=0.000,resting=0.108)] | rendered=[recognition, greed, scheming] | filtered=[gloating]
+[differentiation-filter] dick-dastardly | total=6 | included=3 | excluded=3 [gloating↔greed, gloating↔recognition, gloating↔scheming] | activeDrives=[recognition, scheming, greed]
+[observation-assembly] dick-dastardly | drives=3 [recognition, greed, scheming] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[appraisal-filter] penelope-pitstop | situation=[acceptance:0.50, secure_attachment:0.45, choice_available:0.40, agency_granted:0.38, modeling_observed:0.35] | ratios=[adventure=0.200(overlap=0.121,resting=0.079), curiosity=0.108(overlap=0.000,resting=0.108), social-harmony=0.288(overlap=0.147,resting=0.141)] | rendered=[adventure, social-harmony] | filtered=[curiosity]
+[differentiation-filter] penelope-pitstop | total=3 | included=1 | excluded=2 [curiosity↔social-harmony, adventure↔curiosity] | activeDrives=[adventure, social-harmony]
+[observation-assembly] penelope-pitstop | drives=2 [adventure, social-harmony] | diffTexts=1 | memories=0 | attractors=5 | totalParts=8
+[appraisal-filter] hooded-claw | situation=[unpredictable_danger:0.70, powerlessness:0.65, social_threat:0.60, choice_available:0.55, exclusion:0.55, physical_threat:0.50, dominance:0.40, performance_judged:0.40, controlled:0.35] | ratios=[dominance=0.375(overlap=0.296,resting=0.079), gloating=0.108(overlap=0.000,resting=0.108), scheming=0.345(overlap=0.167,resting=0.178), self-preservation=0.572(overlap=0.464,resting=0.108)] | rendered=[dominance, scheming, self-preservation] | filtered=[gloating]
+[differentiation-filter] hooded-claw | total=6 | included=3 | excluded=3 [gloating↔scheming, gloating↔self-preservation, gloating↔dominance] | activeDrives=[scheming, dominance, self-preservation]
+[observation-assembly] hooded-claw | drives=3 [dominance, scheming, self-preservation] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[appraisal-filter] ant-hill-mob | situation=[unpredictable_danger:0.85, acceptance:0.70, secure_attachment:0.60, agency_granted:0.50] | ratios=[loyalty=1.141(overlap=0.963,resting=0.178), protection=0.474(overlap=0.333,resting=0.141), suspicion=0.256(overlap=0.177,resting=0.079)] | rendered=[loyalty, protection, suspicion] | filtered=[]
+[differentiation-filter] ant-hill-mob | total=3 | included=3 | excluded=0 [] | activeDrives=[loyalty, suspicion, protection]
+[observation-assembly] ant-hill-mob | drives=3 [loyalty, protection, suspicion] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[differentiation-filter] peter-perfect | total=3 | included=3 | excluded=0 [] | activeDrives=[gallantry, protection, proving-worth]
+[observation-assembly] peter-perfect | drives=3 [protection, gallantry, proving-worth] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[appraisal-filter] peter-perfect | situation=[acceptance:0.45, competition:0.40] | ratios=[protection=0.141(overlap=0.000,resting=0.141), gallantry=0.370(overlap=0.191,resting=0.178), proving-worth=0.201(overlap=0.093,resting=0.108)] | rendered=[gallantry, proving-worth] | filtered=[protection]
+[differentiation-filter] peter-perfect | total=3 | included=1 | excluded=2 [protection↔proving-worth, gallantry↔protection] | activeDrives=[gallantry, proving-worth]
+[observation-assembly] peter-perfect | drives=2 [gallantry, proving-worth] | diffTexts=1 | memories=0 | attractors=5 | totalParts=8
+[appraisal-filter] penelope-pitstop | situation=[acceptance:0.35, social_threat:0.30] | ratios=[adventure=0.079(overlap=0.000,resting=0.079), curiosity=0.108(overlap=0.000,resting=0.108), social-harmony=0.195(overlap=0.054,resting=0.141)] | rendered=[social-harmony] | filtered=[adventure, curiosity]
+[differentiation-filter] penelope-pitstop | total=3 | included=0 | excluded=3 [curiosity↔social-harmony, adventure↔social-harmony, adventure↔curiosity] | activeDrives=[social-harmony]
+[observation-assembly] penelope-pitstop | drives=1 [social-harmony] | diffTexts=0 | memories=0 | attractors=5 | totalParts=6
+[differentiation-filter] dick-dastardly | total=6 | included=6 | excluded=0 [] | activeDrives=[gloating, recognition, scheming, greed]
+[observation-assembly] dick-dastardly | drives=4 [recognition, greed, scheming, gloating] | diffTexts=6 | memories=0 | attractors=5 | totalParts=15
+[appraisal-filter] ant-hill-mob | situation=[physical_threat:0.85, secure_attachment:0.75, dominance:0.65, acceptance:0.55, choice_available:0.45] | ratios=[loyalty=1.030(overlap=0.852,resting=0.178), protection=0.359(overlap=0.218,resting=0.141), suspicion=0.215(overlap=0.135,resting=0.079)] | rendered=[loyalty, protection, suspicion] | filtered=[]
+[differentiation-filter] ant-hill-mob | total=3 | included=3 | excluded=0 [] | activeDrives=[loyalty, suspicion, protection]
+[observation-assembly] ant-hill-mob | drives=3 [loyalty, protection, suspicion] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[appraisal-filter] hooded-claw | situation=[social_threat:0.55, physical_threat:0.50, modeling_observed:0.50, unpredictable_danger:0.45, performance_judged:0.45, choice_available:0.40, controlled:0.40] | ratios=[dominance=0.171(overlap=0.092,resting=0.079), gloating=0.108(overlap=0.000,resting=0.108), scheming=0.299(overlap=0.121,resting=0.178), self-preservation=0.346(overlap=0.238,resting=0.108)] | rendered=[dominance, scheming, self-preservation] | filtered=[gloating]
+[differentiation-filter] hooded-claw | total=6 | included=3 | excluded=3 [gloating↔scheming, gloating↔self-preservation, gloating↔dominance] | activeDrives=[scheming, dominance, self-preservation]
+[observation-assembly] hooded-claw | drives=3 [dominance, scheming, self-preservation] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[differentiation-filter] ant-hill-mob | total=3 | included=3 | excluded=0 [] | activeDrives=[loyalty, suspicion, protection]
+[observation-assembly] ant-hill-mob | drives=3 [loyalty, protection, suspicion] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[appraisal-filter] penelope-pitstop | situation=[secure_attachment:0.65, acceptance:0.55, choice_available:0.50] | ratios=[adventure=0.231(overlap=0.152,resting=0.079), curiosity=0.108(overlap=0.000,resting=0.108), social-harmony=0.326(overlap=0.185,resting=0.141)] | rendered=[adventure, social-harmony] | filtered=[curiosity]
+[differentiation-filter] penelope-pitstop | total=3 | included=1 | excluded=2 [curiosity↔social-harmony, adventure↔curiosity] | activeDrives=[adventure, social-harmony]
+[observation-assembly] penelope-pitstop | drives=2 [adventure, social-harmony] | diffTexts=1 | memories=0 | attractors=5 | totalParts=8
+[appraisal-filter] dick-dastardly | situation=[agency_granted:0.65, choice_available:0.60] | ratios=[recognition=0.141(overlap=0.000,resting=0.141), greed=0.178(overlap=0.000,resting=0.178), scheming=0.376(overlap=0.217,resting=0.159), gloating=0.108(overlap=0.000,resting=0.108)] | rendered=[greed, scheming] | filtered=[recognition, gloating]
+[differentiation-filter] dick-dastardly | total=6 | included=1 | excluded=5 [recognition↔greed, gloating↔greed, gloating↔recognition, recognition↔scheming, gloating↔scheming] | activeDrives=[scheming, greed]
+[observation-assembly] dick-dastardly | drives=2 [greed, scheming] | diffTexts=1 | memories=0 | attractors=5 | totalParts=8
+[appraisal-filter] hooded-claw | situation=[dominance:0.85, agency_granted:0.75, competition:0.65, modeling_observed:0.55] | ratios=[dominance=0.406(overlap=0.327,resting=0.079), gloating=0.108(overlap=0.000,resting=0.108), scheming=0.405(overlap=0.227,resting=0.178), self-preservation=0.108(overlap=0.000,resting=0.108)] | rendered=[dominance, scheming] | filtered=[gloating, self-preservation]
+[differentiation-filter] hooded-claw | total=6 | included=1 | excluded=5 [gloating↔scheming, dominance↔self-preservation, gloating↔self-preservation, gloating↔dominance, scheming↔self-preservation] | activeDrives=[scheming, dominance]
+[observation-assembly] hooded-claw | drives=2 [dominance, scheming] | diffTexts=1 | memories=0 | attractors=5 | totalParts=8
+[appraisal-filter] peter-perfect | situation=[agency_granted:0.65, choice_available:0.55, acceptance:0.35, competition:0.35] | ratios=[protection=0.294(overlap=0.153,resting=0.141), gallantry=0.327(overlap=0.149,resting=0.178), proving-worth=0.189(overlap=0.081,resting=0.108)] | rendered=[protection, gallantry, proving-worth] | filtered=[]
+[differentiation-filter] peter-perfect | total=3 | included=3 | excluded=0 [] | activeDrives=[gallantry, protection, proving-worth]
+[observation-assembly] peter-perfect | drives=3 [protection, gallantry, proving-worth] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[differentiation-filter] peter-perfect | total=3 | included=3 | excluded=0 [] | activeDrives=[gallantry, protection, proving-worth]
+[observation-assembly] peter-perfect | drives=3 [protection, gallantry, proving-worth] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[differentiation-filter] penelope-pitstop | total=3 | included=3 | excluded=0 [] | activeDrives=[adventure, curiosity, social-harmony]
+[observation-assembly] penelope-pitstop | drives=3 [adventure, curiosity, social-harmony] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[appraisal-filter] dick-dastardly | situation=[agency_granted:0.70, choice_available:0.60] | ratios=[recognition=0.141(overlap=0.000,resting=0.141), greed=0.178(overlap=0.000,resting=0.178), scheming=0.385(overlap=0.226,resting=0.159), gloating=0.108(overlap=0.000,resting=0.108)] | rendered=[greed, scheming] | filtered=[recognition, gloating]
+[differentiation-filter] dick-dastardly | total=6 | included=1 | excluded=5 [recognition↔greed, gloating↔greed, gloating↔recognition, recognition↔scheming, gloating↔scheming] | activeDrives=[scheming, greed]
+[observation-assembly] dick-dastardly | drives=2 [greed, scheming] | diffTexts=1 | memories=0 | attractors=5 | totalParts=8
+[appraisal-filter] ant-hill-mob | situation=[physical_threat:0.65, secure_attachment:0.60, acceptance:0.55, agency_granted:0.45, psychological_threat:0.40] | ratios=[loyalty=1.030(overlap=0.852,resting=0.178), protection=0.423(overlap=0.282,resting=0.141), suspicion=0.163(overlap=0.083,resting=0.079)] | rendered=[loyalty, protection, suspicion] | filtered=[]
+[differentiation-filter] ant-hill-mob | total=3 | included=3 | excluded=0 [] | activeDrives=[loyalty, suspicion, protection]
+[observation-assembly] ant-hill-mob | drives=3 [loyalty, protection, suspicion] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[appraisal-filter] hooded-claw | situation=[neglect:0.75, unpredictable_danger:0.60, powerlessness:0.55, mastery:0.45, dominance:0.40] | ratios=[dominance=0.273(overlap=0.194,resting=0.079), gloating=0.291(overlap=0.184,resting=0.108), scheming=0.315(overlap=0.136,resting=0.178), self-preservation=0.382(overlap=0.274,resting=0.108)] | rendered=[dominance, gloating, scheming, self-preservation] | filtered=[]
+[differentiation-filter] hooded-claw | total=6 | included=6 | excluded=0 [] | activeDrives=[gloating, scheming, dominance, self-preservation]
+[observation-assembly] hooded-claw | drives=4 [dominance, gloating, scheming, self-preservation] | diffTexts=6 | memories=0 | attractors=5 | totalParts=15
+[differentiation-filter] dick-dastardly | total=6 | included=6 | excluded=0 [] | activeDrives=[gloating, recognition, scheming, greed]
+[observation-assembly] dick-dastardly | drives=4 [recognition, greed, scheming, gloating] | diffTexts=6 | memories=0 | attractors=5 | totalParts=15
+[appraisal-filter] penelope-pitstop | situation=[agency_granted:0.65, choice_available:0.60, performance_judged:0.55, mastery:0.45] | ratios=[adventure=0.261(overlap=0.182,resting=0.079), curiosity=0.546(overlap=0.439,resting=0.108), social-harmony=0.141(overlap=0.000,resting=0.141)] | rendered=[adventure, curiosity] | filtered=[social-harmony]
+[differentiation-filter] penelope-pitstop | total=3 | included=1 | excluded=2 [curiosity↔social-harmony, adventure↔social-harmony] | activeDrives=[adventure, curiosity]
+[observation-assembly] penelope-pitstop | drives=2 [adventure, curiosity] | diffTexts=1 | memories=0 | attractors=5 | totalParts=8
+[appraisal-filter] ant-hill-mob | situation=[psychological_threat:0.55, unpredictable_danger:0.50, mastery:0.45, performance_judged:0.40, acceptance:0.35] | ratios=[loyalty=0.437(overlap=0.259,resting=0.178), protection=0.269(overlap=0.128,resting=0.141), suspicion=0.298(overlap=0.219,resting=0.079)] | rendered=[loyalty, protection, suspicion] | filtered=[]
+[differentiation-filter] ant-hill-mob | total=3 | included=3 | excluded=0 [] | activeDrives=[loyalty, suspicion, protection]
+[observation-assembly] ant-hill-mob | drives=3 [loyalty, protection, suspicion] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[appraisal-filter] peter-perfect | situation=[agency_granted:0.75, secure_attachment:0.70, mastery:0.65, unpredictable_danger:0.50, dominance:0.45] | ratios=[protection=0.488(overlap=0.347,resting=0.141), gallantry=0.178(overlap=0.000,resting=0.178), proving-worth=0.259(overlap=0.151,resting=0.108)] | rendered=[protection, gallantry, proving-worth] | filtered=[]
+[differentiation-filter] peter-perfect | total=3 | included=3 | excluded=0 [] | activeDrives=[gallantry, protection, proving-worth]
+[observation-assembly] peter-perfect | drives=3 [protection, gallantry, proving-worth] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[differentiation-filter] hooded-claw | total=6 | included=6 | excluded=0 [] | activeDrives=[gloating, scheming, dominance, self-preservation]
+[observation-assembly] hooded-claw | drives=4 [dominance, gloating, scheming, self-preservation] | diffTexts=6 | memories=0 | attractors=5 | totalParts=15
+[appraisal-filter] dick-dastardly | situation=[agency_granted:0.45, choice_available:0.40, mastery:0.35] | ratios=[recognition=0.244(overlap=0.103,resting=0.141), greed=0.178(overlap=0.000,resting=0.178), scheming=0.368(overlap=0.209,resting=0.159), gloating=0.191(overlap=0.083,resting=0.108)] | rendered=[recognition, greed, scheming, gloating] | filtered=[]
+[differentiation-filter] dick-dastardly | total=6 | included=6 | excluded=0 [] | activeDrives=[gloating, recognition, scheming, greed]
+[observation-assembly] dick-dastardly | drives=4 [recognition, greed, scheming, gloating] | diffTexts=6 | memories=0 | attractors=5 | totalParts=15
+[differentiation-filter] hooded-claw | total=6 | included=6 | excluded=0 [] | activeDrives=[gloating, scheming, dominance, self-preservation]
+[observation-assembly] hooded-claw | drives=4 [dominance, gloating, scheming, self-preservation] | diffTexts=6 | memories=0 | attractors=5 | totalParts=15
+[appraisal-filter] penelope-pitstop | situation=[powerlessness:0.75, controlled:0.60, failure:0.50] | ratios=[adventure=0.079(overlap=0.000,resting=0.079), curiosity=0.108(overlap=0.000,resting=0.108), social-harmony=0.257(overlap=0.116,resting=0.141)] | rendered=[social-harmony] | filtered=[adventure, curiosity]
+[differentiation-filter] penelope-pitstop | total=3 | included=0 | excluded=3 [curiosity↔social-harmony, adventure↔social-harmony, adventure↔curiosity] | activeDrives=[social-harmony]
+[observation-assembly] penelope-pitstop | drives=1 [social-harmony] | diffTexts=0 | memories=0 | attractors=5 | totalParts=6
+[appraisal-filter] ant-hill-mob | situation=[controlled:0.85, powerlessness:0.80, failure:0.65] | ratios=[loyalty=0.178(overlap=0.000,resting=0.178), protection=0.346(overlap=0.205,resting=0.141), suspicion=0.235(overlap=0.156,resting=0.079)] | rendered=[loyalty, protection, suspicion] | filtered=[]
+[differentiation-filter] ant-hill-mob | total=3 | included=3 | excluded=0 [] | activeDrives=[loyalty, suspicion, protection]
+[observation-assembly] ant-hill-mob | drives=3 [loyalty, protection, suspicion] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[differentiation-filter] peter-perfect | total=3 | included=3 | excluded=0 [] | activeDrives=[gallantry, protection, proving-worth]
+[observation-assembly] peter-perfect | drives=3 [protection, gallantry, proving-worth] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[differentiation-filter] peter-perfect | total=3 | included=3 | excluded=0 [] | activeDrives=[gallantry, protection, proving-worth]
+[observation-assembly] peter-perfect | drives=3 [proving-worth, protection, gallantry] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[differentiation-filter] ant-hill-mob | total=3 | included=3 | excluded=0 [] | activeDrives=[loyalty, suspicion, protection]
+[observation-assembly] ant-hill-mob | drives=3 [loyalty, protection, suspicion] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
+[differentiation-filter] hooded-claw | total=6 | included=6 | excluded=0 [] | activeDrives=[gloating, scheming, dominance, self-preservation]
+[observation-assembly] hooded-claw | drives=4 [dominance, gloating, scheming, self-preservation] | diffTexts=6 | memories=0 | attractors=5 | totalParts=15
+[differentiation-filter] dick-dastardly | total=6 | included=6 | excluded=0 [] | activeDrives=[gloating, scheming, recognition, greed]
+[observation-assembly] dick-dastardly | drives=4 [greed, scheming, recognition, gloating] | diffTexts=6 | memories=0 | attractors=5 | totalParts=15
+[differentiation-filter] penelope-pitstop | total=3 | included=3 | excluded=0 [] | activeDrives=[adventure, curiosity, social-harmony]
+[observation-assembly] penelope-pitstop | drives=3 [adventure, curiosity, social-harmony] | diffTexts=3 | memories=0 | attractors=5 | totalParts=11
