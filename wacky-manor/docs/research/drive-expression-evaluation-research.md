@@ -1,8 +1,23 @@
-# Drive Expression Evaluation — Research Log
+# Era 2: How the Pipeline Expresses Drives — CAPS, Appraisal & Differentiation
 
-Investigation into how LLM cognitive agents express personality drives, how to measure expression quality, and what pipeline mechanisms control drive behavior. Conducted on the Wacky Manor multi-agent scenario, issues #115, #118, #119.
+**Status:** COMPLETE
 
-This is a work log — the full journey including wrong turns, changed assumptions, and evolved understanding. Findings are in context, not extracted.
+Rolling research journal for the drive expression investigation. Covers the regression recovery from BASELINE2, pipeline instrumentation, appraisal filter mechanics, and the discovery that the "regression" was quality redistribution.
+
+---
+
+## Context from Era 1
+
+Era 1 (`era1-character-taxonomy-research.md`) established:
+
+- **BASELINE0:** full brief, mean drive expression 3.93. All tendencies, no metacognitive instruction.
+- **L1 emotional echo:** mean 4.06 (+0.13). Improves 13/17 drives but regresses 4: PP protection (-1.13), DD gloating (-0.48), DD recognition (-0.37), PEN social-harmony (-0.33). These 4 regressions motivated this era's pipeline work.
+- **Drives are authoritative** (P1). Tendencies that restate them are redundant. Drives carry personality; the pipeline controls how they express.
+- **Identity activation** (P13, P19). "Think AS, not ABOUT" + "name your feeling" = compounding feedback loop. L1 instruction stays unchanged throughout Era 2.
+- **Analytical instructions kill expression** (P11). The main agent must stay immersive. Sub-LLMs can be analytical (P39).
+- **Phase 7 validated architecture:** minimal drives + one Haiku appraisal call + L1 instruction.
+
+---
 
 ## Phase 1: The Regression (Sessions 1-8)
 
@@ -192,17 +207,6 @@ Drive differentiation working correctly: protection at 5 for danger, 1 for non-d
 4. **Instrumentation before hypothesis.** Adding per-event structured logging (`[appraisal-filter]`, `[differentiation-filter]`, `[observation-assembly]`) enabled causal analysis that guessing from averages never could.
 
 5. **First principles over handover claims.** Calculate the math yourself. The appraisal filter mechanics, overlap ratios, and self-sustaining thresholds are deterministic — verify claims against the formula, not against someone's description.
-
-## What Comes Next
-
-PP protection's true level sits at ~3.0-3.5 for ambiguous scenarios. Raising it requires richer cognitive content:
-
-1. **Self-conscious emotions** (#592, Tracy & Robins 2004) — pride, shame, guilt as self-appraisal signals. Implementation started by conductor (examples commits 89334cb + 892e36e, neocortex commit a4ddf276).
-2. **Theory of Mind** (#591, Baker, Saxe & Tenenbaum 2017) — understanding others' mental states
-3. **Emotion regulation** (#590, Gross 1998) — managing competing drives
-4. **Integration texts** — Barrett emotional complexity (differentiation + integration)
-
-The focused eval provides a 25-minute feedback loop for measuring impact.
 
 ## References
 

@@ -1331,3 +1331,11 @@ The filter calculates `effective_activation = overlap + intensity² × RESTING_W
 `OVERLAP_THRESHOLD = 0.15`, `RESTING_WEIGHT = 0.22`. Comment in code: "At 0.22: drives ≥ ~0.85 self-sustain without situational overlap."
 
 Gallantry perpetually passes appraisal regardless of situation. Protection requires situational overlap to activate. When both pass, the gallantry↔protection differentiation text survives the filter — this text IS relevant (how honour and threat-response differ when both pull). Proving-worth's texts are correctly excluded.
+
+## Research Journals
+
+The detailed investigation continues in era-specific research journals. Each era is self-contained — opens with a summary of relevant context from prior eras.
+
+- **Era 1** — `research/era1-character-taxonomy-research.md` — Taxonomy ablation, instruction design, L1 emotional echo. Complete.
+- **Era 2** — `research/drive-expression-evaluation-research.md` — CAPS pipeline, appraisal filtering, differentiation, regression recovery. Complete.
+- **Era 3** — `research/era3-cognitive-layering-research.md` — Self-conscious emotions, Theory of Mind, emotion regulation. Starting.
