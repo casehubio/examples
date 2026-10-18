@@ -40,9 +40,48 @@ Rolling research journal for cognitive capability layering. The pipeline is corr
 
 ---
 
+## The Ceiling — Why Pipeline Work Can't Raise Scores Further
+
+### What the pipeline does well
+
+Drive differentiation is working correctly. The focused eval baseline (S1-S10) shows each drive activating for appropriate scenarios and stepping back for inappropriate ones. Protection scores 5 for clear physical danger, 1 when someone just needs help with a door. This is the system distinguishing drives that were previously conflated.
+
+The appraisal filter correctly routes situation-relevant drives into the observation. The classifier recognises physical threats, social threats, neglect, and psychological dynamics. Production profiles (5+ inputs per drive) give broad coverage.
+
+### What the pipeline cannot do
+
+The pipeline controls WHICH drives reach the LLM's observation. It cannot control HOW RICHLY the LLM expresses them. Once protection is in the observation with its somatic description and differentiation cues, the quality of expression depends on what cognitive content is available.
+
+Current cognitive content per drive:
+- **Somatic description** — what the body feels when the drive activates (2-3 sentences, Barrett 4-channel)
+- **Differentiation texts** — how this drive differs from similar drives (1 per active pair)
+- **Formation memories** — the character's backstory episodes that formed the drive
+- **CAPS attractors** — settled behavioral tendencies
+
+What's missing:
+- **Self-appraisal** — the character has no sense of whether they're living up to their own standards. No pride when protection succeeds, no shame when it fails. This flattens expression.
+- **Mental models of others** — the character doesn't reason about what others are thinking or feeling. Protection without understanding WHY the other person is at risk is reactive, not empathic.
+- **Emotional regulation** — the character doesn't manage competing drives. When protection and proving-worth both activate, there's no mechanism for one to modulate the other.
+
+### The scores that need to move
+
+| Scenario | Current | Why it's at this level | What would raise it |
+|---|---|---|---|
+| S4: Gaslighting (prot) | 4 | Protection activates but lacks self-appraisal — no "I should have seen this sooner" | Self-conscious emotions: guilt/concern deepens protective response |
+| S5: Clara withdrawn (prot) | 2 | Subtle distress → gallantry dominates → protection is background | ToM: understanding Clara's internal state would activate protection more strongly |
+| S5: Clara withdrawn (gal) | 5 | Gallantry naturally responds to subtle social needs | Already at ceiling — maintain |
+| S6: Engine repair (pw) | 4 | Proving-worth expresses well for solo challenges | Could reach 5 with pride feedback: satisfaction in competence |
+| Overall mean | 3.75 | Secondary drives score 2-3 in ambiguous scenarios | Each cognitive layer should raise the floor for its target drives |
+
+### Principle 75 — the architectural ceiling
+
+Pipeline improvements (encoding, profiling, filtering, differentiation) redistribute quality between confused drives — combined quality is conserved, not created. The mean improved from 3.58 to 3.75 through better encoding and filtering, but further pipeline work yields diminishing returns. To create NEW quality, the LLM needs richer cognitive content that gives it new material to express.
+
+---
+
 ## Cognitive Capability Plan
 
-Pipeline improvements (encoding, profiling, filtering, differentiation) redistribute quality but don't create new quality — architectural ceiling (Principle 75). To create NEW quality, the LLM needs richer cognitive content.
+Each layer adds a new type of cognitive content to the observation. Layers are additive — they provide new material alongside existing somatic descriptions and differentiation texts.
 
 | # | Capability | Literature | Target drives | Status |
 |---|---|---|---|---|
@@ -82,6 +121,55 @@ Production-aligned pipeline: real profiles, real `LlmSituationClassifier`, real 
 | PP gallantry + protection simultaneously (S3) | 5+5 | Maintain | Already at max — don't regress |
 | Overall mean | 3.75 | >3.75 | Each layer should improve, not just redistribute |
 | Max single-drive regression | — | <0.4 | No layer should harm an existing drive |
+
+---
+
+## Research Methodology
+
+### Literature-first design
+
+Never guess at psychological models. Validate against published literature via Google Scholar before committing to an approach. "Sounds right" is not sufficient — the computational models are the authority.
+
+### Evaluation loop
+
+1. **Focused eval baseline** — run `FocusedDriveEvalTest` (10 scenarios, ~25 min) before any change
+2. **Implement the cognitive layer** — TDD: failing test → minimal code → verify
+3. **Focused eval after** — same 10 scenarios, compare against baseline
+4. **Assess:** did target drives improve? Did anything regress >0.4? Did the mean hold or improve?
+5. **If regression:** revert and investigate before proceeding
+6. **If improvement:** commit, update this journal, advance to next layer
+
+### What "improvement" means
+
+A cognitive layer improves expression when it gives the LLM new material that makes drive expression richer — not when it adds instructions that tell the LLM what to express. The distinction:
+
+- **Emergent** (correct): self-standard data says "protection is core to who this character is." The LLM infers pride when protection succeeds, guilt when it doesn't. The expression is richer because the LLM has more to work with.
+- **Prescribed** (wrong): instruction says "feel proud when you protect someone." The LLM follows the instruction mechanically. Expression is scripted, not emergent.
+
+Every cognitive layer must trace to formation memories and personality. "Makes the score go up" is not a justification.
+
+### Build commands
+
+```bash
+# Install neocortex (issue-115-weighted-situation-vocabulary branch)
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f neocortex/mindmap-intelligence/pom.xml install -Dmaven.test.skip=true
+
+# Fast unit tests
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml test -Dtest="CharacterCognitionTest,PipelineToRenderingTest,DriveRenderingUnitTest" -s .mvn/slot-settings.xml
+
+# Focused eval (~25 min)
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml test -Pllm-eval -Dtest="FocusedDriveEvalTest" -s .mvn/slot-settings.xml
+
+# Single scenario (~2 min)
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml test -Pllm-eval -Dtest="FocusedDriveEvalTest#s4_ppProtection_mediumPsychological" -s .mvn/slot-settings.xml
+```
+
+### Starting state for #592
+
+Self-conscious emotions implementation has been started by the conductor:
+- **Examples:** `readSelfStandards()` + `renderInternalState()` integration (commits 89334cb + 892e36e). Unit tests pass.
+- **Neocortex:** `SelfStandardDerivationPhase` at `@Priority(22)` (commit a4ddf276). Installed to local Maven.
+- **Not yet evaluated** — no focused eval run with self-standards active. This is the first task for the next session.
 
 ---
 
