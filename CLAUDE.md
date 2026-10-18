@@ -32,10 +32,12 @@ Multi-example repository for CaseHub platform modules. Each subdirectory is an i
 # Build wacky-manor only (from wacky-manor pom — parent reactor has unresolvable desiredstate deps)
 JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml install -Dmaven.test.skip=true -s .mvn/slot-settings.xml
 
-# Run wacky-manor fast tests (~30s, unit tests only, no Quarkus container)
+# Run wacky-manor fast tests (~30s, excludes experiment/ voice/ and integration tests)
 JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml test -Pfast -s .mvn/slot-settings.xml
 
-# Run wacky-manor full tests (~50 min, includes Quarkus integration tests)
+# Run wacky-manor full tests (~50 min, includes all non-eval @QuarkusTest classes)
+# Quarkus container reuse is active — no @TestProfile or @QuarkusTestResource overrides.
+# Time is dominated by experiment/ tests with heavy CDI/MindMap work, not container restarts.
 JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml test -s .mvn/slot-settings.xml
 
 # Run LLM evaluation tests (requires API key, non-deterministic)
