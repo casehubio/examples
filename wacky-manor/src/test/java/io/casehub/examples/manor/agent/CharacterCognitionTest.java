@@ -1079,4 +1079,98 @@ class CharacterCognitionTest {
         assertThat(content).doesNotContainIgnoringCase("worse");
         assertThat(content).doesNotContainIgnoringCase("shifting");
     }
+
+    @Test
+    void velocitySignal_multiTurnTrajectory_evolvesAcrossTurns() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var tenant = "test";
+        var sgId = store.createSubgraph(
+                new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-peter-perfect",
+                                                               io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("other-model-pp-clara", sgId)
+                                                            .withTraits(java.util.Set.of("OtherModelDerived"))
+                                                            .withProperties(Map.of("agent-id", "peter-perfect", "target-id", "clara",
+                                                                                   "empathic-sensing", "A tightness gathers across your shoulders.",
+                                                                                   "inferred-values", "She values belonging above all.")), tenant);
+
+        var cognition = new CharacterCognition("peter-perfect", null, null,
+                                               SocialConfig.empty(), List.of(), null, new ManorContextStrategy(), null, null,
+                                               tenant, store, null, null);
+        var character = new io.casehub.examples.manor.model.CharacterState(
+                "peter-perfect", "PP", "Room", 0.0, List.of());
+
+        // Turn 1: single observation — no velocity signal yet
+        cognition.observeCharacterState("clara",
+                                        io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
+                                        io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.SEVERE);
+        var sections1 = cognition.renderCognitiveSections(character, List.of("clara"), Map.of("clara", "Clara"));
+        var tom1      = sections1.stream().filter(s -> s.header().startsWith("What You Sense About")).findFirst().orElseThrow();
+        var content1  = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tom1).content();
+        assertThat(content1).doesNotContainIgnoringCase("easing");
+        assertThat(content1).doesNotContainIgnoringCase("worse");
+
+        // Turn 2: still distressed but less — IMPROVING
+        cognition.observeCharacterState("clara",
+                                        io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
+                                        io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.MILD);
+        var sections2 = cognition.renderCognitiveSections(character, List.of("clara"), Map.of("clara", "Clara"));
+        var tom2      = sections2.stream().filter(s -> s.header().startsWith("What You Sense About")).findFirst().orElseThrow();
+        var content2  = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tom2).content();
+        assertThat(content2).containsIgnoringCase("easing");
+
+        // Turn 3: distress increases again — WORSENING
+        cognition.observeCharacterState("clara",
+                                        io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
+                                        io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.SEVERE);
+        var sections3 = cognition.renderCognitiveSections(character, List.of("clara"), Map.of("clara", "Clara"));
+        var tom3      = sections3.stream().filter(s -> s.header().startsWith("What You Sense About")).findFirst().orElseThrow();
+        var content3  = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tom3).content();
+        assertThat(content3).containsIgnoringCase("worse");
+    }
+
+    @Test
+    void velocitySignal_classifiedFromResponses_producesTrajectory() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var tenant = "test";
+        var sgId = store.createSubgraph(
+                new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-peter-perfect",
+                                                               io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("other-model-pp-clara", sgId)
+                                                            .withTraits(java.util.Set.of("OtherModelDerived"))
+                                                            .withProperties(Map.of("agent-id", "peter-perfect", "target-id", "clara",
+                                                                                   "empathic-sensing", "A heaviness settles in your chest.",
+                                                                                   "inferred-values", "She needs safety above all.")), tenant);
+
+        var cognition = new CharacterCognition("peter-perfect", null, null,
+                                               SocialConfig.empty(), List.of(), null, new ManorContextStrategy(), null, null,
+                                               tenant, store, null, null);
+
+        // Simulate production pipeline: classify Clara's responses, feed to Peter's ToM
+        // Clara stays silent across 2 turns — both classify as AVOIDANT + NONE
+        var claraWaits = new AgentResponse("...", null, null, null,
+                                           new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.WAIT, null, null));
+        var claraMoves = new AgentResponse("...", null, null, null,
+                                           new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.MOVE, "library", null));
+
+        // Turn 1: Clara waits silently (AVOIDANT)
+        cognition.observeCharacterState("clara",
+                                        RegulationTracker.classifyBehavior(claraWaits),
+                                        io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.NONE);
+        // Turn 2: Clara leaves the room (AVOIDANT) — same evidence, STABLE trajectory
+        cognition.observeCharacterState("clara",
+                                        RegulationTracker.classifyBehavior(claraMoves),
+                                        io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.NONE);
+
+        var character = new io.casehub.examples.manor.model.CharacterState(
+                "peter-perfect", "PP", "Room", 0.0, List.of());
+        var sections = cognition.renderCognitiveSections(character, List.of("clara"), Map.of("clara", "Clara"));
+
+        var tomSections = sections.stream()
+                                  .filter(s -> s.header().startsWith("What You Sense About"))
+                                  .toList();
+        assertThat(tomSections).hasSize(1);
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
+        // Sustained avoidance → STABLE trajectory → "not shifted" signal
+        assertThat(content).containsIgnoringCase("not shifted");
+    }
 }
