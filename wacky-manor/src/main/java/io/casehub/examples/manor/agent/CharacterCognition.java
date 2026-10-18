@@ -29,6 +29,7 @@ public final class CharacterCognition {
     private final io.casehub.neocortex.caps.SituationClassifier          situationClassifier;
     private       boolean                                                lastClassifierActive = true;
     private final java.util.Map<String, io.casehub.neocortex.mindmap.intelligence.tom.TheoryOfMindEngine> tomEngines = new java.util.HashMap<>();
+    private final RegulationTracker regulationTracker = new RegulationTracker();
 
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService) {
@@ -110,6 +111,7 @@ public final class CharacterCognition {
                                                 k -> new io.casehub.neocortex.mindmap.intelligence.tom.TheoryOfMindEngine());
         engine.observeBehavior(behavior);
         engine.observeThreat(threat);
+        regulationTracker.recordPosterior(characterId, engine.inferEmotionalState());
     }
 
     private List<ObservationSection> renderTheoryOfMind(Collection<String> nearbyAgentIds,
@@ -117,17 +119,28 @@ public final class CharacterCognition {
         var sections = new ArrayList<ObservationSection>();
         for (var id : nearbyAgentIds) {
             var engine = tomEngines.get(id);
-            if (engine == null) continue;
+            if (engine == null) {continue;}
 
-            double[] state = engine.inferEmotionalState();
-            double distressed = state[io.casehub.neocortex.mindmap.intelligence.tom.EmotionalValence.DISTRESSED.ordinal()];
+            double[] state      = engine.inferEmotionalState();
+            double   distressed = state[io.casehub.neocortex.mindmap.intelligence.tom.EmotionalValence.DISTRESSED.ordinal()];
 
-            if (distressed < 0.35) continue;
+            if (distressed < 0.35) {continue;}
 
             String reading = readOtherModel(id);
-            if (reading == null || reading.isBlank()) continue;
+            if (reading == null || reading.isBlank()) {continue;}
 
             String name = agentNames.getOrDefault(id, id);
+
+            var trajectory = regulationTracker.computeTrajectory(id);
+            if (trajectory.isPresent()) {
+                String velocityText = switch (trajectory.get().trajectory()) {
+                    case IMPROVING -> "Something in your reading of " + name + " is shifting — the distress you sensed is easing.";
+                    case STABLE -> "Whatever you have tried has not reached " + name + ". The distress you sense has not shifted.";
+                    case WORSENING -> "It is getting worse. The distress you sense in " + name + " is deepening.";
+                };
+                reading = reading + "\n\n" + velocityText;
+            }
+
             sections.add(ObservationSection.text("What You Sense About " + name, reading));
         }
         return sections;

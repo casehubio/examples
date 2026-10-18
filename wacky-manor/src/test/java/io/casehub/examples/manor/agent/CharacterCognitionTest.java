@@ -964,4 +964,119 @@ class CharacterCognitionTest {
                                   .toList();
         assertThat(tomSections).isEmpty();
     }
+
+    @Test
+    void velocitySignal_improving_appendedToTomSection() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var tenant = "test";
+        var sgId = store.createSubgraph(
+                new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-peter-perfect",
+                                                               io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("other-model-pp-clara", sgId)
+                                                            .withTraits(java.util.Set.of("OtherModelDerived"))
+                                                            .withProperties(Map.of("agent-id", "peter-perfect", "target-id", "clara",
+                                                                                   "empathic-sensing", "A tightness gathers across your shoulders.",
+                                                                                   "inferred-values", "She values belonging above all.")), tenant);
+
+        var cognition = new CharacterCognition("peter-perfect", null, null,
+                                               SocialConfig.empty(), List.of(), null, new ManorContextStrategy(), null, null,
+                                               tenant, store, null, null);
+
+        // Turn 1: very high distress (avoidant + severe)
+        cognition.observeCharacterState("clara",
+                                        io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
+                                        io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.SEVERE);
+        // Turn 2: still distressed but less (avoidant + mild) — delta negative = improving
+        cognition.observeCharacterState("clara",
+                                        io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
+                                        io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.MILD);
+
+        var character = new io.casehub.examples.manor.model.CharacterState(
+                "peter-perfect", "PP", "Room", 0.0, List.of());
+        var sections = cognition.renderCognitiveSections(character, List.of("clara"), Map.of("clara", "Clara"));
+
+        var tomSections = sections.stream()
+                                  .filter(s -> s.header().startsWith("What You Sense About"))
+                                  .toList();
+        assertThat(tomSections).hasSize(1);
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
+        assertThat(content).containsIgnoringCase("easing");
+    }
+
+
+    @Test
+    void velocitySignal_worsening_appendedToTomSection() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var tenant = "test";
+        var sgId = store.createSubgraph(
+                new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-peter-perfect",
+                                                               io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("other-model-pp-clara", sgId)
+                                                            .withTraits(java.util.Set.of("OtherModelDerived"))
+                                                            .withProperties(Map.of("agent-id", "peter-perfect", "target-id", "clara",
+                                                                                   "empathic-sensing", "A tightness gathers across your shoulders.",
+                                                                                   "inferred-values", "She values belonging above all.")), tenant);
+
+        var cognition = new CharacterCognition("peter-perfect", null, null,
+                                               SocialConfig.empty(), List.of(), null, new ManorContextStrategy(), null, null,
+                                               tenant, store, null, null);
+
+        // Turn 1: moderate distress
+        cognition.observeCharacterState("clara",
+                                        io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.NEUTRAL,
+                                        io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.NONE);
+        // Turn 2: higher distress (avoidant + severe)
+        cognition.observeCharacterState("clara",
+                                        io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
+                                        io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.SEVERE);
+
+        var character = new io.casehub.examples.manor.model.CharacterState(
+                "peter-perfect", "PP", "Room", 0.0, List.of());
+        var sections = cognition.renderCognitiveSections(character, List.of("clara"), Map.of("clara", "Clara"));
+
+        var tomSections = sections.stream()
+                                  .filter(s -> s.header().startsWith("What You Sense About"))
+                                  .toList();
+        assertThat(tomSections).hasSize(1);
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
+        assertThat(content).containsIgnoringCase("worse");
+    }
+
+    @Test
+    void velocitySignal_singleObservation_noVelocityContent() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var tenant = "test";
+        var sgId = store.createSubgraph(
+                new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-peter-perfect",
+                                                               io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("other-model-pp-clara", sgId)
+                                                            .withTraits(java.util.Set.of("OtherModelDerived"))
+                                                            .withProperties(Map.of("agent-id", "peter-perfect", "target-id", "clara",
+                                                                                   "empathic-sensing", "A tightness gathers across your shoulders.",
+                                                                                   "inferred-values", "She values belonging above all.")), tenant);
+
+        var cognition = new CharacterCognition("peter-perfect", null, null,
+                                               SocialConfig.empty(), List.of(), null, new ManorContextStrategy(), null, null,
+                                               tenant, store, null, null);
+
+        // Single observation — no trajectory possible
+        cognition.observeCharacterState("clara",
+                                        io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
+                                        io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.MILD);
+
+        var character = new io.casehub.examples.manor.model.CharacterState(
+                "peter-perfect", "PP", "Room", 0.0, List.of());
+        var sections = cognition.renderCognitiveSections(character, List.of("clara"), Map.of("clara", "Clara"));
+
+        var tomSections = sections.stream()
+                                  .filter(s -> s.header().startsWith("What You Sense About"))
+                                  .toList();
+        assertThat(tomSections).hasSize(1);
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
+        // Should have ToM content but no velocity signal
+        assertThat(content).contains("tightness");
+        assertThat(content).doesNotContainIgnoringCase("easing");
+        assertThat(content).doesNotContainIgnoringCase("worse");
+        assertThat(content).doesNotContainIgnoringCase("shifting");
+    }
 }
