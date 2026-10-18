@@ -369,6 +369,33 @@ class PipelineToRenderingTest {
                 .contains("tension in hands");
     }
 
+    @Test
+    void classifierBypass_excludesDifferentiationTexts() {
+        seedDrive("gallantry", 0.9, "fallback-g");
+        seedDrive("proving-worth", 0.7, "fallback-pw");
+        seedGenerated("gallantry", "Gallantry: bright heat, the person exposed");
+        seedGenerated("proving-worth", "Proving-worth: tension in hands, the gap not yet built");
+        seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
+        seedProfile("proving-worth", "competence:0.8,mastery:0.6");
+        seedCompetition("gallantry", "proving-worth",
+                        "How they differ:\nOne is gesture. The other is result.\nNotice which moved your hands.");
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> List.of();
+
+        var section = renderInternalStateWithClassifier(
+                List.of(), "An unfamiliar sound echoes through the corridor", classifier);
+
+        assertThat(section).isNotNull();
+        var content = ((ObservationSection.TextBlock) section).content();
+        assertThat(content)
+                .as("Drives should still render on classifier bypass")
+                .contains("the person exposed")
+                .contains("tension in hands");
+        assertThat(content)
+                .as("Differentiation texts must NOT appear when classifier bypasses — no situation context means no evidence of simultaneous activation (Barrett 2017)")
+                .doesNotContain("How they differ");
+    }
+
 
     @Test
     void appraisalFiltering_dominantDriveRenders_subdominantFiltered() {

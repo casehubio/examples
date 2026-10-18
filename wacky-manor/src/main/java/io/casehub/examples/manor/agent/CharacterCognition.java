@@ -27,6 +27,8 @@ public final class CharacterCognition {
     private final io.casehub.neocortex.mindmap.MindMapStore             mindMapStore;
     private final io.casehub.engine.trust.TrustEvolutionConfig          trustEvolutionConfig;
     private final io.casehub.neocortex.caps.SituationClassifier          situationClassifier;
+    private       boolean                                                lastClassifierActive = true;
+
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService) {
         this(agentId, experienceService, null, SocialConfig.empty(), List.of(),
@@ -317,10 +319,12 @@ public final class CharacterCognition {
                 attractorCount = attractorLines.size();
             }
 
-            var activeDriveTypes = filtered.stream().map(SocialConfig.Drive::type).collect(java.util.stream.Collectors.toSet());
-            var diffTexts        = readDriveDifferentiation(subgraphs, activeDriveTypes);
-            parts.addAll(diffTexts);
-            diffTextCount = diffTexts.size();
+            if (lastClassifierActive) {
+                var activeDriveTypes = filtered.stream().map(SocialConfig.Drive::type).collect(java.util.stream.Collectors.toSet());
+                var diffTexts        = readDriveDifferentiation(subgraphs, activeDriveTypes);
+                parts.addAll(diffTexts);
+                diffTextCount = diffTexts.size();
+            }
         }
 
         if (parts.isEmpty()) {return null;}
@@ -543,7 +547,8 @@ public final class CharacterCognition {
         } catch (Exception e) {
             return eligible;
         }
-        if (situationActivations.isEmpty()) {return eligible;}
+        if (situationActivations.isEmpty()) {lastClassifierActive = false; return eligible;}
+        lastClassifierActive = true;
 
         var situationMap = new java.util.HashMap<String, Double>();
         for (var sa : situationActivations) {
