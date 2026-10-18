@@ -134,17 +134,34 @@ public final class CharacterCognition {
     }
 
     private String readOtherModel(String targetId) {
-        if (mindMapStore == null || tenantId == null) return null;
-        return mindMapStore.listSubgraphs(tenantId).stream()
-            .filter(s -> "cognitive".equals(s.type()))
-            .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
-            .filter(n -> n.traits().contains("OtherModelDerived"))
-            .filter(n -> agentId.equals(n.properties().get("agent-id")))
-            .filter(n -> targetId.equals(n.properties().get("target-id")))
-            .map(n -> n.properties().get("empathic-reading"))
-            .filter(r -> r != null && !r.isBlank())
-            .findFirst()
-            .orElse(null);
+        if (mindMapStore == null || tenantId == null) {return null;}
+        var node = mindMapStore.listSubgraphs(tenantId).stream()
+                               .filter(s -> "cognitive".equals(s.type()))
+                               .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
+                               .filter(n -> n.traits().contains("OtherModelDerived"))
+                               .filter(n -> agentId.equals(n.properties().get("agent-id")))
+                               .filter(n -> targetId.equals(n.properties().get("target-id")))
+                               .findFirst()
+                               .orElse(null);
+        if (node == null) {return null;}
+
+        var parts   = new java.util.ArrayList<String>();
+        var sensing = node.properties().get("empathic-sensing");
+        if (sensing != null && !sensing.isBlank()) {parts.add(sensing);}
+        var values = node.properties().get("inferred-values");
+        if (values != null && !values.isBlank()) {parts.add(values);}
+        var sensitivities = node.properties().get("appraisal-sensitivities");
+        if (sensitivities != null && !sensitivities.isBlank()) {parts.add(sensitivities);}
+        var bond = node.properties().get("relational-understanding");
+        if (bond != null && !bond.isBlank()) {parts.add(bond);}
+
+        // backward compat: single-field empathic-reading from earlier version
+        if (parts.isEmpty()) {
+            var legacy = node.properties().get("empathic-reading");
+            if (legacy != null && !legacy.isBlank()) {parts.add(legacy);}
+        }
+
+        return parts.isEmpty() ? null : String.join("\n\n", parts);
     }
 
 

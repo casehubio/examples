@@ -908,7 +908,10 @@ class CharacterCognitionTest {
         store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("other-model-peter-perfect-clara", sgId)
             .withTraits(java.util.Set.of("OtherModelDerived"))
             .withProperties(Map.of("agent-id", "peter-perfect", "target-id", "clara",
-                "empathic-reading", "A tightness gathers across your shoulders and down through your arms.")), tenant);
+                "empathic-sensing", "A tightness gathers across your shoulders and down through your arms.",
+                "inferred-values", "She carries herself as though belonging must be earned, never assumed.",
+                "appraisal-sensitivities", "Exclusion shuts her down. Public scrutiny makes her smaller.",
+                "relational-understanding", "Between you there is a quiet contract — you show up, she trusts.")), tenant);
 
         var cognition = new CharacterCognition("peter-perfect", null, null,
             SocialConfig.empty(), List.of(), null, new ManorContextStrategy(), null, null,
@@ -926,8 +929,10 @@ class CharacterCognitionTest {
             .toList();
         assertThat(tomSections).hasSize(1);
         assertThat(tomSections.get(0).header()).isEqualTo("What You Sense About Clara");
-        assertThat(((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content())
-            .contains("tightness");
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
+        assertThat(content).contains("tightness");
+        assertThat(content).contains("belonging");
+        assertThat(content).contains("Exclusion");
     }
 
     @Test
