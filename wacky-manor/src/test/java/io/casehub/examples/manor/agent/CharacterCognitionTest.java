@@ -616,7 +616,8 @@ class CharacterCognitionTest {
             if (desc.contains("struggling") || desc.contains("door")) {
                 return List.of(
                     new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.6),
-                    new io.casehub.neocortex.caps.SituationActivation("sharing", 0.5));
+                    new io.casehub.neocortex.caps.SituationActivation("sharing", 0.5),
+                    new io.casehub.neocortex.caps.SituationActivation("mastery", 0.4));
             }
             return List.of();
         };
@@ -625,7 +626,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
             null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
 
-        var section = cognition.renderInternalState(List.of("gallantry"),
+        var section = cognition.renderInternalState(List.of("gallantry", "proving-worth"),
             "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
         var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
 
@@ -685,6 +686,67 @@ class CharacterCognitionTest {
                 .contains("DIFF-GALLANTRY-PROVINGWORTH")
                 .contains("DIFF-GALLANTRY-PROTECTION")
                 .contains("DIFF-PROVINGWORTH-PROTECTION");
+    }
+
+
+    @Test
+    void differentiationFilteredByActiveDrives() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent  = "peter-perfect";
+        var tenant = "diff-filter";
+        var sgId = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput(
+                "cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        for (var drive : List.of("gallantry", "proving-worth", "protection")) {
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(drive, sgId)
+                                                                .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", agent,
+                                                                                       "drive-type", drive, "intensity", "0.8", "description", "fallback")), tenant);
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-description-" + drive, sgId)
+                                                                .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+                                                                .withProperties(Map.of("agent-id", agent, "drive-type", drive,
+                                                                                       "generated-description", "Description for " + drive + ".")), tenant);
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-" + drive, sgId)
+                                                                .withTraits(java.util.Set.of("DriveProfileInferred"))
+                                                                .withProperties(Map.of("agent-id", agent, "drive-type", drive,
+                                                                                       "inferred-inputs", drive.equals("gallantry") ? "acceptance:0.8,sharing:0.5"
+                                                                                                                                    : drive.equals("proving-worth") ? "mastery:0.8,competence_recognition:0.6"
+                                                                                                                                                                    : "physical_threat:0.8,secure_attachment:0.7")), tenant);
+        }
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("comp-gal-prov", sgId)
+                                                            .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                            .withProperties(Map.of("agent-id", agent, "drive-a", "gallantry", "drive-b", "proving-worth",
+                                                                                   "differentiation-text", "DIFF-GAL-PROV")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("comp-gal-prot", sgId)
+                                                            .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                            .withProperties(Map.of("agent-id", agent, "drive-a", "gallantry", "drive-b", "protection",
+                                                                                   "differentiation-text", "DIFF-GAL-PROT")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("comp-prov-prot", sgId)
+                                                            .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                            .withProperties(Map.of("agent-id", agent, "drive-a", "proving-worth", "drive-b", "protection",
+                                                                                   "differentiation-text", "DIFF-PROV-PROT")), tenant);
+
+        // Classifier returns acceptance (gallantry) + mastery (proving-worth) but NOT physical_threat
+        // So gallantry and proving-worth are active; protection is NOT active
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> List.of(
+                new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.7),
+                new io.casehub.neocortex.caps.SituationActivation("mastery", 0.6));
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
+                                               null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+
+        var section = cognition.renderInternalState(List.of("gallantry", "proving-worth"),
+                                                    "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+
+        assertThat(content)
+                .as("differentiation for active pair (gallantry+proving-worth) should be included")
+                .contains("DIFF-GAL-PROV");
+        assertThat(content)
+                .as("differentiation involving inactive drive (protection) should be excluded")
+                .doesNotContain("DIFF-GAL-PROT")
+                .doesNotContain("DIFF-PROV-PROT");
     }
 
     @Test

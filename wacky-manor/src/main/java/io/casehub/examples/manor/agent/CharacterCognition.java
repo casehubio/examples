@@ -312,7 +312,8 @@ public final class CharacterCognition {
                 parts.addAll(attractorLines);
             }
 
-            parts.addAll(readDriveDifferentiation(subgraphs));
+            var activeDriveTypes = filtered.stream().map(SocialConfig.Drive::type).collect(java.util.stream.Collectors.toSet());
+            parts.addAll(readDriveDifferentiation(subgraphs, activeDriveTypes));
         }
 
         if (parts.isEmpty()) {return null;}
@@ -351,12 +352,14 @@ public final class CharacterCognition {
     }
 
 
-    private List<String> readDriveDifferentiation(java.util.List<io.casehub.neocortex.mindmap.MindMapSubgraph> subgraphs) {
+    // Easterbrook (1959): irrelevant content degrades attentional performance
+    private List<String> readDriveDifferentiation(java.util.List<io.casehub.neocortex.mindmap.MindMapSubgraph> subgraphs, java.util.Set<String> activeDriveTypes) {
         return subgraphs.stream()
             .filter(s -> "cognitive".equals(s.type()))
             .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
             .filter(n -> n.traits().contains("DriveCompetitionInferred"))
             .filter(n -> agentId.equals(n.properties().get("agent-id")))
+            .filter(n -> activeDriveTypes.contains(n.properties().get("drive-a")) && activeDriveTypes.contains(n.properties().get("drive-b")))
             .map(n -> n.properties().get("differentiation-text"))
             .filter(t -> t != null && !t.isBlank())
             .toList();
