@@ -1211,3 +1211,114 @@ All transcripts in `wacky-manor/docs/eval/`:
 | `llm-classifier-2026-10-15/` | 306 | Phase 8 — appraisal filter (LLM classifier) | GENERIC | L1 + cognitive pipeline + LLM appraisal filter |
 | `caps-descriptions-2026-10-17/` | 300 | Phase 8 — CAPS semantic descriptions + derive-and-pin | GENERIC | L1 + cognitive pipeline + LLM classifier + CAPS descriptions + pinned PEN profiles |
 | `bugfixes-pinned-2026-10-17/` | 310 | Phase 8 — bug fixes + all profiles pinned (**BASELINE2**) | GENERIC | L1 + full pipeline + all-pairs differentiation + pinned profiles + template leak fixed |
+| `instrumented-50evt-2026-10-18/` | 86 | Phase 9 — instrumented eval (pre-Fix A) | GENERIC | L1 + full pipeline + pipeline instrumentation |
+| `fixa-verification-2026-10-18/` | 84 | Phase 9 — Fix A verification | GENERIC | L1 + full pipeline + classifier-bypass guard |
+
+## Phase 9 — Regression Recovery: The Differentiation Text Dilution Problem
+
+### Problem
+
+BASELINE2 (`bugfixes-pinned-2026-10-17`) regressed from the prior eval on protection-type drives:
+
+| Character | Drive | Prior | BASELINE2 | Delta |
+|---|---|---|---|---|
+| PP | protection | 4.16 | 3.45 | -0.71 |
+| AHM | protection | 4.71 | 4.26 | -0.45 |
+| PEN | adventure | 3.00 | 2.78 | -0.22 |
+| PEN | social-harmony | 3.10 | 2.91 | -0.19 |
+
+Five variables changed simultaneously between evals. The common factor across the protection drops: the volume of differentiation text reaching the prompt increased dramatically after the Phase 8 bug fixes.
+
+### Root cause: volume, not quality
+
+The Phase 8 `findFirst()` bug (examples#126) had accidentally limited each character to 1 differentiation text. The fix plus all-pairs differentiation (neocortex#608) combined to flood the prompt:
+
+| Character | Pre-fix (effective) | Post-fix (effective) | Change |
+|---|---|---|---|
+| PP | 1 text | 3 texts | +2 |
+| AHM | 0 texts | 3 texts | +3 |
+| HC | 1 text | 6 texts | +5 |
+| DD | 1 text | 6 texts | +5 |
+| PEN | 1 text | 3 texts | +2 |
+
+The differentiation texts themselves are high-quality Barrett 4-channel descriptions. The problem is volume: too many reach the prompt simultaneously, diluting the primary drive signal. Easterbrook (1959) — irrelevant cues degrade attentional performance.
+
+### Instrumentation
+
+Three structured log lines added to the pipeline (`CharacterCognition`) to enable causal analysis per event:
+
+```
+[appraisal-filter]        — classifier activations, per-drive effective activation, rendered/filtered drives
+[differentiation-filter]  — total/included/excluded texts, which pairs excluded, active drive set
+[observation-assembly]    — component counts: drives, diffTexts, memories, attractors, totalParts
+```
+
+Absence of `[appraisal-filter]` = classifier bypass (empty return → all drives pass unfiltered).
+
+### Two failure modes identified
+
+**Failure mode 1 — classifier bypass (PP).** The `LlmSituationClassifier` returns empty when it can't classify a situation with confidence. `appraisalFilterDrives()` falls back to returning ALL drives. This cascades: all drives active → all differentiation texts included → maximum noise. PP had classifier bypass in 67% of events (6 of 9).
+
+**Failure mode 2 — threshold too low (AHM).** AHM's drive intensities (loyalty 0.9, protection 0.8, suspicion 0.6) produce resting activations that perpetually clear the appraisal threshold. Result: all 3 drives always active → all 3 differentiation texts always included → 100% of AHM events carry maximum noise.
+
+### Micro test limitation
+
+Single-observation micro tests cannot reproduce the regression. A PP protection test with all 3 differentiation texts and a strong trigger (ceiling collapse) scored 5/5 — the LLM produced vivid protective response despite maximum noise. The dilution effect is statistical: visible across hundreds of diverse events where some triggers are weaker, not in individual strong-trigger observations.
+
+### Statistical confirmation
+
+50-event instrumented eval, classified per event. PP protection score by differentiation text count:
+
+| DiffTexts in observation | Avg protection score | n |
+|---|---|---|
+| 0 | 4.00 | 2 |
+| 1 | 3.00 | 1 |
+| 3 | 2.80 | 5 |
+
+Clear inverse correlation: -1.20 from 0→3 diff texts. Primary drives (scheming 5.00, curiosity 4.50) survive noise; secondary drives (protection, dominance) show the steepest decline.
+
+### Fix A — guard differentiation texts against classifier bypass
+
+When the classifier returns empty, the observation builder skips differentiation entirely. Without situation context, there is no evidence of simultaneous drive activation — differentiation texts are noise, not signal. Barrett (2017): differentiation is required when two emotional categories are simultaneously activated by the SITUATION, not when they merely co-exist in the personality.
+
+Implementation: `lastClassifierActive` flag set by `appraisalFilterDrives()`, guarding `readDriveDifferentiation()`.
+
+### Fix A results
+
+| Character | Drive | BASELINE2 | Fix A | Delta | Status |
+|---|---|---|---|---|---|
+| AHM | protection | 4.42 | 4.72 | +0.30 | **Recovered** |
+| HC | dominance | 2.83 | 3.62 | +0.79 | **Recovered** |
+| PEN | social-harmony | 2.33 | 2.89 | +0.56 | **Improved** |
+| PP | proving-worth | 3.83 | 4.12 | +0.29 | **Improved** |
+| AHM | loyalty | 3.08 | 3.44 | +0.36 | **Improved** |
+| AHM | suspicion | 4.25 | 4.50 | +0.25 | **Improved** |
+| PP | gallantry | 2.25 | 2.44 | +0.19 | Marginal |
+| PP | protection | 3.08 | 2.50 | -0.58 | **Not recovered** |
+
+Fix A resolved AHM protection, HC dominance, and improved most other drives. PP protection dropped further.
+
+### PP protection — open investigation
+
+PP protection went from 3.08 (BASELINE2) to 2.50 (Fix A). The appraisal filter is over-filtering: protection is excluded from PP's observation in 40% of classifier-active events. PP protection's CAPS profile (`acceptance:0.5, physical_threat:0.4`) is narrow — protection only activates when the situation involves these specific inputs. Protection's resting activation (0.8² × 0.22 = 0.141) sits just below the 0.15 self-sustaining threshold.
+
+Candidate fixes under investigation:
+- Broaden protection's inferred input profile during derivation
+- Confusion-ratio gating: only include differentiation texts between drives with similar activation (within 3:1 ratio)
+- Threshold adjustment for high-intensity drives near the self-sustaining boundary
+
+### Appraisal filter mechanics — reference
+
+The filter calculates `effective_activation = overlap + intensity² × RESTING_WEIGHT` per drive:
+
+| Drive | Intensity | Resting | Self-sustains? |
+|---|---|---|---|
+| gallantry | 0.9 | 0.178 | Yes (> 0.15) |
+| protection | 0.8 | 0.141 | No (< 0.15) |
+| proving-worth | 0.7 | 0.108 | No |
+| loyalty | 0.9 | 0.178 | Yes |
+| suspicion | 0.6 | 0.079 | No |
+
+`OVERLAP_THRESHOLD = 0.15`, `RESTING_WEIGHT = 0.22`. Comment in code: "At 0.22: drives ≥ ~0.85 self-sustain without situational overlap."
+
+Gallantry perpetually passes appraisal regardless of situation. Protection requires situational overlap to activate. When both pass, the gallantry↔protection differentiation text survives the filter — this text IS relevant (how honour and threat-response differ when both pull). Proving-worth's texts are correctly excluded.
