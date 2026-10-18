@@ -830,4 +830,18 @@ To determine whether priority signatures genuinely help, hurt, or are neutral:
 5. Compare mean PW scores between conditions
 6. Apply a significance test (Mann-Whitney U or similar given small N)
 
-This reproducer is the next implementation task.
+#### Reproducer results (2026-10-18)
+
+Ran `PrioritySignatureReproducerTest` — S7 (door stuck), N=5 per condition, fixed content generated once and reused:
+
+| Condition | Scores | Mean |
+|---|---|---|
+| WITH priority sigs | [3, 2, 2, 2, 3] | 2.4 |
+| WITHOUT priority sigs | [2, 4, 2, 4, 2] | 2.8 |
+| Delta | | -0.4 (not significant) |
+
+**Priority signatures are neutral on S7 PW.** The delta is within noise. The WITHOUT condition shows higher variance (hitting 4 twice), confirming that the Layer 2 pw=4 was within the natural range. The original "regression" from L2 pw=4 to L3 pw=2 was a single sample from a distribution that ranges 2-4.
+
+Issue #130 closed — no architectural change needed. Priority signatures can stay.
+
+**Principle 78 validated:** Single-run eval scores are not evidence. The reproducer with N=5 per condition showed that what looked like a -2 regression was noise from a high-variance distribution. The methodology (Principle 78) worked — it prevented an incorrect revert.
