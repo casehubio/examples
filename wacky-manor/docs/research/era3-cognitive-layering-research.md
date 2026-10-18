@@ -845,3 +845,134 @@ Ran `PrioritySignatureReproducerTest` — S7 (door stuck), N=5 per condition, fi
 Issue #130 closed — no architectural change needed. Priority signatures can stay.
 
 **Principle 78 validated:** Single-run eval scores are not evidence. The reproducer with N=5 per condition showed that what looked like a -2 regression was noise from a high-variance distribution. The methodology (Principle 78) worked — it prevented an incorrect revert.
+
+---
+
+### Entry 8 — Cross-turn feedback loop: literature review and architectural design (2026-10-18)
+
+#### The question
+
+Layers 1-3 enriched WHAT the observation contains (self-standards, ToM readings, priority signatures). Each is assembled independently per turn — no information flows from the evaluation of turn N's response into turn N+1's observation. The character can't tell whether its regulatory approach is working across turns. Gross 2015's extended process model predicts a continuous maintain/switch/stop feedback loop. What is the computational structure of that loop, and how does it map to our architecture?
+
+#### Literature surveyed
+
+**Gross (2015).** "Emotion regulation: Current status and future prospects." *Psychological Inquiry* 26(1), 1–26. Extended process model: nested valuation systems where first-order (emotion generation) is monitored by second-order (emotion regulation). Both run the same World → Perception → Valuation → Action cycle, differing only in input. After regulatory implementation, a monitoring process evaluates the outcome and decides maintain/switch/stop. **The model is verbal/conceptual — no thresholds, decision functions, or computational specification.** The decision criteria Gross references come from Carver & Scheier.
+
+**Carver & Scheier (1998, 2000, 2011).** "On the Self-Regulation of Behavior" and subsequent updates. Two-loop control system built on Powers (1973):
+- **Loop 1 (Action):** Reference value (goal) → Comparator (error = reference - perception) → Output (behavior) → Environment → Perception. The TOTE cycle (Miller, Galanter & Pribram 1960).
+- **Loop 2 (Affect/Meta):** Monitors the RATE of discrepancy reduction in Loop 1. Affect = actual rate - expected rate. Positive affect when converging faster than expected, negative when stalling.
+- **Key insight: emotion signals the derivative, not the position.** Three outputs: maintain (rate OK), increase effort (rate low but expectancy holds), disengage (rate low and expectancy collapsed).
+- Hierarchical: higher-order loops set reference values for lower-order loops.
+- **Never computationally implemented in an agent architecture.**
+
+**Webb, Miles & Sheeran (2012).** Meta-analysis of emotion regulation strategy effectiveness. Cognitive change (reappraisal) d+=0.36 (most effective). Perspective-taking specifically d+=0.45. **Attentional deployment d+=0.00 (null).** Response modulation (suppression) d+=0.16 (weak). Context-dependent — no single strategy dominates.
+
+**Computational implementations surveyed:**
+- EMA (Marsella & Gratch 2004/2009): Continuous reappraisal loop — no explicit switch criterion. Coping strategies re-selected based on updated appraisal variables after each cycle.
+- CoMERG (Bosse, Pontier & Treur 2010): Cybernetic homeostasis model with norm value. Continuous reweighting of all five Gross strategies simultaneously. Not discrete switching.
+- Scherer SECs (2009): Four sequential evaluation checks cycling continuously. Recursive update, not a feedback loop per se.
+- Chen et al. (2026): Maps ER onto ML mechanisms — motivation ≈ loss function, execution ≈ policy selection, monitoring ≈ prediction-error updating. Closest to computational specification of maintain/switch/stop.
+
+**Recent LLM-agent work:**
+- PsychoAgent (2026): Conflict-aware memory architecture. Affect persists in memory across turns — closest in spirit to our architecture.
+- "Feeling First, Speaking Second" (ACL/CAS 2026): Dual-process architecture enforcing affective primacy. Found "rational bias" where planning overrides emotion.
+- Emotional Cognitive Modeling Framework (arXiv, Oct 2025): Explicit emotion → decision → action → feedback loop.
+
+**Bottom line:** No existing agent implements a clean maintain/switch/stop feedback loop. Carver & Scheier's velocity signal is the cleanest formalism but has never been computationally realized. We'd be the first.
+
+#### Key finding — attentional deployment is null
+
+Webb et al. 2012 found attentional deployment d+=0.00 in humans. Priority signatures (Layer 3) ARE attentional deployment — directing attention to the most salient drive aspects. Our reproducer found them neutral (N=5, delta -0.4, not significant). **The published meta-analysis predicted our empirical result.** This retroactively validates the Layer 3 outcome: neutral was the correct result, not a failure.
+
+Cognitive change (reappraisal, d+=0.36) is the effective strategy — already in our architecture via differentiation texts and self-standards (Entry 6 confirmed this mapping).
+
+#### First-principles analysis — what's missing
+
+**Loop 1 (action regulation) is working.** The character has reference values (drives + self-standards), perception (observation), and a comparator/output (LLM implicit regulation). Mauss et al. (2007) confirmed implicit regulation is effective.
+
+**Loop 2 (meta-monitoring) is missing.** The character can't tell whether its regulatory approach is working across turns. Each turn's observation is assembled independently. No velocity signal.
+
+Concrete failures:
+- Character comforts Clara for 3 turns, Clara improves → character can't tell its approach worked, might switch unnecessarily
+- Character defends aggressively, Clara flinches → character can't tell the defense was counterproductive, repeats it
+- Character maintains composure under stress → no persistent awareness of "I've been holding composure successfully"
+
+#### Design — velocity signal provider, not regulation engine
+
+Following the established pattern: we don't build a regulation engine. We provide the LLM with velocity signal content. The LLM performs implicit strategy adjustment.
+
+| Layer | Content provided | LLM inference (emergent) |
+|---|---|---|
+| 1. Self-standards | "Protection is core to who I am" | Pride/guilt from self-evaluation |
+| 2. ToM readings | "Clara is distressed, belonging threatened" | Empathic protection from understanding |
+| 3. Priority signatures | Somatic settling for drive pairs | Drive prioritization (attentional deployment — neutral, as predicted) |
+| **4. Velocity signals** | **"The distress you sense is easing"** | **Strategy maintenance or adjustment** |
+
+**Principle 79 — the velocity signal IS the feedback loop.** Carver & Scheier's meta-monitoring loop tracks the rate of discrepancy reduction. We implement this mechanically via Bayesian posterior deltas and render it as felt-sense content. The LLM reads the velocity signal and adjusts implicitly. No discrete maintain/switch/stop state machine needed — the LLM IS the regulatory decision engine.
+
+#### Architecture
+
+**Component 1: `RegulationTracker`** — mechanical velocity tracking
+
+Lives in `CharacterCognition`. Stores Bayesian posterior history per target character.
+
+```
+recordPosterior(targetId, turnNumber, double[] posterior)
+computeTrajectory(targetId) → {IMPROVING, STABLE, WORSENING} + delta
+```
+
+The Bayesian ToM engine already computes P(distressed) per character per turn. The delta IS the Carver & Scheier velocity signal:
+- `delta < -0.05` (distress decreasing) → IMPROVING — regulation working
+- `|delta| ≤ 0.05` (stable) → STABLE — regulation stalled
+- `delta > 0.05` (increasing) → WORSENING — regulation failing
+
+Mechanical, deterministic, auditable. No LLM call needed. Threshold of 0.05 is meaningful given the 3-outcome variable structure (shifts of 0.02-0.03 are noise from evidence weighting; shifts of 0.05+ reflect genuine evidence changes).
+
+Called after `observeCharacterState()`. Needs 2+ turns of data to produce a signal.
+
+**Component 2: Velocity rendering** — augments `renderTheoryOfMind()`
+
+After the current ToM reading, append trajectory as felt-sense content:
+- IMPROVING: trajectory rendered as easing, reaching, shifting
+- STABLE: trajectory rendered as unchanging, unmoved, stuck
+- WORSENING: trajectory rendered as deepening, intensifying, wrong
+
+Content, not instruction. No templates — the exact wording should be LLM-derived during consolidation or rendered from the trajectory direction + character context. The LLM decides how to respond.
+
+**Component 3: Self-continuity injection** — for self-directed regulation
+
+Store `lastThinking` on `CharacterState`. In the next turn's observation, inject directly — the character's own previous affective state, always present, not competing with memory recall. This provides self-directed velocity via implicit LLM continuity (the LLM reads its own prior thinking and naturally tracks whether its affective state is shifting).
+
+#### What we're NOT building
+
+- **No maintain/switch/stop state machine** — the LLM IS the regulatory decision engine
+- **No explicit strategy taxonomy** — strategies emerge from content
+- **No additional LLM calls** — all velocity signals are mechanical or self-continuity
+- **No regulatory goal tracking** — drives + self-standards already provide reference values
+- **No expected rate specification** — the LLM has implicit expectations from training; we provide the actual rate (velocity), the LLM computes the discrepancy against its own implicit expected rate
+
+#### Interaction with existing layers
+
+Self-standards (Layer 1) provide the reference values: "what I care about being." ToM readings (Layer 2) provide the current state: "what I sense about the other." Velocity signals (Layer 4) provide the rate of change: "is what I sense getting better or worse?" The LLM combines all three: "I care about protection (L1), I sense Clara is distressed (L2), and my approach is reaching her (L4) → maintain."
+
+Priority signatures (Layer 3) remain as they are — neutral effect, as the meta-analysis predicted. They provide somatic settling content that the LLM may or may not use. Not harmful, potentially useful in edge cases where attentional deployment helps (Webb et al. 2012 found heterogeneous effects — null on average, but some situations benefit).
+
+#### Eval considerations
+
+The existing single-turn `FocusedDriveEvalTest` cannot test cross-turn feedback — it runs one observation per scenario. A new multi-turn eval is needed:
+
+1. **Sustained interaction scenario** — Clara distressed for N turns. Character responds. Bayesian posteriors evolve. Does the character's approach adapt based on the velocity signal?
+2. **Two conditions** — (a) velocity signal injected, (b) no velocity signal. N≥5 per condition per scenario (Principle 78).
+3. **Metrics** — response appropriateness across turns, strategy consistency when working, strategy adjustment when failing.
+
+This is harder to evaluate than single-turn drive expression. The eval framework design is a separate design task.
+
+#### Updated capability plan
+
+| # | Capability | Mechanism | Status |
+|---|---|---|---|
+| 1 | #592 Self-conscious emotions | Self-standards from formation memories | VALIDATED — PP 74→78 |
+| 2 | #591 Theory of Mind | Bayesian gate + LLM-derived empathic readings | VALIDATED — drive appropriateness improved |
+| 3 | #590 Emotion regulation | Priority signatures (attentional deployment) | VALIDATED neutral — consistent with Webb et al. 2012 d+=0.00 |
+| 4 | Cross-turn feedback | Velocity signal from Bayesian posterior deltas | DESIGNED — literature review complete, architecture specified |
+| 5 | Integration texts | TBD | Not started |
