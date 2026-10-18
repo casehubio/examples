@@ -28,6 +28,7 @@ public final class CharacterCognition {
     private final io.casehub.engine.trust.TrustEvolutionConfig          trustEvolutionConfig;
     private final io.casehub.neocortex.caps.SituationClassifier          situationClassifier;
     private       boolean                                                lastClassifierActive = true;
+    private final java.util.Map<String, io.casehub.neocortex.mindmap.intelligence.tom.TheoryOfMindEngine> tomEngines = new java.util.HashMap<>();
 
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService) {
@@ -102,6 +103,51 @@ public final class CharacterCognition {
         return experienceService != null ? experienceService.recallRelationships(agentId, otherId, limit) : List.of();
     }
 
+    public void observeCharacterState(String characterId,
+                                      io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType behavior,
+                                      io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel threat) {
+        var engine = tomEngines.computeIfAbsent(characterId,
+                                                k -> new io.casehub.neocortex.mindmap.intelligence.tom.TheoryOfMindEngine());
+        engine.observeBehavior(behavior);
+        engine.observeThreat(threat);
+    }
+
+    private List<ObservationSection> renderTheoryOfMind(Collection<String> nearbyAgentIds,
+                                                        Map<String, String> agentNames) {
+        var sections = new ArrayList<ObservationSection>();
+        for (var id : nearbyAgentIds) {
+            var engine = tomEngines.get(id);
+            if (engine == null) {continue;}
+
+            double[] state      = engine.inferEmotionalState();
+            double   positive   = state[io.casehub.neocortex.mindmap.intelligence.tom.EmotionalValence.POSITIVE.ordinal()];
+            double   neutral    = state[io.casehub.neocortex.mindmap.intelligence.tom.EmotionalValence.NEUTRAL.ordinal()];
+            double   distressed = state[io.casehub.neocortex.mindmap.intelligence.tom.EmotionalValence.DISTRESSED.ordinal()];
+
+            String name = agentNames.getOrDefault(id, id);
+            String text = renderEmotionalReading(name, positive, neutral, distressed);
+            if (text != null) {
+                sections.add(ObservationSection.text("What You Sense About " + name, text));
+            }
+        }
+        return sections;
+    }
+
+    private String renderEmotionalReading(String name, double positive, double neutral, double distressed) {
+        if (distressed > 0.6) {
+            return "Something about " + name + " feels wrong. The way they carry themselves, " +
+                   "the small signals — you sense real distress beneath the surface, " +
+                   "even if the cause isn't obvious to you.";
+        } else if (distressed > 0.4) {
+            return "You pick up a subtle unease from " + name + ". Not alarm — something " +
+                   "quieter. They don't seem quite themselves.";
+        } else if (positive > 0.5) {
+            return name + " seems at ease. Nothing in their manner suggests distress.";
+        }
+        return null;
+    }
+
+
     // Section ordering follows Lazarus (1991) appraisal process flow
     public List<ObservationSection> renderCognitiveSections(
             CharacterState character,
@@ -157,6 +203,8 @@ public final class CharacterCognition {
         }
 
         sections.addAll(renderSocialAwareness(nearbyAgentIds, agentNames));
+
+        sections.addAll(renderTheoryOfMind(nearbyAgentIds, agentNames));
 
         if (!socialConfig.personalityFacets().isEmpty()) {
             sections.add(renderPersonalityFacets());

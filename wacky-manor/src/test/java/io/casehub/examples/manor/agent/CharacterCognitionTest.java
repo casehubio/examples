@@ -897,4 +897,54 @@ class CharacterCognitionTest {
         assertThat(sections).isNotEmpty();
         assertThat(sections.get(0).header()).isEqualTo("Your Behavioral Tendencies");
     }
+
+    @Test
+    void tomSectionAppearsWhenCharacterStateObserved() {
+        var cognition = new CharacterCognition("peter-perfect", null);
+        cognition.observeCharacterState("clara",
+                                        io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
+                                        io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.NONE);
+
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState("peter-perfect", "PP", "Room", 0.0, List.of()),
+                List.of("clara"), Map.of("clara", "Clara"));
+
+        var tomSections = sections.stream()
+                                  .filter(s -> s.header().startsWith("What You Sense About"))
+                                  .toList();
+        assertThat(tomSections).hasSize(1);
+        assertThat(tomSections.get(0).header()).isEqualTo("What You Sense About Clara");
+        assertThat(((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content())
+                .containsAnyOf("distress", "unease");
+    }
+
+    @Test
+    void tomSectionAbsentWhenNoObservation() {
+        var cognition = new CharacterCognition("peter-perfect", null);
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState("peter-perfect", "PP", "Room", 0.0, List.of()),
+                List.of("clara"), Map.of("clara", "Clara"));
+
+        var tomSections = sections.stream()
+                                  .filter(s -> s.header().startsWith("What You Sense About"))
+                                  .toList();
+        assertThat(tomSections).isEmpty();
+    }
+
+    @Test
+    void tomSectionAbsentForUnobservedNearbyCharacter() {
+        var cognition = new CharacterCognition("peter-perfect", null);
+        cognition.observeCharacterState("clara",
+                                        io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
+                                        io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.NONE);
+
+        var sections = cognition.renderCognitiveSections(
+                new io.casehub.examples.manor.model.CharacterState("peter-perfect", "PP", "Room", 0.0, List.of()),
+                List.of("foxworth"), Map.of("foxworth", "Foxworth"));
+
+        var tomSections = sections.stream()
+                                  .filter(s -> s.header().startsWith("What You Sense About"))
+                                  .toList();
+        assertThat(tomSections).isEmpty();
+    }
 }

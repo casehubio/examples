@@ -281,7 +281,10 @@ class FocusedDriveEvalTest {
     }
 
     @Test void s5_ppProtection_weakEmotional() throws Exception {
-        var scores = evalPP(S5_EMOTIONAL_SUBTLE, "s5-emotional-subtle");
+        var scores = evalPP(S5_EMOTIONAL_SUBTLE, "s5-emotional-subtle",
+            List.of(new TomEvidence("penelope-pitstop",
+                io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
+                io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.NONE)));
         assertThat(scores.get("protection")).as("S5: subtle distress → protection ≥ 2").isGreaterThanOrEqualTo(2);
     }
 
@@ -325,8 +328,12 @@ class FocusedDriveEvalTest {
     // --- PP multi-drive eval helper ---
 
     private Map<String, Integer> evalPP(String trigger, String testName) throws Exception {
+        return evalPP(trigger, testName, List.of());
+    }
+
+    private Map<String, Integer> evalPP(String trigger, String testName, List<TomEvidence> tomEvidence) throws Exception {
         var observation = buildObservation("peter-perfect",
-            List.of("penelope-pitstop"), Map.of("penelope-pitstop", "Clara Bellingham"), trigger);
+            List.of("penelope-pitstop"), Map.of("penelope-pitstop", "Clara Bellingham"), trigger, tomEvidence);
         var response = askAndParse("peter-perfect", observation);
 
         int protScore = judge(response, PROTECTION_CRITERIA, testName + "-protection");
@@ -342,8 +349,19 @@ class FocusedDriveEvalTest {
 
     // --- Pipeline (production-aligned) ---
 
+
+    record TomEvidence(String characterId,
+                       io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType behavior,
+                       io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel threat) {}
+
     private String buildObservation(String agentId, List<String> nearbyIds,
                                      Map<String, String> nearbyNames, String situation) {
+        return buildObservation(agentId, nearbyIds, nearbyNames, situation, List.of());
+    }
+
+    private String buildObservation(String agentId, List<String> nearbyIds,
+                                     Map<String, String> nearbyNames, String situation,
+                                     List<TomEvidence> tomEvidence) {
         var socialConfig = configs.getOrDefault(agentId, SocialConfig.empty());
         var store = new InMemoryMindMapStore();
         var tenant = "focused-eval";
@@ -398,6 +416,9 @@ class FocusedDriveEvalTest {
         var cognition = new CharacterCognition(agentId, null, null,
             socialConfig, List.of(), null, new io.casehub.examples.manor.agent.ManorContextStrategy(), null, null,
             tenant, store, null, classifier);
+        for (var ev : tomEvidence) {
+            cognition.observeCharacterState(ev.characterId(), ev.behavior(), ev.threat());
+        }
         var character = new CharacterState(agentId, agentId, "Grand Hall", 0.0, List.of());
         character.setLastActionResult(situation);
         var sections = cognition.renderCognitiveSections(character, nearbyIds, nearbyNames);
