@@ -423,19 +423,94 @@ Self-standards (#592) provide the character's own values. The Bayesian mental mo
 - Mental model posterior: "Clara is likely distressed (0.71), desire for belonging threatened (0.42)"
 - LLM inference: empathic protection grounded in understanding
 
-#### Open questions
+---
 
-1. **Where does the BayesInstance live?** Alongside the MindMap? In CharacterCognition? In a dedicated ToM component?
-2. **CPT specification:** How are the conditional probability tables populated? From literature defaults? From character-specific relationship data? Both?
-3. **Variable granularity:** Are the outcomes listed above the right granularity, or should they be character-specific?
-4. **Evidence classification:** What classifies observed behaviors and outcomes into the discrete categories the network expects? Existing situation classifier? New classifier?
-5. **Multiple characters:** One network per relationship, or one network with shared structure and per-character instances?
+### Entry 4 — Final approach: hybrid Bayesian + LLM (2026-10-18)
 
-#### Next steps
+#### Decision
 
-1. Move the bayes engine package from quarkmind-core into neocortex
-2. Design the per-character network structure and CPTs
-3. Prototype with S5 (Clara withdrawn) — the clearest target scenario
-4. Implement evidence flow from interaction events
-5. Implement observation injection from posteriors
-6. Focused eval against post-#592 baseline
+Full Bayesian appraisal network (Entry 3's 5-variable model with 600 CPT values) is not defensible — we can't specify the CPTs correctly without training data, and wrong priors produce wrong posteriors. The literature validated these models in constrained domains (grid worlds, gambling), not open-ended narrative.
+
+Hybrid approach: narrow Bayesian network for what we CAN get right mechanically, LLM for rich interpretation. Each does what it's good at. More can be moved to mechanical inference later as we validate.
+
+**Principle:** Mechanical inference is better than LLM inference when — and only when — we can get the model right. A correct simple model beats an ambitious wrong one.
+
+#### The narrow network
+
+Three variables, three outcomes each. 27 CPT values total.
+
+```
+[ObservedBehavior] → [EmotionalState] ← [SituationThreat]
+```
+
+| Variable | Outcomes | Observable? | Source |
+|---|---|---|---|
+| ObservedBehavior | approach, neutral, avoidant | Yes | Classified from interaction events |
+| SituationThreat | none, mild, severe | Yes | Existing situation classifier |
+| EmotionalState | positive, neutral, distressed | No (inference target) | Marginalized from network |
+
+**CPT for P(EmotionalState | ObservedBehavior, SituationThreat):**
+
+Backed by appraisal theory (Scherer 2001; Ellsworth & Scherer 2003) — goal-incongruent outcomes + avoidant behavior → distress; goal-conducive outcomes + approach behavior → positive affect.
+
+| Behavior | Threat | P(positive) | P(neutral) | P(distressed) |
+|---|---|---|---|---|
+| approach | none | 0.70 | 0.25 | 0.05 |
+| approach | mild | 0.30 | 0.40 | 0.30 |
+| approach | severe | 0.10 | 0.20 | 0.70 |
+| neutral | none | 0.30 | 0.60 | 0.10 |
+| neutral | mild | 0.15 | 0.45 | 0.40 |
+| neutral | severe | 0.05 | 0.25 | 0.70 |
+| avoidant | none | 0.05 | 0.30 | 0.65 |
+| avoidant | mild | 0.05 | 0.20 | 0.75 |
+| avoidant | severe | 0.02 | 0.08 | 0.90 |
+
+Key row for S5: **avoidant + none** → P(distressed) = 0.65. Clara is avoidant with no visible threat — the network says "something is wrong" even without an overt cause. This is the behavioral mismatch signal that triggers investigation.
+
+These values are initial estimates grounded in the literature's direction. The exact probabilities can be tuned empirically, but the ordering and relative magnitudes are well-established.
+
+#### What the Bayesian engine provides vs what the LLM provides
+
+| Aspect | Bayesian engine | LLM (consolidation-derived) |
+|---|---|---|
+| **Signal** | P(distressed) = 0.65 | "Clara values belonging and fears isolation" |
+| **Consistency** | Deterministic — same evidence, same posterior | Varies across LLM calls |
+| **Incrementality** | Updates with each interaction | Static until next consolidation |
+| **Interpretability** | "She's probably distressed" | "Because her need for belonging is threatened" |
+| **What it can't do** | Explain WHY, provide narrative context | Provide reliable probability estimates |
+
+Combined in observation: "Your sense of Clara suggests she's in some distress [Bayesian: 0.65] — you know from past interactions that she values belonging deeply and fears isolation. Her withdrawal may be self-protection from perceived rejection."
+
+The Bayesian signal grounds the LLM content. The LLM content gives the Bayesian signal meaning.
+
+#### Implementation plan
+
+**Phase 1: Engine migration**
+1. Move `io.quarkmind.inference.bayes` package into neocortex (mindmap-intelligence or new module)
+2. Move `EvidenceFusionEngine` alongside it
+3. Verify tests pass in new location
+
+**Phase 2: ToM network**
+4. Create `TheoryOfMindNetwork` — builds the 3-variable network per character
+5. Create `TheoryOfMindEngine` — wraps EvidenceFusionEngine with ToM-specific API: `observeBehavior(CharacterId, BehaviorType)`, `observeThreat(CharacterId, ThreatLevel)`, `getEmotionalState(CharacterId) → Distribution`
+6. Wire into MindMap or CharacterCognition lifecycle
+
+**Phase 3: LLM mental model derivation**
+7. `OtherModelDerivationPhase` during consolidation — derives relationship context from interaction memories (proven #592 pattern)
+8. Stores as MindMap nodes (what the character believes about the other's values, beliefs, sensitivities)
+
+**Phase 4: Observation injection**
+9. `readOtherModels()` combines Bayesian posterior + LLM-derived context into observation text
+10. Inject when situation involves another character
+
+**Phase 5: Eval**
+11. Focused eval against post-#592 baseline
+12. Target: S5 protection 4→5, S3 protection 4→5
+
+#### Future expansion
+
+The narrow 3-variable network can grow as we validate:
+- Add Desire variable once we have reliable CPTs (from accumulated scenario data)
+- Add Belief variable for modeling false beliefs / misunderstandings
+- Per-character CPT tuning from interaction history
+- The engine supports arbitrary network topology — expansion is mechanical once the parameters are validated
