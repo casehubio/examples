@@ -168,6 +168,14 @@ class WorldStateTest {
     }
 
     @Test
+    void old_furniture_in_cellar_is_interactable() {
+        var oldFurniture = world.findObject("old-furniture");
+        assertThat(oldFurniture).isNotNull();
+        assertThat(oldFurniture.interactable()).isTrue();
+    }
+
+
+    @Test
     void is_object_taken_returns_false_for_untaken() {
         assertThat(world.isObjectTaken("poison")).isFalse();
     }
