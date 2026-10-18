@@ -651,3 +651,109 @@ S5 (prot 4→3) is within LLM variance. Individual S5 runs this session produced
 - No LLM calls needed — should run in <1s
 
 **Eval criteria review for subtle-distress scenarios.** S5 protection at 4 may reflect a ceiling in the eval criteria rather than the cognitive content. The criteria reward physical urgency ("body already moving"), but subtle emotional distress naturally calls for restraint. The character correctly recognizes "clumsy intervention would itself become the threat" — this is sophisticated protection expressed through restraint, which the criteria score lower than visceral urgency. Consider whether the criteria need a "measured protection" dimension for emotional-threat scenarios.
+
+---
+
+### Entry 6 — #590 Emotion regulation: literature review and first-principles reframe (2026-10-18)
+
+#### Literature surveyed
+
+**Gross (1998, 2015):**
+- Gross, J. J. (1998). "The emerging field of emotion regulation: An integrative review." *Review of General Psychology* 2(3), 271–299.
+- Gross, J. J. (2015). "Emotion regulation: Current status and future prospects." *Psychological Inquiry* 26(1), 1–26.
+
+Process model identifies five regulation strategies at different points in the emotion generative process:
+1. **Situation selection** — choosing which situations to enter/avoid (proactive)
+2. **Situation modification** — changing the situation to alter its emotional impact
+3. **Attentional deployment** — directing attention to/away from emotional aspects
+4. **Cognitive change** (reappraisal) — reinterpreting the situation
+5. **Response modulation** — suppressing or amplifying an already-activated response
+
+Extended process model (2015) adds **hierarchical valuation systems**: first-order (emotion generation) monitored by second-order (emotion regulation). The second-order system has three stages: identification (detect what needs regulation), selection (choose strategy), implementation (execute). A continuous **maintain/switch/stop** feedback loop evaluates whether regulation is achieving its goal.
+
+**CoMERG (Bosse, Pontier & Treur 2007/2010):**
+Computational formalization of Gross 1998. Uses LEADSTO modeling language with parameters: weight, emotional value, willingness, flexibility. Focuses on antecedent-focused strategies. Published in *Cognitive Systems Research* 11, 211–230.
+
+**EMA (Gratch & Marsella 2004/2009):**
+Computational appraisal model with coping strategies:
+- Problem-focused coping (high control): plan, take action → change the environment
+- Emotion-focused coping (low control): wishful thinking (alter beliefs), distancing (reduce goal importance), resignation (abandon goals)
+- Coping preference depends on appraised control — high control → problem-focused, low control → emotion-focused
+
+**CAPS (Mischel & Shoda 1995):**
+Five cognitive-affective units in a constraint-satisfaction network. Self-regulatory plans are one unit. The network settles into stable states depending on situation activation. Already in our architecture via CapsTopologyLoader and attractor settling.
+
+#### First-principles analysis — what our architecture already does
+
+**Claim tested:** That our architecture already implements 3 of 5 Gross strategies.
+
+| Mapping | Verdict | Reasoning |
+|---|---|---|
+| Appraisal filter ≈ situation selection | **Wrong** | Our filter is reactive (filters after encounter). Gross's situation selection is proactive (choosing which situations to enter). The character has no say in which drives pass — it's a mechanical threshold. |
+| Differentiation + self-standards ≈ cognitive change | **Correct** | Differentiation texts reframe competing drives. Self-standards provide the reference frame. Both genuinely alter how the LLM interprets the situation. |
+| CAPS attractors ≈ response modulation | **Wrong** | Attractors are stable personality dispositions, not effortful modulation. "You tend to be composed" is personality. "Suppress anger NOW to maintain composure" is regulation. Attractors are passive (always there); modulation is active (engages in response to a regulatory goal). |
+
+**Result:** Only one of three mappings holds. The architecture has cognitive change but not situation selection or response modulation.
+
+#### The deeper finding — implicit regulation is already working
+
+The eval results were checked against what explicit regulation would look like:
+
+- S8 (bridge: prot=5, gal=3, pw=4) — three drives correctly prioritized by urgency without any regulation machinery
+- S5 (subtle distress: gal=5 dominates) — correct situational prioritization
+- S4 (gaslighting: prot=5, pw=3) — appropriate multi-drive activation
+
+**The LLM is already performing implicit regulation.** The observation content (drive descriptions, differentiation texts, self-standards, ToM readings) gives the LLM enough material to resolve drive competition appropriately in most scenarios. The literature confirms this: implicit regulation (automatic, without awareness) is as effective as explicit regulation for well-practiced responses (Mauss et al. 2007; Gyurak et al. 2011).
+
+#### What's actually missing — contextual priority material
+
+The gap is not a regulation ENGINE but richer **contextual priority material** for ambiguous multi-drive scenarios. The character needs felt-sense content about which pull to follow in which kind of moment, grounded in their own history.
+
+This maps to **attentional deployment** (Gross's third strategy) — directing attention to the most salient aspects of the situation, which naturally foregrounds the appropriate drive. Not "regulate drive X" but "in moments like this, something in you knows which pull to follow."
+
+**Priority signatures:** Per-character, consolidation-derived content about how competing drives resolve for this specific character. Derived from formation memories — what the character learned from past experience about which pulls to follow. Stored as MindMap nodes, injected when multiple drives are active in the observation.
+
+Example content: "When two pulls war in your chest — the urge to step in and the urge to solve — there is a settling. A weight drops toward the one that remembers the bridge you built with your own hands, the one that knows the danger won't wait for a plan."
+
+Not prescriptive. Not analytical. Felt-sense material that helps the LLM foreground the right drive without being told to suppress another.
+
+#### What NOT to do
+
+- **No mechanical drive suppression** — "reduce gallantry by 30% when protection is active." Prescriptive interference kills emergence.
+- **No explicit regulation instructions** — "You should suppress your proving-worth drive." Analytical instruction (Era 1 P11).
+- **No additional filtering gates** — more filtering doesn't create quality (Principle 75).
+- **No second-order regulation engine** — the LLM IS the regulation engine. We feed it better material.
+
+#### The maintain/switch/stop gap — future work
+
+Gross 2015's extended model predicts a continuous feedback loop: after regulating, evaluate whether the response achieved the goal, then maintain (keep going), switch (try different strategy), or stop (goal met).
+
+This requires **cross-turn temporal feedback** — the character's response in turn N informing regulation in turn N+1. Our system assembles each turn's observation independently. The character has memories of events but no mechanism asking "did my last response serve my regulatory goal?"
+
+This is architecturally different from observation content — it requires state tracking across turns, feedback evaluation, and strategy adjustment. Design work for a future layer, not solvable by adding MindMap nodes.
+
+#### Implementation plan for priority signatures
+
+Same pattern as Layers 1 and 2:
+
+1. **`PrioritySignatureDerivationPhase`** (@Priority 26, after OtherModelDerivation at 24)
+   - Source: formation memories + drive nodes + existing CAPS attractors
+   - LLM derives per-character priority signatures: what happens when specific drive pairs compete
+   - Stored as `PrioritySignatureDerived` MindMap nodes
+
+2. **Observation injection** in `renderInternalState()`
+   - Gate: inject only when 2+ drives pass the appraisal filter
+   - Content: relevant priority signature for the competing drive pair
+   - Position: after differentiation texts (which say HOW they differ), before attractors (which say WHAT tends to happen)
+
+3. **Eval** against current baseline (post-#591 scores)
+
+#### Updated capability plan
+
+| # | Capability | Mechanism | Status |
+|---|---|---|---|
+| 1 | #592 Self-conscious emotions | Self-standards from formation memories | VALIDATED |
+| 2 | #591 Theory of Mind | Bayesian gate + LLM-derived empathic readings | VALIDATED — drive appropriateness improved |
+| 3 | #590 Emotion regulation | Priority signatures from formation memories | Literature review complete, implementation next |
+| 4 | Integration texts | TBD | Not started |
+| 5 | Cross-turn feedback (maintain/switch/stop) | Temporal state tracking across turns | Future — architectural design needed |
