@@ -242,6 +242,7 @@ class FocusedDriveEvalTest {
     @Inject AgentRegistry registry;
     @Inject SystemPromptRenderer renderer;
     @Inject AgentProvider agentProvider;
+    @Inject jakarta.enterprise.inject.Instance<AgentProvider> agentProviderInstance;
 
     private LlmTestSupport support;
     private Map<String, SocialConfig> configs;
@@ -390,6 +391,9 @@ class FocusedDriveEvalTest {
         }
 
         seedDifferentiation(store, agentId, sgId, tenant);
+
+        new io.casehub.neocortex.mindmap.intelligence.consolidation.SelfStandardDerivationPhase(store, agentProviderInstance)
+            .run(tenant, List.of());
 
         var cognition = new CharacterCognition(agentId, null, null,
             socialConfig, List.of(), null, new io.casehub.examples.manor.agent.ManorContextStrategy(), null, null,
