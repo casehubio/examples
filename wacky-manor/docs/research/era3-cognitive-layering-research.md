@@ -967,6 +967,37 @@ The existing single-turn `FocusedDriveEvalTest` cannot test cross-turn feedback 
 
 This is harder to evaluate than single-turn drive expression. The eval framework design is a separate design task.
 
+#### Implementation (completed same session as design)
+
+**RegulationTracker** — stores `Map<String, List<double[]>>` posterior history per target character. `recordPosterior(targetId, posterior)` clones and appends. `computeTrajectory(targetId)` returns `Optional<TrajectoryResult>` with trajectory enum and delta. 9 unit tests.
+
+**classifyBehavior(AgentResponse)** — mechanical heuristic on `RegulationTracker`:
+- Dialogue present → APPROACH (engaging socially)
+- GIVE / PULL_ASIDE → APPROACH (prosocial action targeting a character)
+- LOOK / TAKE / USE / INTERACT → NEUTRAL (object-focused)
+- WAIT / MOVE / STEAL / null → AVOIDANT (disengaged or antisocial)
+7 unit tests.
+
+**Velocity rendering** — `renderTheoryOfMind()` augmented. After assembling the OtherModel content, checks `regulationTracker.computeTrajectory(id)`. If present, appends:
+- IMPROVING: "Something in your reading of {name} is shifting — the distress you sensed is easing."
+- STABLE: "Whatever you have tried has not reached {name}. The distress you sense has not shifted."
+- WORSENING: "It is getting worse. The distress you sense in {name} is deepening."
+3 integration tests + 2 multi-turn lifecycle tests.
+
+**Production wiring** — `PlaybookOrchestrator.runAutonomousTicks()`, after experience recording: for each acting character, classify behavior via `classifyBehavior(response)`, call `observerCognition.observeCharacterState(actorId, behavior, ThreatLevel.NONE)` for every nearby character. Threat defaults to NONE — the behavior mismatch signal is the primary driver.
+
+#### Known limitation — gate interaction with IMPROVING trajectory
+
+With threat defaulting to NONE, the ToM section gate (distress < 0.35 → skip) interacts with the velocity signal:
+- AVOIDANT + NONE → distress ~0.65 (above gate, section renders)
+- APPROACH + NONE → distress ~0.05 (below gate, section disappears)
+
+When the observed character improves (AVOIDANT → APPROACH), distress drops below the gate and the velocity signal disappears — the "easing" message never shows. The section's absence IS the improvement signal.
+
+The STABLE signal is the primary production case: sustained avoidance across turns produces identical posteriors, delta ≈ 0, trajectory STABLE, and the "not shifted" message appears. This is the most actionable feedback — it tells the character to try a different approach.
+
+Future work: replace the NONE default with a mechanical threat classifier from room events. This would enable IMPROVING trajectories that stay above the gate (e.g., AVOIDANT+SEVERE → AVOIDANT+MILD, distress drops but stays above 0.35).
+
 #### Updated capability plan
 
 | # | Capability | Mechanism | Status |
@@ -974,5 +1005,5 @@ This is harder to evaluate than single-turn drive expression. The eval framework
 | 1 | #592 Self-conscious emotions | Self-standards from formation memories | VALIDATED — PP 74→78 |
 | 2 | #591 Theory of Mind | Bayesian gate + LLM-derived empathic readings | VALIDATED — drive appropriateness improved |
 | 3 | #590 Emotion regulation | Priority signatures (attentional deployment) | VALIDATED neutral — consistent with Webb et al. 2012 d+=0.00 |
-| 4 | Cross-turn feedback | Velocity signal from Bayesian posterior deltas | DESIGNED — literature review complete, architecture specified |
+| 4 | Cross-turn feedback | Velocity signal from Bayesian posterior deltas | IMPLEMENTED — production-wired, not yet observed in scenario |
 | 5 | Integration texts | TBD | Not started |
