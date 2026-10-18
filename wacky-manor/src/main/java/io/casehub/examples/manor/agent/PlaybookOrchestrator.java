@@ -577,6 +577,20 @@ public class PlaybookOrchestrator {
                 cognition.recordExperience(c.currentRoom(), desc.strip(), response.thinking(), importance, targetAgentId, currentTick);
             }
 
+            for (var c : actingThisTick) {
+                var response = responses.get(c.agentId());
+                if (response == null) continue;
+                var behavior = RegulationTracker.classifyBehavior(response);
+                for (var observer : world.charactersInRoom(c.currentRoom())) {
+                    if (observer.agentId().equals(c.agentId())) continue;
+                    var observerCognition = cognitions.get(observer.agentId());
+                    if (observerCognition != null) {
+                        observerCognition.observeCharacterState(c.agentId(), behavior,
+                            io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.NONE);
+                    }
+                }
+            }
+
             if (config.consolidation().enabled()
                     && config.consolidation().intervalTicks() > 0
                     && tick > 0

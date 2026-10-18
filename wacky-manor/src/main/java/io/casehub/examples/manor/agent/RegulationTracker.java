@@ -32,4 +32,20 @@ public final class RegulationTracker {
                      : Trajectory.STABLE;
         return Optional.of(new TrajectoryResult(t, delta));
     }
+
+    public static io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType classifyBehavior(AgentResponse response) {
+        if (response.dialogue() != null && !response.dialogue().isBlank()) {
+            return io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.APPROACH;
+        }
+        var action = response.action();
+        if (action != null) {
+            return switch (action.type()) {
+                case GIVE, PULL_ASIDE -> io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.APPROACH;
+                case LOOK, TAKE, USE, INTERACT -> io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.NEUTRAL;
+                case WAIT, MOVE, STEAL -> io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT;
+            };
+        }
+        return io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT;
+    }
+
 }
