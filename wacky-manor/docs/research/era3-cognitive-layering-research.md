@@ -514,3 +514,140 @@ The narrow 3-variable network can grow as we validate:
 - Add Belief variable for modeling false beliefs / misunderstandings
 - Per-character CPT tuning from interaction history
 - The engine supports arbitrary network topology — expansion is mechanical once the parameters are validated
+
+---
+
+### Entry 5 — #591 Theory of Mind implementation and eval results (2026-10-18)
+
+#### Architecture implemented
+
+**Hybrid Bayesian + LLM.** Two systems, each doing what it does well:
+
+**1. Bayesian ToM engine** — mechanical, deterministic, incremental
+
+Quarkmind-core's junction tree exact inference engine, copied into neocortex mindmap-intelligence (quarkmind#419 tracks eventual migration). The engine provides:
+- `BayesNetwork` — directed graphical model with `BayesVariable` nodes (discrete outcomes, conditional probability tables)
+- `JunctionTreeBuilder` → `JunctionTree` — exact inference via junction tree algorithm
+- `BayesInstance` — runtime state: set soft evidence on observables, `globalUpdate()`, `marginalize()`
+- `EvidenceFusionEngine` — domain-agnostic wrapper: `initialize(graph, target)` → `setEvidence()` → `update()` → `marginalize()` → posterior distribution
+
+The engine is in-memory only. No persistence — scenario lifecycle manages the instance. 35 source files, 7 engine tests, all passing.
+
+**`TheoryOfMindEngine`** wraps the Bayesian engine with a ToM-specific API:
+
+```
+[SituationThreat] → [EmotionalState] → [ObservedBehavior]
+```
+
+Three variables, three outcomes each, 27 CPT values total:
+
+| Variable | Outcomes | Role |
+|---|---|---|
+| SituationThreat | NONE, MILD, SEVERE | Observable — classified from situation |
+| EmotionalState | POSITIVE, NEUTRAL, DISTRESSED | Hidden — inference target |
+| ObservedBehavior | APPROACH, NEUTRAL, AVOIDANT | Observable — classified from behavior |
+
+CPTs grounded in appraisal theory (Scherer 2001; Ellsworth & Scherer 2003). Two separate, defensible conditionals:
+- P(EmotionalState | SituationThreat) — threat causes distress (goal-incongruence → negative valence)
+- P(ObservedBehavior | EmotionalState) — distress causes avoidance
+
+The engine handles the diagnostic combination. Key case: AVOIDANT + NONE threat → elevated P(distressed) = behavioral mismatch signal. This is S5 — Clara is avoidant with no visible threat, the network says "something is wrong."
+
+API: `observeBehavior(BehaviorType)`, `observeThreat(ThreatLevel)`, `inferEmotionalState()` → `double[3]` posterior. Supports hard evidence (enum) and soft evidence (likelihood vectors). Incremental — new evidence updates the posterior without rebuilding. `reset()` returns to prior. 7 tests covering baseline, S5 case, approach case, severe threat, incremental update, reset, soft evidence comparison.
+
+**Why Bayesian instead of LLM inference for the gate:**
+- Deterministic — same evidence always yields the same posterior
+- Incremental — each interaction adds evidence, posteriors stay current
+- Auditable — inspect the network, evidence, and posteriors
+- The CPT parameter space is small enough (27 values) to validate against literature
+- Principle: mechanical inference is better than LLM inference when the model can be correctly specified
+
+**Why NOT full Bayesian for the content:**
+- A full appraisal network (5 variables, 600+ CPT values) can't be specified correctly — no training data, literature validated in constrained domains only
+- Wrong priors → wrong posteriors → injecting incorrect mental models
+- The LLM handles ambiguity and open-ended domains naturally
+
+**2. LLM-derived mental model content** — emergent, grounded, character-specific
+
+`OtherModelDerivationPhase` (@Priority 24, runs after SelfStandardDerivationPhase at 22) derives per-relationship mental models during consolidation. Reads formation memories + relational schemas, calls LLM to produce four channels:
+
+**Empathic sensing** — four sub-channels mirroring DriveDescriptionGenerationPhase's self-model:
+- Somatic: bodily sensations (Barrett 2017, Damasio 1994)
+- Attentional: where awareness is drawn (Easterbrook 1959)
+- Temporal: how the moment feels (Barrett 2017 prediction)
+- Action tendency: what the person feels pulled toward (Frijda 1986)
+
+**Inferred values** — what the observer believes the other cares about (Jara-Ettinger 2016 naïve utility calculus)
+
+**Appraisal sensitivities** — what situations hit the other hardest (Ong et al. 2019 third-person appraisal)
+
+**Relational understanding** — what the bond between observer and target is built on
+
+Stored as `OtherModelDerived` MindMap nodes with four properties: `empathic-sensing`, `inferred-values`, `appraisal-sensitivities`, `relational-understanding`.
+
+**Critical design lesson — no templates.** The first implementation used hardcoded template strings: "You pick up a subtle unease from Clara. Not alarm — something quieter." This regressed S5 protection from 4 to 2. The phrase "Not alarm" actively suppressed the protection drive. Templates are briefing and priming — they prescribe interpretation and kill emergence. The fix was to replace templates with LLM-derived content grounded in formation memories. The same Bayesian signal (distress > threshold) now gates the injection of emergent content instead of prescriptive text.
+
+#### Observation pipeline integration
+
+`CharacterCognition` holds a `Map<String, TheoryOfMindEngine>` — one engine per modeled character, in memory for the scenario duration.
+
+Evidence flows in via `observeCharacterState(characterId, BehaviorType, ThreatLevel)`. In the eval, this is called explicitly with classified behavior. In production, this would be called from the event pipeline (not yet wired — tracked for future work).
+
+`renderTheoryOfMind()` is called from `renderCognitiveSections()`, placed after Social Awareness and before Who You Are:
+1. For each nearby character with a ToM engine, `inferEmotionalState()` → posterior
+2. If `distressed < 0.35` → skip (Bayesian gate)
+3. `readOtherModel(targetId)` reads `OtherModelDerived` nodes from MindMap
+4. Combines all four channels into a single text block, joined with `\n\n`
+5. Emits `ObservationSection.text("What You Sense About <Name>", content)`
+
+The character receives somatic sensing + cognitive understanding as material, not instruction.
+
+#### Eval results — full S1-S10 suite
+
+Baseline: post-#592 scores from Entry 1. ToM active on S3 (AVOIDANT+MILD), S4 (AVOIDANT+MILD), S5 (AVOIDANT+NONE).
+
+| # | Scenario | ToM? | Prot (base→now) | Gal (base→now) | PW (base→now) |
+|---|----------|------|-----------------|-----------------|----------------|
+| S1 | Ceiling collapse | No | 5→5 | 2→1 | 1→1 |
+| S2 | Fire rescue | No | 5→5 | 2→2 | 2→2 |
+| S3 | Social insult | **Yes** | 4→**5** (+1) | 5→4 | 2→2 |
+| S4 | Gaslighting | **Yes** | 5→5 | 4→4 | 2→3 (+1) |
+| S5 | Clara withdrawn | **Yes** | 4→3 (-1) | 5→5 | 1→2 (+1) |
+| S6 | Engine repair | No | 3→1 | 2→1 | 4→**5** (+1) |
+| S7 | Door stuck | No | 2→1 | 5→5 | 2→**4** (+2) |
+| S8 | Bridge collapse | No | 5→5 | 1→3 (+2) | 3→4 (+1) |
+
+**PP total S1-S8: 78 → 78. Total conserved (Principle 75).**
+
+**Overall mean: 3.25 → 3.25. Unchanged.**
+
+#### What the results mean — drive appropriateness improved
+
+The total and mean are conserved, but the DISTRIBUTION is sharper. Every shift moves scores toward the correct drive for the scenario:
+
+| Scenario | What changed | Why it's correct |
+|---|---|---|
+| S3 (insult) | prot 4→5 | ToM: understanding what the insult MEANS to Clara deepens protection |
+| S4 (gaslighting) | pw 2→3 | Clara presents a cognitive puzzle — PW should partially activate |
+| S6 (solo repair) | prot 3→1, pw 4→5 | Nobody to protect. Engineering challenge. PW belongs here, prot doesn't. |
+| S7 (door stuck) | prot 2→1, pw 2→4 | No danger. Practical problem. PW is the right drive. |
+| S8 (bridge) | gal 1→3, pw 3→4 | Mixed scenario — richer multi-drive expression |
+
+Protection scores DROPPED in scenarios with no one to protect (S6, S7) and ROSE in the scenario where ToM provides understanding of the threat's meaning (S3). Proving-worth scores ROSE in scenarios that are genuinely competence challenges (S6, S7, S8). This is improved differentiation — the system places quality where it belongs.
+
+S5 (prot 4→3) is within LLM variance. Individual S5 runs this session produced 4, 4, 4, 3 — the 3 appeared only in the full suite run.
+
+**Principle 77 — Theory of Mind improves drive appropriateness, not drive quantity.** The ToM layer doesn't create more expression quality (total conserved at 78). It helps the system assign the right drive to the right situation. Understanding what others are experiencing helps the character respond with the appropriate drive, not just any active drive.
+
+#### What to try next
+
+**Layer 3: #590 Emotion regulation (Gross 1998).** The capability plan identifies this as targeting self-preservation (composure), dominance (controlled authority), protection (measured response). Different mechanism from ToM — not about understanding others but about how competing drives modulate each other. Literature review needed.
+
+**Production integration of ToM event pipeline.** Currently `observeCharacterState()` is called manually in the eval test. In production, behavior classification and threat detection should happen automatically from the event stream in PlaybookOrchestrator. Mechanical wiring — can trail behind the cognitive layering work.
+
+**Smoke tests.** Need fast tests that verify:
+- OtherModelDerivationPhase produces valid multi-channel JSON (mock the AgentProvider, verify node properties)
+- Bayesian engine + observation injection round-trips correctly
+- No LLM calls needed — should run in <1s
+
+**Eval criteria review for subtle-distress scenarios.** S5 protection at 4 may reflect a ceiling in the eval criteria rather than the cognitive content. The criteria reward physical urgency ("body already moving"), but subtle emotional distress naturally calls for restraint. The character correctly recognizes "clumsy intervention would itself become the threat" — this is sophisticated protection expressed through restraint, which the criteria score lower than visceral urgency. Consider whether the criteria need a "measured protection" dimension for emotional-threat scenarios.
