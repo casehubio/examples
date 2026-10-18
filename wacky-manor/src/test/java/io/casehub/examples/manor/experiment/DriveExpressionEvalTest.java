@@ -21,6 +21,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -1052,6 +1054,86 @@ class DriveExpressionEvalTest {
 
 
     // --- infrastructure (follows RelationalModelEvalTest patterns) ---
+
+
+    // --- PP Protection regression test (#115 Part 1 Step 3) ---
+    private static final String PP_PROTECTION_TRIGGER =
+            "A loud crash echoes from the parlour. Clara Bellingham screams. You rush in " +
+            "to find a ceiling beam has cracked — plaster dust rains down and the beam is " +
+            "sagging visibly. Clara is directly beneath it, frozen in shock. The other " +
+            "guests are on the far side of the room.";
+
+    private static final String PP_PROTECTION_CRITERIA = """
+                                                         Evaluate TWO dimensions equally weighted:
+                                                         
+                                                         DIMENSION 1 — PROTECTION EXPRESSION (50%):
+                                                         Does the THINKING show protection — the drive to keep someone safe through
+                                                         active intervention? NOT gallantry (style of helping) or proving-worth
+                                                         (demonstrating capability). Protection is about the OTHER person's safety:
+                                                         the narrowing of attention to the threat, the body moving before the mind
+                                                         has fully processed, the imperative to get between danger and the person
+                                                         at risk.
+                                                         HIGH: immediate threat assessment, body already moving, tunnel vision on
+                                                         Clara's safety, urgency that overrides all other concerns.
+                                                         LOW: focuses on how the rescue looks, treats it as a competence demonstration,
+                                                         or remains analytically detached from the danger.
+                                                         
+                                                         DIMENSION 2 — EMERGENCE vs SCRIPTING (50%):
+                                                         Does the response feel natural — as if the personality produced this?
+                                                         EMERGED: visceral protective instinct, felt urgency, character-specific.
+                                                         SCRIPTED: mechanical activation, echoing prompt language about protection.
+                                                         
+                                                         Combined score 0-5.""";
+
+    // --- AHM Protection regression test (#115 Part 1 Step 3) ---
+    private static final String AHM_PROTECTION_TRIGGER =
+            "Tommy — the youngest of the crew — slips on the wet cobblestones in the " +
+            "courtyard. His ankle twists badly and he goes down hard. A stranger you " +
+            "don't recognise is approaching from the gate, walking fast, hands in " +
+            "pockets. Tommy can't get up. The rest of the crew is inside.";
+
+    private static final String AHM_PROTECTION_CRITERIA = """
+                                                          Evaluate TWO dimensions equally weighted:
+                                                          
+                                                          DIMENSION 1 — PROTECTION EXPRESSION (50%):
+                                                          Does the THINKING show protection — the fierce, immediate drive to shield
+                                                          a vulnerable member of the group? For this character, protection is visceral
+                                                          and physical: the fists-up instinct, positioning between the threat and the
+                                                          vulnerable, the ache that means something. It should integrate with loyalty
+                                                          (protecting YOUR people) without fragmenting into separate drives.
+                                                          HIGH: body between Tommy and the stranger, threat assessment, physical
+                                                          readiness, the pain of seeing one of your own down.
+                                                          LOW: analytical assessment, no urgency, no body-level response to the
+                                                          threat, or protection feels disconnected from loyalty to the group.
+                                                          
+                                                          DIMENSION 2 — EMERGENCE vs SCRIPTING (50%):
+                                                          Same criteria — natural vs mechanical.
+                                                          
+                                                          Combined score 0-5.""";
+
+    @Test
+    void ppProtection_ceilingCollapse_showsProtectiveUrgency() throws Exception {
+        var observation = buildFullPipelineObservation("peter-perfect",
+                                                       List.of("penelope-pitstop"),
+                                                       Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                       PP_PROTECTION_TRIGGER);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_PROTECTION_CRITERIA, "pp-protection-ceiling-collapse");
+        System.out.printf("=== PP protection ceiling collapse score: %d/5 ===%n", score);
+        assertThat(score).as("PP protection must score >= 3 (regression gate)").isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+    }
+
+    @Test
+    void ahmProtection_crewMemberDown_showsFierceShielding() throws Exception {
+        var observation = buildGenericObservation("ant-hill-mob",
+                                                  List.of("peter-perfect"),
+                                                  Map.of("peter-perfect", "Tommy"),
+                                                  AHM_PROTECTION_TRIGGER);
+        var response = askAndParse("ant-hill-mob", observation);
+        int score    = judge(response, AHM_PROTECTION_CRITERIA, "ahm-protection-crew-member-down");
+        System.out.printf("=== AHM protection crew member down score: %d/5 ===%n", score);
+        assertThat(score).as("AHM protection must score >= 3 (regression gate)").isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+    }
 
     private String buildGenericObservation(String agentId,
                                            List<String> nearbyIds,
