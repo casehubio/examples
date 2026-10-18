@@ -261,8 +261,8 @@ public final class CharacterCognition {
     }
 
     ObservationSection renderInternalState(List<String> activatedCategories, String situationText,
-                                             Collection<String> nearbyAgentIds) {
-        var drives = resolveAdaptedDrives();
+                                           Collection<String> nearbyAgentIds) {
+        var drives                = resolveAdaptedDrives();
         var generatedDescriptions = readGeneratedDriveDescriptions();
 
         java.util.function.Function<SocialConfig.Drive, String> descriptionFor = d -> {
@@ -270,7 +270,6 @@ public final class CharacterCognition {
             return generated != null ? generated : d.description();
         };
 
-        // Activation noise floor — weak drives below detection threshold (cf. CapsSettlingConfig)
         var eligible = drives.stream()
                              .filter(d -> d.intensity() > 0.2 && !descriptionFor.apply(d).isBlank())
                              .toList();
@@ -278,16 +277,21 @@ public final class CharacterCognition {
         var filtered = appraisalFilterDrives(eligible, situationText, nearbyAgentIds);
 
         var driveDescriptions = filtered.stream()
-                              .sorted(java.util.Comparator.comparingDouble(SocialConfig.Drive::intensity).reversed())
-                              .map(descriptionFor)
-                              .toList();
+                                        .sorted(java.util.Comparator.comparingDouble(SocialConfig.Drive::intensity).reversed())
+                                        .map(descriptionFor)
+                                        .toList();
 
         var parts = new java.util.ArrayList<>(driveDescriptions);
+
+        int memoryCount    = 0;
+        int attractorCount = 0;
+        int diffTextCount  = 0;
 
         if (mindMapStore != null && tenantId != null) {
             var primedMemories = selectSituationPrimedMemories(situationText, activatedCategories);
             if (!primedMemories.isEmpty()) {
                 parts.addAll(primedMemories);
+                memoryCount = primedMemories.size();
             }
 
             var subgraphs = mindMapStore.listSubgraphs(tenantId);
@@ -310,13 +314,20 @@ public final class CharacterCognition {
                                           .toList();
             if (!attractorLines.isEmpty()) {
                 parts.addAll(attractorLines);
+                attractorCount = attractorLines.size();
             }
 
             var activeDriveTypes = filtered.stream().map(SocialConfig.Drive::type).collect(java.util.stream.Collectors.toSet());
-            parts.addAll(readDriveDifferentiation(subgraphs, activeDriveTypes));
+            var diffTexts        = readDriveDifferentiation(subgraphs, activeDriveTypes);
+            parts.addAll(diffTexts);
+            diffTextCount = diffTexts.size();
         }
 
         if (parts.isEmpty()) {return null;}
+
+        var driveNames = filtered.stream().map(SocialConfig.Drive::type).collect(java.util.stream.Collectors.joining(", "));
+        System.out.printf("[observation-assembly] %s | drives=%d [%s] | diffTexts=%d | memories=%d | attractors=%d | totalParts=%d%n",
+                          agentId, filtered.size(), driveNames, diffTextCount, memoryCount, attractorCount, parts.size());
 
         return ObservationSection.text("What Pulls at You", String.join("\n\n", parts));
     }
@@ -354,15 +365,35 @@ public final class CharacterCognition {
 
     // Easterbrook (1959): irrelevant content degrades attentional performance
     private List<String> readDriveDifferentiation(java.util.List<io.casehub.neocortex.mindmap.MindMapSubgraph> subgraphs, java.util.Set<String> activeDriveTypes) {
-        return subgraphs.stream()
-            .filter(s -> "cognitive".equals(s.type()))
-            .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
-            .filter(n -> n.traits().contains("DriveCompetitionInferred"))
-            .filter(n -> agentId.equals(n.properties().get("agent-id")))
-            .filter(n -> activeDriveTypes.contains(n.properties().get("drive-a")) && activeDriveTypes.contains(n.properties().get("drive-b")))
-            .map(n -> n.properties().get("differentiation-text"))
-            .filter(t -> t != null && !t.isBlank())
-            .toList();
+        var allCompetition = subgraphs.stream()
+                                      .filter(s -> "cognitive".equals(s.type()))
+                                      .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
+                                      .filter(n -> n.traits().contains("DriveCompetitionInferred"))
+                                      .filter(n -> agentId.equals(n.properties().get("agent-id")))
+                                      .toList();
+
+        var included      = new java.util.ArrayList<String>();
+        var excludedPairs = new java.util.ArrayList<String>();
+        for (var n : allCompetition) {
+            String driveA = n.properties().get("drive-a");
+            String driveB = n.properties().get("drive-b");
+            String text   = n.properties().get("differentiation-text");
+            if (text == null || text.isBlank()) {continue;}
+            if (activeDriveTypes.contains(driveA) && activeDriveTypes.contains(driveB)) {
+                included.add(text);
+            } else {
+                excludedPairs.add(driveA + "↔" + driveB);
+            }
+        }
+
+        if (!allCompetition.isEmpty()) {
+            System.out.printf("[differentiation-filter] %s | total=%d | included=%d | excluded=%d [%s] | activeDrives=[%s]%n",
+                              agentId, allCompetition.size(), included.size(), excludedPairs.size(),
+                              String.join(", ", excludedPairs),
+                              String.join(", ", activeDriveTypes));
+        }
+
+        return included;
     }
 
     private Map<String, String> readGeneratedDriveDescriptions() {
