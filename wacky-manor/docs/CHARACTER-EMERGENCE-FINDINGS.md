@@ -1298,14 +1298,23 @@ Implementation: `lastClassifierActive` flag set by `appraisalFilterDrives()`, gu
 
 Fix A resolved AHM protection, HC dominance, and improved most other drives. PP protection dropped further.
 
-### PP protection — open investigation
+### PP protection — root cause identified: redistribution, not regression
 
-PP protection went from 3.08 (BASELINE2) to 2.50 (Fix A). The appraisal filter is over-filtering: protection is excluded from PP's observation in 40% of classifier-active events. PP protection's CAPS profile (`acceptance:0.5, physical_threat:0.4`) is narrow — protection only activates when the situation involves these specific inputs. Protection's resting activation (0.8² × 0.22 = 0.141) sits just below the 0.15 self-sustaining threshold.
+**Previous hypothesis (disproved):** appraisal filter over-filtering protection due to narrow CAPS profile. Disproved by production-aligned test pipeline (commit c0cde80): with real profiles (5 inputs, not 2), the filter works correctly for both physical AND social threat scenarios. Protection survives via `neglect:0.700` overlap even in social intimidation.
 
-Candidate fixes under investigation:
-- Broaden protection's inferred input profile during derivation
-- Confusion-ratio gating: only include differentiation texts between drives with similar activation (within 3:1 ratio)
-- Threshold adjustment for high-intensity drives near the self-sustaining boundary
+**Actual root cause: Principle 74 — quality redistribution.** The BASELINE1 protection score (4.16) was inflated by gallantry confusion. Before the gallantry↔protection differentiation text existed, the LLM couldn't distinguish gallant from protective behavior and defaulted to protection. After differentiation:
+
+| Drive | BASELINE1 | BASELINE2 | Delta |
+|---|---|---|---|
+| PP gallantry | 2.50 | 3.34 | +0.84 |
+| PP protection | 4.16 | 3.45 | -0.71 |
+| **Combined** | **6.66** | **6.79** | **+0.13 (conserved)** |
+
+PP protection's TRUE expression level (once gallantry confusion is removed) is ~3.0-3.5. Raising it above 3.5 requires richer cognitive content — the cognitive layering work (self-conscious emotions, Theory of Mind, emotion regulation).
+
+**Fix A side effect:** Fix A (classifier-bypass guard) harms PP specifically. Per-event data shows PP protection max collapsed from 5→3 after Fix A, and scores 2.80 even with 0 diff texts. The diff texts HELP PP protection expression by providing somatic cues — the gallantry↔protection text guides the LLM toward protection-specific behavior. Fix A removes these cues during classifier bypass (67% of PP events).
+
+**Test infrastructure finding:** The hardcoded test profiles (`acceptance:0.5, physical_threat:0.4`) had almost no relationship to production profiles (`modeling_observed:0.650, physical_threat:0.800, secure_attachment:0.900, agency_granted:0.550, neglect:0.700`). All prior test conclusions about appraisal behavior were unreliable. Production-aligned test pipeline now in place.
 
 ### Appraisal filter mechanics — reference
 
