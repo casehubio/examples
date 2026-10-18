@@ -806,4 +806,135 @@ class CharacterCognitionTest {
         assertThat(sections).isNotEmpty();
         assertThat(sections.get(0).header()).isEqualTo("Your Behavioral Tendencies");
     }
+
+    @Test
+    void selfStandards_includedForActiveDrives() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent  = "peter-perfect";
+        var tenant = "self-standard-active";
+        var sgId = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput(
+                "cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("gallantry", sgId)
+                .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", agent,
+                        "drive-type", "gallantry", "intensity", "0.9", "description", "fallback")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-description-gallantry", sgId)
+                .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+                .withProperties(Map.of("agent-id", agent, "drive-type", "gallantry",
+                        "generated-description", "A warmth rises through your chest.")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("self-standard-gallantry", sgId)
+                .withTraits(java.util.Set.of("SelfStandardDerived"))
+                .withProperties(Map.of("agent-id", agent, "drive-type", "gallantry",
+                        "self-standard", "You hold yourself to a code of chivalry — when someone is in danger, you act.")), tenant);
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
+                null, new ManorContextStrategy(), null, null, tenant, store, null, null);
+
+        var section = cognition.renderInternalState(List.of("gallantry"), "Clara is in danger", List.of());
+        assertThat(section).isNotNull();
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        assertThat(content).contains("code of chivalry");
+    }
+
+    @Test
+    void selfStandards_notIncludedForFilteredDrives() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent  = "peter-perfect";
+        var tenant = "self-standard-filtered";
+        var sgId = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput(
+                "cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("gallantry", sgId)
+                .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", agent,
+                        "drive-type", "gallantry", "intensity", "0.5", "description", "fallback")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-description-gallantry", sgId)
+                .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+                .withProperties(Map.of("agent-id", agent, "drive-type", "gallantry",
+                        "generated-description", "A warmth rises through your chest.")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-gallantry", sgId)
+                .withTraits(java.util.Set.of("DriveProfileInferred"))
+                .withProperties(Map.of("agent-id", agent, "drive-type", "gallantry",
+                        "inferred-inputs", "acceptance:0.8")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("self-standard-gallantry", sgId)
+                .withTraits(java.util.Set.of("SelfStandardDerived"))
+                .withProperties(Map.of("agent-id", agent, "drive-type", "gallantry",
+                        "self-standard", "You hold yourself to a code of chivalry.")), tenant);
+
+        // Classifier returns no overlap with gallantry's profile — drive gets filtered out
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+                List.of(new io.casehub.neocortex.caps.SituationActivation("dominance", 0.9));
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
+                null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+
+        var section = cognition.renderInternalState(List.of("gallantry"),
+                "A confrontation is brewing", List.of());
+        // Drive filtered by appraisal — section may be null or contain no self-standard
+        if (section != null) {
+            var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+            assertThat(content).doesNotContain("code of chivalry");
+        }
+    }
+
+    @Test
+    void selfStandards_onlyForActiveNotAll() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent  = "peter-perfect";
+        var tenant = "self-standard-partial";
+        var sgId = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput(
+                "cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        for (var drive : List.of("gallantry", "proving-worth", "protection")) {
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(drive, sgId)
+                    .withProperties(Map.of("cognitiveKind", "drive-intensity", "agent-id", agent,
+                            "drive-type", drive, "intensity", "0.8", "description", "fallback")), tenant);
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-description-" + drive, sgId)
+                    .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+                    .withProperties(Map.of("agent-id", agent, "drive-type", drive,
+                            "generated-description", "Description for " + drive + ".")), tenant);
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-" + drive, sgId)
+                    .withTraits(java.util.Set.of("DriveProfileInferred"))
+                    .withProperties(Map.of("agent-id", agent, "drive-type", drive,
+                            "inferred-inputs", drive.equals("gallantry") ? "acceptance:0.8,sharing:0.5"
+                                    : drive.equals("proving-worth") ? "mastery:0.8,competence_recognition:0.6"
+                                    : "physical_threat:0.8,secure_attachment:0.7")), tenant);
+        }
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("self-standard-gallantry", sgId)
+                .withTraits(java.util.Set.of("SelfStandardDerived"))
+                .withProperties(Map.of("agent-id", agent, "drive-type", "gallantry",
+                        "self-standard", "STANDARD-GALLANTRY: you always help those in need.")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("self-standard-proving-worth", sgId)
+                .withTraits(java.util.Set.of("SelfStandardDerived"))
+                .withProperties(Map.of("agent-id", agent, "drive-type", "proving-worth",
+                        "self-standard", "STANDARD-PROVING-WORTH: you must demonstrate competence.")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("self-standard-protection", sgId)
+                .withTraits(java.util.Set.of("SelfStandardDerived"))
+                .withProperties(Map.of("agent-id", agent, "drive-type", "protection",
+                        "self-standard", "STANDARD-PROTECTION: you shield those you care about.")), tenant);
+
+        // Classifier activates gallantry + proving-worth but NOT protection
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> List.of(
+                new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.7),
+                new io.casehub.neocortex.caps.SituationActivation("mastery", 0.6));
+
+        var configs = ManorSocialConfigLoader.loadForProfile("generic");
+        var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
+                null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+
+        var section = cognition.renderInternalState(List.of("gallantry", "proving-worth"),
+                "Clara is struggling with a heavy door", List.of());
+        assertThat(section).isNotNull();
+        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+
+        assertThat(content)
+                .as("self-standard for active drives should be included")
+                .contains("STANDARD-GALLANTRY")
+                .contains("STANDARD-PROVING-WORTH");
+        assertThat(content)
+                .as("self-standard for filtered drive should be excluded")
+                .doesNotContain("STANDARD-PROTECTION");
+    }
 }

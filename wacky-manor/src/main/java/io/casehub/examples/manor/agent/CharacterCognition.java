@@ -285,18 +285,29 @@ public final class CharacterCognition {
 
         var parts = new java.util.ArrayList<>(driveDescriptions);
 
-        int memoryCount    = 0;
-        int attractorCount = 0;
-        int diffTextCount  = 0;
+        int memoryCount       = 0;
+        int attractorCount    = 0;
+        int diffTextCount     = 0;
+        int selfStandardCount = 0;
 
         if (mindMapStore != null && tenantId != null) {
+            var subgraphs = mindMapStore.listSubgraphs(tenantId);
+
+            var selfStandards = readSelfStandards(subgraphs);
+            for (var d : filtered) {
+                String standard = selfStandards.get(d.type());
+                if (standard != null && !standard.isBlank()) {
+                    parts.add(standard);
+                    selfStandardCount++;
+                }
+            }
+
             var primedMemories = selectSituationPrimedMemories(situationText, activatedCategories);
             if (!primedMemories.isEmpty()) {
                 parts.addAll(primedMemories);
                 memoryCount = primedMemories.size();
             }
 
-            var subgraphs = mindMapStore.listSubgraphs(tenantId);
             var attractorLines = subgraphs.stream()
                                           .filter(s -> "behavioral".equals(s.type()))
                                           .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
@@ -330,8 +341,8 @@ public final class CharacterCognition {
         if (parts.isEmpty()) {return null;}
 
         var driveNames = filtered.stream().map(SocialConfig.Drive::type).collect(java.util.stream.Collectors.joining(", "));
-        System.out.printf("[observation-assembly] %s | drives=%d [%s] | diffTexts=%d | memories=%d | attractors=%d | totalParts=%d%n",
-                          agentId, filtered.size(), driveNames, diffTextCount, memoryCount, attractorCount, parts.size());
+        System.out.printf("[observation-assembly] %s | drives=%d [%s] | selfStandards=%d | diffTexts=%d | memories=%d | attractors=%d | totalParts=%d%n",
+                          agentId, filtered.size(), driveNames, selfStandardCount, diffTextCount, memoryCount, attractorCount, parts.size());
 
         return ObservationSection.text("What Pulls at You", String.join("\n\n", parts));
     }
@@ -413,6 +424,23 @@ public final class CharacterCognition {
                 String desc = n.properties().get("generated-description");
                 if (driveType != null && desc != null && !desc.isBlank()) {
                     result.put(driveType, desc);
+                }
+            });
+        return result;
+    }
+
+    private Map<String, String> readSelfStandards(java.util.List<io.casehub.neocortex.mindmap.MindMapSubgraph> subgraphs) {
+        var result = new java.util.HashMap<String, String>();
+        subgraphs.stream()
+            .filter(s -> "cognitive".equals(s.type()))
+            .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
+            .filter(n -> n.traits().contains("SelfStandardDerived"))
+            .filter(n -> agentId.equals(n.properties().get("agent-id")))
+            .forEach(n -> {
+                String driveType = n.properties().get("drive-type");
+                String standard = n.properties().get("self-standard");
+                if (driveType != null && standard != null && !standard.isBlank()) {
+                    result.put(driveType, standard);
                 }
             });
         return result;
