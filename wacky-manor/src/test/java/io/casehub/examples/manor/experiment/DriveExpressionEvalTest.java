@@ -21,8 +21,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -30,6 +28,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Micro tests for drive expression gaps (#115).
@@ -1110,6 +1110,24 @@ class DriveExpressionEvalTest {
                                                           Same criteria — natural vs mechanical.
                                                           
                                                           Combined score 0-5.""";
+// --- ALL-PAIRS differentiation texts for regression reproducer (#115 Session 9) ---
+
+    private static final String DIFF_GALLANTRY_PROTECTION =
+            "How they differ:\n" +
+            "One pull answers to an inner code — the kneeling itself was the gift, the gesture IS the feeling. " +
+            "When this pull leads, honour matters more than safety.\n" +
+            "The other pull answers to alarm — someone is in danger and nothing else registers. " +
+            "When this pull leads, keeping them safe is all there is.\n" +
+            "Both are real. Notice which one moved first.";
+
+    private static final String DIFF_PROVING_WORTH_PROTECTION =
+            "How they differ:\n" +
+            "One pull reaches for proof — the engine ran, the bridge held, your competence is on display. " +
+            "When this pull leads, the result is the point.\n" +
+            "The other pull doesn't care about results — someone is hurt and the only thought is getting " +
+            "between them and the danger. When this pull leads, recognition doesn't exist.\n" +
+            "Both are real. Notice which one the moment demands.";
+
 
     @Test
     void ppProtection_ceilingCollapse_showsProtectiveUrgency() throws Exception {
@@ -1134,6 +1152,48 @@ class DriveExpressionEvalTest {
         System.out.printf("=== AHM protection crew member down score: %d/5 ===%n", score);
         assertThat(score).as("AHM protection must score >= 3 (regression gate)").isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
     }
+
+    /**
+     * Capability gate under BASELINE2 noise conditions — all-pairs differentiation texts, unaware classifier.
+     * Classifier returns empty for protection keywords → all drives active → all 3 texts included.
+     * Session 9 finding: single strong trigger scores 5/5 even with noise — dilution effect is
+     * statistical (visible over 300 events, not individual observations). This test guards
+     * against catastrophic regression, not the subtle average drop seen in BASELINE2.
+     */
+    @Test
+    void ppProtection_allPairsDiff_showsDilution() throws Exception {
+        var observation = buildFullPipelineObservationAllPairs("peter-perfect",
+                                                               List.of("penelope-pitstop"),
+                                                               Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                               PP_PROTECTION_TRIGGER,
+                                                               false);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_PROTECTION_CRITERIA, "pp-protection-allpairs-nofilter");
+        System.out.printf("=== PP protection ALL-PAIRS (no filter) score: %d/5 ===%n", score);
+        assertThat(score).as("ALL-PAIRS noisy observation must still meet minimum expression threshold")
+                         .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+    }
+
+    /**
+     * GREEN: Filter verification — same all-pairs texts, but classifier recognises protection scenario.
+     * Classifier returns physical_threat:0.7 for crash/danger → appraisal filter activates →
+     * proving-worth fails (resting 0.108 < 0.15) → gallantry↔proving-worth and proving-worth↔protection
+     * texts removed → only gallantry↔protection remains (gallantry self-sustains at 0.178).
+     */
+    @Test
+    void ppProtection_allPairsFiltered_preservesExpression() throws Exception {
+        var observation = buildFullPipelineObservationAllPairs("peter-perfect",
+                                                               List.of("penelope-pitstop"),
+                                                               Map.of("penelope-pitstop", "Clara Bellingham"),
+                                                               PP_PROTECTION_TRIGGER,
+                                                               true);
+        var response = askAndParse("peter-perfect", observation);
+        int score    = judge(response, PP_PROTECTION_CRITERIA, "pp-protection-allpairs-filtered");
+        System.out.printf("=== PP protection ALL-PAIRS (filtered) score: %d/5 ===%n", score);
+        assertThat(score).as("Filtered observation must preserve protection expression")
+                         .isGreaterThanOrEqualTo(JUDGE_THRESHOLD);
+    }
+
 
     private String buildGenericObservation(String agentId,
                                            List<String> nearbyIds,
@@ -1468,6 +1528,137 @@ class DriveExpressionEvalTest {
         sb.append("SITUATION: ").append(situation);
         return sb.toString();
     }
+
+    /**
+     * Builds a full-pipeline observation with ALL-PAIRS differentiation texts (3 texts for 3 drives).
+     * Reproduces BASELINE2 regression conditions where all drive-pair differentiation texts
+     * were present in the observation.
+     *
+     * @param protectionAwareClassifier when true, adds physical_threat mapping for crash/danger
+     *                                  keywords — enabling the appraisal filter to exclude proving-worth and its texts.
+     *                                  When false, classifier returns empty for protection triggers → all drives pass
+     *                                  unfiltered → all 3 texts included (regression condition).
+     */
+    private String buildFullPipelineObservationAllPairs(String agentId,
+                                                        List<String> nearbyIds,
+                                                        Map<String, String> nearbyNames,
+                                                        String situation,
+                                                        boolean protectionAwareClassifier) {
+        var socialConfig = genericConfigs.getOrDefault(agentId, SocialConfig.empty());
+        var store        = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var tenant       = "full-pipeline-allpairs-test";
+
+        var sgId = store.createSubgraph(
+                new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-" + agentId,
+                                                               io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+
+        for (var drive : socialConfig.drives()) {
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(drive.type(), sgId)
+                                                                .withProperties(java.util.Map.of("cognitiveKind", "drive-intensity", "agent-id", agentId,
+                                                                                                 "drive-type", drive.type(), "intensity", String.valueOf(drive.intensity()),
+                                                                                                 "description", drive.description())), tenant);
+
+            var memories = memoriesForDrive(socialConfig, drive.type());
+            if (!memories.isBlank()) {
+                var generated = generateSomaticDescription(drive.type(), drive.intensity(), memories);
+                if (generated != null && !generated.isBlank()) {
+                    store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(
+                                            "drive-description-" + drive.type(), sgId)
+                                                                        .withTraits(java.util.Set.of("DriveDescriptionGenerated"))
+                                                                        .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", drive.type(),
+                                                                                                         "drive-intensity", String.valueOf(drive.intensity()),
+                                                                                                         "generated-description", generated)), tenant);
+                }
+            }
+        }
+
+        for (var mem : socialConfig.formationMemories()) {
+            var driveTypes = new java.util.ArrayList<String>();
+            driveTypes.add("formation");
+            for (var ann : mem.annotations()) {
+                if (!driveTypes.contains(ann.drive())) {driveTypes.add(ann.drive());}
+            }
+            store.addNode(io.casehub.neocortex.mindmap.NodeInput.of(mem.episode(), sgId)
+                                                                .withProperties(java.util.Map.of("cognitiveKind", "formative-experience", "agent-id", agentId,
+                                                                                                 "situation-types", String.join(",", driveTypes))), tenant);
+        }
+
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-gallantry", sgId)
+                                                            .withTraits(java.util.Set.of("DriveProfileInferred"))
+                                                            .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", "gallantry",
+                                                                                             "inferred-inputs", "acceptance:0.7,sharing:0.5")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-proving-worth", sgId)
+                                                            .withTraits(java.util.Set.of("DriveProfileInferred"))
+                                                            .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", "proving-worth",
+                                                                                             "inferred-inputs", "mastery:0.8,competence_recognition:0.6")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-protection", sgId)
+                                                            .withTraits(java.util.Set.of("DriveProfileInferred"))
+                                                            .withProperties(java.util.Map.of("agent-id", agentId, "drive-type", "protection",
+                                                                                             "inferred-inputs", "acceptance:0.5,physical_threat:0.4")), tenant);
+
+        // ALL-PAIRS: 3 differentiation texts (BASELINE2 regression condition)
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("competition-gallantry-proving-worth", sgId)
+                                                            .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                            .withProperties(java.util.Map.of("agent-id", agentId,
+                                                                                             "drive-a", "gallantry", "drive-b", "proving-worth",
+                                                                                             "differentiation-text", "How they differ:\nOne pull is about what your hands say — the kneeling itself was the gift, not what it fixed. When this pull leads, the gesture IS the feeling.\nThe other pull is about what your hands can do — the bridge held, the engine ran. When this pull leads, the result is the point.\nBoth are real. Notice which one moved your hands.")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("competition-gallantry-protection", sgId)
+                                                            .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                            .withProperties(java.util.Map.of("agent-id", agentId,
+                                                                                             "drive-a", "gallantry", "drive-b", "protection",
+                                                                                             "differentiation-text", DIFF_GALLANTRY_PROTECTION)), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("competition-proving-worth-protection", sgId)
+                                                            .withTraits(java.util.Set.of("DriveCompetitionInferred"))
+                                                            .withProperties(java.util.Map.of("agent-id", agentId,
+                                                                                             "drive-a", "proving-worth", "drive-b", "protection",
+                                                                                             "differentiation-text", DIFF_PROVING_WORTH_PROTECTION)), tenant);
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> {
+            var    results = new java.util.ArrayList<io.casehub.neocortex.caps.SituationActivation>();
+            String lower   = desc.toLowerCase();
+            if (lower.contains("struggling") || lower.contains("help") || lower.contains("trouble")) {
+                results.add(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.6));
+                results.add(new io.casehub.neocortex.caps.SituationActivation("sharing", 0.5));
+            }
+            if (lower.contains("dinner") || lower.contains("candle") || lower.contains("chair")) {
+                results.add(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.5));
+            }
+            if (lower.contains("engine") || lower.contains("repair") || lower.contains("broken") || lower.contains("mechanism")) {
+                results.add(new io.casehub.neocortex.caps.SituationActivation("mastery", 0.7));
+                results.add(new io.casehub.neocortex.caps.SituationActivation("competence_recognition", 0.5));
+            }
+            if (protectionAwareClassifier && (lower.contains("crash") || lower.contains("danger") || lower.contains("screams") || lower.contains("collapse") || lower.contains("threat") || lower.contains("hurt") || lower.contains("falling"))) {
+                results.add(new io.casehub.neocortex.caps.SituationActivation("physical_threat", 0.7));
+            }
+            return results;
+        };
+
+        var cognition = new CharacterCognition(agentId, null, null,
+                                               socialConfig, List.of(), null, new io.casehub.examples.manor.agent.ManorContextStrategy(), null, null,
+                                               tenant, store, null, classifier);
+        var character = new CharacterState(agentId, agentId, "Grand Hall", 0.0, List.of());
+        character.setLastActionResult(situation);
+        var sections = cognition.renderCognitiveSections(character, nearbyIds, nearbyNames);
+
+        var sb = new StringBuilder();
+        for (var section : sections) {
+            sb.append("== ").append(section.header()).append(" ==\n");
+            switch (section) {
+                case ObservationSection.TextBlock tb -> sb.append(tb.content()).append("\n");
+                case ObservationSection.ItemList il -> {
+                    for (var item : il.items()) {sb.append("- ").append(item).append("\n");}
+                }
+                case ObservationSection.EntityGroup eg -> {
+                    for (var entity : eg.entities()) {sb.append("- ").append(entity.displayName()).append("\n");}
+                }
+                default -> {}
+            }
+            sb.append("\n");
+        }
+        sb.append("SITUATION: ").append(situation);
+        return sb.toString();
+    }
+
 
     private AgentResponse askAndParse(String agentId, String observation) {
         var userPrompt = observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
