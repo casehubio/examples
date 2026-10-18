@@ -324,10 +324,118 @@ This is not prescribed. The LLM has the material to construct it naturally, just
 
 **Priority ordering:** Should run after SelfStandardDerivationPhase (@Priority 22). Mental models of others can reference the character's own values (e.g., "I notice Clara cares about the same things I do"), so self-knowledge should be available first. Suggest @Priority(24).
 
+---
+
+### Entry 3 — Architectural revision: Bayesian ToM with incremental updating (2026-10-18)
+
+#### The revision
+
+Entry 2 proposed a static consolidation → MindMap → observation pattern mirroring #592. Review of quarkmind-core's Bayesian inference engine (junction tree, exact inference) changes the approach fundamentally: mental models should be **live and incremental**, not static snapshots.
+
+#### The engine
+
+quarkmind-core has a full Bayesian network implementation:
+- `BayesNetwork` — directed graphical model with `BayesVariable` nodes (discrete outcomes, conditional probability tables)
+- `JunctionTree` / `JunctionTreeBuilder` — exact inference via junction tree algorithm
+- `BayesInstance` — runtime inference state: set soft evidence on observables, `globalUpdate()`, `marginalize()` target variables
+- `EvidenceFusionEngine` — domain-agnostic wrapper: `initialize(graph, targetVariable)` → `setEvidence(variable, likelihood)` → `update()` → `marginalize()` → posterior distribution
+
+The engine is in-memory only. No persistence needed — the scenario lifecycle manages the instance.
+
+**Dependency direction:** quarkmind is downstream of neocortex (quarkmind depends on neocortex). The bayes engine package moves into neocortex for now.
+
+#### Why this changes the architecture
+
+Self-standards (#592) are relatively stable — they derive from formation memories during consolidation and don't change within a scenario. But mental models of others update with every interaction. Each observation is new evidence:
+
+- Clara withdraws → evidence on Behavior → posterior shifts toward distressed
+- Clara snaps at Foxworth → evidence updates → desire posterior shifts, maybe autonomy not just belonging
+- Character overhears Clara talking about exclusion → evidence on Beliefs → posterior confirms isolation fear
+
+The Bayesian network handles this naturally: `setEvidence()` is incremental, `update()` propagates, posteriors are always current.
+
+#### Revised architecture
+
+**Not** consolidation → static MindMap nodes → observation injection.
+
+**Instead:**
+
+| Phase | What happens | Where |
+|---|---|---|
+| **Initialization** (consolidation) | Build per-character BayesNetwork. Set priors and CPTs from relationship history and past interactions. Create BayesInstance. | ConsolidationPhase in neocortex |
+| **Runtime** (each interaction) | Observe behavior/outcome → `setEvidence()` on observable nodes → `update()`. Posteriors update incrementally. | Event processing in CharacterCognition or MindMap |
+| **Observation injection** (when character acts) | `marginalize()` target variables (desires, beliefs, emotion). Render posteriors as narrative text for LLM observation. | `readOtherModels()` in CharacterCognition |
+
+The BayesInstance lives in memory alongside the MindMap for the duration of the scenario.
+
+#### Network structure per character (mapping Ong et al. 2019)
+
+```
+[Desires] ──→ [Emotion] ←── [Outcome]
+[Beliefs] ──→ [Emotion]
+                  │
+                  ↓
+          [Observable Behavior]
+```
+
+Variables (discrete outcomes):
+- **Desires**: `{belonging, competence, autonomy, safety, recognition}` — what this person values
+- **Beliefs**: `{trusting, doubting, confident, anxious, hostile}` — their world model
+- **Outcome**: `{favorable, neutral, threatening, ambiguous}` — what happened
+- **Emotion**: `{content, distressed, fearful, angry, ashamed, proud}` — latent state
+- **Behavior**: `{withdrawn, composed, aggressive, cheerful, defensive}` — observable
+
+CPTs encode the appraisal model: P(Emotion | Desires, Beliefs, Outcome). Priors set from relationship history during consolidation. Evidence flows through observable nodes (Behavior, Outcome) during runtime.
+
+#### How evidence flows
+
+When the character perceives an interaction involving another character:
+1. Classify the outcome (favorable/threatening/ambiguous) — can use the existing situation classifier
+2. Classify the observed behavior (withdrawn/aggressive/cheerful/etc.)
+3. `setEvidence("Behavior", likelihoodVector)` — soft evidence, not hard
+4. `setEvidence("Outcome", likelihoodVector)`
+5. `engine.update()` — junction tree propagation
+6. Posteriors over Desires, Beliefs, Emotion are now current
+
+When the character needs to act (observation assembly):
+1. `marginalize("Desires")` → `[belonging: 0.42, competence: 0.31, autonomy: 0.18, ...]`
+2. `marginalize("Emotion")` → `[distressed: 0.71, fearful: 0.12, ...]`
+3. Render: "You believe Clara is likely distressed (her need for belonging appears threatened). Her withdrawal pattern suggests she's protecting herself from perceived rejection."
+
+The LLM receives this as cognitive content — material for third-person appraisal, not instructions.
+
+#### Comparison: static vs incremental
+
+| Property | Static (Entry 2 proposal) | Incremental (revised) |
+|---|---|---|
+| Update frequency | Once per consolidation | Every interaction |
+| Staleness | Model reflects last sleep, not current state | Always current |
+| Evidence integration | LLM reads memories, approximates | Bayesian exact inference |
+| Consistency | LLM variance — different runs, different models | Deterministic given same evidence |
+| Auditability | Read the MindMap node text | Inspect network, evidence, posteriors |
+| Literature alignment | Third-person appraisal (Ong et al.) | Third-person appraisal + BToM (Baker et al.) |
+| Complexity | Low — reuses #592 pattern | Medium — new engine integration |
+
+#### Interaction with Layer 1
+
+Self-standards (#592) provide the character's own values. The Bayesian mental model provides understanding of the other's state. The LLM combines both:
+- Self-standard: "Protection is core to who I am"
+- Mental model posterior: "Clara is likely distressed (0.71), desire for belonging threatened (0.42)"
+- LLM inference: empathic protection grounded in understanding
+
+#### Open questions
+
+1. **Where does the BayesInstance live?** Alongside the MindMap? In CharacterCognition? In a dedicated ToM component?
+2. **CPT specification:** How are the conditional probability tables populated? From literature defaults? From character-specific relationship data? Both?
+3. **Variable granularity:** Are the outcomes listed above the right granularity, or should they be character-specific?
+4. **Evidence classification:** What classifies observed behaviors and outcomes into the discrete categories the network expects? Existing situation classifier? New classifier?
+5. **Multiple characters:** One network per relationship, or one network with shared structure and per-character instances?
+
 #### Next steps
 
-1. Examine existing MindMap node types for interaction memories and relationships
-2. Design the OtherModelDerivationPhase consolidation
-3. Design readOtherModels() injection in CharacterCognition
-4. Implement with TDD
-5. Focused eval against post-#592 baseline
+1. Move the bayes engine package from quarkmind-core into neocortex
+2. Design the per-character network structure and CPTs
+3. Prototype with S5 (Clara withdrawn) — the clearest target scenario
+4. Implement evidence flow from interaction events
+5. Implement observation injection from posteriors
+6. Focused eval against post-#592 baseline
