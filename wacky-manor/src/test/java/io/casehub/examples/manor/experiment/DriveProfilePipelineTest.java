@@ -395,7 +395,7 @@ class DriveProfilePipelineTest {
         pinAgent("peter-perfect", Map.of(
                 "gallantry", Map.of("acceptance", 0.850, "secure_attachment", 0.750, "sharing", 0.700),
                 "proving-worth", Map.of("mastery", 0.850, "competence_recognition", 0.800, "performance_judged", 0.700),
-                "protection", Map.of("physical_threat", 0.850, "secure_attachment", 0.750, "unpredictable_danger", 0.700)
+                "protection", Map.of("physical_threat", 0.850, "secure_attachment", 0.750, "unpredictable_danger", 0.700, "aversive_removal", 0.650)
                                         ));
     }
 
