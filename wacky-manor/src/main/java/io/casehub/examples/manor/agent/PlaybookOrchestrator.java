@@ -83,6 +83,8 @@ public class PlaybookOrchestrator {
 
     @Inject
     jakarta.enterprise.event.Event<io.casehub.engine.trust.TrustRelevantAction> trustEvent;
+    @Inject
+    io.casehub.platform.agent.session.SessionPoolRegistry sessionPoolRegistry;
 
     private volatile AgentProvider gatedProvider;
     private final    java.util.Map<String, String> subgraphIdCache = new java.util.concurrent.ConcurrentHashMap<>();
@@ -297,17 +299,7 @@ public class PlaybookOrchestrator {
             significanceAccumulator.get().resume();
         }
 
-        var poolConfig = new io.casehub.platform.agent.session.SessionPoolConfig(
-                "character-pool", "claude", 0, 6,
-                java.time.Duration.ofSeconds(300), java.time.Duration.ofSeconds(30));
-        var claudeBackend = backendRegistry.resolve("claude", "default")
-                .orElseThrow(() -> new IllegalStateException("No claude backend registered"));
-        var sessionPool = new io.casehub.platform.agent.session.SessionPool(claudeBackend, poolConfig);
-        var poolRegistry = new io.casehub.platform.agent.session.SessionPoolRegistry(
-                java.util.List.of(new io.casehub.platform.agent.config.PoolDeclaration(
-                        "character-pool", "character", "claude", 0, 6, null, null, null)),
-                backendRegistry);
-        var sessionLifecycleManager = new io.casehub.platform.agent.session.SessionLifecycleManager(poolRegistry);
+        var sessionLifecycleManager = new io.casehub.platform.agent.session.SessionLifecycleManager(sessionPoolRegistry);
         var invocationService = new AgentInvocationService(sessionLifecycleManager, "claude", 60, 2, 2000);
 
         if (mode == io.casehub.examples.manor.model.PlaybookMode.AUTONOMOUS) {
