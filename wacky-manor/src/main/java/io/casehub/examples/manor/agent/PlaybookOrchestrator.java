@@ -239,6 +239,13 @@ public class PlaybookOrchestrator {
         if (significanceAccumulator.isResolvable()) {
             significanceAccumulator.get().suspend();
         }
+
+        var cacheDir = java.nio.file.Path.of("target");
+        boolean cacheRestored = false;
+        if (config.consolidation().enabled() && mmStore != null) {
+            cacheRestored = ConsolidationCache.restore(mmStore, ManorConstants.TENANCY_ID, profileMode.name(), cacheDir);
+        }
+
         for (var entry : world.characters().entrySet()) {
             if (activeSet != null && !activeSet.contains(entry.getKey())) {continue;}
             var desc = agentRegistry.findById(entry.getKey(), ManorConstants.TENANCY_ID)
@@ -250,8 +257,11 @@ public class PlaybookOrchestrator {
             var socialCfg = socialConfigs.getOrDefault(entry.getKey(), SocialConfig.empty());
             var cogDefaults = ManorCognitiveSetup.deriveDefaults(desc, socialCfg);
             defaultsRegistry.register(cogDefaults);
-            var seedResult = seeder != null ? seeder.seed(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID) : null;
+            ManorCognitiveSeeder.SeedResult seedResult = null;
             if (seeder != null) {
+                if (!cacheRestored) {
+                    seedResult = seeder.seed(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID);
+                }
                 seeder.seedGoals(entry.getKey(), socialCfg, goalOrchestrator, ManorConstants.TENANCY_ID);
                 seeder.seedCapsState(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID, capsEngine);
                 int memCount = seeder.seedFormationMemories(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID, experienceRecorder);
@@ -267,14 +277,21 @@ public class PlaybookOrchestrator {
                     buildSituationClassifier()));
         }
 
-        if (seeder != null) {
+        if (seeder != null && !cacheRestored) {
             seeder.seedPeople(socialConfigs, ManorConstants.TENANCY_ID);
         }
 
-        if (config.consolidation().enabled()) {
+        if (config.consolidation().enabled() && !cacheRestored) {
             log.info("Running initial consolidation — processing formation memories into behavioral attractors...");
             consolidationScheduler.consolidateNow(ManorConstants.TENANCY_ID);
             log.info("Initial consolidation complete — characters have 'slept' on their memories.");
+            if (mmStore != null) {
+                try {
+                    ConsolidationCache.dump(mmStore, ManorConstants.TENANCY_ID, profileMode.name(), cacheDir);
+                } catch (java.io.IOException e) {
+                    log.warn("Failed to save consolidation cache", e);
+                }
+            }
         }
         if (significanceAccumulator.isResolvable()) {
             significanceAccumulator.get().resume();
