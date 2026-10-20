@@ -424,10 +424,24 @@ public class PlaybookOrchestrator {
                     var nearby = world.character(id);
                     if (nearby != null) agentNameMap.put(id, nearby.name());
                 }
-                long csStart = System.currentTimeMillis();
-                preCogSections.put(c.agentId(), cognition.renderCognitiveSections(c, nearbyIds, agentNameMap));
-                preTagSections.put(c.agentId(), cognition.renderTaggedSections());
-                log.debugf("%s: cognitive sections rendered in %dms", c.agentId(), System.currentTimeMillis() - csStart);
+                var cogFuture = java.util.concurrent.CompletableFuture.supplyAsync(() ->
+                        cognition.renderCognitiveSections(c, nearbyIds, agentNameMap));
+                var tagFuture = java.util.concurrent.CompletableFuture.supplyAsync(() ->
+                        cognition.renderTaggedSections());
+                try {
+                    preCogSections.put(c.agentId(), cogFuture.get(5, java.util.concurrent.TimeUnit.SECONDS));
+                    preTagSections.put(c.agentId(), tagFuture.get(5, java.util.concurrent.TimeUnit.SECONDS));
+                } catch (java.util.concurrent.TimeoutException e) {
+                    log.warnf("%s: renderCognitiveSections timed out (5s) — skipping", c.agentId());
+                    preCogSections.put(c.agentId(), java.util.List.of());
+                    preTagSections.put(c.agentId(), java.util.List.of());
+                    cogFuture.cancel(true);
+                    tagFuture.cancel(true);
+                } catch (Exception e) {
+                    log.warnf("%s: renderCognitiveSections failed: %s", c.agentId(), e.getMessage());
+                    preCogSections.put(c.agentId(), java.util.List.of());
+                    preTagSections.put(c.agentId(), java.util.List.of());
+                }
             }
 
             // Phase 1: assemble observations in parallel (no synchronized code)
