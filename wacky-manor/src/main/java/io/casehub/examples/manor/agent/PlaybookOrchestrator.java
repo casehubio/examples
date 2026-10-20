@@ -410,72 +410,46 @@ public class PlaybookOrchestrator {
             if (actingThisTick.isEmpty()) continue;
 
             // Phase 1: build observations in parallel (no LLM calls)
-            var prompts = new java.util.concurrent.ConcurrentHashMap<String, String>();
-            var obsLatch = new java.util.concurrent.CountDownLatch(actingThisTick.size());
-            for (var c : actingThisTick) {
-                Thread.ofVirtual().name(c.agentId() + "-obs-" + currentTick).start(() -> {
-                    try {
-                        var cognition = cognitions.get(c.agentId());
-                        var drain = dispatcher.observationService().drain(c.agentId(), System.currentTimeMillis());
-                        var reflections = cognition.recallReflections(5);
-                        var relationships = new java.util.HashMap<String, java.util.List<io.casehub.neocortex.memory.Memory>>();
-                        for (var other : world.charactersInRoom(c.currentRoom())) {
-                            if (!other.agentId().equals(c.agentId())) {
-                                var relMems = cognition.recallRelationships(other.agentId(), 3);
-                                if (!relMems.isEmpty()) {
-                                    relationships.put(other.name(), relMems);
-                                }
-                            }
+            var prompts = TickExecutor.buildObservationsParallel(actingThisTick, world, (c, w) -> {
+                var cognition = cognitions.get(c.agentId());
+                var drain = dispatcher.observationService().drain(c.agentId(), System.currentTimeMillis());
+                var reflections = cognition.recallReflections(5);
+                var relationships = new java.util.HashMap<String, java.util.List<io.casehub.neocortex.memory.Memory>>();
+                for (var other : w.charactersInRoom(c.currentRoom())) {
+                    if (!other.agentId().equals(c.agentId())) {
+                        var relMems = cognition.recallRelationships(other.agentId(), 3);
+                        if (!relMems.isEmpty()) {
+                            relationships.put(other.name(), relMems);
                         }
-                        var memories = cognition.recallMemories(config.memory().recallLimit());
-                        var worldProvider = new ManorWorldObservationProvider(c, world, drain);
-                        var obsPipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
-                        var nearbyIds = world.charactersInRoom(c.currentRoom()).stream()
-                                .map(io.casehub.examples.manor.model.CharacterState::agentId)
-                                .filter(id -> !id.equals(c.agentId()))
-                                .toList();
-                        var agentNameMap = new java.util.HashMap<String, String>();
-                        for (var id : nearbyIds) {
-                            var nearby = world.character(id);
-                            if (nearby != null) agentNameMap.put(id, nearby.name());
-                        }
-                        String observation = new ObservationBuilder(worldProvider, obsPipeline, c.capabilityTags())
-                                .withCharacter(c)
-                                .withGoals(resolveGoals(c.agentId()))
-                                .withDrain(drain)
-                                .withMemories(memories, reflections, relationships)
-                                .withCognitiveSections(cognition.renderCognitiveSections(c, nearbyIds, agentNameMap))
-                                .withTaggedSections(cognition.renderTaggedSections())
-                                .build();
-                        prompts.put(c.agentId(), observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION);
-                    } catch (Exception e) {
-                        log.errorf(e, "%s: tick %d observation error", c.agentId(), currentTick);
-                    } finally {
-                        obsLatch.countDown();
                     }
-                });
-            }
-            try { obsLatch.await(); } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); return;
-            }
-
-            // Phase 2: query via adaptive pipeline (ticket-based concurrency)
-            var pipelineResults = sessionPipeline.<String>executeBatch(
-                    prompts.keySet(),
-                    (agentId, session) -> AgentInvocationService.querySessionRaw(session, prompts.get(agentId), agentId),
-                    3, java.time.Duration.ofSeconds(120));
-
-            // Parse outside pipeline — parse errors must not consume tickets
-            var responses = new java.util.HashMap<String, AgentResponse>();
-            for (var c : actingThisTick) {
-                String raw = pipelineResults.get(c.agentId());
-                try {
-                    responses.put(c.agentId(), raw != null ? AgentResponse.parse(raw) : AgentResponse.idle());
-                } catch (Exception e) {
-                    log.warnf("%s: failed to parse LLM response: %s", c.agentId(), e.getMessage());
-                    responses.put(c.agentId(), AgentResponse.idle());
                 }
-            }
+                var memories = cognition.recallMemories(config.memory().recallLimit());
+                var worldProvider = new ManorWorldObservationProvider(c, w, drain);
+                var obsPipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
+                var nearbyIds = w.charactersInRoom(c.currentRoom()).stream()
+                        .map(io.casehub.examples.manor.model.CharacterState::agentId)
+                        .filter(id -> !id.equals(c.agentId()))
+                        .toList();
+                var agentNameMap = new java.util.HashMap<String, String>();
+                for (var id : nearbyIds) {
+                    var nearby = w.character(id);
+                    if (nearby != null) agentNameMap.put(id, nearby.name());
+                }
+                return new io.casehub.examples.manor.agent.ObservationBuilder(worldProvider, obsPipeline, c.capabilityTags())
+                        .withCharacter(c)
+                        .withGoals(resolveGoals(c.agentId()))
+                        .withDrain(drain)
+                        .withMemories(memories, reflections, relationships)
+                        .withCognitiveSections(cognition.renderCognitiveSections(c, nearbyIds, agentNameMap))
+                        .withTaggedSections(cognition.renderTaggedSections())
+                        .build() + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
+            }, java.time.Duration.ofSeconds(30));
+
+            // Phase 2: query via adaptive pipeline
+            var pipelineResults = TickExecutor.queryPipeline(prompts, sessionPipeline, 3, java.time.Duration.ofSeconds(120));
+
+            // Phase 3: parse responses (outside pipeline — parse errors don't consume tickets)
+            var responses = TickExecutor.parseResponses(actingThisTick, pipelineResults);
             log.infof("Tick %d complete (%d agents, %d succeeded)", currentTick, actingThisTick.size(),
                     pipelineResults.values().stream().filter(java.util.Objects::nonNull).count());
 
