@@ -62,7 +62,8 @@ public class PlaybookOrchestrator {
     jakarta.enterprise.inject.Instance<io.casehub.neocortex.mindmap.intelligence.MindMapExtractor> mindMapExtractorInstance;
     @Inject
     io.casehub.neocortex.caps.CapsEngine capsEngine;
-    private io.casehub.neocortex.caps.llm.LlmSituationClassifier llmSituationClassifier;
+    @Inject
+    io.casehub.neocortex.caps.SituationClassifier situationClassifier;
     @Inject
     jakarta.enterprise.inject.Instance<io.casehub.neocortex.mindmap.intelligence.consolidation.SignificanceAccumulator> significanceAccumulator;
 
@@ -280,7 +281,7 @@ public class PlaybookOrchestrator {
                     cogProfile, contextStrategy, cognitionCore, seedResult, ManorConstants.TENANCY_ID,
                     mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null,
                     ManorTrustEvolutionConfigLoader.load(),
-                    buildSituationClassifier()));
+                    situationClassifier));
         }
 
         if (seeder != null && !cacheRestored) {
@@ -902,19 +903,5 @@ public class PlaybookOrchestrator {
         return text.length() > 10 && alphabeticWords >= 3;
     }
 
-
-    private io.casehub.neocortex.caps.SituationClassifier buildSituationClassifier() {
-        if (llmSituationClassifier == null) {
-            var backend = backendRegistry.resolve("claude", "default")
-                                         .orElseThrow(() -> new IllegalStateException("No 'claude' backend for classifier pool"));
-            var pool = new io.casehub.platform.agent.session.SessionPool(backend,
-                                                                         new io.casehub.platform.agent.session.SessionPoolConfig(
-                                                                                 "classifier-pool", "claude", 0, 6,
-                                                                                 java.time.Duration.ofSeconds(120), java.time.Duration.ofSeconds(5)));
-            llmSituationClassifier = new io.casehub.neocortex.caps.llm.LlmSituationClassifier(
-                    pool, capsEngine.topology());
-        }
-        return llmSituationClassifier;
-    }
 }
 
