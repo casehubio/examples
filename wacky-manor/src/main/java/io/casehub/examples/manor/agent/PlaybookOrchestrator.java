@@ -411,8 +411,6 @@ public class PlaybookOrchestrator {
             if (actingThisTick.isEmpty()) continue;
 
             // Phase 1: build observations
-            log.infof("Tick %d: pre-computing cognitive sections for %d characters", currentTick, actingThisTick.size());
-            long preStart = System.currentTimeMillis();
             var preCogSections = new java.util.HashMap<String, java.util.List<io.casehub.blocks.summarisation.observation.affordance.ObservationSection>>();
             var preTagSections = new java.util.HashMap<String, java.util.List<String>>();
             for (var c : actingThisTick) {
@@ -426,10 +424,25 @@ public class PlaybookOrchestrator {
                     var nearby = world.character(id);
                     if (nearby != null) agentNameMap.put(id, nearby.name());
                 }
-                preCogSections.put(c.agentId(), cognition.renderCognitiveSections(c, nearbyIds, agentNameMap));
-                preTagSections.put(c.agentId(), cognition.renderTaggedSections());
+                var cogFuture = java.util.concurrent.CompletableFuture.supplyAsync(() ->
+                        cognition.renderCognitiveSections(c, nearbyIds, agentNameMap));
+                var tagFuture = java.util.concurrent.CompletableFuture.supplyAsync(() ->
+                        cognition.renderTaggedSections());
+                try {
+                    preCogSections.put(c.agentId(), cogFuture.get(5, java.util.concurrent.TimeUnit.SECONDS));
+                    preTagSections.put(c.agentId(), tagFuture.get(5, java.util.concurrent.TimeUnit.SECONDS));
+                } catch (java.util.concurrent.TimeoutException e) {
+                    log.warnf("%s: renderCognitiveSections timed out (5s) — skipping cognitive sections", c.agentId());
+                    preCogSections.put(c.agentId(), java.util.List.of());
+                    preTagSections.put(c.agentId(), java.util.List.of());
+                    cogFuture.cancel(true);
+                    tagFuture.cancel(true);
+                } catch (Exception e) {
+                    log.warnf("%s: renderCognitiveSections failed: %s", c.agentId(), e.getMessage());
+                    preCogSections.put(c.agentId(), java.util.List.of());
+                    preTagSections.put(c.agentId(), java.util.List.of());
+                }
             }
-            log.infof("Tick %d: cognitive sections computed in %dms, starting observation assembly", currentTick, System.currentTimeMillis() - preStart);
 
             // Phase 1: assemble observations in parallel (no synchronized code)
             var prompts = TickExecutor.buildObservationsParallel(actingThisTick, world, (c, w) -> {
