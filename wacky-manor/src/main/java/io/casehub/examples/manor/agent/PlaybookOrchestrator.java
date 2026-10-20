@@ -456,18 +456,21 @@ public class PlaybookOrchestrator {
             }
 
             // Phase 2: query via adaptive pipeline (ticket-based concurrency)
-            var pipelineResults = sessionPipeline.executeBatch(
+            var pipelineResults = sessionPipeline.<String>executeBatch(
                     prompts.keySet(),
-                    (agentId, session) -> {
-                        String raw = AgentInvocationService.querySessionRaw(session, prompts.get(agentId), agentId);
-                        return AgentResponse.parse(raw);
-                    },
+                    (agentId, session) -> AgentInvocationService.querySessionRaw(session, prompts.get(agentId), agentId),
                     3, java.time.Duration.ofSeconds(120));
 
+            // Parse outside pipeline — parse errors must not consume tickets
             var responses = new java.util.HashMap<String, AgentResponse>();
             for (var c : actingThisTick) {
-                var result = pipelineResults.get(c.agentId());
-                responses.put(c.agentId(), result != null ? result : AgentResponse.idle());
+                String raw = pipelineResults.get(c.agentId());
+                try {
+                    responses.put(c.agentId(), raw != null ? AgentResponse.parse(raw) : AgentResponse.idle());
+                } catch (Exception e) {
+                    log.warnf("%s: failed to parse LLM response: %s", c.agentId(), e.getMessage());
+                    responses.put(c.agentId(), AgentResponse.idle());
+                }
             }
             log.infof("Tick %d complete (%d agents, %d succeeded)", currentTick, actingThisTick.size(),
                     pipelineResults.values().stream().filter(java.util.Objects::nonNull).count());
