@@ -626,6 +626,67 @@ public final class CharacterCognition {
         return result;
     }
 
+    List<String> selectSituationPrimedMemories(
+            io.casehub.neocortex.caps.SituationContext situationContext,
+            List<String> activatedDriveTypes) {
+        if (mindMapStore == null || tenantId == null) {return List.of();}
+        if (situationContext.isEmpty()) {return List.of();}
+        if (activatedDriveTypes.isEmpty()) {return List.of();}
+
+        var cognitiveNodes = mindMapStore.listSubgraphs(tenantId).stream()
+                                         .filter(s -> "cognitive".equals(s.type()))
+                                         .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
+                                         .toList();
+
+        var profiles = cognitiveNodes.stream()
+                                     .filter(n -> n.traits().contains("DriveProfileInferred"))
+                                     .filter(n -> agentId.equals(n.properties().get("agent-id")))
+                                     .filter(n -> activatedDriveTypes.contains(n.properties().get("drive-type")))
+                                     .toList();
+
+        record DriveOverlap(String driveType, double score) {}
+        var overlaps = new java.util.ArrayList<DriveOverlap>();
+        for (var profile : profiles) {
+            String driveType = profile.properties().get("drive-type");
+            String inputsStr = profile.properties().getOrDefault("inferred-inputs", "");
+            double overlap   = computeInputOverlap(inputsStr, situationContext.confidenceMap());
+            if (overlap > 0.0) {
+                overlaps.add(new DriveOverlap(driveType, overlap));
+            }
+        }
+
+        if (overlaps.isEmpty()) {return List.of();}
+        overlaps.sort(java.util.Comparator.comparingDouble(DriveOverlap::score).reversed());
+
+        var formativeMemories = cognitiveNodes.stream()
+                                              .filter(n -> "formative-experience".equals(n.properties().get("cognitiveKind")))
+                                              .filter(n -> agentId.equals(n.properties().get("agent-id")))
+                                              .toList();
+
+        var result = new java.util.ArrayList<String>();
+        for (var o : overlaps) {
+            if (result.size() >= 2) {break;}
+            var memories = formativeMemories.stream()
+                                            .filter(m -> {
+                                                String types = m.properties().getOrDefault("situation-types", "");
+                                                return java.util.Arrays.asList(types.split(",")).contains(o.driveType());
+                                            })
+                                            .limit(2)
+                                            .map(m -> {
+                                                String text = m.name().replaceAll("\\{\\{serves: [\\w-]+\\|\\w+: ", "").replace("}}", "");
+                                                if (text.length() > 100) {
+                                                    int end = text.lastIndexOf(' ', 100);
+                                                    if (end < 40) {end = 100;}
+                                                    text = text.substring(0, end) + "...";
+                                                }
+                                                return "A memory surfaces — " + text;
+                                            })
+                                            .toList();
+            result.addAll(memories);
+        }
+        return result;
+    }
+
 
     // Relative overlap threshold for CAPS profile discrimination (Mischel & Shoda 1995)
     // overlap/profileTotal must reach 0.15 to filter point-match from pattern-match
@@ -728,6 +789,58 @@ public final class CharacterCognition {
 
         return included;
     }
+
+    List<SocialConfig.Drive> appraisalFilterDrives(
+            List<SocialConfig.Drive> eligible,
+            io.casehub.neocortex.caps.SituationContext situationContext,
+            Collection<String> nearbyAgentIds) {
+        if (mindMapStore == null || tenantId == null) {return eligible;}
+        if (situationContext.isEmpty()) {
+            lastClassifierActive = false;
+            return eligible;
+        }
+        lastClassifierActive = true;
+
+        var profiles = readDriveProfiles();
+        if (profiles.isEmpty()) {return eligible;}
+
+        var included = new java.util.ArrayList<SocialConfig.Drive>();
+        var excluded = new java.util.ArrayList<String>();
+        for (var d : eligible) {
+            String inputs = profiles.get(d.type());
+            if (inputs == null) {
+                included.add(d);
+            } else {
+                double overlap = computeInputOverlap(inputs, situationContext.confidenceMap());
+                double resting = d.intensity() * d.intensity() * RESTING_WEIGHT;
+                if (overlap + resting >= OVERLAP_THRESHOLD) {
+                    included.add(d);
+                } else {
+                    excluded.add(d.type());
+                }
+            }
+        }
+
+        var activationStr = situationContext.activations().stream()
+                                            .map(sa -> sa.nodeId() + ":" + String.format("%.2f", sa.confidence()))
+                                            .collect(java.util.stream.Collectors.joining(", "));
+        var includedStr = included.stream().map(SocialConfig.Drive::type)
+                                  .collect(java.util.stream.Collectors.joining(", "));
+        var ratioStr = eligible.stream()
+                               .map(d -> {
+                                   String inputs = profiles.get(d.type());
+                                   if (inputs == null) {return d.type() + "=no-profile";}
+                                   double overlap = computeInputOverlap(inputs, situationContext.confidenceMap());
+                                   double resting = d.intensity() * d.intensity() * RESTING_WEIGHT;
+                                   return d.type() + "=" + String.format("%.3f(overlap=%.3f,resting=%.3f)", overlap + resting, overlap, resting);
+                               })
+                               .collect(java.util.stream.Collectors.joining(", "));
+        System.out.printf("[appraisal-filter] %s | situation=[%s] | ratios=[%s] | rendered=[%s] | filtered=[%s]%n",
+                          agentId, activationStr, ratioStr, includedStr, String.join(", ", excluded));
+
+        return included;
+    }
+
 
     private Map<String, String> readDriveProfiles() {
         if (mindMapStore == null || tenantId == null) {return Map.of();}

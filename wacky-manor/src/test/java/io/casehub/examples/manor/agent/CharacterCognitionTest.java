@@ -531,6 +531,75 @@ class CharacterCognitionTest {
     }
 
     @Test
+    void appraisalFilterDrives_withSituationContext_usesPreComputedActivations() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent  = "test-agent";
+        var tenant = "ctx-filter-test";
+        var sgId   = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-scheming", sgId)
+                                                            .withTraits(java.util.Set.of("DriveProfileInferred"))
+                                                            .withProperties(Map.of("agent-id", agent, "drive-type", "scheming", "inferred-inputs", "reward:0.8,punishment:0.3")), tenant);
+
+        var drives       = List.of(new SocialConfig.Drive("scheming", 0.7, "loves scheming", "any"));
+        var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of(), null);
+        var cognition = new CharacterCognition(agent, null, null, socialConfig, List.of(),
+                                               null, new ManorContextStrategy(), null, null, tenant, store, null, null);
+
+        var ctx = io.casehub.neocortex.caps.SituationContext.from(
+                List.of(new io.casehub.neocortex.caps.SituationActivation("reward", 0.9)));
+
+        var filtered = cognition.appraisalFilterDrives(drives, ctx, List.of());
+
+        assertThat(filtered).hasSize(1);
+        assertThat(filtered.getFirst().type()).isEqualTo("scheming");
+    }
+
+    @Test
+    void appraisalFilterDrives_emptySituationContext_returnsAllDrives() {
+        var drives       = List.of(new SocialConfig.Drive("scheming", 0.7, "desc", "any"));
+        var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of(), null);
+        var cognition    = new CharacterCognition("test", null, null, socialConfig, List.of());
+
+        var filtered = cognition.appraisalFilterDrives(drives, io.casehub.neocortex.caps.SituationContext.EMPTY, List.of());
+
+        assertThat(filtered).isEqualTo(drives);
+    }
+
+    @Test
+    void selectSituationPrimedMemories_withSituationContext_surfacesMemories() {
+        var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent  = "peter-perfect";
+        var tenant = "ctx-priming-test";
+        var sgId   = store.createSubgraph(new io.casehub.neocortex.mindmap.SubgraphInput("cognitive-" + agent, io.casehub.neocortex.mindmap.SubgraphTypes.COGNITIVE, null), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("The girl from school was in trouble — you stepped in", sgId)
+                                                            .withProperties(Map.of("cognitiveKind", "formative-experience", "agent-id", agent, "situation-types", "gallantry")), tenant);
+        store.addNode(io.casehub.neocortex.mindmap.NodeInput.of("drive-profile-gallantry", sgId)
+                                                            .withTraits(java.util.Set.of("DriveProfileInferred"))
+                                                            .withProperties(Map.of("agent-id", agent, "drive-type", "gallantry", "inferred-inputs", "acceptance:0.7")), tenant);
+
+        var cognition = new CharacterCognition(agent, null, null, SocialConfig.empty(), List.of(),
+                                               null, new ManorContextStrategy(), null, null, tenant, store, null, null);
+
+        var ctx = io.casehub.neocortex.caps.SituationContext.from(
+                List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.8)));
+
+        var result = cognition.selectSituationPrimedMemories(ctx, List.of("gallantry"));
+
+        assertThat(result).isNotEmpty();
+        assertThat(result.getFirst()).contains("memory surfaces");
+    }
+
+    @Test
+    void selectSituationPrimedMemories_emptySituationContext_returnsEmpty() {
+        var cognition = new CharacterCognition("test", null);
+
+        var result = cognition.selectSituationPrimedMemories(io.casehub.neocortex.caps.SituationContext.EMPTY, List.of("scheming"));
+
+        assertThat(result).isEmpty();
+    }
+
+
+    @Test
     void phase1Only_missingDifferentiationAndPriming() {
         var store  = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
         var agent  = "peter-perfect";
