@@ -410,6 +410,26 @@ public class PlaybookOrchestrator {
             if (actingThisTick.isEmpty()) continue;
 
             // Phase 1: build observations in parallel (no LLM calls)
+            // Pre-compute cognitive sections SEQUENTIALLY — mindMapStore uses synchronized,
+            // which pins virtual thread carriers when called from parallel virtual threads
+            var preCogSections = new java.util.HashMap<String, java.util.List<io.casehub.blocks.summarisation.observation.affordance.ObservationSection>>();
+            var preTagSections = new java.util.HashMap<String, java.util.List<String>>();
+            for (var c : actingThisTick) {
+                var cognition = cognitions.get(c.agentId());
+                var nearbyIds = world.charactersInRoom(c.currentRoom()).stream()
+                        .map(io.casehub.examples.manor.model.CharacterState::agentId)
+                        .filter(id -> !id.equals(c.agentId()))
+                        .toList();
+                var agentNameMap = new java.util.HashMap<String, String>();
+                for (var id : nearbyIds) {
+                    var nearby = world.character(id);
+                    if (nearby != null) agentNameMap.put(id, nearby.name());
+                }
+                preCogSections.put(c.agentId(), cognition.renderCognitiveSections(c, nearbyIds, agentNameMap));
+                preTagSections.put(c.agentId(), cognition.renderTaggedSections());
+            }
+
+            // Phase 1: assemble observations in parallel (no synchronized code)
             var prompts = TickExecutor.buildObservationsParallel(actingThisTick, world, (c, w) -> {
                 var cognition = cognitions.get(c.agentId());
                 var drain = dispatcher.observationService().drain(c.agentId(), System.currentTimeMillis());
@@ -426,22 +446,13 @@ public class PlaybookOrchestrator {
                 var memories = cognition.recallMemories(config.memory().recallLimit());
                 var worldProvider = new ManorWorldObservationProvider(c, w, drain);
                 var obsPipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
-                var nearbyIds = w.charactersInRoom(c.currentRoom()).stream()
-                        .map(io.casehub.examples.manor.model.CharacterState::agentId)
-                        .filter(id -> !id.equals(c.agentId()))
-                        .toList();
-                var agentNameMap = new java.util.HashMap<String, String>();
-                for (var id : nearbyIds) {
-                    var nearby = w.character(id);
-                    if (nearby != null) agentNameMap.put(id, nearby.name());
-                }
                 return new io.casehub.examples.manor.agent.ObservationBuilder(worldProvider, obsPipeline, c.capabilityTags())
                         .withCharacter(c)
                         .withGoals(resolveGoals(c.agentId()))
                         .withDrain(drain)
                         .withMemories(memories, reflections, relationships)
-                        .withCognitiveSections(cognition.renderCognitiveSections(c, nearbyIds, agentNameMap))
-                        .withTaggedSections(cognition.renderTaggedSections())
+                        .withCognitiveSections(preCogSections.get(c.agentId()))
+                        .withTaggedSections(preTagSections.get(c.agentId()))
                         .build() + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
             }, java.time.Duration.ofSeconds(30));
 
