@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -141,8 +142,10 @@ class TickExecutorTest {
                 "bob", new CharacterCognition("bob", null, null, SocialConfig.empty(), List.of(),
                                               null, new ManorContextStrategy(), null, null, "t", store, null, classifier));
 
+        var world = new io.casehub.examples.manor.engine.WorldState(Map.of(), Map.of("alice", alice, "bob", bob));
+
         var results = TickExecutor.preComputeSituationContexts(
-                characters, cognitions, Duration.ofSeconds(5));
+                characters, world, cognitions, Duration.ofSeconds(5));
 
         assertThat(results).containsKey("alice");
         assertThat(results).containsKey("bob");
@@ -164,8 +167,10 @@ class TickExecutorTest {
                 "slow", new CharacterCognition("slow", null, null, SocialConfig.empty(), List.of(),
                                                null, new ManorContextStrategy(), null, null, "t", store, null, classifier));
 
+        var world = new io.casehub.examples.manor.engine.WorldState(Map.of(), Map.of("slow", slow));
+
         var results = TickExecutor.preComputeSituationContexts(
-                List.of(slow), cognitions, Duration.ofMillis(100));
+                List.of(slow), world, cognitions, Duration.ofMillis(100));
 
         assertThat(results.get("slow").isEmpty()).isTrue();
     }
@@ -179,8 +184,10 @@ class TickExecutorTest {
                 "fresh", new CharacterCognition("fresh", null, null, SocialConfig.empty(), List.of(),
                                                 null, new ManorContextStrategy(), null, null, "t", store, null, null));
 
+        var world = new io.casehub.examples.manor.engine.WorldState(Map.of(), Map.of("fresh", fresh));
+
         var results = TickExecutor.preComputeSituationContexts(
-                List.of(fresh), cognitions, Duration.ofSeconds(5));
+                List.of(fresh), world, cognitions, Duration.ofSeconds(5));
 
         assertThat(results).containsKey("fresh");
         assertThat(results.get("fresh").isEmpty()).isTrue();

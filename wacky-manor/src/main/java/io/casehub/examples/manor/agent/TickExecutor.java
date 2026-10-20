@@ -71,6 +71,7 @@ public class TickExecutor {
 
     public static Map<String, io.casehub.neocortex.caps.SituationContext> preComputeSituationContexts(
             List<CharacterState> characters,
+            WorldState world,
             Map<String, CharacterCognition> cognitions,
             Duration timeout) {
         var results = new ConcurrentHashMap<String, io.casehub.neocortex.caps.SituationContext>();
@@ -84,8 +85,12 @@ public class TickExecutor {
                         results.put(c.agentId(), io.casehub.neocortex.caps.SituationContext.EMPTY);
                         return;
                     }
+                    var nearbyIds = world.charactersInRoom(c.currentRoom()).stream()
+                                         .map(io.casehub.examples.manor.model.CharacterState::agentId)
+                                         .filter(id -> !id.equals(c.agentId()))
+                                         .toList();
                     String situationText = c.lastActionResult();
-                    results.put(c.agentId(), cognition.classifySituation(situationText, List.of()));
+                    results.put(c.agentId(), cognition.classifySituation(situationText, nearbyIds));
                 } catch (Exception e) {
                     log.warnf("%s: situation classification failed: %s", c.agentId(), e.getMessage());
                     results.put(c.agentId(), io.casehub.neocortex.caps.SituationContext.EMPTY);
