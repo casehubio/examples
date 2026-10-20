@@ -17,7 +17,7 @@ public class SessionPoolBeans {
     SessionPoolRegistry sessionPoolRegistry(BackendInstanceRegistry backendRegistry) {
         return new SessionPoolRegistry(
                 List.of(new PoolDeclaration(
-                        "character-pool", "character", "claude", 0, 6, null, null, null)),
+                        "character-pool", "character", "claude", 0, 12, null, null, null)),
                 backendRegistry);
     }
 }
