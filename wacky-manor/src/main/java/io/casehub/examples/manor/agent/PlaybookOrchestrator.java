@@ -355,6 +355,12 @@ public class PlaybookOrchestrator {
                 .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
                 .toList();
 
+        var pipelineClassifier = new PipelineSituationClassifier(capsEngine.topology());
+        for (var c : activeAgents) {
+            sessionPipeline.openSession("classify:" + c.agentId(),
+                    io.casehub.platform.agent.AgentSessionInit.of(pipelineClassifier.systemPrompt()));
+        }
+
         CognitiveSnapshotRecorder snapshotRecorder = null;
         int snapshotInterval = config.cognitiveSnapshot().intervalTicks();
         if (snapshotInterval > 0) {
@@ -367,6 +373,7 @@ public class PlaybookOrchestrator {
         }
 
         int tick = 0;
+        var previousSituationContexts = new java.util.concurrent.ConcurrentHashMap<String, io.casehub.neocortex.caps.SituationContext>();
         while (!world.isScenarioComplete()) {
             tick++;
 
@@ -411,10 +418,6 @@ public class PlaybookOrchestrator {
                     .toList();
             if (actingThisTick.isEmpty()) continue;
 
-            // Phase 0: pre-compute situation classifications (LLM calls — separated from render)
-            var situationContexts = TickExecutor.preComputeSituationContexts(
-                actingThisTick, world, cognitions, java.time.Duration.ofSeconds(45));
-
             // Phase 1: build observations (render is now purely mechanical — no LLM calls)
             var preCogSections = new java.util.HashMap<String, java.util.List<io.casehub.blocks.summarisation.observation.affordance.ObservationSection>>();
             var preTagSections = new java.util.HashMap<String, java.util.List<String>>();
@@ -429,7 +432,7 @@ public class PlaybookOrchestrator {
                     var nearby = world.character(id);
                     if (nearby != null) agentNameMap.put(id, nearby.name());
                 }
-                var sitCtx = situationContexts.getOrDefault(c.agentId(), io.casehub.neocortex.caps.SituationContext.EMPTY);
+                var sitCtx = previousSituationContexts.getOrDefault(c.agentId(), io.casehub.neocortex.caps.SituationContext.EMPTY);
                 var cogFuture = java.util.concurrent.CompletableFuture.supplyAsync(() ->
                         cognition.renderCognitiveSections(c, nearbyIds, agentNameMap, sitCtx));
                 var tagFuture = java.util.concurrent.CompletableFuture.supplyAsync(() ->
@@ -637,6 +640,37 @@ public class PlaybookOrchestrator {
                             io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.NONE);
                     }
                 }
+            }
+
+            // Post-batch classification: sticky pipeline sessions, fair ticket ordering
+            var classifyPrompts = new java.util.HashMap<String, String>();
+            for (var c : activeAgents) {
+                if (!c.isActive()) continue;
+                var nearbyIds = world.charactersInRoom(c.currentRoom()).stream()
+                        .map(io.casehub.examples.manor.model.CharacterState::agentId)
+                        .filter(id -> !id.equals(c.agentId()))
+                        .toList();
+                var cognition = cognitions.get(c.agentId());
+                var metadata = cognition != null ? cognition.buildSituationMetadata(nearbyIds) : java.util.Map.<String, String>of();
+                String userPrompt = pipelineClassifier.buildUserPrompt(c.lastActionResult(), metadata);
+                if (userPrompt != null) {
+                    classifyPrompts.put("classify:" + c.agentId(), userPrompt);
+                }
+            }
+            if (!classifyPrompts.isEmpty()) {
+                long classifyStart = System.currentTimeMillis();
+                var classResults = TickExecutor.queryPipeline(classifyPrompts, sessionPipeline, 1, java.time.Duration.ofSeconds(30));
+                previousSituationContexts.clear();
+                int classified = 0;
+                for (var c : activeAgents) {
+                    if (!c.isActive()) continue;
+                    String raw = classResults.get("classify:" + c.agentId());
+                    var ctx = pipelineClassifier.parseResponse(raw);
+                    previousSituationContexts.put(c.agentId(), ctx);
+                    if (!ctx.isEmpty()) classified++;
+                }
+                log.infof("Situation classification: %d/%d classified in %dms",
+                        classified, classifyPrompts.size(), System.currentTimeMillis() - classifyStart);
             }
 
             if (config.consolidation().enabled()

@@ -672,7 +672,7 @@ public final class CharacterCognition {
         return overlap / profileTotal;
     }
 
-    private Map<String, String> buildSituationMetadata(Collection<String> nearbyAgentIds) {
+    Map<String, String> buildSituationMetadata(Collection<String> nearbyAgentIds) {
         if (nearbyAgentIds == null || nearbyAgentIds.isEmpty()) return Map.of();
         var nearby = new java.util.StringJoiner(", ");
         for (var schema : socialConfig.relationalSchemas()) {
