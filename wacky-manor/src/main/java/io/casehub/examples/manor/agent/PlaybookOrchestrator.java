@@ -413,7 +413,7 @@ public class PlaybookOrchestrator {
 
             // Phase 0: pre-compute situation classifications (LLM calls — separated from render)
             var situationContexts = TickExecutor.preComputeSituationContexts(
-                actingThisTick, world, cognitions, java.time.Duration.ofSeconds(10));
+                actingThisTick, world, cognitions, java.time.Duration.ofSeconds(45));
 
             // Phase 1: build observations (render is now purely mechanical — no LLM calls)
             var preCogSections = new java.util.HashMap<String, java.util.List<io.casehub.blocks.summarisation.observation.affordance.ObservationSection>>();

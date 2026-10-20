@@ -24,8 +24,8 @@ public class CapsProducer {
                                      .orElseThrow(() -> new IllegalStateException("No 'claude' backend for classifier pool"));
         var pool = new io.casehub.platform.agent.session.SessionPool(backend,
                                                                      new io.casehub.platform.agent.session.SessionPoolConfig(
-                                                                             "classifier-pool", "claude", 0, 6,
-                                                                             java.time.Duration.ofSeconds(120), java.time.Duration.ofSeconds(5)));
+                                                                             "classifier-pool", "claude", 0, 3,
+                                                                             java.time.Duration.ofSeconds(120), java.time.Duration.ofSeconds(30)));
         return new LlmSituationClassifier(pool, engine.topology());
     }
 }
