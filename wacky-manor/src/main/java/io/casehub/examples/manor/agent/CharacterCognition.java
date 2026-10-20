@@ -199,6 +199,19 @@ public final class CharacterCognition {
     }
 
 
+    public io.casehub.neocortex.caps.SituationContext classifySituation(String situationText, Collection<String> nearbyAgentIds) {
+        if (situationClassifier == null || situationText == null || situationText.isBlank()) {
+            return io.casehub.neocortex.caps.SituationContext.EMPTY;
+        }
+        try {
+            var metadata    = buildSituationMetadata(nearbyAgentIds);
+            var activations = situationClassifier.classify(situationText, metadata);
+            return io.casehub.neocortex.caps.SituationContext.from(activations);
+        } catch (Exception e) {
+            return io.casehub.neocortex.caps.SituationContext.EMPTY;
+        }
+    }
+
     // Section ordering follows Lazarus (1991) appraisal process flow
     public List<ObservationSection> renderCognitiveSections(
             CharacterState character,
@@ -299,6 +312,122 @@ public final class CharacterCognition {
                     agentId, tenantId, null, activatedDrives);
             for (var section : cognitionCore.promptSections()) {
                 if (section.blockTag() != null) continue;
+                var text = section.render(ctx);
+                if (text != null && !text.isBlank()) {
+                    sections.add(adaptPromptSection(text));
+                }
+            }
+        }
+
+        var personaSection = PersonaActivationSection.resolve(
+                socialConfig.personaConstraint(), nearbyAgentIds);
+        if (personaSection != null) {
+            sections.add(personaSection);
+        }
+
+        return sections;
+    }
+
+    public List<ObservationSection> renderCognitiveSections(
+            CharacterState character,
+            Collection<String> nearbyAgentIds,
+            Map<String, String> agentNames,
+            io.casehub.neocortex.caps.SituationContext situationContext) {
+        var sections = new ArrayList<ObservationSection>();
+
+        if (!socialConfig.tendencies().isEmpty()) {
+            sections.add(ObservationSection.items(
+                    "Your Behavioral Tendencies", null, socialConfig.tendencies()));
+        }
+
+        if (mindMapStore != null && tenantId != null) {
+            var beliefSubgraphName = ManorCognitiveSeeder.subgraphName(agentId);
+            var subgraphs          = mindMapStore.listSubgraphs(tenantId);
+            var beliefSg = subgraphs.stream()
+                                    .filter(sg -> beliefSubgraphName.equals(sg.name()))
+                                    .findFirst();
+            if (beliefSg.isPresent()) {
+                var nodes = mindMapStore.nodesIn(beliefSg.get().id(), tenantId);
+                var beliefNodes = nodes.stream()
+                                       .filter(n -> n.traits().contains("Belieflike"))
+                                       .toList();
+                if (!beliefNodes.isEmpty()) {
+                    var revisedKeys = new java.util.HashSet<String>();
+                    var beliefs     = new java.util.ArrayList<io.casehub.blocks.agentic.belief.Belief<String>>();
+                    for (var node : beliefNodes) {
+                        var key          = node.property("subject").orElse(node.name());
+                        var value        = node.name();
+                        int entrenchment = (int) (node.confidence().value() * 10);
+                        beliefs.add(io.casehub.blocks.agentic.belief.Belief.of(key, value, entrenchment));
+                        if ("belief-revision".equals(node.provenance())) {
+                            revisedKeys.add(key);
+                        }
+                    }
+                    sections.add(io.casehub.blocks.summarisation.observation.affordance
+                                         .CognitiveObservationSections.beliefsSection(beliefs, revisedKeys));
+                }
+            }
+        } else if (!socialConfig.initialBeliefs().isEmpty()) {
+            var items = socialConfig.initialBeliefs().stream()
+                                    .map(SocialConfig.InitialBelief::value)
+                                    .toList();
+            sections.add(ObservationSection.items("Your Beliefs", null, items));
+        }
+
+        var selectedNorms = contextStrategy.selectNorms(socialConfig.norms(), agentNames.values(), character.inventory());
+        if (!selectedNorms.isEmpty()) {
+            var items = selectedNorms.stream()
+                                     .map(SocialConfig.NormEntry::rule)
+                                     .toList();
+            sections.add(ObservationSection.items("Social Rules", null, items));
+        }
+
+        sections.addAll(renderSocialAwareness(nearbyAgentIds, agentNames));
+
+        sections.addAll(renderTheoryOfMind(nearbyAgentIds, agentNames));
+
+        if (!socialConfig.personalityFacets().isEmpty()) {
+            sections.add(renderPersonalityFacets());
+        }
+
+        var activatedCategories = (cognitionCore != null)
+                                  ? cognitionCore.activatedDriveCategories()
+                                  : java.util.List.<String>of();
+        var internalState = renderInternalState(activatedCategories, character.lastActionResult(), nearbyAgentIds, situationContext);
+        if (internalState != null) {
+            sections.add(internalState);
+        }
+
+        if (!socialConfig.formationMemories().isEmpty()) {
+            sections.add(renderFormationMemories());
+        }
+
+        if (socialConfig.substrate() != null && !socialConfig.substrate().isBlank()) {
+            sections.add(ObservationSection.text("What Shaped You", socialConfig.substrate()));
+        }
+
+        if (!socialConfig.relationalSchemas().isEmpty() && !nearbyAgentIds.isEmpty()) {
+            var schemaSection = renderRelationalSchemas(nearbyAgentIds, agentNames);
+            if (schemaSection != null) {
+                sections.add(schemaSection);
+            }
+        }
+
+        if (socialConfig.attachment() != null) {
+            sections.add(renderAttachmentStyle());
+        }
+
+        var trustSections = renderTrustSections();
+        if (!trustSections.isEmpty()) {
+            sections.addAll(trustSections);
+        }
+
+        if (cognitionCore != null && tenantId != null) {
+            var activatedDrives = cognitionCore.activatedDriveCategories();
+            var ctx = new io.casehub.neocortex.cognition.prompt.CognitionRenderContext(
+                    agentId, tenantId, null, activatedDrives);
+            for (var section : cognitionCore.promptSections()) {
+                if (section.blockTag() != null) {continue;}
                 var text = section.render(ctx);
                 if (text != null && !text.isBlank()) {
                     sections.add(adaptPromptSection(text));
@@ -452,6 +581,100 @@ public final class CharacterCognition {
 
         return ObservationSection.text("What Pulls at You", String.join("\n\n", parts));
     }
+
+    ObservationSection renderInternalState(List<String> activatedCategories, String situationText,
+                                           Collection<String> nearbyAgentIds,
+                                           io.casehub.neocortex.caps.SituationContext situationContext) {
+        var drives                = resolveAdaptedDrives();
+        var generatedDescriptions = readGeneratedDriveDescriptions();
+
+        java.util.function.Function<SocialConfig.Drive, String> descriptionFor = d -> {
+            String generated = generatedDescriptions.get(d.type());
+            return generated != null ? generated : d.description();
+        };
+
+        var eligible = drives.stream()
+                             .filter(d -> d.intensity() > 0.2 && !descriptionFor.apply(d).isBlank())
+                             .toList();
+
+        var filtered = appraisalFilterDrives(eligible, situationContext, nearbyAgentIds);
+
+        var driveDescriptions = filtered.stream()
+                                        .sorted(java.util.Comparator.comparingDouble(SocialConfig.Drive::intensity).reversed())
+                                        .map(descriptionFor)
+                                        .toList();
+
+        var parts = new java.util.ArrayList<>(driveDescriptions);
+
+        int memoryCount       = 0;
+        int attractorCount    = 0;
+        int diffTextCount     = 0;
+        int selfStandardCount = 0;
+        int prioritySigCount  = 0;
+
+        if (mindMapStore != null && tenantId != null) {
+            var subgraphs = mindMapStore.listSubgraphs(tenantId);
+
+            var selfStandards = readSelfStandards(subgraphs);
+            for (var d : filtered) {
+                String standard = selfStandards.get(d.type());
+                if (standard != null && !standard.isBlank()) {
+                    parts.add(standard);
+                    selfStandardCount++;
+                }
+            }
+
+            var primedMemories = selectSituationPrimedMemories(situationContext, activatedCategories);
+            if (!primedMemories.isEmpty()) {
+                parts.addAll(primedMemories);
+                memoryCount = primedMemories.size();
+            }
+
+            var attractorLines = subgraphs.stream()
+                                          .filter(s -> "behavioral".equals(s.type()))
+                                          .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
+                                          .filter(n -> n.traits().contains("CapsGenerated"))
+                                          .filter(n -> agentId.equals(n.properties().get("agent-id")))
+                                          .filter(n -> {
+                                              var str = n.properties().get("strength");
+                                              return str != null && Double.parseDouble(str) > 0.1;
+                                          })
+                                          .sorted(java.util.Comparator.comparingDouble(
+                                                  (io.casehub.neocortex.mindmap.MindMapNode n) -> {
+                                                      var str = n.properties().get("strength");
+                                                      return str != null ? Double.parseDouble(str) : 0.0;
+                                                  }).reversed())
+                                          .limit(5)
+                                          .map(this::renderAttractorAsFelt)
+                                          .toList();
+            if (!attractorLines.isEmpty()) {
+                parts.addAll(attractorLines);
+                attractorCount = attractorLines.size();
+            }
+
+            if (lastClassifierActive) {
+                var activeDriveTypes = filtered.stream().map(SocialConfig.Drive::type).collect(java.util.stream.Collectors.toSet());
+                var diffTexts        = readDriveDifferentiation(subgraphs, activeDriveTypes);
+                parts.addAll(diffTexts);
+                diffTextCount = diffTexts.size();
+            }
+
+            if (filtered.size() >= 2) {
+                var prioritySigs = readPrioritySignatures(subgraphs, filtered);
+                parts.addAll(prioritySigs);
+                prioritySigCount = prioritySigs.size();
+            }
+        }
+
+        if (parts.isEmpty()) {return null;}
+
+        var driveNames = filtered.stream().map(SocialConfig.Drive::type).collect(java.util.stream.Collectors.joining(", "));
+        System.out.printf("[observation-assembly] %s | drives=%d [%s] | selfStandards=%d | diffTexts=%d | prioritySigs=%d | memories=%d | attractors=%d | totalParts=%d%n",
+                          agentId, filtered.size(), driveNames, selfStandardCount, diffTextCount, prioritySigCount, memoryCount, attractorCount, parts.size());
+
+        return ObservationSection.text("What Pulls at You", String.join("\n\n", parts));
+    }
+
 
     // Attractor intensity labeling — Russell (1980) circumplex distance-from-origin
     private String renderAttractorAsFelt(io.casehub.neocortex.mindmap.MindMapNode node) {

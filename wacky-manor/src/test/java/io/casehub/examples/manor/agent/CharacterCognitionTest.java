@@ -598,6 +598,49 @@ class CharacterCognitionTest {
         assertThat(result).isEmpty();
     }
 
+    @Test
+    void renderCognitiveSections_withSituationContext_neverCallsClassifier() {
+        io.casehub.neocortex.caps.SituationClassifier throwingClassifier = (desc, meta) -> {
+            throw new AssertionError("Classifier must not be called when SituationContext is provided");
+        };
+        var drives       = List.of(new SocialConfig.Drive("scheming", 0.7, "loves scheming", "any"));
+        var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of(), null);
+        var cognition = new CharacterCognition("test-agent",
+                                               null, null, socialConfig, List.of(),
+                                               null, new ManorContextStrategy(), null, null, "test-tenant",
+                                               new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore(), null, throwingClassifier);
+
+        var character = new io.casehub.examples.manor.model.CharacterState("test-agent", "Test Agent", "hall", 0.0, List.of());
+        character.setLastActionResult("You stole the key.");
+
+        var ctx = io.casehub.neocortex.caps.SituationContext.from(
+                List.of(new io.casehub.neocortex.caps.SituationActivation("reward", 0.8)));
+
+        var sections = cognition.renderCognitiveSections(character, List.of(), Map.of(), ctx);
+        assertThat(sections).isNotNull();
+    }
+
+    @Test
+    void classifySituation_returnsContextFromClassifier() {
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+                                                                           List.of(new io.casehub.neocortex.caps.SituationActivation("reward", 0.9));
+        var cognition = new CharacterCognition("test-agent",
+                                               null, null, SocialConfig.empty(), List.of(),
+                                               null, new ManorContextStrategy(), null, null, "test-tenant",
+                                               new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore(), null, classifier);
+
+        var ctx = cognition.classifySituation("something good happened", List.of());
+        assertThat(ctx.isEmpty()).isFalse();
+        assertThat(ctx.confidenceMap()).containsEntry("reward", 0.9);
+    }
+
+    @Test
+    void classifySituation_returnsEmptyForNullText() {
+        var cognition = new CharacterCognition("test-agent", null);
+        var ctx       = cognition.classifySituation(null, List.of());
+        assertThat(ctx.isEmpty()).isTrue();
+    }
+
 
     @Test
     void phase1Only_missingDifferentiationAndPriming() {
