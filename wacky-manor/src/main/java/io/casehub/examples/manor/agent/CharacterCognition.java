@@ -492,94 +492,8 @@ public final class CharacterCognition {
 
     ObservationSection renderInternalState(List<String> activatedCategories, String situationText,
                                            Collection<String> nearbyAgentIds) {
-        var drives                = resolveAdaptedDrives();
-        var generatedDescriptions = readGeneratedDriveDescriptions();
-
-        java.util.function.Function<SocialConfig.Drive, String> descriptionFor = d -> {
-            String generated = generatedDescriptions.get(d.type());
-            return generated != null ? generated : d.description();
-        };
-
-        var eligible = drives.stream()
-                             .filter(d -> d.intensity() > 0.2 && !descriptionFor.apply(d).isBlank())
-                             .toList();
-
-        var filtered = appraisalFilterDrives(eligible, situationText, nearbyAgentIds);
-
-        var driveDescriptions = filtered.stream()
-                                        .sorted(java.util.Comparator.comparingDouble(SocialConfig.Drive::intensity).reversed())
-                                        .map(descriptionFor)
-                                        .toList();
-
-        var parts = new java.util.ArrayList<>(driveDescriptions);
-
-        int memoryCount       = 0;
-        int attractorCount    = 0;
-        int diffTextCount     = 0;
-        int selfStandardCount = 0;
-        int prioritySigCount  = 0;
-
-        if (mindMapStore != null && tenantId != null) {
-            var subgraphs = mindMapStore.listSubgraphs(tenantId);
-
-            var selfStandards = readSelfStandards(subgraphs);
-            for (var d : filtered) {
-                String standard = selfStandards.get(d.type());
-                if (standard != null && !standard.isBlank()) {
-                    parts.add(standard);
-                    selfStandardCount++;
-                }
-            }
-
-            var primedMemories = selectSituationPrimedMemories(situationText, activatedCategories);
-            if (!primedMemories.isEmpty()) {
-                parts.addAll(primedMemories);
-                memoryCount = primedMemories.size();
-            }
-
-            var attractorLines = subgraphs.stream()
-                                          .filter(s -> "behavioral".equals(s.type()))
-                                          .flatMap(s -> mindMapStore.nodesIn(s.id(), tenantId).stream())
-                                          .filter(n -> n.traits().contains("CapsGenerated"))
-                                          .filter(n -> agentId.equals(n.properties().get("agent-id")))
-                                          .filter(n -> {
-                                              var str = n.properties().get("strength");
-                                              return str != null && Double.parseDouble(str) > 0.1;
-                                          })
-                                          .sorted(java.util.Comparator.comparingDouble(
-                                                  (io.casehub.neocortex.mindmap.MindMapNode n) -> {
-                                                      var str = n.properties().get("strength");
-                                                      return str != null ? Double.parseDouble(str) : 0.0;
-                                                  }).reversed())
-                                          .limit(5)
-                                          .map(this::renderAttractorAsFelt)
-                                          .toList();
-            if (!attractorLines.isEmpty()) {
-                parts.addAll(attractorLines);
-                attractorCount = attractorLines.size();
-            }
-
-            if (lastClassifierActive) {
-                var activeDriveTypes = filtered.stream().map(SocialConfig.Drive::type).collect(java.util.stream.Collectors.toSet());
-                var diffTexts        = readDriveDifferentiation(subgraphs, activeDriveTypes);
-                parts.addAll(diffTexts);
-                diffTextCount = diffTexts.size();
-            }
-
-            if (filtered.size() >= 2) {
-                var prioritySigs = readPrioritySignatures(subgraphs, filtered);
-                parts.addAll(prioritySigs);
-                prioritySigCount = prioritySigs.size();
-            }
-        }
-
-        if (parts.isEmpty()) {return null;}
-
-        var driveNames = filtered.stream().map(SocialConfig.Drive::type).collect(java.util.stream.Collectors.joining(", "));
-        System.out.printf("[observation-assembly] %s | drives=%d [%s] | selfStandards=%d | diffTexts=%d | prioritySigs=%d | memories=%d | attractors=%d | totalParts=%d%n",
-                          agentId, filtered.size(), driveNames, selfStandardCount, diffTextCount, prioritySigCount, memoryCount, attractorCount, parts.size());
-
-        return ObservationSection.text("What Pulls at You", String.join("\n\n", parts));
+        var ctx = classifySituation(situationText, nearbyAgentIds);
+        return renderInternalState(activatedCategories, situationText, nearbyAgentIds, ctx);
     }
 
     ObservationSection renderInternalState(List<String> activatedCategories, String situationText,
@@ -1019,7 +933,7 @@ public final class CharacterCognition {
             Collection<String> nearbyAgentIds) {
         if (mindMapStore == null || tenantId == null) {return eligible;}
         if (situationContext.isEmpty()) {
-            lastClassifierActive = false;
+            if (situationClassifier != null) { lastClassifierActive = false; }
             return eligible;
         }
         lastClassifierActive = true;
