@@ -86,6 +86,9 @@ public class PlaybookOrchestrator {
     jakarta.enterprise.event.Event<io.casehub.engine.trust.TrustRelevantAction> trustEvent;
     @Inject
     io.casehub.platform.agent.session.SessionPoolRegistry sessionPoolRegistry;
+    @Inject
+    @org.eclipse.microprofile.config.inject.ConfigProperty(name = "casehub.platform.agent.claude.max-concurrent-sessions", defaultValue = "12")
+    int maxConcurrentSessions;
 
     private volatile AgentProvider gatedProvider;
     private final    java.util.Map<String, String> subgraphIdCache = new java.util.concurrent.ConcurrentHashMap<>();
@@ -311,7 +314,9 @@ public class PlaybookOrchestrator {
                     (int) world.characters().values().stream()
                         .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
                         .count(),
+                    maxConcurrentSessions,
                     80_000);
+            consolidationScheduler.setSessionRegistry(sessionPipeline);
             for (var entry : world.characters().entrySet()) {
                 if (activeSet != null && !activeSet.contains(entry.getKey())) continue;
                 sessionPipeline.openSession(entry.getKey(),
