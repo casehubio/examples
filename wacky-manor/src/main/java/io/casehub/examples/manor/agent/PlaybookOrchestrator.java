@@ -247,7 +247,7 @@ public class PlaybookOrchestrator {
             significanceAccumulator.get().suspend();
         }
 
-        var cacheDir = java.nio.file.Path.of("target");
+        var cacheDir = java.nio.file.Path.of(System.getProperty("user.home"), "claude", "casehub", "consolidation-cache");
         boolean cacheRestored = false;
         if (config.consolidation().enabled() && mmStore != null) {
             cacheRestored = ConsolidationCache.restore(mmStore, ManorConstants.TENANCY_ID, profileMode.name(), cacheDir);
