@@ -37,7 +37,7 @@ public final class ExchangeRunner {
 
     public List<ManorEvent> run(CharacterState initiator, CharacterState target,
                                  String openingDialogue, WorldState world,
-                                 AgentInvocationService invocationService,
+                                 io.casehub.platform.agent.session.SessionPipeline sessionPipeline,
                                  Function<String, String> systemPromptRenderer) {
         var events = new ArrayList<ManorEvent>();
         long deadline = System.currentTimeMillis() + timeoutMs;
@@ -65,7 +65,15 @@ public final class ExchangeRunner {
             String observation = ObservationBuilder.buildObservation(exchangeProvider, null, java.util.Set.of(), responder, java.util.List.of(), new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(io.casehub.blocks.summarisation.observation.ObservationResult.empty(0), java.util.Map.of()), java.util.List.of(), java.util.List.of(), java.util.Map.of());
             String userPrompt = observation + EXCHANGE_FORMAT_INSTRUCTION;
 
-            AgentResponse response = invocationService.invoke(responderPrompt, userPrompt, responder.agentId());
+            AgentResponse response;
+            try {
+                var session = sessionPipeline.sessionFor(responder.agentId());
+                String raw = AgentInvocationService.querySessionRaw(session, userPrompt, responder.agentId());
+                response = AgentResponse.parse(raw);
+            } catch (Exception e) {
+                log.warnf("Exchange query failed for %s: %s", responder.agentId(), e.getMessage());
+                response = AgentResponse.idle();
+            }
 
             if (response.thinking() != null) {
                 responder.setCurrentThinking(response.thinking());

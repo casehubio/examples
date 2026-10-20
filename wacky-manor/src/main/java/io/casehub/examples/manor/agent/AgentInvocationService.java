@@ -10,7 +10,6 @@ import org.jboss.logging.Logger;
 import java.time.Duration;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
 public class AgentInvocationService {
 
@@ -101,6 +100,17 @@ public class AgentInvocationService {
         return new InvocationMetrics(totalCalls.get(), retries.get(),
             fallbacks.get(), totalLatencyMs.get());
     }
+
+    public static String querySessionRaw(io.casehub.platform.agent.session.ManagedSession session, String userPrompt, String agentId) {
+        var responseText = new StringBuilder();
+        session.query(userPrompt).subscribe().asStream()
+               .filter(e -> e instanceof io.casehub.platform.agent.AgentEvent.TextDelta)
+               .map(e -> ((io.casehub.platform.agent.AgentEvent.TextDelta) e).text())
+               .forEach(responseText::append);
+        System.err.println("[OK] " + agentId + ": LLM call completed");
+        return responseText.toString();
+    }
+
 
     public record InvocationMetrics(long totalCalls, long retries,
                                      long fallbacks, long totalLatencyMs) {

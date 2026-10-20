@@ -300,11 +300,23 @@ public class PlaybookOrchestrator {
         }
 
         var sessionLifecycleManager = new io.casehub.platform.agent.session.SessionLifecycleManager(sessionPoolRegistry);
-        var invocationService = new AgentInvocationService(sessionLifecycleManager, "claude", 60, 2, 2000);
 
         if (mode == io.casehub.examples.manor.model.PlaybookMode.AUTONOMOUS) {
-            runAutonomousTicks(world, activeSet, actionResolver, dispatcher, invocationService, narratorAgent, cognitions, planEvaluator, cognitionCore);
+            var sessionPipeline = new io.casehub.platform.agent.session.SessionPipeline(
+                    sessionLifecycleManager, "claude",
+                    (int) world.characters().values().stream()
+                        .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
+                        .count(),
+                    80_000);
+            for (var entry : world.characters().entrySet()) {
+                if (activeSet != null && !activeSet.contains(entry.getKey())) continue;
+                sessionPipeline.openSession(entry.getKey(),
+                        io.casehub.platform.agent.AgentSessionInit.of(renderPrompt(entry.getKey())));
+            }
+            runAutonomousTicks(world, activeSet, actionResolver, dispatcher, sessionPipeline, narratorAgent, cognitions, planEvaluator, cognitionCore);
+            sessionPipeline.shutdown();
         } else {
+            var invocationService = new AgentInvocationService(sessionLifecycleManager, "claude", 60, 2, 2000);
             runScripted(world, activeSet, actionResolver, dispatcher, invocationService,
                         triggerEvaluator, sceneDirector, narratorAgent, cognitions);
         }
@@ -331,7 +343,7 @@ public class PlaybookOrchestrator {
 
     private void runAutonomousTicks(WorldState world, java.util.Set<String> activeSet,
                                      ActionResolver actionResolver, ManorEventDispatcher dispatcher,
-                                     AgentInvocationService invocationService, NarratorAgent narratorAgent,
+                                     io.casehub.platform.agent.session.SessionPipeline sessionPipeline, NarratorAgent narratorAgent,
                                      java.util.Map<String, CharacterCognition> cognitions,
                                      ManorPlanEvaluator planEvaluator,
                                      io.casehub.neocortex.cognition.core.CognitionCore cognitionCore) {
@@ -393,10 +405,11 @@ public class PlaybookOrchestrator {
                     .toList();
             if (actingThisTick.isEmpty()) continue;
 
-            var responses = new java.util.concurrent.ConcurrentHashMap<String, AgentResponse>();
-            var latch = new java.util.concurrent.CountDownLatch(actingThisTick.size());
+            // Phase 1: build observations in parallel (no LLM calls)
+            var prompts = new java.util.concurrent.ConcurrentHashMap<String, String>();
+            var obsLatch = new java.util.concurrent.CountDownLatch(actingThisTick.size());
             for (var c : actingThisTick) {
-                Thread.ofVirtual().name(c.agentId() + "-tick-" + currentTick).start(() -> {
+                Thread.ofVirtual().name(c.agentId() + "-obs-" + currentTick).start(() -> {
                     try {
                         var cognition = cognitions.get(c.agentId());
                         var drain = dispatcher.observationService().drain(c.agentId(), System.currentTimeMillis());
@@ -412,7 +425,7 @@ public class PlaybookOrchestrator {
                         }
                         var memories = cognition.recallMemories(config.memory().recallLimit());
                         var worldProvider = new ManorWorldObservationProvider(c, world, drain);
-                        var pipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
+                        var obsPipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
                         var nearbyIds = world.charactersInRoom(c.currentRoom()).stream()
                                 .map(io.casehub.examples.manor.model.CharacterState::agentId)
                                 .filter(id -> !id.equals(c.agentId()))
@@ -422,7 +435,7 @@ public class PlaybookOrchestrator {
                             var nearby = world.character(id);
                             if (nearby != null) agentNameMap.put(id, nearby.name());
                         }
-                        String observation = new ObservationBuilder(worldProvider, pipeline, c.capabilityTags())
+                        String observation = new ObservationBuilder(worldProvider, obsPipeline, c.capabilityTags())
                                 .withCharacter(c)
                                 .withGoals(resolveGoals(c.agentId()))
                                 .withDrain(drain)
@@ -430,21 +443,34 @@ public class PlaybookOrchestrator {
                                 .withCognitiveSections(cognition.renderCognitiveSections(c, nearbyIds, agentNameMap))
                                 .withTaggedSections(cognition.renderTaggedSections())
                                 .build();
-                        String userPrompt = observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
-                        String systemPrompt = renderPrompt(c.agentId());
-                        responses.put(c.agentId(), invocationService.invoke(systemPrompt, userPrompt, c.agentId()));
+                        prompts.put(c.agentId(), observation + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION);
                     } catch (Exception e) {
-                        log.errorf(e, "%s: tick %d error", c.agentId(), currentTick);
-                        responses.put(c.agentId(), AgentResponse.idle());
+                        log.errorf(e, "%s: tick %d observation error", c.agentId(), currentTick);
                     } finally {
-                        latch.countDown();
+                        obsLatch.countDown();
                     }
                 });
             }
-            try { latch.await(); } catch (InterruptedException e) {
+            try { obsLatch.await(); } catch (InterruptedException e) {
                 Thread.currentThread().interrupt(); return;
             }
-            log.infof("Tick %d complete (%d agents)", currentTick, actingThisTick.size());
+
+            // Phase 2: query via adaptive pipeline (ticket-based concurrency)
+            var pipelineResults = sessionPipeline.executeBatch(
+                    prompts.keySet(),
+                    (agentId, session) -> {
+                        String raw = AgentInvocationService.querySessionRaw(session, prompts.get(agentId), agentId);
+                        return AgentResponse.parse(raw);
+                    },
+                    3, java.time.Duration.ofSeconds(120));
+
+            var responses = new java.util.HashMap<String, AgentResponse>();
+            for (var c : actingThisTick) {
+                var result = pipelineResults.get(c.agentId());
+                responses.put(c.agentId(), result != null ? result : AgentResponse.idle());
+            }
+            log.infof("Tick %d complete (%d agents, %d succeeded)", currentTick, actingThisTick.size(),
+                    pipelineResults.values().stream().filter(java.util.Objects::nonNull).count());
 
             var suppressed = new java.util.HashSet<String>();
             var exchangeTexts = new ArrayList<String[]>();
@@ -460,7 +486,7 @@ public class PlaybookOrchestrator {
                     } else {
                         suppressed.add(c.agentId());
                         suppressed.add(targetId);
-                        var exchangeEvents = exchangeRunner.run(c, target, response.dialogue(), world, invocationService, this::renderPrompt);
+                        var exchangeEvents = exchangeRunner.run(c, target, response.dialogue(), world, sessionPipeline, this::renderPrompt);
                         for (var event : exchangeEvents) {
                             dispatcher.publishDialogue(event, "");
                         }
