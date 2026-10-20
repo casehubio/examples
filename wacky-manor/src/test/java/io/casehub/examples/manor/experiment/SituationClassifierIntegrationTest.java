@@ -90,7 +90,7 @@ class SituationClassifierIntegrationTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        classifier = new LlmSituationClassifier(agentProvider, capsEngine.topology());
+        classifier = new LlmSituationClassifier(LlmSituationClassifier.createPool(agentProvider, 6), capsEngine.topology());
         Files.createDirectories(OUTPUT_DIR);
     }
 
@@ -270,7 +270,7 @@ class SituationClassifierIntegrationTest {
     @Test
     void fix3_lowerThreshold_detectsWeakSignal() {
         // Classify with the standard classifier — check if confidence is between 0.2 and 0.3
-        var lowThresholdClassifier = new LlmSituationClassifier(agentProvider, capsEngine.topology());
+        var lowThresholdClassifier = new LlmSituationClassifier(LlmSituationClassifier.createPool(agentProvider, 6), capsEngine.topology());
         // Can't change threshold without modifying the class, so just check the raw activations
         // The standard test already showed acceptance:0.3 — right at threshold.
         // If threshold were 0.2, would more nodes appear?

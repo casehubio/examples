@@ -61,7 +61,7 @@ class DriveProfilePipelineTest {
     void deriveAllProfiles() {
         socialConfigs = ManorSocialConfigLoader.loadForProfile("GENERIC");
         store         = new InMemoryMindMapStore();
-        classifier    = new LlmSituationClassifier(agentProvider, capsEngine.topology());
+        classifier    = new LlmSituationClassifier(LlmSituationClassifier.createPool(agentProvider, 6), capsEngine.topology());
 
         var testedAgents = allScenarios()
                                    .map(Scenario::agentId)

@@ -90,7 +90,7 @@ class PrioritySignatureReproducerTest {
         support = new LlmTestSupport(registry, renderer, agentProvider);
         configs = ManorSocialConfigLoader.loadForProfile("GENERIC");
         var topology = new CapsTopologyLoader().loadFromClasspath("caps-topology.yaml");
-        classifier = new LlmSituationClassifier(agentProvider, topology);
+        classifier = new LlmSituationClassifier(LlmSituationClassifier.createPool(agentProvider, 6), topology);
     }
 
     @Test

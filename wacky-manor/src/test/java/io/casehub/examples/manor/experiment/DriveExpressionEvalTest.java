@@ -1832,7 +1832,7 @@ class DriveExpressionEvalTest {
 
         // Real LlmSituationClassifier — same as production (Haiku + CAPS topology)
         var topology   = new io.casehub.neocortex.caps.engine.CapsTopologyLoader().loadFromClasspath("caps-topology.yaml");
-        var classifier = new io.casehub.neocortex.caps.llm.LlmSituationClassifier(agentProvider, topology);
+        var classifier = new io.casehub.neocortex.caps.llm.LlmSituationClassifier(io.casehub.neocortex.caps.llm.LlmSituationClassifier.createPool(agentProvider, 6), topology);
 
         var cognition = new CharacterCognition(agentId, null, null,
                                                socialConfig, List.of(), null, new io.casehub.examples.manor.agent.ManorContextStrategy(), null, null,

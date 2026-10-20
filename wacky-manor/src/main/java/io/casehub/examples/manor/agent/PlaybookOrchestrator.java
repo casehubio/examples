@@ -900,8 +900,14 @@ public class PlaybookOrchestrator {
 
     private io.casehub.neocortex.caps.SituationClassifier buildSituationClassifier() {
         if (llmSituationClassifier == null) {
+            var backend = backendRegistry.resolve("claude", "default")
+                                         .orElseThrow(() -> new IllegalStateException("No 'claude' backend for classifier pool"));
+            var pool = new io.casehub.platform.agent.session.SessionPool(backend,
+                                                                         new io.casehub.platform.agent.session.SessionPoolConfig(
+                                                                                 "classifier-pool", "claude", 0, 6,
+                                                                                 java.time.Duration.ofSeconds(120), java.time.Duration.ofSeconds(5)));
             llmSituationClassifier = new io.casehub.neocortex.caps.llm.LlmSituationClassifier(
-                    agentProvider, capsEngine.topology());
+                    pool, capsEngine.topology());
         }
         return llmSituationClassifier;
     }

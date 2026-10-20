@@ -45,7 +45,7 @@ class ClassifierModelComparisonTest {
 
         for (String model : MODELS) {
             var modelProvider = new ModelOverrideProvider(agentProvider, model);
-            var classifier = new LlmSituationClassifier(modelProvider, topology);
+            var classifier = new LlmSituationClassifier(LlmSituationClassifier.createPool(modelProvider, 6), topology);
 
             System.out.println("\n=== MODEL: " + model + " ===");
             for (String scenario : SCENARIOS) {
