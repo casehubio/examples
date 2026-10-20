@@ -100,12 +100,13 @@ public final class CharacterAgentLoop {
                             if (!relMems.isEmpty()) relationships.put(other.name(), relMems);
                         }
                     }
+                    var situationCtx = cognition.classifySituation(character.lastActionResult(), nearbyIds);
                     observation = new ObservationBuilder(worldProvider, pipeline, character.capabilityTags())
                         .withCharacter(character)
                         .withGoals(goals)
                         .withDrain(drain)
                         .withMemories(memories, reflections, relationships)
-                        .withCognitiveSections(cognition.renderCognitiveSections(character, nearbyIds, agentNameMap))
+                        .withCognitiveSections(cognition.renderCognitiveSections(character, nearbyIds, agentNameMap, situationCtx))
                         .withTaggedSections(cognition.renderTaggedSections())
                         .build();
                 } else {
