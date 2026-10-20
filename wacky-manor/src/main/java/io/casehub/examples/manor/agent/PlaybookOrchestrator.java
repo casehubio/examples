@@ -410,7 +410,11 @@ public class PlaybookOrchestrator {
                     .toList();
             if (actingThisTick.isEmpty()) continue;
 
-            // Phase 1: build observations
+            // Phase 0: pre-compute situation classifications (LLM calls — separated from render)
+            var situationContexts = TickExecutor.preComputeSituationContexts(
+                actingThisTick, cognitions, java.time.Duration.ofSeconds(10));
+
+            // Phase 1: build observations (render is now purely mechanical — no LLM calls)
             var preCogSections = new java.util.HashMap<String, java.util.List<io.casehub.blocks.summarisation.observation.affordance.ObservationSection>>();
             var preTagSections = new java.util.HashMap<String, java.util.List<String>>();
             for (var c : actingThisTick) {
@@ -424,8 +428,9 @@ public class PlaybookOrchestrator {
                     var nearby = world.character(id);
                     if (nearby != null) agentNameMap.put(id, nearby.name());
                 }
+                var sitCtx = situationContexts.getOrDefault(c.agentId(), io.casehub.neocortex.caps.SituationContext.EMPTY);
                 var cogFuture = java.util.concurrent.CompletableFuture.supplyAsync(() ->
-                        cognition.renderCognitiveSections(c, nearbyIds, agentNameMap));
+                        cognition.renderCognitiveSections(c, nearbyIds, agentNameMap, sitCtx));
                 var tagFuture = java.util.concurrent.CompletableFuture.supplyAsync(() ->
                         cognition.renderTaggedSections());
                 try {

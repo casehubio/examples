@@ -1,6 +1,5 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.examples.manor.engine.WorldState;
 import io.casehub.examples.manor.model.CharacterState;
 import org.junit.jupiter.api.Test;
 
@@ -119,6 +118,74 @@ class TickExecutorTest {
         assertThat(responses.get("b")).isEqualTo(AgentResponse.idle());
         assertThat(responses.get("c")).isEqualTo(AgentResponse.idle());
     }
+
+    @Test
+    void preComputeSituationContexts_classifiesPerCharacter() {
+        var alice = character("alice");
+        alice.setLastActionResult("Alice stole the key.");
+        var bob = character("bob");
+        bob.setLastActionResult("Bob waited.");
+        var characters = List.of(alice, bob);
+
+        var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> {
+            if (desc.contains("stole")) {
+                return List.of(new io.casehub.neocortex.caps.SituationActivation("reward", 0.8));
+            }
+            return List.of(new io.casehub.neocortex.caps.SituationActivation("punishment", 0.5));
+        };
+
+        var cognitions = java.util.Map.of(
+                "alice", new CharacterCognition("alice", null, null, SocialConfig.empty(), List.of(),
+                                                null, new ManorContextStrategy(), null, null, "t", store, null, classifier),
+                "bob", new CharacterCognition("bob", null, null, SocialConfig.empty(), List.of(),
+                                              null, new ManorContextStrategy(), null, null, "t", store, null, classifier));
+
+        var results = TickExecutor.preComputeSituationContexts(
+                characters, cognitions, Duration.ofSeconds(5));
+
+        assertThat(results).containsKey("alice");
+        assertThat(results).containsKey("bob");
+        assertThat(results.get("alice").confidenceMap()).containsKey("reward");
+        assertThat(results.get("bob").confidenceMap()).containsKey("punishment");
+    }
+
+    @Test
+    void preComputeSituationContexts_returnsEmptyOnTimeout() {
+        var slow = character("slow");
+        slow.setLastActionResult("Slow acted.");
+
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> {
+            try {Thread.sleep(5000);} catch (InterruptedException e) {Thread.currentThread().interrupt();}
+            return List.of();
+        };
+        var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var cognitions = java.util.Map.of(
+                "slow", new CharacterCognition("slow", null, null, SocialConfig.empty(), List.of(),
+                                               null, new ManorContextStrategy(), null, null, "t", store, null, classifier));
+
+        var results = TickExecutor.preComputeSituationContexts(
+                List.of(slow), cognitions, Duration.ofMillis(100));
+
+        assertThat(results.get("slow").isEmpty()).isTrue();
+    }
+
+    @Test
+    void preComputeSituationContexts_returnsEmptyWhenNoLastAction() {
+        var fresh = character("fresh");
+
+        var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var cognitions = java.util.Map.of(
+                "fresh", new CharacterCognition("fresh", null, null, SocialConfig.empty(), List.of(),
+                                                null, new ManorContextStrategy(), null, null, "t", store, null, null));
+
+        var results = TickExecutor.preComputeSituationContexts(
+                List.of(fresh), cognitions, Duration.ofSeconds(5));
+
+        assertThat(results).containsKey("fresh");
+        assertThat(results.get("fresh").isEmpty()).isTrue();
+    }
+
 
     private static CharacterState character(String id) {
         return new CharacterState(id, id, "entrance-hall", 0, java.util.List.of());

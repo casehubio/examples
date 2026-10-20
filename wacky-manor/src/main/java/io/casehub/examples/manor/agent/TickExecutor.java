@@ -69,6 +69,46 @@ public class TickExecutor {
         };
     }
 
+    public static Map<String, io.casehub.neocortex.caps.SituationContext> preComputeSituationContexts(
+            List<CharacterState> characters,
+            Map<String, CharacterCognition> cognitions,
+            Duration timeout) {
+        var results = new ConcurrentHashMap<String, io.casehub.neocortex.caps.SituationContext>();
+        var latch   = new CountDownLatch(characters.size());
+
+        for (var c : characters) {
+            Thread.ofVirtual().name(c.agentId() + "-classify").start(() -> {
+                try {
+                    var cognition = cognitions.get(c.agentId());
+                    if (cognition == null) {
+                        results.put(c.agentId(), io.casehub.neocortex.caps.SituationContext.EMPTY);
+                        return;
+                    }
+                    String situationText = c.lastActionResult();
+                    results.put(c.agentId(), cognition.classifySituation(situationText, List.of()));
+                } catch (Exception e) {
+                    log.warnf("%s: situation classification failed: %s", c.agentId(), e.getMessage());
+                    results.put(c.agentId(), io.casehub.neocortex.caps.SituationContext.EMPTY);
+                } finally {
+                    latch.countDown();
+                }
+            });
+        }
+
+        try {
+            if (!latch.await(timeout.toMillis(), TimeUnit.MILLISECONDS)) {
+                log.warnf("Situation classification timed out — %d of %d completed",
+                          results.size(), characters.size());
+                for (var c : characters) {
+                    results.putIfAbsent(c.agentId(), io.casehub.neocortex.caps.SituationContext.EMPTY);
+                }
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        return results;
+    }
+
 
     public static Map<String, String> queryPipeline(
             Map<String, String> prompts,
