@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 public class TickExecutor {
 
@@ -54,6 +53,22 @@ public class TickExecutor {
         }
         return prompts;
     }
+
+    public static ObservationBuilder timed(ObservationBuilder delegate) {
+        return (character, world) -> {
+            long   start = System.currentTimeMillis();
+            String label = character.agentId();
+            try {
+                String result = delegate.build(character, world);
+                log.infof("[TIMING] %s: observation built in %dms", label, System.currentTimeMillis() - start);
+                return result;
+            } catch (Exception e) {
+                log.errorf(e, "[TIMING] %s: observation failed after %dms", label, System.currentTimeMillis() - start);
+                throw e;
+            }
+        };
+    }
+
 
     public static Map<String, String> queryPipeline(
             Map<String, String> prompts,
