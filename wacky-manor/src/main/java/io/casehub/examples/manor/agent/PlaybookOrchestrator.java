@@ -299,9 +299,8 @@ public class PlaybookOrchestrator {
                 }
             }
         }
-        if (significanceAccumulator.isResolvable()) {
-            significanceAccumulator.get().resume();
-        }
+        // Keep significance accumulator suspended during scenario — its background
+        // mindMapStore writes contend with renderCognitiveSections() reads via synchronized
 
         var sessionLifecycleManager = new io.casehub.platform.agent.session.SessionLifecycleManager(sessionPoolRegistry);
 
@@ -388,12 +387,14 @@ public class PlaybookOrchestrator {
                         .collect(java.util.stream.Collectors.toSet());
             };
 
+            long cogStart = System.currentTimeMillis();
             for (var c : activeAgents) {
                 if (!c.isActive()) continue;
                 var desc0 = agentRegistry.findById(c.agentId(), ManorConstants.TENANCY_ID).orElse(null);
                 String situation = c.lastActionResult() != null ? c.lastActionResult() : "You are in the " + c.currentRoom() + ".";
                 cognitionCore.tick(c.agentId(), ManorConstants.TENANCY_ID, desc0, subjectResolver, situation);
             }
+            log.infof("Cognitive tick for %d agents in %dms", activeAgents.size(), System.currentTimeMillis() - cogStart);
 
             if (snapshotRecorder != null && snapshotRecorder.shouldCapture(currentTick)) {
                 var snapshotAgentIds = activeAgents.stream()
@@ -409,9 +410,9 @@ public class PlaybookOrchestrator {
                     .toList();
             if (actingThisTick.isEmpty()) continue;
 
-            // Phase 1: build observations in parallel (no LLM calls)
-            // Pre-compute cognitive sections SEQUENTIALLY — mindMapStore uses synchronized,
-            // which pins virtual thread carriers when called from parallel virtual threads
+            // Phase 1: build observations
+            log.infof("Tick %d: pre-computing cognitive sections for %d characters", currentTick, actingThisTick.size());
+            long preStart = System.currentTimeMillis();
             var preCogSections = new java.util.HashMap<String, java.util.List<io.casehub.blocks.summarisation.observation.affordance.ObservationSection>>();
             var preTagSections = new java.util.HashMap<String, java.util.List<String>>();
             for (var c : actingThisTick) {
@@ -428,6 +429,7 @@ public class PlaybookOrchestrator {
                 preCogSections.put(c.agentId(), cognition.renderCognitiveSections(c, nearbyIds, agentNameMap));
                 preTagSections.put(c.agentId(), cognition.renderTaggedSections());
             }
+            log.infof("Tick %d: cognitive sections computed in %dms, starting observation assembly", currentTick, System.currentTimeMillis() - preStart);
 
             // Phase 1: assemble observations in parallel (no synchronized code)
             var prompts = TickExecutor.buildObservationsParallel(actingThisTick, world, (c, w) -> {
