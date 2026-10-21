@@ -361,9 +361,15 @@ public class PlaybookOrchestrator {
                 .toList();
 
         var pipelineClassifier = new PipelineSituationClassifier(capsEngine.topology());
+        var classificationValidator = new io.casehub.neocortex.caps.engine.ClassificationValidator(capsEngine.topology());
+        var accumulators = new java.util.HashMap<String, io.casehub.neocortex.caps.engine.DegreeAccumulator>();
+        var trajectoryBuffers = new java.util.HashMap<String, java.util.ArrayList<io.casehub.neocortex.caps.TrajectoryEntry>>();
+        var classificationDue = java.util.concurrent.ConcurrentHashMap.<String>newKeySet();
         for (var c : activeAgents) {
             sessionPipeline.openSession("classify:" + c.agentId(),
                     io.casehub.platform.agent.AgentSessionInit.of(pipelineClassifier.systemPrompt()));
+            accumulators.put(c.agentId(), io.casehub.neocortex.caps.engine.DegreeAccumulator.withDefaults());
+            trajectoryBuffers.put(c.agentId(), new java.util.ArrayList<>());
         }
 
         CognitiveSnapshotRecorder snapshotRecorder = null;
@@ -647,35 +653,42 @@ public class PlaybookOrchestrator {
                 }
             }
 
-            // Post-batch classification: sticky pipeline sessions, fair ticket ordering
-            var classifyPrompts = new java.util.HashMap<String, String>();
-            for (var c : activeAgents) {
+            // Demand-driven classification: degree accumulation + inline/external routing
+            int classified = 0;
+            for (var c : actingThisTick) {
                 if (!c.isActive()) continue;
-                var nearbyIds = world.charactersInRoom(c.currentRoom()).stream()
-                        .map(io.casehub.examples.manor.model.CharacterState::agentId)
-                        .filter(id -> !id.equals(c.agentId()))
+                var response = responses.get(c.agentId());
+                if (response == null) continue;
+
+                // Process inline assessment from prior tick's classificationDue
+                if (classificationDue.remove(c.agentId()) && response.situationAssessment() != null) {
+                    var assessment = response.situationAssessment();
+                    var activations = assessment.activations().stream()
+                        .map(a -> new io.casehub.neocortex.caps.SituationActivation(a.node(), a.confidence()))
                         .toList();
-                var cognition = cognitions.get(c.agentId());
-                var metadata = cognition != null ? cognition.buildSituationMetadata(nearbyIds) : java.util.Map.<String, String>of();
-                String userPrompt = pipelineClassifier.buildUserPrompt(c.lastActionResult(), metadata);
-                if (userPrompt != null) {
-                    classifyPrompts.put("classify:" + c.agentId(), userPrompt);
-                }
-            }
-            if (!classifyPrompts.isEmpty()) {
-                long classifyStart = System.currentTimeMillis();
-                var classResults = TickExecutor.queryPipeline(classifyPrompts, sessionPipeline, 1, java.time.Duration.ofSeconds(30));
-                previousSituationContexts.clear();
-                int classified = 0;
-                for (var c : activeAgents) {
-                    if (!c.isActive()) continue;
-                    String raw = classResults.get("classify:" + c.agentId());
-                    var ctx = pipelineClassifier.parseResponse(raw);
+                    var ctx = classificationValidator.validate(activations);
                     previousSituationContexts.put(c.agentId(), ctx);
+                    trajectoryBuffers.get(c.agentId()).clear();
                     if (!ctx.isEmpty()) classified++;
                 }
-                log.infof("Situation classification: %d/%d classified in %dms",
-                        classified, classifyPrompts.size(), System.currentTimeMillis() - classifyStart);
+
+                // Feed degree to accumulator
+                double degree = response.situationChangeDegree() != null ? response.situationChangeDegree() : 0.0;
+                var accumulator = accumulators.get(c.agentId());
+                trajectoryBuffers.get(c.agentId()).add(
+                    new io.casehub.neocortex.caps.TrajectoryEntry(currentTick,
+                        c.lastActionResult() != null ? c.lastActionResult() : ""));
+
+                if (accumulator != null && accumulator.accumulate(degree)) {
+                    // Accumulator fired — mark for inline classification next tick
+                    classificationDue.add(c.agentId());
+
+                    // For external mode (future): run pipeline classifier immediately
+                    // with trajectory buffer. Currently all characters use inline.
+                }
+            }
+            if (classified > 0) {
+                log.infof("Inline classification: %d agents classified", classified);
             }
 
             if (config.consolidation().enabled()
