@@ -79,17 +79,8 @@ public class ManorConsolidationBeans {
                 5 * 60_000L);
     }
 
-    @Produces
-    @Singleton
-    io.casehub.neocortex.cognition.belief.BeliefRevisionPhase beliefRevisionPhase(
-            MindMapStore mindMapStore,
-            Instance<io.casehub.platform.agent.AgentProvider> agentProvider,
-            Instance<io.casehub.neocortex.cognition.belief.BeliefRevisionConfig> beliefConfig) {
-        return new io.casehub.neocortex.cognition.belief.BeliefRevisionPhase(
-                mindMapStore,
-                agentProvider,
-                beliefConfig);
-    }
+    // BeliefRevisionPhase removed — direct agentProvider.invoke() bypasses elastic
+    // scheduler, causing consolidation hangs. Re-enable after platform elastic fix.
 
     private static Map<String, Map<String, List<DriveReinforcementEntry>>> buildReinforcementMap() {
         var allConfigs = ManorSocialConfigLoader.load();

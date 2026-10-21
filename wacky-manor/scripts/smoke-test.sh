@@ -16,8 +16,8 @@ set -euo pipefail
 
 PORT="${1:-8180}"
 PROFILE="generic"
-TURNS=10
-CHARS="penelope-pitstop,dick-dastardly"
+TURNS=15
+CHARS="penelope-pitstop,hooded-claw,ant-hill-mob,dick-dastardly,peter-perfect"
 EXTERNAL_CHAR="dick-dastardly"
 MODULE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 AUDIT_LOG="$MODULE_DIR/docs/eval/classification-audit.jsonl"
@@ -50,7 +50,7 @@ JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f "$MODULE_DIR/pom.xml" quarkus:d
     -Dmanor.scenario.mode=autonomous \
     -Dmanor.scenario.max-turns="$TURNS" \
     -Dmanor.scenario.active-characters="$CHARS" \
-    -Dmanor.consolidation.interval-ticks=5 \
+    -Dmanor.consolidation.interval-ticks=8 \
     -Dmanor.consolidation.enabled=true \
     -Dmanor.reflection.max-unreflected=2 \
     -Dmanor.reflection.importance-threshold=1.0 \
@@ -62,6 +62,8 @@ JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f "$MODULE_DIR/pom.xml" quarkus:d
     -Dmanor.narrator.event-threshold=3 \
     -Dmanor.observation.verbatim-threshold=4 \
     -Dmanor.observation.grouped-threshold=6 \
+    -Dquarkus.log.file.enable=true \
+    -Dquarkus.log.file.path=/tmp/wacky-manor-smoke.log \
     -s "$MODULE_DIR/../.mvn/slot-settings.xml" \
     > /dev/null 2>&1 &
 SERVER_PID=$!
