@@ -309,14 +309,11 @@ public class PlaybookOrchestrator {
         var sessionLifecycleManager = new io.casehub.platform.agent.session.SessionLifecycleManager(sessionPoolRegistry);
 
         if (mode == io.casehub.examples.manor.model.PlaybookMode.AUTONOMOUS) {
+            var admission = new io.casehub.platform.agent.gate.AimdAdmissionStrategy(
+                    maxConcurrentSessions, 5, java.time.Duration.ofSeconds(10));
             var sessionPipeline = new io.casehub.platform.agent.session.SessionPipeline(
-                    sessionLifecycleManager, "claude",
-                    (int) world.characters().values().stream()
-                        .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
-                        .count(),
-                    maxConcurrentSessions,
-                    80_000);
-            consolidationScheduler.setSessionRegistry(sessionPipeline);
+                    sessionLifecycleManager, "claude", admission, 80_000);
+            consolidationScheduler.setSessionPipeline(sessionPipeline);
             for (var entry : world.characters().entrySet()) {
                 if (activeSet != null && !activeSet.contains(entry.getKey())) continue;
                 sessionPipeline.openSession(entry.getKey(),
