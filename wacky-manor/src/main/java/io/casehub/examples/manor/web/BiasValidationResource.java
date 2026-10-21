@@ -36,11 +36,20 @@ public class BiasValidationResource {
     ManorConfig config;
     @Inject
     io.casehub.platform.agent.session.SessionPoolRegistry sessionPoolRegistry;
+    @Inject
+    io.casehub.examples.manor.agent.ClassificationModeRegistry modeRegistry;
+
+    @jakarta.ws.rs.GET
+    @Path("/classification-mode")
+    @Produces("application/json")
+    public Response getClassificationMode() {
+        return Response.ok(Map.of("externalCharacters", modeRegistry.externalCharacters())).build();
+    }
 
     @POST
     @Path("/bias-validation")
     @Produces("application/json")
-    public Response runBiasValidation() {
+    public Response runBiasValidation(@jakarta.ws.rs.QueryParam("apply") @jakarta.ws.rs.DefaultValue("false") boolean apply) {
         var classificationConfig = config.classification();
         if (!classificationConfig.auditEnabled() || classificationConfig.auditLogPath() == null) {
             return Response.status(Response.Status.BAD_REQUEST)
@@ -137,14 +146,33 @@ public class BiasValidationResource {
                     "biasFlag", meanJaccard > 0.5));
         }
 
-        log.infof("Bias validation complete: %d entries, %d characters", inlineEntries.size(), characterIds.size());
+        var switched = new ArrayList<String>();
+        if (apply) {
+            for (var e : perCharacter.entrySet()) {
+                var results = e.getValue();
+                double meanJaccard = results.stream()
+                        .mapToDouble(DivergenceResult::jaccardDivergence).average().orElse(0.0);
+                if (meanJaccard > 0.5 && !modeRegistry.isExternal(e.getKey())) {
+                    modeRegistry.addExternal(e.getKey());
+                    switched.add(e.getKey());
+                    log.infof("Bias-informed switch: %s → external (mean Jaccard %.3f)", e.getKey(), meanJaccard);
+                }
+            }
+        }
 
-        return Response.ok(Map.of(
-                "status", "complete",
-                "totalAuditEntries", allEntries.size(),
-                "inlineEntries", inlineEntries.size(),
-                "characters", characterIds,
-                "summary", summary,
-                "entries", perEntry)).build();
+        log.infof("Bias validation complete: %d entries, %d characters, %d switched",
+                inlineEntries.size(), characterIds.size(), switched.size());
+
+        var result = new LinkedHashMap<String, Object>();
+        result.put("status", "complete");
+        result.put("totalAuditEntries", allEntries.size());
+        result.put("inlineEntries", inlineEntries.size());
+        result.put("characters", characterIds);
+        result.put("summary", summary);
+        result.put("entries", perEntry);
+        if (apply) {
+            result.put("switchedToExternal", switched);
+        }
+        return Response.ok(result).build();
     }
 }
