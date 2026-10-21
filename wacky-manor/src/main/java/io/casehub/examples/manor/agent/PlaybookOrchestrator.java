@@ -362,6 +362,7 @@ public class PlaybookOrchestrator {
 
         var pipelineClassifier = new PipelineSituationClassifier(capsEngine.topology());
         var classificationValidator = new io.casehub.neocortex.caps.engine.ClassificationValidator(capsEngine.topology());
+        var inlinePromptBuilder = new io.casehub.neocortex.caps.llm.InlineClassificationPromptBuilder(capsEngine.topology());
         var accumulators = new java.util.HashMap<String, io.casehub.neocortex.caps.engine.DegreeAccumulator>();
         var trajectoryBuffers = new java.util.HashMap<String, java.util.ArrayList<io.casehub.neocortex.caps.TrajectoryEntry>>();
         var classificationDue = java.util.concurrent.ConcurrentHashMap.<String>newKeySet();
@@ -488,7 +489,10 @@ public class PlaybookOrchestrator {
                         .withMemories(memories, reflections, relationships)
                         .withCognitiveSections(preCogSections.get(c.agentId()))
                         .withTaggedSections(preTagSections.get(c.agentId()))
-                        .build() + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
+                        .build() + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION
+                        + (classificationDue.contains(c.agentId())
+                            ? "\n\n" + inlinePromptBuilder.buildAssessmentInstruction(trajectoryBuffers.getOrDefault(c.agentId(), new java.util.ArrayList<>()))
+                            : "");
             }, java.time.Duration.ofSeconds(30));
 
             // Phase 2: query via adaptive pipeline
@@ -661,15 +665,22 @@ public class PlaybookOrchestrator {
                 if (response == null) continue;
 
                 // Process inline assessment from prior tick's classificationDue
-                if (classificationDue.remove(c.agentId()) && response.situationAssessment() != null) {
-                    var assessment = response.situationAssessment();
-                    var activations = assessment.activations().stream()
-                        .map(a -> new io.casehub.neocortex.caps.SituationActivation(a.node(), a.confidence()))
-                        .toList();
-                    var ctx = classificationValidator.validate(activations);
-                    previousSituationContexts.put(c.agentId(), ctx);
-                    trajectoryBuffers.get(c.agentId()).clear();
-                    if (!ctx.isEmpty()) classified++;
+                if (classificationDue.remove(c.agentId())) {
+                    if (response.situationAssessment() != null) {
+                        var assessment = response.situationAssessment();
+                        log.infof("  %s: assessment received — %s (%d activations)",
+                                c.agentId(), assessment.reasoning(),
+                                assessment.activations() != null ? assessment.activations().size() : 0);
+                        var activations = assessment.activations().stream()
+                            .map(a -> new io.casehub.neocortex.caps.SituationActivation(a.node(), a.confidence()))
+                            .toList();
+                        var ctx = classificationValidator.validate(activations);
+                        previousSituationContexts.put(c.agentId(), ctx);
+                        trajectoryBuffers.get(c.agentId()).clear();
+                        if (!ctx.isEmpty()) classified++;
+                    } else {
+                        log.warnf("  %s: classification due but no situationAssessment in response", c.agentId());
+                    }
                 }
 
                 // Feed degree to accumulator
@@ -679,12 +690,14 @@ public class PlaybookOrchestrator {
                     new io.casehub.neocortex.caps.TrajectoryEntry(currentTick,
                         c.lastActionResult() != null ? c.lastActionResult() : ""));
 
-                if (accumulator != null && accumulator.accumulate(degree)) {
-                    // Accumulator fired — mark for inline classification next tick
-                    classificationDue.add(c.agentId());
-
-                    // For external mode (future): run pipeline classifier immediately
-                    // with trajectory buffer. Currently all characters use inline.
+                if (accumulator != null) {
+                    boolean fired = accumulator.accumulate(degree);
+                    log.infof("  %s: degree=%.2f accum=%.3f%s",
+                            c.agentId(), degree, accumulator.currentLevel(),
+                            fired ? " → CLASSIFICATION DUE" : "");
+                    if (fired) {
+                        classificationDue.add(c.agentId());
+                    }
                 }
             }
             if (classified > 0) {
