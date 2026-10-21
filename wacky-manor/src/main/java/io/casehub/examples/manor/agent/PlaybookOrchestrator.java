@@ -84,9 +84,6 @@ public class PlaybookOrchestrator {
 
     @Inject
     jakarta.enterprise.event.Event<io.casehub.engine.trust.TrustRelevantAction> trustEvent;
-
-    @Inject
-    ClassificationModeRegistry                            classificationModeRegistry;
     @Inject
     io.casehub.platform.agent.session.SessionPoolRegistry sessionPoolRegistry;
     @Inject
@@ -682,7 +679,7 @@ public class PlaybookOrchestrator {
                                 c.agentId(), assessment.reasoning(),
                                 assessment.activations() != null ? assessment.activations().size() : 0);
                         var activations = assessment.activations().stream()
-                            .map(a -> new io.casehub.neocortex.caps.SituationActivation(a.node(), a.confidence(), a.source()))
+                            .map(a -> new io.casehub.neocortex.caps.SituationActivation(a.node(), a.confidence()))
                             .toList();
                         var ctx = classificationValidator.validate(activations);
                         previousSituationContexts.put(c.agentId(), ctx);
@@ -717,7 +714,7 @@ public class PlaybookOrchestrator {
                             c.agentId(), degree, accumulator.currentLevel(),
                             fired ? " → CLASSIFICATION DUE" : "");
                     if (fired) {
-                        if (classificationModeRegistry.isExternal(c.agentId())) {
+                        if (classificationConfig.isExternal(c.agentId())) {
                             // External mode: classify immediately via pipeline session
                             var trajectory = new java.util.ArrayList<>(trajectoryBuffers.get(c.agentId()));
                             var description = inlinePromptBuilder.renderTrajectoryText(trajectory);

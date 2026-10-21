@@ -73,8 +73,8 @@ public class ManorConfigProducer {
     boolean classificationAuditEnabled;
     @ConfigProperty(name = "manor.classification.audit-log-path", defaultValue = "docs/eval/classification-audit.jsonl")
     String classificationAuditLogPath;
-    @ConfigProperty(name = "manor.classification.external-characters", defaultValue = "")
-    String classificationExternalCharacters;
+    @ConfigProperty(name = "manor.classification.external-characters")
+    java.util.Optional<String> classificationExternalCharacters;
 
     @Produces
     @jakarta.inject.Singleton
@@ -92,7 +92,7 @@ public class ManorConfigProducer {
                 new ManorConfig.ConsolidationConfig(consolidationEnabled, consolidationIntervalTicks),
                 new ManorConfig.CognitiveSnapshotConfig(cognitiveSnapshotIntervalTicks),
                 new ManorConfig.AppraisalConfig(appraisalEnabled),
-                new ManorConfig.ClassificationConfig(classificationAuditEnabled, classificationAuditLogPath, classificationExternalCharacters),
+                new ManorConfig.ClassificationConfig(classificationAuditEnabled, classificationAuditLogPath, classificationExternalCharacters.orElse("")),
                 activeCharactersConfig.orElse(""),
                 maxConcurrentAgents
         );
