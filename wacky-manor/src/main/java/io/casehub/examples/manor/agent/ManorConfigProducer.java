@@ -69,7 +69,12 @@ public class ManorConfigProducer {
     int     cognitiveSnapshotIntervalTicks;
     @ConfigProperty(name = "manor.appraisal.enabled", defaultValue = "false")
     boolean appraisalEnabled;
-
+    @ConfigProperty(name = "manor.classification.audit-enabled", defaultValue = "true")
+    boolean classificationAuditEnabled;
+    @ConfigProperty(name = "manor.classification.audit-log-path", defaultValue = "docs/eval/classification-audit.jsonl")
+    String classificationAuditLogPath;
+    @ConfigProperty(name = "manor.classification.external-characters", defaultValue = "")
+    String classificationExternalCharacters;
 
     @Produces
     @jakarta.inject.Singleton
@@ -87,6 +92,7 @@ public class ManorConfigProducer {
                 new ManorConfig.ConsolidationConfig(consolidationEnabled, consolidationIntervalTicks),
                 new ManorConfig.CognitiveSnapshotConfig(cognitiveSnapshotIntervalTicks),
                 new ManorConfig.AppraisalConfig(appraisalEnabled),
+                new ManorConfig.ClassificationConfig(classificationAuditEnabled, classificationAuditLogPath, classificationExternalCharacters),
                 activeCharactersConfig.orElse(""),
                 maxConcurrentAgents
         );

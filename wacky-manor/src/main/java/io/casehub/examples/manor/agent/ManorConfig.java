@@ -13,6 +13,7 @@ public record ManorConfig(
         ConsolidationConfig consolidation,
         CognitiveSnapshotConfig cognitiveSnapshot,
         AppraisalConfig appraisal,
+        ClassificationConfig classification,
         String activeCharacters,
         int maxConcurrentAgents
 ) {
@@ -39,4 +40,13 @@ public record ManorConfig(
     public record CognitiveSnapshotConfig(int intervalTicks) {}
 
     public record AppraisalConfig(boolean enabled) {}
+
+    public record ClassificationConfig(boolean auditEnabled, String auditLogPath, String externalCharacters) {
+        public boolean isExternal(String agentId) {
+            if (externalCharacters == null || externalCharacters.isBlank()) return false;
+            return java.util.Arrays.stream(externalCharacters.split(","))
+                    .map(String::strip)
+                    .anyMatch(agentId::equals);
+        }
+    }
 }

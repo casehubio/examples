@@ -363,6 +363,13 @@ public class PlaybookOrchestrator {
         var pipelineClassifier = new PipelineSituationClassifier(capsEngine.topology());
         var classificationValidator = new io.casehub.neocortex.caps.engine.ClassificationValidator(capsEngine.topology());
         var inlinePromptBuilder = new io.casehub.neocortex.caps.llm.InlineClassificationPromptBuilder(capsEngine.topology());
+        var classificationConfig = config.classification();
+        io.casehub.neocortex.caps.engine.ClassificationAuditLog auditLog = null;
+        if (classificationConfig.auditEnabled()) {
+            auditLog = new io.casehub.neocortex.caps.engine.ClassificationAuditLog(
+                    java.nio.file.Path.of(classificationConfig.auditLogPath()));
+            log.infof("Classification audit log: %s", classificationConfig.auditLogPath());
+        }
         var accumulators = new java.util.HashMap<String, io.casehub.neocortex.caps.engine.DegreeAccumulator>();
         var trajectoryBuffers = new java.util.HashMap<String, java.util.ArrayList<io.casehub.neocortex.caps.TrajectoryEntry>>();
         var classificationDue = java.util.concurrent.ConcurrentHashMap.<String>newKeySet();
@@ -668,7 +675,7 @@ public class PlaybookOrchestrator {
                 if (classificationDue.remove(c.agentId())) {
                     if (response.situationAssessment() != null) {
                         var assessment = response.situationAssessment();
-                        log.infof("  %s: assessment received — %s (%d activations)",
+                        log.infof("  %s: inline assessment — %s (%d activations)",
                                 c.agentId(), assessment.reasoning(),
                                 assessment.activations() != null ? assessment.activations().size() : 0);
                         var activations = assessment.activations().stream()
@@ -676,8 +683,19 @@ public class PlaybookOrchestrator {
                             .toList();
                         var ctx = classificationValidator.validate(activations);
                         previousSituationContexts.put(c.agentId(), ctx);
+                        var trajectory = new java.util.ArrayList<>(trajectoryBuffers.get(c.agentId()));
                         trajectoryBuffers.get(c.agentId()).clear();
-                        if (!ctx.isEmpty()) classified++;
+                        if (!ctx.isEmpty()) {
+                            classified++;
+                            if (auditLog != null) {
+                                try {
+                                    auditLog.write(currentTick, c.agentId(), "inline",
+                                            trajectory, ctx.activations(), assessment.reasoning());
+                                } catch (java.io.IOException e) {
+                                    log.warnf("  %s: audit log write failed: %s", c.agentId(), e.getMessage());
+                                }
+                            }
+                        }
                     } else {
                         log.warnf("  %s: classification due but no situationAssessment in response", c.agentId());
                     }
@@ -696,7 +714,36 @@ public class PlaybookOrchestrator {
                             c.agentId(), degree, accumulator.currentLevel(),
                             fired ? " → CLASSIFICATION DUE" : "");
                     if (fired) {
-                        classificationDue.add(c.agentId());
+                        if (classificationConfig.isExternal(c.agentId())) {
+                            // External mode: classify immediately via pipeline session
+                            var trajectory = new java.util.ArrayList<>(trajectoryBuffers.get(c.agentId()));
+                            var description = inlinePromptBuilder.renderTrajectoryText(trajectory);
+                            var userPrompt = pipelineClassifier.buildUserPrompt(description,
+                                    java.util.Map.of("agentId", c.agentId()));
+                            var raw = sessionPipeline.executeSingle("classify:" + c.agentId(),
+                                    session -> AgentInvocationService.querySessionRaw(
+                                            (io.casehub.platform.agent.session.ManagedSession) session,
+                                            userPrompt, "classify:" + c.agentId()),
+                                    java.time.Duration.ofSeconds(60));
+                            var ctx = pipelineClassifier.parseResponse(raw);
+                            previousSituationContexts.put(c.agentId(), ctx);
+                            trajectoryBuffers.get(c.agentId()).clear();
+                            if (!ctx.isEmpty()) {
+                                classified++;
+                                log.infof("  %s: external classification — %d activations", c.agentId(), ctx.activations().size());
+                                if (auditLog != null) {
+                                    try {
+                                        auditLog.write(currentTick, c.agentId(), "external",
+                                                trajectory, ctx.activations(), null);
+                                    } catch (java.io.IOException e) {
+                                        log.warnf("  %s: audit log write failed: %s", c.agentId(), e.getMessage());
+                                    }
+                                }
+                            }
+                        } else {
+                            // Inline mode: mark for assessment in next tick's prompt
+                            classificationDue.add(c.agentId());
+                        }
                     }
                 }
             }
