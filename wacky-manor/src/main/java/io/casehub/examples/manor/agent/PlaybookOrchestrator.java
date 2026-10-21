@@ -679,7 +679,7 @@ public class PlaybookOrchestrator {
                                 c.agentId(), assessment.reasoning(),
                                 assessment.activations() != null ? assessment.activations().size() : 0);
                         var activations = assessment.activations().stream()
-                            .map(a -> new io.casehub.neocortex.caps.SituationActivation(a.node(), a.confidence()))
+                            .map(a -> new io.casehub.neocortex.caps.SituationActivation(a.node(), a.confidence(), a.source()))
                             .toList();
                         var ctx = classificationValidator.validate(activations);
                         previousSituationContexts.put(c.agentId(), ctx);
