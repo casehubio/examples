@@ -100,7 +100,7 @@ class RegulationTrackerTest {
     @Test
     void classifyBehavior_withDialogue_approach() {
         var response = new AgentResponse("thinking", "Hello Clara", null, null,
-                                         new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.WAIT, null, null));
+                                         new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.WAIT, null, null), null, null);
         assertThat(RegulationTracker.classifyBehavior(response))
                 .isEqualTo(io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.APPROACH);
     }
@@ -108,7 +108,7 @@ class RegulationTrackerTest {
     @Test
     void classifyBehavior_noDialogueWait_avoidant() {
         var response = new AgentResponse("thinking", null, null, null,
-                                         new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.WAIT, null, null));
+                                         new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.WAIT, null, null), null, null);
         assertThat(RegulationTracker.classifyBehavior(response))
                 .isEqualTo(io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT);
     }
@@ -116,7 +116,7 @@ class RegulationTrackerTest {
     @Test
     void classifyBehavior_noDialogueMove_avoidant() {
         var response = new AgentResponse("thinking", null, null, null,
-                                         new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.MOVE, "library", null));
+                                         new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.MOVE, "library", null), null, null);
         assertThat(RegulationTracker.classifyBehavior(response))
                 .isEqualTo(io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT);
     }
@@ -124,7 +124,7 @@ class RegulationTrackerTest {
     @Test
     void classifyBehavior_noDialogueLook_neutral() {
         var response = new AgentResponse("thinking", null, null, null,
-                                         new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.LOOK, "painting", null));
+                                         new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.LOOK, "painting", null), null, null);
         assertThat(RegulationTracker.classifyBehavior(response))
                 .isEqualTo(io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.NEUTRAL);
     }
@@ -132,7 +132,7 @@ class RegulationTrackerTest {
     @Test
     void classifyBehavior_noDialogueGive_approach() {
         var response = new AgentResponse("thinking", null, null, null,
-                                         new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.GIVE, "clara", "key"));
+                                         new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.GIVE, "clara", "key"), null, null);
         assertThat(RegulationTracker.classifyBehavior(response))
                 .isEqualTo(io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.APPROACH);
     }
@@ -140,14 +140,14 @@ class RegulationTrackerTest {
     @Test
     void classifyBehavior_noDialoguePullAside_approach() {
         var response = new AgentResponse("thinking", null, null, null,
-                                         new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.PULL_ASIDE, "clara", null));
+                                         new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.PULL_ASIDE, "clara", null), null, null);
         assertThat(RegulationTracker.classifyBehavior(response))
                 .isEqualTo(io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.APPROACH);
     }
 
     @Test
     void classifyBehavior_nullAction_avoidant() {
-        var response = new AgentResponse("thinking", null, null, null, null);
+        var response = new AgentResponse("thinking", null, null, null, null, null, null);
         assertThat(RegulationTracker.classifyBehavior(response))
                 .isEqualTo(io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT);
     }

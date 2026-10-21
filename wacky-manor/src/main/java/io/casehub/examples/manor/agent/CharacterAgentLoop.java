@@ -30,6 +30,7 @@ public final class CharacterAgentLoop {
                                                                      You MUST respond with ONLY a JSON object in this exact format:
                                                                      {
                                                                        "thinking": "What do you feel in your body right now? A tightness, a warmth, a prickle, a numbness? Start there — in the body, not the head. Then let the thought follow the sensation. Your thinking is your private truth — raw, unperformed, sometimes confused. The character's voice and manner belong in your dialogue. Here you are just a person feeling something. Shown to you next turn.",
+                                                                       "situationChangeDegree": 0.0-1.0,
                                                                        "dialogue": "what you say aloud (or null if silent)",
                                                                        "talkTo": "character-id to direct dialogue at (or null for broadcast)",
                                                                        "aside": "private thoughts for the audience only (or null)",
@@ -39,6 +40,8 @@ public final class CharacterAgentLoop {
                                                                          "withItem": "inventory-item-id to use (or null)"
                                                                        }
                                                                      }
+                                                                     
+                                                                     situationChangeDegree: rate how much the situation changed this tick (0.0 = nothing happened, 1.0 = dramatic shift).
                                                                      
                                                                      ACTION TYPES — use the right one for your intent:""",
                                                                      ACTION_DESCRIPTORS) +
