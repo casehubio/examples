@@ -10,7 +10,7 @@ public final class ManorEventDispatcher {
 
     private final WorldState world;
     private final ObservationService observationService;
-    private final NarratorAgent narratorAgent;
+    private volatile NarratorAgent narratorAgent;
     private final ManorChannels manorChannels;
     private final ManorEventBus webEventBus;
 
@@ -61,6 +61,11 @@ public final class ManorEventDispatcher {
     public ObservationService observationService() {
         return observationService;
     }
+
+    void setNarrator(NarratorAgent narrator) {
+        this.narratorAgent = narrator;
+    }
+
 
     private void commonPublish(ManorEvent event) {
         world.addEvent(event);

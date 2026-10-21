@@ -54,7 +54,7 @@ class ManorEventDispatcherTest {
 
         var narrated = new java.util.ArrayList<String>();
         var narrator = new NarratorAgent(new MechanicalCompactor(),
-                                         NarratorAgentTest.echoProvider, null, null, 5, 15);
+                                         NarratorAgentTest.echoSession, null, null, 5, 15);
         narrator.testSubscribe(narrated::add);
 
         var dispatcher = new ManorEventDispatcher(

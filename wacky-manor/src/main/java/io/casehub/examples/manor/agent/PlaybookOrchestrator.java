@@ -230,12 +230,6 @@ public class PlaybookOrchestrator {
         var cognitions = new java.util.HashMap<String, CharacterCognition>();
 
         NarratorAgent narratorAgent = null;
-        if (config.narrator().enabled() && mode == io.casehub.examples.manor.model.PlaybookMode.AUTONOMOUS) {
-            narratorAgent = new NarratorAgent(
-                    compactor, agentProvider, manorChannels, webEventBus,
-                    config.narrator().eventThreshold(), config.narrator().timerSeconds());
-            narratorAgent.start(world);
-        }
 
         var dispatcher = new ManorEventDispatcher(
                 world, observationService, narratorAgent,
@@ -318,6 +312,15 @@ public class PlaybookOrchestrator {
                 if (activeSet != null && !activeSet.contains(entry.getKey())) continue;
                 sessionPipeline.openSession(entry.getKey(),
                         io.casehub.platform.agent.AgentSessionInit.of(renderPrompt(entry.getKey())));
+            }
+            if (config.narrator().enabled()) {
+                var narratorSession = sessionPipeline.openSession("narrator",
+                        io.casehub.platform.agent.AgentSessionInit.of(NarratorSummariser.SYSTEM_PROMPT));
+                narratorAgent = new NarratorAgent(
+                        compactor, narratorSession, manorChannels, webEventBus,
+                        config.narrator().eventThreshold(), config.narrator().timerSeconds());
+                narratorAgent.start(world);
+                dispatcher.setNarrator(narratorAgent);
             }
             runAutonomousTicks(world, activeSet, actionResolver, dispatcher, sessionPipeline, narratorAgent, cognitions, planEvaluator, cognitionCore);
             sessionPipeline.shutdown();

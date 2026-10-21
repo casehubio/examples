@@ -10,7 +10,7 @@ import io.casehub.examples.manor.engine.WorldState;
 import io.casehub.examples.manor.model.ManorEvent;
 import io.casehub.examples.manor.web.ManorEventBus;
 import io.casehub.examples.manor.web.ManorWebSocketEvent;
-import io.casehub.platform.agent.AgentProvider;
+import io.casehub.platform.agent.AgentSession;
 import org.jboss.logging.Logger;
 
 public final class NarratorAgent {
@@ -24,7 +24,7 @@ public final class NarratorAgent {
     private          Thread                                  narratorThread;
 
     public NarratorAgent(Compactor<ManorEvent> compactor,
-                         AgentProvider agentProvider,
+                         io.casehub.platform.agent.AgentSession narratorSession,
                          ManorChannels manorChannels,
                          ManorEventBus webEventBus,
                          int eventThreshold,
@@ -45,7 +45,7 @@ public final class NarratorAgent {
             });
         }
         var policy     = WindowPolicy.of(timerSeconds * 1000L, eventThreshold);
-        var summariser = new NarratorSummariser(agentProvider);
+        var summariser = new NarratorSummariser(narratorSession);
         this.runner = new SummarisationRunner<>(policy, compactor, summariser,
                                                 outputBus, NARRATOR_LEVEL,
                                                 batch -> log.warnf("Narrator summarisation failed, batch size=%d", batch.size()));

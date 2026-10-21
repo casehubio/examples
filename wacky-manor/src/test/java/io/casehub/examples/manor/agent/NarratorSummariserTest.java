@@ -4,11 +4,12 @@ import io.casehub.blocks.summarisation.EventLevel;
 import io.casehub.blocks.summarisation.LevelEvent;
 import io.casehub.examples.manor.model.ManorEvent;
 import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentProvider;
-import io.casehub.platform.agent.AgentSessionConfig;
+import io.casehub.platform.agent.AgentSession;
 import io.smallrye.mutiny.Multi;
+import io.smallrye.mutiny.Uni;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -19,53 +20,44 @@ class NarratorSummariserTest {
 
     static final EventLevel NARRATOR = new EventLevel("narrator", 0);
 
-    private static AgentProvider stubProvider(String response) {
-        return new AgentProvider() {
-            @Override
-            public Multi<AgentEvent> invoke(AgentSessionConfig config) {
+    private static AgentSession stubSession(String response) {
+        return new AgentSession() {
+            @Override public Multi<AgentEvent> query(String prompt) {
                 return Multi.createFrom().item(new AgentEvent.TextDelta(response));
             }
-
-            @Override
-            public io.casehub.platform.agent.AgentSession openSession(io.casehub.platform.agent.AgentSessionInit init) {
-                throw new UnsupportedOperationException();
-            }
+            @Override public Uni<Void> interrupt() { return Uni.createFrom().voidItem(); }
+            @Override public void clear() {}
+            @Override public void close(Duration maxWait) {}
         };
     }
 
-    private static AgentProvider capturingProvider(String response, AtomicReference<String> capturedPrompt) {
-        return new AgentProvider() {
-            @Override
-            public Multi<AgentEvent> invoke(AgentSessionConfig config) {
-                capturedPrompt.set(config.userPrompt());
+    private static AgentSession capturingSession(String response, AtomicReference<String> capturedPrompt) {
+        return new AgentSession() {
+            @Override public Multi<AgentEvent> query(String prompt) {
+                capturedPrompt.set(prompt);
                 return Multi.createFrom().item(new AgentEvent.TextDelta(response));
             }
-
-            @Override
-            public io.casehub.platform.agent.AgentSession openSession(io.casehub.platform.agent.AgentSessionInit init) {
-                throw new UnsupportedOperationException();
-            }
+            @Override public Uni<Void> interrupt() { return Uni.createFrom().voidItem(); }
+            @Override public void clear() {}
+            @Override public void close(Duration maxWait) {}
         };
     }
 
-    private static AgentProvider failingProvider() {
-        return new AgentProvider() {
-            @Override
-            public Multi<AgentEvent> invoke(AgentSessionConfig config) {
+    private static AgentSession failingSession() {
+        return new AgentSession() {
+            @Override public Multi<AgentEvent> query(String prompt) {
                 throw new RuntimeException("API timeout");
             }
-
-            @Override
-            public io.casehub.platform.agent.AgentSession openSession(io.casehub.platform.agent.AgentSessionInit init) {
-                throw new UnsupportedOperationException();
-            }
+            @Override public Uni<Void> interrupt() { return Uni.createFrom().voidItem(); }
+            @Override public void clear() {}
+            @Override public void close(Duration maxWait) {}
         };
     }
 
     @Test
     void formats_events_by_room_and_calls_llm() {
         var capturedPrompt = new AtomicReference<String>();
-        var summariser     = new NarratorSummariser(capturingProvider("DRAMATIC narration!", capturedPrompt));
+        var summariser     = new NarratorSummariser(capturingSession("DRAMATIC narration!", capturedPrompt));
         var events = List.<LevelEvent<ManorEvent>>of(
                 new LevelEvent<>(new ManorEvent.Action(Instant.now(), "hooded-claw",
                                                 "kitchen", "The Hooded Claw picked up the Rat Poison", null, null, null, null),
@@ -86,7 +78,7 @@ class NarratorSummariserTest {
 
     @Test
     void null_room_grouped_under_general() {
-        var summariser = new NarratorSummariser(stubProvider("narration"));
+        var summariser = new NarratorSummariser(stubSession("narration"));
         var events = List.<LevelEvent<ManorEvent>>of(
                 new LevelEvent<>(new ManorEvent.Action(Instant.now(), "x",
                                                 null, "something happened", null, null, null, null), Instant.now().toEpochMilli(), NARRATOR, null)
@@ -99,7 +91,7 @@ class NarratorSummariserTest {
 
     @Test
     void llm_failure_returns_failed_future() {
-        var summariser = new NarratorSummariser(failingProvider());
+        var summariser = new NarratorSummariser(failingSession());
         var events = List.<LevelEvent<ManorEvent>>of(
                 new LevelEvent<>(new ManorEvent.Action(Instant.now(), "x",
                                                 "kitchen", "event", null, null, null, null), Instant.now().toEpochMilli(), NARRATOR, null)
@@ -111,18 +103,15 @@ class NarratorSummariserTest {
 
     @Test
     void empty_batch_returns_empty_list() {
-        AgentProvider neverCalledProvider = new AgentProvider() {
-            @Override
-            public Multi<AgentEvent> invoke(AgentSessionConfig config) {
+        AgentSession neverCalledSession = new AgentSession() {
+            @Override public Multi<AgentEvent> query(String prompt) {
                 throw new AssertionError("Should not be called for empty batch");
             }
-
-            @Override
-            public io.casehub.platform.agent.AgentSession openSession(io.casehub.platform.agent.AgentSessionInit init) {
-                throw new UnsupportedOperationException();
-            }
+            @Override public Uni<Void> interrupt() { return Uni.createFrom().voidItem(); }
+            @Override public void clear() {}
+            @Override public void close(Duration maxWait) {}
         };
-        var summariser = new NarratorSummariser(neverCalledProvider);
+        var summariser = new NarratorSummariser(neverCalledSession);
 
         List<String> result = summariser.summarise(List.of()).toCompletableFuture().join();
 
