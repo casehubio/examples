@@ -1007,3 +1007,41 @@ Future work: replace the NONE default with a mechanical threat classifier from r
 | 3 | #590 Emotion regulation | Priority signatures (attentional deployment) | VALIDATED neutral — consistent with Webb et al. 2012 d+=0.00 |
 | 4 | Cross-turn feedback | Velocity signal from Bayesian posterior deltas | IMPLEMENTED — production-wired, not yet observed in scenario |
 | 5 | Integration texts | TBD | Not started |
+| 6 | #652 Demand-driven classification | CUSUM+leaky integrator degree accumulation | VALIDATED — 22/23 ticks fire, defaults well-calibrated |
+| 7 | #653 Inline vs external classification | Dual-mode with bias audit | VALIDATED — 41 audit entries, source provenance, bias endpoint |
+| 8 | #650 Elastic session scheduling | SessionPipeline with AIMD admission | PARTIALLY VALIDATED — consolidation deadlock found and fixed |
+
+---
+
+## Phase 3: Demand-Driven Classification & Bias Auditing (#650, #652, #653)
+
+### Theory applied
+
+**Change-point detection (Page 1954, CUSUM).** The DegreeAccumulator uses CUSUM with leaky integration to detect when a character's situation has changed enough to warrant reclassification. The formula `S = max(0, S*λ + degree - k)` combines:
+- **CUSUM** (Page 1954) — cumulative sum for detecting shifts in a time series
+- **Leaky integrator** (Usher & McClelland 2001) — temporal decay prevents ghost activations from old events
+- **Event segmentation** (Zacks et al. 2007) — the theoretical basis for "something changed enough to re-evaluate"
+
+**Finding (P80):** CUSUM's allowance parameter (k) filters noise effectively, but the decay (λ=0.85) creates a blind spot for gradual drift. A character experiencing sustained degree=0.3 over 15 ticks has genuine situational change that never triggers classification. The decay assumption ("old evidence is less relevant") doesn't hold for situational assessment — accumulated small changes ARE the signal. Filed as neocortex#641.
+
+**Finding (P81):** With 5 characters producing degree values 0.2-0.8, the accumulator fires approximately every 4-6 ticks per character. With 2 characters, degree values are lower (less dramatic interaction) and the accumulator barely fires. Social density drives situational change intensity — an emergent property, not a parameter to tune.
+
+### Inline vs external classification — bias detection
+
+The dual-mode architecture addresses a fundamental tension: inline classification (piggyback on the character's own LLM call) is cheaper but potentially biased by the character's persona. External classification (separate LLM session, no persona) is more objective but doubles LLM cost.
+
+**Bias measurement.** Jaccard divergence between inline and external activations quantifies how much the persona influences classification. The HaikuBiasValidator uses an independent session to re-classify the same trajectory, then computes:
+- Jaccard divergence: `1 - |intersection| / |union|` of activated node sets
+- Mean confidence delta: average absolute difference on shared nodes
+
+This gives a per-character bias score. Characters with high divergence (>0.5) should be switched to external mode. The `ClassificationModeRegistry` enables runtime switching based on bias results.
+
+**Source provenance.** `SituationActivation.source` (int[] character offsets) traces which part of the trajectory text triggered each activation. This is provenance metadata — it enables correlated analysis of what the LLM "saw" vs what it classified, without affecting downstream CAPS processing. The two-arg convenience constructor preserves backward compatibility across 10+ consumers.
+
+### Session management — the elastic scheduler problem
+
+**Finding (P82):** Sharing a single `AimdAdmissionStrategy` between the scenario tick loop and consolidation phases creates a deadlock when `consolidateNow()` runs synchronously. The scenario thread blocks waiting for consolidation to finish; consolidation blocks waiting for admission permits that only the scenario thread can release. Platform's `companionAdmission()` (casehubio/platform#654) solves this with isolated permit pools per execution context.
+
+**Finding (P83):** Direct `agentProvider.invoke()` — CLI process spawn per LLM call — is the single largest throughput bottleneck. 14 of 17 call sites in neocortex are in the scenario tick loop or consolidation path. Each spawn takes 3-5 seconds of overhead before the LLM even starts. Migrating to sticky SessionPipeline sessions (open once, reuse forever, clear on token budget) is the highest-impact performance improvement available. Filed as neocortex#640.
+
+**Finding (P84):** The `clearAtTokens` threshold (currently hardcoded at 80k) determines when a session's conversation history is cleared. LLMs degrade with context length ("lost in the middle" effect). The optimal threshold is model-dependent and should be expressed as a percentage of the model's context window (40-60% is the sweet spot), not an absolute token count. Filed as casehubio/examples#131.
