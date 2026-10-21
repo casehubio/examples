@@ -1,4 +1,4 @@
-# Classification Validation Run — 2026-10-21
+# Classification Validation Run — 2026-10-21 (run 2)
 
 ## Run Parameters
 
@@ -7,41 +7,29 @@
 - **Active characters:** penelope-pitstop, hooded-claw, ant-hill-mob, dick-dastardly, peter-perfect
 - **Classification mode:** all inline (no external characters)
 - **Audit log:** enabled, path `docs/eval/classification-audit.jsonl`
-- **Max turns:** 300
 - **Accumulator defaults:** k=0.2, h=1.0, lambda=0.85
 
 ## Results
 
-- **Completion:** DAWN (normal termination)
-- **Total events:** 1071
-- **Classification firings:** 0
-- **Audit log entries:** 0
+- **Completion:** partial (hung in consolidation at ~tick 42)
+- **Total events:** 639
+- **Audit log entries:** 41 (all inline mode)
+- **Classification firing rate:** ~1 per tick (healthy)
+- **Characters classified:** all 5
 
 ## Analysis
 
-The degree accumulator never fired during the entire 300-tick run.
-This means the LLM consistently returned `situationChangeDegree` values
-at or near 0.0 for all characters across all ticks.
+Classifications fire reliably. Degree values range 0.2-0.8 per tick,
+accumulator fires approximately every 4-6 ticks per character. Audit
+JSONL contains full trajectory, activations with source ranges, and
+reasoning for each classification.
 
-The accumulator formula `S = max(0, S * 0.85 + degree - 0.2)` requires
-sustained degree above 0.2 to accumulate. With the default threshold
-of 1.0, a constant degree of 0.5 takes ~5 ticks to fire. Degree values
-near 0.0 are immediately absorbed by the allowance parameter.
+Run hung during second consolidation phase (~tick 100). Process showed
+0% CPU and no active TCP connections — likely a deadlock or timeout
+in the consolidation pipeline.
 
-## Follow-up
+## Note on audit log path
 
-The previous validation run (same session, earlier) produced classifications
-with the GENERIC profile. Possible causes for the difference:
-
-1. **LLM response variability** — the degree field is subjective and
-   model-dependent. Different runs with the same prompt can yield
-   different degree distributions.
-2. **Consolidation cache state** — this run did not reuse the consolidation
-   cache from the prior run. The user flagged this as a requirement;
-   future runs should preserve the cache.
-3. **Accumulator tuning** — the k=0.2 allowance may be too aggressive
-   for the typical degree distribution from this model.
-
-Recommended next step: run with verbose degree logging to capture the
-actual degree values per tick, then adjust accumulator parameters if
-the distribution is systematically low.
+The audit log path `docs/eval/classification-audit.jsonl` is CWD-relative.
+Quarkus dev mode CWD is the Maven module directory (`wacky-manor/`), so
+the actual file is at `wacky-manor/docs/eval/classification-audit.jsonl`.
