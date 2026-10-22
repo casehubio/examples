@@ -46,7 +46,7 @@ mvn quarkus:dev -pl ledger-examples/order-processing
 | [desiredstate-examples](desiredstate-examples/) | Quarkus | Desired-state reconciliation, drift detection, pipelines |
 | [neocortex-examples](neocortex-examples/) | Quarkus | RAG pipelines, case-based reasoning, text analysis |
 | [openclaw-examples](openclaw-examples/) | Docker Compose | Multi-agent rule authoring scenarios |
-| [blocks-ui-examples](blocks-ui-examples/) | TypeScript | Visual block builder |
+| [mosaic-examples](mosaic-examples/) | TypeScript | Visual block builder |
 | [pages-examples](pages-examples/) | TypeScript | Dashboard and layout editor |
 
 ## Non-Maven Examples
@@ -55,7 +55,7 @@ mvn quarkus:dev -pl ledger-examples/order-processing
 [openclaw-examples/README.md](openclaw-examples/README.md).
 
 **blocks-ui** (TypeScript/Vite): Requires Node.js 20+. See
-[blocks-ui-examples/README.md](blocks-ui-examples/README.md).
+[mosaic-examples/README.md](mosaic-examples/README.md).
 
 **pages** (TypeScript/webpack): Requires Node.js 20+. See
 [pages-examples/README.md](pages-examples/README.md).
@@ -87,7 +87,7 @@ To fix a bug or add an example, make the change in the source repo:
 | desiredstate-examples | [casehubio/desiredstate](https://github.com/casehubio/casehub-desiredstate) |
 | neocortex-examples | [casehubio/neocortex](https://github.com/casehubio/neocortex) |
 | openclaw-examples | [casehubio/openclaw](https://github.com/casehubio/openclaw) |
-| blocks-ui-examples | [casehubio/agency-ui](https://github.com/casehubio/casehub-pages) |
+| mosaic-examples | [casehubio/agency-ui](https://github.com/casehubio/casehub-pages) |
 | pages-examples | [casehubio/pages](https://github.com/casehubio/casehub-pages) |
 
 Changes flow to this repo on the next successful full build.
