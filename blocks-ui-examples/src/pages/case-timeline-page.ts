@@ -1,9 +1,9 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import type { WorkIdentity } from '@casehubio/blocks-ui-core';
-import '@casehubio/blocks-ui-case-timeline';
+import type { WorkIdentity } from '@casehubio/agency-ui-core';
+import '@casehubio/agency-ui-case-timeline';
 import mockEvents from '../../mock-data/case-events.json';
-import type { PagedResponse, EventLogEntryResponse } from '@casehubio/blocks-ui-case-timeline';
+import type { PagedResponse, EventLogEntryResponse } from '@casehubio/agency-ui-case-timeline';
 
 @customElement('case-timeline-page')
 export class CaseTimelinePage extends LitElement {

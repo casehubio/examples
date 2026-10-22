@@ -186,10 +186,10 @@ The formula: `(arousal × 0.3 + actionImportance × 0.4) × 0.7 + confidence × 
 
 ## References
 
-- `io.casehub.blocks.memory.ConfidenceScorer` — existing interface (blocks)
+- `io.casehub.agency.social.memory.ConfidenceScorer` — existing interface (blocks)
 - `io.casehub.neocortex.memory.experience.GraduationScorer` — existing interface (memory-api)
-- `io.casehub.blocks.memory.SurpriseScorer` — existing implementation (blocks)
-- `io.casehub.blocks.memory.ArousalScorer` — existing implementation (blocks)
+- `io.casehub.agency.social.memory.SurpriseScorer` — existing implementation (blocks)
+- `io.casehub.agency.social.memory.ArousalScorer` — existing implementation (blocks)
 - `io.casehub.neocortex.mindmap.intelligence.consolidation.ExperienceConsolidationPhase` — consumer
 - `io.casehub.neocortex.mindmap.intelligence.consolidation.DefaultGraduationScorer` — default fallback
 - GE-20260912-be7c74 — three-tier memory model (Tier 2 → Tier 3 graduation via importance scoring)

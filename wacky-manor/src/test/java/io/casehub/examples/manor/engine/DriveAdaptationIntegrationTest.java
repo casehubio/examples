@@ -6,7 +6,7 @@ import io.casehub.neocortex.cognition.drive.DriveAdaptationConfig;
 import io.casehub.neocortex.cognition.drive.ReinforcementDirection;
 import io.casehub.neocortex.cognition.drive.RewardAxis;
 import io.casehub.neocortex.cognition.prompt.CharacterDrivePromptSection;
-import io.casehub.blocks.speech.PromptContext;
+import io.casehub.agency.speech.PromptContext;
 import io.casehub.examples.manor.agent.ManorCognitiveSeeder;
 import io.casehub.examples.manor.agent.ManorSocialConfigLoader;
 import io.casehub.neocortex.mindmap.NodeInput;

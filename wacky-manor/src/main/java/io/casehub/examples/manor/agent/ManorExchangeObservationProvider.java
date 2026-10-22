@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.summarisation.observation.affordance.ObservationSection;
-import io.casehub.blocks.summarisation.observation.affordance.WorldObservationProvider;
+import io.casehub.agency.perception.observation.affordance.ObservationSection;
+import io.casehub.agency.perception.observation.affordance.WorldObservationProvider;
 import io.casehub.examples.manor.engine.WorldState;
 import io.casehub.examples.manor.model.CharacterState;
 import io.casehub.examples.manor.model.Room;

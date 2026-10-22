@@ -95,7 +95,7 @@
 - Fixed threshold levels only (HIGH/MODERATE/LOW transitions) — loses granularity; a 0.69→0.71 transition across the MODERATE→HIGH boundary fires but a 0.3→0.5 change within MODERATE doesn't
 **Rationale:** Delta-based gating captures significant trust shifts regardless of which level band they fall in. TrustSummary(subjectName, level, reason) is the existing type for trust observations — the trust framework produces these during consolidation, and CognitiveObservationSections.trustSection() renders them. The evidence strength from D5's alpha/beta shapes the reason text ("You feel quite certain..." vs "Your initial impression...").
 **Trade-offs:** Requires tracking "last rendered trust score" per relationship — one additional property on the overlay node (`trust-last-rendered`). Level boundary thresholds in TrustEvolutionConfigSpec must produce TrustSummary objects compatible with the existing trustSection() renderer.
-**Sources:** io.casehub.blocks.summarisation.observation.affordance.TrustLevel, TrustSummary, CognitiveObservationSections.trustSection(), PerceptionTranslator (existing distance threshold pattern at 0.4)
+**Sources:** io.casehub.agency.perception.observation.affordance.TrustLevel, TrustSummary, CognitiveObservationSections.trustSection(), PerceptionTranslator (existing distance threshold pattern at 0.4)
 **Exploration:** quick
 **Status:** revised (R1-06: explicit TrustLevel/TrustSummary integration and score-to-level mapping)
 

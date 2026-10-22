@@ -1,6 +1,6 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.summarisation.observation.affordance.ObservationSection;
+import io.casehub.agency.perception.observation.affordance.ObservationSection;
 
 import java.util.Collection;
 

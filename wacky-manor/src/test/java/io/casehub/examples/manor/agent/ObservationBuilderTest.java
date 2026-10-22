@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.summarisation.observation.ObservationResult;
-import io.casehub.blocks.summarisation.observation.ObservationTier;
+import io.casehub.agency.perception.observation.ObservationResult;
+import io.casehub.agency.perception.observation.ObservationTier;
 import io.casehub.examples.manor.engine.MansionLoader;
 import io.casehub.examples.manor.engine.WorldState;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,12 +12,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ObservationBuilderTest {
 
     private WorldState                                                           world;
-    private io.casehub.blocks.summarisation.observation.PartitionedDrain<String> emptyDrain;
+    private io.casehub.agency.perception.observation.PartitionedDrain<String> emptyDrain;
 
     @BeforeEach
     void setUp() {
         world      = MansionLoader.loadWorld();
-        emptyDrain = new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(ObservationResult.empty(0), java.util.Map.of());
+        emptyDrain = new io.casehub.agency.perception.observation.PartitionedDrain<>(ObservationResult.empty(0), java.util.Map.of());
     }
 
     private String buildObs(io.casehub.examples.manor.model.CharacterState character) {
@@ -30,13 +30,13 @@ class ObservationBuilderTest {
 
     private String buildObs(io.casehub.examples.manor.model.CharacterState character,
                             java.util.List<io.casehub.eidos.api.AgentGoal> goals,
-                            io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain,
+                            io.casehub.agency.perception.observation.PartitionedDrain<String> drain,
                             java.util.List<io.casehub.neocortex.memory.Memory> memories,
                             java.util.List<io.casehub.neocortex.memory.Memory> reflections,
                             java.util.Map<String, java.util.List<io.casehub.neocortex.memory.Memory>> relationships,
                             java.util.Set<String> tags) {
         var provider = new ManorWorldObservationProvider(character, world, drain);
-        var pipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
+        var pipeline = new io.casehub.agency.perception.observation.affordance.ObservationPipeline(new io.casehub.agency.perception.observation.affordance.PerceptionFilter());
         return ObservationBuilder.buildObservation(provider, pipeline, tags, character, goals, drain, memories, reflections, relationships);
     }
 
@@ -103,7 +103,7 @@ class ObservationBuilderTest {
     void observation_renders_recent_activity_from_drain() {
         var currentRoom = new ObservationResult("- [1s ago] Penelope: Hello!\n",
                                                 java.util.List.of(), 1, 1000, ObservationTier.VERBATIM);
-        var drain = new io.casehub.blocks.summarisation.observation.PartitionedDrain<String>(currentRoom, java.util.Map.of());
+        var drain = new io.casehub.agency.perception.observation.PartitionedDrain<String>(currentRoom, java.util.Map.of());
         var obs   = buildObs(world.character("penelope-pitstop"), java.util.List.of(), drain, java.util.List.of(), java.util.List.of(), java.util.Map.of(), java.util.Set.of());
         assertThat(obs).contains("== Recent Activity ==");
         assertThat(obs).contains("Penelope: Hello!");
@@ -121,9 +121,9 @@ class ObservationBuilderTest {
         var currentRoom = ObservationResult.empty(0);
         var rememberedResult = new ObservationResult("Sneekly examined the cabinet.\n",
                                                      java.util.List.of(), 1, 5000, ObservationTier.GROUPED);
-        var remembered = new java.util.LinkedHashMap<String, io.casehub.blocks.summarisation.observation.RememberedPartition>();
-        remembered.put("kitchen", new io.casehub.blocks.summarisation.observation.RememberedPartition(rememberedResult, System.currentTimeMillis() - 30000));
-        var drain = new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(currentRoom, remembered);
+        var remembered = new java.util.LinkedHashMap<String, io.casehub.agency.perception.observation.RememberedPartition>();
+        remembered.put("kitchen", new io.casehub.agency.perception.observation.RememberedPartition(rememberedResult, System.currentTimeMillis() - 30000));
+        var drain = new io.casehub.agency.perception.observation.PartitionedDrain<>(currentRoom, remembered);
         var obs   = buildObs(world.character("penelope-pitstop"), java.util.List.of(), drain, java.util.List.of(), java.util.List.of(), java.util.Map.of(), java.util.Set.of());
         assertThat(obs).contains("== Remembered ==");
         assertThat(obs).contains("Kitchen");

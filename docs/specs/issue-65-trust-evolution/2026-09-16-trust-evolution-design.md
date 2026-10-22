@@ -47,7 +47,7 @@ The trust framework spans four modules, following existing architectural boundar
 
 - neocortex-mindmap-intelligence gains `casehub-ledger-api` (for `LedgerEntryRepository`, `LedgerEntry`, `LedgerAttestation`)
 - neocortex-mindmap-intelligence gains `casehub-ledger-core` (for `TrustScoreComputer`, `DecayFunction`)
-- neocortex-mindmap-intelligence gains `casehub-blocks-core` (for `TrustEvolutionConfig`, `OverlayTrustPropertyModel`)
+- neocortex-mindmap-intelligence gains `casehub-agency-core` (for `TrustEvolutionConfig`, `OverlayTrustPropertyModel`)
 
 ### Relationship to Existing Trust System
 
@@ -433,10 +433,10 @@ Trust is per-actor-pair (observer→subject), not per-capability. A character's 
 - `io.casehub.neocortex.memory.cbr.AgentTrustProvider` — trust SPI (global, not per-relationship)
 - `io.casehub.engine.internal.worker.TrustScoreAgentTrustProvider` — existing global trust bridge (unchanged)
 - `io.casehub.ledger.api.spi.TrustScoreSource` — global trust score source (unchanged)
-- `io.casehub.blocks.summarisation.observation.affordance.TrustLevel` — trust level enum
-- `io.casehub.blocks.summarisation.observation.affordance.TrustSummary` — trust observation record
-- `io.casehub.blocks.summarisation.observation.affordance.CognitiveObservationSections` — observation rendering utility
-- `io.casehub.blocks.agentic.yaml.spec.cognition.DriveConfigSpec` — existing YAML spec pattern
+- `io.casehub.agency.perception.observation.affordance.TrustLevel` — trust level enum
+- `io.casehub.agency.perception.observation.affordance.TrustSummary` — trust observation record
+- `io.casehub.agency.perception.observation.affordance.CognitiveObservationSections` — observation rendering utility
+- `io.casehub.agency.core.yaml.spec.cognition.DriveConfigSpec` — existing YAML spec pattern
 - `io.casehub.examples.manor.agent.ManorCognitiveSeeder` — person-entity overlay node creation
 - `io.casehub.examples.manor.agent.ManorTrustEvents` — existing weight-based trust (superseded)
 - `io.casehub.examples.manor.agent.CharacterCognition` — cognitive facade with recordTrustEvent()

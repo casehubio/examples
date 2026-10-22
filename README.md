@@ -87,7 +87,7 @@ To fix a bug or add an example, make the change in the source repo:
 | desiredstate-examples | [casehubio/desiredstate](https://github.com/casehubio/casehub-desiredstate) |
 | neocortex-examples | [casehubio/neocortex](https://github.com/casehubio/neocortex) |
 | openclaw-examples | [casehubio/openclaw](https://github.com/casehubio/openclaw) |
-| blocks-ui-examples | [casehubio/blocks-ui](https://github.com/casehubio/casehub-pages) |
+| blocks-ui-examples | [casehubio/agency-ui](https://github.com/casehubio/casehub-pages) |
 | pages-examples | [casehubio/pages](https://github.com/casehubio/casehub-pages) |
 
 Changes flow to this repo on the next successful full build.

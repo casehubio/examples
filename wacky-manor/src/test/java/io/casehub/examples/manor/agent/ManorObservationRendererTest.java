@@ -1,10 +1,10 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.summarisation.EventLevel;
-import io.casehub.blocks.summarisation.LevelEvent;
-import io.casehub.blocks.summarisation.Summariser;
-import io.casehub.blocks.summarisation.observation.ObservationContext;
-import io.casehub.blocks.summarisation.observation.ObservationTier;
+import io.casehub.agency.summarisation.EventLevel;
+import io.casehub.agency.summarisation.LevelEvent;
+import io.casehub.agency.summarisation.Summariser;
+import io.casehub.agency.perception.observation.ObservationContext;
+import io.casehub.agency.perception.observation.ObservationTier;
 import io.casehub.examples.manor.model.ActionType;
 import io.casehub.examples.manor.model.ManorEvent;
 import org.junit.jupiter.api.Test;

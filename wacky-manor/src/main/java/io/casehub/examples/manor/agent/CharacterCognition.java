@@ -1,6 +1,6 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.summarisation.observation.affordance.ObservationSection;
+import io.casehub.agency.perception.observation.affordance.ObservationSection;
 import io.casehub.eidos.api.AgentConstraint;
 import io.casehub.examples.manor.model.ActionType;
 import io.casehub.examples.manor.model.CharacterState;
@@ -246,17 +246,17 @@ public final class CharacterCognition {
                                        .toList();
                 if (!beliefNodes.isEmpty()) {
                     var revisedKeys = new java.util.HashSet<String>();
-                    var beliefs     = new java.util.ArrayList<io.casehub.blocks.agentic.belief.Belief<String>>();
+                    var beliefs     = new java.util.ArrayList<io.casehub.agency.deliberation.belief.Belief<String>>();
                     for (var node : beliefNodes) {
                         var key          = node.property("subject").orElse(node.name());
                         var value        = node.name();
                         int entrenchment = (int) (node.confidence().value() * 10);
-                        beliefs.add(io.casehub.blocks.agentic.belief.Belief.of(key, value, entrenchment));
+                        beliefs.add(io.casehub.agency.deliberation.belief.Belief.of(key, value, entrenchment));
                         if ("belief-revision".equals(node.provenance())) {
                             revisedKeys.add(key);
                         }
                     }
-                    sections.add(io.casehub.blocks.summarisation.observation.affordance
+                    sections.add(io.casehub.agency.perception.observation.affordance
                                          .CognitiveObservationSections.beliefsSection(beliefs, revisedKeys));
                 }
             }
@@ -811,7 +811,7 @@ public final class CharacterCognition {
     private java.util.List<ObservationSection> renderTrustSections() {
         if (mindMapStore == null || trustEvolutionConfig == null || tenantId == null) return List.of();
 
-        var summaries = new java.util.ArrayList<io.casehub.blocks.summarisation.observation.affordance.TrustSummary>();
+        var summaries = new java.util.ArrayList<io.casehub.agency.perception.observation.affordance.TrustSummary>();
 
         var subgraphs = mindMapStore.listSubgraphs(tenantId);
         var peopleSubgraph = subgraphs.stream()
@@ -851,21 +851,21 @@ public final class CharacterCognition {
             String subjectName = sharedNode.name();
 
             var levels = trustEvolutionConfig.levels();
-            io.casehub.blocks.summarisation.observation.affordance.TrustLevel level;
-            if (score >= levels.high()) level = io.casehub.blocks.summarisation.observation.affordance.TrustLevel.HIGH;
-            else if (score >= levels.moderate()) level = io.casehub.blocks.summarisation.observation.affordance.TrustLevel.MODERATE;
-            else level = io.casehub.blocks.summarisation.observation.affordance.TrustLevel.LOW;
+            io.casehub.agency.perception.observation.affordance.TrustLevel level;
+            if (score >= levels.high()) level = io.casehub.agency.perception.observation.affordance.TrustLevel.HIGH;
+            else if (score >= levels.moderate()) level = io.casehub.agency.perception.observation.affordance.TrustLevel.MODERATE;
+            else level = io.casehub.agency.perception.observation.affordance.TrustLevel.LOW;
 
             // Beta posterior concentration (Kruschke 2015) — sum>10 narrow posterior, <4 wide
             String reason = (alpha + beta > 10) ? "You feel quite certain about this"
                           : (alpha + beta < 4) ? "You're still forming an opinion"
                           : null;
 
-            summaries.add(new io.casehub.blocks.summarisation.observation.affordance.TrustSummary(subjectName, level, reason));
+            summaries.add(new io.casehub.agency.perception.observation.affordance.TrustSummary(subjectName, level, reason));
         }
 
         if (summaries.isEmpty()) return List.of();
-        return List.of(io.casehub.blocks.summarisation.observation.affordance.CognitiveObservationSections.trustSection(summaries));
+        return List.of(io.casehub.agency.perception.observation.affordance.CognitiveObservationSections.trustSection(summaries));
     }
 
 

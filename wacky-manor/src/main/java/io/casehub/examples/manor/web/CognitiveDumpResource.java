@@ -9,7 +9,7 @@ import io.casehub.examples.manor.model.CharacterState;
 import io.casehub.neocortex.mindmap.MindMapQuery;
 import io.casehub.neocortex.mindmap.MindMapStore;
 import io.casehub.neocortex.mindmap.SubgraphTypes;
-import io.casehub.blocks.summarisation.observation.affordance.ObservationSection;
+import io.casehub.agency.perception.observation.affordance.ObservationSection;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;

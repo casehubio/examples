@@ -78,7 +78,7 @@ TASKS replaces Maslow's "esteem" (obligation/duty in a game context). UNDERSTAND
 
 ### 1. NeedTier Enum (blocks-core)
 
-**Location:** `blocks-core`, `io.casehub.blocks.agentic.social.need`
+**Location:** `blocks-core`, `io.casehub.agency.core.social.need`
 
 ```java
 public enum NeedTier {
@@ -113,7 +113,7 @@ blocks-core defines the SPI; applications provide the mapping. Follows the Drive
 
 ### 3. DriveAdaptationPhase Extension (blocks-core)
 
-**Location:** `blocks-core`, `io.casehub.blocks.agentic.social.drive.adaptation`
+**Location:** `blocks-core`, `io.casehub.agency.core.social.drive.adaptation`
 
 Need satisfaction tracking is integrated into DriveAdaptationPhase (D33) rather than a separate consolidation phase. DriveAdaptationPhase gains a new constructor dependency on `NeedTierMappingProvider` and `NeedSatisfactionConfig`.
 
@@ -187,7 +187,7 @@ Steps 1–4 are unchanged from the #66 spec (load drive nodes, load experience n
 
 ### 4. NeedsPyramidPromptSection (blocks-core)
 
-**Location:** `blocks-core`, `io.casehub.blocks.agentic.social.prompt`
+**Location:** `blocks-core`, `io.casehub.agency.core.social.prompt`
 **Implements:** `PromptSection`
 
 Reads satisfaction nodes from MindMapStore, formats them as qualitative natural-language prose under "Inner Needs" (D37):
@@ -423,7 +423,7 @@ Characters defined with only goals and no drives in social-config.yaml (e.g., La
 
 | Repo | Changes | Issue |
 |------|---------|-------|
-| **blocks** | `NeedTier` enum, `NeedTierMappingProvider` SPI, `NeedSatisfactionConfig`, `NeedsPyramidPromptSection`, `DriveAdaptationPhase` extension (satisfaction tracking, decay, constraint), `CognitionConfig` new flag | Existing casehubio/blocks branch extends |
+| **blocks** | `NeedTier` enum, `NeedTierMappingProvider` SPI, `NeedSatisfactionConfig`, `NeedsPyramidPromptSection`, `DriveAdaptationPhase` extension (satisfaction tracking, decay, constraint), `CognitionConfig` new flag | Existing casehubio/agency branch extends |
 | **examples/wacky-manor** | `ManorNeedTierMappingProvider` CDI bean, `ManorCognitiveSeeder` need-tier seeding | casehubio/examples#68 |
 | **neocortex** | No changes — MindMapStore API is sufficient | None |
 

@@ -1,8 +1,8 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.summarisation.observation.ObservationResult;
-import io.casehub.blocks.summarisation.observation.PartitionedDrain;
-import io.casehub.blocks.summarisation.observation.affordance.AffordanceRenderer;
+import io.casehub.agency.perception.observation.ObservationResult;
+import io.casehub.agency.perception.observation.PartitionedDrain;
+import io.casehub.agency.perception.observation.affordance.AffordanceRenderer;
 import io.casehub.examples.manor.engine.MansionLoader;
 import io.casehub.examples.manor.engine.WorldState;
 import org.junit.jupiter.api.BeforeEach;

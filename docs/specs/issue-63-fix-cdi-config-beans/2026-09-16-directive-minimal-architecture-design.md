@@ -1,6 +1,6 @@
 # Directive-Minimal Architecture Design
 
-**Issue:** casehubio/blocks#283
+**Issue:** casehubio/agency#283
 **Branch:** issue-63-fix-cdi-config-beans
 **Date:** 2026-09-16
 
@@ -74,7 +74,7 @@ User prompt (observations — sole source of cognitive state):
 ### 1. CognitiveSystemPromptRenderer
 
 **Location:** `blocks-core` (or `blocks-agentic` — wherever the cognitive pipeline lives)
-**Package:** `io.casehub.blocks.agentic.social.prompt`
+**Package:** `io.casehub.agency.core.social.prompt`
 
 A `@Alternative @Priority(1)` CDI bean implementing `SystemPromptRenderer`. When present on the classpath, it overrides `EidosSystemPromptRenderer`. The eidos renderer stays untouched — no eidos changes.
 
@@ -150,7 +150,7 @@ penelope-pitstop:
 
 The seeder calls `GoalProposalOrchestrator.registerGoals()` with the constructed `DriveGoalProposal` list. `EmergentGoalPromptSection` becomes the sole goal renderer, replacing both `CognitiveObservationSections.goalsSection()` and descriptor-side goal rendering.
 
-**Norms — deferred to GitHub issue:** A `NormsPromptSection` in `CognitionCore.promptSections()` is required for norms to follow the same observation-side rendering path as other cognitive data. This is NOT in scope for this spec. **GitHub issue to be filed on casehubio/blocks** to track: "Add NormsPromptSection to CognitionCore for observation-side norms rendering." Until implemented, norms remain rendered by `CharacterCognition` from `SocialConfig`.
+**Norms — deferred to GitHub issue:** A `NormsPromptSection` in `CognitionCore.promptSections()` is required for norms to follow the same observation-side rendering path as other cognitive data. This is NOT in scope for this spec. **GitHub issue to be filed on casehubio/agency** to track: "Add NormsPromptSection to CognitionCore for observation-side norms rendering." Until implemented, norms remain rendered by `CharacterCognition` from `SocialConfig`.
 
 **Key change — constraints:** Currently `CharacterCognition.renderCognitiveSections()` reads constraints from `SocialConfig` at render time and produces observation text directly. In the new model, constraints are split: HARD in system prompt, SOFT in `ConstraintPromptSection` (CognitionCore observation sections). Initial beliefs stay rendered by `CharacterCognition` from `SocialConfig` — they are already seeded into MindMapStore (for cognitive comparison via `CognitiveProfile.compare()`) but rendered directly from `SocialConfig`, not via `MentalModelPromptSection` (which serves BDI Theory of Mind, a different concept).
 
@@ -277,7 +277,7 @@ The `DirectiveSection` class is not deleted — it remains available for non-cog
 
 | Repo | Changes | Issue |
 |------|---------|-------|
-| **blocks** | `CognitiveSystemPromptRenderer`, `CognitivePreambleGenerator`, seeder SPI, `CognitionCore` config changes, norms prompt section | casehubio/blocks#283 |
+| **blocks** | `CognitiveSystemPromptRenderer`, `CognitivePreambleGenerator`, seeder SPI, `CognitionCore` config changes, norms prompt section | casehubio/agency#283 |
 | **examples/wacky-manor** | Descriptor YAML restructure, `ManorCognitiveSeeder` enhancement (motivational beliefs + goal seeding), `CharacterCognition` deduplication, `ScenarioOrchestrator` wiring | **TODO:** File issue on casehubio/examples before implementation begins |
 | **neocortex** | No changes expected — consolidation pipeline already observation-side | None |
 

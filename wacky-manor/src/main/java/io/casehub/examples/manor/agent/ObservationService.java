@@ -1,9 +1,9 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.summarisation.EventLevel;
-import io.casehub.blocks.summarisation.observation.PartitionedDrain;
-import io.casehub.blocks.summarisation.observation.PartitionedObservationService;
-import io.casehub.blocks.summarisation.observation.VisibilityPolicy;
+import io.casehub.agency.summarisation.EventLevel;
+import io.casehub.agency.perception.observation.PartitionedDrain;
+import io.casehub.agency.perception.observation.PartitionedObservationService;
+import io.casehub.agency.perception.observation.VisibilityPolicy;
 import io.casehub.examples.manor.engine.WorldState;
 import io.casehub.examples.manor.model.ActionType;
 import io.casehub.examples.manor.model.CharacterState;
@@ -49,7 +49,7 @@ public final class ObservationService {
     public PartitionedDrain<String> drain(String characterId, long now) {
         CharacterState character = worldState.character(characterId);
         if (character == null) {
-            return new PartitionedDrain<>(io.casehub.blocks.summarisation.observation.ObservationResult.empty(0), java.util.Map.of());
+            return new PartitionedDrain<>(io.casehub.agency.perception.observation.ObservationResult.empty(0), java.util.Map.of());
         }
         return delegate.drain(characterId, character.currentRoom(), now);}
 

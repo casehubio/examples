@@ -1,6 +1,6 @@
 package io.casehub.examples.manor.engine;
 
-import io.casehub.blocks.memory.ArousalScorer;
+import io.casehub.agency.social.memory.ArousalScorer;
 import io.casehub.neocortex.memory.Memory;
 import io.casehub.neocortex.memory.experience.ContentScorer;
 import io.casehub.neocortex.memory.experience.FormativeScoring;

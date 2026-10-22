@@ -85,7 +85,7 @@ core.chainSectionCustomizer(sections -> {
 });
 ```
 
-No changes to BlocksBeans or BlocksAutoConfiguration — the wiring is internal to the existing CognitiveProfile block.
+No changes to AgencyBeans or AgencyAutoConfiguration — the wiring is internal to the existing CognitiveProfile block.
 
 ## Testing
 

@@ -3,7 +3,7 @@ import { customElement, state } from 'lit/decorators.js';
 import { EventStreamController } from '@casehubio/pages-component';
 import { fromRows, ColumnType, columnId } from '@casehubio/pages-data';
 import type { TypedDataSet, ColumnId } from '@casehubio/pages-data';
-import type { MetricDefinition } from '@casehubio/blocks-ui-kpi-metric-row';
+import type { MetricDefinition } from '@casehubio/agency-ui-kpi-metric-row';
 import type { TableColumnConfig } from '@casehubio/pages-table';
 import { HelpdeskPipelineStrategy } from './pipeline-strategy.js';
 import type { TicketSnapshot } from './pipeline-strategy.js';
@@ -11,8 +11,8 @@ import { HELPDESK_SCENARIO } from './scenarios/help-desk-basic.js';
 import type { ScenarioStep } from './scenarios/help-desk-basic.js';
 
 // side-effect imports — register custom elements
-import '@casehubio/blocks-ui-kpi-metric-row';
-import '@casehubio/blocks-ui-blocks-timeline';
+import '@casehubio/agency-ui-kpi-metric-row';
+import '@casehubio/agency-ui-blocks-timeline';
 import '@casehubio/pages-table';
 
 interface TicketEvent {
