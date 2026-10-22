@@ -9,7 +9,7 @@ export default defineConfig({
     alias: [
       // blocks-ui components
       { find: '@casehubio/agency-ui-kpi-metric-row', replacement: resolve(BLOCKS, 'components/kpi-metric-row/src') },
-      { find: '@casehubio/agency-ui-blocks-timeline', replacement: resolve(BLOCKS, 'components/blocks-timeline/src') },
+      { find: '@casehubio/agency-ui-blocks-timeline', replacement: resolve(BLOCKS, 'components/agency-timeline/src') },
       { find: '@casehubio/agency-ui-core', replacement: resolve(BLOCKS, 'packages/blocks-ui-core/src') },
 
       // pages packages — subpath imports must come before bare specifiers
