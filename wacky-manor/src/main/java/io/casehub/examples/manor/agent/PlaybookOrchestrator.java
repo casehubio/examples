@@ -223,9 +223,10 @@ public class PlaybookOrchestrator {
         var defaultsRegistry = new io.casehub.neocortex.cognitive.index.CognitiveDefaultsRegistry();
         cognitionCore.setDefaultsRegistry(defaultsRegistry);
 
+        io.casehub.neocortex.cognition.appraisal.LlmAppraisalStrategy llmAppraisal = null;
         if (config.appraisal().enabled()) {
-            cognitionCore.configureAppraisal(
-                    new io.casehub.neocortex.cognition.appraisal.LlmAppraisalStrategy(),
+            llmAppraisal = new io.casehub.neocortex.cognition.appraisal.LlmAppraisalStrategy();
+            cognitionCore.configureAppraisal(llmAppraisal,
                     new io.casehub.neocortex.cognition.salience.ConcernBasedSalienceStrategy());
             log.info("Appraisal enabled — sub-LLM will evaluate situations against character drives and disposition");
         }
@@ -312,6 +313,9 @@ public class PlaybookOrchestrator {
                     sessionLifecycleManager, "claude", admission, 80_000);
             consolidationScheduler.setSessionPipeline(sessionPipeline);
             cognitionCore.setSessionPipeline(sessionPipeline);
+            if (llmAppraisal != null) {
+                llmAppraisal.setSessionPipeline(sessionPipeline);
+            }
             for (var entry : world.characters().entrySet()) {
                 if (activeSet != null && !activeSet.contains(entry.getKey())) continue;
                 sessionPipeline.openSession(entry.getKey(),
