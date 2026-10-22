@@ -99,8 +99,7 @@ public class CognitiveActivationTest {
                 java.time.Clock.systemUTC());
 
         var core = new CognitionCore(mood, drives, userModel, mentalModel, strategy,
-                narrativeOrch, goals, memoryHygieneAdapter, innerLife, config, null, null, null, null, null, null, null);
-        core.setSessionPipeline(sessionPipeline);
+                narrativeOrch, goals, memoryHygieneAdapter, innerLife, config, null, null, null, null, null, null, null, sessionPipeline);
         return core;
     }
 

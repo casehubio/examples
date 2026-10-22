@@ -142,7 +142,7 @@ class ManorCognitivePipelineTest {
                 .build();
 
         var expectedDrives = ppConfig.drives().stream()
-                .map(SocialConfig.DriveConfig::type)
+                .map(SocialConfig.Drive::type)
                 .sorted()
                 .toList();
         assertThat(pipeline.seededDriveNames("peter-perfect"))

@@ -218,7 +218,11 @@ public class ManorCognitivePipelineBuilder {
                 }
             }
 
-            var cogDefaults = ManorCognitiveSetup.deriveDefaults(desc, socialCfg);
+            var cogDefaults = desc != null
+                    ? ManorCognitiveSetup.deriveDefaults(desc, socialCfg)
+                    : io.casehub.neocortex.cognitive.index.CognitiveDerivationEngine.derive(
+                            new io.casehub.neocortex.cognitive.index.DescriptorView(
+                                    agentId, null, java.util.List.of(), java.util.List.of(), null));
             defaultsRegistry.register(cogDefaults);
 
             ManorCognitiveSeeder.SeedResult seedResult = null;
