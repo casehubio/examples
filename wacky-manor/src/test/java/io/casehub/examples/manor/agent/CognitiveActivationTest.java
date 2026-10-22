@@ -76,12 +76,12 @@ public class CognitiveActivationTest {
         io.casehub.neocortex.memory.reflection.ReflectionOrchestrator noOpReflection =
                 (agentId, tenantId, since, maxEntries) -> List.of();
         var userModel = new UserModelOrchestrator(
-                new io.casehub.neocortex.cognition.usermodel.UserProfileMemory(cbrStore, UserModelConfig.defaults()), UserModelConfig.defaults());
+                new io.casehub.neocortex.cognition.usermodel.UserProfileMemory(cbrStore, UserModelConfig.defaults()), UserModelConfig.defaults(), sessionPipeline);
         var mentalModel = new MentalModelOrchestrator(
-                new io.casehub.neocortex.cognition.mentalmodel.MentalModelMemory(cbrStore, MentalModelConfig.defaults()), MentalModelConfig.defaults());
+                new io.casehub.neocortex.cognition.mentalmodel.MentalModelMemory(cbrStore, MentalModelConfig.defaults()), MentalModelConfig.defaults(), java.time.Clock.systemUTC(), sessionPipeline);
         var strategy = new StrategyLearningOrchestrator(
                 new io.casehub.neocortex.cognition.strategy.StrategyMemory(cbrStore, StrategyLearningConfig.defaults()), noOpReflection,
-                StrategyLearningConfig.defaults());
+                StrategyLearningConfig.defaults(), java.time.Clock.systemUTC(), sessionPipeline);
 
         var drives = new DriveOrchestrator(
                 new CuriosityDrive(memoryHygieneAdapter), new CompetenceDrive(strategy),
@@ -90,7 +90,7 @@ public class CognitiveActivationTest {
                 mood, new DriveComposer(), DriveConfig.defaults());
 
         var innerLife = new InnerLifeOrchestrator(
-                noOpReflection, List.of(), InnerLifeConfig.defaults(), drives);
+                noOpReflection, List.of(), InnerLifeConfig.defaults(), drives, sessionPipeline);
 
         var goals = new GoalProposalOrchestrator(
                 drives, List.of(), null, Optional.empty(),
