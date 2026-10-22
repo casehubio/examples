@@ -206,14 +206,7 @@ public class PlaybookOrchestrator {
                 io.casehub.neocortex.cognition.goal.GoalEscalationConfig.defaults(),
                 java.time.Clock.systemUTC());
 
-        var cognitionConfig = io.casehub.neocortex.cognition.core.CognitionConfig.none()
-                .with("mood", true).with("drives", true)
-                .with("characterDrives", true).with("needsPyramid", true)
-                .with("memoryHygiene", true).with("subThoughts", true)
-                .with("consolidation", true);
-        if (config.appraisal().enabled()) {
-            cognitionConfig = cognitionConfig.with("appraisal", true).with("salience", true);
-        }
+        var cognitionConfig = io.casehub.neocortex.cognition.core.CognitionConfig.all();
         var cognitionCore = new io.casehub.neocortex.cognition.core.CognitionCore(
                 moodOrch, driveOrch, userModelOrch, mentalModelOrch, strategyOrch,
                 narrativeOrch, goalOrchestrator, memoryHygieneAdapter, innerLifeOrch,
