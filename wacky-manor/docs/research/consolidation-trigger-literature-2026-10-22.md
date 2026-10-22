@@ -52,13 +52,19 @@ Critical consolidation processes complete within <2 seconds of reactivation onse
 
 ## Conclusion
 
-**Decay is wrong for consolidation triggers.** Three independent lines (Park/Generative Agents, SCM, CLS theory) converge on monotonic accumulation. The right mechanism:
+**Decay is wrong for consolidation triggers.** Three independent lines (Park/Generative Agents, SCM, CLS theory) converge on monotonic accumulation. The mechanism implemented:
 
-1. **Event count** (monotonic, no decay) — Park et al.'s baseline
-2. **Divergence accumulation** (monotonic, weighted by novelty) — CLS 2016's key insight
-3. **Time ceiling** (existing interval-ticks) — SCM's safety net
+1. **Event count** (monotonic, no decay) — Park et al.'s baseline. Per-agent, fires at configurable threshold (default 8).
+2. **Divergence accumulation** (monotonic, weighted by novelty) — CLS 2016's key insight. Behind `DivergenceExtractor` SPI; default returns 0.0 (inactive until wired).
+3. **Time ceiling** (existing interval-minutes) — SCM's safety net. Unchanged.
+
+Key design decision: per-agent accumulation, not per-tenant. The old `SignificanceAccumulator` was per-tenant, meaning a chatty agent could trigger consolidation before a quiet agent with novel experiences accumulated enough signal. Per-agent tracking ensures each agent's experience count is independent.
 
 CUSUM with decay remains valid for CAPS situation classification (detecting shifts in behavioural patterns). Different mechanism for different job.
+
+## Implementation
+
+`ConsolidationTrigger` in `neocortex/mindmap-intelligence`. Three structured log levels for tuning: `trigger:accumulate` (FINE), `trigger:FIRED` (INFO), `trigger:RESET` (INFO).
 
 ## Filed As
 
