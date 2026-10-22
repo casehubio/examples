@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.experiment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.casehub.blocks.summarisation.observation.affordance.ObservationSection;
+import io.casehub.agency.summarisation.observation.affordance.ObservationSection;
 import io.casehub.eidos.api.AgentRegistry;
 import io.casehub.eidos.api.SystemPromptRenderer;
 import io.casehub.examples.manor.agent.AgentResponse;

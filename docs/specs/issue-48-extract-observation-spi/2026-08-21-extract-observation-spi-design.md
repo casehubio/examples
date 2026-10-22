@@ -4,7 +4,7 @@
 **Status:** Approved
 **Branch:** issue-48-extract-observation-spi
 **Issue:** casehubio/examples#48
-**Depends on:** casehubio/blocks#127 (WorldObservationProvider — complete)
+**Depends on:** casehubio/agency#127 (WorldObservationProvider — complete)
 
 ## Goal
 
@@ -46,7 +46,7 @@ based on observer tags, remembered only when non-empty).
 
 ### 1.2 Cognitive Sections → CognitiveObservationSections (in blocks)
 
-New utility class in `io.casehub.blocks.summarisation.observation.affordance`.
+New utility class in `io.casehub.agency.summarisation.observation.affordance`.
 Static methods producing `ObservationSection` from platform types:
 
 | Method | Input type | Section header |
@@ -302,10 +302,10 @@ Same pattern as CharacterAgentLoop — construct provider, pass to builder.
 
 ## 5. Cross-Repo Work
 
-### 5.1 blocks (casehubio/blocks)
+### 5.1 blocks (casehubio/agency)
 
 **New class:** `CognitiveObservationSections` in
-`io.casehub.blocks.summarisation.observation.affordance`
+`io.casehub.agency.summarisation.observation.affordance`
 
 5 static methods moved from manor's `ObservationBuilder`:
 - `goalsSection(List<AgentGoal>)` → `ObservationSection`
@@ -333,7 +333,7 @@ No new dependencies — blocks already has eidos-api and neocortex-memory-api.
 - `AutonomousScenarioRunner` — caller change per §4.4
 - `ObservationBuilderTest` — update all 30+ test methods to construct providers
 
-**Dependency update:** bump `casehub-blocks` SNAPSHOT to pick up
+**Dependency update:** bump `casehub-agency` SNAPSHOT to pick up
 `CognitiveObservationSections` and `WorldObservationProvider`.
 
 ---
@@ -360,8 +360,8 @@ is structural, not behavioural.
 ## References
 
 - `wacky-manor/src/main/java/io/casehub/examples/manor/agent/ObservationBuilder.java` — current monolith being refactored
-- `blocks/src/main/java/io/casehub/blocks/summarisation/observation/affordance/WorldObservationProvider.java` — SPI from blocks#127
-- `blocks/src/main/java/io/casehub/blocks/summarisation/observation/affordance/ObservationSection.java` — sealed interface for section types
+- `blocks/src/main/java/io/casehub/agency/summarisation/observation/affordance/WorldObservationProvider.java` — SPI from blocks#127
+- `blocks/src/main/java/io/casehub/agency/summarisation/observation/affordance/ObservationSection.java` — sealed interface for section types
 - `docs/specs/issue-5-observation-accumulator-blocks/2026-08-01-observation-accumulator-design.md` — ObservationAccumulator wiring, ObservationBuilder integration context
-- casehubio/blocks#127 — WorldObservationProvider SPI definition
+- casehubio/agency#127 — WorldObservationProvider SPI definition
 - casehubio/examples#48 — this issue

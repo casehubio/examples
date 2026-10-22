@@ -1,11 +1,11 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.summarisation.observation.PartitionedDrain;
-import io.casehub.blocks.summarisation.observation.RememberedPartition;
-import io.casehub.blocks.summarisation.observation.affordance.Affordance;
-import io.casehub.blocks.summarisation.observation.affordance.ObservableEntity;
-import io.casehub.blocks.summarisation.observation.affordance.ObservationSection;
-import io.casehub.blocks.summarisation.observation.affordance.WorldObservationProvider;
+import io.casehub.agency.summarisation.observation.PartitionedDrain;
+import io.casehub.agency.summarisation.observation.RememberedPartition;
+import io.casehub.agency.summarisation.observation.affordance.Affordance;
+import io.casehub.agency.summarisation.observation.affordance.ObservableEntity;
+import io.casehub.agency.summarisation.observation.affordance.ObservationSection;
+import io.casehub.agency.summarisation.observation.affordance.WorldObservationProvider;
 import io.casehub.examples.manor.engine.WorldState;
 import io.casehub.examples.manor.model.CharacterState;
 import io.casehub.examples.manor.model.GameObject;
@@ -49,10 +49,10 @@ public class ManorWorldObservationProvider implements WorldObservationProvider {
                     : ObservationSection.items("Keen Observations", null, java.util.List.of());
             var fallbackSection = directed != null ? directed
                     : ObservationSection.items("Directed to You", null, java.util.List.of());
-            sections.add(io.casehub.blocks.summarisation.observation.affordance.AnnotatedSection.withResolution(
+            sections.add(io.casehub.agency.summarisation.observation.affordance.AnnotatedSection.withResolution(
                     fullSection,
                     java.util.Set.of("perception"),
-                    io.casehub.blocks.summarisation.observation.affordance.ResolutionTier.REDUCED,
+                    io.casehub.agency.summarisation.observation.affordance.ResolutionTier.REDUCED,
                     fallbackSection));
         }
         return sections;

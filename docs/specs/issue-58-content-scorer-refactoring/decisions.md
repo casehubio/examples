@@ -6,7 +6,7 @@
 - Unify ConfidenceScorer and GraduationScorer into a single interface — cleanest long-term but requires moving the unified type to memory-api and updating all consumers in both repos
 **Rationale:** Approach A adds the abstraction without disrupting either existing scoring pipeline. SurpriseScorer/ArousalScorer implement both interfaces — ContentScorer for the new graduation path, ConfidenceScorer as a thin adapter for backward compat. Zero changes needed in MemoryHygieneOrchestrator, CompositeConfidenceScorer, or the YAML pipeline.
 **Trade-offs:** Two scoring interfaces coexist (ContentScorer and ConfidenceScorer). Acceptable pre-release — can unify later if the duplication becomes friction.
-**Sources:** io.casehub.blocks.memory.ConfidenceScorer, io.casehub.neocortex.memory.experience.GraduationScorer, GE-20260912-be7c74 (three-tier memory model), casehubio/examples#58
+**Sources:** io.casehub.agency.memory.ConfidenceScorer, io.casehub.neocortex.memory.experience.GraduationScorer, GE-20260912-be7c74 (three-tier memory model), casehubio/examples#58
 **Exploration:** quick
 **Status:** captured
 

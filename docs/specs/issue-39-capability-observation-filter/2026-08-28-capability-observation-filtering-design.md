@@ -9,7 +9,7 @@
 ## Goal
 
 Elevate the manor's hard-coded `observerTags` filtering into a composable,
-platform-level observation pipeline in casehub-blocks. Providers emit
+platform-level observation pipeline in casehub-agency. Providers emit
 world state at full fidelity. A pipeline of filters applies visibility
 gating, resolution control, and interpretive framing based on the
 observer's declared capabilities. The manor becomes a thin application
@@ -45,7 +45,7 @@ visibility only. Enterprise deployments add resolution and interpretation.
 `TextBlock`, and `ItemList`. Filtering metadata lives in a separate wrapper:
 
 ```java
-package io.casehub.blocks.summarisation.observation.affordance;
+package io.casehub.agency.summarisation.observation.affordance;
 
 public record AnnotatedSection(
     ObservationSection section,
@@ -118,7 +118,7 @@ pipeline use `instanceof` to distinguish them.
 ### 3.1 Filter Interface
 
 ```java
-package io.casehub.blocks.summarisation.observation.affordance;
+package io.casehub.agency.summarisation.observation.affordance;
 
 @FunctionalInterface
 public interface ObservationFilter {
@@ -371,10 +371,10 @@ tags).
 
 ## 7. Cross-Repo Work
 
-### 7.1 casehub-blocks
+### 7.1 casehub-agency
 
 **New types:**
-- `AnnotatedSection` — record in `io.casehub.blocks.summarisation.observation.affordance`
+- `AnnotatedSection` — record in `io.casehub.agency.summarisation.observation.affordance`
 - `ResolutionTier` — enum in same package
 - `ObservationFilter` — `@FunctionalInterface` in same package
 - `ObservationPipeline` — class in same package
@@ -427,8 +427,8 @@ preserved through the PerceptionFilter.
 
 - `wacky-manor/src/main/java/io/casehub/examples/manor/agent/ManorWorldObservationProvider.java` — current observer-aware provider being refactored
 - `wacky-manor/src/main/java/io/casehub/examples/manor/agent/ObservationBuilder.java` — assembly point gaining pipeline parameter
-- `blocks/src/main/java/io/casehub/blocks/summarisation/observation/affordance/ObservationSection.java` — sealed interface staying unchanged
-- `blocks/src/main/java/io/casehub/blocks/summarisation/observation/affordance/WorldObservationProvider.java` — provider SPI
+- `blocks/src/main/java/io/casehub/agency/summarisation/observation/affordance/ObservationSection.java` — sealed interface staying unchanged
+- `blocks/src/main/java/io/casehub/agency/summarisation/observation/affordance/WorldObservationProvider.java` — provider SPI
 - `eidos/api/src/main/java/io/casehub/eidos/api/AgentCapability.java` — capability tags source
 - `docs/specs/issue-48-extract-observation-spi/2026-08-21-extract-observation-spi-design.md` — observation SPI foundation
 - casehubio/examples#38 — interaction chains (validated the pattern)

@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.summarisation.LevelEvent;
-import io.casehub.blocks.summarisation.Summariser;
+import io.casehub.agency.summarisation.LevelEvent;
+import io.casehub.agency.summarisation.Summariser;
 import io.casehub.examples.manor.model.ManorEvent;
 import io.casehub.platform.agent.AgentEvent;
 import io.casehub.platform.agent.AgentSessionInit;

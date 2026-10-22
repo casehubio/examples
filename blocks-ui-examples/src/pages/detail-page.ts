@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import type { WorkIdentity, WorkItemResponse } from '@casehubio/blocks-ui-core';
-import '@casehubio/blocks-ui-work-item-detail';
+import type { WorkIdentity, WorkItemResponse } from '@casehubio/agency-ui-core';
+import '@casehubio/agency-ui-work-item-detail';
 
 const IDENTITY: WorkIdentity = {
   userId: 'demo-user',

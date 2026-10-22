@@ -12,20 +12,20 @@ public final class CharacterAgentLoop {
 
     private static final Logger log = Logger.getLogger(CharacterAgentLoop.class);
 
-    public static final java.util.List<io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor> ACTION_DESCRIPTORS = java.util.List.of(
-            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("MOVE", "walk to an adjacent room", "target = room-id"),
-            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("TAKE", "pick up a portable object into your inventory", "target = object-id"),
-            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("USE", "apply an inventory item to an object", "target = object-id, withItem = item from your inventory"),
-            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("GIVE", "hand an inventory item to another character", "target = character-id, withItem = item from your inventory"),
-            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("INTERACT", "activate an object's built-in mechanism (levers, locks, puzzles)", "target = object-id, withItem = required item if any"),
-            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("LOOK", "examine an object or room closely", "target = object-id or null for room"),
-            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("STEAL", "take an item from another character's inventory", "target = character-id, withItem = item to steal"),
-            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("PULL_ASIDE", "pull a character aside for a private multi-turn conversation", "target = character-id"),
-            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("WAIT", "do nothing this turn", null)
+    public static final java.util.List<io.casehub.agency.summarisation.observation.affordance.ActionDescriptor> ACTION_DESCRIPTORS = java.util.List.of(
+            new io.casehub.agency.summarisation.observation.affordance.ActionDescriptor("MOVE", "walk to an adjacent room", "target = room-id"),
+            new io.casehub.agency.summarisation.observation.affordance.ActionDescriptor("TAKE", "pick up a portable object into your inventory", "target = object-id"),
+            new io.casehub.agency.summarisation.observation.affordance.ActionDescriptor("USE", "apply an inventory item to an object", "target = object-id, withItem = item from your inventory"),
+            new io.casehub.agency.summarisation.observation.affordance.ActionDescriptor("GIVE", "hand an inventory item to another character", "target = character-id, withItem = item from your inventory"),
+            new io.casehub.agency.summarisation.observation.affordance.ActionDescriptor("INTERACT", "activate an object's built-in mechanism (levers, locks, puzzles)", "target = object-id, withItem = required item if any"),
+            new io.casehub.agency.summarisation.observation.affordance.ActionDescriptor("LOOK", "examine an object or room closely", "target = object-id or null for room"),
+            new io.casehub.agency.summarisation.observation.affordance.ActionDescriptor("STEAL", "take an item from another character's inventory", "target = character-id, withItem = item to steal"),
+            new io.casehub.agency.summarisation.observation.affordance.ActionDescriptor("PULL_ASIDE", "pull a character aside for a private multi-turn conversation", "target = character-id"),
+            new io.casehub.agency.summarisation.observation.affordance.ActionDescriptor("WAIT", "do nothing this turn", null)
                                                                                                                                                        );
 
     public static final String RESPONSE_FORMAT_INSTRUCTION = "\n" +
-                                                             new io.casehub.blocks.summarisation.observation.affordance.AffordanceRenderer().renderActionVocabulary(
+                                                             new io.casehub.agency.summarisation.observation.affordance.AffordanceRenderer().renderActionVocabulary(
                                                                      """
                                                                      You MUST respond with ONLY a JSON object in this exact format:
                                                                      {
@@ -82,7 +82,7 @@ public final class CharacterAgentLoop {
                 java.util.List<io.casehub.neocortex.memory.Memory> memories = experienceService != null
                                                                               ? experienceService.recall(character.agentId(), 10) : java.util.List.of();
                 var worldProvider = new ManorWorldObservationProvider(character, world, drain);
-                var pipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
+                var pipeline = new io.casehub.agency.summarisation.observation.affordance.ObservationPipeline(new io.casehub.agency.summarisation.observation.affordance.PerceptionFilter());
 
                 String observation;
                 if (cognition != null) {

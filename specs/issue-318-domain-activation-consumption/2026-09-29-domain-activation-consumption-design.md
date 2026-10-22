@@ -1,7 +1,7 @@
 # Design: DomainActivation Consumption — Cross-Subgraph Affect Correlations
 
-**Issue:** casehubio/blocks#318
-**Epic:** casehubio/blocks#311 (Neocortex cognitive integration)
+**Issue:** casehubio/agency#318
+**Epic:** casehubio/agency#311 (Neocortex cognitive integration)
 **Module:** blocks-core
 
 ## Overview
@@ -35,7 +35,7 @@ This is a **tick participant with consolidation-staleness-check**, not a mediato
 
 ### 1. DomainActivationParticipant
 
-**Package:** `io.casehub.blocks.agentic.social`
+**Package:** `io.casehub.agency.agentic.social`
 **Implements:** `CognitionTickParticipant`
 
 A plain class (no CDI annotations) that participates in the cognition tick lifecycle at `CognitionPhase.TERMINAL`. Detects new consolidation data via the existing `ConsolidationMediator`'s tenant-level timestamp — no separate CDI event observation needed.
@@ -183,7 +183,7 @@ record DomainActivationSnapshot(
 
 ### 3. DomainActivationPromptSection
 
-**Package:** `io.casehub.blocks.agentic.social.prompt`
+**Package:** `io.casehub.agency.agentic.social.prompt`
 **Implements:** `PromptSection`
 
 Constructed with a `DomainActivationSnapshot` (the composite result from the participant). Renders narrative text using `CorrelationStrength` qualifiers.
@@ -254,9 +254,9 @@ if (builder.domainActivation.isPresent() && builder.mindMapStore.isPresent()) {
 
 Wiring is gated by dependency availability (`domainActivation` and `mindMapStore` must both be present), NOT by a config flag. `ConsolidationMediator` is nullable because the participant functions without it — when null, the staleness check is skipped and computation runs every tick (useful for tests and deployments without consolidation). The `CognitionConfig.all()` default has `domainActivationEnabled=false`, which is checked inside `tick()` — matching the `CognitiveProfileParticipant` pattern where `perspectiveComparisonEnabled=false` gates computation but not registration.
 
-### 6. BlocksBeans Injection
+### 6. AgencyBeans Injection
 
-Add `DomainActivation` to BlocksBeans via `Instance<DomainActivation>` (optional injection pattern, consistent with `CognitiveProfile` and other neocortex service wiring):
+Add `DomainActivation` to AgencyBeans via `Instance<DomainActivation>` (optional injection pattern, consistent with `CognitiveProfile` and other neocortex service wiring):
 
 ```java
 @Inject Instance<DomainActivation> domainActivationInstance;
@@ -282,9 +282,9 @@ Add to `blocks-core/pom.xml`:
 
 Note: `casehub-neocortex-cognitive-index` is already a test dependency in `blocks` module and a compile dependency in `blocks-spring`. Adding it as provided to `blocks-core` follows the pattern of other neocortex API dependencies.
 
-### 8. BlocksAutoConfiguration (Spring)
+### 8. AgencyAutoConfiguration (Spring)
 
-Add Spring equivalent wiring in `BlocksAutoConfiguration.socialAvatarCognition()`:
+Add Spring equivalent wiring in `AgencyAutoConfiguration.socialAvatarCognition()`:
 - Add `Optional<DomainActivation> domainActivation` parameter (Spring auto-wires `Optional.empty()` when the bean is absent)
 - Add `.domainActivation(domainActivation)` to the builder chain
 
@@ -337,8 +337,8 @@ This follows the existing pattern — `socialAvatarCognition()` already accepts 
 - `SocialAvatarCognition.java` — wiring point for participants and section customizers
 - `CognitionCore.java` — tick lifecycle orchestrator
 - `CognitionConfig.java` — config flag registry
-- `BlocksBeans.java` — CDI producer for neocortex service injection
+- `AgencyBeans.java` — CDI producer for neocortex service injection
 - `DomainActivationTest.java` (neocortex) — unit test demonstrating the API
 - `CognitiveIndexWalkthroughTest.java` (neocortex examples) — integration test with therapy scenario
-- casehubio/blocks#311 — parent epic
-- casehubio/blocks#317 — SocialComparison sibling (pattern precedent)
+- casehubio/agency#311 — parent epic
+- casehubio/agency#317 — SocialComparison sibling (pattern precedent)

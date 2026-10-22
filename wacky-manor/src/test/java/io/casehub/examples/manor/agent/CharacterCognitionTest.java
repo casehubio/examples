@@ -232,7 +232,7 @@ class CharacterCognitionTest {
                                     .filter(s -> "Your Beliefs".equals(s.header()))
                                     .findFirst().orElseThrow();
 
-        assertThat(((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
+        assertThat(((io.casehub.agency.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
                 .anyMatch(item -> item.contains("naive"));
     }
 
@@ -282,9 +282,9 @@ class CharacterCognitionTest {
                                     .filter(s -> "Your Beliefs".equals(s.header()))
                                     .findFirst().orElseThrow();
 
-        assertThat(((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
+        assertThat(((io.casehub.agency.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
                 .anyMatch(item -> item.contains("[REVISED]") && item.contains("penelope-awareness"));
-        assertThat(((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
+        assertThat(((io.casehub.agency.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
                 .noneMatch(item -> item.contains("naive"));
     }
 
@@ -320,8 +320,8 @@ class CharacterCognitionTest {
         var drivesSection = sections.stream()
                                     .filter(s -> "Character Motivations".equals(s.header()))
                                     .findFirst().orElseThrow();
-        assertThat(drivesSection).isInstanceOf(io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock.class);
-        var drivesContent = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) drivesSection).content();
+        assertThat(drivesSection).isInstanceOf(io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock.class);
+        var drivesContent = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) drivesSection).content();
         assertThat(drivesContent).contains("scheming");
         assertThat(drivesContent).contains("90%");
         assertThat(drivesContent).contains("self-preservation");
@@ -330,7 +330,7 @@ class CharacterCognitionTest {
         var needsSection = sections.stream()
                                    .filter(s -> "Inner Needs".equals(s.header()))
                                    .findFirst().orElseThrow();
-        var needsContent = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) needsSection).content();
+        var needsContent = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) needsSection).content();
         assertThat(needsContent).containsIgnoringCase("self-expression");
         assertThat(needsContent).containsIgnoringCase("safety");
     }
@@ -376,8 +376,8 @@ class CharacterCognitionTest {
         var goalsSection = sections.stream()
                                    .filter(s -> "Your current goals:".equals(s.header()))
                                    .findFirst().orElseThrow();
-        assertThat(goalsSection).isInstanceOf(io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock.class);
-        var goalsContent = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) goalsSection).content();
+        assertThat(goalsSection).isInstanceOf(io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock.class);
+        var goalsContent = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) goalsSection).content();
         assertThat(goalsContent).contains("Kill Penelope Pitstop");
         assertThat(goalsContent).contains("Stay in character");
         assertThat(goalsContent).contains("competence");
@@ -451,13 +451,13 @@ class CharacterCognitionTest {
         // Without activation: drives ordered by intensity (scheming > gloating > self-preservation)
         var noActivation = cognition.renderInternalState(List.of(), "");
         assertThat(noActivation).isNotNull();
-        var content0 = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) noActivation).content();
+        var content0 = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) noActivation).content();
         assertThat(content0.indexOf("Webs")).isLessThan(content0.indexOf("Triumph"));
         assertThat(content0.indexOf("Triumph")).isLessThan(content0.indexOf("watchful"));
 
         // With gloating activated: intensity order preserved (Principle 43 — strength, not activation)
         var withActivation = cognition.renderInternalState(List.of("gloating"), "");
-        var content1       = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) withActivation).content();
+        var content1       = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) withActivation).content();
         assertThat(content1.indexOf("Webs"))
                 .as("Highest intensity (scheming 0.9) first regardless of activation")
                 .isLessThan(content1.indexOf("Triumph"));
@@ -474,7 +474,7 @@ class CharacterCognitionTest {
 
         var section = cognition.renderInternalState(List.of(), "");
         assertThat(section).isNotNull();
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
         assertThat(content.indexOf("Fists")).isLessThan(content.indexOf("pull toward"));
     }
 
@@ -497,7 +497,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(agent, null, null, ppConfig, List.of(), null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
         var section = cognition.renderInternalState(List.of("gallantry"), "Penelope smiled and welcomed Peter into the drawing room");
         assertThat(section).isNotNull();
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
         assertThat(content).contains("A memory surfaces");
         assertThat(content).contains("girl from school");
     }
@@ -509,7 +509,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition("test", null, null, socialConfig, List.of());
         var section = cognition.renderInternalState(List.of("scheming"), "something happened");
         assertThat(section).isNotNull();
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
         assertThat(content).doesNotContain("A memory surfaces");
     }
 
@@ -672,7 +672,7 @@ class CharacterCognitionTest {
 
         var section = cognition.renderInternalState(List.of("gallantry"),
             "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
 
         assertThat(content).contains("warmth rises");
         assertThat(content).contains("tension gathers");
@@ -740,7 +740,7 @@ class CharacterCognitionTest {
 
         var section = cognition.renderInternalState(List.of("gallantry", "proving-worth"),
             "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
 
         assertThat(content).contains("warmth rises");
         assertThat(content).contains("A memory surfaces");
@@ -791,7 +791,7 @@ class CharacterCognitionTest {
 
         var section = cognition.renderInternalState(List.of("gallantry"),
                                                     "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
 
         assertThat(content)
                 .as("all 3 differentiation texts must reach the prompt, not just the first")
@@ -850,7 +850,7 @@ class CharacterCognitionTest {
 
         var section = cognition.renderInternalState(List.of("gallantry", "proving-worth"),
                                                     "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
 
         assertThat(content)
                 .as("differentiation for active pair (gallantry+proving-worth) should be included")
@@ -896,7 +896,7 @@ class CharacterCognitionTest {
 
         var section = cognition.renderInternalState(List.of("social-harmony"),
                                                     "James Hartwell is sitting alone after the argument", List.of("peter-perfect"));
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
 
         assertThat(content)
                 .as("memory content should appear but metadata annotations must be stripped")
@@ -932,7 +932,7 @@ class CharacterCognitionTest {
 
         var section = cognition.renderInternalState(List.of("gallantry"),
             "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
 
         assertThat(content).contains("warmth rises");
         assertThat(content).contains("person you were meant to be");
@@ -989,7 +989,7 @@ class CharacterCognitionTest {
 
         var section = cognition.renderInternalState(List.of("gallantry", "protection"),
             "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) section).content();
 
         // Gallantry's description should be present (active drive)
         assertThat(content).contains("warmth rises");
@@ -1041,7 +1041,7 @@ class CharacterCognitionTest {
             .toList();
         assertThat(tomSections).hasSize(1);
         assertThat(tomSections.get(0).header()).isEqualTo("What You Sense About Clara");
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
         assertThat(content).contains("tightness");
         assertThat(content).contains("belonging");
         assertThat(content).contains("Exclusion");
@@ -1111,7 +1111,7 @@ class CharacterCognitionTest {
                                   .filter(s -> s.header().startsWith("What You Sense About"))
                                   .toList();
         assertThat(tomSections).hasSize(1);
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
         assertThat(content).containsIgnoringCase("easing");
     }
 
@@ -1150,7 +1150,7 @@ class CharacterCognitionTest {
                                   .filter(s -> s.header().startsWith("What You Sense About"))
                                   .toList();
         assertThat(tomSections).hasSize(1);
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
         assertThat(content).containsIgnoringCase("worse");
     }
 
@@ -1184,7 +1184,7 @@ class CharacterCognitionTest {
                                   .filter(s -> s.header().startsWith("What You Sense About"))
                                   .toList();
         assertThat(tomSections).hasSize(1);
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
         // Should have ToM content but no velocity signal
         assertThat(content).contains("tightness");
         assertThat(content).doesNotContainIgnoringCase("easing");
@@ -1217,7 +1217,7 @@ class CharacterCognitionTest {
                                         io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.SEVERE);
         var sections1 = cognition.renderCognitiveSections(character, List.of("clara"), Map.of("clara", "Clara"));
         var tom1      = sections1.stream().filter(s -> s.header().startsWith("What You Sense About")).findFirst().orElseThrow();
-        var content1  = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tom1).content();
+        var content1  = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) tom1).content();
         assertThat(content1).doesNotContainIgnoringCase("easing");
         assertThat(content1).doesNotContainIgnoringCase("worse");
 
@@ -1227,7 +1227,7 @@ class CharacterCognitionTest {
                                         io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.MILD);
         var sections2 = cognition.renderCognitiveSections(character, List.of("clara"), Map.of("clara", "Clara"));
         var tom2      = sections2.stream().filter(s -> s.header().startsWith("What You Sense About")).findFirst().orElseThrow();
-        var content2  = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tom2).content();
+        var content2  = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) tom2).content();
         assertThat(content2).containsIgnoringCase("easing");
 
         // Turn 3: distress increases again — WORSENING
@@ -1236,7 +1236,7 @@ class CharacterCognitionTest {
                                         io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.SEVERE);
         var sections3 = cognition.renderCognitiveSections(character, List.of("clara"), Map.of("clara", "Clara"));
         var tom3      = sections3.stream().filter(s -> s.header().startsWith("What You Sense About")).findFirst().orElseThrow();
-        var content3  = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tom3).content();
+        var content3  = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) tom3).content();
         assertThat(content3).containsIgnoringCase("worse");
     }
 
@@ -1281,7 +1281,7 @@ class CharacterCognitionTest {
                                   .filter(s -> s.header().startsWith("What You Sense About"))
                                   .toList();
         assertThat(tomSections).hasSize(1);
-        var content = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
+        var content = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) tomSections.get(0)).content();
         // Sustained avoidance → STABLE trajectory → "not shifted" signal
         assertThat(content).containsIgnoringCase("not shifted");
     }

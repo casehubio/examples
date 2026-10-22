@@ -267,7 +267,7 @@ rendering (prompt construction)
 - `ManorCognitiveSeeder.seed()` (wacky-manor:100-109) — belief seeding with Belieflike trait
 - `AgentProvider.java` (platform-agent-api) — LLM invocation SPI
 - `UserModelOrchestrator.java` (blocks-core) — LLM synthesis pattern in blocks-core
-- `Belief.java`, `BeliefSet.java`, `ConsistencyChecker.java` (blocks-core, `io.casehub.blocks.agentic.belief`) — AGM framework
+- `Belief.java`, `BeliefSet.java`, `ConsistencyChecker.java` (blocks-core, `io.casehub.agency.agentic.belief`) — AGM framework
 - `CognitiveObservationSections.beliefsSection()` (blocks-core) — belief rendering with revised marking
 - `CharacterCognition.renderCognitiveSections()` (wacky-manor:99-129) — current static belief rendering (to be modified)
 - Issue #67, #52, #54

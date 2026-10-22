@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { generateThemeCSS, type ThemeConfig } from '@casehubio/blocks-ui-core';
+import { generateThemeCSS, type ThemeConfig } from '@casehubio/agency-ui-core';
 
 interface NavItem {
   id: string;

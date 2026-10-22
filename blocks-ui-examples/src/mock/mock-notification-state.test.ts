@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { MockNotificationState } from './mock-notification-state.js';
 import { MockSSESource } from './mock-sse.js';
-import type { Notification, Subscription } from '@casehubio/blocks-ui-notification-inbox';
+import type { Notification, Subscription } from '@casehubio/agency-ui-notification-inbox';
 
 // --- Fixtures ---
 

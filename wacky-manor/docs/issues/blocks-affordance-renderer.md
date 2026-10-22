@@ -1,6 +1,6 @@
-# Issue: casehubio/blocks — AffordanceRenderer
+# Issue: casehubio/agency — AffordanceRenderer
 
-**Target repo:** casehubio/blocks
+**Target repo:** casehubio/agency
 **Status:** Ready to file (gh auth down)
 
 ## Title
@@ -21,7 +21,7 @@ Wacky Manor Phase 2.5 (autonomous character validation) revealed that LLM agents
 
 ### Requirement
 
-Add an `AffordanceRenderer` to casehub-blocks that takes a structured model of observable entities with affordances and renders grounded observation text.
+Add an `AffordanceRenderer` to casehub-agency that takes a structured model of observable entities with affordances and renders grounded observation text.
 
 ```java
 record ObservableEntity(String id, String displayName, String description,
@@ -41,7 +41,7 @@ class AffordanceRenderer {
 
 ### Integration path
 
-Wacky Manor Phase 2.6 wires casehub-blocks' observation accumulator. The AffordanceRenderer would be part of that pipeline — replacing the hand-rolled observation code with the platform renderer.
+Wacky Manor Phase 2.6 wires casehub-agency' observation accumulator. The AffordanceRenderer would be part of that pipeline — replacing the hand-rolled observation code with the platform renderer.
 
 ### Evidence
 

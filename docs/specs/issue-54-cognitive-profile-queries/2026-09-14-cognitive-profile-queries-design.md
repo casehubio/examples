@@ -223,7 +223,7 @@ TemporalFocusConfig knobs use hardcoded defaults in ManorContextStrategy — no 
 Already on classpath from Phase A:
 - `casehub-neocortex-cognitive-index` (CognitiveProfile, TemporalFocus, Thing traits)
 - `casehub-neocortex-mindmap-intelligence` (ConsolidationScheduler, mindmap types)
-- `casehub-blocks` (CognitionCore, CognitiveObservationSections, renderers)
+- `casehub-agency` (CognitionCore, CognitiveObservationSections, renderers)
 
 No new dependencies needed.
 
