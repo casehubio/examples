@@ -171,12 +171,12 @@ public class ManorCognitivePipelineBuilder {
         var mentalModelOrch = new io.casehub.neocortex.cognition.mentalmodel.MentalModelOrchestrator(
                 new io.casehub.neocortex.cognition.mentalmodel.MentalModelMemory(
                         cbrStore, io.casehub.neocortex.cognition.mentalmodel.MentalModelConfig.defaults()),
-                io.casehub.neocortex.cognition.mentalmodel.MentalModelConfig.defaults(), sessionPipeline);
+                io.casehub.neocortex.cognition.mentalmodel.MentalModelConfig.defaults(), java.time.Clock.systemUTC(), sessionPipeline);
         var strategyOrch = new io.casehub.neocortex.cognition.strategy.StrategyLearningOrchestrator(
                 new io.casehub.neocortex.cognition.strategy.StrategyMemory(
                         cbrStore, io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults()),
                 noOpReflection,
-                io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults(), sessionPipeline);
+                io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults(), java.time.Clock.systemUTC(), sessionPipeline);
 
         var curiosityDrive = new io.casehub.neocortex.cognition.drive.CuriosityDrive(memoryHygieneAdapter);
         var competenceDrive = new io.casehub.neocortex.cognition.drive.CompetenceDrive(strategyOrch);
