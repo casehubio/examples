@@ -271,11 +271,11 @@ export class HelpdeskApp extends LitElement {
 
       <div class="split-layout">
         <div class="dashboard">
-          <blocks-kpi-metric-row
+          <agency-kpi-metric-row
             .metrics=${this._metricDefs}
             columns="4"
             density="compact"
-          ></blocks-kpi-metric-row>
+          ></agency-kpi-metric-row>
 
           <div class="panel">
             <h2>Tickets</h2>
@@ -298,10 +298,10 @@ export class HelpdeskApp extends LitElement {
           ${this._tickets.length > 0 ? html`
             <div class="panel">
               <h2>Pipeline</h2>
-              <blocks-timeline
+              <agency-timeline
                 .data=${this._ticketSnapshots}
                 .strategy=${this._pipelineStrategy}
-              ></blocks-timeline>
+              ></agency-timeline>
             </div>
           ` : nothing}
 
