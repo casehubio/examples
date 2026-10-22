@@ -1,11 +1,11 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.summarisation.Compactor;
-import io.casehub.blocks.summarisation.EventLevel;
-import io.casehub.blocks.summarisation.EventStreamBus;
-import io.casehub.blocks.summarisation.LevelEvent;
-import io.casehub.blocks.summarisation.SummarisationRunner;
-import io.casehub.blocks.summarisation.WindowPolicy;
+import io.casehub.agency.summarisation.Compactor;
+import io.casehub.agency.summarisation.EventLevel;
+import io.casehub.agency.summarisation.EventStreamBus;
+import io.casehub.agency.summarisation.LevelEvent;
+import io.casehub.agency.summarisation.SummarisationRunner;
+import io.casehub.agency.summarisation.WindowPolicy;
 import io.casehub.examples.manor.engine.WorldState;
 import io.casehub.examples.manor.model.ManorEvent;
 import io.casehub.examples.manor.web.ManorEventBus;

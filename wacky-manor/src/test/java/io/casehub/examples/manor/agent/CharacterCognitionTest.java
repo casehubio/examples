@@ -230,7 +230,7 @@ class CharacterCognitionTest {
                                     .filter(s -> "Your Beliefs".equals(s.header()))
                                     .findFirst().orElseThrow();
 
-        assertThat(((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
+        assertThat(((io.casehub.agency.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
                 .anyMatch(item -> item.contains("naive"));
     }
 
@@ -280,9 +280,9 @@ class CharacterCognitionTest {
                                     .filter(s -> "Your Beliefs".equals(s.header()))
                                     .findFirst().orElseThrow();
 
-        assertThat(((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
+        assertThat(((io.casehub.agency.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
                 .anyMatch(item -> item.contains("[REVISED]") && item.contains("penelope-awareness"));
-        assertThat(((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
+        assertThat(((io.casehub.agency.summarisation.observation.affordance.ObservationSection.ItemList) beliefSection).items())
                 .noneMatch(item -> item.contains("naive"));
     }
 
@@ -318,8 +318,8 @@ class CharacterCognitionTest {
         var drivesSection = sections.stream()
                                     .filter(s -> "Character Motivations".equals(s.header()))
                                     .findFirst().orElseThrow();
-        assertThat(drivesSection).isInstanceOf(io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock.class);
-        var drivesContent = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) drivesSection).content();
+        assertThat(drivesSection).isInstanceOf(io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock.class);
+        var drivesContent = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) drivesSection).content();
         assertThat(drivesContent).contains("scheming");
         assertThat(drivesContent).contains("90%");
         assertThat(drivesContent).contains("self-preservation");
@@ -328,7 +328,7 @@ class CharacterCognitionTest {
         var needsSection = sections.stream()
                                    .filter(s -> "Inner Needs".equals(s.header()))
                                    .findFirst().orElseThrow();
-        var needsContent = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) needsSection).content();
+        var needsContent = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) needsSection).content();
         assertThat(needsContent).containsIgnoringCase("self-expression");
         assertThat(needsContent).containsIgnoringCase("safety");
     }
@@ -374,8 +374,8 @@ class CharacterCognitionTest {
         var goalsSection = sections.stream()
                                    .filter(s -> "Your current goals:".equals(s.header()))
                                    .findFirst().orElseThrow();
-        assertThat(goalsSection).isInstanceOf(io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock.class);
-        var goalsContent = ((io.casehub.blocks.summarisation.observation.affordance.ObservationSection.TextBlock) goalsSection).content();
+        assertThat(goalsSection).isInstanceOf(io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock.class);
+        var goalsContent = ((io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) goalsSection).content();
         assertThat(goalsContent).contains("Kill Penelope Pitstop");
         assertThat(goalsContent).contains("Stay in character");
         assertThat(goalsContent).contains("competence");

@@ -74,7 +74,7 @@ Stateful class (not a CDI bean) created by `ScenarioOrchestrator` in
 and `CharacterAgentLoop`.
 
 Responsibilities:
-1. Owns a `SummarisationRunner<ManorEvent, String>` from casehub-blocks
+1. Owns a `SummarisationRunner<ManorEvent, String>` from casehub-agency
 2. Runs a virtual thread that calls `runner.tick(now)` in a loop
 3. Dispatches narrator output to ManorChannels and ManorEventBus via
    an EventStreamBus subscriber
@@ -155,7 +155,7 @@ with CAPITAL LETTERS for emphasis, 2-3 sentences max.
 ### Compactor integration
 
 `MechanicalCompactor` already exists in wacky-manor. It implements the new
-`Compactor<ManorEvent>` interface from blocks (casehubio/blocks#83).
+`Compactor<ManorEvent>` interface from blocks (casehubio/agency#83).
 
 The compactor applies two mechanisms:
 
@@ -228,7 +228,7 @@ When `manor.narrator.enabled=false` (or mode is SCRIPTED):
 
 ### Failure handling
 
-SummarisationRunner's `onFailure` handler (casehubio/blocks#84) logs
+SummarisationRunner's `onFailure` handler (casehubio/agency#84) logs
 the failed batch and continues. A missed narration is acceptable — the
 next batch covers new events. No retry, no dead-letter.
 
@@ -446,8 +446,8 @@ manor.narrator.timer-seconds=15
 
 ## Dependencies
 
-Requires `casehub-blocks` 0.2-SNAPSHOT with:
-- **`Compactor<E>` interface** (casehubio/blocks#83, CLOSED) — merged and
+Requires `casehub-agency` 0.2-SNAPSHOT with:
+- **`Compactor<E>` interface** (casehubio/agency#83, CLOSED) — merged and
   available in the published 0.2-SNAPSHOT. Hard prerequisite satisfied.
 - **`SummarisationRunner.flush()`** (blocks issue to be filed) —
   unconditional drain bypassing `WindowPolicy`, needed for the narrator's
@@ -462,7 +462,7 @@ Requires `casehub-blocks` 0.2-SNAPSHOT with:
   `clear()`, `size()` — no `flush()`. A separate blocks issue is required.
 
 Also uses existing:
-- `casehub-blocks` (SummarisationRunner, WindowPolicy, EventStreamBus)
+- `casehub-agency` (SummarisationRunner, WindowPolicy, EventStreamBus)
 - `casehub-platform-agent-api` (AgentProvider)
 
 ## Open questions
@@ -474,6 +474,6 @@ None — all design decisions resolved during brainstorming.
 - POC spec: `wacky-manor/docs/POC-SPEC.md` (Section 1.6 — Narrator)
 - Vision: `wacky-manor/docs/VISION.md` (The Narrator section)
 - Phase 2.6 spec: observation accumulator design (workspace)
-- blocks hardening: casehubio/blocks#82 (Compactor SPI, failure recovery, atomic drain)
+- blocks hardening: casehubio/agency#82 (Compactor SPI, failure recovery, atomic drain)
 - Garden: GE-20260629-e8b16d (EventStreamBus.clear() gotcha)
 - Garden: GE-20260724-7b07f5 (direct injection over event bus)

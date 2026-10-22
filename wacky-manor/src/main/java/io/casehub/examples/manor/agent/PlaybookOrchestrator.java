@@ -146,17 +146,17 @@ public class PlaybookOrchestrator {
         var moodOrch = new io.casehub.neocortex.cognition.mood.MoodOrchestrator(io.casehub.neocortex.cognition.mood.MoodConfig.defaults());
         var narrativeOrch = new io.casehub.neocortex.cognition.narrative.NarrativeOrchestrator(new io.casehub.neocortex.cognition.narrative.NarrativeMemory(cbrRecordStore, io.casehub.neocortex.cognition.narrative.NarrativeConfig.defaults()));
         var cbrStore = cbrRecordStore;
-        var memoryHygiene = new io.casehub.blocks.memory.MemoryHygieneOrchestrator(
+        var memoryHygiene = new io.casehub.agency.memory.MemoryHygieneOrchestrator(
                 cbrStore,
-                new io.casehub.blocks.memory.CompositeConfidenceScorer(java.util.List.of(
-                        new io.casehub.blocks.memory.WeightedScorer(new io.casehub.blocks.memory.ArousalScorer(), 0.5),
-                        new io.casehub.blocks.memory.WeightedScorer(new io.casehub.blocks.memory.SurpriseScorer(), 0.5))),
+                new io.casehub.agency.memory.CompositeConfidenceScorer(java.util.List.of(
+                        new io.casehub.agency.memory.WeightedScorer(new io.casehub.agency.memory.ArousalScorer(), 0.5),
+                        new io.casehub.agency.memory.WeightedScorer(new io.casehub.agency.memory.SurpriseScorer(), 0.5))),
                 new io.casehub.neocortex.memory.cbr.TemporalDecay.HalfLife(java.time.Duration.ofDays(365)),
                 new io.casehub.neocortex.memory.cbr.ScopeDecay.Step(1.0), null,
                 io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults().memoryDomain(),
                 java.util.List.of(io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults().engagementCaseType()),
-                io.casehub.blocks.memory.RetentionConfig.DEFAULT, 10, 0.7, event -> {});
-        var memoryHygieneAdapter = new io.casehub.blocks.agentic.cognition.MemoryHygieneSpiAdapter(memoryHygiene);
+                io.casehub.agency.memory.RetentionConfig.DEFAULT, 10, 0.7, event -> {});
+        var memoryHygieneAdapter = new io.casehub.agency.agentic.cognition.MemoryHygieneSpiAdapter(memoryHygiene);
 
         // Phase 2 — Independent, need AgentProvider for LLM calls (D6)
         io.casehub.neocortex.memory.reflection.ReflectionOrchestrator noOpReflection =
@@ -386,7 +386,7 @@ public class PlaybookOrchestrator {
                         }
                         var memories = cognition.recallMemories(config.memory().recallLimit());
                         var worldProvider = new ManorWorldObservationProvider(c, world, drain);
-                        var pipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
+                        var pipeline = new io.casehub.agency.summarisation.observation.affordance.ObservationPipeline(new io.casehub.agency.summarisation.observation.affordance.PerceptionFilter());
                         var nearbyIds = world.charactersInRoom(c.currentRoom()).stream()
                                 .map(io.casehub.examples.manor.model.CharacterState::agentId)
                                 .filter(id -> !id.equals(c.agentId()))

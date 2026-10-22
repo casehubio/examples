@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import type { WorkIdentity } from '@casehubio/blocks-ui-core';
-import '@casehubio/blocks-ui-audit-trail-viewer';
+import type { WorkIdentity } from '@casehubio/agency-ui-core';
+import '@casehubio/agency-ui-audit-trail-viewer';
 import mockEntries from '../../mock-data/ledger-entries.json';
 
 interface LedgerEntry {

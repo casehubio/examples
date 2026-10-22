@@ -2188,7 +2188,7 @@ Refs #TBD"
 - Create: `src/main/java/io/casehub/examples/manor/agent/CharacterAgentLoop.java`
 - Create: `src/main/java/io/casehub/examples/manor/agent/ScenarioOrchestrator.java`
 - Modify: `src/main/java/io/casehub/examples/manor/ManorConstants.java` — add think delay constants
-- Modify: `pom.xml` — add `casehub-blocks` dependency
+- Modify: `pom.xml` — add `casehub-agency` dependency
 - Test: `src/test/java/io/casehub/examples/manor/agent/AgentResponseTest.java`
 
 **Interfaces:**
@@ -2200,7 +2200,7 @@ Refs #TBD"
   - `CharacterAgentLoop.run(character, world, agentProvider, systemPrompt, actionQueue)` — runs on virtual thread
   - `ScenarioOrchestrator` — CDI `@ApplicationScoped`, `startScenario(WorldState)` → `Thread`
 
-- [ ] **Step 1: Add casehub-blocks dependency to pom.xml**
+- [ ] **Step 1: Add casehub-agency dependency to pom.xml**
 
 Add to `<dependencies>` section:
 
@@ -2208,7 +2208,7 @@ Add to `<dependencies>` section:
 <!-- CaseHub Blocks — ObservationAccumulator for event batching -->
 <dependency>
     <groupId>io.casehub</groupId>
-    <artifactId>casehub-blocks</artifactId>
+    <artifactId>casehub-agency</artifactId>
     <version>${casehub.version}</version>
 </dependency>
 ```

@@ -1,6 +1,6 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.summarisation.observation.affordance.ObservationSection;
+import io.casehub.agency.summarisation.observation.affordance.ObservationSection;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

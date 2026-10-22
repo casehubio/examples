@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import type { WorkItemResponse } from '@casehubio/blocks-ui-core';
-import '@casehubio/blocks-ui-work-item-row';
+import type { WorkItemResponse } from '@casehubio/agency-ui-core';
+import '@casehubio/agency-ui-work-item-row';
 
 @customElement('row-page')
 export class RowPage extends LitElement {

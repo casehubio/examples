@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import '@casehubio/blocks-ui-kpi-metric-row';
-import type { MetricDefinition } from '@casehubio/blocks-ui-kpi-metric-row';
+import '@casehubio/agency-ui-kpi-metric-row';
+import type { MetricDefinition } from '@casehubio/agency-ui-kpi-metric-row';
 
 const DASHBOARD_METRICS: MetricDefinition[] = [
   {

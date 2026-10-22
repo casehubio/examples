@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { MockState } from './mock-state.js';
-import type { WorkItemResponse, QueueView } from '@casehubio/blocks-ui-core';
+import type { WorkItemResponse, QueueView } from '@casehubio/agency-ui-core';
 
 const mockItems: WorkItemResponse[] = [
   {

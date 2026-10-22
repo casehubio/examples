@@ -1,9 +1,9 @@
 import { LitElement, html, css, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import type { WorkIdentity } from '@casehubio/blocks-ui-core';
-import '@casehubio/blocks-ui-notification-inbox';
+import type { WorkIdentity } from '@casehubio/agency-ui-core';
+import '@casehubio/agency-ui-notification-inbox';
 import type { MockNotificationState } from '../mock/mock-notification-state.js';
-import type { Notification } from '@casehubio/blocks-ui-notification-inbox';
+import type { Notification } from '@casehubio/agency-ui-notification-inbox';
 
 const IDENTITY: WorkIdentity = {
   userId: 'demo-user',

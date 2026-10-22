@@ -1,4 +1,4 @@
-import type { TimelineStrategy, TimelineNode, Layout } from '@casehubio/blocks-ui-blocks-timeline/types.js';
+import type { TimelineStrategy, TimelineNode, Layout } from '@casehubio/agency-ui-blocks-timeline/types.js';
 
 const STAGES = ['created', 'classified', 'assigned', 'resolved'] as const;
 

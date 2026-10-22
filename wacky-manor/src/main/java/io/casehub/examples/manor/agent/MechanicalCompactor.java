@@ -1,6 +1,6 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.summarisation.LevelEvent;
+import io.casehub.agency.summarisation.LevelEvent;
 import io.casehub.examples.manor.model.ManorEvent;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public final class MechanicalCompactor implements io.casehub.blocks.summarisation.Compactor<ManorEvent> {
+public final class MechanicalCompactor implements io.casehub.agency.summarisation.Compactor<ManorEvent> {
 
     @Override
     public List<LevelEvent<ManorEvent>> compact(List<LevelEvent<ManorEvent>> events) {

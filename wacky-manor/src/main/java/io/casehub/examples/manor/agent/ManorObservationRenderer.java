@@ -1,12 +1,12 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.summarisation.LevelEvent;
-import io.casehub.blocks.summarisation.Summariser;
-import io.casehub.blocks.summarisation.observation.ObservationContext;
-import io.casehub.blocks.summarisation.observation.ObservationRenderer;
-import io.casehub.blocks.summarisation.observation.ObservationResult;
-import io.casehub.blocks.summarisation.observation.ObservationTier;
-import io.casehub.blocks.summarisation.observation.TieredObservationRenderer;
+import io.casehub.agency.summarisation.LevelEvent;
+import io.casehub.agency.summarisation.Summariser;
+import io.casehub.agency.summarisation.observation.ObservationContext;
+import io.casehub.agency.summarisation.observation.ObservationRenderer;
+import io.casehub.agency.summarisation.observation.ObservationResult;
+import io.casehub.agency.summarisation.observation.ObservationTier;
+import io.casehub.agency.summarisation.observation.TieredObservationRenderer;
 import io.casehub.examples.manor.model.ManorEvent;
 
 import java.util.List;
@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 
 public final class ManorObservationRenderer implements ObservationRenderer<ManorEvent> {
 
-    private final io.casehub.blocks.summarisation.Compactor<ManorEvent> compactor;
+    private final io.casehub.agency.summarisation.Compactor<ManorEvent> compactor;
     private final TieredObservationRenderer<ManorEvent> delegate;
 
-    public ManorObservationRenderer(io.casehub.blocks.summarisation.Compactor<ManorEvent> compactor,
+    public ManorObservationRenderer(io.casehub.agency.summarisation.Compactor<ManorEvent> compactor,
                                      int verbatimThreshold,
                                      int groupedThreshold,
                                      Summariser<ManorEvent, String> summariser) {

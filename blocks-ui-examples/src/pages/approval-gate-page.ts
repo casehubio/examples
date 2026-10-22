@@ -1,8 +1,8 @@
 import { LitElement, html, css, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import type { WorkIdentity } from '@casehubio/blocks-ui-core';
-import '@casehubio/blocks-ui-approval-gate';
-import type { OutcomeDefinition, QuorumConfig, GateDecision } from '@casehubio/blocks-ui-approval-gate';
+import type { WorkIdentity } from '@casehubio/agency-ui-core';
+import '@casehubio/agency-ui-approval-gate';
+import type { OutcomeDefinition, QuorumConfig, GateDecision } from '@casehubio/agency-ui-approval-gate';
 
 const CURRENT_USER: WorkIdentity = { userId: 'user-1', displayName: 'Alice Chen', groups: ['approvers', 'compliance'] };
 

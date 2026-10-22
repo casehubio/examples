@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.blocks.summarisation.EventLevel;
-import io.casehub.blocks.summarisation.LevelEvent;
+import io.casehub.agency.summarisation.EventLevel;
+import io.casehub.agency.summarisation.LevelEvent;
 import io.casehub.examples.manor.model.ActionType;
 import io.casehub.examples.manor.model.ManorEvent;
 import org.junit.jupiter.api.Test;

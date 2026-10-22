@@ -935,7 +935,7 @@ to `/manor/audience` topic `narrator`.
 
 For the POC, the narrator is simpler — triggered per scene beat with a
 narrative prompt, rather than the full summarisation pipeline. The full
-`casehub-blocks` pipeline (`ChannelEventAdapter` → `KeyedAccumulator` →
+`casehub-agency` pipeline (`ChannelEventAdapter` → `KeyedAccumulator` →
 `Summariser` → `ChannelEventPublisher`) is a Phase 3 addition.
 
 ### 1.7 Observation Format
@@ -1185,7 +1185,7 @@ all CaseHub infrastructure.
 - Full 3-act plot with all Hooded Claw devices (poison, dynamite, blade)
 - Multiple puzzles (riddle, safe combination, machine coordination,
   inventory chains)
-- `casehub-blocks` dependency added for summarisation pipeline:
+- `casehub-agency` dependency added for summarisation pipeline:
   `KeyedAccumulator`, `ChannelEventAdapter`, `ChannelEventPublisher`
   bridge the narrator to the L1-L4 pipeline
 - Neocortex agent memory (cross-room)

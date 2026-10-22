@@ -1,8 +1,8 @@
 import type {
   WorkItemResponse, InboxSummary,
   WorkItemLifecycleEvent, QueueView, BulkItemResult,
-} from '@casehubio/blocks-ui-core';
-import { isActiveStatus } from '@casehubio/blocks-ui-core';
+} from '@casehubio/agency-ui-core';
+import { isActiveStatus } from '@casehubio/agency-ui-core';
 import { MockSSESource } from './mock-sse.js';
 import { installMockFetch } from './mock-fetch.js';
 

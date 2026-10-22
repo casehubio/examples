@@ -36,7 +36,7 @@ No unclassified prose anywhere. No content in multiple homes. Templates carry on
 
 ### Tendencies — extending the type taxonomy
 
-The foundational directive-minimal architecture (casehubio/blocks#283, §4 Template Splitting) classifies "archetype norms, genre conventions, behavioral tendencies" together, routing all behavioral template content to `social-config.yaml` norms with rendering via a pending `NormsPromptSection`.
+The foundational directive-minimal architecture (casehubio/agency#283, §4 Template Splitting) classifies "archetype norms, genre conventions, behavioral tendencies" together, routing all behavioral template content to `social-config.yaml` norms with rendering via a pending `NormsPromptSection`.
 
 This spec splits that category. Norms are social rules contextually filtered by `ManorNormFilter.score()` — they apply conditionally based on who is nearby, what the character is holding, and other context. Tendencies are personality-derived behavioral patterns that are ALWAYS active — they describe how the character behaves regardless of context.
 
@@ -461,7 +461,7 @@ Extend existing tests:
 - Deductive goal formation experiment: agents deduce goals from world knowledge (e.g., inheritance context → "eliminate Penelope") rather than being told them — file on casehubio/examples
 - Memory-seeded personality emergence: fabricate backstory memories and emotional history (past events, PAD conditioning, unmet needs), then let tendencies, goals, and behavior emerge from personality facets + seeded life experience. Uses existing infrastructure: ManorCognitiveSeeder, ExperienceRecorder, NeedTier, GoalProposalOrchestrator, belief revision — file on casehubio/examples
 - Drives expansion for minor characters: 13 of 18 characters lack drives in social-config, which means `ManorContextStrategy.shouldCompareSocially()` returns false and social awareness sections are not rendered for them. Adding drives is a content-authoring exercise beyond this spec's scope of reclassifying existing content — file on casehubio/examples
-- Update blocks#283 classification routing table to reflect tendencies/norms split — file on casehubio/blocks
+- Update blocks#283 classification routing table to reflect tendencies/norms split — file on casehubio/agency
 
 ## References
 
