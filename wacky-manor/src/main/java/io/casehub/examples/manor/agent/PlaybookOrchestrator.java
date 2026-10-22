@@ -66,6 +66,8 @@ public class PlaybookOrchestrator {
     io.casehub.neocortex.caps.SituationClassifier situationClassifier;
     @Inject
     jakarta.enterprise.inject.Instance<io.casehub.neocortex.mindmap.intelligence.consolidation.SignificanceAccumulator> significanceAccumulator;
+    @Inject
+    jakarta.enterprise.inject.Instance<io.casehub.neocortex.mindmap.intelligence.consolidation.ConsolidationTrigger> consolidationTrigger;
 
 
     @Inject
@@ -260,6 +262,9 @@ public class PlaybookOrchestrator {
 
         if (significanceAccumulator.isResolvable()) {
             significanceAccumulator.get().suspend();
+        }
+        if (consolidationTrigger.isResolvable()) {
+            consolidationTrigger.get().suspend();
         }
 
         var cacheDir = java.nio.file.Path.of(System.getProperty("user.home"), "claude", "casehub", "consolidation-cache");
