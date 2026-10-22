@@ -76,12 +76,12 @@ public class CognitiveActivationTest {
         io.casehub.neocortex.memory.reflection.ReflectionOrchestrator noOpReflection =
                 (agentId, tenantId, since, maxEntries) -> List.of();
         var userModel = new UserModelOrchestrator(
-                new io.casehub.neocortex.cognition.usermodel.UserProfileMemory(cbrStore, UserModelConfig.defaults()), agentProvider, UserModelConfig.defaults());
+                new io.casehub.neocortex.cognition.usermodel.UserProfileMemory(cbrStore, UserModelConfig.defaults()), UserModelConfig.defaults());
         var mentalModel = new MentalModelOrchestrator(
-                new io.casehub.neocortex.cognition.mentalmodel.MentalModelMemory(cbrStore, MentalModelConfig.defaults()), agentProvider, MentalModelConfig.defaults());
+                new io.casehub.neocortex.cognition.mentalmodel.MentalModelMemory(cbrStore, MentalModelConfig.defaults()), MentalModelConfig.defaults());
         var strategy = new StrategyLearningOrchestrator(
                 new io.casehub.neocortex.cognition.strategy.StrategyMemory(cbrStore, StrategyLearningConfig.defaults()), noOpReflection,
-                agentProvider, StrategyLearningConfig.defaults());
+                StrategyLearningConfig.defaults());
 
         var drives = new DriveOrchestrator(
                 new CuriosityDrive(memoryHygieneAdapter), new CompetenceDrive(strategy),
@@ -90,7 +90,7 @@ public class CognitiveActivationTest {
                 mood, new DriveComposer(), DriveConfig.defaults());
 
         var innerLife = new InnerLifeOrchestrator(
-                noOpReflection, agentProvider, List.of(), InnerLifeConfig.defaults(), drives);
+                noOpReflection, List.of(), InnerLifeConfig.defaults(), drives);
 
         var goals = new GoalProposalOrchestrator(
                 drives, List.of(), null, Optional.empty(),
@@ -99,7 +99,7 @@ public class CognitiveActivationTest {
                 java.time.Clock.systemUTC());
 
         return new CognitionCore(mood, drives, userModel, mentalModel, strategy,
-                narrativeOrch, goals, memoryHygieneAdapter, innerLife, agentProvider, config, null, null, null, null, null, null, null);
+                narrativeOrch, goals, memoryHygieneAdapter, innerLife, config, null, null, null, null, null, null, null);
     }
 
     @Test void tickRunsWithoutErrorOnFullConfig() {

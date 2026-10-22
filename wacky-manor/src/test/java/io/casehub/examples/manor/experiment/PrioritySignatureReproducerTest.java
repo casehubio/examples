@@ -212,9 +212,9 @@ class PrioritySignatureReproducerTest {
                 "differentiation-text", "How they differ: One rises in the chest and surges forward — attention locks onto a single person. The other settles across the shoulders like bracing — attention fans wide to scan surroundings.")), tenant);
 
         // Run consolidation phases
-        new io.casehub.neocortex.mindmap.intelligence.consolidation.SelfStandardDerivationPhase(store, agentProviderInstance)
+        new io.casehub.neocortex.mindmap.intelligence.consolidation.SelfStandardDerivationPhase(store)
             .run(tenant, List.of());
-        new io.casehub.neocortex.mindmap.intelligence.consolidation.PrioritySignatureDerivationPhase(store, agentProviderInstance)
+        new io.casehub.neocortex.mindmap.intelligence.consolidation.PrioritySignatureDerivationPhase(store)
             .run(tenant, List.of());
 
         return store;

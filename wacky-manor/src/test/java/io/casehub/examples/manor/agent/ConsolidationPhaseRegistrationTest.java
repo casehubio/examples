@@ -17,7 +17,7 @@ class ConsolidationPhaseRegistrationTest {
     @Test
     void allBlocksConsolidationPhasesDiscovered() {
         var phaseNames = phases.stream().map(ConsolidationPhase::name).toList();
-        assertThat(phaseNames).contains("drive-adaptation", "belief-revision", "relationship-stage");
+        assertThat(phaseNames).contains("drive-adaptation", "relationship-stage");
     }
 
     @Test
@@ -29,10 +29,8 @@ class ConsolidationPhaseRegistrationTest {
                                                                                                .orElse(Integer.MAX_VALUE)))
                            .map(ConsolidationPhase::name)
                            .toList();
-        int beliefIdx = sorted.indexOf("belief-revision");
         int driveIdx  = sorted.indexOf("drive-adaptation");
         int relIdx    = sorted.indexOf("relationship-stage");
-        assertThat(beliefIdx).isLessThan(driveIdx);
         assertThat(driveIdx).isLessThan(relIdx);
     }
 }

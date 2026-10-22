@@ -430,14 +430,14 @@ class FocusedDriveEvalTest {
             }
         }
 
-        new io.casehub.neocortex.mindmap.intelligence.consolidation.SelfStandardDerivationPhase(store, agentProviderInstance)
+        new io.casehub.neocortex.mindmap.intelligence.consolidation.SelfStandardDerivationPhase(store)
             .run(tenant, List.of());
 
-        new io.casehub.neocortex.mindmap.intelligence.consolidation.PrioritySignatureDerivationPhase(store, agentProviderInstance)
+        new io.casehub.neocortex.mindmap.intelligence.consolidation.PrioritySignatureDerivationPhase(store)
             .run(tenant, List.of());
 
         if (!tomEvidence.isEmpty()) {
-            new io.casehub.neocortex.mindmap.intelligence.consolidation.OtherModelDerivationPhase(store, agentProviderInstance)
+            new io.casehub.neocortex.mindmap.intelligence.consolidation.OtherModelDerivationPhase(store)
                 .run(tenant, List.of());
         }
 

@@ -299,7 +299,7 @@ class CharacterCognitionTest {
         var seedResult = seeder.seed(agent, allConfigs.get(agent), tenant);
 
         var cognitionCore = new io.casehub.neocortex.cognition.core.CognitionCore(
-                null, null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null, null,
                 io.casehub.neocortex.cognition.core.CognitionConfig.none()
                                                                 .with("characterDrives", true)
                                                                 .with("needsPyramid", true),
@@ -354,7 +354,7 @@ class CharacterCognitionTest {
         seeder.seedGoals(agent, allConfigs.get(agent), goalOrchestrator, tenant);
 
         var cognitionCore = new io.casehub.neocortex.cognition.core.CognitionCore(
-                null, null, null, null, null, null, goalOrchestrator, null, null, null,
+                null, null, null, null, null, null, goalOrchestrator, null, null,
                 io.casehub.neocortex.cognition.core.CognitionConfig.none()
                                                                 .with("goals", true)
                                                                 .with("characterDrives", true)
@@ -395,7 +395,7 @@ class CharacterCognitionTest {
         var seedResult = seeder.seed(agent, allConfigs.get(agent), tenant);
 
         var cognitionCore = new io.casehub.neocortex.cognition.core.CognitionCore(
-                null, null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null, null,
                 io.casehub.neocortex.cognition.core.CognitionConfig.none()
                                                                 .with("characterDrives", true)
                                                                 .with("needsPyramid", true),
