@@ -168,84 +168,6 @@ public class PlaybookOrchestrator {
 
         var cogProfile = cognitiveProfileInstance.isResolvable() ? cognitiveProfileInstance.get() : null;
         var mmStore = mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null;
-        var seeder = mmStore != null ? new ManorCognitiveSeeder(mmStore) : null;
-        var contextStrategy = new ManorContextStrategy();
-
-        // Phase 1 — Foundation (no dependencies)
-        var moodOrch = new io.casehub.neocortex.cognition.mood.MoodOrchestrator(config.mood().toMoodConfig());
-        var narrativeOrch = new io.casehub.neocortex.cognition.narrative.NarrativeOrchestrator(new io.casehub.neocortex.cognition.narrative.NarrativeMemory(cbrRecordStore, io.casehub.neocortex.cognition.narrative.NarrativeConfig.defaults()));
-        var cbrStore = cbrRecordStore;
-        var memoryHygiene = new io.casehub.agency.social.memory.MemoryHygieneOrchestrator(
-                cbrStore,
-                new io.casehub.agency.social.memory.CompositeConfidenceScorer(java.util.List.of(
-                        new io.casehub.agency.social.memory.WeightedScorer(new io.casehub.agency.social.memory.ArousalScorer(), 0.5),
-                        new io.casehub.agency.social.memory.WeightedScorer(new io.casehub.agency.social.memory.SurpriseScorer(), 0.5))),
-                new io.casehub.neocortex.memory.cbr.TemporalDecay.HalfLife(java.time.Duration.ofDays(365)),
-                new io.casehub.neocortex.memory.cbr.ScopeDecay.Step(1.0), null,
-                io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults().memoryDomain(),
-                java.util.List.of(io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults().engagementCaseType()),
-                io.casehub.agency.social.memory.RetentionConfig.DEFAULT, 10, 0.7, event -> {});
-        var memoryHygieneAdapter = new io.casehub.agency.social.cognition.MemoryHygieneSpiAdapter(memoryHygiene);
-
-        // Phase 2 — Independent orchestrators (D6)
-        io.casehub.neocortex.memory.reflection.ReflectionOrchestrator noOpReflection =
-                (agentId, tenantId, since, maxEntries) -> java.util.List.of();
-        var userModelOrch = new io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator(
-                new io.casehub.neocortex.cognition.usermodel.UserProfileMemory(cbrRecordStore, io.casehub.neocortex.cognition.usermodel.UserModelConfig.defaults()), io.casehub.neocortex.cognition.usermodel.UserModelConfig.defaults(), sessionPipeline);
-        var mentalModelOrch = new io.casehub.neocortex.cognition.mentalmodel.MentalModelOrchestrator(
-                new io.casehub.neocortex.cognition.mentalmodel.MentalModelMemory(cbrRecordStore, io.casehub.neocortex.cognition.mentalmodel.MentalModelConfig.defaults()), io.casehub.neocortex.cognition.mentalmodel.MentalModelConfig.defaults(), sessionPipeline);
-        var strategyOrch = new io.casehub.neocortex.cognition.strategy.StrategyLearningOrchestrator(
-                new io.casehub.neocortex.cognition.strategy.StrategyMemory(cbrRecordStore, io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults()), noOpReflection,
-                io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults(), sessionPipeline);
-
-        // Phase 3 — Explicit DriveSource pattern (D11)
-        var curiosityDrive = new io.casehub.neocortex.cognition.drive.CuriosityDrive(memoryHygieneAdapter);
-        var competenceDrive = new io.casehub.neocortex.cognition.drive.CompetenceDrive(strategyOrch);
-        var affiliationDrive = new io.casehub.neocortex.cognition.drive.AffiliationDrive(userModelOrch, 0.3, java.time.Duration.ofHours(1));
-        var autonomyDrive = new io.casehub.neocortex.cognition.drive.AutonomyDrive(mentalModelOrch, 0.5);
-        var driveOrch = new io.casehub.neocortex.cognition.drive.DriveOrchestrator(
-                curiosityDrive, competenceDrive, affiliationDrive, autonomyDrive,
-                moodOrch, new io.casehub.neocortex.cognition.drive.DriveComposer(),
-                io.casehub.neocortex.cognition.drive.DriveConfig.defaults());
-
-        // Phase 4 — InnerLife (depends on Phase 3)
-        var innerLifeOrch = new io.casehub.neocortex.cognition.innerlife.InnerLifeOrchestrator(
-                noOpReflection, java.util.List.of(),
-                io.casehub.neocortex.cognition.innerlife.InnerLifeConfig.defaults(), driveOrch, sessionPipeline);
-
-        // Phase 5 — Goals (pass driveOrch instead of null)
-        var goalOrchestrator = new io.casehub.neocortex.cognition.goal.GoalProposalOrchestrator(
-                driveOrch, java.util.List.of(), null, java.util.Optional.empty(),
-                null, null, null,
-                io.casehub.neocortex.cognition.goal.GoalProposalConfig.defaults(),
-                io.casehub.neocortex.cognition.goal.GoalEscalationConfig.defaults(),
-                java.time.Clock.systemUTC());
-
-        var defaultsRegistry = new io.casehub.neocortex.cognitive.index.CognitiveDefaultsRegistry();
-        var cogBuilder = io.casehub.neocortex.cognition.core.CognitivePipelineBuilder
-                .create(moodOrch, driveOrch)
-                .userModel(userModelOrch)
-                .mentalModel(mentalModelOrch)
-                .strategy(strategyOrch)
-                .narrative(narrativeOrch)
-                .goals(goalOrchestrator)
-                .memoryHygiene(memoryHygieneAdapter)
-                .innerLife(innerLifeOrch)
-                .mindMapStore(mmStore)
-                .needTierMappingProvider(new ManorNeedTierMappingProvider())
-                .sessionPipeline(sessionPipeline)
-                .defaultsRegistry(defaultsRegistry);
-
-        if (config.appraisal().enabled()) {
-            cogBuilder.appraisal(
-                    new io.casehub.neocortex.cognition.appraisal.LlmAppraisalStrategy(sessionPipeline),
-                    new io.casehub.neocortex.cognition.salience.ConcernBasedSalienceStrategy());
-            log.info("Appraisal enabled — sub-LLM will evaluate situations against character drives and disposition");
-        }
-
-        var cognitionCore = cogBuilder.build();
-
-        var cognitions = new java.util.HashMap<String, CharacterCognition>();
 
         NarratorAgent narratorAgent = null;
 
@@ -268,39 +190,38 @@ public class PlaybookOrchestrator {
             cacheRestored = ConsolidationCache.restore(mmStore, ManorConstants.TENANCY_ID, profileMode.name(), cacheDir);
         }
 
+        var activeSocialConfigs = new java.util.HashMap<String, SocialConfig>();
         for (var entry : world.characters().entrySet()) {
-            if (activeSet != null && !activeSet.contains(entry.getKey())) {continue;}
+            if (activeSet != null && !activeSet.contains(entry.getKey())) continue;
             var desc = agentRegistry.findById(entry.getKey(), ManorConstants.TENANCY_ID)
                     .orElseThrow(() -> new IllegalStateException("No Eidos descriptor for character: " + entry.getKey()));
             var tags = desc.capabilities().stream()
                     .flatMap(c -> c.tags().stream())
                     .collect(java.util.stream.Collectors.toSet());
             entry.getValue().setCapabilityTags(tags);
-            var socialCfg = socialConfigs.getOrDefault(entry.getKey(), SocialConfig.empty());
-            var cogDefaults = ManorCognitiveSetup.deriveDefaults(desc, socialCfg);
-            defaultsRegistry.register(cogDefaults);
-            ManorCognitiveSeeder.SeedResult seedResult = null;
-            if (seeder != null) {
-                if (!cacheRestored) {
-                    seedResult = seeder.seed(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID);
-                }
-                seeder.seedGoals(entry.getKey(), socialCfg, goalOrchestrator, ManorConstants.TENANCY_ID);
-                seeder.seedCapsState(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID, capsEngine);
-                int memCount = seeder.seedFormationMemories(entry.getKey(), socialCfg, ManorConstants.TENANCY_ID, experienceRecorder);
-                if (memCount > 0) {
-                    log.info("Seeded " + memCount + " formation memories for " + entry.getKey());
-                }
-            }
-            cognitions.put(entry.getKey(), new CharacterCognition(
-                    entry.getKey(), experienceService, cogDefaults, socialCfg, desc.constraints(),
-                    cogProfile, contextStrategy, cognitionCore, seedResult, ManorConstants.TENANCY_ID,
-                    mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null,
-                    ManorTrustEvolutionConfigLoader.load(),
-                    situationClassifier));
+            activeSocialConfigs.put(entry.getKey(), socialConfigs.getOrDefault(entry.getKey(), SocialConfig.empty()));
         }
 
-        if (seeder != null && !cacheRestored) {
-            seeder.seedPeople(socialConfigs, ManorConstants.TENANCY_ID);
+        var pipeline = ManorCognitivePipelineBuilder
+                .create(mmStore, ManorConstants.TENANCY_ID, cbrRecordStore)
+                .sessionPipeline(sessionPipeline)
+                .config(config)
+                .capsEngine(capsEngine)
+                .experienceRecorder(experienceRecorder)
+                .agentRegistry(agentRegistry)
+                .experienceService(experienceService)
+                .cognitiveProfile(cogProfile)
+                .situationClassifier(situationClassifier)
+                .socialConfigs(activeSocialConfigs)
+                .seedDrives(!cacheRestored)
+                .seedPeople(false)
+                .build();
+
+        var cognitionCore = pipeline.cognitionCore();
+        var cognitions = pipeline.cognitions();
+
+        if (!cacheRestored && mmStore != null) {
+            new ManorCognitiveSeeder(mmStore).seedPeople(socialConfigs, ManorConstants.TENANCY_ID);
         }
 
         if (config.consolidation().enabled() && !cacheRestored) {
