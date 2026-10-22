@@ -2,11 +2,13 @@ package io.casehub.examples.manor.agent;
 
 import io.casehub.eidos.api.AgentRegistry;
 import io.casehub.neocortex.caps.CapsEngine;
+import io.casehub.neocortex.caps.SituationClassifier;
 import io.casehub.neocortex.cognition.core.CognitionCore;
 import io.casehub.neocortex.cognition.core.CognitivePipelineBuilder;
 import io.casehub.neocortex.cognition.core.CognitionConfig;
 import io.casehub.neocortex.cognition.goal.GoalProposalOrchestrator;
 import io.casehub.neocortex.cognitive.index.CognitiveDefaultsRegistry;
+import io.casehub.neocortex.cognitive.index.CognitiveProfile;
 import io.casehub.neocortex.memory.CaseMemoryStore;
 import io.casehub.neocortex.memory.cbr.CbrRecordStore;
 import io.casehub.neocortex.memory.experience.ExperienceRecorder;
@@ -33,6 +35,9 @@ public class ManorCognitivePipelineBuilder {
     private @Nullable AgentRegistry agentRegistry;
     private @Nullable GoalProposalOrchestrator goalOrchestrator;
     private @Nullable CognitionConfig cognitionConfig;
+    private @Nullable CognitiveProfile cognitiveProfile;
+    private @Nullable AgentExperienceService experienceService;
+    private @Nullable SituationClassifier situationClassifier;
     private Map<String, SocialConfig> socialConfigs = Map.of();
     private boolean seedDrives = true;
     private boolean seedCaps = true;
@@ -86,6 +91,21 @@ public class ManorCognitivePipelineBuilder {
 
     public ManorCognitivePipelineBuilder cognitionConfig(CognitionConfig cognitionConfig) {
         this.cognitionConfig = cognitionConfig;
+        return this;
+    }
+
+    public ManorCognitivePipelineBuilder cognitiveProfile(@Nullable CognitiveProfile profile) {
+        this.cognitiveProfile = profile;
+        return this;
+    }
+
+    public ManorCognitivePipelineBuilder experienceService(@Nullable AgentExperienceService service) {
+        this.experienceService = service;
+        return this;
+    }
+
+    public ManorCognitivePipelineBuilder situationClassifier(@Nullable SituationClassifier classifier) {
+        this.situationClassifier = classifier;
         return this;
     }
 
@@ -245,9 +265,9 @@ public class ManorCognitivePipelineBuilder {
             }
 
             cognitions.put(agentId, new CharacterCognition(
-                    agentId, null, cogDefaults, socialCfg, constraints,
-                    null, new ManorContextStrategy(), cognitionCore, seedResult, tenantId,
-                    mindMapStore, ManorTrustEvolutionConfigLoader.load(), null));
+                    agentId, experienceService, cogDefaults, socialCfg, constraints,
+                    cognitiveProfile, new ManorContextStrategy(), cognitionCore, seedResult, tenantId,
+                    mindMapStore, ManorTrustEvolutionConfigLoader.load(), situationClassifier));
         }
 
         if (seeder != null && seedPeople) {
