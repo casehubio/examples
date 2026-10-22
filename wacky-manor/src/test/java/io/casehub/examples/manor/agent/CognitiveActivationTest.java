@@ -98,9 +98,10 @@ public class CognitiveActivationTest {
                 GoalProposalConfig.defaults(), GoalEscalationConfig.defaults(),
                 java.time.Clock.systemUTC());
 
-        return new CognitionCore(mood, drives, userModel, mentalModel, strategy,
-                narrativeOrch, goals, memoryHygieneAdapter, innerLife, config, null, null, null, null, null, null, null,
-                sessionPipeline);
+        var core = new CognitionCore(mood, drives, userModel, mentalModel, strategy,
+                narrativeOrch, goals, memoryHygieneAdapter, innerLife, config, null, null, null, null, null, null, null);
+        core.setSessionPipeline(sessionPipeline);
+        return core;
     }
 
     @Test void tickRunsWithoutErrorOnFullConfig() {

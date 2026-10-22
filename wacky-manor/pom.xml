@@ -34,6 +34,11 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>io.casehub</groupId>
+        <artifactId>casehub-neocortex-inference-bayes</artifactId>
+        <version>${casehub.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
