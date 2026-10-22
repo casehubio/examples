@@ -22,39 +22,13 @@ import java.util.Map;
 @ApplicationScoped
 public class ManorConsolidationBeans {
 
-    record DefaultDriveAdaptationConfig(
-            double learningRate, double arousalWeight,
-            double minIntensity, double maxIntensity,
-            int maxPerPass
-    ) implements DriveAdaptationConfig {}
-
-    record DefaultNeedSatisfactionDecay(
-            double safety, double tasks, double social,
-            double selfExpression, double understanding
-    ) implements NeedSatisfactionConfig.DecayConfig {}
-
-    record DefaultNeedSatisfactionResting(
-            double safety, double tasks, double social,
-            double selfExpression, double understanding
-    ) implements NeedSatisfactionConfig.RestingConfig {}
-
-    record DefaultNeedSatisfactionConfig(
-            double satisfactionIncrement, double dissatisfactionIncrement,
-            double initialSatisfaction,
-            NeedSatisfactionConfig.DecayConfig decay,
-            NeedSatisfactionConfig.RestingConfig resting
-    ) implements NeedSatisfactionConfig {}
-
     @Produces
     @Singleton
     DriveAdaptationPhase driveAdaptationPhase(
             MindMapStore mindMapStore,
-            NeedTierMappingProvider tierMappingProvider) {
-        var config = new DefaultDriveAdaptationConfig(0.05, 0.3, 0.1, 1.0, 20);
-        var needConfig = new DefaultNeedSatisfactionConfig(
-                0.05, 0.05, 0.5,
-                new DefaultNeedSatisfactionDecay(0.15, 0.10, 0.08, 0.05, 0.03),
-                new DefaultNeedSatisfactionResting(0.6, 0.3, 0.4, 0.4, 0.4));
+            NeedTierMappingProvider tierMappingProvider,
+            DriveAdaptationConfig config,
+            NeedSatisfactionConfig needConfig) {
         return new DriveAdaptationPhase(
                 mindMapStore,
                 buildReinforcementMap(),
