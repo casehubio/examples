@@ -49,7 +49,7 @@ Rendering (every prompt):
 
 ### 1. DriveAdaptationPhase (blocks-core)
 
-**Location:** `blocks-core`, `io.casehub.agency.agentic.social.drive.adaptation`
+**Location:** `blocks-core`, `io.casehub.agency.core.social.drive.adaptation`
 **Implements:** `ConsolidationPhase` with `@Priority(17)` — runs after ExperienceConsolidationPhase (15), before MergeDetectionPhase (20).
 
 **Algorithm per agent per consolidation pass:**
@@ -202,7 +202,7 @@ NodeInput driveNode = NodeInput.of(
 
 ### 5. CharacterDrivePromptSection (blocks-core)
 
-**Location:** `blocks-core`, `io.casehub.agency.agentic.social.prompt`
+**Location:** `blocks-core`, `io.casehub.agency.core.social.prompt`
 **Implements:** `PromptSection`
 
 Reads adapted drive nodes from MindMapStore, formats them as an observation section under "Character Motivations":

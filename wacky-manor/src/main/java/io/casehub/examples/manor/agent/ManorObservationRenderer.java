@@ -2,11 +2,11 @@ package io.casehub.examples.manor.agent;
 
 import io.casehub.agency.summarisation.LevelEvent;
 import io.casehub.agency.summarisation.Summariser;
-import io.casehub.agency.summarisation.observation.ObservationContext;
-import io.casehub.agency.summarisation.observation.ObservationRenderer;
-import io.casehub.agency.summarisation.observation.ObservationResult;
-import io.casehub.agency.summarisation.observation.ObservationTier;
-import io.casehub.agency.summarisation.observation.TieredObservationRenderer;
+import io.casehub.agency.perception.observation.ObservationContext;
+import io.casehub.agency.perception.observation.ObservationRenderer;
+import io.casehub.agency.perception.observation.ObservationResult;
+import io.casehub.agency.perception.observation.ObservationTier;
+import io.casehub.agency.perception.observation.TieredObservationRenderer;
 import io.casehub.examples.manor.model.ManorEvent;
 
 import java.util.List;

@@ -2,7 +2,7 @@
 
 **Issue:** casehubio/agency#120
 **Epic:** casehubio/agency#126 (Autonomous Agent Patterns)
-**Package:** `io.casehub.agency.memory`
+**Package:** `io.casehub.agency.social.memory`
 
 ## Overview
 

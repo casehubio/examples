@@ -30,12 +30,12 @@ import io.casehub.neocortex.cognition.prompt.MoodPromptSection;
 import io.casehub.neocortex.cognition.prompt.NarrativePromptSection;
 import io.casehub.neocortex.cognition.prompt.StrategyPromptSection;
 import io.casehub.neocortex.cognition.prompt.UserModelPromptSection;
-import io.casehub.agency.memory.ArousalScorer;
-import io.casehub.agency.memory.CompositeConfidenceScorer;
-import io.casehub.agency.memory.MemoryHygieneOrchestrator;
-import io.casehub.agency.memory.RetentionConfig;
-import io.casehub.agency.memory.SurpriseScorer;
-import io.casehub.agency.memory.WeightedScorer;
+import io.casehub.agency.social.memory.ArousalScorer;
+import io.casehub.agency.social.memory.CompositeConfidenceScorer;
+import io.casehub.agency.social.memory.MemoryHygieneOrchestrator;
+import io.casehub.agency.social.memory.RetentionConfig;
+import io.casehub.agency.social.memory.SurpriseScorer;
+import io.casehub.agency.social.memory.WeightedScorer;
 import io.casehub.neocortex.memory.cbr.ScopeDecay;
 import io.casehub.neocortex.memory.cbr.TemporalDecay;
 import io.casehub.neocortex.memory.cbr.inmem.InMemoryCbrRecordStore;
@@ -71,7 +71,7 @@ public class CognitiveActivationTest {
                 StrategyLearningConfig.defaults().memoryDomain(),
                 List.of(StrategyLearningConfig.defaults().engagementCaseType()),
                 RetentionConfig.DEFAULT, 10, 0.7, event -> {});
-        var memoryHygieneAdapter = new io.casehub.agency.agentic.cognition.MemoryHygieneSpiAdapter(memoryHygiene);
+        var memoryHygieneAdapter = new io.casehub.agency.social.cognition.MemoryHygieneSpiAdapter(memoryHygiene);
 
         io.casehub.neocortex.memory.reflection.ReflectionOrchestrator noOpReflection =
                 (agentId, tenantId, since, maxEntries) -> List.of();

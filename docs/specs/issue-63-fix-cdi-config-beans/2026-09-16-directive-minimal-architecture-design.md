@@ -74,7 +74,7 @@ User prompt (observations — sole source of cognitive state):
 ### 1. CognitiveSystemPromptRenderer
 
 **Location:** `blocks-core` (or `blocks-agentic` — wherever the cognitive pipeline lives)
-**Package:** `io.casehub.agency.agentic.social.prompt`
+**Package:** `io.casehub.agency.core.social.prompt`
 
 A `@Alternative @Priority(1)` CDI bean implementing `SystemPromptRenderer`. When present on the classpath, it overrides `EidosSystemPromptRenderer`. The eidos renderer stays untouched — no eidos changes.
 

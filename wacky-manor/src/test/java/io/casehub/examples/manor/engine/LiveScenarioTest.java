@@ -141,7 +141,7 @@ class LiveScenarioTest {
 
     private AgentResponse askCharacter(String agentId) {
         String sysPrompt = renderPrompt(agentId);
-        var emptyDrain = new io.casehub.agency.summarisation.observation.PartitionedDrain<String>(io.casehub.agency.summarisation.observation.ObservationResult.empty(0), java.util.Map.of());
+        var emptyDrain = new io.casehub.agency.perception.observation.PartitionedDrain<String>(io.casehub.agency.perception.observation.ObservationResult.empty(0), java.util.Map.of());
         var worldProvider = new io.casehub.examples.manor.agent.ManorWorldObservationProvider(world.character(agentId), world, emptyDrain);
         String observation = io.casehub.examples.manor.agent.ObservationBuilder.buildObservation(worldProvider, null, java.util.Set.of(), world.character(agentId), java.util.List.of(), emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of()) + RESPONSE_FORMAT;
         String text = callLlm(sysPrompt, observation);

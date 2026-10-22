@@ -2,7 +2,7 @@
 
 ## D1: Cognitive section formatter location
 
-**Choice:** blocks — in the `io.casehub.agency.summarisation.observation.affordance` package alongside `ObservationSection` and `WorldObservationProvider`. A utility class (e.g. `CognitiveObservationSections`) provides standard factory methods for producing `ObservationSection` instances from platform cognitive types (`AgentGoal`, `Memory`, `PartitionedDrain`).
+**Choice:** blocks — in the `io.casehub.agency.perception.observation.affordance` package alongside `ObservationSection` and `WorldObservationProvider`. A utility class (e.g. `CognitiveObservationSections`) provides standard factory methods for producing `ObservationSection` instances from platform cognitive types (`AgentGoal`, `Memory`, `PartitionedDrain`).
 **Alternatives:**
 - quarkmind-core — conceptual fit (agent cognition), but quarkmind-core is intentionally lean (engine-api + eidos-api only), doesn't know about blocks, and adding blocks + neocortex-memory-api dependencies would widen the core for 5 utility methods
 - Stay in the manor — defeats the goal of making cognitive sections reusable across agents

@@ -433,10 +433,10 @@ Trust is per-actor-pair (observer→subject), not per-capability. A character's 
 - `io.casehub.neocortex.memory.cbr.AgentTrustProvider` — trust SPI (global, not per-relationship)
 - `io.casehub.engine.internal.worker.TrustScoreAgentTrustProvider` — existing global trust bridge (unchanged)
 - `io.casehub.ledger.api.spi.TrustScoreSource` — global trust score source (unchanged)
-- `io.casehub.agency.summarisation.observation.affordance.TrustLevel` — trust level enum
-- `io.casehub.agency.summarisation.observation.affordance.TrustSummary` — trust observation record
-- `io.casehub.agency.summarisation.observation.affordance.CognitiveObservationSections` — observation rendering utility
-- `io.casehub.agency.agentic.yaml.spec.cognition.DriveConfigSpec` — existing YAML spec pattern
+- `io.casehub.agency.perception.observation.affordance.TrustLevel` — trust level enum
+- `io.casehub.agency.perception.observation.affordance.TrustSummary` — trust observation record
+- `io.casehub.agency.perception.observation.affordance.CognitiveObservationSections` — observation rendering utility
+- `io.casehub.agency.core.yaml.spec.cognition.DriveConfigSpec` — existing YAML spec pattern
 - `io.casehub.examples.manor.agent.ManorCognitiveSeeder` — person-entity overlay node creation
 - `io.casehub.examples.manor.agent.ManorTrustEvents` — existing weight-based trust (superseded)
 - `io.casehub.examples.manor.agent.CharacterCognition` — cognitive facade with recordTrustEvent()

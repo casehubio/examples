@@ -6,7 +6,7 @@
 
 ## Summary
 
-InnerLife is a background thought loop in `io.casehub.agency.agentic.personality` that enables agents to initiate conversations proactively rather than only responding when spoken to. It composes existing platform capabilities (ReflectionOrchestrator, AgentProvider) with consumer-provided context (AffordanceRenderer output) into a three-stage evaluation pipeline gated by composable civility constraints.
+InnerLife is a background thought loop in `io.casehub.agency.core.personality` that enables agents to initiate conversations proactively rather than only responding when spoken to. It composes existing platform capabilities (ReflectionOrchestrator, AgentProvider) with consumer-provided context (AffordanceRenderer output) into a three-stage evaluation pipeline gated by composable civility constraints.
 
 The pattern produces initiation decisions with content — consuming apps control dispatch. It does NOT own channel communication, scheduling, or message formatting.
 
@@ -272,7 +272,7 @@ The decisions doc (D4, D5, D6) records the full rationale. The issue description
 
 ## Package Structure
 
-**`io.casehub.agency.agentic.personality`** (additions to existing package)
+**`io.casehub.agency.core.personality`** (additions to existing package)
 
 ARC42STORIES.MD §5 needs updating to include the `personality` sub-package (currently unlisted — PersonalityEvolution from #118 is also missing). This is an implementation task.
 

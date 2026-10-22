@@ -45,7 +45,7 @@ visibility only. Enterprise deployments add resolution and interpretation.
 `TextBlock`, and `ItemList`. Filtering metadata lives in a separate wrapper:
 
 ```java
-package io.casehub.agency.summarisation.observation.affordance;
+package io.casehub.agency.perception.observation.affordance;
 
 public record AnnotatedSection(
     ObservationSection section,
@@ -118,7 +118,7 @@ pipeline use `instanceof` to distinguish them.
 ### 3.1 Filter Interface
 
 ```java
-package io.casehub.agency.summarisation.observation.affordance;
+package io.casehub.agency.perception.observation.affordance;
 
 @FunctionalInterface
 public interface ObservationFilter {
@@ -374,7 +374,7 @@ tags).
 ### 7.1 casehub-agency
 
 **New types:**
-- `AnnotatedSection` — record in `io.casehub.agency.summarisation.observation.affordance`
+- `AnnotatedSection` — record in `io.casehub.agency.perception.observation.affordance`
 - `ResolutionTier` — enum in same package
 - `ObservationFilter` — `@FunctionalInterface` in same package
 - `ObservationPipeline` — class in same package

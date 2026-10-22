@@ -243,7 +243,7 @@ class PropagationBoundaryTest {
         assertTrue(internalState.isPresent(),
                    "renderCognitiveSections should include 'What Pulls at You' section — dead ends #5 + #7");
 
-        var textBlock = (io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) internalState.get();
+        var textBlock = (io.casehub.agency.perception.observation.affordance.ObservationSection.TextBlock) internalState.get();
         assertFalse(textBlock.content().contains("proving-worth"),
                     "somatic section must NOT contain drive type labels");
         assertFalse(textBlock.content().contains("0.7") && textBlock.content().contains("0.9"),
@@ -285,7 +285,7 @@ class PropagationBoundaryTest {
         assertTrue(internalState.isPresent(),
                    "unified renderer should produce 'What Pulls at You' section after full pipeline");
 
-        var textBlock = (io.casehub.agency.summarisation.observation.affordance.ObservationSection.TextBlock) internalState.get();
+        var textBlock = (io.casehub.agency.perception.observation.affordance.ObservationSection.TextBlock) internalState.get();
         assertTrue(textBlock.content().contains("tension") || textBlock.content().contains("warmth") || textBlock.content().contains("notice"),
                    "section should contain somatic drive descriptions");
     }

@@ -35,7 +35,7 @@ This is a **tick participant with consolidation-staleness-check**, not a mediato
 
 ### 1. DomainActivationParticipant
 
-**Package:** `io.casehub.agency.agentic.social`
+**Package:** `io.casehub.agency.core.social`
 **Implements:** `CognitionTickParticipant`
 
 A plain class (no CDI annotations) that participates in the cognition tick lifecycle at `CognitionPhase.TERMINAL`. Detects new consolidation data via the existing `ConsolidationMediator`'s tenant-level timestamp — no separate CDI event observation needed.
@@ -183,7 +183,7 @@ record DomainActivationSnapshot(
 
 ### 3. DomainActivationPromptSection
 
-**Package:** `io.casehub.agency.agentic.social.prompt`
+**Package:** `io.casehub.agency.core.social.prompt`
 **Implements:** `PromptSection`
 
 Constructed with a `DomainActivationSnapshot` (the composite result from the participant). Renders narrative text using `CorrelationStrength` qualifiers.

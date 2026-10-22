@@ -78,7 +78,7 @@ TASKS replaces Maslow's "esteem" (obligation/duty in a game context). UNDERSTAND
 
 ### 1. NeedTier Enum (blocks-core)
 
-**Location:** `blocks-core`, `io.casehub.agency.agentic.social.need`
+**Location:** `blocks-core`, `io.casehub.agency.core.social.need`
 
 ```java
 public enum NeedTier {
@@ -113,7 +113,7 @@ blocks-core defines the SPI; applications provide the mapping. Follows the Drive
 
 ### 3. DriveAdaptationPhase Extension (blocks-core)
 
-**Location:** `blocks-core`, `io.casehub.agency.agentic.social.drive.adaptation`
+**Location:** `blocks-core`, `io.casehub.agency.core.social.drive.adaptation`
 
 Need satisfaction tracking is integrated into DriveAdaptationPhase (D33) rather than a separate consolidation phase. DriveAdaptationPhase gains a new constructor dependency on `NeedTierMappingProvider` and `NeedSatisfactionConfig`.
 
@@ -187,7 +187,7 @@ Steps 1–4 are unchanged from the #66 spec (load drive nodes, load experience n
 
 ### 4. NeedsPyramidPromptSection (blocks-core)
 
-**Location:** `blocks-core`, `io.casehub.agency.agentic.social.prompt`
+**Location:** `blocks-core`, `io.casehub.agency.core.social.prompt`
 **Implements:** `PromptSection`
 
 Reads satisfaction nodes from MindMapStore, formats them as qualitative natural-language prose under "Inner Needs" (D37):

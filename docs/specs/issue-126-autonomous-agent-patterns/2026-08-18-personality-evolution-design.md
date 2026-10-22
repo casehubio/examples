@@ -6,7 +6,7 @@
 
 ## Summary
 
-PersonalityEvolution is a signal-driven orchestrator in `io.casehub.agency.agentic.personality` that composes existing eidos and neocortex capabilities into a bounded personality drift feedback loop. Interaction outcomes (behavioral compliance, relationship quality, goal achievement) nudge personality traits within configurable ranges over time.
+PersonalityEvolution is a signal-driven orchestrator in `io.casehub.agency.core.personality` that composes existing eidos and neocortex capabilities into a bounded personality drift feedback loop. Interaction outcomes (behavioral compliance, relationship quality, goal achievement) nudge personality traits within configurable ranges over time.
 
 The pattern does NOT duplicate eidos's JPAF evaluation logic. It fills the gap between "interaction outcomes happen" and "the JPAF machinery processes them" by providing signal translation, periodic orchestration, safety rails, and outcome-based learning through CBR case recording.
 
@@ -311,7 +311,7 @@ These are distinct geometric properties. The per-function threshold catches one 
 
 ## Package Structure
 
-**`io.casehub.agency.agentic.personality`** (new sub-package)
+**`io.casehub.agency.core.personality`** (new sub-package)
 
 | Class | What it does |
 |---|---|

@@ -1,6 +1,6 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.agency.summarisation.observation.affordance.ObservationSection;
+import io.casehub.agency.perception.observation.affordance.ObservationSection;
 import io.casehub.neocortex.mindmap.NodeInput;
 import io.casehub.neocortex.mindmap.SubgraphInput;
 import io.casehub.neocortex.mindmap.SubgraphTypes;

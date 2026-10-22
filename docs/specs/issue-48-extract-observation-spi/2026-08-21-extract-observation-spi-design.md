@@ -46,7 +46,7 @@ based on observer tags, remembered only when non-empty).
 
 ### 1.2 Cognitive Sections → CognitiveObservationSections (in blocks)
 
-New utility class in `io.casehub.agency.summarisation.observation.affordance`.
+New utility class in `io.casehub.agency.perception.observation.affordance`.
 Static methods producing `ObservationSection` from platform types:
 
 | Method | Input type | Section header |
@@ -305,7 +305,7 @@ Same pattern as CharacterAgentLoop — construct provider, pass to builder.
 ### 5.1 blocks (casehubio/agency)
 
 **New class:** `CognitiveObservationSections` in
-`io.casehub.agency.summarisation.observation.affordance`
+`io.casehub.agency.perception.observation.affordance`
 
 5 static methods moved from manor's `ObservationBuilder`:
 - `goalsSection(List<AgentGoal>)` → `ObservationSection`

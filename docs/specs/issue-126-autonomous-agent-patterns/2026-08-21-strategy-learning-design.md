@@ -1,7 +1,7 @@
 # StrategyLearning Design — Multi-Level Reflection on Interaction Strategies
 
 **Issue:** casehubio/agency#124
-**Package:** `io.casehub.agency.agentic.social`
+**Package:** `io.casehub.agency.core.social`
 **Decisions:** D32–D41
 
 ## Overview
@@ -477,8 +477,8 @@ String systemPrompt = strategy + subjectContext + baseSystemPrompt;
 - ReflectionOrchestrator (neocortex-memory-api: `io.casehub.neocortex.memory.reflection`)
 - TrendAnalyzer / TrendProfile (neocortex-memory-api: `io.casehub.neocortex.memory.cbr`)
 - ContentSummariser (blocks: `io.casehub.agency.summarisation`)
-- UserModelOrchestrator (blocks: `io.casehub.agency.agentic.social`) — tiered pattern precedent
-- MemoryHygieneScheduler (blocks: `io.casehub.agency.memory`) — tick()+maintain() dual-cadence precedent
+- UserModelOrchestrator (blocks: `io.casehub.agency.core.social`) — tiered pattern precedent
+- MemoryHygieneScheduler (blocks: `io.casehub.agency.social.memory`) — tick()+maintain() dual-cadence precedent
 - CbrUserProfileStore / CbrMentalModelStore — CbrCase adapter pattern precedent
 - GE-20260820-c19b68 (producerAgentId post-filtering)
 - GE-20260804-eb75e0 (scan() returns summaries — use retrieveSimilar)

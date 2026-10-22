@@ -256,7 +256,7 @@ sealed interface MentalModelTick {
 
 ## Package Placement
 
-`io.casehub.agency.agentic.social` — alongside PersonalityEvolutionOrchestrator, InnerLifeOrchestrator, and UserModelOrchestrator. MentalModel is the fourth member of the social cognition family: how the agent models others' cognitive states (D22 extended).
+`io.casehub.agency.core.social` — alongside PersonalityEvolutionOrchestrator, InnerLifeOrchestrator, and UserModelOrchestrator. MentalModel is the fourth member of the social cognition family: how the agent models others' cognitive states (D22 extended).
 
 **Cross-orchestrator integration:** MentalModel is architecturally independent — it doesn't call or depend on the other orchestrators. Integration happens at the consumer level: consumers can feed MentalModel projections into InnerLife's motivation assessment, or use UserModel's relationship stage to set confidence priors for MentalModel. These are consumer-side compositions, not built into blocks.
 

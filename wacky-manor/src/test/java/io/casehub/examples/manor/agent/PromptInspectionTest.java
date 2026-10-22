@@ -48,7 +48,7 @@ class PromptInspectionTest {
                 Map.of("penelope-pitstop", "Penelope Pitstop",
                        "peter-perfect", "Peter Perfect"));
 
-        var renderer = new io.casehub.agency.summarisation.observation.affordance.AffordanceRenderer();
+        var renderer = new io.casehub.agency.perception.observation.affordance.AffordanceRenderer();
         var rendered = renderer.renderObservation(sections);
 
         System.out.println("═══════════════════════════════════════════════════════");

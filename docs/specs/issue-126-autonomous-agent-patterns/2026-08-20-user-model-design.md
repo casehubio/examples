@@ -7,7 +7,7 @@
 
 ## Summary
 
-UserModel is a per-subject profile synthesis orchestrator in `io.casehub.agency.agentic.social` that composes existing neocortex memory capabilities (RelationshipEvent, ExperienceRecorder, TrendAnalyzer, CbrCaseMemoryStore) into a structured behavioral profile for anyone an agent interacts with. The profile tracks relationship stage, interaction patterns, and LLM-synthesized open-ended dimensions (communication style, topics of interest, preferences).
+UserModel is a per-subject profile synthesis orchestrator in `io.casehub.agency.core.social` that composes existing neocortex memory capabilities (RelationshipEvent, ExperienceRecorder, TrendAnalyzer, CbrCaseMemoryStore) into a structured behavioral profile for anyone an agent interacts with. The profile tracks relationship stage, interaction patterns, and LLM-synthesized open-ended dimensions (communication style, topics of interest, preferences).
 
 The pattern does NOT duplicate neocortex's raw event storage. It fills the gap between "interaction events are recorded" and "the agent has a holistic understanding of this person" by providing tiered synthesis (heuristic for countable dimensions, LLM for open-ended), configurable relationship staging, and CBR-backed profile persistence with temporal versioning.
 
@@ -396,7 +396,7 @@ This is a follow-up enhancement, not part of the initial implementation. The pro
 
 ## Package Structure
 
-**`io.casehub.agency.agentic.social`** (additions to existing package)
+**`io.casehub.agency.core.social`** (additions to existing package)
 
 | Class | What it does |
 |---|---|
