@@ -7,6 +7,10 @@ type: java
 
 **DSL parity:** YAML and Java are peer representations — see [DSL Style Guide](https://raw.githubusercontent.com/casehubio/parent/main/docs/DSL-STYLE-GUIDE.md) §YAML/Java Parity Principle
 
+## Research and Journal Placement
+
+Research documents, literature reviews, era journals, and cognitive architecture findings belong in the foundation repo they are best suited to (typically **casehubio/neocortex** `docs/research/`), not in this examples repo. Only content that is specifically about the example application itself (eval transcripts, app architecture, scenario configurations) belongs here.
+
 ## Design Decisions — Literature First
 
 Never guess at psychological, cognitive, or architectural models. Always base design decisions on literature, using empirically proven and respected models. Search the internet and Google Scholar to find the literature to undertake review and verification before committing to an approach. Intuitive reasoning that "sounds right" is not sufficient — the published computational models are the authority.
@@ -88,7 +92,7 @@ Three eval instruments, each measuring different dimensions:
 
 ### 1. Drive expression eval (per-drive, scenario-level)
 **Script:** `wacky-manor/docs/eval/classify_emotions.py`
-**Tracker:** `wacky-manor/docs/CHARACTER-EMERGENCE-FINDINGS.md`
+**Tracker:** `casehubio/neocortex docs/research/CHARACTER-EMERGENCE-FINDINGS.md` (relocated from examples)
 **Profile:** GENERIC (no pop-culture priors)
 
 Scores each drive (scheming, gloating, gallantry, etc.) 1-5 per event across a 200+ event scenario run. Produces per-character, per-drive averages. Baseline: BASELINE0 (mean 3.93).
