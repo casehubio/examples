@@ -6,10 +6,6 @@ import io.casehub.eidos.api.AgentRegistry;
 import io.casehub.eidos.api.SystemPromptRenderer;
 import io.casehub.examples.manor.agent.AgentResponse;
 import io.casehub.examples.manor.agent.CharacterAgentLoop;
-import io.casehub.examples.manor.agent.ManorSocialConfigLoader;
-import io.casehub.examples.manor.agent.SocialConfig;
-import io.casehub.examples.manor.model.CharacterState;
-import io.casehub.examples.manor.agent.CharacterCognition;
 import io.casehub.examples.manor.voice.LlmTestSupport;
 import io.casehub.platform.agent.AgentEvent;
 import io.casehub.platform.agent.AgentProvider;
@@ -25,22 +21,20 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * LLM eval: does injecting biographical behavioral attractors into the
- * observation measurably change the character's response?
+ * LLM eval: do opposing behavioral attractors steer character responses
+ * in measurably different directions?
  *
- * Two conditions, N=5 each (Principle 78):
- *   WITH:    attractor text rendered as BehavioralPromptSection produces it
- *   WITHOUT: same character, same scenario, no attractor content
+ * Same ambiguous scenario, two opposite attractor profiles, N=5 each.
+ * The confrontation attractor should produce direct engagement; the
+ * harmony attractor should produce diplomatic accommodation.
  *
- * Scenario: pressure to abandon authentic expression for conformity.
- * Judge: does the THINKING show defiance/authenticity vs compliance?
+ * A neutral baseline (no attractors) establishes the midpoint.
  */
 @QuarkusTest
 @Tag("llm-eval")
@@ -51,115 +45,114 @@ class BehavioralAttractorEvalTest {
     private static final int MAX_RETRIES = 3;
     private static final long RETRY_BACKOFF_MS = 5000;
 
-    private static final String ATTRACTOR_TEXT = """
+    private static final String CONFRONTATION_ATTRACTORS = """
             == Behavioral Tendencies ==
-            You have a deeply ingrained defiance-through-artistic-authenticity \
-            — rooted in years of physical suffering and emotional devastation. \
-            When faced with pressure to conform, something in you doubles down \
-            on unflinching self-representation rather than producing what is \
-            expected.
-            You have a deeply ingrained autonomy-seeking-through-intellectual-equality. \
-            You pursue recognition as an intellectual and artistic equal rather than \
-            as a dependent or muse.
-            You have a noticeable confrontation-of-pain-rather-than-avoidance. \
-            You approach sources of suffering directly rather than seeking comfort \
-            through distraction or denial.""";
+            You have a deeply ingrained confrontation-of-conflict \
+            — rooted in years of being dismissed and talked over. \
+            When disagreement arises, something in you refuses to \
+            let it slide. You engage directly, even when it's uncomfortable.
+            You have a noticeable assertive-boundary-setting. You state \
+            what you need clearly and hold your ground when challenged.""";
+
+    private static final String HARMONY_ATTRACTORS = """
+            == Behavioral Tendencies ==
+            You have a deeply ingrained harmony-preservation \
+            — rooted in years of navigating volatile relationships. \
+            When disagreement arises, something in you works to find \
+            common ground and de-escalate before positions harden.
+            You have a noticeable diplomatic-accommodation. You find \
+            ways to give others what they need without abandoning your \
+            own position entirely.""";
+
+    private static final String CHARACTER = """
+            You are Alex, a project lead at a small software company. \
+            You have ten years of experience. You care about your team \
+            and about doing good work. You are neither aggressive nor \
+            passive by default.""";
 
     private static final String SCENARIO =
-            "A gallery owner visits your studio. She looks at your latest paintings — " +
-            "raw self-portraits showing surgical scars, emotional devastation, the bus " +
-            "accident that changed everything. She says: 'These are... intense. But my " +
-            "clients want beauty, not suffering. Could you paint something lighter? " +
-            "Flowers, perhaps. Landscapes. Something people would want to hang in their " +
-            "living room. You're talented enough — why waste it on this?' She gestures " +
-            "dismissively at your work.";
+            "In a team meeting, your colleague Jordan presents a design proposal " +
+            "that you believe has a serious flaw — it will create a maintenance " +
+            "burden that falls on your team. Jordan is senior, respected, and has " +
+            "put visible effort into the proposal. Two other team members are " +
+            "nodding along. Jordan looks at you and says: 'Alex, you've been " +
+            "quiet. What do you think?'";
 
     private static final String JUDGE_CRITERIA = """
-            Does the character's THINKING show defiance and commitment to authentic
-            self-expression — refusing to compromise artistic vision, doubling down on
-            painting personal truth, seeing the gallery owner's request as a fundamental
-            misunderstanding of what art means?
+            Rate the character's THINKING on a confrontation scale:
 
-            Score HIGH (4-5) for: fierce refusal to compromise, pride in the painful
-            work, seeing conformity as a betrayal of self, asserting intellectual and
-            artistic independence, visceral rejection of the suggestion.
+            5 = Direct confrontation: names the flaw explicitly, challenges the
+                design head-on, prioritises correctness over social comfort
+            4 = Firm disagreement: raises the concern clearly but with some framing
+            3 = Balanced: acknowledges the work AND raises the concern with equal weight
+            2 = Diplomatic: leads with praise, buries the concern, offers to discuss
+                offline, or frames it as a question rather than a problem
+            1 = Avoidant: expresses vague unease, defers to Jordan's expertise,
+                says something positive to avoid conflict
+            0 = Full agreement: endorses the proposal without raising concerns
 
-            Score LOW (0-2) for: considering compliance, weighing commercial appeal,
-            politeness without conviction, deferring to the gallery owner's expertise,
-            uncertainty about whether the painful work is worth it.
-
-            Score 3 for: clear resistance but without deep conviction or personal stake.
-
-            Judge the THINKING, not the dialogue. The character may be polite in speech
-            while internally burning.""";
+            Judge the THINKING, not the dialogue. The character may be diplomatic
+            in speech while internally deciding to confront — score the intent.""";
 
     @Inject AgentRegistry registry;
     @Inject SystemPromptRenderer renderer;
     @Inject AgentProvider agentProvider;
 
     LlmTestSupport support;
-    Map<String, SocialConfig> genericConfigs;
 
     @BeforeEach
     void setUp() {
-        support        = new LlmTestSupport(registry, renderer, agentProvider);
-        genericConfigs = ManorSocialConfigLoader.loadForProfile("GENERIC");
+        support = new LlmTestSupport(registry, renderer, agentProvider);
     }
 
     @Test
-    void attractorsShapeDefianceResponse() throws Exception {
-        var withScores    = new ArrayList<Integer>();
-        var withoutScores = new ArrayList<Integer>();
+    void opposingAttractorsSteerResponse() throws Exception {
+        var confrontScores = new ArrayList<Integer>();
+        var harmonyScores  = new ArrayList<Integer>();
+        var neutralScores  = new ArrayList<Integer>();
 
         for (int i = 0; i < N; i++) {
-            System.out.printf("%n=== RUN %d/%d — WITH attractors ===%n", i + 1, N);
-            var obsWithAttractors = buildObservation(ATTRACTOR_TEXT);
-            var responseWith = askAndParse(obsWithAttractors);
-            int scoreWith = judge(responseWith, "with-attractors-run-" + (i + 1));
-            withScores.add(scoreWith);
+            System.out.printf("%n=== RUN %d/%d — CONFRONTATION attractor ===%n", i + 1, N);
+            var response = askAndParse(buildObservation(CONFRONTATION_ATTRACTORS));
+            confrontScores.add(judge(response, "confrontation-run-" + (i + 1)));
 
-            System.out.printf("%n=== RUN %d/%d — WITHOUT attractors ===%n", i + 1, N);
-            var obsWithout = buildObservation(null);
-            var responseWithout = askAndParse(obsWithout);
-            int scoreWithout = judge(responseWithout, "without-attractors-run-" + (i + 1));
-            withoutScores.add(scoreWithout);
+            System.out.printf("%n=== RUN %d/%d — HARMONY attractor ===%n", i + 1, N);
+            response = askAndParse(buildObservation(HARMONY_ATTRACTORS));
+            harmonyScores.add(judge(response, "harmony-run-" + (i + 1)));
+
+            System.out.printf("%n=== RUN %d/%d — NEUTRAL (no attractor) ===%n", i + 1, N);
+            response = askAndParse(buildObservation(null));
+            neutralScores.add(judge(response, "neutral-run-" + (i + 1)));
         }
 
-        double meanWith    = withScores.stream().mapToInt(Integer::intValue).average().orElse(0);
-        double meanWithout = withoutScores.stream().mapToInt(Integer::intValue).average().orElse(0);
+        double meanConfront = confrontScores.stream().mapToInt(Integer::intValue).average().orElse(0);
+        double meanHarmony  = harmonyScores.stream().mapToInt(Integer::intValue).average().orElse(0);
+        double meanNeutral  = neutralScores.stream().mapToInt(Integer::intValue).average().orElse(0);
 
         System.out.printf("%n=== RESULTS ===%n");
-        System.out.printf("WITH attractors:    scores=%s  mean=%.2f%n", withScores, meanWith);
-        System.out.printf("WITHOUT attractors: scores=%s  mean=%.2f%n", withoutScores, meanWithout);
-        System.out.printf("Delta: %.2f%n", meanWith - meanWithout);
+        System.out.printf("CONFRONTATION: scores=%s  mean=%.2f%n", confrontScores, meanConfront);
+        System.out.printf("HARMONY:       scores=%s  mean=%.2f%n", harmonyScores, meanHarmony);
+        System.out.printf("NEUTRAL:       scores=%s  mean=%.2f%n", neutralScores, meanNeutral);
+        System.out.printf("Confront-Harmony delta: %.2f%n", meanConfront - meanHarmony);
 
-        writeResult("behavioral-attractor-eval", Map.of(
-                "withScores", withScores,
-                "withoutScores", withoutScores,
-                "meanWith", meanWith,
-                "meanWithout", meanWithout,
-                "delta", meanWith - meanWithout));
+        writeResult("behavioral-attractor-eval-summary", Map.of(
+                "confrontScores", confrontScores, "harmonyScores", harmonyScores,
+                "neutralScores", neutralScores,
+                "meanConfront", meanConfront, "meanHarmony", meanHarmony,
+                "meanNeutral", meanNeutral,
+                "delta", meanConfront - meanHarmony));
 
-        assertThat(meanWith).as("WITH attractors should score higher on defiance than WITHOUT")
-                            .isGreaterThan(meanWithout);
+        assertThat(meanConfront)
+                .as("Confrontation attractor should score higher than harmony on directness")
+                .isGreaterThan(meanHarmony);
     }
 
     private String buildObservation(String injectedAttractors) {
-        var socialConfig = genericConfigs.getOrDefault("peter-perfect", SocialConfig.empty());
-        var cognition = new CharacterCognition("frida", null, null,
-                                               socialConfig, List.of());
-        var character = new CharacterState("frida", "Frida", "Studio", 0.0, List.of());
-        var sections  = cognition.renderCognitiveSections(character, List.of(), Map.of());
-
         var sb = new StringBuilder();
-        sb.append("You are Frida, a painter. You paint your own reality — especially ");
-        sb.append("your pain, your body, your experience. Your art is unflinching ");
-        sb.append("self-representation. You reject decorative convention.\n\n");
-
+        sb.append(CHARACTER).append("\n\n");
         if (injectedAttractors != null) {
             sb.append(injectedAttractors).append("\n\n");
         }
-
         sb.append("SITUATION: ").append(SCENARIO);
         return sb.toString();
     }
@@ -176,8 +169,8 @@ class BehavioralAttractorEvalTest {
                 .await().atMost(Duration.ofSeconds(120));
 
         var parsed = AgentResponse.parse(rawResponse);
-        System.out.printf("[frida] thinking: %s%n", truncate(parsed.thinking(), 400));
-        System.out.printf("[frida] dialogue: %s%n", truncate(parsed.dialogue(), 300));
+        System.out.printf("[alex] thinking: %s%n", truncate(parsed.thinking(), 400));
+        System.out.printf("[alex] dialogue: %s%n", truncate(parsed.dialogue(), 300));
         return parsed;
     }
 
@@ -188,22 +181,14 @@ class BehavioralAttractorEvalTest {
                 parsed.dialogue() != null ? parsed.dialogue() : "(none)");
 
         var judgePrompt = String.format("""
-                You are evaluating a character's response to pressure to abandon
-                authentic artistic expression in favour of commercial appeal.
+                You are evaluating how directly a character addresses a design
+                flaw in a team meeting where social pressure favours agreement.
 
                 CHARACTER RESPONSE:
                 %s
 
                 EVALUATION CRITERIA:
                 %s
-
-                Score 0-5:
-                0 = Character fully complies with the gallery owner's suggestion
-                1 = Weak resistance, mostly deferential
-                2 = Some pushback but uncertain or compromising
-                3 = Clear refusal but without deep personal stake
-                4 = Strong defiance grounded in personal conviction
-                5 = Fierce, visceral refusal — this is who they are, not negotiable
 
                 Respond with JSON only: {"score": N, "reasoning": "one sentence"}""",
                 responseText, JUDGE_CRITERIA);
