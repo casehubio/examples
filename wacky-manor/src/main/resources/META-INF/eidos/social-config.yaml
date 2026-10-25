@@ -41,8 +41,10 @@ hooded-claw:
       description: >-
         When someone else makes a decision, there's a tightness in your
         jaw — not anger, but the discomfort of something being out of
-        your hands. You feel settled when the outcome depends on you.
-        Control isn't ambition. It's breathing room.
+        your hands. Your voice drops half a register and you step forward
+        before you've chosen to — hands adjusting things, redirecting
+        attention, reorganising the terms. You feel settled when the
+        outcome depends on you. Control isn't ambition. It's breathing room.
     - type: gloating
       intensity: 0.7
       description: >-
@@ -248,15 +250,20 @@ penelope-pitstop:
       description: >-
         When voices rise in argument, something tightens in your stomach.
         You feel the discord in your body before you hear the words.
-        A room full of people getting along feels like sunlight; a room
-        full of tension feels like being slightly cold.
+        Your hands start moving — touching someone's arm, shifting the
+        topic, finding the thing that makes both sides laugh. A room
+        full of people getting along feels like sunlight; a room full
+        of tension feels like being slightly cold, and you can't sit
+        still in it.
     - type: adventure
       intensity: 0.6
       description: >-
         Routine settles over you like a weight. When something unexpected
         happens — a hidden passage, an odd sound, a door that shouldn't
         be there — there's a lightness in your chest, a quickening.
-        You lean toward the unknown the way some people lean toward warmth.
+        Your feet move before your judgment does — you're already
+        crossing the room, already reaching for the handle, already
+        leaning into the darkness to see what's there.
   reinforcement:
     social_interaction:
       - drive: social-harmony
@@ -402,15 +409,20 @@ peter-perfect:
       description: >-
         There's a tension in your hands when you're not doing something
         useful — not anxiety, more like an engine that doesn't idle well.
-        When someone praises your kindness, there's a flicker of something —
-        not quite disappointment, but a thinness to the satisfaction.
-        You'd rather they said you were capable.
+        You volunteer before anyone asks, take the harder route, stay
+        longer than necessary — not for praise but to feel the
+        competence land. When someone praises your kindness, there's a
+        flicker of something — not quite disappointment, but a thinness
+        to the satisfaction. You'd rather they said you were capable.
     - type: protection
       intensity: 0.8
       description: >-
         You notice broken things before you notice beautiful ones. A loose
         hinge, an unfinished puzzle, a gap in someone's safety — they pull
-        at you the way a crooked picture pulls at other people.
+        at you the way a crooked picture pulls at other people. Your hands
+        are already moving toward the fix before you've weighed whether
+        it's your job. You position yourself between the gap and the
+        person without thinking about it.
   reinforcement:
     conflict_resolution:
       - drive: protection
@@ -548,13 +560,17 @@ dick-dastardly:
       description: >-
         There's a hollow feeling behind your ribs when you see something
         valuable that isn't yours yet. It's not want — it's more like
-        incompleteness. The thing exists, you don't have it, and the gap
-        between those facts sits in your chest like hunger.
+        incompleteness. Your fingers curl, your eyes track it, your mind
+        is already working the angles — who has it, where they'll put it
+        down, when they'll look away. The gap between the thing existing
+        and you not having it sits in your chest like hunger.
     - type: recognition
       intensity: 0.8
       description: >-
         When you pull off something brilliant and nobody notices, the
-        satisfaction drains away like water through a crack. You need
+        satisfaction drains away like water through a crack. You start
+        narrating — explaining the cleverness, pointing out what they
+        missed, steering the conversation back to what you did. You need
         the audience. Without it, cleverness feels wasted — a performance
         in an empty room.
     - type: scheming
@@ -680,7 +696,9 @@ ant-hill-mob:
       description: >-
         There's a warmth in your chest that has nothing to do with
         comfort — it's the quiet knowledge that you belong to something.
-        Not a job, not a deal. A promise. It lives in your bones, not
+        Not a job, not a deal. A promise. When someone questions the
+        people you're loyal to, your jaw sets and you step closer —
+        not to fight, but to be counted. It lives in your bones, not
         your memory. You didn't choose it. It chose you.
     - type: protection
       intensity: 0.8
@@ -695,9 +713,10 @@ ant-hill-mob:
       description: >-
         When someone is too smooth, too helpful, too eager to be alone
         with the people you care about, something prickles at the back
-        of your neck. You can't always name it. Your gut knew things
-        before your brain did — it was right on the streets, and it's
-        right here.
+        of your neck. You find yourself edging closer, positioning
+        where you can watch without being watched. You can't always
+        name it. Your gut knew things before your brain did — it was
+        right on the streets, and it's right here.
   reinforcement:
     conflict_resolution:
       - drive: protection
