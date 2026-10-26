@@ -524,6 +524,7 @@ public class PlaybookOrchestrator {
             for (var ex : exchangeTexts) {
                 extractDialogueKnowledge(ex[0], ex[1], ex[2], ex[3], true, world);
             }
+            var deferredBdi = new java.util.ArrayList<Runnable>();
             for (var c : actingThisTick) {
                 if (suppressed.contains(c.agentId())) continue;
                 var response = responses.get(c.agentId());
@@ -539,8 +540,24 @@ public class PlaybookOrchestrator {
                 extractDialogueKnowledge(dialogueText, c.agentId(), validatedTarget,
                         c.currentRoom(), false, world);
                 var observation = prompts.get(c.agentId());
+                var sitCtx = previousSituationContexts.get(c.agentId());
+                var moodSignal = io.casehub.neocortex.cognition.mood.MechanicalMoodAppraiser.appraise(sitCtx);
+                var impact = new io.casehub.neocortex.cognition.core.CognitiveImpact(null, moodSignal, true, null, null);
                 cognitionCore.recordInteraction(c.agentId(), ManorConstants.TENANCY_ID,
-                        validatedTarget, observation != null ? observation : "", dialogueText, null);
+                        validatedTarget, observation != null ? observation : "", dialogueText, impact);
+                String bdiSubject = validatedTarget;
+                String bdiAgent = c.agentId();
+                if (bdiSubject != null) {
+                    deferredBdi.add(() -> cognitionCore.deferredBdiExtraction(
+                            bdiAgent, bdiSubject, ManorConstants.TENANCY_ID, dialogueText));
+                }
+            }
+            java.util.concurrent.CompletableFuture<Void> bdiBarrier = null;
+            if (!deferredBdi.isEmpty()) {
+                var bdiFutures = deferredBdi.stream()
+                        .map(r -> java.util.concurrent.CompletableFuture.runAsync(r))
+                        .toArray(java.util.concurrent.CompletableFuture[]::new);
+                bdiBarrier = java.util.concurrent.CompletableFuture.allOf(bdiFutures);
             }
 
             for (var c : actingThisTick) {
@@ -743,6 +760,9 @@ public class PlaybookOrchestrator {
                 world.setScenarioComplete(io.casehub.examples.manor.model.CompletionReason.DAWN);
             }
 
+            if (bdiBarrier != null) {
+                bdiBarrier.join();
+            }
             webEventBus.broadcast(webEventBus.buildSnapshot(world));
             log.infof("Tick %d: %d agents acted", tick, actingThisTick.size());
         }
