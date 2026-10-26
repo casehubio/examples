@@ -15,6 +15,7 @@ public record ManorConfig(
         AppraisalConfig appraisal,
         ClassificationConfig classification,
         MoodTuningConfig mood,
+        SessionConfig session,
         String activeCharacters,
         int maxConcurrentAgents
 ) {
@@ -41,6 +42,21 @@ public record ManorConfig(
     public record CognitiveSnapshotConfig(int intervalTicks) {}
 
     public record AppraisalConfig(boolean enabled) {}
+
+    public record SessionConfig(int clearAtTokens) {
+        public static int parseClearAtTokens(String value, int modelContextTokens) {
+            String v = value.strip();
+            if (v.endsWith("%")) {
+                int pct = Integer.parseInt(v.substring(0, v.length() - 1).strip());
+                return modelContextTokens * pct / 100;
+            } else if (v.endsWith("k") || v.endsWith("K")) {
+                int k = Integer.parseInt(v.substring(0, v.length() - 1).strip());
+                return k * 1_000;
+            } else {
+                return Integer.parseInt(v);
+            }
+        }
+    }
 
     public record MoodTuningConfig(int decayMinutes, double maxDisplacement) {
         public io.casehub.neocortex.cognition.mood.MoodConfig toMoodConfig() {

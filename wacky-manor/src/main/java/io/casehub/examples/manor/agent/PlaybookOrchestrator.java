@@ -132,10 +132,10 @@ public class PlaybookOrchestrator {
             var admission = new io.casehub.platform.agent.gate.AimdAdmissionStrategy(
                     maxConcurrentSessions, 5, java.time.Duration.ofSeconds(10));
             sessionPipeline = new io.casehub.platform.agent.session.SessionPipeline(
-                    sessionLifecycleManager, "claude", admission, 80_000);
+                    sessionLifecycleManager, "claude", admission, config.session().clearAtTokens());
         } else {
             sessionPipeline = new io.casehub.platform.agent.session.SessionPipeline(
-                    sessionLifecycleManager, "claude", maxConcurrentSessions, 80_000);
+                    sessionLifecycleManager, "claude", maxConcurrentSessions, config.session().clearAtTokens());
         }
         this.scenePipeline = sessionPipeline;
 

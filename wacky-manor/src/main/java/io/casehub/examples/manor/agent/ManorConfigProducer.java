@@ -91,6 +91,13 @@ public class ManorConfigProducer {
     @ConfigProperty(name = "manor.classification.accumulator.slow-threshold", defaultValue = "2.0")
     double accumulatorSlowThreshold;
 
+
+    @ConfigProperty(name = "manor.session.clear-at-tokens", defaultValue = "80k")
+    String clearAtTokensRaw;
+    @ConfigProperty(name = "manor.session.model-context-tokens", defaultValue = "200000")
+    int    modelContextTokens;
+
+
     @Produces
     @jakarta.inject.Singleton
     public ManorConfig produce() {
@@ -108,8 +115,9 @@ public class ManorConfigProducer {
                 new ManorConfig.CognitiveSnapshotConfig(cognitiveSnapshotIntervalTicks),
                 new ManorConfig.AppraisalConfig(appraisalEnabled),
                 new ManorConfig.ClassificationConfig(classificationAuditEnabled, classificationAuditLogPath, classificationExternalCharacters.orElse(""),
-                        accumulatorAllowance, accumulatorThreshold, accumulatorDecay, accumulatorSlowAllowance, accumulatorSlowThreshold),
+                                                     accumulatorAllowance, accumulatorThreshold, accumulatorDecay, accumulatorSlowAllowance, accumulatorSlowThreshold),
                 new ManorConfig.MoodTuningConfig(moodDecayMinutes, moodMaxDisplacement),
+                new ManorConfig.SessionConfig(ManorConfig.SessionConfig.parseClearAtTokens(clearAtTokensRaw, modelContextTokens)),
                 activeCharactersConfig.orElse(""),
                 maxConcurrentAgents
         );

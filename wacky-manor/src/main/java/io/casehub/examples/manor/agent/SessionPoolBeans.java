@@ -42,9 +42,10 @@ public class SessionPoolBeans {
     @Produces
     @Singleton
     SessionPipeline sessionPipeline(SessionPoolRegistry poolRegistry,
-                                     @ConfigProperty(name = "casehub.platform.agent.claude.max-concurrent-sessions", defaultValue = "12") int maxSessions) {
+                                    @ConfigProperty(name = "casehub.platform.agent.claude.max-concurrent-sessions", defaultValue = "12") int maxSessions,
+                                    ManorConfig config) {
         var manager = new SessionLifecycleManager(poolRegistry);
-        return new SessionPipeline(manager, "claude", maxSessions, 80_000);
+        return new SessionPipeline(manager, "claude", maxSessions, config.session().clearAtTokens());
     }
 
     static final class StubAgentBackend implements AgentBackend {

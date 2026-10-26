@@ -88,7 +88,7 @@ public class BiasValidationResource {
         var sessionManager = new SessionLifecycleManager(sessionPoolRegistry);
         var pipeline = new SessionPipeline(sessionManager, "claude",
                 new io.casehub.platform.agent.gate.AimdAdmissionStrategy(4, 2, Duration.ofSeconds(10)),
-                80_000);
+                config.session().clearAtTokens());
 
         var characterIds = inlineEntries.stream()
                 .map(AuditEntry::agentId)
