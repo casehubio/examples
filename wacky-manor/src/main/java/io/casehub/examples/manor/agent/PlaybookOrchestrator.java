@@ -449,11 +449,13 @@ public class PlaybookOrchestrator {
             }, java.time.Duration.ofSeconds(30));
 
             // Phase 2: query via adaptive pipeline
+            long queryStart = System.nanoTime();
             var pipelineResults = TickExecutor.queryPipeline(prompts, sessionPipeline, 3, java.time.Duration.ofSeconds(120));
+            long queryMs = (System.nanoTime() - queryStart) / 1_000_000;
 
             // Phase 3: parse responses (outside pipeline — parse errors don't consume tickets)
             var responses = TickExecutor.parseResponses(actingThisTick, pipelineResults);
-            log.infof("Tick %d complete (%d agents, %d succeeded)", currentTick, actingThisTick.size(),
+            log.infof("Phase: query %dms — %d agents, %d succeeded", queryMs, actingThisTick.size(),
                     pipelineResults.values().stream().filter(java.util.Objects::nonNull).count());
 
             var suppressed = new java.util.HashSet<String>();
@@ -524,7 +526,8 @@ public class PlaybookOrchestrator {
             for (var ex : exchangeTexts) {
                 extractDialogueKnowledge(ex[0], ex[1], ex[2], ex[3], true, world);
             }
-            var deferredBdi = new java.util.ArrayList<Runnable>();
+            long interactionStart = System.nanoTime();
+            int interactionCount = 0;
             for (var c : actingThisTick) {
                 if (suppressed.contains(c.agentId())) continue;
                 var response = responses.get(c.agentId());
@@ -540,26 +543,25 @@ public class PlaybookOrchestrator {
                 extractDialogueKnowledge(dialogueText, c.agentId(), validatedTarget,
                         c.currentRoom(), false, world);
                 var observation = prompts.get(c.agentId());
-                var sitCtx = previousSituationContexts.get(c.agentId());
-                var moodSignal = io.casehub.neocortex.cognition.mood.MechanicalMoodAppraiser.appraise(sitCtx);
-                var impact = new io.casehub.neocortex.cognition.core.CognitiveImpact(null, moodSignal, true, null, null);
+                long perAgentStart = System.nanoTime();
                 cognitionCore.recordInteraction(c.agentId(), ManorConstants.TENANCY_ID,
-                        validatedTarget, observation != null ? observation : "", dialogueText, impact);
-                String bdiSubject = validatedTarget;
-                String bdiAgent = c.agentId();
-                if (bdiSubject != null) {
-                    deferredBdi.add(() -> cognitionCore.deferredBdiExtraction(
-                            bdiAgent, bdiSubject, ManorConstants.TENANCY_ID, dialogueText));
+                        validatedTarget, observation != null ? observation : "", dialogueText, null);
+                log.infof("  %s: recordInteraction %dms", c.agentId(), (System.nanoTime() - perAgentStart) / 1_000_000);
+                interactionCount++;
+                var sitCtx = previousSituationContexts.get(c.agentId());
+                if (sitCtx != null && !sitCtx.isEmpty()) {
+                    var mechMood = io.casehub.neocortex.cognition.mood.MechanicalMoodAppraiser.appraise(sitCtx);
+                    if (mechMood != null) {
+                        log.infof("  %s: shadow-mechanical-mood P=%.3f A=%.3f D=%.3f (sitCtx age: %d activations)",
+                                c.agentId(), mechMood.pleasureDelta(), mechMood.arousalDelta(), mechMood.dominanceDelta(),
+                                sitCtx.activations().size());
+                    }
                 }
             }
-            java.util.concurrent.CompletableFuture<Void> bdiBarrier = null;
-            if (!deferredBdi.isEmpty()) {
-                var bdiFutures = deferredBdi.stream()
-                        .map(r -> java.util.concurrent.CompletableFuture.runAsync(r))
-                        .toArray(java.util.concurrent.CompletableFuture[]::new);
-                bdiBarrier = java.util.concurrent.CompletableFuture.allOf(bdiFutures);
-            }
+            log.infof("Phase: recordInteraction — %d agents in %dms",
+                    interactionCount, (System.nanoTime() - interactionStart) / 1_000_000);
 
+            long actionStart = System.nanoTime();
             for (var c : actingThisTick) {
                 if (suppressed.contains(c.agentId())) continue;
                 var response = responses.get(c.agentId());
@@ -616,6 +618,9 @@ public class PlaybookOrchestrator {
                 cognition.recordExperience(c.currentRoom(), desc.strip(), response.thinking(), importance, targetAgentId, currentTick);
             }
 
+            log.infof("Phase: action-resolution %dms", (System.nanoTime() - actionStart) / 1_000_000);
+
+            long tomStart = System.nanoTime();
             var innerLife = cognitionCore.innerLife();
             for (var c : actingThisTick) {
                 var response = responses.get(c.agentId());
@@ -657,6 +662,9 @@ public class PlaybookOrchestrator {
                 }
             }
 
+            log.infof("Phase: tom-observations %dms", (System.nanoTime() - tomStart) / 1_000_000);
+
+            long classStart = System.nanoTime();
             // Demand-driven classification: degree accumulation + inline/external routing
             int classified = 0;
             for (var c : actingThisTick) {
@@ -740,9 +748,7 @@ public class PlaybookOrchestrator {
                     }
                 }
             }
-            if (classified > 0) {
-                log.infof("Inline classification: %d agents classified", classified);
-            }
+            log.infof("Phase: classification %dms (%d classified)", (System.nanoTime() - classStart) / 1_000_000, classified);
 
             if (config.consolidation().enabled()
                     && config.consolidation().intervalTicks() > 0
@@ -760,9 +766,6 @@ public class PlaybookOrchestrator {
                 world.setScenarioComplete(io.casehub.examples.manor.model.CompletionReason.DAWN);
             }
 
-            if (bdiBarrier != null) {
-                bdiBarrier.join();
-            }
             webEventBus.broadcast(webEventBus.buildSnapshot(world));
             log.infof("Tick %d: %d agents acted", tick, actingThisTick.size());
         }
