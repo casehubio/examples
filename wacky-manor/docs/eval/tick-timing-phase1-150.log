@@ -1,0 +1,94 @@
+2026-10-26 22:29:47,759 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 1 start — sessions: 6, AIMD window: 18, available: 18
+2026-10-26 22:30:18,756 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: query 30920ms — 5 agents, 5 succeeded — AIMD window 18→18 (avail 18 pre-query)
+2026-10-26 22:30:18,756 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: prompt 16567 chars (~4141 tokens), response 1737 chars (~434 tokens)
+2026-10-26 22:30:18,756 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: prompt 22256 chars (~5564 tokens), response 1946 chars (~486 tokens)
+2026-10-26 22:30:18,756 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: prompt 17244 chars (~4311 tokens), response 1636 chars (~409 tokens)
+2026-10-26 22:30:18,756 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: prompt 21220 chars (~5305 tokens), response 1901 chars (~475 tokens)
+2026-10-26 22:30:18,756 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: prompt 17788 chars (~4447 tokens), response 1998 chars (~499 tokens)
+2026-10-26 22:30:36,182 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) penelope-pitstop: batch-mood P=0.200 A=0.250 D=0.150 cause=character excitement at discovering a new adventure setting with familiar companions
+2026-10-26 22:30:36,182 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) hooded-claw: batch-mood P=0.150 A=0.100 D=0.150 cause=welcoming guests to his domain with gracious authority
+2026-10-26 22:30:36,183 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) dick-dastardly: batch-mood P=0.200 A=0.250 D=0.250 cause=theatrical self-introduction with bombastic confidence and delight at the setting
+2026-10-26 22:30:36,183 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) ant-hill-mob: batch-mood P=0.150 A=0.150 D=0.100 cause=cheerful bravado masking mild unease at spooky new surroundings
+2026-10-26 22:30:36,183 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) peter-perfect: batch-mood P=0.150 A=0.150 D=0.150 cause=theatrical excitement at entering the scene and establishing confident character presence
+2026-10-26 22:30:36,183 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: batch-mood 17419ms — 5 agents, 5 succeeded
+2026-10-26 22:30:36,188 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: recordInteraction — 5 agents in 5ms
+2026-10-26 22:30:36,198 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: action-resolution 8ms
+2026-10-26 22:30:36,208 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: tom-observations 9ms
+2026-10-26 22:30:36,209 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: classification 0ms (0 classified)
+2026-10-26 22:30:36,210 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 1: 5 agents acted — sessions: 12, mood 0/0 (0% LLM), bdi 0/0 (0% LLM)
+2026-10-26 22:30:36,210 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 2 start — sessions: 12, AIMD window: 18, available: 18
+2026-10-26 22:30:59,836 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (deferred-bdi-tick-1) Deferred BDI: 2 extractions completed (tick 1)
+2026-10-26 22:32:43,331 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: query 25908ms — 5 agents, 5 succeeded — AIMD window 18→18 (avail 18 pre-query)
+2026-10-26 22:32:43,331 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: prompt 27718 chars (~6929 tokens), response 2993 chars (~748 tokens)
+2026-10-26 22:32:43,331 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: prompt 27141 chars (~6785 tokens), response 2348 chars (~587 tokens)
+2026-10-26 22:32:43,331 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: prompt 31401 chars (~7850 tokens), response 2639 chars (~659 tokens)
+2026-10-26 22:32:43,331 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: prompt 31671 chars (~7917 tokens), response 3016 chars (~754 tokens)
+2026-10-26 22:32:43,331 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: prompt 32056 chars (~8014 tokens), response 3375 chars (~843 tokens)
+2026-10-26 22:32:46,770 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) penelope-pitstop: batch-mood P=0.250 A=0.200 D=0.150 cause=warm affection and playful admiration toward a trusted companion
+2026-10-26 22:32:46,770 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) hooded-claw: batch-mood P=0.200 A=0.150 D=0.150 cause=pleased by guests following protocol, confidently managing household duties
+2026-10-26 22:32:46,770 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) dick-dastardly: batch-mood P=0.150 A=0.200 D=0.250 cause=dismissive expertise assertion while maintaining theatrical enthusiasm
+2026-10-26 22:32:46,770 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) ant-hill-mob: batch-mood P=0.100 A=0.200 D=0.200 cause=assertive curiosity and territorial sizing-up of the situation
+2026-10-26 22:32:46,770 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) peter-perfect: batch-mood P=0.120 A=0.180 D=0.200 cause=intellectual curiosity and investigative confidence surveying an untouched mystery
+2026-10-26 22:32:46,771 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: batch-mood 3430ms — 5 agents, 5 succeeded
+2026-10-26 22:32:46,771 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: recordInteraction — 5 agents in 0ms
+2026-10-26 22:32:46,774 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: action-resolution 2ms
+2026-10-26 22:32:46,774 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: tom-observations 0ms
+2026-10-26 22:32:46,778 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: classification 3ms (4 classified)
+2026-10-26 22:32:46,778 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 2: 5 agents acted — sessions: 14, mood 0/0 (0% LLM), bdi 2/2 (100% LLM)
+2026-10-26 22:32:46,778 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 3 start — sessions: 14, AIMD window: 18, available: 18
+2026-10-26 22:32:59,464 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (deferred-bdi-tick-2) Deferred BDI: 2 extractions completed (tick 2)
+2026-10-26 22:33:44,287 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: query 30336ms — 5 agents, 5 succeeded — AIMD window 18→18 (avail 18 pre-query)
+2026-10-26 22:33:44,288 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: prompt 26847 chars (~6711 tokens), response 3145 chars (~786 tokens)
+2026-10-26 22:33:44,288 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: prompt 27805 chars (~6951 tokens), response 3165 chars (~791 tokens)
+2026-10-26 22:33:44,288 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: prompt 21431 chars (~5357 tokens), response 2020 chars (~505 tokens)
+2026-10-26 22:33:44,288 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: prompt 24542 chars (~6135 tokens), response 2728 chars (~682 tokens)
+2026-10-26 22:33:44,288 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: prompt 26672 chars (~6668 tokens), response 3892 chars (~973 tokens)
+2026-10-26 22:33:47,274 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) penelope-pitstop: batch-mood P=0.200 A=0.250 D=0.200 cause=thrill of discovering a puzzle and confidently solving the riddle
+2026-10-26 22:33:47,275 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) hooded-claw: batch-mood P=0.100 A=0.050 D=0.150 cause=minor embarrassment about dust but confidently guiding guests through the library
+2026-10-26 22:33:47,275 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) dick-dastardly: batch-mood P=0.100 A=0.200 D=0.200 cause=performative dismissal masking slight anxiety as others encroach on claimed expertise
+2026-10-26 22:33:47,275 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) ant-hill-mob: batch-mood P=0.100 A=0.250 D=0.250 cause=rallying the gang with a plan after others scattered, asserting leadership
+2026-10-26 22:33:47,275 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) peter-perfect: batch-mood P=0.220 A=0.250 D=0.200 cause=delighted discovery solving a riddle and feeling intellectually matched by the puzzle-maker
+2026-10-26 22:33:47,275 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: batch-mood 2980ms — 5 agents, 5 succeeded
+2026-10-26 22:33:47,275 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: recordInteraction — 5 agents in 0ms
+2026-10-26 22:33:47,277 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: action-resolution 1ms
+2026-10-26 22:33:47,278 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: tom-observations 0ms
+2026-10-26 22:33:47,278 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: classification 0ms (0 classified)
+2026-10-26 22:33:47,278 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 3: 5 agents acted — sessions: 14, mood 0/0 (0% LLM), bdi 4/4 (100% LLM)
+2026-10-26 22:33:47,278 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 4 start — sessions: 14, AIMD window: 18, available: 18
+2026-10-26 22:34:20,574 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: query 33275ms — 5 agents, 5 succeeded — AIMD window 18→18 (avail 18 pre-query)
+2026-10-26 22:34:20,574 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: prompt 30750 chars (~7687 tokens), response 3461 chars (~865 tokens)
+2026-10-26 22:34:20,574 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: prompt 31909 chars (~7977 tokens), response 2890 chars (~722 tokens)
+2026-10-26 22:34:20,574 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: prompt 28196 chars (~7049 tokens), response 3321 chars (~830 tokens)
+2026-10-26 22:34:20,574 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: prompt 28203 chars (~7050 tokens), response 2304 chars (~576 tokens)
+2026-10-26 22:34:20,574 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: prompt 31608 chars (~7902 tokens), response 4408 chars (~1102 tokens)
+2026-10-26 22:34:23,804 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) penelope-pitstop: batch-mood P=0.150 A=0.200 D=0.200 cause=collaborative problem-solving with a trusted partner while leading the investigation
+2026-10-26 22:34:23,804 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) hooded-claw: batch-mood P=0.200 A=0.150 D=0.000 cause=genuinely impressed by guests' cleverness, slightly diminished as puzzle-solver but warmly supportive
+2026-10-26 22:34:23,804 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) dick-dastardly: batch-mood P=0.050 A=0.250 D=0.100 cause=scrambling to save face after being corrected, covering embarrassment with bluster
+2026-10-26 22:34:23,804 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) ant-hill-mob: batch-mood P=0.150 A=0.150 D=0.200 cause=relief at finding Miss Pitstop safe, intellectual engagement with the riddle, maintaining protective leadership role
+2026-10-26 22:34:23,804 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) peter-perfect: batch-mood P=0.250 A=0.150 D=0.100 cause=warm social validation from discovering shared thinking with a companion
+2026-10-26 22:34:23,804 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: batch-mood 3222ms — 5 agents, 5 succeeded
+2026-10-26 22:34:23,805 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: recordInteraction — 5 agents in 0ms
+2026-10-26 22:34:23,807 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: action-resolution 2ms
+2026-10-26 22:34:23,808 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: tom-observations 0ms
+2026-10-26 22:34:23,809 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: classification 1ms (1 classified)
+2026-10-26 22:34:23,809 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 4: 5 agents acted — sessions: 14, mood 0/0 (0% LLM), bdi 4/4 (100% LLM)
+2026-10-26 22:34:23,809 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 5 start — sessions: 14, AIMD window: 18, available: 18
+2026-10-26 22:34:58,788 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: query 34951ms — 5 agents, 5 succeeded — AIMD window 18→18 (avail 18 pre-query)
+2026-10-26 22:34:58,788 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: prompt 36991 chars (~9247 tokens), response 3799 chars (~949 tokens)
+2026-10-26 22:34:58,788 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: prompt 29049 chars (~7262 tokens), response 2354 chars (~588 tokens)
+2026-10-26 22:34:58,788 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: prompt 28929 chars (~7232 tokens), response 2766 chars (~691 tokens)
+2026-10-26 22:34:58,788 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: prompt 35304 chars (~8826 tokens), response 3955 chars (~988 tokens)
+2026-10-26 22:34:58,788 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: prompt 36569 chars (~9142 tokens), response 4572 chars (~1143 tokens)
+2026-10-26 22:35:01,726 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) penelope-pitstop: batch-mood P=0.100 A=0.150 D=0.150 cause=mild frustration at the shelves offset by warmth toward companions and persistent determination
+2026-10-26 22:35:01,726 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) hooded-claw: batch-mood P=0.100 A=0.200 D=0.100 cause=anxious about laboratory hazards while maintaining professional composure and authority
+2026-10-26 22:35:01,726 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) dick-dastardly: batch-mood P=0.100 A=0.200 D=0.150 cause=claiming credit for others' discovery while fabricating elaborate justification
+2026-10-26 22:35:01,726 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) ant-hill-mob: batch-mood P=-0.050 A=0.250 D=0.150 cause=suspicion and alarm at Pemberton's suspicious departure, protective instinct kicking in
+2026-10-26 22:35:01,726 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) peter-perfect: batch-mood P=0.200 A=0.220 D=0.150 cause=energized collaborative momentum building on a partner's correct intuition
+2026-10-26 22:35:01,726 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: batch-mood 2932ms — 5 agents, 5 succeeded
+2026-10-26 22:35:01,727 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: recordInteraction — 5 agents in 0ms
+2026-10-26 22:35:01,729 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: action-resolution 1ms
+2026-10-26 22:35:01,729 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: tom-observations 0ms
+2026-10-26 22:35:01,730 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: classification 0ms (3 classified)
+2026-10-26 22:35:01,732 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 5: 5 agents acted — sessions: 14, mood 0/0 (0% LLM), bdi 4/4 (100% LLM)
+2026-10-26 22:35:14,430 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (deferred-bdi-tick-5) Deferred BDI: 3 extractions completed (tick 5)
+2026-10-26 22:35:14,436 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Scenario complete — dawn
