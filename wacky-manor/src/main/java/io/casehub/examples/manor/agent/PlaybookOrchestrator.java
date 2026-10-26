@@ -586,9 +586,6 @@ public class PlaybookOrchestrator {
                 var signal = parseMoodResponse(agentId, entry.getValue());
                 if (signal != null) moodSignals.put(agentId, signal);
             }
-            for (String moodSessionId : moodUserPrompts.keySet()) {
-                sessionPipeline.releaseSession(moodSessionId);
-            }
             log.infof("Phase: batch-mood %dms — %d agents, %d succeeded",
                     (System.nanoTime() - moodStart) / 1_000_000, moodUserPrompts.size(), moodSignals.size());
 
