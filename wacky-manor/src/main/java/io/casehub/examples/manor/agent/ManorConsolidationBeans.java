@@ -3,7 +3,6 @@ package io.casehub.examples.manor.agent;
 import io.casehub.neocortex.cognition.drive.DriveAdaptationConfig;
 import io.casehub.neocortex.cognition.drive.DriveAdaptationPhase;
 import io.casehub.neocortex.cognition.drive.DriveReinforcementEntry;
-import io.casehub.neocortex.cognition.drive.NeedSatisfactionConfig;
 import io.casehub.neocortex.cognition.drive.NeedTierMappingProvider;
 import io.casehub.neocortex.cognition.drive.ReinforcementDirection;
 import io.casehub.neocortex.cognition.drive.RewardAxis;
@@ -29,13 +28,13 @@ public class ManorConsolidationBeans {
             MindMapStore mindMapStore,
             NeedTierMappingProvider tierMappingProvider,
             DriveAdaptationConfig config,
-            NeedSatisfactionConfig needConfig) {
+            ManorNeedSatisfactionConfigProvider needConfigProvider) {
         return new DriveAdaptationPhase(
                 mindMapStore,
                 buildReinforcementMap(),
                 config,
                 tierMappingProvider,
-                needConfig);
+                needConfigProvider);
     }
 
     @Produces

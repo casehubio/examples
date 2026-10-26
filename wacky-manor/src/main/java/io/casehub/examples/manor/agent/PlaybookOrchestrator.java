@@ -16,7 +16,6 @@ import io.casehub.examples.manor.model.PendingAction;
 import io.casehub.neocortex.cognitive.ConfidenceOrigin;
 import io.casehub.platform.agent.AgentEvent;
 import io.casehub.platform.agent.AgentProvider;
-import io.casehub.platform.agent.AgentSessionConfig;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.jboss.logging.Logger;
@@ -27,7 +26,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class PlaybookOrchestrator {
@@ -87,6 +85,9 @@ public class PlaybookOrchestrator {
 
     @Inject
     ClassificationModeRegistry                            classificationModeRegistry;
+    @Inject
+    ManorNeedSatisfactionConfigProvider                   needSatisfactionConfigProvider;
+
     @Inject
     io.casehub.platform.agent.session.SessionPoolRegistry sessionPoolRegistry;
     @Inject
@@ -179,6 +180,14 @@ public class PlaybookOrchestrator {
                 : java.util.Set.copyOf(java.util.Arrays.asList(config.activeCharacters().split(",")));
 
         var socialConfigs = ManorSocialConfigLoader.loadForProfile(profileMode.name());
+
+        var dispositions = new java.util.HashMap<String, SocialConfig.Disposition>();
+        for (var entry : socialConfigs.entrySet()) {
+            if (entry.getValue().disposition() != null) {
+                dispositions.put(entry.getKey(), entry.getValue().disposition());
+            }
+        }
+        needSatisfactionConfigProvider.setDispositions(dispositions);
 
         if (significanceAccumulator.isResolvable()) {
             significanceAccumulator.get().suspend();
