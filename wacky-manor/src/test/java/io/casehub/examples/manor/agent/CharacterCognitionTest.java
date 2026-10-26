@@ -548,7 +548,7 @@ class CharacterCognitionTest {
         var ctx = io.casehub.neocortex.caps.SituationContext.from(
                 List.of(new io.casehub.neocortex.caps.SituationActivation("reward", 0.9)));
 
-        var filtered = cognition.appraisalFilterDrives(drives, ctx, List.of());
+        var filtered = cognition.appraisalFilterDrives(CharacterCognition.toDriveSnapshots(drives), ctx, List.of());
 
         assertThat(filtered).hasSize(1);
         assertThat(filtered.getFirst().type()).isEqualTo("scheming");
@@ -560,9 +560,10 @@ class CharacterCognitionTest {
         var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of(), null);
         var cognition    = new CharacterCognition("test", null, null, socialConfig, List.of());
 
-        var filtered = cognition.appraisalFilterDrives(drives, io.casehub.neocortex.caps.SituationContext.EMPTY, List.of());
+        var snapshots = CharacterCognition.toDriveSnapshots(drives);
+        var filtered = cognition.appraisalFilterDrives(snapshots, io.casehub.neocortex.caps.SituationContext.EMPTY, List.of());
 
-        assertThat(filtered).isEqualTo(drives);
+        assertThat(filtered).isEqualTo(snapshots);
     }
 
     @Test

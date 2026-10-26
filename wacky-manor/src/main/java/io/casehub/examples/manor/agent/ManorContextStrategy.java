@@ -32,6 +32,12 @@ public final class ManorContextStrategy {
                                     && d.intensity() > SOCIAL_AWARENESS_DRIVE_THRESHOLD);
     }
 
+    public boolean shouldCompareSociallyBySnapshot(java.util.List<io.casehub.neocortex.cognition.prompt.observation.DriveSnapshot> drives) {
+        return drives.stream()
+                     .anyMatch(d -> SOCIAL_AWARENESS_DRIVES.contains(d.type())
+                                    && d.intensity() > SOCIAL_AWARENESS_DRIVE_THRESHOLD);
+    }
+
 
     public List<SocialConfig.NormEntry> selectNorms(List<SocialConfig.NormEntry> norms,
                                                     Collection<String> activeCognitiveSubjects,
