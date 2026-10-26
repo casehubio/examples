@@ -56,23 +56,28 @@ public class ManorResource {
             return Response.status(Response.Status.NOT_FOUND).entity("{\"error\":\"No scenario\"}").build();
         }
         var events = activeWorld.allEvents();
-        var sb     = new StringBuilder("[");
-        for (int i = 0; i < events.size(); i++) {
-            var e = events.get(i);
-            if (i > 0) {sb.append(",");}
-            sb.append("{\"type\":\"").append(e.type())
-              .append("\",\"character\":\"").append(e.characterId() != null ? e.characterId() : "")
-              .append("\",\"room\":\"").append(e.room() != null ? e.room() : "")
-              .append("\",\"desc\":\"").append(e.description() != null ? e.description().replace("\"", "\\\"").replace("\n", "\\n") : "");
+        var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        var root   = mapper.createObjectNode();
+        root.put("complete", activeWorld.isScenarioComplete());
+        root.put("reason", activeWorld.completionReason() != null ? activeWorld.completionReason().name() : "running");
+        var eventsArray = mapper.createArrayNode();
+        for (var e : events) {
+            var node = mapper.createObjectNode();
+            node.put("type", e.type());
+            node.put("character", e.characterId() != null ? e.characterId() : "");
+            node.put("room", e.room() != null ? e.room() : "");
+            node.put("desc", e.description() != null ? e.description() : "");
             if (e.thinking() != null) {
-                sb.append("\",\"thinking\":\"").append(e.thinking().replace("\"", "\\\"").replace("\n", "\\n"));
+                node.put("thinking", e.thinking());
             }
-            sb.append("\"}");
+            eventsArray.add(node);
         }
-        sb.append("]");
-        String reason   = activeWorld.completionReason() != null ? activeWorld.completionReason().name() : "running";
-        String complete = activeWorld.isScenarioComplete() ? "true" : "false";
-        return Response.ok("{\"complete\":" + complete + ",\"reason\":\"" + reason + "\",\"events\":" + sb + "}").build();
+        root.set("events", eventsArray);
+        try {
+            return Response.ok(mapper.writeValueAsString(root)).build();
+        } catch (com.fasterxml.jackson.core.JsonProcessingException ex) {
+            return Response.serverError().entity("{\"error\":\"JSON serialization failed\"}").build();
+        }
     }
 
     @POST

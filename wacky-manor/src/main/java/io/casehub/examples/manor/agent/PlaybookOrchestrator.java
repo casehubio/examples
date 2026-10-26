@@ -239,28 +239,31 @@ public class PlaybookOrchestrator {
         // Keep significance accumulator suspended during scenario — its background
         // mindMapStore writes contend with renderCognitiveSections() reads via synchronized
 
-        if (mode == io.casehub.examples.manor.model.PlaybookMode.AUTONOMOUS) {
-            consolidationScheduler.setSessionPipeline(sessionPipeline);
-            for (var entry : world.characters().entrySet()) {
-                if (activeSet != null && !activeSet.contains(entry.getKey())) continue;
-                sessionPipeline.openSession(entry.getKey(),
-                        io.casehub.platform.agent.AgentSessionInit.of(renderPrompt(entry.getKey())));
+        try {
+            if (mode == io.casehub.examples.manor.model.PlaybookMode.AUTONOMOUS) {
+                consolidationScheduler.setSessionPipeline(sessionPipeline);
+                for (var entry : world.characters().entrySet()) {
+                    if (activeSet != null && !activeSet.contains(entry.getKey())) continue;
+                    sessionPipeline.openSession(entry.getKey(),
+                            io.casehub.platform.agent.AgentSessionInit.of(renderPrompt(entry.getKey())));
+                }
+                if (config.narrator().enabled()) {
+                    var narratorSession = sessionPipeline.openSession("narrator",
+                            io.casehub.platform.agent.AgentSessionInit.of(NarratorSummariser.SYSTEM_PROMPT));
+                    narratorAgent = new NarratorAgent(
+                            compactor, narratorSession, manorChannels, webEventBus,
+                            config.narrator().eventThreshold(), config.narrator().timerSeconds());
+                    narratorAgent.start(world);
+                    dispatcher.setNarrator(narratorAgent);
+                }
+                runAutonomousTicks(world, activeSet, actionResolver, dispatcher, sessionPipeline, narratorAgent, cognitions, planEvaluator, cognitionCore);
+            } else {
+                var invocationService = new AgentInvocationService(sessionLifecycleManager, "claude", 60, 2, 2000);
+                runScripted(world, activeSet, actionResolver, dispatcher, invocationService,
+                            triggerEvaluator, sceneDirector, narratorAgent, cognitions);
             }
-            if (config.narrator().enabled()) {
-                var narratorSession = sessionPipeline.openSession("narrator",
-                        io.casehub.platform.agent.AgentSessionInit.of(NarratorSummariser.SYSTEM_PROMPT));
-                narratorAgent = new NarratorAgent(
-                        compactor, narratorSession, manorChannels, webEventBus,
-                        config.narrator().eventThreshold(), config.narrator().timerSeconds());
-                narratorAgent.start(world);
-                dispatcher.setNarrator(narratorAgent);
-            }
-            runAutonomousTicks(world, activeSet, actionResolver, dispatcher, sessionPipeline, narratorAgent, cognitions, planEvaluator, cognitionCore);
+        } finally {
             sessionPipeline.shutdown();
-        } else {
-            var invocationService = new AgentInvocationService(sessionLifecycleManager, "claude", 60, 2, 2000);
-            runScripted(world, activeSet, actionResolver, dispatcher, invocationService,
-                        triggerEvaluator, sceneDirector, narratorAgent, cognitions);
         }
 
         String reason = world.completionReason() != null ? world.completionReason().name().toLowerCase() : null;
@@ -326,6 +329,7 @@ public class PlaybookOrchestrator {
 
         int tick = 0;
         var previousSituationContexts = new java.util.concurrent.ConcurrentHashMap<String, io.casehub.neocortex.caps.SituationContext>();
+        try {
         while (!world.isScenarioComplete()) {
             tick++;
 
@@ -733,9 +737,10 @@ public class PlaybookOrchestrator {
             webEventBus.broadcast(webEventBus.buildSnapshot(world));
             log.infof("Tick %d: %d agents acted", tick, actingThisTick.size());
         }
-
-        if (snapshotRecorder != null) {
-            snapshotRecorder.close();
+        } finally {
+            if (snapshotRecorder != null) {
+                snapshotRecorder.close();
+            }
         }
     }
 

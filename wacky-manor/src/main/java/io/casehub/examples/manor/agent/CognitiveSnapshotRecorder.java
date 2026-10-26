@@ -1,12 +1,8 @@
 package io.casehub.examples.manor.agent;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.casehub.neocortex.cognition.core.CognitionCore;
-import io.casehub.neocortex.cognition.drive.DriveAxis;
-import io.casehub.neocortex.cognition.drive.DriveProfile;
-import io.casehub.neocortex.memory.mood.MoodState;
 import org.jboss.logging.Logger;
 
 import java.io.BufferedWriter;
@@ -19,16 +15,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CognitiveSnapshotRecorder {
+public class CognitiveSnapshotRecorder implements AutoCloseable {
 
-    private static final Logger log = Logger.getLogger(CognitiveSnapshotRecorder.class);
+    private static final Logger       log    = Logger.getLogger(CognitiveSnapshotRecorder.class);
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    private final CognitionCore cognitionCore;
-    private final String tenantId;
-    private final int intervalTicks;
-    private final BufferedWriter writer;
-    private final Map<String, ObjectNode> previousSnapshots = new HashMap<>();
+    private final CognitionCore                   cognitionCore;
+    private final String                          tenantId;
+    private final int                             intervalTicks;
+    private final BufferedWriter                  writer;
+    private final Map<String, ObjectNode>         previousSnapshots = new HashMap<>();
     private final Map<String, CharacterCognition> cognitions;
 
     public CognitiveSnapshotRecorder(CognitionCore cognitionCore,
@@ -37,12 +33,12 @@ public class CognitiveSnapshotRecorder {
                                      Path outputPath,
                                      Map<String, CharacterCognition> cognitions) throws IOException {
         this.cognitionCore = cognitionCore;
-        this.tenantId = tenantId;
+        this.tenantId      = tenantId;
         this.intervalTicks = intervalTicks;
-        this.cognitions = cognitions;
+        this.cognitions    = cognitions;
         Files.createDirectories(outputPath.getParent());
         this.writer = Files.newBufferedWriter(outputPath,
-                StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+                                              StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         log.infof("Cognitive snapshot recorder started — interval=%d, output=%s", intervalTicks, outputPath);
     }
 
@@ -89,7 +85,7 @@ public class CognitiveSnapshotRecorder {
             moodNode.put("pleasure", round(mood.pleasure()));
             moodNode.put("arousal", round(mood.arousal()));
             moodNode.put("dominance", round(mood.dominance()));
-            if (mood.cause() != null) moodNode.put("cause", mood.cause());
+            if (mood.cause() != null) {moodNode.put("cause", mood.cause());}
             node.set("mood", moodNode);
         });
     }
@@ -110,9 +106,9 @@ public class CognitiveSnapshotRecorder {
 
     private void writeCharacterDrives(ObjectNode node, String agentId) {
         var cognition = cognitions.get(agentId);
-        if (cognition == null) return;
+        if (cognition == null) {return;}
         var drives = cognition.resolveAdaptedDrives();
-        if (drives.isEmpty()) return;
+        if (drives.isEmpty()) {return;}
 
         var drivesNode = mapper.createObjectNode();
         for (var drive : drives) {
@@ -122,9 +118,9 @@ public class CognitiveSnapshotRecorder {
     }
 
     private void writeGoals(ObjectNode node, String agentId) {
-        if (cognitionCore.goals() == null) return;
+        if (cognitionCore.goals() == null) {return;}
         cognitionCore.goals().currentProposals(agentId, tenantId).ifPresent(proposals -> {
-            if (proposals.isEmpty()) return;
+            if (proposals.isEmpty()) {return;}
             var goalsArray = mapper.createArrayNode();
             for (var proposal : proposals) {
                 var goalNode = mapper.createObjectNode();
@@ -139,9 +135,9 @@ public class CognitiveSnapshotRecorder {
 
     private void writeDelta(ObjectNode node, String agentId) {
         var previous = previousSnapshots.get(agentId);
-        if (previous == null) return;
+        if (previous == null) {return;}
 
-        var delta = mapper.createObjectNode();
+        var     delta    = mapper.createObjectNode();
         boolean hasDelta = false;
 
         var prevMood = previous.get("mood");
@@ -158,14 +154,14 @@ public class CognitiveSnapshotRecorder {
         var prevDrives = previous.get("characterDrives");
         var currDrives = node.get("characterDrives");
         if (prevDrives != null && currDrives != null) {
-            var drivesDelta = mapper.createObjectNode();
-            var fieldNames = currDrives.fieldNames();
-            boolean anyChange = false;
+            var     drivesDelta = mapper.createObjectNode();
+            var     fieldNames  = currDrives.fieldNames();
+            boolean anyChange   = false;
             while (fieldNames.hasNext()) {
-                var field = fieldNames.next();
-                double curr = currDrives.get(field).asDouble();
-                double prev = prevDrives.has(field) ? prevDrives.get(field).asDouble() : 0;
-                double d = curr - prev;
+                var    field = fieldNames.next();
+                double curr  = currDrives.get(field).asDouble();
+                double prev  = prevDrives.has(field) ? prevDrives.get(field).asDouble() : 0;
+                double d     = curr - prev;
                 if (Math.abs(d) > 0.001) {
                     drivesDelta.put(field, round(d));
                     anyChange = true;
@@ -182,6 +178,7 @@ public class CognitiveSnapshotRecorder {
         }
     }
 
+    @Override
     public void close() {
         try {
             writer.close();
