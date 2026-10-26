@@ -56,8 +56,8 @@ public final class CharacterAgentLoop {
                                                                      }
 
                                                                      situationChangeDegree: rate how much the situation changed this tick (0.0 = nothing happened, 1.0 = dramatic shift).
-                                                                     moodImpact: how this interaction shifted YOUR emotional state. Small deltas [-0.3, 0.3]. Omit if nothing changed.
-                                                                     mentalState: your read on the person you spoke to — what they believe, want, and intend. Omit entries with no signal. Omit the whole field if you spoke to nobody.
+                                                                     moodImpact: REQUIRED. How this moment shifted YOUR emotional state. Every interaction moves you, even slightly. Small deltas [-0.3, 0.3]. Use 0.0 for axes that genuinely did not move.
+                                                                     mentalState: REQUIRED when you spoke to or observed someone. Your read on them — what they believe, want, and intend based on what you just witnessed. At least one entry per array. Null only if completely alone with no one present.
                                                                      
                                                                      ACTION TYPES — use the right one for your intent:""",
                                                                      ACTION_DESCRIPTORS) +
