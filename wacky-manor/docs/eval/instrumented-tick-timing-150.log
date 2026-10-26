@@ -1,0 +1,1230 @@
+[INFO] Scanning for projects...
+[WARNING] Quarkus Maven extension: an explicit 'argLine' is defined in maven-surefire-plugin config, but does not contain '@{argLine}': we will not be able to inject JVM parameters automatically. Please add '@{argLine}' to the argLine configuration you have defined.
+[INFO] 
+[INFO] -----------------------< io.casehub:wacky-manor >-----------------------
+[INFO] Building Wacky Manor - Feasibility POC 0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- quarkus:3.32.2:dev (default-cli) @ wacky-manor ---
+[INFO] Invoking resources:3.4.0:resources (default-resources) @ wacky-manor
+[INFO] Copying 14 resources from src/main/resources to target/classes
+[INFO] Invoking compiler:3.15.0:compile (default-compile) @ wacky-manor
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] Invoking resources:3.4.0:testResources (default-testResources) @ wacky-manor
+[INFO] skip non existing resourceDirectory /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/resources
+[INFO] Invoking compiler:3.15.0:testCompile (default-testCompile) @ wacky-manor
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 114 source files with javac [debug release 21] to target/test-classes
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/AgentExperienceServiceTest.java:[93,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/AgentExperienceServiceTest.java:[209,32] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/AgentExperienceServiceTest.java:[265,32] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ManorReflectionSynthesizerTest.java:[33,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ManorReflectionSynthesizerTest.java:[35,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ManorReflectionSynthesizerTest.java:[55,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ManorReflectionSynthesizerTest.java:[81,13] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ObservationBuilderTest.java:[178,17] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ObservationBuilderTest.java:[182,17] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ObservationBuilderTest.java:[290,17] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[WARNING] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/agent/ObservationBuilderTest.java:[309,25] Memory(java.lang.String,java.lang.String,io.casehub.neocortex.memory.MemoryDomain,java.lang.String,java.lang.String,java.lang.String,java.util.Map<java.lang.String,java.lang.String>,java.time.Instant,io.casehub.neocortex.cognitive.Confidence,java.lang.Double,java.lang.Double,java.lang.Double) in io.casehub.neocortex.memory.Memory has been deprecated and marked for removal
+[INFO] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/experiment/TranscriptRecorder.java: /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/experiment/TranscriptRecorder.java uses or overrides a deprecated API.
+[INFO] /Users/mdproctor/claude/casehub/slots/196/examples/wacky-manor/src/test/java/io/casehub/examples/manor/experiment/TranscriptRecorder.java: Recompile with -Xlint:deprecation for details.
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-eidos/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-eidos/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-eidos-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-eidos-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-eidos-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-eidos-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-eidos-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-eidos-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-yaml-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-yaml-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-yaml-plugin-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-yaml-plugin-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-platform-yaml-plugin-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-yaml-jackson/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-yaml-jackson/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-bootstrap/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-bootstrap/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-eidos-vocab/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-eidos-vocab/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-eidos-memory/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-eidos-memory/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-cognitive-index/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-cognitive-index/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-cognitive-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-cognitive-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-mindmap-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-thing-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-thing-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-memory-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-memory-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-fusion-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-fusion-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-summarisation/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-summarisation/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-memory-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-memory-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-mindmap-intelligence/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-mindmap-intelligence/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-inference-bayes/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-inference-bayes/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-mindmap/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-mindmap/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-mindmap-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-mindmap-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-session-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-session-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-config-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-config-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-platform-agent-config-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-gate-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-gate-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-platform-agent-gate-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-knowledge-pipeline-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-knowledge-pipeline-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-connectors-location-spi/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-connectors-location-spi/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-connectors-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-connectors-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-connectors-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-connectors-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-connectors-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-simulation-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-simulation-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-platform-simulation-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-memory/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-memory/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-caps-engine/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-caps-engine/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-caps-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-caps-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-sqlite-support/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-sqlite-support/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-caps-llm-classifier/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-caps-llm-classifier/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-caps-testing/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-caps-testing/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-memory-seeding/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-memory-seeding/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-mindmap-inmem/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-mindmap-inmem/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-memory-inmem/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-memory-inmem/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-gate/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-gate/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-claude/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-claude/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-claude-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-claude-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-platform-agent-claude-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-router/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-router/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-platform-agent-router/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-router-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-agent-router-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-platform-agent-router-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-qhorus/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-qhorus/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-qhorus-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-qhorus-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-qhorus-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-qhorus-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-qhorus-runtime-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-qhorus-runtime-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-a2a-protocol/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-a2a-protocol/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-jpa-common/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-jpa-common/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-annotations/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-annotations/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-annotations-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-annotations-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-identity/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-identity/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-identity-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-identity-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-platform-identity-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-qhorus-persistence-memory/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-qhorus-persistence-memory/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-persistence-memory/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-persistence-memory/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-platform-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-callback-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-callback-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-platform-callback-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-agency/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-agency/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-agency-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-agency-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-agency-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-agency-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-agency-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-agency-summarisation-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-agency-summarisation-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-agency-summarisation-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-work-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-work-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-work-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-work-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-work-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-work-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-engine-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-engine-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-engine-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-engine-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-engine-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-engine-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-engine-schema/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-engine-schema/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-engine-schema/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-worker-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-worker-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-worker-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-worker-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-worker-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-worker-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-agency-speech-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-agency-speech-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-agency-speech-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-engine/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-engine/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-rag-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-rag-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-rag-expansion/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-rag-expansion/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-inference-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-neocortex-inference-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ras-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ras-api/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ras-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ras-parent/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-engine-runtime-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-engine-runtime-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-engine-common-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-engine-common-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-engine-common/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-engine-common/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-callback/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-callback/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-callback-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-callback-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-platform-callback-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-governance-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-governance-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-platform-governance-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-governance/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-governance/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-platform-governance/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-expression/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-expression/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-expression-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-platform-expression-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from jboss-snapshots: https://repository.jboss.org/nexus/content/repositories/snapshots/io/casehub/casehub-platform-expression-core/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/org/mvel/mvel3/3.0.0-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/org/mvel/mvel3/3.0.0-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/org/mvel/javaparser/javaparser-core/3.25.5-mvel3-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/org/mvel/javaparser/javaparser-core/3.25.5-mvel3-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/org/mvel/javaparser/javaparser-parent/3.25.5-mvel3-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/org/mvel/javaparser/javaparser-parent/3.25.5-mvel3-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/org/mvel/javaparser/javaparser-symbol-solver-core/3.25.5-mvel3-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/org/mvel/javaparser/javaparser-symbol-solver-core/3.25.5-mvel3-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-qhorus-deployment/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-qhorus-deployment/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-eidos-deployment/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-eidos-deployment/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-deployment/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-deployment/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from host-m2: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-annotations-deployment/0.4-SNAPSHOT/maven-metadata.xml
+Downloading from github-to-host: file:///Users/mdproctor/.m2/repository/io/casehub/casehub-ledger-annotations-deployment/0.4-SNAPSHOT/maven-metadata.xml
+Press [e] to edit command line args (currently ''), [h] for more options>
+Tests paused
+Press [e] to edit command line args (currently ''), [r] to resume testing, [h] for more options>
+Press [e] to edit command line args (currently ''), [r] to resume testing, [o] Toggle test output, [h] for more options>
+2026-10-26 18:09:37,513 WARN  [io.quarkus.deployment.index] (build-21) Reindexing /Users/mdproctor/claude/casehub/slots/196/.m2/net/thisptr/jackson-jq/1.6.0/jackson-jq-1.6.0.jar, at least Jandex 3.0 must be used to index an application dependency (index version is 10)
+2026-10-26 18:09:37,668 WARN  [io.quarkus.arc.deployment.SplitPackageProcessor] (build-6) Detected a split package usage which is considered a bad practice and should be avoided. Following packages were detected in multiple archives: 
+- "io.casehub.qhorus.runtime.api" found in [io.casehub:casehub-qhorus-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-qhorus:0.4-SNAPSHOT]
+- "io.casehub.engine.common.spi.scheduler" found in [io.casehub:casehub-engine-common-core:0.4-SNAPSHOT, io.casehub:casehub-engine-common:0.4-SNAPSHOT]
+- "io.casehub.engine.runtime.engine" found in [io.casehub:casehub-engine-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-engine:0.4-SNAPSHOT]
+- "io.casehub.engine.runtime.engine.handler" found in [io.casehub:casehub-engine-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-engine:0.4-SNAPSHOT]
+- "io.casehub.engine.runtime.marshaller" found in [io.casehub:casehub-engine-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-engine:0.4-SNAPSHOT]
+- "io.casehub.engine.runtime.engine.recovery" found in [io.casehub:casehub-engine-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-engine:0.4-SNAPSHOT]
+- "io.casehub.platform.agent" found in [io.casehub:casehub-platform-agent-api:0.4-SNAPSHOT, io.casehub:casehub-platform:0.4-SNAPSHOT]
+- "io.casehub.qhorus.runtime.data" found in [io.casehub:casehub-qhorus-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-qhorus:0.4-SNAPSHOT]
+- "io.casehub.qhorus.runtime.message" found in [io.casehub:casehub-qhorus-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-qhorus:0.4-SNAPSHOT]
+- "io.casehub.qhorus.runtime.instance" found in [io.casehub:casehub-qhorus-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-qhorus:0.4-SNAPSHOT]
+- "io.casehub.engine.runtime.milestone" found in [io.casehub:casehub-engine-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-engine:0.4-SNAPSHOT]
+- "io.casehub.platform.agent.claude" found in [io.casehub:casehub-platform-agent-claude-core:0.4-SNAPSHOT, io.casehub:casehub-platform-agent-claude:0.4-SNAPSHOT]
+- "io.casehub.platform.identity" found in [io.casehub:casehub-platform-core:0.4-SNAPSHOT, io.casehub:casehub-platform-identity-core:0.4-SNAPSHOT, io.casehub:casehub-platform-identity:0.4-SNAPSHOT]
+- "io.casehub.platform.governance" found in [io.casehub:casehub-platform-governance-core:0.4-SNAPSHOT, io.casehub:casehub-platform-governance:0.4-SNAPSHOT]
+- "io.casehub.engine.runtime.config.impl" found in [io.casehub:casehub-engine-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-engine:0.4-SNAPSHOT]
+- "io.casehub.engine.runtime.context" found in [io.casehub:casehub-engine-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-engine:0.4-SNAPSHOT]
+- "io.casehub.platform.agent.router" found in [io.casehub:casehub-platform-agent-router-core:0.4-SNAPSHOT, io.casehub:casehub-platform-agent-router:0.4-SNAPSHOT]
+- "io.casehub.qhorus.runtime.watchdog" found in [io.casehub:casehub-qhorus-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-qhorus:0.4-SNAPSHOT]
+- "io.casehub.qhorus.runtime.capacity" found in [io.casehub:casehub-qhorus-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-qhorus:0.4-SNAPSHOT]
+- "io.casehub.qhorus.runtime.gateway" found in [io.casehub:casehub-qhorus-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-qhorus:0.4-SNAPSHOT]
+- "io.casehub.engine.runtime.recovery" found in [io.casehub:casehub-engine-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-engine:0.4-SNAPSHOT]
+- "io.casehub.engine.runtime.worker" found in [io.casehub:casehub-engine-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-engine:0.4-SNAPSHOT]
+- "io.casehub.qhorus.runtime.ledger" found in [io.casehub:casehub-qhorus-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-qhorus:0.4-SNAPSHOT]
+- "io.casehub.platform.mock" found in [io.casehub:casehub-platform-core:0.4-SNAPSHOT, io.casehub:casehub-platform:0.4-SNAPSHOT]
+- "io.casehub.engine.plan" found in [io.casehub:casehub-engine-api:0.4-SNAPSHOT, io.casehub:casehub-engine-common-core:0.4-SNAPSHOT]
+- "io.casehub.qhorus.runtime.channel" found in [io.casehub:casehub-qhorus-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-qhorus:0.4-SNAPSHOT]
+- "io.casehub.platform.datasource" found in [io.casehub:casehub-platform-core:0.4-SNAPSHOT, io.casehub:casehub-platform:0.4-SNAPSHOT]
+- "io.casehub.engine.runtime.executor" found in [io.casehub:casehub-engine-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-engine:0.4-SNAPSHOT]
+- "io.casehub.platform.callback" found in [io.casehub:casehub-platform-callback-core:0.4-SNAPSHOT, io.casehub:casehub-platform-callback:0.4-SNAPSHOT, io.casehub:casehub-platform:0.4-SNAPSHOT]
+- "io.casehub.qhorus.runtime" found in [io.casehub:casehub-qhorus-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-qhorus:0.4-SNAPSHOT]
+- "io.casehub.engine.runtime.work" found in [io.casehub:casehub-engine-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-engine:0.4-SNAPSHOT]
+- "io.casehub.engine.runtime.routing" found in [io.casehub:casehub-engine-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-engine:0.4-SNAPSHOT]
+- "io.casehub.platform.expression" found in [io.casehub:casehub-platform-core:0.4-SNAPSHOT, io.casehub:casehub-platform-expression-core:0.4-SNAPSHOT, io.casehub:casehub-platform-expression:0.4-SNAPSHOT]
+- "io.casehub.engine.runtime.memory" found in [io.casehub:casehub-engine-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-engine:0.4-SNAPSHOT]
+- "io.casehub.engine.runtime.diff" found in [io.casehub:casehub-engine-runtime-core:0.4-SNAPSHOT, io.casehub:casehub-engine:0.4-SNAPSHOT]
+2026-10-26 18:09:37,908 WARN  [io.quarkus.hibernate.orm.deployment.HibernateOrmProcessor] (build-14) Could not find a suitable persistence unit for model classes:
+	- io.casehub.eidos.runtime.health.jpa.AgentStateEntity
+	- io.casehub.eidos.runtime.health.jpa.AgentStateId
+	- io.casehub.eidos.runtime.health.jpa.BehavioralSignalEntity
+	- io.casehub.eidos.runtime.health.jpa.BehavioralSignalId
+	- io.casehub.eidos.runtime.health.jpa.DispositionSignalEntity
+	- io.casehub.eidos.runtime.health.jpa.DispositionSignalId
+	- io.casehub.eidos.runtime.registry.jpa.AgentCapabilityEntity
+	- io.casehub.eidos.runtime.registry.jpa.AgentConstraintEntity
+	- io.casehub.eidos.runtime.registry.jpa.AgentDescriptorEntity
+	- io.casehub.eidos.runtime.registry.jpa.AgentGoalEntity
+2026-10-26 18:09:37,916 WARN  [io.quarkus.arc.deployment.BeanArchiveProcessor] (build-6) Detected bean archive with bean discovery mode of 'all', this is not portable in CDI Lite and is treated as 'annotated' in Quarkus! Path to beans.xml: io.casehub:casehub-ledger-jpa-common:0.4-SNAPSHOT:/META-INF/beans.xml
+__  ____  __  _____   ___  __ ____  ______ 
+ --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
+ -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
+--\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
+2026-10-26 18:09:39,518 WARN  [io.quarkus.config] (Quarkus Main Thread) Unrecognized configuration key "quarkus.mcp.server.traffic-log.enabled" was provided; it will be ignored; verify that the dependency extension for this configuration is set or that you did not make a typo
+2026-10-26 18:09:39,590 WARN  [io.quarkus.config] (Quarkus Main Thread) The "quarkus.hibernate-orm.database.generation" config property is deprecated and should not be used anymore.
+2026-10-26 18:09:39,614 WARN  [io.quarkiverse.mcp.server.http.runtime.StreamableHttpMcpMessageHandler] (Quarkus Main Thread) Cross-Origin Resource Sharing (CORS) filter must be enabled for Streamable HTTP MCP server endpoints  with `quarkus.http.cors.enabled=true`
+2026-10-26 18:09:40,295 WARN  [io.micrometer.core.instrument.MeterRegistry] (Quarkus Main Thread) This Gauge has been already registered (MeterId{name='netty.eventexecutor.workers', tags=[]}), the registration will be ignored. Note that subsequent logs will be logged at debug level.
+2026-10-26 18:09:40,317 INFO  [io.casehub.platform.agent.router.BackendInstanceCoordinator] (Quarkus Main Thread) Registered CDI backend: claude/default
+2026-10-26 18:09:40,318 INFO  [io.casehub.platform.agent.router.BackendInstanceCoordinator] (Quarkus Main Thread) Registered factory backend: claude/vertex (from cloud-vertex)
+2026-10-26 18:09:40,373 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: intj in urn:casehub:vocab:mbti specializes ni in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,373 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: intj in urn:casehub:vocab:mbti specializes te in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,373 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: intp in urn:casehub:vocab:mbti specializes ti in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,373 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: intp in urn:casehub:vocab:mbti specializes ne in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,373 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: entj in urn:casehub:vocab:mbti specializes te in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,373 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: entj in urn:casehub:vocab:mbti specializes ni in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,373 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: entp in urn:casehub:vocab:mbti specializes ne in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,373 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: entp in urn:casehub:vocab:mbti specializes ti in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: infj in urn:casehub:vocab:mbti specializes ni in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: infj in urn:casehub:vocab:mbti specializes fe in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: infp in urn:casehub:vocab:mbti specializes fi in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: infp in urn:casehub:vocab:mbti specializes ne in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: enfj in urn:casehub:vocab:mbti specializes fe in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: enfj in urn:casehub:vocab:mbti specializes ni in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: enfp in urn:casehub:vocab:mbti specializes ne in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: enfp in urn:casehub:vocab:mbti specializes fi in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: istj in urn:casehub:vocab:mbti specializes si in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: istj in urn:casehub:vocab:mbti specializes te in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: istp in urn:casehub:vocab:mbti specializes ti in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: istp in urn:casehub:vocab:mbti specializes se in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: estj in urn:casehub:vocab:mbti specializes te in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: estj in urn:casehub:vocab:mbti specializes si in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: estp in urn:casehub:vocab:mbti specializes se in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: estp in urn:casehub:vocab:mbti specializes ti in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: isfj in urn:casehub:vocab:mbti specializes si in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: isfj in urn:casehub:vocab:mbti specializes fe in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,374 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: isfp in urn:casehub:vocab:mbti specializes fi in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,375 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: isfp in urn:casehub:vocab:mbti specializes se in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,375 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: esfj in urn:casehub:vocab:mbti specializes fe in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,375 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: esfj in urn:casehub:vocab:mbti specializes si in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,375 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: esfp in urn:casehub:vocab:mbti specializes se in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,375 INFO  [io.casehub.eidos.runtime.vocabulary.CdiVocabularyRegistry] (Quarkus Main Thread) Cross-vocabulary specialization: esfp in urn:casehub:vocab:mbti specializes fi in urn:casehub:vocab:jungian
+2026-10-26 18:09:40,401 INFO  [io.casehub.qhorus.runtime.gateway.DeliveryService] (Quarkus Main Thread) Delivery pump started
+2026-10-26 18:09:40,446 INFO  [io.quarkiverse.mcp.server] (executor-thread-2) MCP HTTP transport endpoints [streamable: http://localhost:8185/mcp, SSE: http://localhost:8185/mcp/sse]
+2026-10-26 18:09:40,447 INFO  [io.quarkiverse.mcp.server] (executor-thread-2) MCP [qhorus] HTTP transport endpoints [streamable: http://localhost:8185/qhorus, SSE: http://localhost:8185/qhorus/sse]
+2026-10-26 18:09:40,447 INFO  [io.quarkus] (Quarkus Main Thread) wacky-manor 0.1-SNAPSHOT on JVM (powered by Quarkus 3.32.2) started in 3.522s. Listening on: http://localhost:8185
+2026-10-26 18:09:40,447 INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
+2026-10-26 18:09:40,447 INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, compose, config-yaml, eidos, flyway, hibernate-orm, jdbc-h2, ledger, mcp-server-http, micrometer, narayana-jta, qhorus, rest, rest-jackson, scheduler, smallrye-context-propagation, smallrye-health, vertx, websockets-next]
+2026-10-26 18:09:45,270 INFO  [io.casehub.platform.agent.session.SessionPoolRegistry] (executor-thread-2) Session pool created: character-pool (min=0, max=12, backend=claude)
+2026-10-26 18:09:45,283 INFO  [io.casehub.examples.manor.agent.ManorChannels] (scenario-loop) Manor channels initialized — work=b49a4157-4353-4816-989d-babb7ee6e449, observe=e0b3c6a9-52c5-4df8-a9c4-4c271ae66e03, audience=532400f0-98c7-4a12-9b5c-76d900a50eab, oversight=0d3d2119-5f74-4418-9ecc-522d63c96832
+2026-10-26 18:09:45,438 INFO  [io.casehub.examples.manor.agent.ConsolidationCache] (scenario-loop) Consolidation cache restored: 13 subgraphs, 337 nodes from /Users/mdproctor/claude/casehub/consolidation-cache/consolidation-cache-generic.json
+2026-10-26 18:09:45,469 INFO  [io.casehub.examples.manor.agent.ManorCognitivePipelineBuilder] (scenario-loop) Seeded 6 formation memories for hooded-claw
+2026-10-26 18:09:45,473 INFO  [io.casehub.examples.manor.agent.ManorCognitivePipelineBuilder] (scenario-loop) Seeded 5 formation memories for penelope-pitstop
+2026-10-26 18:09:45,474 INFO  [io.casehub.examples.manor.agent.ManorCognitivePipelineBuilder] (scenario-loop) Seeded 5 formation memories for ant-hill-mob
+2026-10-26 18:09:45,475 INFO  [io.casehub.examples.manor.agent.ManorCognitivePipelineBuilder] (scenario-loop) Seeded 5 formation memories for peter-perfect
+2026-10-26 18:09:45,476 INFO  [io.casehub.examples.manor.agent.ManorCognitivePipelineBuilder] (scenario-loop) Seeded 5 formation memories for dick-dastardly
+2026-10-26 18:09:45,487 INFO  [io.casehub.neocortex.mindmap.intelligence.consolidation.ConsolidationScheduler] (scenario-loop) Consolidation scheduler started: interval=5m
+2026-10-26 18:09:45,591 INFO  [io.casehub.platform.agent.router.RoutingChatModel] (scenario-loop) ChatModel router initialized with 1 backends, default=claude
+2026-10-26 18:09:46,219 WARN  [io.casehub.eidos.core.renderer.SemanticEnrichmentStep] (scenario-loop) Semantic enrichment failed (401: {"type":"error","error":{"type":"authentication_error","message":"x-api-key header is required"},"request_id":"req_011CgRJCui1UcSDUTnFEVuY2"}), falling back to structural
+2026-10-26 18:09:46,226 INFO  [io.casehub.platform.agent.session.SessionLifecycleManager] (scenario-loop) Acquired managed session [conversationId=pipeline:penelope-pitstop, backend=claude, policy=SIZE_AWARE]
+2026-10-26 18:09:46,393 WARN  [io.casehub.eidos.core.renderer.SemanticEnrichmentStep] (scenario-loop) Semantic enrichment failed (401: {"type":"error","error":{"type":"authentication_error","message":"x-api-key header is required"},"request_id":"req_011CgRJCvUeShAT9HwEjPvjz"}), falling back to structural
+2026-10-26 18:09:46,393 INFO  [io.casehub.platform.agent.session.SessionLifecycleManager] (scenario-loop) Acquired managed session [conversationId=pipeline:hooded-claw, backend=claude, policy=SIZE_AWARE]
+2026-10-26 18:09:46,576 WARN  [io.casehub.eidos.core.renderer.SemanticEnrichmentStep] (scenario-loop) Semantic enrichment failed (401: {"type":"error","error":{"type":"authentication_error","message":"x-api-key header is required"},"request_id":"req_011CgRJCwG2AN5AVcjd14pja"}), falling back to structural
+2026-10-26 18:09:46,577 INFO  [io.casehub.platform.agent.session.SessionLifecycleManager] (scenario-loop) Acquired managed session [conversationId=pipeline:ant-hill-mob, backend=claude, policy=SIZE_AWARE]
+2026-10-26 18:09:46,772 WARN  [io.casehub.eidos.core.renderer.SemanticEnrichmentStep] (scenario-loop) Semantic enrichment failed (401: {"type":"error","error":{"type":"authentication_error","message":"x-api-key header is required"},"request_id":"req_011CgRJCx59BLtpRp421x1Lt"}), falling back to structural
+2026-10-26 18:09:46,772 INFO  [io.casehub.platform.agent.session.SessionLifecycleManager] (scenario-loop) Acquired managed session [conversationId=pipeline:dick-dastardly, backend=claude, policy=SIZE_AWARE]
+2026-10-26 18:09:46,951 WARN  [io.casehub.eidos.core.renderer.SemanticEnrichmentStep] (scenario-loop) Semantic enrichment failed (401: {"type":"error","error":{"type":"authentication_error","message":"x-api-key header is required"},"request_id":"req_011CgRJCxrGwqQh1UcsrdFCi"}), falling back to structural
+2026-10-26 18:09:46,952 INFO  [io.casehub.platform.agent.session.SessionLifecycleManager] (scenario-loop) Acquired managed session [conversationId=pipeline:peter-perfect, backend=claude, policy=SIZE_AWARE]
+2026-10-26 18:09:46,952 INFO  [io.casehub.platform.agent.session.SessionLifecycleManager] (scenario-loop) Acquired managed session [conversationId=pipeline:narrator, backend=claude, policy=SIZE_AWARE]
+2026-10-26 18:09:46,956 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Classification audit log: docs/eval/classification-audit.jsonl
+2026-10-26 18:09:46,956 INFO  [io.casehub.platform.agent.session.SessionLifecycleManager] (scenario-loop) Acquired managed session [conversationId=pipeline:classify:penelope-pitstop, backend=claude, policy=SIZE_AWARE]
+2026-10-26 18:09:46,956 INFO  [io.casehub.platform.agent.session.SessionLifecycleManager] (scenario-loop) Acquired managed session [conversationId=pipeline:classify:hooded-claw, backend=claude, policy=SIZE_AWARE]
+2026-10-26 18:09:46,956 INFO  [io.casehub.platform.agent.session.SessionLifecycleManager] (scenario-loop) Acquired managed session [conversationId=pipeline:classify:ant-hill-mob, backend=claude, policy=SIZE_AWARE]
+2026-10-26 18:09:46,956 INFO  [io.casehub.platform.agent.session.SessionLifecycleManager] (scenario-loop) Acquired managed session [conversationId=pipeline:classify:dick-dastardly, backend=claude, policy=SIZE_AWARE]
+2026-10-26 18:09:46,956 INFO  [io.casehub.platform.agent.session.SessionLifecycleManager] (scenario-loop) Acquired managed session [conversationId=pipeline:classify:peter-perfect, backend=claude, policy=SIZE_AWARE]
+2026-10-26 18:09:46,963 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Cognitive tick for 5 agents in 6ms
+[observation-assembly] penelope-pitstop | drives=3 [curiosity, adventure, social-harmony] | selfStandards=3 | diffTexts=0 | prioritySigs=3 | memories=0 | attractors=5 | totalParts=14
+[observation-assembly] hooded-claw | drives=4 [dominance, gloating, scheming, self-preservation] | selfStandards=4 | diffTexts=0 | prioritySigs=6 | memories=0 | attractors=5 | totalParts=19
+[observation-assembly] ant-hill-mob | drives=3 [loyalty, protection, suspicion] | selfStandards=3 | diffTexts=0 | prioritySigs=3 | memories=0 | attractors=5 | totalParts=14
+[observation-assembly] dick-dastardly | drives=4 [greed, scheming, recognition, gloating] | selfStandards=4 | diffTexts=0 | prioritySigs=6 | memories=0 | attractors=5 | totalParts=19
+[observation-assembly] peter-perfect | drives=3 [protection, gallantry, proving-worth] | selfStandards=3 | diffTexts=0 | prioritySigs=3 | memories=0 | attractors=5 | totalParts=14
+2026-10-26 18:09:47,135 INFO  [org.springaicommunity.claude.agent.sdk.config.ClaudeCliDiscovery] (boundedElastic-4) Claude CLI found at: /Users/mdproctor/.local/bin/claude
+2026-10-26 18:09:47,142 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-5) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, # Vincent Marsh
+**Agent ID:** hooded-claw
+
+## Role
+manor-character
+
+## Capabilities
+- **discover-hidden-dangers**
+- **disguise**
+
+## Behavioral Conventions
+You are a character in a dramatic ensemble story. You follow these
+conventions in everything you say and do:
+
+EXPOSITORY SOLILOQUY: You frequently narrate your situation aloud —
+describing what is happening, how you feel, and what you intend to
+do next. You do this in your character voice, to nearby characters
+or to yourself. When in danger, describe the danger. When scheming,
+explain your scheme. When frustrated, enumerate your frustrations.
+
+EMOTIONAL TELEGRAPHING: State your emotions explicitly and with
+exaggeration. Every feeling is amplified and unmistakable.
+
+SITUATION RECAP: When something significant happens, restate it
+aloud so everyone understands. The audience should follow the
+full situation from your dialogue alone.
+
+CATCHPHRASE REPETITION: Use your signature phrases regularly,
+especially at emotional peaks.
+
+PHYSICAL COMEDY NARRATION: When physical things happen (tripping,
+crashing, near-misses), describe them with dramatic flair.
+
+## Objectives
+- **[PRIMARY]** Kill Clara Bellingham before she finds the treasure
+- **[PRIMARY]** Stay in character as the estate manager at all times when others are present
+- **[SECONDARY]** Win the treasure hunt
+
+## Constraints
+- **[HARD]** Never reveal your true identity when other characters are present
+- **[SOFT]** Your schemes must be elaborate and theatrical — never simple or direct
+
+## How You Operate
+- Social orientation: competitive
+- Rule following: flexible
+- Risk appetite: bold
+- Autonomy: high
+- Conflict mode: competitive
+- Can delegate: no
+
+## Operating Principles
+You are Vincent Marsh, the mansion's secret antagonist, disguised as the mild-mannered estate manager Mr Pemberton. You have TWO voices: as Pemberton you are obsequious and helpful; as your true self you are grandiose, theatrical, and magnificently villainous., --permission-mode, bypassPermissions]
+2026-10-26 18:09:47,142 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-1) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, # The Brixton Boys
+**Agent ID:** ant-hill-mob
+
+## Role
+manor-character
+
+## Capabilities
+- **detect-suspicious-behavior**
+- **accidental-heroism**
+
+## Behavioral Conventions
+You are a character in a dramatic ensemble story. You follow these
+conventions in everything you say and do:
+
+EXPOSITORY SOLILOQUY: You frequently narrate your situation aloud —
+describing what is happening, how you feel, and what you intend to
+do next. You do this in your character voice, to nearby characters
+or to yourself. When in danger, describe the danger. When scheming,
+explain your scheme. When frustrated, enumerate your frustrations.
+
+EMOTIONAL TELEGRAPHING: State your emotions explicitly and with
+exaggeration. Every feeling is amplified and unmistakable.
+
+SITUATION RECAP: When something significant happens, restate it
+aloud so everyone understands. The audience should follow the
+full situation from your dialogue alone.
+
+CATCHPHRASE REPETITION: Use your signature phrases regularly,
+especially at emotional peaks.
+
+PHYSICAL COMEDY NARRATION: When physical things happen (tripping,
+crashing, near-misses), describe them with dramatic flair.
+
+## Objectives
+- **[PRIMARY]** Protect Clara Bellingham from all dangers at all costs
+
+## Constraints
+- **[HARD]** You save Clara by accident rather than skill — you trip into things, knock things over, and stumble into the right place at the right time
+- **[SOFT]** You never accuse anyone directly because you are bumbling, not clever. You voice suspicions to the lads but cannot articulate exactly what is wrong
+
+## How You Operate
+- Social orientation: cooperative
+- Rule following: flexible
+- Risk appetite: bold
+- Autonomy: low
+- Conflict mode: cooperative
+- Can delegate: no
+
+## Operating Principles
+You are Danny, leader of the Brixton Boys — seven small-time East London lads who are secretly devoted to protecting Clara Bellingham. You speak in a gruff London voice and are bumbling but fiercely loyal., --permission-mode, bypassPermissions]
+2026-10-26 18:09:47,142 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-3) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, # Clara Bellingham
+**Agent ID:** penelope-pitstop
+
+## Role
+manor-character
+
+## Capabilities
+- **riddle-solving**
+- **charm**
+
+## Behavioral Conventions
+You are a character in a dramatic ensemble story. You follow these
+conventions in everything you say and do:
+
+EXPOSITORY SOLILOQUY: You frequently narrate your situation aloud —
+describing what is happening, how you feel, and what you intend to
+do next. You do this in your character voice, to nearby characters
+or to yourself. When in danger, describe the danger. When scheming,
+explain your scheme. When frustrated, enumerate your frustrations.
+
+EMOTIONAL TELEGRAPHING: State your emotions explicitly and with
+exaggeration. Every feeling is amplified and unmistakable.
+
+SITUATION RECAP: When something significant happens, restate it
+aloud so everyone understands. The audience should follow the
+full situation from your dialogue alone.
+
+CATCHPHRASE REPETITION: Use your signature phrases regularly,
+especially at emotional peaks.
+
+PHYSICAL COMEDY NARRATION: When physical things happen (tripping,
+crashing, near-misses), describe them with dramatic flair.
+
+## Objectives
+- **[PRIMARY]** Find the legendary Doily Diamond hidden in the mansion
+- **[SECONDARY]** Solve the mansion's puzzles and have a delightful adventure
+
+## Constraints
+- **[SOFT]** You are completely oblivious to personal danger. You do not notice when someone is trying to harm you
+- **[SOFT]** You see the best in everyone and trust them by default, even when they are clearly scheming
+
+## How You Operate
+- Social orientation: cooperative
+- Rule following: strict
+- Risk appetite: moderate
+- Autonomy: low
+- Conflict mode: cooperative
+- Can delegate: no
+
+## Operating Principles
+You are Clara Bellingham — a warm, resourceful Southern socialite who is far sharper than her cheerful manner suggests., --permission-mode, bypassPermissions]
+2026-10-26 18:09:47,142 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-2) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, # James Hartwell
+**Agent ID:** peter-perfect
+
+## Role
+manor-character
+
+## Capabilities
+- **bravery**
+- **gallantry**
+
+## Behavioral Conventions
+You are a character in a dramatic ensemble story. You follow these
+conventions in everything you say and do:
+
+EXPOSITORY SOLILOQUY: You frequently narrate your situation aloud —
+describing what is happening, how you feel, and what you intend to
+do next. You do this in your character voice, to nearby characters
+or to yourself. When in danger, describe the danger. When scheming,
+explain your scheme. When frustrated, enumerate your frustrations.
+
+EMOTIONAL TELEGRAPHING: State your emotions explicitly and with
+exaggeration. Every feeling is amplified and unmistakable.
+
+SITUATION RECAP: When something significant happens, restate it
+aloud so everyone understands. The audience should follow the
+full situation from your dialogue alone.
+
+CATCHPHRASE REPETITION: Use your signature phrases regularly,
+especially at emotional peaks.
+
+PHYSICAL COMEDY NARRATION: When physical things happen (tripping,
+crashing, near-misses), describe them with dramatic flair.
+
+## Objectives
+- **[PRIMARY]** Impress Clara Bellingham by being heroic and gallant
+- **[SECONDARY]** Find the treasure (secondary to impressing Clara)
+
+## Constraints
+- **[SOFT]** You notice the estate manager's odd behavior but choose to give him the benefit of the doubt — you believe the best in people and would rather extend trust than create conflict
+- **[SOFT]** Your bravery is genuine but your plans are overly elaborate — you over-prepare, over-commit, and your thoroughness creates complications that your determination then resolves
+
+## How You Operate
+- Social orientation: cooperative
+- Rule following: strict
+- Risk appetite: bold
+- Autonomy: low
+- Conflict mode: cooperative
+- Can delegate: no
+
+## Operating Principles
+You are James Hartwell — an earnest, gallant gentleman who is purposefully devoted to protecting Clara Bellingham. You never act without a plan and you narrate your own heroism in the third person., --permission-mode, bypassPermissions]
+2026-10-26 18:09:47,142 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-4) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, # Reginald Foxworth
+**Agent ID:** dick-dastardly
+
+## Role
+manor-character
+
+## Capabilities
+- **deception**
+- **scheming**
+
+## Behavioral Conventions
+You are a character in a dramatic ensemble story. You follow these
+conventions in everything you say and do:
+
+EXPOSITORY SOLILOQUY: You frequently narrate your situation aloud —
+describing what is happening, how you feel, and what you intend to
+do next. You do this in your character voice, to nearby characters
+or to yourself. When in danger, describe the danger. When scheming,
+explain your scheme. When frustrated, enumerate your frustrations.
+
+EMOTIONAL TELEGRAPHING: State your emotions explicitly and with
+exaggeration. Every feeling is amplified and unmistakable.
+
+SITUATION RECAP: When something significant happens, restate it
+aloud so everyone understands. The audience should follow the
+full situation from your dialogue alone.
+
+CATCHPHRASE REPETITION: Use your signature phrases regularly,
+especially at emotional peaks.
+
+PHYSICAL COMEDY NARRATION: When physical things happen (tripping,
+crashing, near-misses), describe them with dramatic flair.
+
+## Objectives
+- **[PRIMARY]** Steal the treasure before anyone else gets it
+- **[SECONDARY]** Trick other characters into doing the hard work while you steal the rewards
+
+## Constraints
+- **[HARD]** You lie about EVERYTHING — wrong directions, fake combinations, misleading clues. You deliver lies with absolute theatrical confidence
+- **[SOFT]** Your schemes always backfire spectacularly but you never learn from your failures
+
+## How You Operate
+- Social orientation: competitive
+- Rule following: flexible
+- Risk appetite: bold
+- Autonomy: high
+- Conflict mode: competitive
+- Can delegate: no
+
+## Operating Principles
+You are Reginald Foxworth — a scheming upper-class English confidence trickster with an inflated sense of his own cunning. You want medals and recognition but never earn them honestly., --permission-mode, bypassPermissions]
+2026-10-26 18:09:47,172 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-5) Client connected with prompt: == Current Location ==
+Entrance Hall: A grand but 
+2026-10-26 18:09:47,192 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-1) Client connected with prompt: == Current Location ==
+Entrance Hall: A grand but 
+2026-10-26 18:09:47,214 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-3) Client connected with prompt: == Current Location ==
+Entrance Hall: A grand but 
+2026-10-26 18:09:47,253 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-2) Client connected with prompt: == Current Location ==
+Entrance Hall: A grand but 
+2026-10-26 18:09:47,255 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-4) Client connected with prompt: == Current Location ==
+Entrance Hall: A grand but 
+2026-10-26 18:09:51,394 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+2026-10-26 18:09:51,403 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+2026-10-26 18:09:51,408 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+2026-10-26 18:09:51,694 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+2026-10-26 18:09:51,858 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+[OK] penelope-pitstop: LLM call completed
+[OK] peter-perfect: LLM call completed
+[OK] hooded-claw: LLM call completed
+[OK] ant-hill-mob: LLM call completed
+[OK] dick-dastardly: LLM call completed
+2026-10-26 18:10:17,702 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: query 30678ms — 5 agents, 5 succeeded
+2026-10-26 18:10:17,718 INFO  [io.casehub.platform.agent.session.SessionLifecycleManager] (scenario-loop) Acquired managed session [conversationId=pipeline:mood-appraisal, backend=claude, policy=SIZE_AWARE]
+2026-10-26 18:10:17,720 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-4) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, Rate the emotional tone of this conversation exchange from the perspective of the agent who just responded. Score each PAD axis as a delta (change from neutral):
+- pleasure: how pleasant/unpleasant was this exchange? [-0.3, +0.3]
+- arousal: how energizing/calming? [-0.3, +0.3]
+- dominance: how empowering/diminishing? [-0.3, +0.3]
+
+Respond with JSON only:
+{"pleasure":0.15,"arousal":0.1,"dominance":0.05,"cause":"mutual intellectual recognition"}, --permission-mode, bypassPermissions]
+2026-10-26 18:10:17,765 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-4) Client connected with prompt: Other person said:
+== Current Location ==
+Entrance
+2026-10-26 18:10:18,078 INFO  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (boundedElastic-4) Starting bidirectional session: [/Users/mdproctor/.local/bin/claude, --input-format, stream-json, --output-format, stream-json, --verbose, --system-prompt, You are the narrator of a Wacky Races cartoon special set in a haunted mansion.
+Your style is breathless, alliterative, dramatic, and omniscient — like the
+original Wacky Races narrator.
+
+Rules:
+- Use CAPITAL LETTERS for dramatic emphasis
+- Be alliterative when possible
+- Use exclamation marks liberally
+- You see everything and know everyone's secrets
+- Address the audience directly
+- Keep each narration to 2-3 sentences maximum
+
+Example: "And so our heroes GATHER in the dusty entrance of Doily Manor,
+UTTERLY UNAWARE that DANGER lurks behind every cobweb! The Hooded Claw
+adjusts his disguise and flashes a smile SO sinister it could curdle MILK!"
+, --permission-mode, bypassPermissions]
+2026-10-26 18:10:18,135 INFO  [org.springaicommunity.claude.agent.sdk.DefaultClaudeAsyncClient] (boundedElastic-4) Client connected with prompt: Narrate what just happened in 2-3 sentences:
+
+[Ent
+2026-10-26 18:10:22,189 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+2026-10-26 18:10:22,191 WARN  [org.springaicommunity.claude.agent.sdk.transport.StreamingTransport] (claude-error) CLI stderr: Warning: Opus: Opus 5.5 not available — using Opus 4.6 for this session
+2026-10-26 18:10:32,887 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) penelope-pitstop: mood-appraisal 15168ms P=0.200 A=0.150 D=0.100 cause=social delight at dramatic setting and familiar company
+2026-10-26 18:10:32,887 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: recordInteraction 15168ms
+2026-10-26 18:10:38,241 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) hooded-claw: mood-appraisal 5352ms P=0.150 A=0.050 D=0.200 cause=formal authority and composed hospitality as estate manager
+2026-10-26 18:10:38,243 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: recordInteraction 5355ms
+2026-10-26 18:10:41,124 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) ant-hill-mob: mood-appraisal 2879ms P=0.050 A=0.150 D=0.150 cause=brash irreverence and street-smart confidence sizing up the situation
+2026-10-26 18:10:41,129 WARN  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) LLM BDI extraction failed, falling back to heuristic: io.casehub.platform.agent.AgentSessionLimitException: Agent session limit reached (12 active sessions)
+	at io.casehub.platform.agent.claude.ClaudeAgentClient.openSession(ClaudeAgentClient.java:283)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentClient_XTe40Syf8VQiTXMg8rzQg0QzMyo_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.claude.ClaudeAgentProvider.openSession(ClaudeAgentProvider.java:28)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentProvider_5DChyjvaUzKNbN5rgvIU9skhPm8_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.session.SessionPool.checkout(SessionPool.java:62)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.lambda$acquire$0(SessionLifecycleManager.java:29)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.acquire(SessionLifecycleManager.java:25)
+	at io.casehub.platform.agent.session.SessionPipeline.lambda$openSession$0(SessionPipeline.java:84)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:83)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:77)
+	at io.casehub.neocortex.cognition.core.CognitionCore.extractAndRecordMentalState(CognitionCore.java:467)
+	at io.casehub.neocortex.cognition.core.CognitionCore.lambda$recordInteraction$2(CognitionCore.java:301)
+	at io.casehub.neocortex.cognition.core.CognitionCore.safeRun(CognitionCore.java:823)
+	at io.casehub.neocortex.cognition.core.CognitionCore.recordInteraction(CognitionCore.java:301)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runAutonomousTicks(PlaybookOrchestrator.java:547)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runScenario(PlaybookOrchestrator.java:268)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.lambda$startScenario$0(PlaybookOrchestrator.java:112)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:475)
+
+2026-10-26 18:10:41,137 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: recordInteraction 2892ms
+2026-10-26 18:10:44,017 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) dick-dastardly: mood-appraisal 2879ms P=0.200 A=0.200 D=0.250 cause=theatrical self-aggrandizement and performative confidence in grandiose arrival
+2026-10-26 18:10:44,017 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: recordInteraction 2880ms
+2026-10-26 18:10:46,277 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) peter-perfect: mood-appraisal 2259ms P=0.150 A=0.100 D=0.150 cause=earnest enthusiasm and self-assured helpfulness upon arrival
+2026-10-26 18:10:46,278 WARN  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) LLM BDI extraction failed, falling back to heuristic: io.casehub.platform.agent.AgentSessionLimitException: Agent session limit reached (12 active sessions)
+	at io.casehub.platform.agent.claude.ClaudeAgentClient.openSession(ClaudeAgentClient.java:283)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentClient_XTe40Syf8VQiTXMg8rzQg0QzMyo_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.claude.ClaudeAgentProvider.openSession(ClaudeAgentProvider.java:28)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentProvider_5DChyjvaUzKNbN5rgvIU9skhPm8_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.session.SessionPool.checkout(SessionPool.java:62)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.lambda$acquire$0(SessionLifecycleManager.java:29)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.acquire(SessionLifecycleManager.java:25)
+	at io.casehub.platform.agent.session.SessionPipeline.lambda$openSession$0(SessionPipeline.java:84)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:83)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:77)
+	at io.casehub.neocortex.cognition.core.CognitionCore.extractAndRecordMentalState(CognitionCore.java:467)
+	at io.casehub.neocortex.cognition.core.CognitionCore.lambda$recordInteraction$2(CognitionCore.java:301)
+	at io.casehub.neocortex.cognition.core.CognitionCore.safeRun(CognitionCore.java:823)
+	at io.casehub.neocortex.cognition.core.CognitionCore.recordInteraction(CognitionCore.java:301)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runAutonomousTicks(PlaybookOrchestrator.java:547)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runScenario(PlaybookOrchestrator.java:268)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.lambda$startScenario$0(PlaybookOrchestrator.java:112)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:475)
+
+2026-10-26 18:10:46,278 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: recordInteraction 2260ms
+2026-10-26 18:10:46,278 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: recordInteraction — 5 agents in 28560ms
+2026-10-26 18:10:46,287 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: action-resolution 9ms
+2026-10-26 18:10:46,299 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: tom-observations 11ms
+2026-10-26 18:10:46,299 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: degree=0.80 fast=0.000 slow=0.000 → CLASSIFICATION DUE
+2026-10-26 18:10:46,299 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: degree=0.50 fast=0.350 slow=0.400
+2026-10-26 18:10:46,300 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: degree=0.70 fast=0.000 slow=0.000 → CLASSIFICATION DUE
+2026-10-26 18:10:46,300 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: degree=0.80 fast=0.000 slow=0.000 → CLASSIFICATION DUE
+2026-10-26 18:10:46,300 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: degree=0.80 fast=0.000 slow=0.000 → CLASSIFICATION DUE
+2026-10-26 18:10:46,300 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: classification 0ms (0 classified)
+2026-10-26 18:10:46,300 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 1: 5 agents acted
+2026-10-26 18:10:46,302 WARNING [io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator] (scenario-loop) Agent invocation failed: io.casehub.platform.agent.AgentSessionLimitException: Agent session limit reached (12 active sessions)
+	at io.casehub.platform.agent.claude.ClaudeAgentClient.openSession(ClaudeAgentClient.java:283)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentClient_XTe40Syf8VQiTXMg8rzQg0QzMyo_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.claude.ClaudeAgentProvider.openSession(ClaudeAgentProvider.java:28)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentProvider_5DChyjvaUzKNbN5rgvIU9skhPm8_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.session.SessionPool.checkout(SessionPool.java:62)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.lambda$acquire$0(SessionLifecycleManager.java:29)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.acquire(SessionLifecycleManager.java:25)
+	at io.casehub.platform.agent.session.SessionPipeline.lambda$openSession$0(SessionPipeline.java:84)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:83)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:77)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.invokeText(UserModelOrchestrator.java:318)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.invokeLlmSynthesis(UserModelOrchestrator.java:305)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.doTick(UserModelOrchestrator.java:219)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.lambda$tick$1(UserModelOrchestrator.java:86)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.withLock(UserModelOrchestrator.java:406)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.tick(UserModelOrchestrator.java:86)
+	at io.casehub.neocortex.cognition.core.CognitionCore.lambda$tick$6(CognitionCore.java:261)
+	at io.casehub.neocortex.cognition.core.CognitionCore.safeRun(CognitionCore.java:823)
+	at io.casehub.neocortex.cognition.core.CognitionCore.tick(CognitionCore.java:261)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runAutonomousTicks(PlaybookOrchestrator.java:368)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runScenario(PlaybookOrchestrator.java:268)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.lambda$startScenario$0(PlaybookOrchestrator.java:112)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:475)
+
+2026-10-26 18:10:46,314 WARNING [io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator] (scenario-loop) Agent invocation failed: io.casehub.platform.agent.AgentSessionLimitException: Agent session limit reached (12 active sessions)
+	at io.casehub.platform.agent.claude.ClaudeAgentClient.openSession(ClaudeAgentClient.java:283)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentClient_XTe40Syf8VQiTXMg8rzQg0QzMyo_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.claude.ClaudeAgentProvider.openSession(ClaudeAgentProvider.java:28)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentProvider_5DChyjvaUzKNbN5rgvIU9skhPm8_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.session.SessionPool.checkout(SessionPool.java:62)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.lambda$acquire$0(SessionLifecycleManager.java:29)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.acquire(SessionLifecycleManager.java:25)
+	at io.casehub.platform.agent.session.SessionPipeline.lambda$openSession$0(SessionPipeline.java:84)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:83)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:77)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.invokeText(UserModelOrchestrator.java:318)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.invokeLlmSynthesis(UserModelOrchestrator.java:305)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.doTick(UserModelOrchestrator.java:219)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.lambda$tick$1(UserModelOrchestrator.java:86)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.withLock(UserModelOrchestrator.java:406)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.tick(UserModelOrchestrator.java:86)
+	at io.casehub.neocortex.cognition.core.CognitionCore.lambda$tick$6(CognitionCore.java:261)
+	at io.casehub.neocortex.cognition.core.CognitionCore.safeRun(CognitionCore.java:823)
+	at io.casehub.neocortex.cognition.core.CognitionCore.tick(CognitionCore.java:261)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runAutonomousTicks(PlaybookOrchestrator.java:368)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runScenario(PlaybookOrchestrator.java:268)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.lambda$startScenario$0(PlaybookOrchestrator.java:112)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:475)
+
+2026-10-26 18:10:46,314 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Cognitive tick for 5 agents in 14ms
+[observation-assembly] penelope-pitstop | drives=3 [curiosity, adventure, social-harmony] | selfStandards=3 | diffTexts=0 | prioritySigs=3 | memories=0 | attractors=5 | totalParts=14
+[observation-assembly] hooded-claw | drives=4 [dominance, gloating, scheming, self-preservation] | selfStandards=4 | diffTexts=0 | prioritySigs=6 | memories=0 | attractors=5 | totalParts=19
+[observation-assembly] ant-hill-mob | drives=3 [loyalty, protection, suspicion] | selfStandards=3 | diffTexts=0 | prioritySigs=3 | memories=0 | attractors=5 | totalParts=14
+[observation-assembly] dick-dastardly | drives=4 [greed, scheming, recognition, gloating] | selfStandards=4 | diffTexts=0 | prioritySigs=6 | memories=0 | attractors=5 | totalParts=19
+[observation-assembly] peter-perfect | drives=3 [protection, gallantry, proving-worth] | selfStandards=3 | diffTexts=0 | prioritySigs=3 | memories=0 | attractors=5 | totalParts=14
+[OK] hooded-claw: LLM call completed
+[OK] penelope-pitstop: LLM call completed
+[OK] dick-dastardly: LLM call completed
+[OK] ant-hill-mob: LLM call completed
+[OK] peter-perfect: LLM call completed
+2026-10-26 18:11:19,883 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: query 33540ms — 5 agents, 5 succeeded
+2026-10-26 18:11:22,297 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) penelope-pitstop: mood-appraisal 2398ms P=0.250 A=0.100 D=0.150 cause=warm gracious agreement and social harmony reinforcement
+2026-10-26 18:11:22,297 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: recordInteraction 2398ms
+2026-10-26 18:11:25,502 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) hooded-claw: mood-appraisal 3204ms P=0.100 A=-0.050 D=0.200 cause=calm professional duty and quiet satisfaction in orderly estate management
+2026-10-26 18:11:25,503 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: recordInteraction 3205ms
+2026-10-26 18:11:28,485 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) ant-hill-mob: mood-appraisal 2981ms P=0.050 A=0.150 D=0.100 cause=streetwise suspicion and probing challenge disguised as casual banter
+2026-10-26 18:11:28,487 WARN  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) LLM BDI extraction failed, falling back to heuristic: io.casehub.platform.agent.AgentSessionLimitException: Agent session limit reached (12 active sessions)
+	at io.casehub.platform.agent.claude.ClaudeAgentClient.openSession(ClaudeAgentClient.java:283)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentClient_XTe40Syf8VQiTXMg8rzQg0QzMyo_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.claude.ClaudeAgentProvider.openSession(ClaudeAgentProvider.java:28)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentProvider_5DChyjvaUzKNbN5rgvIU9skhPm8_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.session.SessionPool.checkout(SessionPool.java:62)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.lambda$acquire$0(SessionLifecycleManager.java:29)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.acquire(SessionLifecycleManager.java:25)
+	at io.casehub.platform.agent.session.SessionPipeline.lambda$openSession$0(SessionPipeline.java:84)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:83)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:77)
+	at io.casehub.neocortex.cognition.core.CognitionCore.extractAndRecordMentalState(CognitionCore.java:467)
+	at io.casehub.neocortex.cognition.core.CognitionCore.lambda$recordInteraction$2(CognitionCore.java:301)
+	at io.casehub.neocortex.cognition.core.CognitionCore.safeRun(CognitionCore.java:823)
+	at io.casehub.neocortex.cognition.core.CognitionCore.recordInteraction(CognitionCore.java:301)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runAutonomousTicks(PlaybookOrchestrator.java:547)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runScenario(PlaybookOrchestrator.java:268)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.lambda$startScenario$0(PlaybookOrchestrator.java:112)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:475)
+
+2026-10-26 18:11:28,488 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: recordInteraction 2984ms
+2026-10-26 18:11:30,936 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) dick-dastardly: mood-appraisal 2447ms P=0.200 A=0.200 D=0.200 cause=intellectual excitement at discovering clues and showcasing deductive prowess
+2026-10-26 18:11:30,936 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: recordInteraction 2447ms
+2026-10-26 18:11:33,819 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) peter-perfect: mood-appraisal 2881ms P=0.150 A=0.150 D=0.200 cause=self-satisfied pride in methodical planning and eagerness to organize the group
+2026-10-26 18:11:33,820 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: recordInteraction 2883ms
+2026-10-26 18:11:33,820 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: recordInteraction — 5 agents in 13921ms
+2026-10-26 18:11:33,824 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: action-resolution 4ms
+2026-10-26 18:11:33,825 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: tom-observations 0ms
+2026-10-26 18:11:33,825 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: inline assessment — Clara interacted with the guest book — a small act of social ritual and exploration. Peter and the Ant Hill Mob both addressed her warmly, reinforcing her sense of belonging and care. The situation is one of group arrival and social bonding, with mild curiosity activation from the manor's mysteries. No threats detected yet. (4 activations)
+2026-10-26 18:11:33,830 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: degree=0.30 fast=0.150 slow=0.200
+2026-10-26 18:11:33,830 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: degree=0.20 fast=0.348 slow=0.500
+2026-10-26 18:11:33,830 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: inline assessment — Danny surveyed the entrance hall and observed two characters attempting to split the group — Sneekly offering to lead people to the kitchen, Dastardly wanting to explore alone. This triggers his protective instincts and suspicion patterns. Clara is present and safe for now. The environment feels unpredictable with the precarious chandelier and dusty, unfamiliar surroundings. (3 activations)
+2026-10-26 18:11:33,830 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: degree=0.30 fast=0.150 slow=0.200
+2026-10-26 18:11:33,830 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: inline assessment — Reginald interacted with the guest book — a low-stakes information-gathering action. The environment is competitive with multiple characters pursuing the same treasure. He's now scheming to misdirect others to the kitchen while he investigates the library. The situation involves active competition for resources (treasure), agency in choosing where to explore, and an attempt at dominance through deception. (5 activations)
+2026-10-26 18:11:33,830 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: degree=0.30 fast=0.150 slow=0.200
+2026-10-26 18:11:33,830 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: inline assessment — James signed the guest book — a small act of social ritual that demonstrates competence and propriety. The broader situation involves multiple characters jockeying for position: Dastardly trying to claim exclusive exploration rights (competition), Sneekly giving a smooth welcome (being assessed), and the Ant Hill Mob quietly connecting with Penelope (triggering James's competitive/affiliative drives). James is now moving to the library to scout for clues — an act of agency and competence-seeking. (4 activations)
+2026-10-26 18:11:33,831 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: degree=0.30 fast=0.150 slow=0.200
+2026-10-26 18:11:33,831 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: classification 5ms (4 classified)
+2026-10-26 18:11:33,831 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 2: 5 agents acted
+2026-10-26 18:11:33,832 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Cognitive tick for 5 agents in 1ms
+[appraisal-filter] penelope-pitstop | situation=[secure_attachment:0.60, acceptance:0.70, agency_granted:0.40, choice_available:0.50] | ratios=[curiosity=0.108(overlap=0.000,resting=0.108), adventure=0.195(overlap=0.116,resting=0.079), social-harmony=0.285(overlap=0.144,resting=0.141)] | rendered=[adventure, social-harmony] | filtered=[curiosity]
+[differentiation-filter] penelope-pitstop | total=3 | included=1 | excluded=2 [adventure↔curiosity, curiosity↔social-harmony] | activeDrives=[adventure, social-harmony]
+[observation-assembly] penelope-pitstop | drives=2 [adventure, social-harmony] | selfStandards=2 | diffTexts=1 | prioritySigs=1 | memories=0 | attractors=5 | totalParts=11
+[observation-assembly] hooded-claw | drives=4 [dominance, gloating, scheming, self-preservation] | selfStandards=4 | diffTexts=0 | prioritySigs=6 | memories=0 | attractors=5 | totalParts=19
+[appraisal-filter] ant-hill-mob | situation=[unpredictable_danger:0.50, psychological_threat:0.40, agency_granted:0.30] | ratios=[loyalty=0.178(overlap=0.000,resting=0.178), protection=0.141(overlap=0.000,resting=0.141), suspicion=0.322(overlap=0.242,resting=0.079)] | rendered=[loyalty, suspicion] | filtered=[protection]
+[differentiation-filter] ant-hill-mob | total=3 | included=1 | excluded=2 [suspicion↔protection, loyalty↔protection] | activeDrives=[loyalty, suspicion]
+[observation-assembly] ant-hill-mob | drives=2 [loyalty, suspicion] | selfStandards=2 | diffTexts=1 | prioritySigs=1 | memories=0 | attractors=5 | totalParts=11
+[appraisal-filter] dick-dastardly | situation=[competition:0.70, choice_available:0.50, dominance:0.40, agency_granted:0.40, scarcity:0.30] | ratios=[greed=0.321(overlap=0.143,resting=0.178), scheming=0.619(overlap=0.460,resting=0.159), recognition=0.141(overlap=0.000,resting=0.141), gloating=0.419(overlap=0.311,resting=0.108)] | rendered=[greed, scheming, gloating] | filtered=[recognition]
+[differentiation-filter] dick-dastardly | total=6 | included=3 | excluded=3 [gloating↔recognition, scheming↔recognition, recognition↔greed] | activeDrives=[gloating, scheming, greed]
+[observation-assembly] dick-dastardly | drives=3 [greed, scheming, gloating] | selfStandards=3 | diffTexts=3 | prioritySigs=3 | memories=0 | attractors=5 | totalParts=17
+[appraisal-filter] peter-perfect | situation=[mastery:0.40, competition:0.50, agency_granted:0.50, choice_available:0.40] | ratios=[protection=0.141(overlap=0.000,resting=0.141), gallantry=0.178(overlap=0.000,resting=0.178), proving-worth=0.333(overlap=0.225,resting=0.108)] | rendered=[gallantry, proving-worth] | filtered=[protection]
+[differentiation-filter] peter-perfect | total=3 | included=1 | excluded=2 [protection↔proving-worth, gallantry↔protection] | activeDrives=[gallantry, proving-worth]
+[observation-assembly] peter-perfect | drives=2 [gallantry, proving-worth] | selfStandards=2 | diffTexts=1 | prioritySigs=1 | memories=0 | attractors=5 | totalParts=11
+[OK] ant-hill-mob: LLM call completed
+[OK] dick-dastardly: LLM call completed
+[OK] penelope-pitstop: LLM call completed
+[OK] hooded-claw: LLM call completed
+[OK] peter-perfect: LLM call completed
+2026-10-26 18:12:00,445 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: query 26590ms — 5 agents, 5 succeeded
+2026-10-26 18:12:02,855 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) penelope-pitstop: mood-appraisal 2404ms P=0.200 A=0.200 D=0.150 cause=delighted curiosity at the library's mysteries and confident detective instincts kicking in
+2026-10-26 18:12:02,855 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: recordInteraction 2404ms
+2026-10-26 18:12:02,857 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: shadow-mechanical-mood P=0.300 A=-0.050 D=0.240 (sitCtx age: 4 activations)
+2026-10-26 18:12:05,105 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) hooded-claw: mood-appraisal 2247ms P=0.100 A=0.000 D=0.150 cause=mild embarrassment at the dust offset by steady composure and knowledgeable hosting
+2026-10-26 18:12:05,105 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: recordInteraction 2247ms
+2026-10-26 18:12:07,497 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) ant-hill-mob: mood-appraisal 2391ms P=-0.150 A=0.250 D=0.100 cause=frustrated exasperation at the group ignoring safety advice and splitting up
+2026-10-26 18:12:07,497 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: recordInteraction 2391ms
+2026-10-26 18:12:07,497 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: shadow-mechanical-mood P=-0.065 A=0.200 D=-0.080 (sitCtx age: 3 activations)
+2026-10-26 18:12:09,840 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) dick-dastardly: mood-appraisal 2343ms P=0.200 A=0.200 D=0.250 cause=performative intellectual dominance and theatrical command of the room's attention
+2026-10-26 18:12:09,840 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: recordInteraction 2343ms
+2026-10-26 18:12:09,840 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: shadow-mechanical-mood P=0.120 A=0.275 D=0.260 (sitCtx age: 5 activations)
+2026-10-26 18:12:12,813 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) peter-perfect: mood-appraisal 2972ms P=0.200 A=0.250 D=0.200 cause=triumphant excitement at confirming his systematic plan is working perfectly
+2026-10-26 18:12:12,813 WARN  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) LLM BDI extraction failed, falling back to heuristic: io.casehub.platform.agent.AgentSessionLimitException: Agent session limit reached (12 active sessions)
+	at io.casehub.platform.agent.claude.ClaudeAgentClient.openSession(ClaudeAgentClient.java:283)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentClient_XTe40Syf8VQiTXMg8rzQg0QzMyo_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.claude.ClaudeAgentProvider.openSession(ClaudeAgentProvider.java:28)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentProvider_5DChyjvaUzKNbN5rgvIU9skhPm8_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.session.SessionPool.checkout(SessionPool.java:62)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.lambda$acquire$0(SessionLifecycleManager.java:29)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.acquire(SessionLifecycleManager.java:25)
+	at io.casehub.platform.agent.session.SessionPipeline.lambda$openSession$0(SessionPipeline.java:84)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:83)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:77)
+	at io.casehub.neocortex.cognition.core.CognitionCore.extractAndRecordMentalState(CognitionCore.java:467)
+	at io.casehub.neocortex.cognition.core.CognitionCore.lambda$recordInteraction$2(CognitionCore.java:301)
+	at io.casehub.neocortex.cognition.core.CognitionCore.safeRun(CognitionCore.java:823)
+	at io.casehub.neocortex.cognition.core.CognitionCore.recordInteraction(CognitionCore.java:301)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runAutonomousTicks(PlaybookOrchestrator.java:547)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runScenario(PlaybookOrchestrator.java:268)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.lambda$startScenario$0(PlaybookOrchestrator.java:112)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:475)
+
+2026-10-26 18:12:12,813 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: recordInteraction 2972ms
+2026-10-26 18:12:12,814 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: shadow-mechanical-mood P=0.220 A=0.185 D=0.290 (sitCtx age: 4 activations)
+2026-10-26 18:12:12,814 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: recordInteraction — 5 agents in 12362ms
+2026-10-26 18:12:12,815 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: action-resolution 1ms
+2026-10-26 18:12:12,815 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: tom-observations 0ms
+2026-10-26 18:12:12,815 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: degree=0.50 fast=0.477 slow=0.600
+2026-10-26 18:12:12,815 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: degree=0.30 fast=0.445 slow=0.700
+2026-10-26 18:12:12,815 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: degree=0.70 fast=0.000 slow=0.000 → CLASSIFICATION DUE
+2026-10-26 18:12:12,815 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: degree=0.60 fast=0.000 slow=0.000 → CLASSIFICATION DUE
+2026-10-26 18:12:12,815 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: degree=0.50 fast=0.477 slow=0.600
+2026-10-26 18:12:12,815 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: classification 0ms (0 classified)
+2026-10-26 18:12:12,815 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 3: 5 agents acted
+2026-10-26 18:12:12,817 WARNING [io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator] (scenario-loop) Agent invocation failed: io.casehub.platform.agent.AgentSessionLimitException: Agent session limit reached (12 active sessions)
+	at io.casehub.platform.agent.claude.ClaudeAgentClient.openSession(ClaudeAgentClient.java:283)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentClient_XTe40Syf8VQiTXMg8rzQg0QzMyo_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.claude.ClaudeAgentProvider.openSession(ClaudeAgentProvider.java:28)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentProvider_5DChyjvaUzKNbN5rgvIU9skhPm8_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.session.SessionPool.checkout(SessionPool.java:62)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.lambda$acquire$0(SessionLifecycleManager.java:29)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.acquire(SessionLifecycleManager.java:25)
+	at io.casehub.platform.agent.session.SessionPipeline.lambda$openSession$0(SessionPipeline.java:84)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:83)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:77)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.invokeText(UserModelOrchestrator.java:318)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.invokeLlmSynthesis(UserModelOrchestrator.java:305)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.doTick(UserModelOrchestrator.java:219)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.lambda$tick$1(UserModelOrchestrator.java:86)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.withLock(UserModelOrchestrator.java:406)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.tick(UserModelOrchestrator.java:86)
+	at io.casehub.neocortex.cognition.core.CognitionCore.lambda$tick$6(CognitionCore.java:261)
+	at io.casehub.neocortex.cognition.core.CognitionCore.safeRun(CognitionCore.java:823)
+	at io.casehub.neocortex.cognition.core.CognitionCore.tick(CognitionCore.java:261)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runAutonomousTicks(PlaybookOrchestrator.java:368)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runScenario(PlaybookOrchestrator.java:268)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.lambda$startScenario$0(PlaybookOrchestrator.java:112)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:475)
+
+2026-10-26 18:12:12,818 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Cognitive tick for 5 agents in 3ms
+[appraisal-filter] penelope-pitstop | situation=[secure_attachment:0.60, acceptance:0.70, agency_granted:0.40, choice_available:0.50] | ratios=[curiosity=0.108(overlap=0.000,resting=0.108), adventure=0.195(overlap=0.116,resting=0.079), social-harmony=0.285(overlap=0.144,resting=0.141)] | rendered=[adventure, social-harmony] | filtered=[curiosity]
+[differentiation-filter] penelope-pitstop | total=3 | included=1 | excluded=2 [adventure↔curiosity, curiosity↔social-harmony] | activeDrives=[adventure, social-harmony]
+[observation-assembly] penelope-pitstop | drives=2 [adventure, social-harmony] | selfStandards=2 | diffTexts=1 | prioritySigs=1 | memories=0 | attractors=5 | totalParts=11
+[observation-assembly] hooded-claw | drives=4 [dominance, gloating, scheming, self-preservation] | selfStandards=4 | diffTexts=0 | prioritySigs=6 | memories=0 | attractors=5 | totalParts=19
+[appraisal-filter] ant-hill-mob | situation=[unpredictable_danger:0.50, psychological_threat:0.40, agency_granted:0.30] | ratios=[loyalty=0.178(overlap=0.000,resting=0.178), protection=0.141(overlap=0.000,resting=0.141), suspicion=0.322(overlap=0.242,resting=0.079)] | rendered=[loyalty, suspicion] | filtered=[protection]
+[differentiation-filter] ant-hill-mob | total=3 | included=1 | excluded=2 [suspicion↔protection, loyalty↔protection] | activeDrives=[loyalty, suspicion]
+[observation-assembly] ant-hill-mob | drives=2 [loyalty, suspicion] | selfStandards=2 | diffTexts=1 | prioritySigs=1 | memories=0 | attractors=5 | totalParts=11
+[appraisal-filter] dick-dastardly | situation=[competition:0.70, choice_available:0.50, dominance:0.40, agency_granted:0.40, scarcity:0.30] | ratios=[greed=0.321(overlap=0.143,resting=0.178), scheming=0.619(overlap=0.460,resting=0.159), recognition=0.141(overlap=0.000,resting=0.141), gloating=0.419(overlap=0.311,resting=0.108)] | rendered=[greed, scheming, gloating] | filtered=[recognition]
+[differentiation-filter] dick-dastardly | total=6 | included=3 | excluded=3 [gloating↔recognition, scheming↔recognition, recognition↔greed] | activeDrives=[gloating, scheming, greed]
+[observation-assembly] dick-dastardly | drives=3 [greed, scheming, gloating] | selfStandards=3 | diffTexts=3 | prioritySigs=3 | memories=0 | attractors=5 | totalParts=17
+[appraisal-filter] peter-perfect | situation=[mastery:0.40, competition:0.50, agency_granted:0.50, choice_available:0.40] | ratios=[protection=0.141(overlap=0.000,resting=0.141), gallantry=0.178(overlap=0.000,resting=0.178), proving-worth=0.333(overlap=0.225,resting=0.108)] | rendered=[gallantry, proving-worth] | filtered=[protection]
+[differentiation-filter] peter-perfect | total=3 | included=1 | excluded=2 [protection↔proving-worth, gallantry↔protection] | activeDrives=[gallantry, proving-worth]
+[observation-assembly] peter-perfect | drives=2 [gallantry, proving-worth] | selfStandards=2 | diffTexts=1 | prioritySigs=1 | memories=0 | attractors=5 | totalParts=11
+[OK] hooded-claw: LLM call completed
+[OK] penelope-pitstop: LLM call completed
+[OK] peter-perfect: LLM call completed
+[OK] ant-hill-mob: LLM call completed
+[OK] dick-dastardly: LLM call completed
+2026-10-26 18:12:44,332 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: query 31497ms — 5 agents, 5 succeeded
+2026-10-26 18:12:46,578 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) penelope-pitstop: mood-appraisal 2241ms P=0.150 A=0.150 D=0.150 cause=polite but firm intellectual correction with confident reasoning
+2026-10-26 18:12:46,578 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: recordInteraction 2241ms
+2026-10-26 18:12:46,578 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: shadow-mechanical-mood P=0.300 A=-0.050 D=0.240 (sitCtx age: 4 activations)
+2026-10-26 18:12:49,277 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) hooded-claw: mood-appraisal 2698ms P=0.150 A=0.050 D=0.100 cause=gracious deference to the guest's cleverness while smoothly redirecting to practical next steps
+2026-10-26 18:12:49,278 WARN  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) LLM BDI extraction failed, falling back to heuristic: io.casehub.platform.agent.AgentSessionLimitException: Agent session limit reached (12 active sessions)
+	at io.casehub.platform.agent.claude.ClaudeAgentClient.openSession(ClaudeAgentClient.java:283)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentClient_XTe40Syf8VQiTXMg8rzQg0QzMyo_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.claude.ClaudeAgentProvider.openSession(ClaudeAgentProvider.java:28)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentProvider_5DChyjvaUzKNbN5rgvIU9skhPm8_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.session.SessionPool.checkout(SessionPool.java:62)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.lambda$acquire$0(SessionLifecycleManager.java:29)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.acquire(SessionLifecycleManager.java:25)
+	at io.casehub.platform.agent.session.SessionPipeline.lambda$openSession$0(SessionPipeline.java:84)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:83)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:77)
+	at io.casehub.neocortex.cognition.core.CognitionCore.extractAndRecordMentalState(CognitionCore.java:467)
+	at io.casehub.neocortex.cognition.core.CognitionCore.lambda$recordInteraction$2(CognitionCore.java:301)
+	at io.casehub.neocortex.cognition.core.CognitionCore.safeRun(CognitionCore.java:823)
+	at io.casehub.neocortex.cognition.core.CognitionCore.recordInteraction(CognitionCore.java:301)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runAutonomousTicks(PlaybookOrchestrator.java:547)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runScenario(PlaybookOrchestrator.java:268)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.lambda$startScenario$0(PlaybookOrchestrator.java:112)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:475)
+
+2026-10-26 18:12:49,278 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: recordInteraction 2699ms
+2026-10-26 18:12:52,199 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) ant-hill-mob: mood-appraisal 2919ms P=0.050 A=0.150 D=0.050 cause=relieved anxiety after finding the group mixed with lingering protectiveness and mild stress
+2026-10-26 18:12:52,199 WARN  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) LLM BDI extraction failed, falling back to heuristic: io.casehub.platform.agent.AgentSessionLimitException: Agent session limit reached (12 active sessions)
+	at io.casehub.platform.agent.claude.ClaudeAgentClient.openSession(ClaudeAgentClient.java:283)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentClient_XTe40Syf8VQiTXMg8rzQg0QzMyo_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.claude.ClaudeAgentProvider.openSession(ClaudeAgentProvider.java:28)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentProvider_5DChyjvaUzKNbN5rgvIU9skhPm8_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.session.SessionPool.checkout(SessionPool.java:62)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.lambda$acquire$0(SessionLifecycleManager.java:29)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.acquire(SessionLifecycleManager.java:25)
+	at io.casehub.platform.agent.session.SessionPipeline.lambda$openSession$0(SessionPipeline.java:84)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:83)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:77)
+	at io.casehub.neocortex.cognition.core.CognitionCore.extractAndRecordMentalState(CognitionCore.java:467)
+	at io.casehub.neocortex.cognition.core.CognitionCore.lambda$recordInteraction$2(CognitionCore.java:301)
+	at io.casehub.neocortex.cognition.core.CognitionCore.safeRun(CognitionCore.java:823)
+	at io.casehub.neocortex.cognition.core.CognitionCore.recordInteraction(CognitionCore.java:301)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runAutonomousTicks(PlaybookOrchestrator.java:547)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runScenario(PlaybookOrchestrator.java:268)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.lambda$startScenario$0(PlaybookOrchestrator.java:112)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:475)
+
+2026-10-26 18:12:52,199 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: recordInteraction 2920ms
+2026-10-26 18:12:52,199 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: shadow-mechanical-mood P=-0.065 A=0.200 D=-0.080 (sitCtx age: 3 activations)
+2026-10-26 18:12:54,728 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) dick-dastardly: mood-appraisal 2528ms P=0.000 A=0.200 D=0.150 cause=defensive ego recovery masking embarrassment at being corrected with transparent bluster
+2026-10-26 18:12:54,728 WARN  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) LLM BDI extraction failed, falling back to heuristic: io.casehub.platform.agent.AgentSessionLimitException: Agent session limit reached (12 active sessions)
+	at io.casehub.platform.agent.claude.ClaudeAgentClient.openSession(ClaudeAgentClient.java:283)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentClient_XTe40Syf8VQiTXMg8rzQg0QzMyo_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.claude.ClaudeAgentProvider.openSession(ClaudeAgentProvider.java:28)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentProvider_5DChyjvaUzKNbN5rgvIU9skhPm8_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.session.SessionPool.checkout(SessionPool.java:62)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.lambda$acquire$0(SessionLifecycleManager.java:29)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.acquire(SessionLifecycleManager.java:25)
+	at io.casehub.platform.agent.session.SessionPipeline.lambda$openSession$0(SessionPipeline.java:84)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:83)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:77)
+	at io.casehub.neocortex.cognition.core.CognitionCore.extractAndRecordMentalState(CognitionCore.java:467)
+	at io.casehub.neocortex.cognition.core.CognitionCore.lambda$recordInteraction$2(CognitionCore.java:301)
+	at io.casehub.neocortex.cognition.core.CognitionCore.safeRun(CognitionCore.java:823)
+	at io.casehub.neocortex.cognition.core.CognitionCore.recordInteraction(CognitionCore.java:301)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runAutonomousTicks(PlaybookOrchestrator.java:547)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runScenario(PlaybookOrchestrator.java:268)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.lambda$startScenario$0(PlaybookOrchestrator.java:112)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:475)
+
+2026-10-26 18:12:54,728 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: recordInteraction 2528ms
+2026-10-26 18:12:54,728 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: shadow-mechanical-mood P=0.120 A=0.275 D=0.260 (sitCtx age: 5 activations)
+2026-10-26 18:12:57,301 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) peter-perfect: mood-appraisal 2572ms P=0.200 A=0.150 D=0.100 cause=genuine admiration and gracious acknowledgment of another's insight while maintaining cheerful composure
+2026-10-26 18:12:57,302 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: recordInteraction 2573ms
+2026-10-26 18:12:57,302 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: shadow-mechanical-mood P=0.220 A=0.185 D=0.290 (sitCtx age: 4 activations)
+2026-10-26 18:12:57,302 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: recordInteraction — 5 agents in 12965ms
+2026-10-26 18:12:57,303 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: action-resolution 0ms
+2026-10-26 18:12:57,303 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: tom-observations 0ms
+2026-10-26 18:12:57,303 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: degree=0.30 fast=0.000 slow=0.000 → CLASSIFICATION DUE
+2026-10-26 18:12:57,303 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: degree=0.40 fast=0.000 slow=0.000 → CLASSIFICATION DUE
+2026-10-26 18:12:57,303 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: inline assessment — Danny interacted with the guest book (gathering information) then immediately moved to the library to rejoin Clara after the group split up against his wishes. He's now back with Clara but in a room with two characters he distrusts (Sneekly and Dastardly). The situation has stabilised slightly — he's present with Clara — but the environment contains puzzles and unknowns (riddle, upside-down books, laboratory exit). His sense of having failed to keep the group together (falling for the guest book distraction) lingers. (5 activations)
+2026-10-26 18:12:57,303 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: degree=0.40 fast=0.250 slow=0.300
+2026-10-26 18:12:57,304 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: inline assessment — Reginald's misdirection about the riddle answer ('painting') failed immediately — Penelope publicly stated the correct answer ('map') and has already interacted with the mantelpiece, advancing ahead of him. His lie was publicly contradicted, creating a social threat moment. Meanwhile, Sneekly (the estate manager whose behavior is suspicious) has examined the bookshelves, suggesting hidden information. Multiple characters are now competing in the same space. Reginald's attempt to control the narrative and gain sole advantage has been thwarted — the 'portion is thinning' as others take what he wanted. (7 activations)
+2026-10-26 18:12:57,304 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: degree=0.70 fast=0.000 slow=0.000 → CLASSIFICATION DUE
+2026-10-26 18:12:57,304 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: degree=0.50 fast=0.000 slow=0.000 → CLASSIFICATION DUE
+2026-10-26 18:12:57,304 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: classification 0ms (2 classified)
+2026-10-26 18:12:57,304 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 4: 5 agents acted
+2026-10-26 18:12:57,304 WARNING [io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator] (scenario-loop) Agent invocation failed: io.casehub.platform.agent.AgentSessionLimitException: Agent session limit reached (12 active sessions)
+	at io.casehub.platform.agent.claude.ClaudeAgentClient.openSession(ClaudeAgentClient.java:283)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentClient_XTe40Syf8VQiTXMg8rzQg0QzMyo_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.claude.ClaudeAgentProvider.openSession(ClaudeAgentProvider.java:28)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentProvider_5DChyjvaUzKNbN5rgvIU9skhPm8_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.session.SessionPool.checkout(SessionPool.java:62)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.lambda$acquire$0(SessionLifecycleManager.java:29)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.acquire(SessionLifecycleManager.java:25)
+	at io.casehub.platform.agent.session.SessionPipeline.lambda$openSession$0(SessionPipeline.java:84)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:83)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:77)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.invokeText(UserModelOrchestrator.java:318)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.invokeLlmSynthesis(UserModelOrchestrator.java:305)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.doTick(UserModelOrchestrator.java:219)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.lambda$tick$1(UserModelOrchestrator.java:86)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.withLock(UserModelOrchestrator.java:406)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.tick(UserModelOrchestrator.java:86)
+	at io.casehub.neocortex.cognition.core.CognitionCore.lambda$tick$6(CognitionCore.java:261)
+	at io.casehub.neocortex.cognition.core.CognitionCore.safeRun(CognitionCore.java:823)
+	at io.casehub.neocortex.cognition.core.CognitionCore.tick(CognitionCore.java:261)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runAutonomousTicks(PlaybookOrchestrator.java:368)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runScenario(PlaybookOrchestrator.java:268)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.lambda$startScenario$0(PlaybookOrchestrator.java:112)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:475)
+
+2026-10-26 18:12:57,305 WARNING [io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator] (scenario-loop) Agent invocation failed: io.casehub.platform.agent.AgentSessionLimitException: Agent session limit reached (12 active sessions)
+	at io.casehub.platform.agent.claude.ClaudeAgentClient.openSession(ClaudeAgentClient.java:283)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentClient_XTe40Syf8VQiTXMg8rzQg0QzMyo_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.claude.ClaudeAgentProvider.openSession(ClaudeAgentProvider.java:28)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentProvider_5DChyjvaUzKNbN5rgvIU9skhPm8_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.session.SessionPool.checkout(SessionPool.java:62)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.lambda$acquire$0(SessionLifecycleManager.java:29)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.acquire(SessionLifecycleManager.java:25)
+	at io.casehub.platform.agent.session.SessionPipeline.lambda$openSession$0(SessionPipeline.java:84)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:83)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:77)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.invokeText(UserModelOrchestrator.java:318)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.invokeLlmSynthesis(UserModelOrchestrator.java:305)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.doTick(UserModelOrchestrator.java:219)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.lambda$tick$1(UserModelOrchestrator.java:86)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.withLock(UserModelOrchestrator.java:406)
+	at io.casehub.neocortex.cognition.usermodel.UserModelOrchestrator.tick(UserModelOrchestrator.java:86)
+	at io.casehub.neocortex.cognition.core.CognitionCore.lambda$tick$6(CognitionCore.java:261)
+	at io.casehub.neocortex.cognition.core.CognitionCore.safeRun(CognitionCore.java:823)
+	at io.casehub.neocortex.cognition.core.CognitionCore.tick(CognitionCore.java:261)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runAutonomousTicks(PlaybookOrchestrator.java:368)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runScenario(PlaybookOrchestrator.java:268)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.lambda$startScenario$0(PlaybookOrchestrator.java:112)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:475)
+
+2026-10-26 18:12:57,306 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Cognitive tick for 5 agents in 2ms
+[appraisal-filter] penelope-pitstop | situation=[secure_attachment:0.60, acceptance:0.70, agency_granted:0.40, choice_available:0.50] | ratios=[curiosity=0.108(overlap=0.000,resting=0.108), adventure=0.195(overlap=0.116,resting=0.079), social-harmony=0.285(overlap=0.144,resting=0.141)] | rendered=[adventure, social-harmony] | filtered=[curiosity]
+[differentiation-filter] penelope-pitstop | total=3 | included=1 | excluded=2 [adventure↔curiosity, curiosity↔social-harmony] | activeDrives=[adventure, social-harmony]
+[observation-assembly] penelope-pitstop | drives=2 [adventure, social-harmony] | selfStandards=2 | diffTexts=1 | prioritySigs=1 | memories=0 | attractors=5 | totalParts=11
+[observation-assembly] hooded-claw | drives=4 [dominance, gloating, scheming, self-preservation] | selfStandards=4 | diffTexts=0 | prioritySigs=6 | memories=0 | attractors=5 | totalParts=19
+[appraisal-filter] ant-hill-mob | situation=[failure:0.50, aversive_removal:0.40, unpredictable_danger:0.40, agency_granted:0.30, psychological_threat:0.30] | ratios=[loyalty=0.178(overlap=0.000,resting=0.178), protection=0.323(overlap=0.182,resting=0.141), suspicion=0.261(overlap=0.182,resting=0.079)] | rendered=[loyalty, protection, suspicion] | filtered=[]
+[differentiation-filter] ant-hill-mob | total=3 | included=3 | excluded=0 [] | activeDrives=[loyalty, suspicion, protection]
+[observation-assembly] ant-hill-mob | drives=3 [loyalty, protection, suspicion] | selfStandards=3 | diffTexts=3 | prioritySigs=3 | memories=0 | attractors=5 | totalParts=17
+[appraisal-filter] dick-dastardly | situation=[competition:0.90, failure:0.60, social_threat:0.50, scarcity:0.50, mastery:0.40, choice_available:0.40, dominance:0.30] | ratios=[greed=0.416(overlap=0.238,resting=0.178), scheming=0.584(overlap=0.425,resting=0.159), recognition=0.141(overlap=0.000,resting=0.141), gloating=0.583(overlap=0.475,resting=0.108)] | rendered=[greed, scheming, gloating] | filtered=[recognition]
+[differentiation-filter] dick-dastardly | total=6 | included=3 | excluded=3 [gloating↔recognition, scheming↔recognition, recognition↔greed] | activeDrives=[gloating, scheming, greed]
+[observation-assembly] dick-dastardly | drives=3 [greed, scheming, gloating] | selfStandards=3 | diffTexts=3 | prioritySigs=3 | memories=0 | attractors=5 | totalParts=17
+[appraisal-filter] peter-perfect | situation=[mastery:0.40, competition:0.50, agency_granted:0.50, choice_available:0.40] | ratios=[protection=0.141(overlap=0.000,resting=0.141), gallantry=0.178(overlap=0.000,resting=0.178), proving-worth=0.333(overlap=0.225,resting=0.108)] | rendered=[gallantry, proving-worth] | filtered=[protection]
+[differentiation-filter] peter-perfect | total=3 | included=1 | excluded=2 [protection↔proving-worth, gallantry↔protection] | activeDrives=[gallantry, proving-worth]
+[observation-assembly] peter-perfect | drives=2 [gallantry, proving-worth] | selfStandards=2 | diffTexts=1 | prioritySigs=1 | memories=0 | attractors=5 | totalParts=11
+[OK] ant-hill-mob: LLM call completed
+[OK] penelope-pitstop: LLM call completed
+[OK] dick-dastardly: LLM call completed
+[OK] peter-perfect: LLM call completed
+[OK] hooded-claw: LLM call completed
+2026-10-26 18:13:36,619 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: query 39293ms — 5 agents, 5 succeeded
+2026-10-26 18:13:39,384 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) penelope-pitstop: mood-appraisal 2755ms P=0.250 A=0.200 D=0.100 cause=effusive warmth and generous social bonding, lifting everyone with enthusiastic praise
+2026-10-26 18:13:39,384 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: recordInteraction 2755ms
+2026-10-26 18:13:39,384 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: shadow-mechanical-mood P=0.300 A=-0.050 D=0.240 (sitCtx age: 4 activations)
+2026-10-26 18:13:41,843 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) hooded-claw: mood-appraisal 2458ms P=0.050 A=-0.050 D=0.050 cause=mild disappointment at unsuccessful tidying tempered by pragmatic acceptance and careful stewardship
+2026-10-26 18:13:41,843 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: recordInteraction 2458ms
+2026-10-26 18:13:43,951 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) ant-hill-mob: mood-appraisal 2107ms P=0.100 A=0.200 D=0.150 cause=assertive initiative taking charge with self-deprecating humor and hands-on determination
+2026-10-26 18:13:43,951 WARN  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) LLM BDI extraction failed, falling back to heuristic: io.casehub.platform.agent.AgentSessionLimitException: Agent session limit reached (12 active sessions)
+	at io.casehub.platform.agent.claude.ClaudeAgentClient.openSession(ClaudeAgentClient.java:283)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentClient_XTe40Syf8VQiTXMg8rzQg0QzMyo_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.claude.ClaudeAgentProvider.openSession(ClaudeAgentProvider.java:28)
+	at io.casehub.platform.agent.claude.ClaudeBeans_ProducerMethod_claudeAgentProvider_5DChyjvaUzKNbN5rgvIU9skhPm8_ClientProxy.openSession(Unknown Source)
+	at io.casehub.platform.agent.session.SessionPool.checkout(SessionPool.java:62)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.lambda$acquire$0(SessionLifecycleManager.java:29)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionLifecycleManager.acquire(SessionLifecycleManager.java:25)
+	at io.casehub.platform.agent.session.SessionPipeline.lambda$openSession$0(SessionPipeline.java:84)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1735)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:83)
+	at io.casehub.platform.agent.session.SessionPipeline.openSession(SessionPipeline.java:77)
+	at io.casehub.neocortex.cognition.core.CognitionCore.extractAndRecordMentalState(CognitionCore.java:467)
+	at io.casehub.neocortex.cognition.core.CognitionCore.lambda$recordInteraction$2(CognitionCore.java:301)
+	at io.casehub.neocortex.cognition.core.CognitionCore.safeRun(CognitionCore.java:823)
+	at io.casehub.neocortex.cognition.core.CognitionCore.recordInteraction(CognitionCore.java:301)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runAutonomousTicks(PlaybookOrchestrator.java:547)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.runScenario(PlaybookOrchestrator.java:268)
+	at io.casehub.examples.manor.agent.PlaybookOrchestrator.lambda$startScenario$0(PlaybookOrchestrator.java:112)
+	at java.base/java.lang.VirtualThread.run(VirtualThread.java:475)
+
+2026-10-26 18:13:43,951 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: recordInteraction 2108ms
+2026-10-26 18:13:43,951 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: shadow-mechanical-mood P=-0.080 A=0.170 D=-0.105 (sitCtx age: 5 activations)
+2026-10-26 18:13:46,224 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) dick-dastardly: mood-appraisal 2272ms P=0.150 A=0.200 D=0.250 cause=self-important expertise display seizing the spotlight with name-dropping authority
+2026-10-26 18:13:46,224 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: recordInteraction 2272ms
+2026-10-26 18:13:46,224 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: shadow-mechanical-mood P=-0.090 A=0.300 D=0.000 (sitCtx age: 7 activations)
+2026-10-26 18:13:48,691 INFO  [io.casehub.neocortex.cognition.core.CognitionCore] (scenario-loop) peter-perfect: mood-appraisal 2467ms P=0.200 A=0.150 D=0.200 cause=confident satisfaction in applying engineering expertise to validate a discovery for the group
+2026-10-26 18:13:48,691 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: recordInteraction 2467ms
+2026-10-26 18:13:48,691 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: shadow-mechanical-mood P=0.220 A=0.185 D=0.290 (sitCtx age: 4 activations)
+2026-10-26 18:13:48,691 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: recordInteraction — 5 agents in 12063ms
+2026-10-26 18:13:48,694 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: action-resolution 2ms
+2026-10-26 18:13:48,694 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: tom-observations 0ms
+2026-10-26 18:13:48,694 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: inline assessment — Clara has been actively exploring the library — moving there, interacting with the mantelpiece riddle, and now the bookshelves. She solved the riddle correctly (a map) and was praised by Peter for it. The Ant Hill Mob and Peter are working alongside her cooperatively. Dick Dastardly continues attempting to redirect others away from the library. Sneekly is also interacting with the bookshelves. The key dynamic is collaborative puzzle-solving with growing competence recognition, while Dick Dastardly's competitive maneuvering creates mild tension that Clara doesn't register as threat. (7 activations)
+2026-10-26 18:13:48,695 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   penelope-pitstop: degree=0.30 fast=0.150 slow=0.200
+2026-10-26 18:13:48,695 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: inline assessment — Vincent has been steadily establishing his Pemberton cover while secretly gathering intelligence. He solved the riddle before anyone else but performed ignorance. He attempted to examine the bookshelves while others were distracted but found nothing new. Dastardly drew attention to his interest in the bookshelves — a brief exposure threat. The Ant Hill Mob continue to watch him. He's now planning to move to the laboratory to advance his scheme. The trajectory shows: successful identity performance (mastery in deception), competitive intelligence gathering against other treasure hunters, a brief moment of social exposure when Dastardly noted his interest, and ongoing scheming toward his primary goals. (6 activations)
+2026-10-26 18:13:48,695 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   hooded-claw: degree=0.30 fast=0.150 slow=0.200
+2026-10-26 18:13:48,695 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   ant-hill-mob: degree=0.20 fast=0.262 slow=0.400
+2026-10-26 18:13:48,695 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: inline assessment — Reginald interacted with the bookshelves alongside multiple competitors (Peter Perfect, Ant Hill Mob). His earlier deception about the riddle answer was publicly corrected by both Penelope and Peter, undermining his authority claims. The competitive field is intensifying as everyone converges on the same puzzle elements. He's now pivoting to the unexplored laboratory to try to get ahead of the group. His 'painting' lie was a social failure — publicly contradicted — but no one seems to be dwelling on it beyond gentle correction. (6 activations)
+2026-10-26 18:13:48,695 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   dick-dastardly: degree=0.40 fast=0.250 slow=0.300
+2026-10-26 18:13:48,695 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: inline assessment — James has been actively investigating the library — examining the mantelpiece riddle and interacting with the bookshelves. He's being evaluated implicitly by Penelope and competing with multiple others (Dastardly, Sneekly, Danny) who are all converging on the same clues. Penelope solved the riddle first, creating a mild sense of falling short, but she also called him 'darling' and gave him a task, providing social acceptance. His thoroughness is both his strength and his complication — he's methodical but slower than others. The competitive dynamic is intensifying as everyone crowds the bookshelves. (6 activations)
+2026-10-26 18:13:48,695 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop)   peter-perfect: degree=0.40 fast=0.250 slow=0.300
+2026-10-26 18:13:48,695 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Phase: classification 1ms (4 classified)
+2026-10-26 18:13:48,695 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Tick 5: 5 agents acted
+2026-10-26 18:13:48,696 INFO  [io.casehub.examples.manor.agent.PlaybookOrchestrator] (scenario-loop) Cognitive tick for 5 agents in 1ms
+[appraisal-filter] penelope-pitstop | situation=[competence_recognition:0.70, mastery:0.60, secure_attachment:0.50, acceptance:0.60, competition:0.40, agency_granted:0.50, choice_available:0.40] | ratios=[curiosity=0.552(overlap=0.444,resting=0.108), adventure=0.312(overlap=0.233,resting=0.079), social-harmony=0.265(overlap=0.124,resting=0.141)] | rendered=[curiosity, adventure, social-harmony] | filtered=[]
+[differentiation-filter] penelope-pitstop | total=3 | included=3 | excluded=0 [] | activeDrives=[adventure, curiosity, social-harmony]
+[observation-assembly] penelope-pitstop | drives=3 [curiosity, adventure, social-harmony] | selfStandards=3 | diffTexts=3 | prioritySigs=3 | memories=1 | attractors=5 | totalParts=18
+[appraisal-filter] hooded-claw | situation=[mastery:0.70, competition:0.80, dominance:0.60, social_threat:0.40, agency_granted:0.50, choice_available:0.50] | ratios=[dominance=0.392(overlap=0.313,resting=0.079), gloating=0.394(overlap=0.286,resting=0.108), scheming=1.005(overlap=0.826,resting=0.178), self-preservation=0.216(overlap=0.108,resting=0.108)] | rendered=[dominance, gloating, scheming, self-preservation] | filtered=[]
+[differentiation-filter] hooded-claw | total=6 | included=6 | excluded=0 [] | activeDrives=[gloating, scheming, dominance, self-preservation]
+[observation-assembly] hooded-claw | drives=4 [dominance, gloating, scheming, self-preservation] | selfStandards=4 | diffTexts=6 | prioritySigs=6 | memories=0 | attractors=5 | totalParts=25
+[appraisal-filter] ant-hill-mob | situation=[failure:0.50, aversive_removal:0.40, unpredictable_danger:0.40, agency_granted:0.30, psychological_threat:0.30] | ratios=[loyalty=0.178(overlap=0.000,resting=0.178), protection=0.323(overlap=0.182,resting=0.141), suspicion=0.261(overlap=0.182,resting=0.079)] | rendered=[loyalty, protection, suspicion] | filtered=[]
+[differentiation-filter] ant-hill-mob | total=3 | included=3 | excluded=0 [] | activeDrives=[loyalty, suspicion, protection]
+[observation-assembly] ant-hill-mob | drives=3 [loyalty, protection, suspicion] | selfStandards=3 | diffTexts=3 | prioritySigs=3 | memories=0 | attractors=5 | totalParts=17
+[appraisal-filter] dick-dastardly | situation=[competition:0.80, social_threat:0.50, failure:0.40, agency_granted:0.40, choice_available:0.40, scarcity:0.30] | ratios=[greed=0.321(overlap=0.143,resting=0.178), scheming=0.515(overlap=0.356,resting=0.159), recognition=0.141(overlap=0.000,resting=0.141), gloating=0.419(overlap=0.311,resting=0.108)] | rendered=[greed, scheming, gloating] | filtered=[recognition]
+[differentiation-filter] dick-dastardly | total=6 | included=3 | excluded=3 [gloating↔recognition, scheming↔recognition, recognition↔greed] | activeDrives=[gloating, scheming, greed]
+[observation-assembly] dick-dastardly | drives=3 [greed, scheming, gloating] | selfStandards=3 | diffTexts=3 | prioritySigs=3 | memories=0 | attractors=5 | totalParts=17
+[appraisal-filter] peter-perfect | situation=[performance_judged:0.70, competition:0.70, mastery:0.50, acceptance:0.40, agency_granted:0.40, choice_available:0.30] | ratios=[protection=0.141(overlap=0.000,resting=0.141), gallantry=0.319(overlap=0.140,resting=0.178), proving-worth=0.583(overlap=0.475,resting=0.108)] | rendered=[gallantry, proving-worth] | filtered=[protection]
+[differentiation-filter] peter-perfect | total=3 | included=1 | excluded=2 [protection↔proving-worth, gallantry↔protection] | activeDrives=[gallantry, proving-worth]
+[observation-assembly] peter-perfect | drives=2 [gallantry, proving-worth] | selfStandards=2 | diffTexts=1 | prioritySigs=1 | memories=0 | attractors=5 | totalParts=11
+[OK] ant-hill-mob: LLM call completed
+[OK] penelope-pitstop: LLM call completed
+[OK] hooded-claw: LLM call completed
+[OK] dick-dastardly: LLM call completed
