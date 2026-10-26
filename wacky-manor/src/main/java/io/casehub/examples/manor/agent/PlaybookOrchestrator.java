@@ -369,6 +369,10 @@ public class PlaybookOrchestrator {
                         .collect(java.util.stream.Collectors.toSet());
             };
 
+            log.infof("Tick %d start — sessions: %d, AIMD window: %d, available: %d",
+                    currentTick, sessionPipeline.sessionCount(),
+                    sessionPipeline.admission().currentWindow(), sessionPipeline.availablePermits());
+
             long cogStart = System.currentTimeMillis();
             for (var c : activeAgents) {
                 if (!c.isActive()) continue;
@@ -458,14 +462,27 @@ public class PlaybookOrchestrator {
             }, java.time.Duration.ofSeconds(30));
 
             // Phase 2: query via adaptive pipeline
+            int aimdWindowPre = sessionPipeline.admission().currentWindow();
+            int aimdAvailPre = sessionPipeline.availablePermits();
             long queryStart = System.nanoTime();
             var pipelineResults = TickExecutor.queryPipeline(prompts, sessionPipeline, 3, java.time.Duration.ofSeconds(120));
             long queryMs = (System.nanoTime() - queryStart) / 1_000_000;
+            int aimdWindowPost = sessionPipeline.admission().currentWindow();
 
             // Phase 3: parse responses (outside pipeline — parse errors don't consume tickets)
             var responses = TickExecutor.parseResponses(actingThisTick, pipelineResults);
-            log.infof("Phase: query %dms — %d agents, %d succeeded", queryMs, actingThisTick.size(),
-                    pipelineResults.values().stream().filter(java.util.Objects::nonNull).count());
+            log.infof("Phase: query %dms — %d agents, %d succeeded — AIMD window %d→%d (avail %d pre-query)",
+                    queryMs, actingThisTick.size(),
+                    pipelineResults.values().stream().filter(java.util.Objects::nonNull).count(),
+                    aimdWindowPre, aimdWindowPost, aimdAvailPre);
+            for (var c : actingThisTick) {
+                String prompt = prompts.get(c.agentId());
+                String result = pipelineResults.get(c.agentId());
+                int promptChars = prompt != null ? prompt.length() : 0;
+                int resultChars = result != null ? result.length() : 0;
+                log.infof("  %s: prompt %d chars (~%d tokens), response %d chars (~%d tokens)",
+                        c.agentId(), promptChars, promptChars / 4, resultChars, resultChars / 4);
+            }
 
             var suppressed = new java.util.HashSet<String>();
             var exchangeTexts = new ArrayList<String[]>();
@@ -835,7 +852,11 @@ public class PlaybookOrchestrator {
             }
 
             webEventBus.broadcast(webEventBus.buildSnapshot(world));
-            log.infof("Tick %d: %d agents acted", tick, actingThisTick.size());
+            var metrics = cognitionCore.tickMetrics();
+            log.infof("Tick %d: %d agents acted — sessions: %d, mood %d/%d (%.0f%% LLM), bdi %d/%d (%.0f%% LLM)",
+                    tick, actingThisTick.size(), sessionPipeline.sessionCount(),
+                    metrics.moodSuccess(), metrics.moodTotal(), metrics.moodSuccessRate() * 100,
+                    metrics.bdiSuccess(), metrics.bdiTotal(), metrics.bdiSuccessRate() * 100);
         }
         } finally {
             if (snapshotRecorder != null) {
