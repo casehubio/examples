@@ -539,8 +539,9 @@ public class PlaybookOrchestrator {
                 extractDialogueKnowledge(dialogueText, c.agentId(), validatedTarget,
                         c.currentRoom(), false, world);
                 var observation = prompts.get(c.agentId());
+                var impact = buildCognitiveImpact(response);
                 cognitionCore.recordInteraction(c.agentId(), ManorConstants.TENANCY_ID,
-                        validatedTarget, observation != null ? observation : "", dialogueText, null);
+                        validatedTarget, observation != null ? observation : "", dialogueText, impact);
             }
 
             for (var c : actingThisTick) {
@@ -877,6 +878,45 @@ public class PlaybookOrchestrator {
         }
 
         return rendered.content();
+    }
+
+    private static io.casehub.neocortex.cognition.core.CognitiveImpact buildCognitiveImpact(AgentResponse response) {
+        io.casehub.neocortex.cognition.mood.MoodSignal moodSignal = null;
+        java.util.List<io.casehub.neocortex.cognition.mentalmodel.MentalStateSignal> bdiSignals = null;
+
+        if (response.moodImpact() != null) {
+            var m = response.moodImpact();
+            moodSignal = new io.casehub.neocortex.cognition.mood.MoodSignal.InteractionAppraisal(
+                    m.pleasure(), m.arousal(), m.dominance(), m.cause());
+        }
+
+        if (response.mentalState() != null) {
+            var signals = new java.util.ArrayList<io.casehub.neocortex.cognition.mentalmodel.MentalStateSignal>();
+            addSignals(signals, response.mentalState().beliefs(), io.casehub.neocortex.cognition.mentalmodel.CueType.BELIEF_STATEMENT);
+            addSignals(signals, response.mentalState().desires(), io.casehub.neocortex.cognition.mentalmodel.CueType.DESIRE_EXPRESSION);
+            addSignals(signals, response.mentalState().intentions(), io.casehub.neocortex.cognition.mentalmodel.CueType.INTENTION_DECLARATION);
+            if (!signals.isEmpty()) {
+                bdiSignals = signals;
+            }
+        }
+
+        if (moodSignal == null && bdiSignals == null) {
+            return null;
+        }
+
+        return new io.casehub.neocortex.cognition.core.CognitiveImpact(
+                null, moodSignal, bdiSignals != null, bdiSignals, null, null);
+    }
+
+    private static void addSignals(java.util.List<io.casehub.neocortex.cognition.mentalmodel.MentalStateSignal> signals,
+                                   java.util.List<AgentResponse.MentalStateEntry> entries,
+                                   io.casehub.neocortex.cognition.mentalmodel.CueType cueType) {
+        if (entries == null) return;
+        for (var entry : entries) {
+            if (entry.text() != null && !entry.text().isBlank()) {
+                signals.add(new io.casehub.neocortex.cognition.mentalmodel.MentalStateSignal.VerbalCue(entry.text(), cueType));
+            }
+        }
     }
 
     private static int cadence(io.casehub.examples.manor.model.CharacterState c) {

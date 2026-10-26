@@ -41,10 +41,23 @@ public final class CharacterAgentLoop {
                                                                          "type": "one of the action types below",
                                                                          "target": "room-id or object-id or character-id (or null for WAIT)",
                                                                          "withItem": "inventory-item-id to use (or null)"
+                                                                       },
+                                                                       "moodImpact": {
+                                                                         "pleasure": -0.3 to 0.3,
+                                                                         "arousal": -0.3 to 0.3,
+                                                                         "dominance": -0.3 to 0.3,
+                                                                         "cause": "brief reason for the emotional shift"
+                                                                       },
+                                                                       "mentalState": {
+                                                                         "beliefs": [{"text": "what you now believe about the person you spoke to"}],
+                                                                         "desires": [{"text": "what you think they want or need"}],
+                                                                         "intentions": [{"text": "what you think they intend to do next"}]
                                                                        }
                                                                      }
-                                                                     
+
                                                                      situationChangeDegree: rate how much the situation changed this tick (0.0 = nothing happened, 1.0 = dramatic shift).
+                                                                     moodImpact: how this interaction shifted YOUR emotional state. Small deltas [-0.3, 0.3]. Omit if nothing changed.
+                                                                     mentalState: your read on the person you spoke to — what they believe, want, and intend. Omit entries with no signal. Omit the whole field if you spoke to nobody.
                                                                      
                                                                      ACTION TYPES — use the right one for your intent:""",
                                                                      ACTION_DESCRIPTORS) +

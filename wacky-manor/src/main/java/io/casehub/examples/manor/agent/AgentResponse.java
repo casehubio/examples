@@ -17,7 +17,27 @@ public record AgentResponse(
         String aside,
         Action action,
         Double situationChangeDegree,
-        SituationAssessment situationAssessment) {
+        SituationAssessment situationAssessment,
+        MoodImpact moodImpact,
+        MentalStateSnapshot mentalState) {
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public record MoodImpact(double pleasure, double arousal, double dominance, String cause) {
+        public MoodImpact {
+            pleasure = Math.clamp(pleasure, -0.3, 0.3);
+            arousal = Math.clamp(arousal, -0.3, 0.3);
+            dominance = Math.clamp(dominance, -0.3, 0.3);
+        }
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public record MentalStateSnapshot(
+            java.util.List<MentalStateEntry> beliefs,
+            java.util.List<MentalStateEntry> desires,
+            java.util.List<MentalStateEntry> intentions) {}
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public record MentalStateEntry(String key, String text, String type) {}
 
     private static final ObjectMapper JSON       = new ObjectMapper();
     private static final Pattern      CODE_BLOCK = Pattern.compile("```(?:json)?\\s*\\n?(\\{.*?})\\s*```", Pattern.DOTALL);
@@ -34,7 +54,7 @@ public record AgentResponse(
 
     public static AgentResponse idle() {
         return new AgentResponse(null, null, null, null,
-                                 new Action(ActionType.WAIT, null, null), null, null);
+                                 new Action(ActionType.WAIT, null, null), null, null, null, null);
     }
 
     private static String extractJson(String text) {
