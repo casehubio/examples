@@ -8,13 +8,24 @@ logs a narrative to stdout, and returns the result as JSON.
 
 - Java 26: `export JAVA_HOME=$(/usr/libexec/java_home -v 26)`
 - Maven (not the wrapper): `mvn`
-- Build the parent first: `JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn install -DskipTests`
+- Install the current Platform, Ledger, and Qhorus workspace artifacts first.
+
+From the Work repository root, prepare the example and its prerequisites (including AI):
+
+```bash
+mvn -Pexamples -pl examples -am install -DskipTests
+mvn -f examples/pom.xml verify
+```
+
+The first command compiles production and test sources without running tests. The second
+runs the example's HTTP scenario tests on H2 and packages the application. No LLM service
+or credentials are required. The `examples` profile is opt-in; the normal Work reactor is unchanged.
 
 ## Running
 
 ```bash
 # Start in dev mode (H2 in-memory, auto-restart)
-JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn quarkus:dev -pl examples
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -Pexamples quarkus:dev -pl examples
 ```
 
 Quarkus starts on `http://localhost:8080`. All 17 scenarios are ready immediately.
@@ -40,6 +51,9 @@ Quarkus starts on `http://localhost:8080`. All 17 scenarios are ready immediatel
 | 15 | Queue Module | `POST /examples/queues/run` | Label-pattern specialist queues with soft-claim handoff — pickup, relinquish, and senior takeover without force-reassignment |
 | 16 | Subprocess Spawning | `POST /examples/spawn/run` | Parent WorkItem spawns parallel child WorkItems (credit-check, fraud-check, compliance-check), each with a distinct `callerRef` for orchestrator routing |
 | 17 | Vocabulary Registration | `POST /examples/vocabulary/run` | Register a standard label vocabulary before creating WorkItems, ensuring consistent category naming across all work requests |
+| 18 | Expense Compensation | `POST /examples/compensation/run` | Full compensation lifecycle — create, approve, trigger compensation, different actor reverses, auto-COMPENSATED. Audit trail for both original and compensating WorkItems |
+| 19 | Loan Rollback | `POST /examples/loan-rollback/run` | Multi-step reverse-order compensation — 3 callerRef-correlated WorkItems compensated in dependency-reverse order with observable intermediate COMPENSATING state |
+| 20 | Compensation Resilience | `POST /examples/compensation-resilience/run` | All 3 compensation guards (non-COMPLETED, double-compensation, compensator rejection) plus suspend/resume lifecycle on compensating WorkItem |
 
 ## Running All Scenarios in Sequence
 
@@ -61,6 +75,9 @@ curl -s -X POST http://localhost:8080/examples/business-hours/run | jq '.scenari
 curl -s -X POST http://localhost:8080/examples/queues/run | jq '.scenario'
 curl -s -X POST http://localhost:8080/examples/spawn/run | jq '.scenario'
 curl -s -X POST http://localhost:8080/examples/vocabulary/run | jq '.scenario'
+curl -s -X POST http://localhost:8080/examples/compensation/run | jq '.scenario'
+curl -s -X POST http://localhost:8080/examples/loan-rollback/run | jq '.scenario'
+curl -s -X POST http://localhost:8080/examples/compensation-resilience/run | jq '.scenario'
 ```
 
 ## Other Lifecycle Transitions
@@ -70,10 +87,10 @@ but work via the standard WorkItem REST API as well:
 
 ```bash
 # Create and immediately cancel a WorkItem
-ID=$(curl -s -X POST http://localhost:8080/workitems \
+ID=$(curl -s -X POST http://localhost:8080/api/work/items/create \
   -H 'Content-Type: application/json' \
   -d '{"title":"Test cancel","createdBy":"demo"}' | jq -r '.id')
-curl -s -X PUT "http://localhost:8080/workitems/$ID/cancel?actor=admin" \
+curl -s -X POST "http://localhost:8080/api/work/lifecycle/cancel/$ID?actor=admin" \
   -H 'Content-Type: application/json' \
   -d '{"reason":"No longer needed"}' | jq .
 ```
@@ -89,4 +106,4 @@ Expiry + escalation: set `quarkus.work.default-expiry-hours=0` in
 JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn test -pl examples
 ```
 
-Expected: 30 tests, 0 failures.
+Expected: 33 tests, 0 failures.
