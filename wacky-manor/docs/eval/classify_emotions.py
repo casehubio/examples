@@ -169,9 +169,9 @@ Given a character's declared drives and a single event (what they said or though
 {drive_list}
 
 ## Step 1: Relevance
-Is this situation relevant to each drive? A situation is relevant when the event presents a plausible opportunity for that drive to express in behavior.
+Would this drive CHANGE the character's behavior in this event? Not "could it theoretically apply" but "does it steer what they actually do or say?"
 
-Being in the same room as someone does NOT make every drive relevant. The situation must present an actual opportunity for the drive to manifest.
+Mark a drive relevant ONLY if removing it from the character would make them behave differently in THIS event. A treasure hunt has many drives theoretically present — only score drives that actively shape THIS specific action, speech, or thought.
 
 ## Step 2: Quality (1-5) only for relevant drives
 Score drive DOMINANCE IN ACTION. Does this drive shape what the character DOES?
@@ -309,11 +309,15 @@ def build_full_report(results, drives_by_char, n_windows=DEFAULT_N_WINDOWS):
         drive_names = [d["type"] for d in drives_by_char.get(char_id, [])]
 
         drive_data = {}
+        # Track co-occurrence: which drives are relevant in the same event
+        cooccurrence_counts = {}
+        cooccurrence_quality = {}
+
         for drive in drive_names:
             qualities = []
             differentiations = []
             registers = []
-            # (position_in_char_events, quality) for windowing
+            by_event_type = {}
             event_qualities = []
 
             for pos, r in enumerate(char_events):
@@ -323,19 +327,23 @@ def build_full_report(results, drives_by_char, n_windows=DEFAULT_N_WINDOWS):
 
                 is_relevant = val.get("relevant", False)
                 quality = val.get("quality")
+                event_type = r.get("type", "unknown")
 
                 if is_relevant and quality is not None:
                     qualities.append(quality)
                     event_qualities.append((pos, quality))
 
+                    et_entry = by_event_type.setdefault(event_type, {"qualities": [], "registers": []})
+                    et_entry["qualities"].append(quality)
+
                     diff = val.get("differentiation")
-                    # 0 means only one drive relevant (N/A), exclude from stats
                     if diff is not None and diff > 0:
                         differentiations.append(diff)
 
                     reg = val.get("register")
                     if reg is not None:
                         registers.append(reg)
+                        et_entry["registers"].append(reg)
 
             # Temporal trajectory: divide character events into windows
             window_size = max(1, n_events / n_windows)
@@ -371,10 +379,18 @@ def build_full_report(results, drives_by_char, n_windows=DEFAULT_N_WINDOWS):
             if trend == "volatile":
                 flags.append("volatile")
 
+            by_type_stats = {}
+            for et, et_data in by_event_type.items():
+                by_type_stats[et] = {
+                    "quality": compute_statistics(et_data["qualities"]),
+                    "register": compute_statistics(et_data["registers"]),
+                }
+
             drive_data[drive] = {
                 "quality": quality_stats,
                 "differentiation": compute_statistics(differentiations),
                 "register": compute_statistics(registers),
+                "by_event_type": by_type_stats,
                 "trigger_rate": trigger_rate,
                 "n_triggered": n_triggered,
                 "n_total": n_events,
@@ -383,9 +399,38 @@ def build_full_report(results, drives_by_char, n_windows=DEFAULT_N_WINDOWS):
                 "flags": flags,
             }
 
+        # Build co-occurrence matrix: for each event, which drives were relevant?
+        for r in char_events:
+            relevant_drives = [d for d in drive_names
+                               if isinstance(r["scores"].get(d), dict)
+                               and r["scores"][d].get("relevant")]
+            for i_d, d1 in enumerate(relevant_drives):
+                for d2 in relevant_drives[i_d + 1:]:
+                    pair = tuple(sorted([d1, d2]))
+                    if pair not in cooccurrence_counts:
+                        cooccurrence_counts[pair] = 0
+                        cooccurrence_quality[pair] = {pair[0]: [], pair[1]: []}
+                    cooccurrence_counts[pair] += 1
+                    q1 = r["scores"][d1].get("quality")
+                    q2 = r["scores"][d2].get("quality")
+                    if q1 is not None:
+                        cooccurrence_quality[pair][pair[0]].append(q1)
+                    if q2 is not None:
+                        cooccurrence_quality[pair][pair[1]].append(q2)
+
+        cooccurrence = {}
+        for pair, count in sorted(cooccurrence_counts.items(), key=lambda x: -x[1]):
+            quals = cooccurrence_quality[pair]
+            cooccurrence[f"{pair[0]}+{pair[1]}"] = {
+                "count": count,
+                pair[0]: compute_statistics(quals[pair[0]]),
+                pair[1]: compute_statistics(quals[pair[1]]),
+            }
+
         characters[char_id] = {
             "n_events": n_events,
             "drives": drive_data,
+            "cooccurrence": cooccurrence,
         }
 
     # Cross-character comparison: drives that appear in 2+ characters
@@ -517,6 +562,42 @@ def print_full_summary(report):
 
             for flag in dd["flags"]:
                 flags_to_show.append(f"  {drive}: {flag}")
+
+        # Event type breakdown
+        has_type_split = False
+        for drive, dd in char_data["drives"].items():
+            if len(dd.get("by_event_type", {})) > 1:
+                has_type_split = True
+                break
+        if has_type_split:
+            print()
+            print(f"  By event type:")
+            for drive, dd in char_data["drives"].items():
+                byet = dd.get("by_event_type", {})
+                if len(byet) <= 1:
+                    continue
+                parts = []
+                for et in sorted(byet):
+                    q = byet[et]["quality"]["mean"]
+                    r = byet[et]["register"]["mean"]
+                    n = byet[et]["quality"]["n"]
+                    q_str = f"{q:.1f}" if q is not None else "-"
+                    r_str = f"{r:.1f}" if r is not None else "-"
+                    parts.append(f"{et}: q={q_str} r={r_str} (N={n})")
+                print(f"    {drive:<20} {' | '.join(parts)}")
+
+        # Co-occurrence
+        cooc = char_data.get("cooccurrence", {})
+        if cooc:
+            print()
+            print(f"  Drive co-occurrence:")
+            for pair_name, pair_data in list(cooc.items())[:5]:
+                d1, d2 = pair_name.split("+")
+                q1 = pair_data[d1]["mean"]
+                q2 = pair_data[d2]["mean"]
+                q1_str = f"{q1:.1f}" if q1 is not None else "-"
+                q2_str = f"{q2:.1f}" if q2 is not None else "-"
+                print(f"    {pair_name:<35} N={pair_data['count']:>3}  {d1}={q1_str}  {d2}={q2_str}")
 
         if flags_to_show:
             print()
