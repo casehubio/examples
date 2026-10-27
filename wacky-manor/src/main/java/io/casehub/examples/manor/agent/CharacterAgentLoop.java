@@ -24,12 +24,14 @@ public final class CharacterAgentLoop {
             new io.casehub.agency.perception.observation.affordance.ActionDescriptor("WAIT", "do nothing this turn", null)
                                                                                                                                                        );
 
+    // Multi-channel thinking calibration — somatic (Damasio 1994; Barrett 2017),
+    // attentional (Easterbrook 1959), temporal (Barrett 2017), action tendency (Frijda 1986)
     public static final String RESPONSE_FORMAT_INSTRUCTION = "\n" +
                                                              new io.casehub.agency.perception.observation.affordance.AffordanceRenderer().renderActionVocabulary(
                                                                      """
                                                                      You MUST respond with ONLY a JSON object in this exact format:
                                                                      {
-                                                                       "thinking": "your private inner monologue (shown to you next turn)",
+                                                                       "thinking": "your private inner monologue. Notice body (tension, warmth, numbness), attention (what pulls you, what you avoid), time (urgent or suspended), and action pull (what you are drawn to do). Raw and unperformed — the character's voice belongs in dialogue. Shown to you next turn.",
                                                                        "situationChangeDegree": 0.0-1.0,
                                                                        "dialogue": "what you say aloud (or null if silent)",
                                                                        "talkTo": "character-id to direct dialogue at (or null for broadcast)",
@@ -48,7 +50,7 @@ public final class CharacterAgentLoop {
                                                                      }
                                                                      
                                                                      situationChangeDegree: 0.0 = nothing happened, 1.0 = dramatic shift.
-                                                                     moodImpact: PAD deltas — your emotional change from neutral.
+                                                                     moodImpact: PAD deltas — your actual emotional change from neutral. Negative is valid.
                                                                      
                                                                      ACTION TYPES — use the right one for your intent:""",
                                                                      ACTION_DESCRIPTORS) +
