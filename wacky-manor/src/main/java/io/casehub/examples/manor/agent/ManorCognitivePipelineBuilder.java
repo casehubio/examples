@@ -3,13 +3,11 @@ package io.casehub.examples.manor.agent;
 import io.casehub.eidos.api.AgentRegistry;
 import io.casehub.neocortex.caps.CapsEngine;
 import io.casehub.neocortex.caps.SituationClassifier;
-import io.casehub.neocortex.cognition.core.CognitionCore;
-import io.casehub.neocortex.cognition.core.CognitivePipelineBuilder;
 import io.casehub.neocortex.cognition.core.CognitionConfig;
+import io.casehub.neocortex.cognition.core.CognitivePipelineBuilder;
 import io.casehub.neocortex.cognition.goal.GoalProposalOrchestrator;
 import io.casehub.neocortex.cognitive.index.CognitiveDefaultsRegistry;
 import io.casehub.neocortex.cognitive.index.CognitiveProfile;
-import io.casehub.neocortex.memory.CaseMemoryStore;
 import io.casehub.neocortex.memory.cbr.CbrRecordStore;
 import io.casehub.neocortex.memory.experience.ExperienceRecorder;
 import io.casehub.neocortex.mindmap.MindMapStore;
@@ -44,6 +42,7 @@ public class ManorCognitivePipelineBuilder {
     private boolean seedFormationMemories = true;
     private boolean seedGoals = true;
     private boolean seedPeople = true;
+    private boolean briefingMode = true;
 
     private ManorCognitivePipelineBuilder(@Nullable MindMapStore mindMapStore,
                                           String tenantId,
@@ -136,6 +135,11 @@ public class ManorCognitivePipelineBuilder {
 
     public ManorCognitivePipelineBuilder seedPeople(boolean enabled) {
         this.seedPeople = enabled;
+        return this;
+    }
+
+    public ManorCognitivePipelineBuilder briefingMode(boolean enabled) {
+        this.briefingMode = enabled;
         return this;
     }
 
@@ -268,7 +272,7 @@ public class ManorCognitivePipelineBuilder {
             cognitions.put(agentId, new CharacterCognition(
                     agentId, experienceService, cogDefaults, socialCfg, constraints,
                     cognitiveProfile, new ManorContextStrategy(), cognitionCore, seedResult, tenantId,
-                    mindMapStore, ManorTrustEvolutionConfigLoader.load(), situationClassifier));
+                    mindMapStore, ManorTrustEvolutionConfigLoader.load(), situationClassifier, briefingMode));
         }
 
         if (seeder != null && seedPeople) {
@@ -277,4 +281,6 @@ public class ManorCognitivePipelineBuilder {
 
         return new ManorCognitivePipeline(cognitionCore, mindMapStore, cognitions, defaultsRegistry, tenantId);
     }
+
+
 }

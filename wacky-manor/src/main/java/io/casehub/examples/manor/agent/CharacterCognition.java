@@ -30,18 +30,19 @@ public final class CharacterCognition {
     private final io.casehub.engine.trust.TrustEvolutionConfig          trustEvolutionConfig;
     private final io.casehub.neocortex.caps.SituationClassifier         situationClassifier;
     private final CognitionObservationBuilder                           cognitiveObservation;
+    private final boolean                                              briefingMode;
 
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService) {
         this(agentId, experienceService, null, SocialConfig.empty(), List.of(),
-             null, new ManorContextStrategy(), null, null, null, null, null, null);
+             null, new ManorContextStrategy(), null, null, null, null, null, null, true);
     }
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService,
                               CognitiveDefaults cognitiveDefaults, SocialConfig socialConfig,
                               List<AgentConstraint> constraints) {
         this(agentId, experienceService, cognitiveDefaults, socialConfig, constraints,
-             null, new ManorContextStrategy(), null, null, null, null, null, null);
+             null, new ManorContextStrategy(), null, null, null, null, null, null, true);
     }
 
     public CharacterCognition(String agentId, AgentExperienceService experienceService,
@@ -54,7 +55,8 @@ public final class CharacterCognition {
                               String tenantId,
                               io.casehub.neocortex.mindmap.MindMapStore mindMapStore,
                               io.casehub.engine.trust.TrustEvolutionConfig trustEvolutionConfig,
-                              io.casehub.neocortex.caps.SituationClassifier situationClassifier) {
+                              io.casehub.neocortex.caps.SituationClassifier situationClassifier,
+                              boolean briefingMode) {
         this.agentId                = agentId;
         this.experienceService      = experienceService;
         this.cognitiveDefaults      = cognitiveDefaults;
@@ -68,9 +70,10 @@ public final class CharacterCognition {
         this.mindMapStore           = mindMapStore;
         this.trustEvolutionConfig   = trustEvolutionConfig;
         this.situationClassifier    = situationClassifier;
+        this.briefingMode           = briefingMode;
         this.cognitiveObservation   = new CognitionObservationBuilder(
                 agentId, tenantId, mindMapStore, cognitionCore, situationClassifier,
-                toDriveSnapshots(this.socialConfig.drives()));
+                toDriveSnapshots(this.socialConfig.drives(), briefingMode));
     }
 
     public String agentId() {return agentId;}
@@ -192,24 +195,41 @@ public final class CharacterCognition {
             sections.add(toAgency(s));
         }
 
-        if (!socialConfig.personalityFacets().isEmpty()) {
+        if (briefingMode && !socialConfig.personalityFacets().isEmpty()) {
             sections.add(renderPersonalityFacets());
+        } else if (!briefingMode && !socialConfig.personalityFacets().isEmpty()) {
+            sections.add(renderPersonalityFacetsStructured());
         }
 
         var activatedCategories = (cognitionCore != null)
                                   ? cognitionCore.activatedDriveCategories()
                                   : java.util.List.<String>of();
+
+        if (!briefingMode) {
+            sections.add(ObservationSection.text("How to Feel",
+                    "For each active drive below, construct how it manifests in your body right now " +
+                    "— shaped by who you are, what you have experienced, and what is happening in this moment.\n\n" +
+                    "Attend to four channels:\n" +
+                    "1. Body — what does the body do before the mind labels it? Tension, warmth, breathing, posture. " +
+                    "The somatic signal arrives first.\n" +
+                    "2. Attention — what captures focus, what narrows, what gets missed?\n" +
+                    "3. Time — does this moment feel urgent, suspended, compressed?\n" +
+                    "4. Action readiness — what does the body prepare to do? Approach, withdraw, assert, freeze?\n\n" +
+                    "Use your personality, your memories, and the people and things around you to make each drive " +
+                    "specific to you. The same drive manifests differently in different people."));
+        }
+
         var internalState = cognitiveObservation.renderInternalState(
                 activatedCategories, character.lastActionResult(), nearbyAgentIds, situationContext);
         if (internalState != null) {
             sections.add(toAgency(internalState));
         }
 
-        if (!socialConfig.formationMemories().isEmpty()) {
+        if (briefingMode && !socialConfig.formationMemories().isEmpty()) {
             sections.add(renderFormationMemories());
         }
 
-        if (socialConfig.substrate() != null && !socialConfig.substrate().isBlank()) {
+        if (briefingMode && socialConfig.substrate() != null && !socialConfig.substrate().isBlank()) {
             sections.add(ObservationSection.text("What Shaped You", socialConfig.substrate()));
         }
 
@@ -270,6 +290,13 @@ public final class CharacterCognition {
             }
         }
         return ObservationSection.text("Who You Are", sb.toString().strip());
+    }
+
+    private ObservationSection renderPersonalityFacetsStructured() {
+        var items = socialConfig.personalityFacets().stream()
+                .map(f -> f.facet() + ": " + f.score() + "/100")
+                .toList();
+        return ObservationSection.items("Personality Profile", null, items);
     }
 
     ObservationSection renderInternalState(List<String> activatedCategories, String situationText) {
@@ -510,9 +537,18 @@ public final class CharacterCognition {
     // --- Type conversion ---
 
     static List<DriveSnapshot> toDriveSnapshots(List<SocialConfig.Drive> drives) {
+        return toDriveSnapshots(drives, true);
+    }
+
+    static List<DriveSnapshot> toDriveSnapshots(List<SocialConfig.Drive> drives, boolean briefingMode) {
         if (drives == null || drives.isEmpty()) return List.of();
         return drives.stream()
-                .map(d -> new DriveSnapshot(d.type(), d.intensity(), d.description(), d.context()))
+                .map(d -> {
+                    String desc = briefingMode
+                            ? d.description()
+                            : "Drive: " + d.type() + " (intensity " + String.format("%.1f", d.intensity()) + ")";
+                    return new DriveSnapshot(d.type(), d.intensity(), desc, d.context());
+                })
                 .toList();
     }
 

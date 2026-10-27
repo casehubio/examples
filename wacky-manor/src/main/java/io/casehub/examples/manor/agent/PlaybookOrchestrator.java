@@ -225,6 +225,7 @@ public class PlaybookOrchestrator {
                 .socialConfigs(activeSocialConfigs)
                 .seedDrives(!cacheRestored)
                 .seedPeople(false)
+                .briefingMode(config.briefingMode())
                 .build();
 
         var cognitionCore = pipeline.cognitionCore();

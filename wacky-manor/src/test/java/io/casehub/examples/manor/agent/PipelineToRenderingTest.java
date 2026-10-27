@@ -501,7 +501,7 @@ class PipelineToRenderingTest {
         var config = configs.getOrDefault(AGENT, SocialConfig.empty());
         var cognition = new CharacterCognition(AGENT, null, null, config, List.of(),
             null, new ManorContextStrategy(), null, null,
-            TENANT, store, null, classifier);
+            TENANT, store, null, classifier, true);
         return cognition.renderInternalState(activated, situation != null ? situation : "");
     }
 
@@ -513,7 +513,7 @@ class PipelineToRenderingTest {
         var config  = configs.getOrDefault(AGENT, SocialConfig.empty());
         var cognition = new CharacterCognition(AGENT, null, null, config, List.of(),
                                                null, new ManorContextStrategy(), null, null,
-                                               TENANT, store, null, classifier);
+                                               TENANT, store, null, classifier, true);
         return cognition.renderInternalState(activated, situation != null ? situation : "",
                                              nearbyAgentIds);
     }

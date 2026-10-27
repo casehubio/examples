@@ -138,9 +138,9 @@ class TickExecutorTest {
 
         var cognitions = java.util.Map.of(
                 "alice", new CharacterCognition("alice", null, null, SocialConfig.empty(), List.of(),
-                                                null, new ManorContextStrategy(), null, null, "t", store, null, classifier),
+                                                null, new ManorContextStrategy(), null, null, "t", store, null, classifier, true),
                 "bob", new CharacterCognition("bob", null, null, SocialConfig.empty(), List.of(),
-                                              null, new ManorContextStrategy(), null, null, "t", store, null, classifier));
+                                              null, new ManorContextStrategy(), null, null, "t", store, null, classifier, true));
 
         var world = new io.casehub.examples.manor.engine.WorldState(Map.of(), Map.of("alice", alice, "bob", bob));
 
@@ -165,7 +165,7 @@ class TickExecutorTest {
         var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
         var cognitions = java.util.Map.of(
                 "slow", new CharacterCognition("slow", null, null, SocialConfig.empty(), List.of(),
-                                               null, new ManorContextStrategy(), null, null, "t", store, null, classifier));
+                                               null, new ManorContextStrategy(), null, null, "t", store, null, classifier, true));
 
         var world = new io.casehub.examples.manor.engine.WorldState(Map.of(), Map.of("slow", slow));
 
@@ -182,7 +182,7 @@ class TickExecutorTest {
         var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
         var cognitions = java.util.Map.of(
                 "fresh", new CharacterCognition("fresh", null, null, SocialConfig.empty(), List.of(),
-                                                null, new ManorContextStrategy(), null, null, "t", store, null, null));
+                                                null, new ManorContextStrategy(), null, null, "t", store, null, null, true));
 
         var world = new io.casehub.examples.manor.engine.WorldState(Map.of(), Map.of("fresh", fresh));
 

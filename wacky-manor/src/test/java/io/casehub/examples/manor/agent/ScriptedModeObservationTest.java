@@ -82,7 +82,7 @@ class ScriptedModeObservationTest {
 
         var cognition = new CharacterCognition(agent, null, null, ppConfig, List.of(),
             null, new ManorContextStrategy(), null, null,
-            tenant, store, null, null);
+            tenant, store, null, null, true);
         var character = new CharacterState(agent, "James Hartwell",
             "Grand Hall", 0.0, List.of());
 
