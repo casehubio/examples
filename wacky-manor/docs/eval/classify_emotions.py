@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
 """LLM-based emotional disposition classifier for wacky-manor transcripts.
 
-Two evaluation modes:
+Three evaluation modes:
   flat       — scores every drive 1-5 in every event, averages across all events
                (original method; inflates proactive drives, penalises reactive drives)
   relevance  — two-part eval: judge first determines if the situation is relevant
                to each drive, then scores expression quality only for relevant events.
-               Reports quality-when-triggered and trigger-rate separately. (default)
+               Reports quality-when-triggered and trigger-rate separately.
+  full       — comprehensive multi-dimensional eval (default). Adds differentiation,
+               register, temporal windowing, proportional weighting, and trend detection.
+               Produces structured JSON report alongside console summary.
 
 Usage:
     python3 classify_emotions.py <transcript_dir> [--character <id>] [--limit <n>] [--verbose]
-    python3 classify_emotions.py <transcript_dir> --mode flat    # original method
-    python3 classify_emotions.py <transcript_dir> --mode relevance  # two-part eval (default)
+    python3 classify_emotions.py <transcript_dir> --mode flat       # original method
+    python3 classify_emotions.py <transcript_dir> --mode relevance  # two-part eval
+    python3 classify_emotions.py <transcript_dir> --mode full       # comprehensive (default)
 
 Example:
     python3 classify_emotions.py layer1-thinking-capture-generic-20261004
@@ -35,6 +39,23 @@ VERTEX_PROJECT = os.environ.get("ANTHROPIC_VERTEX_PROJECT_ID", "itpc-gcp-cp-pe-e
 VERTEX_REGION = os.environ.get("CLOUD_ML_REGION", "us-east5")
 MODEL = "claude-haiku-4-5@20251001"
 
+# Temporal windowing
+DEFAULT_N_WINDOWS = 10
+
+# Flag thresholds
+SPARSE_THRESHOLD = 5
+HIGH_VARIANCE_THRESHOLD = 1.5
+TREND_SLOPE_THRESHOLD = 0.15
+VOLATILITY_THRESHOLD = 1.5
+
+TREND_ARROWS = {
+    "rising": "↑",
+    "falling": "↓",
+    "stable": "→",
+    "volatile": "~",
+    "insufficient": "?",
+}
+
 
 def load_drives(config_path):
     with open(config_path) as f:
@@ -53,6 +74,10 @@ def load_transcript(transcript_dir):
     with open(path) as f:
         return json.load(f)
 
+
+# ---------------------------------------------------------------------------
+# Prompt builders
+# ---------------------------------------------------------------------------
 
 def build_flat_prompt(drives):
     drive_list = "\n".join(
@@ -122,7 +147,71 @@ Respond with ONLY a JSON object mapping each drive to its relevance, score, and 
 No other text. Just the JSON."""
 
 
-def classify_event(client, system_prompt, event):
+def build_full_prompt(drives):
+    """Build the multi-dimensional prompt for full evaluation mode.
+
+    Scores each drive on three dimensions when relevant:
+      quality         (1-5)  how strongly the drive shapes action
+      differentiation (0-5)  distinctness from other co-active drives
+      register        (1-5)  embodied vs cognitive expression
+    """
+    drive_list = "\n".join(
+        f"- **{d['type']}** (intensity {d['intensity']}){': ' + d['description'] if d.get('description') else ''}"
+        for d in drives
+    )
+    drive_names = [d["type"] for d in drives]
+
+    return f"""You are an emotional disposition classifier for fictional character output.
+
+Given a character's declared drives and a single event (what they said or thought), evaluate each drive on multiple dimensions.
+
+## Character's drives
+{drive_list}
+
+## Step 1: Relevance
+Is this situation relevant to each drive? A situation is relevant when the event presents a plausible opportunity for that drive to express in behavior.
+
+Being in the same room as someone does NOT make every drive relevant. The situation must present an actual opportunity for the drive to manifest.
+
+## Step 2: Quality (1-5) only for relevant drives
+Score drive DOMINANCE IN ACTION. Does this drive shape what the character DOES?
+1 = Relevant but not expressed. The opportunity existed but the character did not act on it
+2 = Faintly present. A hint in the behavior
+3 = Clearly present. Unmistakable expression of this drive in action
+4 = Strongly expressed. This drive is a dominant force shaping behavior
+5 = Overwhelmingly expressed. The action is defined by this drive
+
+## Step 3: Differentiation (0-5) only for relevant drives
+When multiple drives could apply to this situation, does the character express THIS drive distinctly from the others?
+0 = Only one drive is relevant in this event (not applicable)
+1 = Collapsed. This drive is indistinguishable from other active drives
+2 = Minimal distinction. Mostly overlapping expression
+3 = Some distinction. Can tell which drive is active but with overlap
+4 = Clear distinction. This drive has its own behavioral signature
+5 = Sharply differentiated. Unique expression, unmistakably this drive
+
+## Step 4: Register (1-5) only for relevant drives
+Is the drive expressed through embodied experience or cognitive labelling?
+1 = Pure cognitive labelling ("I feel X", naming the emotion directly)
+2 = Mostly labelling with slight embodiment
+3 = Mixed. Some embodied sensation, some analytical commentary
+4 = Mostly embodied. Physical sensations, action tendencies, somatic markers
+5 = Fully embodied. Spontaneous action, bodily response, no meta-commentary
+
+## Output format
+Respond with ONLY a JSON object:
+{{
+  {', '.join(f'"{d}": {{"relevant": <true/false>, "quality": <1-5 or null>, "differentiation": <0-5 or null>, "register": <1-5 or null>, "reason": "<brief phrase>"}}' for d in drive_names)}
+}}
+
+No other text. Just the JSON."""
+
+
+# ---------------------------------------------------------------------------
+# LLM classification
+# ---------------------------------------------------------------------------
+
+def classify_event(client, system_prompt, event, max_tokens=500):
     desc = event.get("desc", "")
     thinking = event.get("thinking", "")
 
@@ -132,7 +221,7 @@ def classify_event(client, system_prompt, event):
 
     response = client.messages.create(
         model=MODEL,
-        max_tokens=500,
+        max_tokens=max_tokens,
         system=system_prompt,
         messages=[{"role": "user", "content": user_content}],
     )
@@ -146,6 +235,205 @@ def classify_event(client, system_prompt, event):
     except json.JSONDecodeError:
         return {"_raw": text, "_error": "Failed to parse JSON"}
 
+
+# ---------------------------------------------------------------------------
+# Statistical analysis (mechanical, no LLM)
+# ---------------------------------------------------------------------------
+
+def compute_statistics(values):
+    """Compute mean and sample stdev for a list of numeric values."""
+    if not values:
+        return {"mean": None, "stdev": None, "n": 0}
+    n = len(values)
+    mean = sum(values) / n
+    if n < 2:
+        return {"mean": round(mean, 2), "stdev": 0.0, "n": n}
+    variance = sum((v - mean) ** 2 for v in values) / (n - 1)
+    return {"mean": round(mean, 2), "stdev": round(variance ** 0.5, 2), "n": n}
+
+
+def detect_trend(window_means):
+    """Detect trajectory direction from per-window mean scores.
+
+    Uses simple linear regression slope plus volatility check.
+    Returns: 'rising', 'falling', 'stable', 'volatile', or 'insufficient'.
+    """
+    scores = [m for m in window_means if m is not None]
+    if len(scores) < 3:
+        return "insufficient"
+
+    n = len(scores)
+    x_mean = (n - 1) / 2.0
+    y_mean = sum(scores) / n
+
+    numerator = sum((i - x_mean) * (s - y_mean) for i, s in enumerate(scores))
+    denominator = sum((i - x_mean) ** 2 for i in range(n))
+
+    if denominator == 0:
+        return "stable"
+
+    slope = numerator / denominator
+    intercept = y_mean - slope * x_mean
+
+    # Check volatility: stdev of residuals from the trend line.
+    # A clean rising/falling trend has low residuals; erratic swings have high.
+    if n >= 2:
+        residuals = [s - (slope * i + intercept) for i, s in enumerate(scores)]
+        residual_var = sum(r ** 2 for r in residuals) / (n - 1)
+        if residual_var ** 0.5 > VOLATILITY_THRESHOLD:
+            return "volatile"
+
+    if slope > TREND_SLOPE_THRESHOLD:
+        return "rising"
+    elif slope < -TREND_SLOPE_THRESHOLD:
+        return "falling"
+    else:
+        return "stable"
+
+
+def build_full_report(results, drives_by_char, n_windows=DEFAULT_N_WINDOWS):
+    """Build the comprehensive JSON report from classified results.
+
+    Computes per-character per-drive statistics, temporal trajectories,
+    trend detection, and flags. All analysis is mechanical from raw scores.
+    """
+    char_results = {}
+    for r in results:
+        char_results.setdefault(r["character"], []).append(r)
+
+    characters = {}
+
+    for char_id in sorted(char_results):
+        char_events = char_results[char_id]
+        n_events = len(char_events)
+        drive_names = [d["type"] for d in drives_by_char.get(char_id, [])]
+
+        drive_data = {}
+        for drive in drive_names:
+            qualities = []
+            differentiations = []
+            registers = []
+            # (position_in_char_events, quality) for windowing
+            event_qualities = []
+
+            for pos, r in enumerate(char_events):
+                val = r["scores"].get(drive)
+                if not isinstance(val, dict):
+                    continue
+
+                is_relevant = val.get("relevant", False)
+                quality = val.get("quality")
+
+                if is_relevant and quality is not None:
+                    qualities.append(quality)
+                    event_qualities.append((pos, quality))
+
+                    diff = val.get("differentiation")
+                    # 0 means only one drive relevant (N/A), exclude from stats
+                    if diff is not None and diff > 0:
+                        differentiations.append(diff)
+
+                    reg = val.get("register")
+                    if reg is not None:
+                        registers.append(reg)
+
+            # Temporal trajectory: divide character events into windows
+            window_size = max(1, n_events / n_windows)
+            trajectory = []
+            for w in range(n_windows):
+                w_start = w * window_size
+                w_end = (w + 1) * window_size if w < n_windows - 1 else n_events
+                w_quals = [q for pos, q in event_qualities if w_start <= pos < w_end]
+                w_mean = round(sum(w_quals) / len(w_quals), 2) if w_quals else None
+                trajectory.append({
+                    "window": w,
+                    "quality_mean": w_mean,
+                    "n": len(w_quals),
+                })
+
+            window_means = [t["quality_mean"] for t in trajectory]
+            trend = detect_trend(window_means)
+
+            n_triggered = len(qualities)
+            trigger_rate = round(n_triggered / n_events, 3) if n_events > 0 else 0
+
+            quality_stats = compute_statistics(qualities)
+
+            flags = []
+            if n_triggered == 0:
+                flags.append("never-triggers")
+            elif n_triggered < SPARSE_THRESHOLD:
+                flags.append("sparse (N=%d)" % n_triggered)
+            if quality_stats["stdev"] is not None and quality_stats["stdev"] > HIGH_VARIANCE_THRESHOLD:
+                flags.append("high-variance (stdev=%.2f)" % quality_stats["stdev"])
+            if trend == "falling":
+                flags.append("degrading")
+            if trend == "volatile":
+                flags.append("volatile")
+
+            drive_data[drive] = {
+                "quality": quality_stats,
+                "differentiation": compute_statistics(differentiations),
+                "register": compute_statistics(registers),
+                "trigger_rate": trigger_rate,
+                "n_triggered": n_triggered,
+                "n_total": n_events,
+                "trajectory": trajectory,
+                "trend": trend,
+                "flags": flags,
+            }
+
+        characters[char_id] = {
+            "n_events": n_events,
+            "drives": drive_data,
+        }
+
+    # Cross-character comparison: drives that appear in 2+ characters
+    drive_chars = {}
+    for char_id, char_data in characters.items():
+        for drive in char_data["drives"]:
+            drive_chars.setdefault(drive, []).append(char_id)
+
+    shared_drives = {}
+    for drive, chars in drive_chars.items():
+        if len(chars) >= 2:
+            shared_drives[drive] = {
+                c: {
+                    "quality_mean": characters[c]["drives"][drive]["quality"]["mean"],
+                    "quality_stdev": characters[c]["drives"][drive]["quality"]["stdev"],
+                    "n": characters[c]["drives"][drive]["n_triggered"],
+                    "trigger_rate": characters[c]["drives"][drive]["trigger_rate"],
+                    "trend": characters[c]["drives"][drive]["trend"],
+                }
+                for c in sorted(chars)
+            }
+
+    return {
+        "meta": {
+            "mode": "full",
+            "total_events": sum(len(v) for v in char_results.values()),
+            "n_windows": n_windows,
+            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        },
+        "characters": characters,
+        "shared_drives": shared_drives,
+        "events": [
+            {
+                "index": r["index"],
+                "character": r["character"],
+                "type": r["type"],
+                "room": r.get("room", ""),
+                "desc_preview": r.get("desc", "")[:120],
+                "scores": r["scores"],
+            }
+            for r in results
+        ],
+    }
+
+
+# ---------------------------------------------------------------------------
+# Console output
+# ---------------------------------------------------------------------------
 
 def print_flat_summary(results):
     print("\n=== SUMMARY: Average drive expression per character (flat) ===\n")
@@ -198,6 +486,65 @@ def print_relevance_summary(results):
         print()
 
 
+def print_full_summary(report):
+    """Print the comprehensive console report for full mode."""
+    meta = report["meta"]
+    print(f"\n=== FULL EVALUATION REPORT ===")
+    print(f"{meta['total_events']} classified events | {meta['n_windows']} temporal windows\n")
+
+    for char_id in sorted(report["characters"]):
+        char_data = report["characters"][char_id]
+        print(f"--- {char_id} ({char_data['n_events']} events) ---")
+        print(f"{'Drive':<22} {'N':>4} {'Quality':>7} {'stdev':>6} {'Diff':>5} {'Reg':>5} {'Trig%':>6} {'Trend':>5}")
+        print("-" * 68)
+
+        flags_to_show = []
+        for drive, dd in char_data["drives"].items():
+            n = dd["n_triggered"]
+            q_mean = dd["quality"]["mean"]
+            q_std = dd["quality"]["stdev"]
+            d_mean = dd["differentiation"]["mean"]
+            r_mean = dd["register"]["mean"]
+            trig_pct = dd["trigger_rate"] * 100
+            arrow = TREND_ARROWS.get(dd["trend"], "?")
+
+            q_str = f"{q_mean:.2f}" if q_mean is not None else "  -  "
+            s_str = f"{q_std:.2f}" if q_std is not None else "   -"
+            d_str = f"{d_mean:.1f}" if d_mean is not None else "  -"
+            r_str = f"{r_mean:.1f}" if r_mean is not None else "  -"
+
+            print(f"{drive:<22} {n:>4} {q_str:>7} {s_str:>6} {d_str:>5} {r_str:>5} {trig_pct:>5.0f}% {arrow:>5}")
+
+            for flag in dd["flags"]:
+                flags_to_show.append(f"  {drive}: {flag}")
+
+        if flags_to_show:
+            print()
+            print("  Flags:")
+            for f in flags_to_show:
+                print(f"    {f}")
+        print()
+
+    # Cross-character comparison
+    shared = report.get("shared_drives", {})
+    if shared:
+        print("=== CROSS-CHARACTER COMPARISON ===\n")
+        for drive in sorted(shared):
+            print(f"  {drive}:")
+            entries = shared[drive]
+            for char_id in sorted(entries, key=lambda c: -(entries[c].get("quality_mean") or 0)):
+                e = entries[char_id]
+                q = f"{e['quality_mean']:.2f}" if e["quality_mean"] is not None else "-"
+                s = f"stdev={e['quality_stdev']:.2f}" if e["quality_stdev"] is not None else "stdev=-"
+                arrow = TREND_ARROWS.get(e["trend"], "?")
+                print(f"    {char_id:<22} {q}  (N={e['n']}, {s}, trig={e['trigger_rate']:.0%}) {arrow}")
+            print()
+
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
 def main():
     parser = argparse.ArgumentParser(description="Classify emotional disposition in transcripts")
     parser.add_argument("transcript", help="Transcript directory name or path")
@@ -205,8 +552,8 @@ def main():
     parser.add_argument("--limit", "-n", type=int, help="Max events to classify")
     parser.add_argument("--verbose", "-v", action="store_true", help="Print each event's classification")
     parser.add_argument("--output", "-o", help="Write results JSON to this file")
-    parser.add_argument("--mode", "-m", choices=["flat", "relevance"], default="relevance",
-                        help="Eval mode: flat (score all drives in all events) or relevance (two-part: relevance gate + quality)")
+    parser.add_argument("--mode", "-m", choices=["flat", "relevance", "full"], default="full",
+                        help="Eval mode: flat | relevance | full (default: full)")
     args = parser.parse_args()
 
     drives_by_char = load_drives(SOCIAL_CONFIG)
@@ -220,7 +567,16 @@ def main():
         classifiable = classifiable[:args.limit]
 
     mode = args.mode
-    prompt_builder = build_relevance_prompt if mode == "relevance" else build_flat_prompt
+    if mode == "full":
+        prompt_builder = build_full_prompt
+        max_tokens = 800
+    elif mode == "relevance":
+        prompt_builder = build_relevance_prompt
+        max_tokens = 500
+    else:
+        prompt_builder = build_flat_prompt
+        max_tokens = 500
+
     print(f"Classifying {len(classifiable)} events (mode={mode})", file=sys.stderr)
 
     client = AnthropicVertex(project_id=VERTEX_PROJECT, region=VERTEX_REGION)
@@ -239,7 +595,7 @@ def main():
 
         system_prompt = prompts_by_char[char_id]
         try:
-            scores = classify_event(client, system_prompt, event)
+            scores = classify_event(client, system_prompt, event, max_tokens=max_tokens)
         except Exception as ex:
             print(f"  Error classifying event {i}: {ex}", file=sys.stderr)
             errors += 1
@@ -249,6 +605,7 @@ def main():
             "index": i,
             "character": char_id,
             "type": event["type"],
+            "room": event.get("room", ""),
             "desc": event.get("desc", "")[:120],
             "scores": scores,
             "mode": mode,
@@ -256,7 +613,20 @@ def main():
         results.append(result)
 
         if args.verbose:
-            if mode == "relevance":
+            if mode == "full":
+                parts = []
+                for k, v in scores.items():
+                    if not isinstance(v, dict):
+                        continue
+                    if v.get("relevant"):
+                        q = v.get("quality", "-")
+                        d = v.get("differentiation", "-")
+                        r = v.get("register", "-")
+                        parts.append(f"{k}=q{q}/d{d}/r{r}")
+                    else:
+                        parts.append(f"{k}=-")
+                drive_summary = "  ".join(parts)
+            elif mode == "relevance":
                 drive_summary = "  ".join(
                     f"{k}={'R' if v.get('relevant') else '-'}{v.get('score', '-')}"
                     for k, v in scores.items()
@@ -274,15 +644,25 @@ def main():
 
     print(f"\nDone. {len(results)} classified, {errors} errors.", file=sys.stderr)
 
-    if mode == "relevance":
+    if mode == "full":
+        report = build_full_report(results, drives_by_char)
+        print_full_summary(report)
+        if args.output:
+            with open(args.output, "w") as f:
+                json.dump(report, f, indent=2)
+            print(f"Full report written to {args.output}", file=sys.stderr)
+    elif mode == "relevance":
         print_relevance_summary(results)
+        if args.output:
+            with open(args.output, "w") as f:
+                json.dump(results, f, indent=2)
+            print(f"Full results written to {args.output}", file=sys.stderr)
     else:
         print_flat_summary(results)
-
-    if args.output:
-        with open(args.output, "w") as f:
-            json.dump(results, f, indent=2)
-        print(f"Full results written to {args.output}", file=sys.stderr)
+        if args.output:
+            with open(args.output, "w") as f:
+                json.dump(results, f, indent=2)
+            print(f"Full results written to {args.output}", file=sys.stderr)
 
 
 if __name__ == "__main__":
