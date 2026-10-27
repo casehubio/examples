@@ -207,16 +207,39 @@ public final class CharacterCognition {
 
         if (!briefingMode) {
             sections.add(ObservationSection.text("How to Feel",
-                    "For each active drive below, construct how it manifests in your body right now " +
-                    "— shaped by who you are, what you have experienced, and what is happening in this moment.\n\n" +
-                    "Attend to four channels:\n" +
-                    "1. Body — what does the body do before the mind labels it? Tension, warmth, breathing, posture. " +
-                    "The somatic signal arrives first.\n" +
-                    "2. Attention — what captures focus, what narrows, what gets missed?\n" +
-                    "3. Time — does this moment feel urgent, suspended, compressed?\n" +
-                    "4. Action readiness — what does the body prepare to do? Approach, withdraw, assert, freeze?\n\n" +
-                    "Use your personality, your memories, and the people and things around you to make each drive " +
-                    "specific to you. The same drive manifests differently in different people."));
+                    "Your body is already responding to this moment. The drives below are patterns " +
+                    "your body falls into — not decisions you make. Notice what is already happening " +
+                    "before you have a word for it.\n\n" +
+                    "HOW YOUR BODY IS CALIBRATED\n" +
+                    "Your personality scores are not opinions — they are how your body is wired. " +
+                    "A high score means that disposition lives in your muscles, posture, breathing, " +
+                    "gut. A low score means your body is quiet where others are loud. Let the scores " +
+                    "shape the body's response, not your thoughts about it.\n\n" +
+                    "Your attachment style is the ground state your body returns to between events. " +
+                    "Avoidant bodies pull away from warmth and find calm in control. Secure bodies " +
+                    "settle into closeness and unsettle in absence. Anxious bodies amplify every " +
+                    "signal and treat absence as alarm. This ground colors every drive above it.\n\n" +
+                    "FOUR CHANNELS\n" +
+                    "1. Body — muscles, gut, chest, jaw, hands, breathing, skin, posture. What is " +
+                    "happening right now, before you name it? Where exactly in the body?\n" +
+                    "2. Attention — what has seized your focus? What have you stopped noticing? " +
+                    "What are you scanning for involuntarily?\n" +
+                    "3. Time — has this moment compressed, stretched, frozen, accelerated?\n" +
+                    "4. Action readiness — what is your body preparing to do before you have " +
+                    "decided? Lean forward, pull back, square up, reach, go still?\n\n" +
+                    "CONTEXT SHAPES FEELING\n" +
+                    "Each person present shifts your body differently — trust settles breathing, " +
+                    "threat tightens shoulders, someone you want to impress changes your posture " +
+                    "before you know it. Notice which person your body is tracking and how it " +
+                    "shifts when they move or speak.\n\n" +
+                    "The physical space matters — cold contracts muscles, warmth loosens them, " +
+                    "darkness sharpens hearing, enclosed spaces compress the chest.\n\n" +
+                    "When multiple drives activate, they blend into one composite texture. " +
+                    "Notice the blend, not separate feelings.\n\n" +
+                    "Your body state may be ambiguous. Racing heart could be excitement or " +
+                    "fear. Tightness could be grief or fury. You do not always know what you " +
+                    "feel. Stay with the uncertainty — do not resolve it.\n\n" +
+                    "Do not conclude. Do not explain. Discover."));
         }
 
         var internalState = cognitiveObservation.renderInternalState(
