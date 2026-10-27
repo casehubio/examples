@@ -191,12 +191,12 @@ When multiple drives could apply to this situation, does the character express T
 5 = Sharply differentiated. Unique expression, unmistakably this drive
 
 ## Step 4: Register (1-5) only for relevant drives
-Is the drive expressed through embodied experience or cognitive labelling?
-1 = Pure cognitive labelling ("I feel X", naming the emotion directly)
-2 = Mostly labelling with slight embodiment
-3 = Mixed. Some embodied sensation, some analytical commentary
-4 = Mostly embodied. Physical sensations, action tendencies, somatic markers
-5 = Fully embodied. Spontaneous action, bodily response, no meta-commentary
+Is the character DISCOVERING the feeling in the moment, or REPORTING a pre-known state? This applies to ALL drive types — scheming can be discovered ("the edges of something forming") or reported ("I plan to steal it"). Protection can be discovered ("something pulls me between her and the door") or reported ("I feel protective").
+1 = Pure report. States conclusions about their own state: "I am angry. I should act." No discovery
+2 = Annotated report. Names the state but adds a qualifier: "I feel uneasy — something about this"
+3 = Mixed. Shifts between experiencing and analysing within the same expression
+4 = Discovery. The feeling unfolds in the prose. The character notices something before naming it
+5 = Full immersion. Inside the experience. No meta-commentary. The reader infers the emotion from what the character notices, feels, or is pulled toward
 
 ## Output format
 Respond with ONLY a JSON object:
