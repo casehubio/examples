@@ -553,41 +553,55 @@ public class PlaybookOrchestrator {
                 extractDialogueKnowledge(ex[0], ex[1], ex[2], ex[3], true, world);
             }
 
-            // Phase 3b: batch mood appraisal — all agents in parallel via executeBatch
+            // Phase 3b: mood appraisal — use inline from character response, batch fallback for missing
+            var moodSignals = new java.util.HashMap<String, io.casehub.neocortex.cognition.mood.MoodSignal>();
+            int inlineMoodCount = 0;
             var moodUserPrompts = new java.util.HashMap<String, String>();
             var moodAgentIds = new java.util.HashMap<String, String>();
             for (var c : actingThisTick) {
                 if (suppressed.contains(c.agentId())) continue;
                 var response = responses.get(c.agentId());
                 if (response == null || response.dialogue() == null) continue;
-                var observation = prompts.get(c.agentId());
-                String obs = observation != null ? observation : "";
-                String truncObs = obs.length() > 200 ? obs.substring(0, 200) + "..." : obs;
-                String truncResp = response.dialogue().length() > 200
-                        ? response.dialogue().substring(0, 200) + "..." : response.dialogue();
-                String moodSessionId = "mood:" + c.agentId();
-                sessionPipeline.openSession(moodSessionId,
-                        io.casehub.platform.agent.AgentSessionInit.of(MOOD_APPRAISAL_SYSTEM_PROMPT));
-                moodUserPrompts.put(moodSessionId,
-                        "Other person said:\n" + truncObs + "\n\nAgent responded:\n" + truncResp);
-                moodAgentIds.put(moodSessionId, c.agentId());
+                if (response.moodImpact() != null) {
+                    var mi = response.moodImpact();
+                    double p = Math.clamp(mi.pleasure(), -0.3, 0.3);
+                    double a = Math.clamp(mi.arousal(), -0.3, 0.3);
+                    double d = Math.clamp(mi.dominance(), -0.3, 0.3);
+                    String cause = mi.cause() != null ? mi.cause() : "interaction";
+                    moodSignals.put(c.agentId(),
+                            new io.casehub.neocortex.cognition.mood.MoodSignal.InteractionAppraisal(p, a, d, cause));
+                    log.infof("%s: inline-mood P=%.3f A=%.3f D=%.3f cause=%s", c.agentId(), p, a, d, cause);
+                    inlineMoodCount++;
+                } else {
+                    var observation = prompts.get(c.agentId());
+                    String obs = observation != null ? observation : "";
+                    String truncObs = obs.length() > 200 ? obs.substring(0, 200) + "..." : obs;
+                    String truncResp = response.dialogue().length() > 200
+                            ? response.dialogue().substring(0, 200) + "..." : response.dialogue();
+                    String moodSessionId = "mood:" + c.agentId();
+                    sessionPipeline.openSession(moodSessionId,
+                            io.casehub.platform.agent.AgentSessionInit.of(MOOD_APPRAISAL_SYSTEM_PROMPT));
+                    moodUserPrompts.put(moodSessionId,
+                            "Other person said:\n" + truncObs + "\n\nAgent responded:\n" + truncResp);
+                    moodAgentIds.put(moodSessionId, c.agentId());
+                }
             }
             long moodStart = System.nanoTime();
-            var moodRawResults = moodUserPrompts.isEmpty()
-                    ? java.util.Map.<String, String>of()
-                    : sessionPipeline.executeBatch(moodUserPrompts.keySet(),
+            if (!moodUserPrompts.isEmpty()) {
+                var moodRawResults = sessionPipeline.executeBatch(moodUserPrompts.keySet(),
                         (sessionId, session) -> AgentInvocationService.querySessionRaw(
                                 session, moodUserPrompts.get(sessionId), sessionId),
                         3, java.time.Duration.ofSeconds(60));
-            var moodSignals = new java.util.HashMap<String, io.casehub.neocortex.cognition.mood.MoodSignal>();
-            for (var entry : moodRawResults.entrySet()) {
-                if (entry.getValue() == null) continue;
-                String agentId = moodAgentIds.get(entry.getKey());
-                var signal = parseMoodResponse(agentId, entry.getValue());
-                if (signal != null) moodSignals.put(agentId, signal);
+                for (var entry : moodRawResults.entrySet()) {
+                    if (entry.getValue() == null) continue;
+                    String agentId = moodAgentIds.get(entry.getKey());
+                    var signal = parseMoodResponse(agentId, entry.getValue());
+                    if (signal != null) moodSignals.put(agentId, signal);
+                }
             }
-            log.infof("Phase: batch-mood %dms — %d agents, %d succeeded",
-                    (System.nanoTime() - moodStart) / 1_000_000, moodUserPrompts.size(), moodSignals.size());
+            log.infof("Phase: mood %dms — %d inline, %d batch-fallback, %d total",
+                    (System.nanoTime() - moodStart) / 1_000_000, inlineMoodCount,
+                    moodUserPrompts.size(), moodSignals.size());
 
             long interactionStart = System.nanoTime();
             int interactionCount = 0;

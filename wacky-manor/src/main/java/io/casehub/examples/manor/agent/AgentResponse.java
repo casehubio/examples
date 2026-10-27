@@ -17,7 +17,11 @@ public record AgentResponse(
         String aside,
         Action action,
         Double situationChangeDegree,
-        SituationAssessment situationAssessment) {
+        SituationAssessment situationAssessment,
+        MoodImpact moodImpact) {
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public record MoodImpact(double pleasure, double arousal, double dominance, String cause) {}
 
     private static final ObjectMapper JSON       = new ObjectMapper();
     private static final Pattern      CODE_BLOCK = Pattern.compile("```(?:json)?\\s*\\n?(\\{.*?})\\s*```", Pattern.DOTALL);
@@ -34,17 +38,16 @@ public record AgentResponse(
 
     public static AgentResponse idle() {
         return new AgentResponse(null, null, null, null,
-                                 new Action(ActionType.WAIT, null, null), null, null);
+                                 new Action(ActionType.WAIT, null, null), null, null, null);
     }
 
     private static String extractJson(String text) {
-        text = text.strip();
-        if (text.startsWith("{")) {return text;}
+        if (text == null || text.isBlank()) {return "{}";}
         Matcher m = CODE_BLOCK.matcher(text);
         if (m.find()) {return m.group(1);}
         int start = text.indexOf('{');
         int end   = text.lastIndexOf('}');
         if (start >= 0 && end > start) {return text.substring(start, end + 1);}
-        return text;
+        return "{}";
     }
 }

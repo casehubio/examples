@@ -41,10 +41,17 @@ public final class CharacterAgentLoop {
                                                                          "type": "one of the action types below",
                                                                          "target": "room-id or object-id or character-id (or null for WAIT)",
                                                                          "withItem": "inventory-item-id to use (or null)"
+                                                                       },
+                                                                       "moodImpact": {
+                                                                         "pleasure": -0.3 to +0.3,
+                                                                         "arousal": -0.3 to +0.3,
+                                                                         "dominance": -0.3 to +0.3,
+                                                                         "cause": "brief reason for this emotional shift"
                                                                        }
                                                                      }
                                                                      
                                                                      situationChangeDegree: rate how much the situation changed this tick (0.0 = nothing happened, 1.0 = dramatic shift).
+                                                                     moodImpact: rate YOUR emotional response to this exchange as PAD deltas (change from neutral). Be honest — negative is valid.
                                                                      
                                                                      ACTION TYPES — use the right one for your intent:""",
                                                                      ACTION_DESCRIPTORS) +
