@@ -99,16 +99,6 @@ public class PlaybookOrchestrator {
     private final    java.util.Map<String, String> subgraphIdCache = new java.util.concurrent.ConcurrentHashMap<>();
 
 
-    private static final String MOOD_APPRAISAL_SYSTEM_PROMPT = """
-                                                               Rate the emotional tone of this conversation exchange from the \
-                                                               perspective of the agent who just responded. Score each PAD axis \
-                                                               as a delta (change from neutral):
-                                                               - pleasure: how pleasant/unpleasant was this exchange? [-0.3, +0.3]
-                                                               - arousal: how energizing/calming? [-0.3, +0.3]
-                                                               - dominance: how empowering/diminishing? [-0.3, +0.3]
-                                                               
-                                                               Respond with JSON only:
-                                                               {"pleasure":0.15,"arousal":0.1,"dominance":0.05,"cause":"mutual intellectual recognition"}""";
 
     public Thread startScenario(WorldState world, io.casehub.examples.manor.model.PlaybookMode mode) {
         var triggers         = MansionLoader.loadTriggers();
@@ -553,55 +543,21 @@ public class PlaybookOrchestrator {
                 extractDialogueKnowledge(ex[0], ex[1], ex[2], ex[3], true, world);
             }
 
-            // Phase 3b: mood appraisal — use inline from character response, batch fallback for missing
+            // Phase 3b: extract inline mood from character responses
             var moodSignals = new java.util.HashMap<String, io.casehub.neocortex.cognition.mood.MoodSignal>();
-            int inlineMoodCount = 0;
-            var moodUserPrompts = new java.util.HashMap<String, String>();
-            var moodAgentIds = new java.util.HashMap<String, String>();
             for (var c : actingThisTick) {
                 if (suppressed.contains(c.agentId())) continue;
                 var response = responses.get(c.agentId());
-                if (response == null || response.dialogue() == null) continue;
-                if (response.moodImpact() != null) {
-                    var mi = response.moodImpact();
-                    double p = Math.clamp(mi.pleasure(), -0.3, 0.3);
-                    double a = Math.clamp(mi.arousal(), -0.3, 0.3);
-                    double d = Math.clamp(mi.dominance(), -0.3, 0.3);
-                    String cause = mi.cause() != null ? mi.cause() : "interaction";
-                    moodSignals.put(c.agentId(),
-                            new io.casehub.neocortex.cognition.mood.MoodSignal.InteractionAppraisal(p, a, d, cause));
-                    log.infof("%s: inline-mood P=%.3f A=%.3f D=%.3f cause=%s", c.agentId(), p, a, d, cause);
-                    inlineMoodCount++;
-                } else {
-                    var observation = prompts.get(c.agentId());
-                    String obs = observation != null ? observation : "";
-                    String truncObs = obs.length() > 200 ? obs.substring(0, 200) + "..." : obs;
-                    String truncResp = response.dialogue().length() > 200
-                            ? response.dialogue().substring(0, 200) + "..." : response.dialogue();
-                    String moodSessionId = "mood:" + c.agentId();
-                    sessionPipeline.openSession(moodSessionId,
-                            io.casehub.platform.agent.AgentSessionInit.of(MOOD_APPRAISAL_SYSTEM_PROMPT));
-                    moodUserPrompts.put(moodSessionId,
-                            "Other person said:\n" + truncObs + "\n\nAgent responded:\n" + truncResp);
-                    moodAgentIds.put(moodSessionId, c.agentId());
-                }
+                if (response == null || response.dialogue() == null || response.moodImpact() == null) continue;
+                var mi = response.moodImpact();
+                double p = Math.clamp(mi.pleasure(), -0.3, 0.3);
+                double a = Math.clamp(mi.arousal(), -0.3, 0.3);
+                double d = Math.clamp(mi.dominance(), -0.3, 0.3);
+                String cause = mi.cause() != null ? mi.cause() : "interaction";
+                moodSignals.put(c.agentId(),
+                        new io.casehub.neocortex.cognition.mood.MoodSignal.InteractionAppraisal(p, a, d, cause));
+                log.infof("%s: inline-mood P=%.3f A=%.3f D=%.3f cause=%s", c.agentId(), p, a, d, cause);
             }
-            long moodStart = System.nanoTime();
-            if (!moodUserPrompts.isEmpty()) {
-                var moodRawResults = sessionPipeline.executeBatch(moodUserPrompts.keySet(),
-                        (sessionId, session) -> AgentInvocationService.querySessionRaw(
-                                session, moodUserPrompts.get(sessionId), sessionId),
-                        3, java.time.Duration.ofSeconds(60));
-                for (var entry : moodRawResults.entrySet()) {
-                    if (entry.getValue() == null) continue;
-                    String agentId = moodAgentIds.get(entry.getKey());
-                    var signal = parseMoodResponse(agentId, entry.getValue());
-                    if (signal != null) moodSignals.put(agentId, signal);
-                }
-            }
-            log.infof("Phase: mood %dms — %d inline, %d batch-fallback, %d total",
-                    (System.nanoTime() - moodStart) / 1_000_000, inlineMoodCount,
-                    moodUserPrompts.size(), moodSignals.size());
 
             long interactionStart = System.nanoTime();
             int interactionCount = 0;
@@ -1116,28 +1072,6 @@ public class PlaybookOrchestrator {
                                      .count();
         return text.length() > 10 && alphabeticWords >= 3;
     }
-
-    static io.casehub.neocortex.cognition.mood.MoodSignal parseMoodResponse(String agentId, String raw) {
-        int jsonStart = raw.indexOf('{');
-        int jsonEnd   = raw.lastIndexOf('}');
-        if (jsonStart < 0 || jsonEnd <= jsonStart) {return null;}
-        String json     = raw.substring(jsonStart, jsonEnd + 1);
-        var    pPattern = java.util.regex.Pattern.compile("\"pleasure\"\\s*:\\s*(-?\\d+\\.?\\d*)");
-        var    aPattern = java.util.regex.Pattern.compile("\"arousal\"\\s*:\\s*(-?\\d+\\.?\\d*)");
-        var    dPattern = java.util.regex.Pattern.compile("\"dominance\"\\s*:\\s*(-?\\d+\\.?\\d*)");
-        var    cPattern = java.util.regex.Pattern.compile("\"cause\"\\s*:\\s*\"([^\"]+)\"");
-        var    pm       = pPattern.matcher(json);
-        var    am       = aPattern.matcher(json);
-        var    dm       = dPattern.matcher(json);
-        var    cm       = cPattern.matcher(json);
-        double p        = pm.find() ? Math.clamp(Double.parseDouble(pm.group(1)), -0.3, 0.3) : 0;
-        double a        = am.find() ? Math.clamp(Double.parseDouble(am.group(1)), -0.3, 0.3) : 0;
-        double d        = dm.find() ? Math.clamp(Double.parseDouble(dm.group(1)), -0.3, 0.3) : 0;
-        String cause    = cm.find() ? cm.group(1) : "interaction";
-        log.infof("%s: batch-mood P=%.3f A=%.3f D=%.3f cause=%s", agentId, p, a, d, cause);
-        return new io.casehub.neocortex.cognition.mood.MoodSignal.InteractionAppraisal(p, a, d, cause);
-    }
-
 
 }
 
