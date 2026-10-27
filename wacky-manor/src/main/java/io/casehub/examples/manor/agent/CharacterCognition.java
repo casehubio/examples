@@ -5,6 +5,7 @@ import io.casehub.eidos.api.AgentConstraint;
 import io.casehub.examples.manor.model.ActionType;
 import io.casehub.examples.manor.model.CharacterState;
 import io.casehub.neocortex.cognitive.index.CognitiveDefaults;
+import io.casehub.neocortex.cognition.prompt.BlockTag;
 import io.casehub.neocortex.cognition.prompt.observation.CognitionObservationBuilder;
 import io.casehub.neocortex.cognition.prompt.observation.DriveSnapshot;
 import io.casehub.neocortex.memory.Memory;
@@ -15,6 +16,21 @@ import java.util.List;
 import java.util.Map;
 
 public final class CharacterCognition {
+
+    // Multi-channel thinking prompt — somatic (Damasio 1994; Barrett 2017), attentional (Easterbrook 1959),
+    // temporal (Barrett 2017 predictive coding), action tendency (Frijda 1986)
+    static final String INTROSPECTION_DIRECTIVE =
+            "What is happening inside you right now? " +
+            "Notice your body \u2014 a tightness, a warmth, a numbness. " +
+            "Notice what is grabbing your attention \u2014 what you cannot look away from, what you are avoiding. " +
+            "Notice time \u2014 does the moment feel urgent, or suspended? " +
+            "Notice the pull \u2014 what do you feel drawn to do? " +
+            "Your thinking is your private truth \u2014 raw, unperformed, sometimes confused. " +
+            "The character's voice and manner belong in your dialogue. Here you are just a person feeling something.";
+
+    static final String MOOD_APPRAISAL_DIRECTIVE =
+            "Rate your emotional response honestly \u2014 negative is valid. " +
+            "Your mood is what you actually feel, not a performance.";
 
     private final String                                                agentId;
     private final AgentExperienceService                                experienceService;
@@ -244,7 +260,10 @@ public final class CharacterCognition {
 
 
     public List<String> renderTaggedSections() {
-        return cognitiveObservation.renderTaggedSections();
+        var tagged = new ArrayList<>(cognitiveObservation.renderTaggedSections());
+        tagged.add(BlockTag.APPRAISAL.render(INTROSPECTION_DIRECTIVE));
+        tagged.add(BlockTag.MOOD.render(MOOD_APPRAISAL_DIRECTIVE));
+        return tagged;
     }
 
     private ObservationSection renderFormationMemories() {
