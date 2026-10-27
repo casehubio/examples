@@ -31,7 +31,7 @@ public final class CharacterAgentLoop {
                                                                      """
                                                                      You MUST respond with ONLY a JSON object in this exact format:
                                                                      {
-                                                                       "thinking": "your private inner monologue. Notice body (tension, warmth, numbness), attention (what pulls you, what you avoid), time (urgent or suspended), and action pull (what you are drawn to do). Raw and unperformed — the character's voice belongs in dialogue. Shown to you next turn.",
+                                                                       "thinking": "your private inner monologue — attend to what feels vivid: body (tension, warmth), attention (what pulls, what you avoid), time (urgent or suspended), action pull. Raw, unperformed, sometimes confused — the character's voice belongs in dialogue. Shown to you next turn.",
                                                                        "situationChangeDegree": 0.0-1.0,
                                                                        "dialogue": "what you say aloud (or null if silent)",
                                                                        "talkTo": "character-id to direct dialogue at (or null for broadcast)",
