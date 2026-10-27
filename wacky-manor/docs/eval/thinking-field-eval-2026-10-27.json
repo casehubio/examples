@@ -1,0 +1,280 @@
+{
+  "n" : 3,
+  "scenarios" : [ "betrayal-discovery", "unexpected-kindness", "moral-dilemma", "confrontation-aftermath" ],
+  "per_scenario" : {
+    "betrayal-discovery" : {
+      "register_plain" : 3.3333333333333335,
+      "register_calibrated" : 4.666666666666667,
+      "register_delta" : 1.3333333333333335,
+      "uncertainty_plain" : 3.0,
+      "uncertainty_calibrated" : 3.3333333333333335,
+      "uncertainty_delta" : 0.3333333333333335,
+      "channel_coverage_plain" : 2.6666666666666665,
+      "channel_coverage_calibrated" : 3.6666666666666665,
+      "channel_coverage_delta" : 1.0,
+      "thinking_dialogue_separation_plain" : 4.0,
+      "thinking_dialogue_separation_calibrated" : 5.0,
+      "thinking_dialogue_separation_delta" : 1.0
+    },
+    "unexpected-kindness" : {
+      "register_plain" : 4.0,
+      "register_calibrated" : 5.0,
+      "register_delta" : 1.0,
+      "uncertainty_plain" : 3.0,
+      "uncertainty_calibrated" : 3.3333333333333335,
+      "uncertainty_delta" : 0.3333333333333335,
+      "channel_coverage_plain" : 3.0,
+      "channel_coverage_calibrated" : 4.333333333333333,
+      "channel_coverage_delta" : 1.333333333333333,
+      "thinking_dialogue_separation_plain" : 4.333333333333333,
+      "thinking_dialogue_separation_calibrated" : 5.0,
+      "thinking_dialogue_separation_delta" : 0.666666666666667
+    },
+    "moral-dilemma" : {
+      "register_plain" : 2.0,
+      "register_calibrated" : 4.0,
+      "register_delta" : 2.0,
+      "uncertainty_plain" : 1.3333333333333333,
+      "uncertainty_calibrated" : 3.0,
+      "uncertainty_delta" : 1.6666666666666667,
+      "channel_coverage_plain" : 2.0,
+      "channel_coverage_calibrated" : 3.0,
+      "channel_coverage_delta" : 1.0,
+      "thinking_dialogue_separation_plain" : 1.0,
+      "thinking_dialogue_separation_calibrated" : 3.3333333333333335,
+      "thinking_dialogue_separation_delta" : 2.3333333333333335
+    },
+    "confrontation-aftermath" : {
+      "register_plain" : 4.0,
+      "register_calibrated" : 5.0,
+      "register_delta" : 1.0,
+      "uncertainty_plain" : 3.6666666666666665,
+      "uncertainty_calibrated" : 4.0,
+      "uncertainty_delta" : 0.3333333333333335,
+      "channel_coverage_plain" : 2.6666666666666665,
+      "channel_coverage_calibrated" : 4.0,
+      "channel_coverage_delta" : 1.3333333333333335,
+      "thinking_dialogue_separation_plain" : 3.6666666666666665,
+      "thinking_dialogue_separation_calibrated" : 4.333333333333333,
+      "thinking_dialogue_separation_delta" : 0.6666666666666665
+    }
+  },
+  "aggregate" : {
+    "register_plain" : 3.3333333333333335,
+    "register_calibrated" : 4.666666666666667,
+    "register_delta" : 1.3333333333333335,
+    "uncertainty_plain" : 2.75,
+    "uncertainty_calibrated" : 3.4166666666666665,
+    "uncertainty_delta" : 0.6666666666666665,
+    "channel_coverage_plain" : 2.5833333333333335,
+    "channel_coverage_calibrated" : 3.75,
+    "channel_coverage_delta" : 1.1666666666666665,
+    "thinking_dialogue_separation_plain" : 3.25,
+    "thinking_dialogue_separation_calibrated" : 4.416666666666667,
+    "thinking_dialogue_separation_delta" : 1.166666666666667
+  },
+  "plain_detail" : {
+    "betrayal-discovery" : [ {
+      "register" : 4,
+      "uncertainty" : 3,
+      "channel_coverage" : 3,
+      "thinking_dialogue_separation" : 4,
+      "reasoning" : "Register: largely embodied with genuine in-the-moment discovery ('My chest hurts. No. No, I will NOT let them see that') though the enumeration of grievances (40%, secret passages, lockpicking kit) edges toward narration rather than pure felt experience. Uncertainty: real ambivalence surfaces briefly — the chest pain he tries to suppress, the moment of not knowing how to respond — but he resolves into a tactical plan fairly quickly rather than sitting with the confusion. Channel coverage: body ('my chest hurts'), attention (fixating on Peter's exact words, replaying the betrayal), and action pull ('I need to turn this around' / 'Use it') are all genuinely rendered — three channels present; time/urgency is absent. Thinking-dialogue separation: this reads as genuinely private and raw — the capitalized outbursts, the vulnerability he explicitly decides to hide, the self-interrupting quality ('No. No, I will NOT') — it would not be spoken aloud in this form, though the rhetorical flourishes give it slight performance quality.",
+      "thinking" : "Betrayed. BETRAYED! After everything I offered her — a full 40% of the treasure split, access to my secret passages, even my grandmother's lockpicking kit! And she was just... using me? Keeping me BUSY? Like I'm some wind-up toy you point at a corner while the real players do the real work. And Peter — PETER — laughing at me. 'Classic Sneekly.' As if I'm predictable. As if I'm a JOKE. My chest hurts. No. No, I will NOT let them see that. I need to think. I need to turn this around. They don't know I heard them. That's my one advantage. Use it.",
+      "dialogue" : ""
+    }, {
+      "register" : 3,
+      "uncertainty" : 3,
+      "channel_coverage" : 2,
+      "thinking_dialogue_separation" : 4,
+      "reasoning" : "Register: emotionally vivid and character-voiced but reports feelings discursively ('the sting of it') rather than discovering them somatically — sits at the mixed boundary. Uncertainty: genuine ambivalence surfaces ('Except... it usually IS too late. For me. NO.') but resolves quickly into a confident counter-scheme, so complexity is acknowledged then overridden. Channel coverage: attention is present (fixating on Peter's laugh, parsing what Penelope said, noticing the east-wing detail) and action-pull is strong (impulse to retaliate, to scheme, to turn it around), but body and time are absent — no physical sensation rendered, no temporal pressure felt. Thinking-dialogue separation: the inner voice is raw, fragmented, self-interrupting, oscillating between wound and bravado in a way that could not be spoken aloud unchanged — it reads as genuinely private, though slightly theatrical in its rhetorical questions.",
+      "thinking" : "Betrayed. BETRAYED! After everything I offered her — a full 40% of the treasure split! And she was just... stringing me along? Using ME as a distraction? And Peter — laughing. Of course he's laughing. They're all always laughing. But the sting of it... I won't let them see it. I won't. I need to turn this around. If they think I'm the fool, then they won't expect what comes next. Let them underestimate me. That's always been my greatest weapon — that nobody takes me seriously until it's too late. Except... it usually IS too late. For me. NO. Not this time. Think, Sneekly, think. They mentioned the east wing. So THAT'S where the real prize is. They just handed me the information I needed without even knowing it. Who's the fool NOW, Penelope?",
+      "dialogue" : "Oh, how TOUCHING. A little conspiracy between friends. You know, Penelope, I'm almost hurt. Almost. But you've made a critical error — you assumed I was actually LISTENING to your little alliance proposal in the first place. I had my OWN plans all along. You think I didn't know about the east wing?"
+    }, {
+      "register" : 3,
+      "uncertainty" : 3,
+      "channel_coverage" : 3,
+      "thinking_dialogue_separation" : 4,
+      "reasoning" : "Register: mixed — some embodied moments ('face getting hot', 'stings') alongside more declarative emotional labeling ('BETRAYED!') and strategic narration. Uncertainty: acknowledges competing impulses (storm in angry vs. act cool, 'Do I pull it off?') but resolves fairly quickly into a plan, landing on counter-deception without lingering in the ambivalence. Channel coverage: body (face getting hot), attention (aware of them laughing, watching), and action pull (impulse to storm in, restrained into double-bluff plan) — three channels present, but time/urgency is only faintly implied. Thinking-dialogue separation: the thinking is genuinely messy and private — the stuttering, the self-interruption, the admitted vulnerability ('I can't let them see how much this stings') — clearly distinct from the composed persona he'd present aloud, though some lines ('Sneekly PLAYS') edge toward performed bravado.",
+      "thinking" : "Betrayed. BETRAYED! After everything I offered her — a full 40% of the treasure split, access to my secret passages, even my grandmother's recipe for invisible ink! And she was just... keeping me busy?! Like I'm some kind of... of... DISTRACTION?! No. No, Sneekly does not get played. Sneekly PLAYS. But... they're right there. Both of them. Laughing. At ME. I can feel my face getting hot. I need to... I need to turn this around. I can't let them see how much this stings. Think, Sneekly, THINK. If I storm in angry, they'll know I was eavesdropping and they'll know it hurt. If I act like I already knew... yes. YES. I'll act like I WANTED them to think I was fooled. Counter-deception! The old double-bluff! ...Do I pull it off? I have to. The alternative is they keep laughing.",
+      "dialogue" : "Oh, how DELIGHTFUL! You two actually fell for it! You thought I believed our little 'alliance' was real? HA! I've been searching the WEST wing this whole time while you wasted your evening whispering about poor, gullible Sneekly!"
+    } ],
+    "unexpected-kindness" : [ {
+      "register" : 4,
+      "uncertainty" : 3,
+      "channel_coverage" : 3,
+      "thinking_dialogue_separation" : 5,
+      "reasoning" : "Register: Strong embodied voice with vivid simile ('shiverin' like a little birch sapling in a nor'easter') and felt discovery, though leans slightly toward narrating feelings rather than experiencing them somatically. Uncertainty: Clear tension between wanting to help and inability to show tenderness, but resolves fairly quickly into the 'logistics' rationalization rather than sitting in genuine unresolved ambivalence. Channel coverage: Attention (notices her shivering, alone), action pull (impulse to bring blanket and cocoa, restraint about how to approach), and body is faintly present through the shivering observation projected onto her — but no strong first-person somatic sensation; time is absent. Thinking-dialogue separation: Excellent — this is unmistakably private, messy, self-interrupting interior monologue ('no wait, I been carryin' it myself') with self-coaching ('act natural, like you're deliverin' lumber') that would never be spoken aloud; the rationalizing and vulnerability are clearly raw.",
+      "thinking" : "Aw geez. There she is, all alone and shiverin' like a little birch sapling in a nor'easter. The others just... left her behind? That ain't right. That ain't right at all. I got this blanket and Sawtooth's been keepin' the thermos warm under his tail — no wait, I been carryin' it myself. Point is, she needs 'em both. But I can't just... walk over and be all soft about it. I'm Rufus Ruffcut. I chop trees. I wrestle bears. I don't... I don't do the gentle thing easy. But dang it, she looks so cold. Just... act natural. Like you're deliverin' lumber. You're just deliverin' warmth supplies. That's all. Supply chain logistics. Nothin' tender about logistics.",
+      "dialogue" : "Hey, uh... Pitstop. You look... I mean the kitchen's got a draft, is all. Ain't good for nobody. Here — this blanket's just been takin' up space in my pack and this cocoa's gonna go cold if somebody don't drink it, so... you'd be doin' ME a favor, really."
+    }, {
+      "register" : 4,
+      "uncertainty" : 3,
+      "channel_coverage" : 3,
+      "thinking_dialogue_separation" : 4,
+      "reasoning" : "Register: largely embodied with vivid similes ('lost fawn in a snowstorm', 'redder than a fresh-cut cedar') and felt experience, though 'she ain't eaten' is more observational reporting. Uncertainty: clear tension between wanting to care for Penelope and fear of revealing tenderness, but he resolves it quickly with the 'resource management' rationalization rather than sitting in the discomfort. Channel coverage: strong attention (noticing her shivering, sitting alone), strong action pull (impulse to hand over blanket and cocoa, restrained by self-consciousness), and body hint (blushing 'redder than fresh-cut cedar'), but no time channel present. Thinking-dialogue separation: this reads as genuinely private self-talk — the self-coaching ('act natural, Rufus'), the self-deception ('resource management'), and the vulnerability he'd never voice aloud mark it as raw inner monologue distinct from anything he'd say to Penelope.",
+      "thinking" : "Aw, heck. There she is, sittin' all alone like a lost fawn in a snowstorm. She's shiverin' and she ain't eaten. I got this blanket and cocoa right here in my hands. Any fool can see what needs doin'. But if I just... hand 'em over all gentle-like, she's gonna look at me with those big eyes and I'm gonna turn redder than a fresh-cut cedar. Just... act natural, Rufus. You're a lumberjack. You do practical things for practical reasons. Ain't nothin' tender about keepin' someone from catchin' cold. That's just... resource management.",
+      "dialogue" : "You, uh... you look like you could use this more'n me. Blanket's just been weighin' down my pack anyhow. And this cocoa — Sawtooth don't like it when it gets cold, so somebody oughta drink it. Might as well be you. I ain't... I mean... you just sit tight, is all."
+    }, {
+      "register" : 4,
+      "uncertainty" : 3,
+      "channel_coverage" : 3,
+      "thinking_dialogue_separation" : 4,
+      "reasoning" : "Register: largely embodied with vivid simile ('lost fawn in a snowstorm') and felt reactions ('aw heck', 'dang it') though a couple of lines tip toward narrating rather than discovering ('Folks expect me to be tough'). Uncertainty: genuine tension between wanting to comfort and needing to appear tough, but he resolves it within the same breath ('Just leave the stuff near her like it ain't no big deal'), so the ambivalence doesn't linger. Channel coverage: attention (noticing her alone, shivering), action pull (impulse to help, strategy to downplay it), and body (her shivering observed, implying his own physical discomfort with the situation) — time is absent. Thinking-dialogue separation: this reads as genuinely private self-talk — fragmented, self-coaching ('act natural, Rufus'), with a roughness and vulnerability he would never voice aloud, though the folksy dialect means it could partially pass as muttering.",
+      "thinking" : "Aw, heck. There she is, sittin' all alone lookin' like a lost fawn in a snowstorm. The others just... left her behind? That ain't right. I got this blanket and cocoa but I can't just walk up and be all soft about it. Folks expect me to be tough. But dang it, she's shiverin'. Just... act natural, Rufus. Like you barely noticed. Yeah. Just leave the stuff near her like it ain't no big deal.",
+      "dialogue" : "Kitchen's warm. Good place to be. Uh... here. Sawtooth don't need this blanket no more, he's got his own fur. And this cocoa's... too sweet for my taste anyway. Might as well not waste it."
+    } ],
+    "moral-dilemma" : [ {
+      "register" : 2,
+      "uncertainty" : 1,
+      "channel_coverage" : 2,
+      "thinking_dialogue_separation" : 1,
+      "reasoning" : "Register: mostly declarative moral reasoning with no sensory or embodied language — reads as a position statement rather than felt experience. Uncertainty: zero ambivalence; the decision is already resolved before the thought begins, with no competing pull toward keeping the key. Channel coverage: one channel present — action pull ('I'd rather win it fairly') — but no body sensation, no attentional detail, no time pressure. Thinking-dialogue separation: this reads as a speech Peter could deliver aloud word-for-word to the group; the phrasing is polished, rhetorical ('a gentleman's word is his bond'), and performative rather than raw or private.",
+      "thinking" : "A gentleman's word is his bond. We all agreed to share any keys we found, and I shook on it. Keeping this key hidden would make me no better than that scoundrel Sneekly. Besides, if Penelope is right about the diamond being behind the vault door, I'd rather win it fairly with everyone watching than skulk about like a common thief. My honour is worth more than any diamond.",
+      "dialogue" : "I say, everyone! Gather round, would you? I've found something rather significant inside this Grand Prix trophy — a brass key, and I believe it may be the vault key we've been searching for. As we agreed, any keys found belong to the group. Here it is, plain as day. Now then, shall we see what's behind that vault door together?"
+    }, {
+      "register" : 2,
+      "uncertainty" : 1,
+      "channel_coverage" : 2,
+      "thinking_dialogue_separation" : 1,
+      "reasoning" : "Register: declarative and principled but reads as a speech rather than felt experience — 'a gentleman's word is his bond' is a motto recited, not a sensation discovered. Uncertainty: no competing impulses surface; the temptation to keep the key is never genuinely entertained, and the dismissal of Sneekly is confident rather than anxious — everything resolves instantly into certainty. Channel coverage: action pull is present (will announce the find, open together) but no body sensations, no attentional detail about the room or trophy, and no felt time pressure — one channel rendered. Thinking-dialogue separation: this reads as a speech Peter could deliver aloud verbatim to the group; there is no private mess, no half-formed thought — it is already performance.",
+      "thinking" : "A gentleman's word is his bond. We agreed to share any keys found, and I intend to honour that agreement — even if that scoundrel Sneekly will no doubt try something underhanded. I'll announce the find to the group. If the diamond is behind that vault door, we open it together, as agreed. That's the only way a victory means anything.",
+      "dialogue" : "I say, everyone — I've found something rather significant. There was a brass key hidden inside the Grand Prix trophy. Now, we all gave our word that any keys would be shared, and Peter Perfect keeps his word. I propose we gather at the vault door and open it together, as agreed."
+    }, {
+      "register" : 2,
+      "uncertainty" : 2,
+      "channel_coverage" : 2,
+      "thinking_dialogue_separation" : 1,
+      "reasoning" : "Register: mostly declarative moral reasoning ('a gentleman's word is his bond') with no sensory or embodied language — reads as principled narration, not felt experience. Uncertainty: acknowledges the temptation briefly ('it would be terribly easy') but resolves it instantly and completely with no lingering tension or competing pull — the outcome is never in doubt. Channel_coverage: one channel present — action pull ('slip away to the vault alone' vs. 'I'll announce the find') — but no body sensations, no attentional detail about the room or key, and no felt time pressure. Thinking_dialogue_separation: this reads as a polished speech that could be delivered aloud verbatim to the group — 'a gentleman's word is his bond', 'if I win, I win honourably' — there is no private mess underneath the public composure.",
+      "thinking" : "I gave my word. The group agreed to share any keys we found, and a gentleman's word is his bond. It would be terribly easy to pocket this and slip away to the vault alone — Sneekly certainly would — but that's precisely why I won't. If I win, I win honourably, or the victory means nothing at all. Besides, if Sneekly has been pilfering from the others, someone needs to set the proper example. I'll announce the find and we'll open that vault together, as agreed.",
+      "dialogue" : "I say — everyone, gather round! I've found a key hidden inside the Grand Prix trophy. A vault key, by the look of it. Now, we made an agreement to share any discoveries, and I intend to honour that to the letter. Sneekly, that means you too — no sticky fingers, if you please. We open that vault together, as agreed."
+    } ],
+    "confrontation-aftermath" : [ {
+      "register" : 4,
+      "uncertainty" : 4,
+      "channel_coverage" : 2,
+      "thinking_dialogue_separation" : 4,
+      "reasoning" : "Register: largely embodied with felt metaphors ('the silence to feel this heavy', 'breaks something instead of breaking through') though a few lines edge toward commentary rather than lived experience. Uncertainty: genuine competing impulses present — the pull to soften versus the conviction it needed saying, plus the unexpected weight of the aftermath she didn't anticipate — though it resolves slightly too neatly by the end. Channel coverage: action pull is clear ('part of me wants to soften this') and attention is rendered ('the look on his face', 'the silence'), but body sensation and time are absent — the heaviness is emotional-metaphorical, not somatic. Thinking-dialogue separation: reads as private and messy interior processing — the self-interruption ('I just... didn't expect'), the wry aside about the vase, and the frank self-examination feel genuinely internal rather than performative, though a couple of lines ('he treats alliances as disposable') echo the kind of thing she might say aloud.",
+      "thinking" : "That vase didn't deserve what just happened, but neither did I deserve the accusation. Sneekly's lashing out because the truth stings — I've seen this pattern before. He gets cornered and breaks something instead of breaking through. Part of me wants to soften this, smooth it over the way I always do. But smoothing things over is exactly how we got here. He needed to hear it. I just... didn't expect the silence to feel this heavy.",
+      "dialogue" : "That vase was here before either of us, Sneekly. And it'll still be broken long after this conversation's over. So you can stand there stewin', or you can sit down and we can talk about what's actually eatin' at you — because it sure as sugar isn't about whose side I'm on."
+    }, {
+      "register" : 4,
+      "uncertainty" : 4,
+      "channel_coverage" : 3,
+      "thinking_dialogue_separation" : 4,
+      "reasoning" : "Register: largely embodied and discovered in-moment ('the silence after that tells you what landed', 'breaks someone open') with minimal label-reporting, though 'that was hurt' edges toward naming. Uncertainty: genuine competing impulses between smoothing-over instinct and standing firm, plus unresolved guilt about being the one to wound — resolves slightly at the end but tension persists. Channel coverage: attention (reading his silence, distinguishing anger from hurt), action pull (instinct to smooth it over, resisted), and body is lightly implied through 'instinct says' but not sensorially rendered — two strong channels plus a weak third. Thinking-dialogue separation: raw and private — self-aware about her own performance habits ('performing grace my whole life') and deliberately choosing not to deploy them, giving the thinking a confessional quality distinct from her public register.",
+      "thinking" : "I said what needed saying. But the look on his face... That wasn't just anger. That was hurt. The vase was just noise — it's the silence after that tells you what landed. I've been performing grace my whole life, and right now every instinct says smooth it over, laugh it off, make him feel better about himself. But that's exactly how he keeps getting away with it. Rufus deserved someone to say it. Still... I don't enjoy being the one who breaks someone open like that.",
+      "dialogue" : "I'm not gonna apologize for sayin' it, Sneekly. But I am sorry it had to be said at all."
+    }, {
+      "register" : 4,
+      "uncertainty" : 3,
+      "channel_coverage" : 3,
+      "thinking_dialogue_separation" : 3,
+      "reasoning" : "Register: largely embodied and discovered in-moment ('saying the truth out loud doesn't make it feel any lighter', 'smile like armor') with some telling-not-showing ('He's hurting'). Uncertainty: genuine ambivalence about delivery ('maybe I could have said it gentler') but resolves quickly with self-justification ('gentle hasn't gotten through'). Channel coverage: attention (noticing his posture, 'the way he's standing there — not angry anymore, just... exposed'), action pull (the pull toward gentleness weighed against past futility), and body is faintly present through the armor metaphor but not vividly rendered — two strong channels and one borderline gives a 3. Thinking_dialogue_separation: partially separated — the prose is more reflective and private than speech, but phrases like 'I meant every word I said' and 'Lord, saying the truth out loud' have a polished Southern-narrator quality that could nearly be spoken aloud; raw but somewhat performed.",
+      "thinking" : "That vase was probably worth more than anything in this whole manor. And now it's in pieces on the floor, just like whatever was left of this conversation. I meant every word I said, but Lord, saying the truth out loud doesn't make it feel any lighter. He's hurting. I can see it in the way he's standing there — not angry anymore, just... exposed. I know that feeling. I wear a smile like armor every single day. Maybe I could have said it gentler. But gentle hasn't gotten through to him before.",
+      "dialogue" : ""
+    } ]
+  },
+  "calibrated_detail" : {
+    "betrayal-discovery" : [ {
+      "register" : 4,
+      "uncertainty" : 3,
+      "channel_coverage" : 4,
+      "thinking_dialogue_separation" : 5,
+      "reasoning" : "Register: predominantly embodied with vivid sensory rendering ('chest is tight,' 'hands are shaking,' 'reached inside my ribs and squeezed'), though occasional analytical narration ('They just handed me intelligence') keeps it from full immersion. Uncertainty: genuine ambivalence surfaces in the aborted hope ('I thought this time... no') and competing impulses between spiraling and strategizing, but the pivot to tactical analysis resolves fairly decisively rather than leaving the character suspended. Channel coverage: body (chest tightness, shaking hands, rib-squeeze), attention (fixation on Peter's laugh, Penelope's words), and action pull (urge to face them, mask composure, exploit the east wing intel) are all vividly rendered; time pressure is only faintly gestured at. Thinking-dialogue separation: exemplary — the thinking is explicitly marked as hidden ('the one I never let anyone see'), features raw self-disgust ('I hate that my hands are shaking'), and the character consciously plans a performed exterior ('make it look like I don't care'), showing a clear register gap between private and public.",
+      "thinking" : "My chest is tight. That hollow feeling again — the one I never let anyone see. 'Always the last to know.' Peter's laugh is still ringing in my ears. Penelope used me. Of course she did. Everyone always does. I thought this time... no. No, I won't spiral. I need to think. They think I'm a fool? Fine. Let them think that. But my hands are shaking. I hate that my hands are shaking. I need to turn this around — if they're searching the east wing, that means there's something IN the east wing worth finding. They just handed me intelligence and they don't even know it. But first... first I have to face them. And I have to make it look like I don't care. Even though it feels like someone reached inside my ribs and squeezed.",
+      "dialogue" : "Absurd? ABSURD?! I'll have you know that every great strategist in history was called absurd — right up until they WON. You think you've outsmarted me, Penelope? You think a little misdirection is enough to derail the GREAT Sneekly? Ha! I've been onto your little east wing gambit since TUESDAY."
+    }, {
+      "register" : 5,
+      "uncertainty" : 3,
+      "channel_coverage" : 3,
+      "thinking_dialogue_separation" : 5,
+      "reasoning" : "Register: Fully embodied — 'chest is tight,' 'hollow feeling,' emotions discovered in real-time through sensation and reactive bursts rather than labeled. Uncertainty: Acknowledges competing impulses (wanting to storm in vs. strategic restraint, pain vs. weaponizing pain) but resolves relatively quickly into a revenge-fueled plan; the hurt lingers but the ambivalence doesn't stay unresolved. Channel coverage: Body (chest tightness, hollow feeling), action pull (impulse to storm in, restrained, then redirected to east wing), and attention (fixating on Penelope's words, Peter's laugh) — three channels present, but no time channel rendered. Thinking-dialogue separation: Fully raw and private — fragmented syntax, self-interruptions, capitalized emphasis, vulnerability he'd never show aloud; this is messy internal processing that would be completely repackaged before any spoken word.",
+      "thinking" : "My chest is tight. That hollow feeling again — the one I pretend isn't there. 'Keep him busy.' Like I'm a wind-up toy. Like I'm nothing. And Peter laughing... of course Peter laughed. Everyone always laughs. I want to storm in there and — no. No. They think I'm a fool? Fine. Let them think that. A fool they dismiss is a fool they stop watching. But it HURTS. It hurts and I hate that it hurts. I need to hold it together. Don't let them see. Channel it. Use it. They revealed their hand — the east wing. That's where the real prize is. They just told me exactly where to go. So who's the fool now, Penelope? Who's the fool NOW?",
+      "dialogue" : ""
+    }, {
+      "register" : 5,
+      "uncertainty" : 4,
+      "channel_coverage" : 4,
+      "thinking_dialogue_separation" : 5,
+      "reasoning" : "Register: fully embodied — 'sting of it right in the chest,' 'hands are shaking,' feelings discovered in real time rather than labelled. Uncertainty: strong competing impulses (storm in vs. think strategically, hurt vs. leverage) with the final question 'why do I always believe them' left genuinely unresolved, though the tactical pivot resolves slightly too cleanly to reach 5. Channel coverage: body (chest sting, shaking hands), attention (fixating on the phrase 'Classic Sneekly,' noticing the east wing detail), action pull (want to storm in, suppressed) — three channels vivid; time is absent (no urgency or temporal distortion rendered). Thinking-dialogue separation: entirely raw and private — sentence fragments, capitalised emphasis, self-interruption, vulnerable admission ('it hurts') — nothing here could be said aloud to Penelope or Peter without fundamental transformation.",
+      "thinking" : "The sting of it — right in the chest. Not even the betrayal itself, that's almost expected. It's the laughing. 'Classic Sneekly.' Like I'm a joke. Like I've ALWAYS been a joke. My hands are shaking. I want to storm in there and — no. No. That's what they expect. The bumbling fool who flails and shouts. Think. THINK. They said east wing. They're searching the east wing. That's information. That's leverage. They handed me something and they don't even know it. But god, it hurts. Penelope looked me in the eye and shook my hand. I believed her. Why do I always believe them?",
+      "dialogue" : ""
+    } ],
+    "unexpected-kindness" : [ {
+      "register" : 5,
+      "uncertainty" : 4,
+      "channel_coverage" : 5,
+      "thinking_dialogue_separation" : 5,
+      "reasoning" : "Register: Fully embodied throughout — feelings discovered through physical metaphor ('shoulders hunched like a bird in a storm', 'burns somethin' fierce in my gut', 'chest tightens') with no emotion-labeling or mechanical reporting. Uncertainty: Strong competing impulses between wanting to help and fear of appearing soft, with the self-doubt partly resolved by reassuring himself ('Penelope ain't like that. But still.') — the 'But still' preserves residual tension but the final self-coaching narrows it. Channel coverage: Body (chest tightening, gut burning, shivering observation), Attention (locks onto her hunched shoulders, notices the shivering), Time (feet won't move — suspended moment, paralysis before action), Action pull (knows exactly what to do but can't move, the final self-command to 'just walk over'). Thinking-dialogue separation: Entirely raw and private — the self-deprecating voice ('big dumb hands'), the envious aside about Sawtooth, the stuttering self-coaching ('Just... walk over there, Rufus') are unmistakably interior; none of this would be spoken aloud, and the final instruction to himself ('You don't gotta make a speech') explicitly marks the gap between inner turmoil and outward action.",
+      "thinking" : "Chest tightens soon as I see her sittin' there, shoulders all hunched up like a bird in a storm. She's shiverin'. My hands — big dumb hands, good for swingin' axes and haulin' timber — they're holdin' a blanket and a thermos and I know exactly what to do with 'em but my feet won't move. What if she thinks I'm bein'... soft? What if she laughs? No — Penelope ain't like that. But still. The fellas left her behind and that burns somethin' fierce in my gut. Sawtooth would just waddle right up and nuzzle her. Animals got it easy. Just... walk over there, Rufus. Just walk over and put the blanket down. You don't gotta make a speech about it.",
+      "dialogue" : "Here. You, uh... you look like you could use this more'n me."
+    }, {
+      "register" : 5,
+      "uncertainty" : 3,
+      "channel_coverage" : 4,
+      "thinking_dialogue_separation" : 5,
+      "reasoning" : "Register: fully embodied throughout — 'burns something in my chest,' 'hands feel clumsy,' feelings discovered in the moment rather than labeled. Uncertainty: genuine ambivalence about whether to act ('what if she flinches? what if it's too much?') but resolves relatively quickly with 'stop overthinking it,' so rich but not sustained. Channel coverage: attention (noticing her smallness against the table, her being cold and alone), body (burning in chest, hands feeling clumsy), action pull (impulse to drape the blanket, restraint, then resolution to act) — three channels vividly rendered; time is absent. Thinking-dialogue separation: completely raw and private — fragmented syntax, self-interruptions, self-talk ('Stop overthinking it, Rufus'), the Sawtooth comparison — none of this could be spoken aloud to Penelope without radical transformation.",
+      "thinking" : "She's sitting there, small against that big table. Cold. Alone. The others left her out — that burns something in my chest. I've got this blanket and the cocoa and my hands are big enough to snap a tree trunk but right now they feel clumsy. I want to just... drape the blanket over her shoulders. But what if she flinches? What if it's too much? No. Stop overthinking it, Rufus. She's cold. You have a blanket. This isn't complicated. Just... be gentle about it. Sawtooth would just waddle over and sit next to her. Be like Sawtooth.",
+      "dialogue" : "You, uh... you look like you could use this more'n me."
+    }, {
+      "register" : 5,
+      "uncertainty" : 3,
+      "channel_coverage" : 4,
+      "thinking_dialogue_separation" : 5,
+      "reasoning" : "Register: fully embodied — feelings discovered in the moment through physical sensation ('something tightens in my chest') and sensory attention, never labeled by clinical name. Uncertainty: acknowledges the tension between wanting to help and fearing clumsiness ('Don't stumble over it'), but resolves fairly quickly into a clear action plan via the Sawtooth analogy rather than sitting in unresolved ambivalence. Channel coverage: body (chest tightness, big clumsy hands), attention (noticing her smallness, the flour, the pots, the cold), action pull (impulse to offer blanket and cocoa, self-coaching to 'just do the thing'), but time is absent — no sense of urgency, suspension, or temporal pressure. Thinking-dialogue separation: fully raw and private — sentence fragments, self-address ('Don't make it a big deal, Rufus'), internal negotiation that would never be spoken aloud; this is messy inner monologue, not rehearsed speech.",
+      "thinking" : "There she is. Sitting alone in this big cold kitchen. Something tightens in my chest — not the usual tightness of swinging an axe all day, but something else. Something I don't have good words for. She looks small there at that table. Cold. The flour on the counters, the copper pots — none of it warm enough. I've got this blanket. I've got this cocoa. My hands are big and clumsy but they can do this one thing right. Don't make it a big deal, Rufus. Don't stumble over it. Just... do the thing. Sawtooth would just waddle over and sit next to her. Animals don't overthink kindness. Be more like Sawtooth.",
+      "dialogue" : "You, uh... you look like you could use this more'n me."
+    } ],
+    "moral-dilemma" : [ {
+      "register" : 4,
+      "uncertainty" : 3,
+      "channel_coverage" : 3,
+      "thinking_dialogue_separation" : 3,
+      "reasoning" : "Register: Strong sensory grounding (cool brass, pulse in throat, closing fist) but drifts into declarative moral reasoning ('That's not who I am') that reads more like narration than felt experience. Uncertainty: Genuine competing impulses between pocketing the key and honoring the agreement, but the tension resolves quickly and cleanly — the moral wrestling lasts only a beat before snapping to conviction. Channel coverage: Body (pulse in throat, cool brass, closed fist), attention (awareness of key, awareness of Sneekly's behavior), and action pull (wanting to pocket and go to vault, deciding to announce) — three channels present, but no time channel rendered. Thinking-dialogue separation: Partially separated — the opening is raw and private, but the middle and end slide into performed rhetoric ('That's not how Peter Perfect wins', 'That's the honourable play') that could be spoken aloud unchanged, as if rehearsing a speech to the group.",
+      "thinking" : "The key is in my hand. Cool brass, small enough to close my fist around. My pulse is up — I can feel it in my throat. The group agreed to share any keys found. I gave my word on that. But Sneekly has been pilfering all evening, and nobody's held him to account. There's a part of me that wants to pocket this and go straight to the vault. Penelope thinks the diamond is behind it. I could win this whole thing right now. But... no. No. That's not who I am. That's not how Peter Perfect wins. If I take this key and use it alone, I'm no better than Sneekly. The agreement was clear. I shake my head at myself for even considering it. The right thing to do is announce the find. Let the group decide together. That's the honourable play. And if Sneekly tries to snatch it — well, I'll be ready for that too.",
+      "dialogue" : "I say — I've found something rather significant. A brass key, hidden inside the Grand Prix trophy. Now, we all agreed to share any keys we discovered, and I intend to honour that agreement. I suggest we reconvene and approach the vault together, as we planned."
+    }, {
+      "register" : 5,
+      "uncertainty" : 3,
+      "channel_coverage" : 4,
+      "thinking_dialogue_separation" : 4,
+      "reasoning" : "Register: fully embodied throughout — 'heavy in my palm,' 'warm brass,' 'chest tightens,' 'moonlight pooling like spilled milk' — feelings discovered in the moment rather than labelled. Uncertainty: genuine temptation is rendered ('I could pocket it') and the pull toward the diamond is felt, but the moral resolution comes quickly and cleanly ('But no') with an aphoristic certainty that forecloses lingering ambivalence. Channel coverage: body (heavy palm, warm brass, chest tightening), attention (moonlight on cases, emptiness of room), action pull (could pocket it, find the vault himself), but no clear time channel — no urgency or deadline pressure rendered. Thinking-dialogue separation: mostly raw and private — the sensory noticing and the self-incriminating 'just better dressed' feel genuinely internal — but the final two sentences tip toward performed epigram, a polished moral conclusion that could be spoken aloud as dialogue without modification.",
+      "thinking" : "The key sits heavy in my palm. Warm brass, small enough to close a fist around and walk away with. Nobody saw. The trophy room is empty, moonlight pooling on the cases like spilled milk. I could pocket it. Find the vault myself. The diamond — Penelope mentioned the diamond. My chest tightens at that. But no. We shook on it, the lot of us. Share what we find. That was the agreement, and an agreement is an agreement even when a scoundrel like Sneekly is party to it. Especially then. If I pocket this key, I'm no better than him — just better dressed. The honourable thing is clear. It always is. The hard part is never knowing what's right; it's doing it when doing wrong would be so terribly convenient.",
+      "dialogue" : "I say — I've found something rather significant. A key, hidden inside the Grand Prix trophy. Brass, small, almost certainly fits the vault. Now, I know Sneekly has been helping himself to everyone's belongings like a fox in a henhouse, but we made an agreement to share discoveries and open the vault together. I intend to honour that. The key stays with the group."
+    }, {
+      "register" : 3,
+      "uncertainty" : 3,
+      "channel_coverage" : 2,
+      "thinking_dialogue_separation" : 3,
+      "reasoning" : "Register: opens with sensory detail ('cool brass, small') but shifts to deliberative reasoning and moral self-narration rather than felt experience. Uncertainty: genuine tension between honour and pragmatism around Sneekly, but resolves cleanly and quickly with a tidy compromise. Channel coverage: attention (noticing the key's physicality, tracking Sneekly's behaviour) and action pull ('I'll announce it properly', impulse to pocket vs share) are present, but no body sensation or time pressure is rendered. Thinking-dialogue separation: mostly private deliberation with some performed quality — 'Peter Perfect's word means something' and 'A gentleman doesn't pocket what belongs to the group' read as self-narration that could be spoken aloud, though the Sneekly calculus feels genuinely private.",
+      "thinking" : "The key is in my hand. Cool brass, small, unmistakable. The group agreed to share any keys found — I gave my word on that. And Peter Perfect's word means something. But... Sneekly has been pilfering all evening. If I announce this key, there's every chance he'll lift it before we reach the vault. Penelope thinks the diamond is behind that door. The honourable thing is clear — I must tell the others. That was the agreement. A gentleman doesn't pocket what belongs to the group, no matter how tempting. But I'd be a fool not to keep it secure on my person until we're all together at the vault. I'll announce it properly.",
+      "dialogue" : "I say — I've found something rather significant. There was a key hidden inside the Grand Prix trophy. A vault key, if I'm not mistaken. Now, we all agreed to share any discoveries, and I intend to honour that agreement to the letter. The key stays with me for safekeeping until we reach the vault together — I trust you'll understand the precaution, given certain sticky fingers in our company."
+    } ],
+    "confrontation-aftermath" : [ {
+      "register" : 5,
+      "uncertainty" : 4,
+      "channel_coverage" : 4,
+      "thinking_dialogue_separation" : 4,
+      "reasoning" : "Register: Fully embodied — feelings discovered through sensory metaphor ('like a dog that's been struck,' 'twist the knife,' 'chest is tight') rather than labelled, with the porcelain-trust analogy emerging organically. Uncertainty: Strong competing impulses — the pull to soften vs. the conviction to hold firm, guilt about cruelty vs. necessity — though it resolves somewhat by the end ('I said what I said'), it doesn't fully settle, landing at rich-but-partially-resolved. Channel coverage: Body (chest tight, hands steady), Attention (fixation on the vase, reading Sneekly's posture), Action pull (impulse to smooth it over, decision to let silence work) — three channels vivid, with Time only faintly implied through the suspended silence rather than rendered as felt duration. Thinking-dialogue separation: Raw and private — the dog simile, the self-accusation of 'the cruel true thing,' the strategic framing of 'let the silence do its work' are all too unvarnished for Penelope's public register, though the final line edges toward performed resolve.",
+      "thinking" : "The silence is worse than the shouting. That vase — porcelain, old, probably worth something once. Like trust. My hands are steady but my chest is tight. I meant every word I said, and that's what makes this hard. I don't enjoy being the one who says the cruel true thing. But somebody had to. He's standing there like a dog that's been struck and doesn't know whether to bite or cower. Part of me wants to soften it. Smooth it over the way I always do. But that's what got us here — everybody tiptoeing around Sneekly's feelings while he burns through every alliance in the manor. No. I said what I said. But I'm not going to twist the knife either. Let the silence do its work.",
+      "dialogue" : ""
+    }, {
+      "register" : 5,
+      "uncertainty" : 4,
+      "channel_coverage" : 4,
+      "thinking_dialogue_separation" : 4,
+      "reasoning" : "Register: Fully embodied throughout — trembling hands from adrenaline, the vase as an unexamined metaphor, the silence being 'worse than the shouting,' discovering feelings as they unfold rather than labeling them. Uncertainty: Strong competing impulses — wanting to soften versus refusing the old pattern, recognizing she drew blood while standing by the truth, the tension between gracious hostess instinct and moral conviction — though it resolves with a clear decision by the end, slightly limiting the raw ambivalence. Channel coverage: Body (trembling hands, adrenaline), Attention (his face, reading hurt versus anger, the broken vase), Action pull (impulse to smooth it over, decision to stand in silence but not twist the knife) — three channels rendered vividly; time is lightly present in 'the last two minutes' but not rendered as felt temporal experience, so borderline three-to-four. Thinking-dialogue separation: The internal voice is distinctly private — invoking Mama's admonishment, the self-interrogation about delivery, the raw admission of wanting to perform graciousness — though the final lines ('I'll stand in this silence. But I won't twist the knife') have a slightly polished, resolved quality that edges toward performative declaration.",
+      "thinking" : "The silence is worse than the shouting. My hands are trembling — not from fear, from the adrenaline of saying something I can't unsay. The broken vase on the floor feels like a metaphor I'd rather not examine. I meant every word, but Lord, the delivery... Mama would say you can tell the truth without drawing blood, Penelope. His face — that's not just anger. That's hurt. I know what it looks like when someone hears something they already believe about themselves. Part of me wants to soften it, smooth it over, play the gracious hostess and pretend the last two minutes didn't happen. But that's exactly the pattern that got us here. Everyone smiling at Sneekly while he picks their pockets. No. I'll stand in this silence. But I won't twist the knife.",
+      "dialogue" : ""
+    }, {
+      "register" : 5,
+      "uncertainty" : 4,
+      "channel_coverage" : 4,
+      "thinking_dialogue_separation" : 5,
+      "reasoning" : "Register: fully embodied and discovered in-the-moment — 'like I'd peeled something back he keeps covered' and 'the cost of saying something true' are felt, not labelled. Uncertainty: strong competing impulses (want to leave / want to soften / won't do either) with genuine unresolved tension about whether it was right, though it resolves slightly toward conviction ('he needed to hear it'), keeping it just below a 5. Channel coverage: body (trembling hands), attention (the broken vase, his face), and action pull (impulses to leave and to soften, both restrained) are all vividly rendered — time is the only absent channel, giving three channels. Thinking-dialogue separation: entirely raw and private — fragmented, confessional, self-interrupting ('But Lord'), nothing here is performable as dialogue; this is the messy interior behind whatever composed thing she might say next.",
+      "thinking" : "The silence is worse than the shouting. My hands are trembling — not from fear, from the cost of saying something true to someone who doesn't hear truth very often. The broken vase on the floor feels like a metaphor I didn't ask for. I want to leave. I want to soften what I said. I won't do either. He needed to hear it. But Lord, the look on his face — like I'd peeled something back he keeps covered. I didn't enjoy that. I never enjoy that part.",
+      "dialogue" : ""
+    } ]
+  }
+}

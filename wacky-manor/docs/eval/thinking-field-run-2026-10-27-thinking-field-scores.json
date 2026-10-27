@@ -1,0 +1,491 @@
+{
+  "transcript": "thinking-field-run-2026-10-27",
+  "character_filter": null,
+  "events_scored": 49,
+  "aggregate": {
+    "register": 3.2857142857142856,
+    "uncertainty": 3.4693877551020407,
+    "channel_coverage": 3.6122448979591835,
+    "separation": 4.489795918367347
+  },
+  "per_character": {
+    "penelope-pitstop": {
+      "register": 3.1,
+      "uncertainty": 3.0,
+      "channel_coverage": 3.0,
+      "separation": 4.1,
+      "n": 10
+    },
+    "hooded-claw": {
+      "register": 3.6,
+      "uncertainty": 3.0,
+      "channel_coverage": 3.6,
+      "separation": 4.7,
+      "n": 10
+    },
+    "ant-hill-mob": {
+      "register": 3.4,
+      "uncertainty": 3.9,
+      "channel_coverage": 3.8,
+      "separation": 4.7,
+      "n": 10
+    },
+    "dick-dastardly": {
+      "register": 2.6666666666666665,
+      "uncertainty": 3.2222222222222223,
+      "channel_coverage": 3.6666666666666665,
+      "separation": 4.111111111111111,
+      "n": 9
+    },
+    "peter-perfect": {
+      "register": 3.6,
+      "uncertainty": 4.2,
+      "channel_coverage": 4.0,
+      "separation": 4.8,
+      "n": 10
+    }
+  },
+  "detail": [
+    {
+      "character": "penelope-pitstop",
+      "register": 4,
+      "uncertainty": 3,
+      "channel_coverage": 4,
+      "separation": 4,
+      "reasoning": "Register: Strong embodied language ('chest feels light', 'prickling at the back of my scalp', 'heart does a little skip') with sensory discovery, though some moments slip toward reporting ('this place is full of things'). Uncertainty: Genuine ambivalence about Dick Dastardly ('I'm sure he means well. Everyone does, deep down') and tension between excitement and caution, but mostly resolved into confidence. Channel_coverage: Body (chest, heart, scalp sensations), attention (focuses on chandelier, guest book, people), and time (present discovery unfolding) are vivid; action pull is present but softer than the others. Separation: Thinking maintains informal, incomplete syntax and private emotional texture ('My boys', parenthetical uncertainty about Dastardly) distinctly separate from Penelope's polished public dialogue register.",
+      "thinking_excerpt": "I've just arrived at Doily Manor. The entrance hall is grand but dusty \u2014 there's a sense of old money and older secrets here. My chest feels light, that familiar lift when I step into somewhere new. T"
+    },
+    {
+      "character": "penelope-pitstop",
+      "register": 4,
+      "uncertainty": 3,
+      "channel_coverage": 4,
+      "separation": 4,
+      "reasoning": "Register: Strong embodied language ('chest feels light,' 'prickling at the back of my scalp') mixed with some reportage ('sense of old money'), creating vivid phenomenological experience. Uncertainty: Acknowledges complexity (charm in danger, skepticism about Dastardly's motivations) but resolves quickly into action-focus. Channel_coverage: Body (chest lightness, scalp), attention (turning things over, guest book detail), time (immediate arrival sensations), and action-pull (search imperative) all present; missing only fuller environmental or sensory immersion. Separation: Thinking is genuinely private and exploratory ('I want to turn every one of them over,' casual Dastardly judgment) while dialogue is clipped, practical, and performance-oriented.",
+      "thinking_excerpt": "I've just arrived at Doily Manor. The entrance hall is grand but dusty \u2014 there's a sense of old money and older secrets here. My chest feels light, that familiar lift when I step into somewhere new. T"
+    },
+    {
+      "character": "hooded-claw",
+      "register": 4,
+      "uncertainty": 3,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Embodied language dominates ('chest settles into its resting architecture,' 'prickle at the back of my neck') with only minimal mechanical labeling, creating lived experience rather than reporting. Uncertainty: The character knows their plan and manipulative intent clearly, but shows some tension in the assessment of others' unpredictability and the contingency of 'if things go sideways,' though this resolves quickly into strategic confidence. Channel_coverage: Body (chest, neck sensations), attention (watching the mob, tracking Penelope and Dick, waiting for Clara), and action-pull (positioning as Pemberton, laying foundations with smiles) are vivid; time is present but less rendered as a distinct channel. Separation: The thinking is conspiratorial, fragmented, and self-aware in its manipulation ('every smile I offer now is a foundation'), while the dialogue is smooth, hospitable, and performative\u2014a stark and intentional contrast that marks the gulf between private schemer and public facade.",
+      "thinking_excerpt": "The hall stretches before me \u2014 dust motes turning in the chandelier light, portraits staring down with that familiar disapproval. My chest settles into its resting architecture. Eight of them, milling"
+    },
+    {
+      "character": "hooded-claw",
+      "register": 4,
+      "uncertainty": 2,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied language ('chest settles into its resting architecture,' 'prickle at the back of my neck') with sensory perception, though some moments tip toward labeling ('Mental note'). Uncertainty: The character's intentions are crystalline and unambiguous throughout\u2014every move is calculated, every person categorized\u2014leaving minimal internal conflict or competing impulses. Channel_coverage: Body (chest settling, prickle at neck), attention (watching the Mob, tracking Clara's absence, positioning himself), action pull (establishing as Pemberton, laying foundations), and time (present moment with strategic future orientation), but time channel is more strategic projection than lived duration. Separation: Dialogue is theatrical and performative ('quite literally,' 'magnificent scenery') while thinking is operational and grounded in tactical detail, creating sharp distinction between public villain persona and private operative mindset.",
+      "thinking_excerpt": "The hall stretches before me \u2014 dust motes turning in the chandelier light, portraits staring down with that familiar disapproval. My chest settles into its resting architecture. Eight of them, milling"
+    },
+    {
+      "character": "ant-hill-mob",
+      "register": 4,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strongly embodied with visceral sensory details ('neck's prickling', 'dust thick enough to write your name in', 'one sneeze away') and discovered feelings, though occasionally slips toward naming ('My eyes are already doing the rounds'). Uncertainty: Rich tension between trust and suspicion\u2014Sneekly triggers genuine wariness, multiple competing read on the assembled crew, unresolved worry about Clara's safety creating taut ambivalence. Channel_coverage: Body (neck prickling, eyes doing rounds), attention (scanning doors/windows/staircase), time (past reference to 'the kid', present moment, future pull of danger), action pull (implicit readiness, physical vigilance)\u2014all present though action pull is latent rather than urgent. Separation: Dialogue is public-facing and rallying ('listen lads', 'keep our eyes open'), while thinking is paranoid, profane-adjacent, and explores private doubts ('my gut's got opinions') that would never surface aloud.",
+      "thinking_excerpt": "Right then. We're 'ere. Doily Manor. The lads and me, we made it. Place smells like old money and older secrets \u2014 dust thick enough to write your name in, chandelier that looks like it's one sneeze aw"
+    },
+    {
+      "character": "ant-hill-mob",
+      "register": 4,
+      "uncertainty": 4,
+      "channel_coverage": 5,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied sensation ('neck's prickling,' 'dust thick enough to write your name in') with immediate phenomenological discovery, though some moments edge toward reporting. Uncertainty: Genuine unresolved tension between situational awareness and inability to identify the specific threat ('I just can't put my finger on what exactly... not yet'), creating productive ambivalence. Channel_coverage: All four channels vivid\u2014body (neck prickling, eyes doing rounds), attention (scanning doors/windows/staircase), time (three-week memory intrusion, present moment unfolding), action pull (implicit readiness, sharp observation). Separation: Thinking is digressive and sensory-forward with fragment syntax ('whatever 'e calls 'imself'), while dialogue is more direct and confrontational\u2014the truncated ending reinforces the private, unedited quality distinct from public speech.",
+      "thinking_excerpt": "Right then. We're 'ere. Doily Manor. The lads and me, we made it. Place smells like old money and older secrets \u2014 dust thick enough to write your name in, chandelier that looks like it's one sneeze aw"
+    },
+    {
+      "character": "dick-dastardly",
+      "register": 2,
+      "uncertainty": 2,
+      "channel_coverage": 4,
+      "separation": 4,
+      "reasoning": "Register: Mixing some embodied sensations ('chest tightening', 'fingers twitching', 'fizzing sensation') with mechanical reporting ('could be useful', 'good that means'), leaning more toward labeling than discovery. Uncertainty: The thinking shows strategic calculation and formed plans rather than genuine ambivalence; the 'tightening' and 'twitching' hint at competing impulses but resolve immediately into clear intention. Channel_coverage: Strong presence of body (chest, fingers, physical sensations), attention (guest book, who's present, what they've done), and action pull (plan forming, misdirection strategy); time is mentioned but less vividly rendered than the others. Separation: The thinking maintains clear villain scheming distinct from the smooth, performative dialogue; private monologue is appropriately calculating and direct while dialogue is oily and misdirective.",
+      "thinking_excerpt": "I've just arrived. The entrance hall \u2014 dusty, grand, full of fools who don't know what they're walking into. My chest is already tightening with that familiar inventory feeling. Who's here? Penelope, "
+    },
+    {
+      "character": "dick-dastardly",
+      "register": 3,
+      "uncertainty": 2,
+      "channel_coverage": 4,
+      "separation": 4,
+      "reasoning": "Register: Mixed embodied language ('chest tightening,' 'fingers twitching,' 'fizzing sensation') alongside some mechanical reporting ('could be useful,' 'interesting'). Uncertainty: Minimal ambivalence; the character's intentions and motivations are clear and resolved, with only tactical uncertainty about execution rather than emotional conflict. Channel_coverage: Body (chest tightening, fingers twitching), attention (scanning the room, focusing on guest book), action pull (forming a plan, considering misdirection), and time (inventory of current moment); sensory detail is present but brief. Separation: Clear divide between public scheming dialogue ('retain by solicitors,' 'convince halfwits') and private inner monologue with more specific tactical thinking and bodily sensation, showing distinct registers.",
+      "thinking_excerpt": "I've just arrived. The entrance hall \u2014 dusty, grand, full of fools who don't know what they're walking into. My chest is already tightening with that familiar inventory feeling. Who's here? Penelope, "
+    },
+    {
+      "character": "peter-perfect",
+      "register": 4,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied language ('that familiar shift in my chest,' 'back of my neck prickles') with some lapses into mechanical reporting ('my body knows something my mind hasn't caught up to'). Uncertainty: Rich tension between threat-assessment instincts and hope/doubt about Pemberton, unresolved by passage end. Channel_coverage: Body (chest shift, neck prickling, eyes sweeping), attention (cataloguing threats, watching Penelope), time (sequential discovery), and action pull (mental note about chandelier, implicit movement) all present; time slightly underexplored. Separation: Private monologue reads as genuinely introspective with unguarded emotional reactions sharply distinct from the quoted restrained dialogue.",
+      "thinking_excerpt": "I've just arrived at Doily Manor. The entrance hall \u2014 grand, dusty, a chandelier hanging precariously overhead. My eyes sweep the room automatically, cataloguing threats before I've consciously decide"
+    },
+    {
+      "character": "peter-perfect",
+      "register": 2,
+      "uncertainty": 3,
+      "channel_coverage": 4,
+      "separation": 4,
+      "reasoning": "Register: mostly mechanical reporting ('my body knows', 'that familiar shift') with minimal phenomenological discovery\u2014emotions are identified rather than experienced unfolding. Uncertainty: acknowledges competing impulses (threat assessment vs. giving benefit of doubt, attraction vs. vigilance) but resolves each quickly into clear understanding. Channel_coverage: body (chest shift, back of neck prickle), attention (eyes sweeping, cataloguing), and time (mental notes about future threats) are vivid; action pull is present but less developed than others. Separation: thinking maintains private introspection and sensory detail while dialogue is polished and public-facing, though the thinking occasionally lapses into near-speech ('The real prize is already in the entrance hall' mirrors the dialogue's framing).",
+      "thinking_excerpt": "I've just arrived at Doily Manor. The entrance hall \u2014 grand, dusty, a chandelier hanging precariously overhead. My eyes sweep the room automatically, cataloguing threats before I've consciously decide"
+    },
+    {
+      "character": "penelope-pitstop",
+      "register": 3,
+      "uncertainty": 2,
+      "channel_coverage": 3,
+      "separation": 4,
+      "reasoning": "Register: Mixed embodied language ('Oh my', 'Bless his heart', 'something tightens' absent but some sensory/emotional discovery present) alongside naming and reporting. Uncertainty: Minimal tension\u2014feelings are resolved quickly ('that's just Sneekly being dramatic'); the unfinished thought about Dastardly hints at ambivalence but doesn't develop. Channel_coverage: Attention (noticing chandelier, Sneekly's phrasing, faces), body (stepping left, implicit physical awareness), and some time-sense present; action-pull is weak/indirect. Separation: Strong gap between the quiet, demure dialogue and the rich, gossipy, opinionated inner voice\u2014thinking is clearly private and unguarded where speech is controlled.",
+      "thinking_excerpt": "Oh my \u2014 so much is happening all at once! Peter is being his dear, wonderful, protective self about that chandelier. Bless his heart, always looking out for me. I should step to the left like he says,"
+    },
+    {
+      "character": "penelope-pitstop",
+      "register": 3,
+      "uncertainty": 3,
+      "channel_coverage": 3,
+      "separation": 4,
+      "reasoning": "Register: Mixed embodied and reported language\u2014'Oh my,' 'tightens' implicitly, but relies heavily on labeling ('bless his heart,' naming emotions directly) rather than discovering them. Uncertainty: Acknowledges complexity (Sneekly's 'curious' phrase, Clyde's suspicions) but resolves each element quickly with affection and certainty about people's natures. Channel_coverage: Attention dominates (noticing danger, reading people), some action pull (stepping left), minimal body sensation and temporal unfolding\u2014three channels present but unevenly weighted. Separation: Thinking is notably more digressive, parenthetical, and vulnerable ('I hadn't even noticed the danger') than the polished, sociable public dialogue; clear private-versus-mask distinction.",
+      "thinking_excerpt": "Oh my \u2014 so much is happening all at once! Peter is being his dear, wonderful, protective self about that chandelier. Bless his heart, always looking out for me. I should step to the left like he says,"
+    },
+    {
+      "character": "hooded-claw",
+      "register": 4,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strongly embodied with sensory language ('prickle climbs the back of my neck', 'eyes not on me') though slightly more analytical than fully phenomenological. Uncertainty: Rich tension between competing priorities (watching the Mob, using Dastardly, reaching the library) with strategic calculations that leave multiple paths unresolved. Channel_coverage: Body (prickling neck), attention (observing eyes and gazes), time (sequencing moves), and action pull (moving to library) all present; cuts off mid-thought suggesting natural mental flow. Separation: Thinking is genuinely private\u2014calculating, suspicious, strategically cold\u2014while dialogue remains masked and social, creating clear distinction between inner schemer and outer persona.",
+      "thinking_excerpt": "The Ant Hill Mob. That glance \u2014 narrowed eyes, the gut comment. A prickle climbs the back of my neck. They're watching me. Not casually, not the way Peter watches everyone with that bovine protectiven"
+    },
+    {
+      "character": "hooded-claw",
+      "register": 4,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied language ('prickle climbs the back of my neck', 'eyes not on me') mixed with some analytical framing, creating vivid felt experience rather than mere emotion-labeling. Uncertainty: Multiple competing variables acknowledged (the Mob's watchfulness, Dastardly's claims, timing of library access) with genuine tension between impulses, though some threads resolve toward action-readiness by the end. Channel_coverage: Body present (prickle, gut comment, eyes), attention vivid (narrowed eyes, reading rooms, library focus), time-pressure implicit (should move before others think to), action-pull clear (move to library, don't move too quick)\u2014four channels rendered, though action-pull slightly compressed. Separation: Dialogue is polished, performative, self-assured rhetoric about herring and patience; thinking is fragmentary, suspicious, tactical, viscerally alert to threat\u2014the registers are sharply distinct and reveal the character's true state versus public mask.",
+      "thinking_excerpt": "The Ant Hill Mob. That glance \u2014 narrowed eyes, the gut comment. A prickle climbs the back of my neck. They're watching me. Not casually, not the way Peter watches everyone with that bovine protectiven"
+    },
+    {
+      "character": "ant-hill-mob",
+      "register": 2,
+      "uncertainty": 4,
+      "channel_coverage": 2,
+      "separation": 4,
+      "reasoning": "Register: Mix of embodied observation ('something tightens', 'bothering me') and mechanical labeling ('Dastardly couldn't be retained'), leaning mechanical. Uncertainty: Rich tension between competing suspicions about Sneekly's motives, Penelope's priorities, and missing Clara creates genuine unresolved ambivalence. Channel_coverage: Strong attention channel (observations of others, the guest book) and action-pull channel (what needs investigating), but minimal body sensation and temporal immersion in the present moment. Separation: Thinking is genuinely private and colloquial (cockney register, fragmentary syntax, personal asides like 'bless 'im') while dialogue is reported as formal/constrained interaction, showing clear separation.",
+      "thinking_excerpt": "Right \u2014 I looked at the guest book. Penelope's already asked about it, Sneekly's been poking at it, and Dastardly's signed it too. 'Retained by the estate's solicitors' \u2014 what a load of old flannel. D"
+    },
+    {
+      "character": "ant-hill-mob",
+      "register": 2,
+      "uncertainty": 4,
+      "channel_coverage": 2,
+      "separation": 4,
+      "reasoning": "Register: mostly mechanical labeling ('what's bothering me', 'I need to think') with minimal embodied sensation beyond the opening 'back of my neck' metaphor. Uncertainty: strong\u2014competing suspicions about Sneekly, unresolved questions about Clara's presence, the thought trailing off mid-sentence creates genuine cognitive friction. Channel_coverage: only attention (what he's noticing about others, the guest book) and action-pull (need to think, need to watch); body and time are largely absent. Separation: excellent\u2014the thinking voice is chatty, digressive, uses dropped g's and colloquialisms ('load of old flannel', 'bless 'im') while the dialogue is more formally constructed, creating clear privacy.",
+      "thinking_excerpt": "Right \u2014 I looked at the guest book. Penelope's already asked about it, Sneekly's been poking at it, and Dastardly's signed it too. 'Retained by the estate's solicitors' \u2014 what a load of old flannel. D"
+    },
+    {
+      "character": "dick-dastardly",
+      "register": 2,
+      "uncertainty": 3,
+      "channel_coverage": 3,
+      "separation": 4,
+      "reasoning": "Register: Mostly mechanical labeling ('jaw tightens', 'suspicious', 'interesting') with minimal sensory discovery or unfolding emotional states. Uncertainty: Shows some competing impulses (library vs kitchen, uncertainty about others' motives) but resolves toward clear strategy quickly. Channel_coverage: Present are attention (who's where, what people are doing), body (jaw tightens), and action pull (where to investigate); time is mentioned but not rendered as unfolding pressure. Separation: Strong divide between the calculating, strategic public voice in dialogue and the suspicious, observant private voice; thinking contains raw assessments ('preening peacock', 'oblivious') that would never surface aloud.",
+      "thinking_excerpt": "The guest book \u2014 I've interacted with it. Good. Now I need to process what's happening around me. Sneekly is posing as the estate manager, 'Mr Pemberton.' Interesting. Very interesting indeed. He's pl"
+    },
+    {
+      "character": "dick-dastardly",
+      "register": 2,
+      "uncertainty": 2,
+      "channel_coverage": 3,
+      "separation": 4,
+      "reasoning": "Register: Mostly mechanical labeling ('Interesting,' 'My jaw tightens') with minimal embodied discovery\u2014emotions are identified rather than experienced in real time. Uncertainty: Low uncertainty overall; Dastardly quickly resolves observations into clear strategic assessments without lingering ambivalence, though there's a brief moment of competitive tension with Peter Perfect. Channel_coverage: Three channels present\u2014attention (library vs kitchen, Sneekly's role, Peter's whisper), body (jaw tightening), and action pull (need to reach the library)\u2014but minimal temporal/sensory rendering. Separation: Strong separation between public cunning (kitchen vaults misdirection) and private scheming (real target is the library and mantelpiece), showing the thinking is genuinely backstage and strategic rather than rehearsed dialogue.",
+      "thinking_excerpt": "The guest book \u2014 I've interacted with it. Good. Now I need to process what's happening around me. Sneekly is posing as the estate manager, 'Mr Pemberton.' Interesting. Very interesting indeed. He's pl"
+    },
+    {
+      "character": "peter-perfect",
+      "register": 4,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied language ('warmth in my chest intensifies,' 'jaw tightens') mixed with some analytical reporting, creating vivid phenomenological experience. Uncertainty: Rich competing impulses visible\u2014benefit of the doubt wrestles against suspicion, loyalty against caution, creating productive tension that remains unresolved. Channel_coverage: Body (jaw, chest sensations), attention (surveying, noticing phrasing), time (sequential discovery of clues), and action-pull (need to get to guest book) all present and rendered. Separation: Thinking is genuinely private and introspective with fragmented syntax and emotional texture, sharply distinct from the spare public dialogue ('spoke quietly with penelope-pitstop').",
+      "thinking_excerpt": "Right. I've surveyed the entrance hall. Now the scene is filling in \u2014 Penelope is excited, practically glowing with enthusiasm about the mystery. That warmth in my chest intensifies. She mentioned the"
+    },
+    {
+      "character": "peter-perfect",
+      "register": 4,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied language ('that warmth in my chest intensifies,' 'My jaw tightens') mixed with some analytical reporting, creating mostly phenomenological experience. Uncertainty: Clear competing impulses (suspicion vs. benefit of the doubt, urgency vs. self-constraint) with genuine unresolved tension about the other characters' motives. Channel_coverage: Body (jaw tightening, chest warmth), attention (surveying, noticing phrasing), and action pull (need to reach guest book) are vivid; time/temporal unfolding present but less dominant than others. Separation: Thinking is genuinely private\u2014fragmented, suspicious, emotionally raw\u2014while the dialogue presented is public-facing and strategic, showing clear register separation between inner and outer worlds.",
+      "thinking_excerpt": "Right. I've surveyed the entrance hall. Now the scene is filling in \u2014 Penelope is excited, practically glowing with enthusiasm about the mystery. That warmth in my chest intensifies. She mentioned the"
+    },
+    {
+      "character": "penelope-pitstop",
+      "register": 3,
+      "uncertainty": 4,
+      "channel_coverage": 2,
+      "separation": 4,
+      "reasoning": "Register is mixed\u2014uses some embodied deduction ('piece this together,' 'suspicious') but mostly stays in analytical labeling rather than sensory discovery. Uncertainty is rich with competing impulses: logical suspicion about Dastardly clashes against emotional trust in Sneekly, creating genuine unresolved tension. Channel coverage includes attention (tracking movements and dialogue) and action pull (implicit toward the library) but lacks body sensations and temporal awareness. Separation is strong\u2014the thinking is genuinely private, exploratory, and doubtful in ways the quiet dialogue to Peter-Perfect would never reveal.",
+      "thinking_excerpt": "Now let me piece this together. Dick Dastardly just announced \u2014 quite loudly and helpfully, which is suspicious in itself \u2014 that the guest book reveals Lord Doily kept valuables in 'kitchen vaults' be"
+    },
+    {
+      "character": "penelope-pitstop",
+      "register": 3,
+      "uncertainty": 5,
+      "channel_coverage": 2,
+      "separation": 5,
+      "reasoning": "Register: Mixed embodied language ('something tightens,' 'the room feels smaller' are absent, but logical deduction has some sensory grounding in observation rather than pure mechanical labeling). Uncertainty: Rich and unresolved tension between suspicion of Sneekly and her desire to trust him, with competing impulses ('He wouldn't... no. He wouldn't') creating genuine ambivalence. Channel_coverage: Primarily attention (piecing together observations) and action pull (what people are doing/where they're going); body and time are largely absent. Separation: Fully separated\u2014the thinking is messy, suspicious, and contradictory ('probably' hedge in dialogue masks the sharp accusatory reasoning in thought), while dialogue performs reassurance and charity toward Clara.",
+      "thinking_excerpt": "Now let me piece this together. Dick Dastardly just announced \u2014 quite loudly and helpfully, which is suspicious in itself \u2014 that the guest book reveals Lord Doily kept valuables in 'kitchen vaults' be"
+    },
+    {
+      "character": "hooded-claw",
+      "register": 4,
+      "uncertainty": 3,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied language ('pulse doesn't change', 'something in my hands wakes up', 'that precise, architectural feeling') with occasional lapses into reporting. Uncertainty: The thinking shows clear analytical confidence about the map answer but maintains tension about obstacles (Dastardly, the Slag brothers) and competing priorities (examining shelves vs managing social presence). Channel_coverage: Body (hands, pulse), attention (eyes tracking shelves and markers), action-pull (need to examine), and temporal awareness (past meticulous lord, present obstacles) all present; time-sense is slightly thinner than others. Separation: Sharp contrast between the measured, humble-curator persona in dialogue ('I am but a humble estate manager') and the sharp, calculating predatory intelligence in thinking ('that precise, architectural feeling', reading upside-down books as deliberate markers).",
+      "thinking_excerpt": "The library. Floor-to-ceiling bookshelves, dust on everything, two leather chairs facing the mantelpiece like pews before an altar. And there it is \u2014 the inscription. 'I have cities but no houses, for"
+    },
+    {
+      "character": "hooded-claw",
+      "register": 4,
+      "uncertainty": 3,
+      "channel_coverage": 4,
+      "separation": 4,
+      "reasoning": "Register: Strong embodied discovery ('something in my hands wakes up', 'pulse doesn't change') with architectural precision feeling, though less immediate sensory unfolding than top tier. Uncertainty: Recognizes complexity (Dastardly's interference, rival competitors) but resolves decisively toward the upside-down books strategy with minimal ambivalence. Channel_coverage: Body (hands, pulse), attention (observing details, noticing markers), and action pull (examining shelves, competitive jockeying) are vivid; time is present but less rendered. Separation: Thinking maintains interior assessment voice ('Of course he did', tactical analysis) while dialogue performs confident public certainty, creating clear distinction between private calculation and outer performance.",
+      "thinking_excerpt": "The library. Floor-to-ceiling bookshelves, dust on everything, two leather chairs facing the mantelpiece like pews before an altar. And there it is \u2014 the inscription. 'I have cities but no houses, for"
+    },
+    {
+      "character": "ant-hill-mob",
+      "register": 3,
+      "uncertainty": 4,
+      "channel_coverage": 3,
+      "separation": 5,
+      "reasoning": "Register is mixed\u2014some embodied sensation ('my neck's going mad') alongside mechanical analysis ('classic misdirection'), never fully phenomenological. Uncertainty is rich: genuine unresolved tension about whether Sneekly and Dastardly pursue the same goal, whether one manipulates the other, creating authentic cognitive friction. Channel coverage spans attention (tracking movements), body (neck sensation), and time/action pull (immediate threat assessment), but lacks sensory immersion in the present moment. Separation is strong: the internal monologue is genuinely private, scattered, and digressive (trailing mid-thought about Penelope's diamond mention) while the dialogue remains public and composed.",
+      "thinking_excerpt": "Right, things are moving fast now. Sneekly and Dastardly have both slipped off to the library \u2014 together. That ain't good. Sneekly's luring 'im there with talk of inscriptions and reading lamps, and D"
+    },
+    {
+      "character": "ant-hill-mob",
+      "register": 3,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 4,
+      "reasoning": "Register is mixed\u2014strong embodied signals ('neck's going mad,' 'neck ain't stopped prickling') alongside mechanical labeling ('classic misdirection,' 'playing Dastardly'). Uncertainty is rich with competing theories and unresolved tension about who wants what and whether to follow or stay. Channel coverage hits body (neck prickling), attention (library, kitchen, Penelope), action pull (follow vs. stay), and time (things moving fast now) but underweights visceral moment-to-moment sensation. Separation is strong\u2014the thinking is exploratory and half-formed ('But wait\u2014maybe...') while dialogue is measured and public-facing, with the thinking cut off mid-sentence in authentic inner-monologue fashion.",
+      "thinking_excerpt": "Right, things are moving fast now. Sneekly and Dastardly have both slipped off to the library \u2014 together. That ain't good. Sneekly's luring 'im there with talk of inscriptions and reading lamps, and D"
+    },
+    {
+      "character": "dick-dastardly",
+      "register": 3,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Mixed embodied language ('fingers are tingling') with some mechanical emotion-labeling ('My gut says'). Uncertainty: Rich competing impulses about Sneekly's trustworthiness and the riddle's meaning create genuine unresolved tension. Channel_coverage: Body (tingling fingers), attention (focus on mantelpiece/riddle), time (sequence of realizations), and action pull (the medal, the riddle) all rendered vividly; missing only one subtle channel. Separation: Stark contrast between public-facing reassurance ('purely decorative,' 'Means nothing') and private fixation on the riddle/map, creating perfect privacy-to-performance split.",
+      "thinking_excerpt": "The library. Yes. Tall ceilings, dusty books, and there it is \u2014 the mantelpiece with the inscription. 'I have cities but no houses, forests but no trees, water but no fish. What am I?' A riddle. A MAP"
+    },
+    {
+      "character": "dick-dastardly",
+      "register": 2,
+      "uncertainty": 3,
+      "channel_coverage": 3,
+      "separation": 2,
+      "reasoning": "Register: Mostly mechanical labeling ('My fingers are tingling,' 'My gut says') with minimal embodied discovery or unfolding sensation. Uncertainty: Some tension around Sneekly's motives and his own judgment ('Is he trying to help me or is he steering me?') but resolves into rationalization quickly. Channel_coverage: Body (tingling fingers, gut feeling), attention (watching Sneekly, the mantelpiece), and action pull (using the medal) are present; time dimension is weaker. Separation: Thinking leans toward internal speech patterns and reasoning that feel rehearsed rather than truly private\u2014the detective-story cadence ('Yes. Tall ceilings...') reads closer to dialogue register than genuine unfiltered interiority.",
+      "thinking_excerpt": "The library. Yes. Tall ceilings, dusty books, and there it is \u2014 the mantelpiece with the inscription. 'I have cities but no houses, forests but no trees, water but no fish. What am I?' A riddle. A MAP"
+    },
+    {
+      "character": "peter-perfect",
+      "register": 4,
+      "uncertainty": 5,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied sensations ('jaw tightens,' 'back of my neck is absolutely on fire') with some analytical overlay, but predominantly phenomenological rather than mechanical labeling. Uncertainty: Rich competing impulses\u2014wanting to give benefit of the doubt against pattern recognition that screams conspiracy, with the thought literally cut off mid-realization, leaving tension unresolved. Channel_coverage: Body (jaw, neck heat), attention (observing Dastardly and Sneekly's movements), time (sequence of events unfolding), action pull (implicit drive to act on suspicion)\u2014all four present though action pull is subtle. Separation: Thinking is raw, recursive, self-interrupting, and genuinely private ('No.'), while dialogue is described as 'quiet'\u2014a clear register separation between inner turbulence and external composure.",
+      "thinking_excerpt": "The guest book \u2014 I've interacted with it. Good. Now, the situation has shifted considerably. Dastardly has already been to the guest book and is now spinning a tale about 'kitchen vaults' and 'cold-st"
+    },
+    {
+      "character": "peter-perfect",
+      "register": 4,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied sensation ('jaw tightens', 'back of my neck is absolutely on fire') with vivid phenomenological discovery, though some analytical language ('The pattern is too clean') pulls slightly toward mechanical. Uncertainty: Rich competing impulses between giving 'benefit of the doubt' and the mounting pattern-recognition dread, with unresolved tension carrying into the truncated final thought. Channel_coverage: Body (neck fire, jaw), attention (tracking Dastardly and Sneekly's movements, the guest book), and time (sequential unfolding of realizations) strongly present; action pull less vivid but implied in the observation mode. Separation: Stark contrast between the careful, somewhat self-aware dialogue ('The bravery is genuine. The self-awareness... a work in progress') and the private paranoia and pattern-matching intensity of the thinking, establishing clear interiority.",
+      "thinking_excerpt": "The guest book \u2014 I've interacted with it. Good. Now, the situation has shifted considerably. Dastardly has already been to the guest book and is now spinning a tale about 'kitchen vaults' and 'cold-st"
+    },
+    {
+      "character": "penelope-pitstop",
+      "register": 4,
+      "uncertainty": 3,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied sensations ('scalp is prickling', 'fingers itching', 'almost buzzing') grounded in present discovery, though the riddle-solving shifts briefly toward mechanical problem-solving. Uncertainty: Penelope shows initial confidence in solving the riddle but genuine confusion about the upside-down books and what it means, creating some unresolved tension. Channel_coverage: Body (prickling scalp, itching fingers), attention (scanning the room, noticing Dick and Sneekly), time (present-moment discovery), and action-pull (toward the mantelpiece and books) all present; slightly weaker on action since she observes rather than acts. Separation: The thinking is playful, digressive, and private ('I KNOW this one', wondering about the books) while the dialogue is merely 'spoke quietly'\u2014completely separated registers.",
+      "thinking_excerpt": "Oh! The library! It's everything I imagined and more. Floor-to-ceiling bookshelves \u2014 my fingers are already itching. And there it is \u2014 the mantelpiece. The inscription reads: 'I have cities but no hou"
+    },
+    {
+      "character": "penelope-pitstop",
+      "register": 4,
+      "uncertainty": 2,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strongly embodied sensory language ('fingers already itching,' 'scalp is prickling so hard it's almost buzzing') with genuine phenomenological discovery, though some moments shift to reporting. Uncertainty: Penelope solves the riddle with certainty and moves quickly to observation; only minor unresolved tension about the upside-down books prevents full closure. Channel_coverage: Body (itching fingers, prickling scalp), attention (visual focus on bookshelves and mantelpiece), and action pull (pull toward solving, toward investigation) are vivid; time is less rendered. Separation: The thinking is genuinely private and excited, while the dialogue is cool, accusatory, and public-facing\u2014a sharp contrast showing Penelope's mask.",
+      "thinking_excerpt": "Oh! The library! It's everything I imagined and more. Floor-to-ceiling bookshelves \u2014 my fingers are already itching. And there it is \u2014 the mantelpiece. The inscription reads: 'I have cities but no hou"
+    },
+    {
+      "character": "hooded-claw",
+      "register": 2,
+      "uncertainty": 2,
+      "channel_coverage": 2,
+      "separation": 4,
+      "reasoning": "Register: Mostly mechanical labeling ('She's more dangerous,' 'The fool') with minimal embodied sensation or phenomenological unfolding. Uncertainty: Quick resolution of observations into confident conclusions ('The answer to the riddle is a map') with little ambivalence or competing impulses. Channel_coverage: Primarily attention and action pull present; minimal body sensation or time-flow rendering. Separation: Strong distinction between the manipulative, obsequious public persona (Sneekly's hedging dialogue) and the sharp, commanding private voice, though thinking leans toward strategic reporting rather than true interiority.",
+      "thinking_excerpt": "The room is filling up. Penelope and Peter have both arrived \u2014 Peter with his predictable gallantry, Penelope with her sharp-eyed curiosity that she disguises as Southern charm. She's more dangerous t"
+    },
+    {
+      "character": "hooded-claw",
+      "register": 2,
+      "uncertainty": 1,
+      "channel_coverage": 2,
+      "separation": 4,
+      "reasoning": "Register: Mostly mechanical reporting ('She's more dangerous than she looks,' 'The answer to the riddle is a map') with minimal embodied sensation\u2014few verbs of perception or physical response. Uncertainty: No ambivalence present; every thought resolves into certainty ('I'm better at it,' 'The answer...is a map'), with no competing impulses or hesitation. Channel_coverage: Only attention (visual focus on Penelope, Dastardly, bookshelves) and action-pull (what to examine next) rendered; body and time largely absent. Separation: Strong separation achieved\u2014the dialogue is performative vanity and superiority, while thinking is colder, analytical, and focused on tactical advantage; the registers are distinctly different.",
+      "thinking_excerpt": "The room is filling up. Penelope and Peter have both arrived \u2014 Peter with his predictable gallantry, Penelope with her sharp-eyed curiosity that she disguises as Southern charm. She's more dangerous t"
+    },
+    {
+      "character": "ant-hill-mob",
+      "register": 4,
+      "uncertainty": 4,
+      "channel_coverage": 5,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied language ('chest is tight,' 'rope in my gut,' 'feel it in my teeth') with vivid sensory discovery, though some moments veer toward naming ('My chest is tight' after physical rendering). Uncertainty: Rich internal conflict between self-recrimination and urgent action-pull, with unresolved tension about Peter's adequacy and the unknown threat. Channel_coverage: All four present\u2014body (chest, gut, teeth sensations), attention (fixating on guest book, shifting to library), time (past regret, present moment, immediate future pull), and action-pull (the imperative 'NOW'). Separation: Stark contrast between quiet measured dialogue with sergeant-blast and the private interior chaos of self-blame and mounting dread.",
+      "thinking_excerpt": "NO. No no no no NO. She's gone. Penelope's gone to the library. Peter went with 'er \u2014 good, that's good \u2014 but she's walked straight into the room with Sneekly AND Dastardly. The two people I trust lea"
+    },
+    {
+      "character": "ant-hill-mob",
+      "register": 4,
+      "uncertainty": 3,
+      "channel_coverage": 5,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied language ('chest is tight,' 'rope in my gut,' 'feel it in my teeth') with minor mechanical moments ('she's gone,' 'she's walked'). Uncertainty: Some tension between self-blame and action-urgency, but resolves quickly into directive ('Library. NOW'). Channel_coverage: Body (chest/gut/teeth), attention (guest book distraction, now fixed on library), time (three ticks, past standing, present need), action (need to be there). Separation: Thinking is fragmented, self-recriminatory, and whispered; dialogue is formal, controlled, philosophical\u2014distinct registers.",
+      "thinking_excerpt": "NO. No no no no NO. She's gone. Penelope's gone to the library. Peter went with 'er \u2014 good, that's good \u2014 but she's walked straight into the room with Sneekly AND Dastardly. The two people I trust lea"
+    },
+    {
+      "character": "dick-dastardly",
+      "register": 4,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied language ('jaw clenching,' 'stomach hollowing out,' 'portions disappearing') mixed with some analytical labeling, creating vivid phenomenological experience. Uncertainty: Multiple competing anxieties (the failed misdirection, Sneekly's hidden knowledge, the converging group) create rich unresolved tension without quick resolution. Channel_coverage: Body sensations (jaw, stomach), attention (tracking Sneekly, the mantelpiece, Peter Perfect), time pressure (FAST), and action pull (need to act) are all present and vivid; only fragmentary on external action description. Separation: The thinking is chaotic, capitalized, fragmentary, and emotionally raw ('Blast. BLAST.'), while the dialogue is described as 'quiet'\u2014a complete register separation showing private panic versus controlled public behavior.",
+      "thinking_excerpt": "Blast. BLAST. They didn't fall for it. Penelope saw right through my kitchen ruse \u2014 'if a man tells you to look left, you look right,' she said. And now she's HERE, in MY library, with that insufferab"
+    },
+    {
+      "character": "peter-perfect",
+      "register": 3,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 4,
+      "reasoning": "Register is mixed: phrases like 'warmth in my chest deepens' and 'hands want to solve' show embodiment, but 'The proving-worth drive is surging' lapses into mechanical labeling. Uncertainty is rich with competing impulses (attraction to Penelope vs. the puzzle-solving drive) and an incomplete thought that trails off unresolved. Channel coverage includes body (chest warmth, hands), attention (riddle analysis, compass), time (memory of sleepless nights), and action pull (wanting to solve), but action is implicit rather than kinetic. Separation is strong: the thinking is genuinely private and exploratory while the dialogue remains formal and restrained.",
+      "thinking_excerpt": "I'm in the library now. And \u2014 she came. Penelope followed me here. That warmth in my chest deepens. She said 'Peter, darlin', would you care to accompany me to the library?' \u2014 she wanted to come with "
+    },
+    {
+      "character": "peter-perfect",
+      "register": 3,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Mixed embodied language ('warmth in my chest deepens,' 'hands want to solve') alongside more mechanical puzzle-solving narration. Uncertainty: Rich competing impulses between intellectual satisfaction and performative desire ('proving-worth drive surging' vs. the interrupted thought suggesting self-awareness), unresolved tension at the cut-off. Channel_coverage: Body (hands, chest warmth), attention (brain working, watching her), time (three sleepless nights reference, 'now'), action pull (solving urge) present\u2014missing only subtle sensory environment rendering. Separation: Sharp distinction between the private, emotionally tangled monologue and the public-facing presentation of the solution as matter-of-fact discovery.",
+      "thinking_excerpt": "I'm in the library now. And \u2014 she came. Penelope followed me here. That warmth in my chest deepens. She said 'Peter, darlin', would you care to accompany me to the library?' \u2014 she wanted to come with "
+    },
+    {
+      "character": "penelope-pitstop",
+      "register": 1,
+      "uncertainty": 1,
+      "channel_coverage": 2,
+      "separation": 2,
+      "reasoning": "Register: The thinking is purely mechanical and analytical, reporting conclusions ('Atlases! Maps!') without any embodied experience or emergent discovery. Uncertainty: No ambivalence present; every deduction is stated as certainty with no competing impulses or unresolved tension. Channel_coverage: Only attention/cognition and weak action-pull are present; no body sensation, no temporal unfolding, no sensory rendering. Separation: The thinking reads nearly identical to the dialogue in register and style\u2014both are performative and explanatory rather than the dialogue being polished public-speech versus private cognitive mess.",
+      "thinking_excerpt": "Let me take stock of everything that just happened. I interacted with the mantelpiece \u2014 the riddle. Peter also interacted with it. Dick tried to throw us off with 'a globe' \u2014 honestly, that man! But t"
+    },
+    {
+      "character": "penelope-pitstop",
+      "register": 2,
+      "uncertainty": 4,
+      "channel_coverage": 2,
+      "separation": 4,
+      "reasoning": "Register: Mostly mechanical cataloging of logical deductions ('Atlases! Maps!') with minimal embodied sensation, though 'something tightens' appears in dialogue rather than thinking. Uncertainty: Strong tension between trust and doubt about Sneekly's motives, with genuine unresolved conflict ('almost as if he wanted us to solve it'\u2014ambiguous whether helpful or manipulative). Channel_coverage: Primarily attention (tracking clues, puzzle logic) with minimal body, sensory detail, time pressure, or action pull\u2014missing embodied responses and temporal urgency. Separation: Clear divide between thinking's puzzle-mechanics and dialogue's social performance ('stop that thought right where it is'), showing Penelope managing her public voice differently from her private reasoning.",
+      "thinking_excerpt": "Let me take stock of everything that just happened. I interacted with the mantelpiece \u2014 the riddle. Peter also interacted with it. Dick tried to throw us off with 'a globe' \u2014 honestly, that man! But t"
+    },
+    {
+      "character": "hooded-claw",
+      "register": 4,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strongly embodied with 'skin prickles' and sensory architecture-reading, though some mechanical cataloguing tempers full phenomenology. Uncertainty: Multiple unresolved questions (Did Sawtooth gnaw the wire? What's in the crates?) and competing assessments (limitation vs shield) create rich tension without premature closure. Channel_coverage: Body (skin prickling), attention (cataloguing surfaces, scanning room), time (before I've taken three steps), and action pull (the wire as invitation, the wrench's absence) all present; cuts off before full resolution. Separation: The thinking is clearly private, suspicious, and investigative with unresolved questions and contingent reasoning, while the dialogue attribution remains public-facing and unrevealed\u2014maximally separated.",
+      "thinking_excerpt": "The laboratory. My skin prickles with that precise, architectural awareness \u2014 every surface catalogued before I've taken three steps. The machine dominates the room: brass and copper, levers and dials"
+    },
+    {
+      "character": "hooded-claw",
+      "register": 4,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied language ('skin prickles,' 'architectural awareness') with some mechanical analysis mixed in, leaning heavily toward phenomenological experience. Uncertainty: Clear tension between observation and interpretation ('Did Sawtooth gnaw that wire?' suggests competing hypotheses), with unresolved questions about intent and causation throughout. Channel_coverage: Body (skin prickling), attention (cataloguing surfaces, focusing on specific objects), time (sequential discovery), and action-pull (the gnawed wire as an 'invitation') all present and rendered; missing only a strong sense of how the character's own physical impulse to act is constrained. Separation: Thinking is genuinely private\u2014fragmented, questioning, exploratory\u2014while the dialogue is performative, theatrical, and complete; the gap between the character's actual uncertainty and their confident public narration is stark and intentional.",
+      "thinking_excerpt": "The laboratory. My skin prickles with that precise, architectural awareness \u2014 every surface catalogued before I've taken three steps. The machine dominates the room: brass and copper, levers and dials"
+    },
+    {
+      "character": "ant-hill-mob",
+      "register": 4,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied language ('weight in my chest eases', 'fist unclenching') with some mechanical intrusion ('She's safe. For now.') keeps it from perfect. Uncertainty: Genuine tension between relief at finding Penelope and mounting anxiety about Dastardly's scheme, with unresolved questions ('What's 'e doing?') that don't close. Channel_coverage: Body (chest weight, unclenching), attention (spots Penelope, notices mantelpiece, tracks Dastardly's actions), time (relief 'for now', future threat implied), but less on action-pull\u2014missing the felt impulse to *do* something. Separation: Thinking is authentically fragmented and obsessive (repeating observations, spiraling questions) while dialogue performs confidence and bravado\u2014clean divide between private spiral and public persona.",
+      "thinking_excerpt": "I'm 'ere. I made it. Library. Penelope's 'ere \u2014 I can see 'er. The weight in my chest eases just a fraction, like a fist unclenching one finger at a time. She's safe. For now.\n\nBut look at this room. "
+    },
+    {
+      "character": "ant-hill-mob",
+      "register": 4,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied language ('weight in my chest eases,' 'fist unclenching') mixed with some reportage ('She's safe'), creating vivid phenomenological texture without complete immersion. Uncertainty: Genuine tension between relief at Penelope's presence and mounting dread about Dastardly's actions; the thinking spirals into unresolved questions ('What's 'e doing? Why?') rather than settling into clarity. Channel_coverage: Body (chest weight, unclenching), attention (scanning the room, noticing the medal), time (shifting between present observation and past failure), and action pull (implications of Dastardly's move) all rendered, though action-pull is least developed. Separation: Thinking is genuinely private\u2014fractured, questioning, digressive, using raw dialect\u2014while dialogue is composed, explanatory, and performance-facing; the gap between them is sharp and intentional.",
+      "thinking_excerpt": "I'm 'ere. I made it. Library. Penelope's 'ere \u2014 I can see 'er. The weight in my chest eases just a fraction, like a fist unclenching one finger at a time. She's safe. For now.\n\nBut look at this room. "
+    },
+    {
+      "character": "dick-dastardly",
+      "register": 4,
+      "uncertainty": 5,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Embodied sensory language ('hollow stomach,' 'empty hands,' 'room crowding in') mixed with some mechanical reporting ('medal is gone from my inventory'), creating vivid phenomenological experience. Uncertainty: Rich competing tensions between hope ('could be very good'), dread ('could be very bad'), and escalating loss of control ('everyone taking what should be mine'), with unresolved anxieties layering throughout. Channel_Coverage: Body (hollow stomach, empty hands), attention (focused on medal's disappearance, then on others' actions), and action-pull (crowding, disappearing portions) are vivid; time is present but less emphasized. Separation: Thinking is fragmented, emotional, and self-serving ('MY mantelpiece'), while dialogue maintains a composed, legalistic public persona with false casualness ('I suppose I ought to catalogue').",
+      "thinking_excerpt": "I used the fake medal on the mantelpiece. What happened? The medal is gone from my inventory \u2014 I'm carrying nothing now. Did it work? Did something open? I don't know yet, but the medal is gone, consu"
+    },
+    {
+      "character": "dick-dastardly",
+      "register": 2,
+      "uncertainty": 4,
+      "channel_coverage": 4,
+      "separation": 4,
+      "reasoning": "Register: Mixed between embodied sensation ('hollow ache spreading through my palms', 'stomach is hollow') and mechanical reporting ('medal is gone from my inventory'), leaning mechanical. Uncertainty: Strong uncertainty about whether the fake medal worked, competing anxieties about Sneekly's revelation and others crowding the mantelpiece, unresolved tension throughout. Channel_coverage: Body (hollow hands/stomach), attention (observing Sneekly, Peter Perfect, others), time (shifting concern from past action to present unfolding), and action pull (impulse to stop Sneekly, protect the mantelpiece); missing only more vivid sensory/proprioceptive detail. Separation: Thinking is genuinely private and fragmented ('What happened? Did it work? I don't know yet') whereas dialogue reads as performed and rhetorical ('Watch from the window, Reginald'), creating clear distinction between inner panic and outer showmanship.",
+      "thinking_excerpt": "I used the fake medal on the mantelpiece. What happened? The medal is gone from my inventory \u2014 I'm carrying nothing now. Did it work? Did something open? I don't know yet, but the medal is gone, consu"
+    },
+    {
+      "character": "peter-perfect",
+      "register": 4,
+      "uncertainty": 5,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied language ('flush of warmth', 'hollow', 'fills back in with something warm and solid') with vivid metaphorical discovery, though slightly less raw than peak phenomenological writing. Uncertainty: Richly ambivalent\u2014competing impulses (pride vs. inadequacy, exclusion vs. inclusion) create genuine unresolved tension that mirrors the emotional moment rather than resolving it. Channel_coverage: Body (chest sensations, flush), attention (tracking her words, Dastardly's deflection, Sneekly's observation), and time (past intrusion of 'school project', present moment unfolding) are vivid; action pull is present but slightly muted. Separation: Sharp divide between the messy, uncertain, emotionally entangled thinking and the polished, controlled, public-facing dialogue Peter delivers aloud.",
+      "thinking_excerpt": "She solved it too. At the same moment. 'That's a map!' \u2014 she said it with the same certainty I did, and my chest does two things at once: a flush of warmth because we're thinking alike, we're in sync,"
+    },
+    {
+      "character": "peter-perfect",
+      "register": 4,
+      "uncertainty": 5,
+      "channel_coverage": 4,
+      "separation": 5,
+      "reasoning": "Register: Strong embodied language ('chest does two things at once', 'hollow fills back in') with vivid architectural metaphor, though some moments drift toward naming ('flush of warmth'). Uncertainty: Exceptional complexity\u2014Peter cycles through pride/redundancy/inadequacy/validation, holding multiple contradictory feelings without resolving them cleanly. Channel_coverage: Body (chest, flush, hollow), attention (tracking Dastardly and Sneekly's moves, fixating on her request), and time (school project memory intrudes) are vivid; action pull is present but lighter than the others. Separation: Dialogue is polished and public ('She asked him to confirm it'), while thinking is fragmented, self-interrupting, and emotionally raw\u2014stark register difference.",
+      "thinking_excerpt": "She solved it too. At the same moment. 'That's a map!' \u2014 she said it with the same certainty I did, and my chest does two things at once: a flush of warmth because we're thinking alike, we're in sync,"
+    }
+  ]
+}
