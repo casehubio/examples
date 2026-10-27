@@ -29,7 +29,8 @@ public record AgentResponse(
     public static AgentResponse parse(String text) {
         try {
             String json = extractJson(text);
-            return JSON.readValue(json, AgentResponse.class);
+            var result = JSON.readValue(json, AgentResponse.class);
+            return result.action() != null ? result : idle();
         } catch (Exception e) {
             System.getLogger(AgentResponse.class.getName()).log(System.Logger.Level.WARNING, "Failed to parse agent response: " + e.getMessage());
             return idle();

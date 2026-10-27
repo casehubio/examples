@@ -1261,9 +1261,9 @@ class CharacterCognitionTest {
         // Simulate production pipeline: classify Clara's responses, feed to Peter's ToM
         // Clara stays silent across 2 turns — both classify as AVOIDANT + NONE
         var claraWaits = new AgentResponse("...", null, null, null,
-                                           new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.WAIT, null, null), null, null);
+                                           new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.WAIT, null, null), null, null, null);
         var claraMoves = new AgentResponse("...", null, null, null,
-                                           new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.MOVE, "library", null), null, null);
+                                           new io.casehub.examples.manor.model.Action(io.casehub.examples.manor.model.ActionType.MOVE, "library", null), null, null, null);
 
         // Turn 1: Clara waits silently (AVOIDANT)
         cognition.observeCharacterState("clara",
