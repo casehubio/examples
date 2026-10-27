@@ -89,6 +89,35 @@ Do not conclude. Do not explain. Discover.
 """
 
 
+DERIVE_PROFILE_PROMPT = """\
+You are deriving a Barrett 4-channel profile for a character based on their \
+personality, attachment style, disposition, and formation memories.
+
+For each of the character's drives, describe how that drive TYPICALLY manifests \
+across all four Barrett channels in THIS specific person — shaped by their \
+unique history and personality. Not what they feel in a specific situation, \
+but how their body has learned to express this drive pattern.
+
+The four channels:
+1. Body — where in the body does this drive live? What chronic tensions, \
+warmths, numbnesses has this person's history created? What somatic \
+signature does this drive carry for them specifically?
+2. Attention — what does this drive make them scan for, fixate on, miss? \
+How has their personality shaped what they notice involuntarily?
+3. Time — does this drive make moments feel urgent, patient, compressed, \
+stretched? What temporal signature did their formative experiences create?
+4. Action readiness — what does their body prepare to do when this drive \
+activates? What learned action patterns did their history install?
+
+Ground each channel in the specific formation memories where possible — \
+"the stillness that settled at twelve when the housekeeper complied" not \
+"a sense of calm control."
+
+Write 2-3 sentences per drive covering all four channels woven together. \
+Not a list of channels — a portrait of how this drive LIVES in this body.
+"""
+
+
 def load_social_config():
     with open(SOCIAL_CONFIG) as f:
         return yaml.safe_load(f)
@@ -98,25 +127,21 @@ def build_character_context(config, character_id):
     char = config[character_id]
     lines = []
 
-    # Drives (structured only)
     drives = char.get("drives", [])
     for d in drives:
         lines.append(f"Drive: {d['type']} (intensity {d['intensity']})")
 
-    # Personality facets (scores only)
     facets = char.get("personality-facets", [])
     if facets:
         lines.append("\nPersonality profile:")
         for f in facets:
             lines.append(f"  {f['facet']}: {f['score']}/100")
 
-    # Attachment
     att = char.get("attachment", {})
     if att:
         lines.append(f"\nAttachment: {att.get('style', 'unknown')} "
                       f"(anxiety={att.get('anxiety', 0)}, avoidance={att.get('avoidance', 0)})")
 
-    # Disposition
     disp = char.get("disposition", {})
     if disp:
         items = [f"{k}: {v}" for k, v in disp.items()]
@@ -125,8 +150,40 @@ def build_character_context(config, character_id):
     return "\n".join(lines)
 
 
-def build_prompt(character_context, situation, people_present, environment):
+def build_character_context_with_memories(config, character_id):
+    char = config[character_id]
+    base = build_character_context(config, character_id)
+
+    memories = char.get("formation-memories", [])
+    if memories:
+        mem_lines = ["\nFormation memories:"]
+        for m in memories:
+            serves = m.get("serves", "")
+            catalogue = m.get("catalogue", "")
+            episode = m.get("episode", "")
+            mem_lines.append(f"  Age {m['age']} ({catalogue}, serves: {serves}):")
+            mem_lines.append(f"    {episode[:300]}")
+        base += "\n".join(mem_lines)
+
+    return base
+
+
+def derive_barrett_profile(client, config, character_id):
+    char_ctx = build_character_context_with_memories(config, character_id)
+    prompt = DERIVE_PROFILE_PROMPT + f"\n--- Character ---\n{char_ctx}\n\n--- Barrett profile ---"
+
+    response = client.messages.create(
+        model=MODEL,
+        max_tokens=600,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    return response.content[0].text
+
+
+def build_prompt(character_context, situation, people_present, environment, barrett_profile=None):
     parts = [BARRETT_INSTRUCTION]
+    if barrett_profile:
+        parts.append(f"\n--- How your drives typically manifest in your body ---\n{barrett_profile}")
     parts.append(f"\n--- Your character ---\n{character_context}")
     parts.append(f"\n--- Current situation ---\n{situation}")
     if people_present:
@@ -243,9 +300,10 @@ Respond as JSON: {{"bespoke": N, "somatic": N, "situational": N, "discovery": N,
 """
 
 
-def run_case(client, config, case, verbose=False):
+def run_case(client, config, case, verbose=False, profiles=None):
     char_ctx = build_character_context(config, case["character"])
-    prompt = build_prompt(char_ctx, case["situation"], case["people"], case["environment"])
+    profile = profiles.get(case["character"]) if profiles else None
+    prompt = build_prompt(char_ctx, case["situation"], case["people"], case["environment"], profile)
 
     response = client.messages.create(
         model=MODEL,
@@ -290,6 +348,8 @@ def main():
     parser.add_argument("--verbose", "-v", action="store_true")
     parser.add_argument("--version", choices=["v1", "v2"], default="v2",
                         help="Instruction version: v1 (original) or v2 (improved)")
+    parser.add_argument("--profile", action="store_true",
+                        help="Derive Barrett profiles from memories before running cases")
     args = parser.parse_args()
 
     global BARRETT_INSTRUCTION
@@ -302,6 +362,23 @@ def main():
     config = load_social_config()
     client = AnthropicVertex(project_id=VERTEX_PROJECT, region=VERTEX_REGION)
 
+    profiles = {}
+    if args.profile:
+        char_ids = sorted(set(c["character"] for c in TEST_CASES))
+        print("Deriving Barrett profiles from personality + memories...")
+        for cid in char_ids:
+            print(f"  [{cid}]...", end="", flush=True)
+            profiles[cid] = derive_barrett_profile(client, config, cid)
+            print(f" done ({len(profiles[cid])} chars)")
+            if args.verbose:
+                print(f"    {profiles[cid][:300]}...")
+                print()
+        print()
+        profile_path = os.path.join(EVAL_DIR, "barrett-profiles.json")
+        with open(profile_path, "w") as f:
+            json.dump(profiles, f, indent=2)
+        print(f"Profiles saved to {profile_path}\n")
+
     cases = TEST_CASES
     if args.case:
         cases = [c for c in TEST_CASES if args.case in c["name"]]
@@ -312,7 +389,7 @@ def main():
     results = []
     for case in cases:
         print(f"  [{case['name']}] {case['character']}...", end="", flush=True)
-        result = run_case(client, config, case, args.verbose)
+        result = run_case(client, config, case, args.verbose, profiles)
         results.append(result)
         s = result["scores"]
         print(f"  bespoke={s['bespoke']} somatic={s['somatic']} "
