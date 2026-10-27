@@ -3,6 +3,7 @@ package io.casehub.work.examples.queue;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.casehub.work.api.WorkItem;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.POST;
@@ -12,8 +13,8 @@ import jakarta.ws.rs.core.MediaType;
 
 import org.jboss.logging.Logger;
 
-import io.casehub.ledger.runtime.model.ActorTrustScore;
-import io.casehub.ledger.runtime.repository.ActorTrustScoreRepository;
+import io.casehub.ledger.api.model.ActorTrustScoreBase;
+import io.casehub.ledger.api.spi.ActorTrustScoreRepository;
 import io.casehub.ledger.runtime.service.TrustScoreJob;
 import io.casehub.work.examples.QueueScenarioResponse;
 import io.casehub.work.examples.StepLog;
@@ -24,7 +25,6 @@ import io.casehub.work.ledger.model.WorkItemLedgerEntry;
 import io.casehub.work.ledger.repository.WorkItemLedgerEntryRepository;
 import io.casehub.work.api.AuditEntryResponse;
 import io.casehub.work.runtime.model.AuditEntry;
-import io.casehub.work.runtime.model.WorkItemEntity;
 import io.casehub.work.api.WorkItemCreateRequest;
 import io.casehub.work.api.WorkItemPriority;
 import io.casehub.work.runtime.repository.AuditEntryStore;
@@ -114,8 +114,8 @@ public class DocumentQueueScenario {
                 .createdBy(ACTOR_CREATOR)
                 .payload("{\"documentId\": \"contract-review-001\", \"documentType\": \"vendor-contract\"}")
                 .build();
-        final WorkItemEntity wi1 = workItemService.create(req1);
-        steps.add(new StepLog(1, desc1, wi1.id));
+        final WorkItem wi1 = workItemService.create(req1);
+        steps.add(new StepLog(1, desc1, wi1.id()));
 
         // ----------------------------------------------------------------
         // Create WI-2: policy-review-007
@@ -131,8 +131,8 @@ public class DocumentQueueScenario {
                 .createdBy(ACTOR_CREATOR)
                 .payload("{\"documentId\": \"policy-review-007\", \"documentType\": \"data-policy\"}")
                 .build();
-        final WorkItemEntity wi2 = workItemService.create(req2);
-        steps.add(new StepLog(2, desc2, wi2.id));
+        final WorkItem wi2 = workItemService.create(req2);
+        steps.add(new StepLog(2, desc2, wi2.id()));
 
         // ----------------------------------------------------------------
         // Create WI-3: sla-review-003
@@ -148,76 +148,76 @@ public class DocumentQueueScenario {
                 .createdBy(ACTOR_CREATOR)
                 .payload("{\"documentId\": \"sla-review-003\", \"documentType\": \"sla\"}")
                 .build();
-        final WorkItemEntity wi3 = workItemService.create(req3);
-        steps.add(new StepLog(3, desc3, wi3.id));
+        final WorkItem wi3 = workItemService.create(req3);
+        steps.add(new StepLog(3, desc3, wi3.id()));
 
         // ----------------------------------------------------------------
         // WI-1: reviewer-alice claims then releases
         // ----------------------------------------------------------------
         final String desc4 = "reviewer-alice claims WI-1 (contract-review-001)";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 4, total, desc4);
-        workItemService.claim(wi1.id, ACTOR_ALICE);
-        steps.add(new StepLog(4, desc4, wi1.id));
+        workItemService.claim(wi1.id(), ACTOR_ALICE);
+        steps.add(new StepLog(4, desc4, wi1.id()));
 
         final String desc5 = "reviewer-alice releases WI-1 — unable to review at this time";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 5, total, desc5);
-        workItemService.release(wi1.id, ACTOR_ALICE);
-        steps.add(new StepLog(5, desc5, wi1.id));
+        workItemService.release(wi1.id(), ACTOR_ALICE);
+        steps.add(new StepLog(5, desc5, wi1.id()));
 
         // ----------------------------------------------------------------
         // WI-1: reviewer-bob claims, starts, completes
         // ----------------------------------------------------------------
         final String desc6 = "reviewer-bob claims WI-1 from the doc-reviewers queue";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 6, total, desc6);
-        workItemService.claim(wi1.id, ACTOR_BOB);
-        steps.add(new StepLog(6, desc6, wi1.id));
+        workItemService.claim(wi1.id(), ACTOR_BOB);
+        steps.add(new StepLog(6, desc6, wi1.id()));
 
         final String desc7 = "reviewer-bob starts reviewing WI-1 (contract-review-001)";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 7, total, desc7);
-        workItemService.start(wi1.id, ACTOR_BOB);
-        steps.add(new StepLog(7, desc7, wi1.id));
+        workItemService.start(wi1.id(), ACTOR_BOB);
+        steps.add(new StepLog(7, desc7, wi1.id()));
 
         final String desc8 = "reviewer-bob completes WI-1 — contract approved";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 8, total, desc8);
-        workItemService.complete(wi1.id, ACTOR_BOB, "{\"decision\": \"APPROVED\", \"documentId\": \"contract-review-001\"}", null);
-        steps.add(new StepLog(8, desc8, wi1.id));
+        workItemService.complete(wi1.id(), ACTOR_BOB, "{\"decision\": \"APPROVED\", \"documentId\": \"contract-review-001\"}", null);
+        steps.add(new StepLog(8, desc8, wi1.id()));
 
         // ----------------------------------------------------------------
         // WI-2: reviewer-bob claims, starts, completes
         // ----------------------------------------------------------------
         final String desc9 = "reviewer-bob claims WI-2 (policy-review-007)";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 9, total, desc9);
-        workItemService.claim(wi2.id, ACTOR_BOB);
-        steps.add(new StepLog(9, desc9, wi2.id));
+        workItemService.claim(wi2.id(), ACTOR_BOB);
+        steps.add(new StepLog(9, desc9, wi2.id()));
 
         final String desc10 = "reviewer-bob starts reviewing WI-2 (policy-review-007)";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 10, total, desc10);
-        workItemService.start(wi2.id, ACTOR_BOB);
-        steps.add(new StepLog(10, desc10, wi2.id));
+        workItemService.start(wi2.id(), ACTOR_BOB);
+        steps.add(new StepLog(10, desc10, wi2.id()));
 
         final String desc11 = "reviewer-bob completes WI-2 — policy approved with minor amendments";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 11, total, desc11);
-        workItemService.complete(wi2.id, ACTOR_BOB,
+        workItemService.complete(wi2.id(), ACTOR_BOB,
                 "{\"decision\": \"APPROVED_WITH_AMENDMENTS\", \"documentId\": \"policy-review-007\"}", null);
-        steps.add(new StepLog(11, desc11, wi2.id));
+        steps.add(new StepLog(11, desc11, wi2.id()));
 
         // ----------------------------------------------------------------
         // WI-3: reviewer-alice claims, starts, completes
         // ----------------------------------------------------------------
         final String desc12 = "reviewer-alice claims WI-3 (sla-review-003)";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 12, total, desc12);
-        workItemService.claim(wi3.id, ACTOR_ALICE);
-        steps.add(new StepLog(12, desc12, wi3.id));
+        workItemService.claim(wi3.id(), ACTOR_ALICE);
+        steps.add(new StepLog(12, desc12, wi3.id()));
 
         final String desc13 = "reviewer-alice starts reviewing WI-3 (sla-review-003)";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 13, total, desc13);
-        workItemService.start(wi3.id, ACTOR_ALICE);
-        steps.add(new StepLog(13, desc13, wi3.id));
+        workItemService.start(wi3.id(), ACTOR_ALICE);
+        steps.add(new StepLog(13, desc13, wi3.id()));
 
         final String desc14 = "reviewer-alice completes WI-3 — SLA approved";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 14, total, desc14);
-        workItemService.complete(wi3.id, ACTOR_ALICE, "{\"decision\": \"APPROVED\", \"documentId\": \"sla-review-003\"}", null);
-        steps.add(new StepLog(14, desc14, wi3.id));
+        workItemService.complete(wi3.id(), ACTOR_ALICE, "{\"decision\": \"APPROVED\", \"documentId\": \"sla-review-003\"}", null);
+        steps.add(new StepLog(14, desc14, wi3.id()));
 
         // ----------------------------------------------------------------
         // Compute trust scores
@@ -228,8 +228,8 @@ public class DocumentQueueScenario {
         // Collect ledger entries across all 3 WorkItems
         // ----------------------------------------------------------------
         final List<LedgerEntryResponse> allLedgerEntries = new ArrayList<>();
-        for (final WorkItemEntity wi : List.of(wi1, wi2, wi3)) {
-            final List<WorkItemLedgerEntry> entries = ledgerRepo.findByWorkItemId(wi.id);
+        for (final WorkItem wi : List.of(wi1, wi2, wi3)) {
+            final List<WorkItemLedgerEntry> entries = ledgerRepo.findByWorkItemId(wi.id());
             entries.forEach(WorkItemLedgerEntry::syncSupplementsFromJpa);
             entries.stream()
                     .map(e -> LedgerMapper.toResponse(e, ledgerRepo.findAttestationsByEntryId(e.id)))
@@ -240,8 +240,8 @@ public class DocumentQueueScenario {
         // Collect audit entries across all 3 WorkItems
         // ----------------------------------------------------------------
         final List<AuditEntryResponse> allAuditEntries = new ArrayList<>();
-        for (final WorkItemEntity wi : List.of(wi1, wi2, wi3)) {
-            final List<AuditEntry> auditEntries = auditStore.findByWorkItemId(wi.id);
+        for (final WorkItem wi : List.of(wi1, wi2, wi3)) {
+            final List<AuditEntry> auditEntries = auditStore.findByWorkItemId(wi.id());
             auditEntries.stream()
                     .map(a -> new AuditEntryResponse(a.id, a.event, a.actor, a.detail, a.occurredAt))
                     .forEach(allAuditEntries::add);
@@ -261,14 +261,14 @@ public class DocumentQueueScenario {
         return new QueueScenarioResponse(
                 SCENARIO_ID,
                 steps,
-                List.of(wi1.id, wi2.id, wi3.id),
+                List.of(wi1.id(), wi2.id(), wi3.id()),
                 allLedgerEntries,
                 allAuditEntries,
                 bobTrust,
                 aliceTrust);
     }
 
-    private ActorTrustScoreResponse toResponse(final ActorTrustScore score) {
+    private ActorTrustScoreResponse toResponse(final ActorTrustScoreBase score) {
         return new ActorTrustScoreResponse(
                 score.actorId,
                 score.actorType,
