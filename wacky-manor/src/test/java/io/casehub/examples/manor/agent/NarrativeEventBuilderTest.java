@@ -60,7 +60,7 @@ class NarrativeEventBuilderTest {
         var result = NarrativeEventBuilder.describe(hc,
                                                     new Action(ActionType.INTERACT, "cabinet", "brass-key"),
                                                     new ActionResult.ItemReceived("old-recipe-cards", "You received old-recipe-cards."));
-        assertThat(result).isEqualTo("The Hooded Claw (as Sneekly) interacted with the cabinet.");
+        assertThat(result).isEqualTo("The Hooded Claw (as Sneekly) examined the cabinet.");
     }
 
     @Test

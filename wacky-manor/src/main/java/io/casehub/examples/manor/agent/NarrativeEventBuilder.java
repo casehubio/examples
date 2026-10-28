@@ -23,7 +23,7 @@ public final class NarrativeEventBuilder {
             case USE -> name + " fussed with the " + action.target() + " for a moment.";
             case GIVE -> name + " handed something to " + action.target() + ".";
             case LOOK -> name + " examined the " + action.target() + ".";
-            case INTERACT -> name + " interacted with the " + action.target() + ".";
+            case INTERACT -> name + " examined the " + action.target() + ".";
             case STEAL -> name + " did something near " + action.target() + ".";
             case PULL_ASIDE, WAIT -> null;
         };
