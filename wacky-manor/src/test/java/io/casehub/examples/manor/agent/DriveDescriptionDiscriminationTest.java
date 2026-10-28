@@ -166,7 +166,7 @@ class DriveDescriptionDiscriminationTest {
         var config = configs.getOrDefault(AGENT, SocialConfig.empty());
         var cognition = new CharacterCognition(AGENT, null, null, config, List.of(),
             null, new ManorContextStrategy(), null, null,
-            TENANT, store, null, null);
+            TENANT, store, null, null, true);
         var section = cognition.renderInternalState(List.of(), "");
         assertThat(section).isNotNull();
         return ((ObservationSection.TextBlock) section).content();

@@ -69,6 +69,8 @@ public class ManorConfigProducer {
     int     cognitiveSnapshotIntervalTicks;
     @ConfigProperty(name = "manor.appraisal.enabled", defaultValue = "false")
     boolean appraisalEnabled;
+    @ConfigProperty(name = "manor.cognitive.briefing-mode", defaultValue = "true")
+    boolean briefingMode;
     @ConfigProperty(name = "manor.mood.decay-minutes", defaultValue = "240")
     int moodDecayMinutes;
     @ConfigProperty(name = "manor.mood.max-displacement", defaultValue = "1.0")
@@ -119,7 +121,8 @@ public class ManorConfigProducer {
                 new ManorConfig.MoodTuningConfig(moodDecayMinutes, moodMaxDisplacement),
                 new ManorConfig.SessionConfig(ManorConfig.SessionConfig.parseClearAtTokens(clearAtTokensRaw, modelContextTokens)),
                 activeCharactersConfig.orElse(""),
-                maxConcurrentAgents
+                maxConcurrentAgents,
+                briefingMode
         );
     }
 }

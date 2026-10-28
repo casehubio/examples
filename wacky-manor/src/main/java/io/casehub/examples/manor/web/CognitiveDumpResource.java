@@ -95,7 +95,7 @@ public class CognitiveDumpResource {
         var cognition = new CharacterCognition(
             characterId, null, null, socialConfig, List.of(),
             null, new ManorContextStrategy(), null, null,
-            tenantId, store, null, null);
+            tenantId, store, null, null, true);
 
         var dummyCharacter = new CharacterState(characterId, characterId, "dump", 0.0, List.of());
         var sections = cognition.renderCognitiveSections(dummyCharacter, List.of(), Map.of());

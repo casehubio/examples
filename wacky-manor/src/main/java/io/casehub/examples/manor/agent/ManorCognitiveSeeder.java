@@ -126,6 +126,34 @@ public final class ManorCognitiveSeeder {
             timestamps.put("drive:" + drive.type(), now);
         }
 
+        for (var facet : config.personalityFacets()) {
+            mindMapStore.addNode(
+                    NodeInput.of("facet-" + facet.facet().toLowerCase().replace(' ', '-'), subgraphId)
+                             .withConfidence(Confidence.stated(0.9, now))
+                             .withProvenance("personality-seed")
+                             .withProperties(Map.of(
+                                     "cognitiveKind", "personality-facet",
+                                     "agent-id", agentId,
+                                     "facet", facet.facet(),
+                                     "score", String.valueOf(facet.score()))),
+                    tenantId);
+        }
+
+        if (config.attachment() != null) {
+            var att = config.attachment();
+            mindMapStore.addNode(
+                    NodeInput.of("attachment-style", subgraphId)
+                             .withConfidence(Confidence.stated(0.9, now))
+                             .withProvenance("personality-seed")
+                             .withProperties(Map.of(
+                                     "cognitiveKind", "attachment-style",
+                                     "agent-id", agentId,
+                                     "style", att.style(),
+                                     "anxiety", String.valueOf(att.anxiety()),
+                                     "avoidance", String.valueOf(att.avoidance()))),
+                    tenantId);
+        }
+
         for (NeedTier tier : NeedTier.values()) {
             mindMapStore.addNode(
                     NodeInput.of("need-" + tier.name().toLowerCase(), subgraphId)

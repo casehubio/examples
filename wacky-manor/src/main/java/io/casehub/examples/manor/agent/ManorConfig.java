@@ -17,7 +17,8 @@ public record ManorConfig(
         MoodTuningConfig mood,
         SessionConfig session,
         String activeCharacters,
-        int maxConcurrentAgents
+        int maxConcurrentAgents,
+        boolean briefingMode
 ) {
     public record ObservationConfig(int verbatimThreshold, int groupedThreshold) {}
 

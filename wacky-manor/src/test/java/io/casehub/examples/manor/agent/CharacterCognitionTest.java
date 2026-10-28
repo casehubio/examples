@@ -153,7 +153,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
                 null, new ManorContextStrategy(), null, null,
-                tenant, store, null, null);
+                tenant, store, null, null, true);
 
         // Social awareness should be absent — adapted drives are below threshold
         // even though static config has scheming at 0.9
@@ -178,7 +178,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
                 null, new ManorContextStrategy(), null, null,
-                tenant, store, null, null);
+                tenant, store, null, null, true);
 
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(agent, "HC", "Room", 0.0, List.of()),
@@ -222,7 +222,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
                 null, new ManorContextStrategy(), null, null,
-                tenant, store, null, null);
+                tenant, store, null, null, true);
 
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
@@ -272,7 +272,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
                 null, new ManorContextStrategy(), null, null,
-                tenant, store, null, null);
+                tenant, store, null, null, true);
 
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
@@ -308,7 +308,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
                 null, new ManorContextStrategy(), cognitionCore, seedResult,
-                tenant, store, null, null);
+                tenant, store, null, null, true);
 
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
@@ -364,7 +364,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
                 null, new ManorContextStrategy(), cognitionCore, seedResult,
-                tenant, store, null, null);
+                tenant, store, null, null, true);
 
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
@@ -404,7 +404,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.getOrDefault(agent, SocialConfig.empty()), List.of(),
                 null, new ManorContextStrategy(), cognitionCore, seedResult,
-                tenant, store, null, null);
+                tenant, store, null, null, true);
 
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(agent, "Muttley", "library", 0.0, List.of()),
@@ -428,7 +428,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition(
                 agent, null, null, allConfigs.get(agent), List.of(),
                 null, new ManorContextStrategy(), null, null,
-                tenant, store, null, null);
+                tenant, store, null, null, true);
 
         var sections = cognition.renderCognitiveSections(
                 new io.casehub.examples.manor.model.CharacterState(agent, "HC", "library", 0.0, List.of()),
@@ -494,7 +494,7 @@ class CharacterCognitionTest {
             if (desc.contains("welcomed")) return List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.8));
             return List.of();
         };
-        var cognition = new CharacterCognition(agent, null, null, ppConfig, List.of(), null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+        var cognition = new CharacterCognition(agent, null, null, ppConfig, List.of(), null, new ManorContextStrategy(), null, null, tenant, store, null, classifier, true);
         var section = cognition.renderInternalState(List.of("gallantry"), "Penelope smiled and welcomed Peter into the drawing room");
         assertThat(section).isNotNull();
         var content = ((io.casehub.agency.perception.observation.affordance.ObservationSection.TextBlock) section).content();
@@ -523,7 +523,7 @@ class CharacterCognitionTest {
         io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.9));
         var drives = List.of(new SocialConfig.Drive("scheming", 0.5, "Plans spinning"));
         var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of(), null);
-        var cognition = new CharacterCognition(agent, null, null, socialConfig, List.of(), null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+        var cognition = new CharacterCognition(agent, null, null, socialConfig, List.of(), null, new ManorContextStrategy(), null, null, tenant, store, null, classifier, true);
         var section = cognition.renderInternalState(List.of("scheming"), "people welcomed each other");
         assertThat(section)
                 .as("No drives overlap the situation (scheming needs dominance, situation has acceptance) — section is null")
@@ -543,7 +543,7 @@ class CharacterCognitionTest {
         var drives       = List.of(new SocialConfig.Drive("scheming", 0.7, "loves scheming", "any"));
         var socialConfig = new SocialConfig(List.of(), drives, List.of(), List.of(), List.of(), Map.of(), null);
         var cognition = new CharacterCognition(agent, null, null, socialConfig, List.of(),
-                                               null, new ManorContextStrategy(), null, null, tenant, store, null, null);
+                                               null, new ManorContextStrategy(), null, null, tenant, store, null, null, true);
 
         var ctx = io.casehub.neocortex.caps.SituationContext.from(
                 List.of(new io.casehub.neocortex.caps.SituationActivation("reward", 0.9)));
@@ -579,7 +579,7 @@ class CharacterCognitionTest {
                                                             .withProperties(Map.of("agent-id", agent, "drive-type", "gallantry", "inferred-inputs", "acceptance:0.7")), tenant);
 
         var cognition = new CharacterCognition(agent, null, null, SocialConfig.empty(), List.of(),
-                                               null, new ManorContextStrategy(), null, null, tenant, store, null, null);
+                                               null, new ManorContextStrategy(), null, null, tenant, store, null, null, true);
 
         var ctx = io.casehub.neocortex.caps.SituationContext.from(
                 List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.8)));
@@ -609,7 +609,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition("test-agent",
                                                null, null, socialConfig, List.of(),
                                                null, new ManorContextStrategy(), null, null, "test-tenant",
-                                               new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore(), null, throwingClassifier);
+                                               new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore(), null, throwingClassifier, true);
 
         var character = new io.casehub.examples.manor.model.CharacterState("test-agent", "Test Agent", "hall", 0.0, List.of());
         character.setLastActionResult("You stole the key.");
@@ -628,7 +628,7 @@ class CharacterCognitionTest {
         var cognition = new CharacterCognition("test-agent",
                                                null, null, SocialConfig.empty(), List.of(),
                                                null, new ManorContextStrategy(), null, null, "test-tenant",
-                                               new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore(), null, classifier);
+                                               new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore(), null, classifier, true);
 
         var ctx = cognition.classifySituation("something good happened", List.of());
         assertThat(ctx.isEmpty()).isFalse();
@@ -669,7 +669,7 @@ class CharacterCognitionTest {
 
         var configs = ManorSocialConfigLoader.loadForProfile("generic");
         var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
-            null, new ManorContextStrategy(), null, null, tenant, store, null, null);
+            null, new ManorContextStrategy(), null, null, tenant, store, null, null, true);
 
         var section = cognition.renderInternalState(List.of("gallantry"),
             "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
@@ -737,7 +737,7 @@ class CharacterCognitionTest {
 
         var configs = ManorSocialConfigLoader.loadForProfile("generic");
         var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
-            null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+            null, new ManorContextStrategy(), null, null, tenant, store, null, classifier, true);
 
         var section = cognition.renderInternalState(List.of("gallantry", "proving-worth"),
             "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
@@ -788,7 +788,7 @@ class CharacterCognitionTest {
 
         var configs = ManorSocialConfigLoader.loadForProfile("generic");
         var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
-                                               null, new ManorContextStrategy(), null, null, tenant, store, null, null);
+                                               null, new ManorContextStrategy(), null, null, tenant, store, null, null, true);
 
         var section = cognition.renderInternalState(List.of("gallantry"),
                                                     "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
@@ -847,7 +847,7 @@ class CharacterCognitionTest {
 
         var configs = ManorSocialConfigLoader.loadForProfile("generic");
         var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
-                                               null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+                                               null, new ManorContextStrategy(), null, null, tenant, store, null, classifier, true);
 
         var section = cognition.renderInternalState(List.of("gallantry", "proving-worth"),
                                                     "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
@@ -893,7 +893,7 @@ class CharacterCognitionTest {
 
         var configs = ManorSocialConfigLoader.loadForProfile("generic");
         var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
-                                               null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+                                               null, new ManorContextStrategy(), null, null, tenant, store, null, classifier, true);
 
         var section = cognition.renderInternalState(List.of("social-harmony"),
                                                     "James Hartwell is sitting alone after the argument", List.of("peter-perfect"));
@@ -929,7 +929,7 @@ class CharacterCognitionTest {
 
         var configs = ManorSocialConfigLoader.loadForProfile("generic");
         var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
-            null, new ManorContextStrategy(), null, null, tenant, store, null, null);
+            null, new ManorContextStrategy(), null, null, tenant, store, null, null, true);
 
         var section = cognition.renderInternalState(List.of("gallantry"),
             "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
@@ -986,7 +986,7 @@ class CharacterCognitionTest {
 
         var configs = ManorSocialConfigLoader.loadForProfile("generic");
         var cognition = new CharacterCognition(agent, null, null, configs.get(agent), List.of(),
-            null, new ManorContextStrategy(), null, null, tenant, store, null, classifier);
+            null, new ManorContextStrategy(), null, null, tenant, store, null, classifier, true);
 
         var section = cognition.renderInternalState(List.of("gallantry", "protection"),
             "Clara is struggling with a heavy door", List.of("penelope-pitstop"));
@@ -1028,7 +1028,7 @@ class CharacterCognitionTest {
 
         var cognition = new CharacterCognition("peter-perfect", null, null,
             SocialConfig.empty(), List.of(), null, new ManorContextStrategy(), null, null,
-            tenant, store, null, null);
+            tenant, store, null, null, true);
         cognition.observeCharacterState("clara",
             io.casehub.neocortex.mindmap.intelligence.tom.BehaviorType.AVOIDANT,
             io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.NONE);
@@ -1093,7 +1093,7 @@ class CharacterCognitionTest {
 
         var cognition = new CharacterCognition("peter-perfect", null, null,
                                                SocialConfig.empty(), List.of(), null, new ManorContextStrategy(), null, null,
-                                               tenant, store, null, null);
+                                               tenant, store, null, null, true);
 
         // Turn 1: very high distress (avoidant + severe)
         cognition.observeCharacterState("clara",
@@ -1132,7 +1132,7 @@ class CharacterCognitionTest {
 
         var cognition = new CharacterCognition("peter-perfect", null, null,
                                                SocialConfig.empty(), List.of(), null, new ManorContextStrategy(), null, null,
-                                               tenant, store, null, null);
+                                               tenant, store, null, null, true);
 
         // Turn 1: moderate distress
         cognition.observeCharacterState("clara",
@@ -1170,7 +1170,7 @@ class CharacterCognitionTest {
 
         var cognition = new CharacterCognition("peter-perfect", null, null,
                                                SocialConfig.empty(), List.of(), null, new ManorContextStrategy(), null, null,
-                                               tenant, store, null, null);
+                                               tenant, store, null, null, true);
 
         // Single observation — no trajectory possible
         cognition.observeCharacterState("clara",
@@ -1208,7 +1208,7 @@ class CharacterCognitionTest {
 
         var cognition = new CharacterCognition("peter-perfect", null, null,
                                                SocialConfig.empty(), List.of(), null, new ManorContextStrategy(), null, null,
-                                               tenant, store, null, null);
+                                               tenant, store, null, null, true);
         var character = new io.casehub.examples.manor.model.CharacterState(
                 "peter-perfect", "PP", "Room", 0.0, List.of());
 
@@ -1256,7 +1256,7 @@ class CharacterCognitionTest {
 
         var cognition = new CharacterCognition("peter-perfect", null, null,
                                                SocialConfig.empty(), List.of(), null, new ManorContextStrategy(), null, null,
-                                               tenant, store, null, null);
+                                               tenant, store, null, null, true);
 
         // Simulate production pipeline: classify Clara's responses, feed to Peter's ToM
         // Clara stays silent across 2 turns — both classify as AVOIDANT + NONE
