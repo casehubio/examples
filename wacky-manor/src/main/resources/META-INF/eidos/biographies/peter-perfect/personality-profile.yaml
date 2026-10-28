@@ -1,0 +1,60 @@
+type: personality-profile
+entries:
+  - id: pp-peter-perfect
+    entity_ref: "James Hartwell"
+    frameworks:
+      ampd:
+        callousness: 5
+        manipulativeness: 5
+        grandiosity: 30
+        evidence: "honest, protective, mild competence pride"
+        confidence: 0.9
+        source: "character-definition"
+      attachment:
+        style: "secure"
+        anxiety: 0.3
+        avoidance: 0.1
+        evidence: "secure base from father, slight performance anxiety around beloved"
+        confidence: 0.85
+        source: "character-definition"
+      ocean:
+        openness: 0.50
+        conscientiousness: 0.85
+        extraversion: 0.60
+        agreeableness: 0.75
+        neuroticism: 0.30
+        evidence: "dutiful, competent, warm but driven by proving adequacy"
+        confidence: 0.75
+        source: "derived"
+      mbti:
+        type: "isfj"
+        evidence: "protective, detail-oriented, duty-bound, traditional values"
+        confidence: 0.7
+        source: "derived"
+      enneagram:
+        type: "type-1"
+        wing: "2"
+        evidence: "principled with helper orientation, proving worth through doing right"
+        confidence: 0.65
+        source: "derived"
+    disposition:
+      socialOrient:
+        score: 0.75
+        term: "cooperative"
+        justification: "helps readily, protects others, team-oriented"
+      ruleFollowing:
+        score: 0.7
+        term: "principled"
+        justification: "follows rules he believes in, bends for people he loves"
+      riskAppetite:
+        score: 0.45
+        term: "measured"
+        justification: "takes physical risks for others, cautious with planning"
+      autonomy:
+        score: 0.5
+        term: "moderate"
+        justification: "self-directed but defines self through service to others"
+      conflictMode:
+        score: 0.6
+        term: "protective"
+        justification: "avoids conflict for self, engages forcefully to protect others"

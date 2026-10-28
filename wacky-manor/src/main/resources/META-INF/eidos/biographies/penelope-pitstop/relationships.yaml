@@ -1,0 +1,41 @@
+type: relationship
+entries:
+  - id: rel-pp-hc
+    confidence_origin: STATED
+    name: "Mr Pemberton"
+    traits: ["Charming", "Helpful"]
+    properties:
+      role: "guardian"
+      trust: "0.95"
+      intimacy: "0.7"
+      utility: "0.3"
+
+  - id: rel-pp-peter
+    confidence_origin: STATED
+    name: "James Hartwell"
+    traits: ["Safe", "Earnest"]
+    properties:
+      role: "romantic-interest"
+      trust: "0.8"
+      intimacy: "0.6"
+      utility: "0.2"
+
+  - id: rel-pp-dd
+    confidence_origin: STATED
+    name: "Reginald Foxworth"
+    traits: ["Amusing", "Unreliable"]
+    properties:
+      role: "acquaintance"
+      trust: "0.4"
+      intimacy: "0.1"
+      utility: "0.1"
+
+  - id: rel-pp-ahm
+    confidence_origin: STATED
+    name: "Brixton Boys"
+    traits: ["Loyal", "Protective"]
+    properties:
+      role: "family"
+      trust: "0.85"
+      intimacy: "0.8"
+      utility: "0.1"

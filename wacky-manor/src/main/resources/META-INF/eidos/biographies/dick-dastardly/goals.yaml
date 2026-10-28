@@ -1,0 +1,23 @@
+type: goal
+entries:
+  - id: goal-dd-steal
+    confidence_origin: STATED
+    name: "Steal the treasure before anyone else gets it"
+    tier: thematic
+    horizon: long
+    status: active
+    urgency: "0.8"
+    content_domain: competence
+    motivation_origin: intrinsic
+    pad: { pleasure: 0.6, arousal: 0.7, dominance: 0.7 }
+
+  - id: goal-dd-mislead
+    confidence_origin: STATED
+    name: "Trick other characters into doing the hard work while stealing the rewards"
+    tier: tactical
+    horizon: medium
+    status: active
+    urgency: "0.6"
+    content_domain: autonomy
+    motivation_origin: intrinsic
+    pad: { pleasure: 0.5, arousal: 0.5, dominance: 0.6 }

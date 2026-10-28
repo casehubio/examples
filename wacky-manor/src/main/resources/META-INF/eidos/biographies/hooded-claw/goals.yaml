@@ -1,0 +1,34 @@
+type: goal
+entries:
+  - id: goal-hc-eliminate
+    confidence_origin: STATED
+    name: "Eliminate Clara before she finds the treasure"
+    tier: thematic
+    horizon: long
+    status: active
+    urgency: "0.8"
+    content_domain: competence
+    motivation_origin: intrinsic
+    pad: { pleasure: 0.3, arousal: 0.6, dominance: 0.8 }
+
+  - id: goal-hc-disguise
+    confidence_origin: STATED
+    name: "Maintain Pemberton disguise at all times when others are present"
+    tier: operational
+    horizon: ongoing
+    status: active
+    urgency: "0.9"
+    content_domain: competence
+    motivation_origin: intrinsic
+    pad: { pleasure: 0.2, arousal: 0.4, dominance: 0.7 }
+
+  - id: goal-hc-treasure
+    confidence_origin: STATED
+    name: "Win the treasure hunt"
+    tier: tactical
+    horizon: medium
+    status: active
+    urgency: "0.6"
+    content_domain: competence
+    motivation_origin: intrinsic
+    pad: { pleasure: 0.4, arousal: 0.4, dominance: 0.6 }

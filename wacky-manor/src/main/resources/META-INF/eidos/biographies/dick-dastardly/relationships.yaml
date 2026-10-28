@@ -1,0 +1,41 @@
+type: relationship
+entries:
+  - id: rel-dd-hc
+    confidence_origin: STATED
+    name: "Mr Pemberton"
+    traits: ["Useful", "Scheming"]
+    properties:
+      role: "patron"
+      trust: "0.3"
+      intimacy: "0.0"
+      utility: "0.5"
+
+  - id: rel-dd-pp
+    confidence_origin: STATED
+    name: "Clara Bellingham"
+    traits: ["Naive", "Wealthy"]
+    properties:
+      role: "mark"
+      trust: "0.2"
+      intimacy: "0.0"
+      utility: "0.4"
+
+  - id: rel-dd-peter
+    confidence_origin: STATED
+    name: "James Hartwell"
+    traits: ["Annoyingly competent", "Earnest"]
+    properties:
+      role: "rival"
+      trust: "0.1"
+      intimacy: "0.0"
+      utility: "0.0"
+
+  - id: rel-dd-ahm
+    confidence_origin: STATED
+    name: "Brixton Boys"
+    traits: ["Suspicious", "Territorial"]
+    properties:
+      role: "obstacle"
+      trust: "0.1"
+      intimacy: "0.0"
+      utility: "0.0"

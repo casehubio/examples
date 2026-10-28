@@ -1,0 +1,121 @@
+type: life-event
+entries:
+  - id: le-peter-race
+    confidence_origin: STATED
+    timestamp: "age-5"
+    description: "Father took him to watch a race. Afterward father knelt and looked at him for a long time. That evening couldn't sit still — wanted to do things, show things, be useful."
+    domain: experience
+    event_type: observation
+    subject: "James Hartwell"
+    period: "early-childhood"
+    pad:
+      pleasure: 0.7
+      arousal: 0.4
+      dominance: 0.3
+    occ_emotions:
+      - type: admiration
+        intensity: 0.6
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.1
+      competence: 0.4
+      affiliation: 0.3
+      autonomy: 0.2
+    catalogue: attachment-secure
+    serves: protection|moderate,proving-worth|moderate
+
+  - id: le-peter-school-project
+    confidence_origin: STATED
+    timestamp: "age-8"
+    description: "Paired with a girl for school project. She was brighter and funnier. Spent the whole project trying to impress her. She spent it trying to make him laugh."
+    domain: experience
+    event_type: observation
+    subject: "James Hartwell"
+    period: "childhood"
+    pad:
+      pleasure: 0.8
+      arousal: 0.6
+      dominance: -0.1
+    occ_emotions:
+      - type: joy
+        intensity: 0.7
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.1
+      competence: 0.5
+      affiliation: 0.5
+      autonomy: 0.0
+    catalogue: bandura-mastery-efficacy
+    serves: proving-worth|defining
+
+  - id: le-peter-roadside
+    confidence_origin: STATED
+    timestamp: "age-12"
+    description: "Father's car broke down. Stranger stopped to help. Father helped the stranger too. They shook hands and drove off. That night couldn't sleep — a quiet, determined feeling."
+    domain: experience
+    event_type: observation
+    subject: "James Hartwell"
+    period: "childhood"
+    pad:
+      pleasure: 0.6
+      arousal: 0.3
+      dominance: 0.4
+    occ_emotions:
+      - type: admiration
+        intensity: 0.5
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.3
+      affiliation: 0.4
+      autonomy: 0.2
+    catalogue: cbt-positive-other
+    serves: protection|moderate,proving-worth|moderate
+
+  - id: le-peter-bridge
+    confidence_origin: STATED
+    timestamp: "age-14"
+    description: "Entered school engineering competition. Stayed up three nights building a model bridge. It held more weight than anyone else's. The girl from the project caught his eye and mouthed 'show-off.'"
+    domain: experience
+    event_type: observation
+    subject: "James Hartwell"
+    period: "adolescence"
+    pad:
+      pleasure: 0.8
+      arousal: 0.7
+      dominance: 0.5
+    occ_emotions:
+      - type: pride
+        intensity: 0.8
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.1
+      competence: 0.7
+      affiliation: 0.3
+      autonomy: 0.4
+    catalogue: bandura-mastery-efficacy
+    serves: proving-worth|strong
+
+  - id: le-peter-bullies
+    confidence_origin: STATED
+    timestamp: "age-16"
+    description: "Girl from school was bullied by older kids. Intervened. Got beaten up. She bandaged his eye and said 'that was the bravest and stupidest thing I have ever seen.'"
+    domain: experience
+    event_type: observation
+    subject: "James Hartwell"
+    period: "adolescence"
+    pad:
+      pleasure: 0.9
+      arousal: 0.8
+      dominance: 0.7
+    occ_emotions:
+      - type: pride
+        intensity: 0.9
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.4
+      affiliation: 0.6
+      autonomy: 0.3
+    catalogue: cbt-positive-self
+    serves: gallantry|strong,proving-worth|strong

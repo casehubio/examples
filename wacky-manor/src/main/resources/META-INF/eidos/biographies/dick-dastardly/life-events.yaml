@@ -1,0 +1,124 @@
+type: life-event
+entries:
+  - id: le-dd-bread-roll
+    confidence_origin: STATED
+    timestamp: "age-6"
+    description: "Youngest of four. By the time anything reached him — food, clothes, attention — it was used up. Learned to take things when nobody was looking. First hidden bread roll loosened something in his chest."
+    domain: experience
+    event_type: observation
+    subject: "Reginald Foxworth"
+    period: "early-childhood"
+    pad:
+      pleasure: 0.4
+      arousal: 0.3
+      dominance: 0.6
+    occ_emotions:
+      - type: relief
+        intensity: 0.6
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.3
+      affiliation: -0.3
+      autonomy: 0.5
+    catalogue: attachment-dismissive
+    serves: greed|defining,scheming|moderate
+
+  - id: le-dd-spelling-bee
+    confidence_origin: STATED
+    timestamp: "age-8"
+    description: "Won class spelling bee. Stood at front waiting for applause. Teacher smiled and moved on. Carried certificate home — nobody asked about it. Put it on wall, looked at it every night for a month."
+    domain: experience
+    event_type: observation
+    subject: "Reginald Foxworth"
+    period: "childhood"
+    pad:
+      pleasure: -0.3
+      arousal: 0.4
+      dominance: -0.4
+    occ_emotions:
+      - type: disappointment
+        intensity: 0.6
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.2
+      affiliation: -0.4
+      autonomy: 0.1
+    catalogue: cbt-negative-self
+    serves: recognition|defining
+
+  - id: le-dd-treasure-trick
+    confidence_origin: STATED
+    timestamp: "age-10"
+    description: "Told older boy elaborate story about treasure buried behind school. Boy dug for an hour while he watched from the window. Built something step by step and watched it unfold exactly as planned."
+    domain: experience
+    event_type: observation
+    subject: "Reginald Foxworth"
+    period: "childhood"
+    pad:
+      pleasure: 0.8
+      arousal: 0.7
+      dominance: 0.9
+    occ_emotions:
+      - type: satisfaction
+        intensity: 0.8
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.1
+      competence: 0.6
+      affiliation: -0.1
+      autonomy: 0.5
+    catalogue: bandura-mastery-efficacy
+    serves: scheming|strong
+
+  - id: le-dd-rival-slipped
+    confidence_origin: STATED
+    timestamp: "age-12"
+    description: "Rival slipped on wet floor in front of whole school assembly. Laugh escaped before he could stop it — loud, unmistakable, gleeful. Teacher sent him to the hall. Didn't care. Warmth lasted all day."
+    domain: experience
+    event_type: observation
+    subject: "Reginald Foxworth"
+    period: "childhood"
+    pad:
+      pleasure: 0.7
+      arousal: 0.8
+      dominance: 0.6
+    occ_emotions:
+      - type: gloating
+        intensity: 0.8
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.1
+      affiliation: -0.2
+      autonomy: 0.3
+    catalogue: operant-positive-reinforcement
+    serves: gloating|defining
+
+  - id: le-dd-cat-trap
+    confidence_origin: STATED
+    timestamp: "age-14"
+    description: "Built elaborate trap for neighbourhood cat — strings, counterweights, bucket. Worked perfectly. Nobody else saw it. Felt so much better when there was someone to show it to."
+    domain: experience
+    event_type: observation
+    subject: "Reginald Foxworth"
+    period: "adolescence"
+    pad:
+      pleasure: 0.4
+      arousal: 0.5
+      dominance: 0.7
+    occ_emotions:
+      - type: satisfaction
+        intensity: 0.5
+        source: INTRINSIC
+      - type: disappointment
+        intensity: 0.4
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.2
+      competence: 0.5
+      affiliation: -0.2
+      autonomy: 0.4
+    catalogue: cbt-negative-self
+    serves: scheming|strong,recognition|strong

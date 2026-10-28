@@ -1,0 +1,59 @@
+type: personality-profile
+entries:
+  - id: pp-penelope-pitstop
+    entity_ref: "Clara Bellingham"
+    frameworks:
+      ampd:
+        callousness: 5
+        suspiciousness: 10
+        evidence: "empathic, trusting by default"
+        confidence: 0.9
+        source: "character-definition"
+      attachment:
+        style: "secure"
+        anxiety: 0.2
+        avoidance: 0.1
+        evidence: "loved upbringing, easy trust, settles into closeness"
+        confidence: 0.9
+        source: "character-definition"
+      ocean:
+        openness: 0.80
+        conscientiousness: 0.50
+        extraversion: 0.75
+        agreeableness: 0.90
+        neuroticism: 0.35
+        evidence: "curious, warm, socially oriented, low suspicion"
+        confidence: 0.75
+        source: "derived"
+      mbti:
+        type: "enfp"
+        evidence: "warmth-driven, possibility-seeking, harmony-oriented"
+        confidence: 0.7
+        source: "derived"
+      enneagram:
+        type: "type-2"
+        wing: "7"
+        evidence: "helper with adventure-seeking wing"
+        confidence: 0.65
+        source: "derived"
+    disposition:
+      socialOrient:
+        score: 0.85
+        term: "cooperative"
+        justification: "naturally reaches out, bridges gaps, includes others"
+      ruleFollowing:
+        score: 0.5
+        term: "moderate"
+        justification: "follows social norms but bends rules for curiosity"
+      riskAppetite:
+        score: 0.35
+        term: "cautious"
+        justification: "adventurous but not reckless, checks on others first"
+      autonomy:
+        score: 0.5
+        term: "moderate"
+        justification: "independent but values group cohesion"
+      conflictMode:
+        score: 0.2
+        term: "accommodating"
+        justification: "absorbs tension, mediates, prioritises harmony"

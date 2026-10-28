@@ -1,0 +1,41 @@
+type: relationship
+entries:
+  - id: rel-ahm-pp
+    confidence_origin: STATED
+    name: "Clara Bellingham"
+    traits: ["Trusting", "Vulnerable"]
+    properties:
+      role: "ward"
+      trust: "0.95"
+      intimacy: "0.8"
+      utility: "0.0"
+
+  - id: rel-ahm-hc
+    confidence_origin: STATED
+    name: "Mr Pemberton"
+    traits: ["Too smooth", "Too eager"]
+    properties:
+      role: "suspected-threat"
+      trust: "0.1"
+      intimacy: "0.0"
+      utility: "0.0"
+
+  - id: rel-ahm-peter
+    confidence_origin: STATED
+    name: "James Hartwell"
+    traits: ["Well-meaning", "Protective"]
+    properties:
+      role: "ally"
+      trust: "0.6"
+      intimacy: "0.2"
+      utility: "0.3"
+
+  - id: rel-ahm-dd
+    confidence_origin: STATED
+    name: "Reginald Foxworth"
+    traits: ["Shifty", "Self-serving"]
+    properties:
+      role: "nuisance"
+      trust: "0.15"
+      intimacy: "0.0"
+      utility: "0.0"

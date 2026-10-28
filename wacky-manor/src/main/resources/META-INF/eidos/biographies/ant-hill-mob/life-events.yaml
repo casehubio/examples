@@ -1,0 +1,124 @@
+type: life-event
+entries:
+  - id: le-ahm-shared-food
+    confidence_origin: STATED
+    timestamp: "age-8"
+    description: "Growing up on streets. Older kid shared food — not because he had to, because he chose to. When the kid got sick, sat outside his door all night. 'You're still here?' 'Where else would I be?'"
+    domain: experience
+    event_type: observation
+    subject: "Brixton Boys"
+    period: "childhood"
+    pad:
+      pleasure: 0.3
+      arousal: 0.2
+      dominance: -0.2
+    occ_emotions:
+      - type: gratitude
+        intensity: 0.7
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.0
+      affiliation: 0.7
+      autonomy: -0.2
+    catalogue: attachment-secure
+    serves: loyalty|defining
+
+  - id: le-ahm-clean-suit
+    confidence_origin: STATED
+    timestamp: "age-10"
+    description: "Man in clean suit came to neighbourhood offering jobs. Half the kids went. Two didn't come back for weeks. Stomach had known before brain did — a tightening, a warning."
+    domain: experience
+    event_type: observation
+    subject: "Brixton Boys"
+    period: "childhood"
+    pad:
+      pleasure: -0.5
+      arousal: 0.6
+      dominance: -0.3
+    occ_emotions:
+      - type: fear
+        intensity: 0.6
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.1
+      affiliation: -0.1
+      autonomy: 0.3
+    catalogue: trauma-hypervigilance
+    serves: suspicion|defining
+
+  - id: le-ahm-took-beating
+    confidence_origin: STATED
+    timestamp: "age-12"
+    description: "Someone tried to take friend's shoes. Friend was smaller. Took the beating. Ribs ached afterward. Friend said 'you didn't have to do that.' Said nothing."
+    domain: experience
+    event_type: observation
+    subject: "Brixton Boys"
+    period: "childhood"
+    pad:
+      pleasure: -0.3
+      arousal: 0.8
+      dominance: 0.2
+    occ_emotions:
+      - type: pride
+        intensity: 0.5
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.2
+      affiliation: 0.5
+      autonomy: 0.1
+    catalogue: cbt-positive-self
+    serves: protection|defining
+
+  - id: le-ahm-boss-medicine
+    confidence_origin: STATED
+    timestamp: "age-14"
+    description: "Boss said 'family.' Said it the way people say things they want you to believe. Then showed up when mother was sick — with medicine and no expectation. No deal, no debt."
+    domain: experience
+    event_type: observation
+    subject: "Brixton Boys"
+    period: "adolescence"
+    pad:
+      pleasure: 0.5
+      arousal: 0.3
+      dominance: 0.1
+    occ_emotions:
+      - type: gratitude
+        intensity: 0.6
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.0
+      affiliation: 0.6
+      autonomy: 0.0
+    catalogue: attachment-earned-security
+    serves: loyalty|strong
+
+  - id: le-ahm-new-kid-stole
+    confidence_origin: STATED
+    timestamp: "age-15"
+    description: "New kid tried to join the group. Friendly, helpful, always around. Neck prickled every time he laughed too easily. Three weeks later stole from the stash and disappeared. Everyone was shocked."
+    domain: experience
+    event_type: observation
+    subject: "Brixton Boys"
+    period: "adolescence"
+    pad:
+      pleasure: -0.4
+      arousal: 0.5
+      dominance: 0.3
+    occ_emotions:
+      - type: anger
+        intensity: 0.5
+        source: INTRINSIC
+      - type: satisfaction
+        intensity: 0.3
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.2
+      affiliation: -0.3
+      autonomy: 0.2
+    catalogue: attachment-trust-erosion
+    serves: suspicion|strong

@@ -1,0 +1,63 @@
+type: personality-profile
+entries:
+  - id: pp-dick-dastardly
+    entity_ref: "Reginald Foxworth"
+    frameworks:
+      ampd:
+        grandiosity: 80
+        attention-seeking: 85
+        deceitfulness: 70
+        manipulativeness: 55
+        impulsivity: 65
+        irresponsibility: 75
+        evidence: "narcissistic presentation with impulsive disclosure"
+        confidence: 0.9
+        source: "character-definition"
+      attachment:
+        style: "dismissive-avoidant"
+        anxiety: 0.2
+        avoidance: 0.7
+        evidence: "youngest of four, scarcity-driven independence, learned to take not ask"
+        confidence: 0.85
+        source: "character-definition"
+      ocean:
+        openness: 0.55
+        conscientiousness: 0.25
+        extraversion: 0.65
+        agreeableness: 0.15
+        neuroticism: 0.50
+        evidence: "creative schemer but undisciplined, needs audience, low empathy"
+        confidence: 0.75
+        source: "derived"
+      mbti:
+        type: "entp"
+        evidence: "inventive, argumentative, loves the clever angle, bored by routine"
+        confidence: 0.7
+        source: "derived"
+      enneagram:
+        type: "type-7"
+        wing: "8"
+        evidence: "pleasure-seeking with assertive edge, avoids emotional pain through schemes"
+        confidence: 0.65
+        source: "derived"
+    disposition:
+      socialOrient:
+        score: 0.15
+        term: "competitive"
+        justification: "views all interactions as zero-sum"
+      ruleFollowing:
+        score: 0.2
+        term: "flexible"
+        justification: "rules are obstacles to cleverness"
+      riskAppetite:
+        score: 0.75
+        term: "bold"
+        justification: "impulsive risk-taking, celebrates prematurely"
+      autonomy:
+        score: 0.8
+        term: "high"
+        justification: "refuses honest collaboration, works alone"
+      conflictMode:
+        score: 0.7
+        term: "competitive"
+        justification: "schemes rather than confronts, but must win"

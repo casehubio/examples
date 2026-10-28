@@ -235,14 +235,19 @@ public class PlaybookOrchestrator {
         if (!cacheRestored && mmStore != null) {
             new ManorCognitiveSeeder(mmStore).seedPeople(socialConfigs, ManorConstants.TENANCY_ID);
 
-            var biographyDir = java.nio.file.Path.of("src/main/resources/META-INF/eidos/biographies");
-            if (java.nio.file.Files.isDirectory(biographyDir)) {
-                log.info("Loading biography engrams from " + biographyDir);
+            var biographyRoot = java.nio.file.Path.of("src/main/resources/META-INF/eidos/biographies");
+            if (java.nio.file.Files.isDirectory(biographyRoot)) {
                 var loader = new io.casehub.neocortex.memory.seeding.biography.BiographyLoader();
-                var bioProfile = loader.loadAll(biographyDir, "manor-characters", ManorConstants.TENANCY_ID);
-                biographyImportRunner.run(bioProfile, "manor-characters", ManorConstants.TENANCY_ID);
-                log.infof("Biography import complete — %d personality profiles, %d life events, %d goals",
-                    bioProfile.personalityProfiles().size(), bioProfile.lifeEvents().size(), bioProfile.goals().size());
+                for (var charEntry : activeSocialConfigs.keySet()) {
+                    var charBioDir = biographyRoot.resolve(charEntry);
+                    if (java.nio.file.Files.isDirectory(charBioDir)) {
+                        var bioProfile = loader.loadAll(charBioDir, charEntry, ManorConstants.TENANCY_ID);
+                        biographyImportRunner.run(bioProfile, charEntry, ManorConstants.TENANCY_ID);
+                        log.infof("Biography import: %s — %d personality profiles, %d life events, %d goals",
+                            charEntry, bioProfile.personalityProfiles().size(),
+                            bioProfile.lifeEvents().size(), bioProfile.goals().size());
+                    }
+                }
             }
         }
 

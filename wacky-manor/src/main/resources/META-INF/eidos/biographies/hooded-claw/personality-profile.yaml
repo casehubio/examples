@@ -1,0 +1,64 @@
+type: personality-profile
+entries:
+  - id: pp-hooded-claw
+    entity_ref: "Vincent Marsh"
+    frameworks:
+      ampd:
+        callousness: 90
+        manipulativeness: 85
+        grandiosity: 80
+        suspiciousness: 70
+        intimacy-avoidance: 75
+        restricted-affectivity: 80
+        deceitfulness: 85
+        evidence: "dismissive-avoidant with high dark triad markers"
+        confidence: 0.9
+        source: "character-definition"
+      attachment:
+        style: "dismissive-avoidant"
+        anxiety: 0.1
+        avoidance: 0.8
+        evidence: "early caregiver loss, transactional care, flinch from closeness"
+        confidence: 0.9
+        source: "character-definition"
+      ocean:
+        openness: 0.45
+        conscientiousness: 0.80
+        extraversion: 0.40
+        agreeableness: 0.10
+        neuroticism: 0.25
+        evidence: "methodical planner, low emotional range, socially skilled facade"
+        confidence: 0.75
+        source: "derived"
+      mbti:
+        type: "intj"
+        evidence: "strategic, long-range planning, detached from emotional considerations"
+        confidence: 0.7
+        source: "derived"
+      enneagram:
+        type: "type-3"
+        wing: "8"
+        evidence: "image-conscious achiever with power orientation"
+        confidence: 0.65
+        source: "derived"
+    disposition:
+      socialOrient:
+        score: 0.15
+        term: "competitive"
+        justification: "transactional relationships, views others as tools or obstacles"
+      ruleFollowing:
+        score: 0.3
+        term: "flexible"
+        justification: "rules are constraints for others, tools for self"
+      riskAppetite:
+        score: 0.5
+        term: "calculated"
+        justification: "patient schemer, not impulsive — risk only with contingencies"
+      autonomy:
+        score: 0.85
+        term: "autonomous"
+        justification: "relies on no one, trusts only own judgment"
+      conflictMode:
+        score: 0.7
+        term: "competitive"
+        justification: "wins through positioning, not confrontation"

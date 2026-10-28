@@ -1,0 +1,145 @@
+type: life-event
+entries:
+  - id: le-hc-orphaned
+    confidence_origin: STATED
+    timestamp: "age-6"
+    description: "Parents died. Placed in care of distant relative who managed the family estate. Fed, housed, educated — never asked how he felt."
+    domain: experience
+    event_type: observation
+    subject: "Vincent Marsh"
+    period: "early-childhood"
+    pad:
+      pleasure: -0.5
+      arousal: 0.3
+      dominance: -0.7
+    occ_emotions:
+      - type: distress
+        intensity: 0.6
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.0
+      affiliation: -0.5
+      autonomy: -0.3
+    catalogue: attachment-dismissive
+    serves: self-preservation|defining
+
+  - id: le-hc-kindness-trap
+    confidence_origin: STATED
+    timestamp: "age-9"
+    description: "Boy at school shared lunch because he looked sad. Felt uncomfortable, exposed. Next week the boy asked to copy homework."
+    domain: experience
+    event_type: observation
+    subject: "Vincent Marsh"
+    period: "childhood"
+    pad:
+      pleasure: -0.3
+      arousal: 0.4
+      dominance: -0.2
+    occ_emotions:
+      - type: distress
+        intensity: 0.4
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.0
+      affiliation: -0.3
+      autonomy: 0.2
+    catalogue: cbt-negative-other
+    serves: self-preservation|strong
+
+  - id: le-hc-housekeeper
+    confidence_origin: STATED
+    timestamp: "age-12"
+    description: "Discovered he could make the housekeeper do anything by smiling and saying the right words. Each person in the house had a different key."
+    domain: experience
+    event_type: observation
+    subject: "Vincent Marsh"
+    period: "childhood"
+    pad:
+      pleasure: 0.6
+      arousal: 0.5
+      dominance: 0.8
+    occ_emotions:
+      - type: satisfaction
+        intensity: 0.7
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.2
+      competence: 0.5
+      affiliation: -0.1
+      autonomy: 0.6
+    catalogue: bandura-mastery-efficacy
+    serves: dominance|strong,gloating|moderate,scheming|moderate
+
+  - id: le-hc-cousin-praised
+    confidence_origin: STATED
+    timestamp: "age-14"
+    description: "Teacher praised cousin for natural grace and warmth. He scored higher in every subject. Managed household accounts while she played."
+    domain: experience
+    event_type: observation
+    subject: "Vincent Marsh"
+    period: "adolescence"
+    pad:
+      pleasure: -0.5
+      arousal: 0.6
+      dominance: -0.3
+    occ_emotions:
+      - type: resentment
+        intensity: 0.7
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.3
+      affiliation: -0.2
+      autonomy: 0.4
+    catalogue: cbt-negative-other
+    serves: dominance|strong
+
+  - id: le-hc-guardian-dies
+    confidence_origin: STATED
+    timestamp: "age-15"
+    description: "Guardian died. Appointed to manage estate for younger cousin who inherited everything. She was cheerful, trusting, oblivious."
+    domain: experience
+    event_type: observation
+    subject: "Vincent Marsh"
+    period: "adolescence"
+    pad:
+      pleasure: -0.4
+      arousal: 0.3
+      dominance: -0.5
+    occ_emotions:
+      - type: resentment
+        intensity: 0.8
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.2
+      affiliation: -0.4
+      autonomy: -0.3
+    catalogue: attachment-trust-erosion
+    serves: scheming|defining
+
+  - id: le-hc-first-plan
+    confidence_origin: STATED
+    timestamp: "age-18"
+    description: "First detailed plan to take what he deserved. Slept better than he had in years. The cousin trusted him completely."
+    domain: experience
+    event_type: observation
+    subject: "Vincent Marsh"
+    period: "young-adulthood"
+    pad:
+      pleasure: 0.5
+      arousal: 0.2
+      dominance: 0.8
+    occ_emotions:
+      - type: satisfaction
+        intensity: 0.7
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.1
+      competence: 0.6
+      affiliation: 0.0
+      autonomy: 0.7
+    catalogue: operant-autonomy-reinforcement
+    serves: scheming|strong

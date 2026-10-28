@@ -1,0 +1,23 @@
+type: goal
+entries:
+  - id: goal-pp-diamond
+    confidence_origin: STATED
+    name: "Find the legendary Doily Diamond"
+    tier: thematic
+    horizon: long
+    status: active
+    urgency: "0.7"
+    content_domain: curiosity
+    motivation_origin: intrinsic
+    pad: { pleasure: 0.7, arousal: 0.6, dominance: 0.4 }
+
+  - id: goal-pp-puzzles
+    confidence_origin: STATED
+    name: "Solve the mansion's puzzles and have a delightful adventure"
+    tier: tactical
+    horizon: medium
+    status: active
+    urgency: "0.5"
+    content_domain: curiosity
+    motivation_origin: intrinsic
+    pad: { pleasure: 0.8, arousal: 0.5, dominance: 0.3 }

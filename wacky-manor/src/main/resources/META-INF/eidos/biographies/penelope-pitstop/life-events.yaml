@@ -1,0 +1,121 @@
+type: life-event
+entries:
+  - id: le-pp-locked-box
+    confidence_origin: STATED
+    timestamp: "age-5"
+    description: "Found locked box in grandmother's attic. Spent afternoon trying every key in the house. Opened it — just old letters. Disappointment lasted only a moment."
+    domain: experience
+    event_type: observation
+    subject: "Clara Bellingham"
+    period: "early-childhood"
+    pad:
+      pleasure: 0.6
+      arousal: 0.5
+      dominance: 0.3
+    occ_emotions:
+      - type: joy
+        intensity: 0.5
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.6
+      competence: 0.2
+      affiliation: 0.0
+      autonomy: 0.3
+    catalogue: bandura-mastery-efficacy
+    serves: curiosity|defining
+
+  - id: le-pp-parents-argued
+    confidence_origin: STATED
+    timestamp: "age-7"
+    description: "Parents argued at dinner. Felt sick — physically sick, tightness in stomach. When they finally laughed, the tightness dissolved so suddenly it left her dizzy."
+    domain: experience
+    event_type: observation
+    subject: "Clara Bellingham"
+    period: "childhood"
+    pad:
+      pleasure: -0.6
+      arousal: 0.6
+      dominance: -0.4
+    occ_emotions:
+      - type: distress
+        intensity: 0.7
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.0
+      affiliation: 0.5
+      autonomy: -0.3
+    catalogue: attachment-secure
+    serves: social-harmony|defining
+
+  - id: le-pp-new-neighbour
+    confidence_origin: STATED
+    timestamp: "age-9"
+    description: "New family moved in. First to visit with cookies. Girl spoke different language. Communicated in drawings all summer — maps, portraits, treasure hunts."
+    domain: experience
+    event_type: observation
+    subject: "Clara Bellingham"
+    period: "childhood"
+    pad:
+      pleasure: 0.7
+      arousal: 0.4
+      dominance: 0.3
+    occ_emotions:
+      - type: joy
+        intensity: 0.6
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.3
+      competence: 0.1
+      affiliation: 0.5
+      autonomy: 0.2
+    catalogue: cbt-positive-other
+    serves: social-harmony|moderate,adventure|moderate
+
+  - id: le-pp-cave
+    confidence_origin: STATED
+    timestamp: "age-11"
+    description: "Field trip to a cave. Most children scared. Walked deeper than anyone. Found crystal formation no one else had seen. Carried the secret for a week."
+    domain: experience
+    event_type: observation
+    subject: "Clara Bellingham"
+    period: "childhood"
+    pad:
+      pleasure: 0.8
+      arousal: 0.7
+      dominance: 0.5
+    occ_emotions:
+      - type: pride
+        intensity: 0.6
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.5
+      competence: 0.3
+      affiliation: 0.0
+      autonomy: 0.5
+    catalogue: bandura-mastery-efficacy
+    serves: adventure|defining
+
+  - id: le-pp-chose-friend
+    confidence_origin: STATED
+    timestamp: "age-13"
+    description: "Best friend excluded by popular group. Chose the friend over the group. Popular girls stopped talking to her."
+    domain: experience
+    event_type: observation
+    subject: "Clara Bellingham"
+    period: "adolescence"
+    pad:
+      pleasure: -0.2
+      arousal: 0.3
+      dominance: 0.4
+    occ_emotions:
+      - type: pride
+        intensity: 0.5
+        source: INTRINSIC
+    drive_impact:
+      curiosity: 0.0
+      competence: 0.0
+      affiliation: 0.6
+      autonomy: 0.3
+    catalogue: cbt-positive-self
+    serves: social-harmony|strong

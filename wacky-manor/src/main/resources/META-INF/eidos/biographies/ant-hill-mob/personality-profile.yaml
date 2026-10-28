@@ -1,0 +1,60 @@
+type: personality-profile
+entries:
+  - id: pp-ant-hill-mob
+    entity_ref: "Brixton Boys"
+    frameworks:
+      ampd:
+        suspiciousness: 65
+        hostility: 40
+        callousness: 15
+        evidence: "street-sharpened vigilance, protective anger, empathic toward chosen family"
+        confidence: 0.9
+        source: "character-definition"
+      attachment:
+        style: "anxious-preoccupied"
+        anxiety: 0.6
+        avoidance: 0.2
+        evidence: "hypervigilant about connection, treats absence as alarm, proximity-seeking"
+        confidence: 0.9
+        source: "character-definition"
+      ocean:
+        openness: 0.40
+        conscientiousness: 0.35
+        extraversion: 0.35
+        agreeableness: 0.55
+        neuroticism: 0.65
+        evidence: "cautious, loyal to in-group, vigilant, emotionally reactive to threat"
+        confidence: 0.75
+        source: "derived"
+      mbti:
+        type: "isfp"
+        evidence: "values-driven, observant, protective, reads people by gut not logic"
+        confidence: 0.7
+        source: "derived"
+      enneagram:
+        type: "type-6"
+        wing: "5"
+        evidence: "security-oriented, hypervigilant, loyal to trusted circle, investigative"
+        confidence: 0.65
+        source: "derived"
+    disposition:
+      socialOrient:
+        score: 0.7
+        term: "cooperative"
+        justification: "loyal within chosen group, guarded toward outsiders"
+      ruleFollowing:
+        score: 0.5
+        term: "moderate"
+        justification: "follows group norms, pragmatic about external rules"
+      riskAppetite:
+        score: 0.4
+        term: "calculated"
+        justification: "takes risks for Clara, cautious otherwise"
+      autonomy:
+        score: 0.25
+        term: "low"
+        justification: "defines self through loyalty and service to others"
+      conflictMode:
+        score: 0.7
+        term: "competitive"
+        justification: "protective aggression when Clara is threatened"
