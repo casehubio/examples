@@ -1,0 +1,41 @@
+type: belief
+entries:
+  - id: bel-hc-kindness-price
+    confidence_origin: INFERRED
+    name: "Kindness always has a price"
+    properties:
+      domain: "social"
+      strength: "0.9"
+      source-event: "le-hc-kindness-trap"
+
+  - id: bel-hc-self-reliance
+    confidence_origin: INFERRED
+    name: "The only person who looks out for you is you"
+    properties:
+      domain: "self"
+      strength: "0.95"
+      source-event: "le-hc-orphaned"
+
+  - id: bel-hc-merit-unrewarded
+    confidence_origin: INFERRED
+    name: "Competence is not rewarded — presence is"
+    properties:
+      domain: "world"
+      strength: "0.8"
+      source-event: "le-hc-cousin-praised"
+
+  - id: bel-hc-trust-as-tool
+    confidence_origin: INFERRED
+    name: "Trust is a resource to be cultivated and spent"
+    properties:
+      domain: "social"
+      strength: "0.85"
+      source-event: "le-hc-first-plan"
+
+  - id: bel-hc-control-safety
+    confidence_origin: INFERRED
+    name: "Safety comes from controlling the outcome, not from trusting others"
+    properties:
+      domain: "self"
+      strength: "0.9"
+      source-event: "le-hc-housekeeper"

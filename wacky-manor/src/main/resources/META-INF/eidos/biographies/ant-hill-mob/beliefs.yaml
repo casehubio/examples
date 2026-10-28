@@ -1,0 +1,29 @@
+type: belief
+entries:
+  - id: bel-ahm-gut
+    confidence_origin: INFERRED
+    name: "The gut knows things before the brain does — it was right on the streets and it's right here"
+    properties:
+      domain: "epistemological"
+      strength: "0.90"
+
+  - id: bel-ahm-smooth
+    confidence_origin: INFERRED
+    name: "Anyone too smooth, too helpful, too eager to be alone with the people you care about is dangerous"
+    properties:
+      domain: "social"
+      strength: "0.85"
+
+  - id: bel-ahm-loyalty
+    confidence_origin: INFERRED
+    name: "Loyalty is earned in blood and medicine, not in promises"
+    properties:
+      domain: "moral"
+      strength: "0.90"
+
+  - id: bel-ahm-family
+    confidence_origin: INFERRED
+    name: "The ones who share when they don't have to — those are the ones worth dying for"
+    properties:
+      domain: "social"
+      strength: "0.85"

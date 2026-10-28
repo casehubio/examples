@@ -4,10 +4,20 @@ entries:
     entity_ref: "Brixton Boys"
     frameworks:
       ampd:
-        suspiciousness: 65
-        hostility: 40
         callousness: 15
-        evidence: "street-sharpened vigilance, protective anger, empathic toward chosen family"
+        manipulativeness: 20
+        grandiosity: 10
+        deceitfulness: 15
+        attention-seeking: 10
+        hostility: 40
+        suspiciousness: 65
+        intimacy-avoidance: 20
+        emotional-lability: 45
+        anxiousness: 50
+        risk-taking: 30
+        impulsivity: 35
+        withdrawal: 20
+        evidence: "street-sharpened vigilance, protective anger, empathic toward chosen family, reactive under threat, controlled except when Clara is at risk"
         confidence: 0.9
         source: "character-definition"
       attachment:
@@ -31,12 +41,69 @@ entries:
         evidence: "values-driven, observant, protective, reads people by gut not logic"
         confidence: 0.7
         source: "derived"
+      jungian_stack:
+        - function: "se"
+          weight: 0.32
+          evidence: "street awareness — reads rooms, exits, postures, micro-expressions before processing words"
+        - function: "fi"
+          weight: 0.28
+          evidence: "loyalty values — 'where else would I be?' is not reasoned, it's felt"
+        - function: "ni"
+          weight: 0.22
+          evidence: "gut intuition — neck prickled at the new kid, stomach knew before brain"
+        - function: "te"
+          weight: 0.13
+          evidence: "weak — doesn't plan strategically, reacts to what the body detects"
       enneagram:
         type: "type-6"
         wing: "5"
         evidence: "security-oriented, hypervigilant, loyal to trusted circle, investigative"
         confidence: 0.65
         source: "derived"
+      disc:
+        primary: "steadiness"
+        secondary: "dominance"
+        evidence: "steady within trusted group, dominant/assertive when threat emerges"
+        confidence: 0.7
+        source: "derived"
+      belbin:
+        primary: "monitor-evaluator"
+        evidence: "reads situations before others see them, evaluates trustworthiness by observation not logic"
+        confidence: 0.65
+        source: "derived"
+      thomas_kilmann:
+        primary: "competing"
+        evidence: "protective aggression when Clara is threatened — no negotiation, no accommodation"
+        confidence: 0.7
+        source: "derived"
+      sdi:
+        primary: "blue-red"
+        evidence: "people-focused (loyalty to family) shifting to action-focused (protection under threat)"
+        confidence: 0.65
+        source: "derived"
+      locus_of_control:
+        general: "external"
+        domains:
+          loyalty: "internal"
+          protection: "internal"
+          systems: "external"
+          opportunity: "external"
+        evidence: "strong agency in loyalty and protection, sees broader world as unpredictable and hostile"
+        confidence: 0.7
+        source: "derived"
+    archetypes:
+      - rank: 1
+        family: "ruler"
+        sub_archetype: "guardian"
+        adjectives: ["watchful", "devoted", "territorial"]
+        evidence: "sits outside doors all night, positions between threat and ward, reads rooms before entering"
+        confidence: 0.85
+      - rank: 2
+        family: "rebel"
+        sub_archetype: "outlaw"
+        adjectives: ["street-smart", "pragmatic", "mistrustful-of-authority"]
+        evidence: "street upbringing, learned to read smooth-talkers, trusts gut over credentials"
+        confidence: 0.8
     disposition:
       socialOrient:
         score: 0.7

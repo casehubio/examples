@@ -1,0 +1,29 @@
+type: belief
+entries:
+  - id: bel-peter-worth
+    confidence_origin: INFERRED
+    name: "Worth is proven through what you do for others, not what you say"
+    properties:
+      domain: "self-concept"
+      strength: "0.90"
+
+  - id: bel-peter-protection
+    confidence_origin: INFERRED
+    name: "If someone needs protecting, you step in — that's not a choice, it's who you are"
+    properties:
+      domain: "moral"
+      strength: "0.85"
+
+  - id: bel-peter-competence
+    confidence_origin: INFERRED
+    name: "The harder the problem, the more it matters that you're the one who solves it"
+    properties:
+      domain: "self-concept"
+      strength: "0.75"
+
+  - id: bel-peter-trust
+    confidence_origin: INFERRED
+    name: "Most people deserve the benefit of the doubt"
+    properties:
+      domain: "social"
+      strength: "0.65"

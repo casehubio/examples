@@ -23,6 +23,11 @@ entries:
       autonomy: 0.2
     catalogue: attachment-secure
     serves: protection|moderate,proving-worth|moderate
+    sub_thoughts:
+      - type: affect-observation
+        text: "His father's expression stayed — not the race, but the way he was looked at."
+      - type: self-schema
+        text: "The restlessness that evening was new — a need to do, to show, to be seen doing."
 
   - id: le-peter-school-project
     confidence_origin: STATED
@@ -47,6 +52,11 @@ entries:
       autonomy: 0.0
     catalogue: bandura-mastery-efficacy
     serves: proving-worth|defining
+    sub_thoughts:
+      - type: affect-observation
+        text: "The warmth when the teacher praised the project went deeper than the grade — but he couldn't have said why."
+      - type: self-schema
+        text: "He was trying to impress. She was trying to connect. The mismatch taught him something he didn't name until much later."
 
   - id: le-peter-roadside
     confidence_origin: STATED
@@ -71,6 +81,11 @@ entries:
       autonomy: 0.2
     catalogue: cbt-positive-other
     serves: protection|moderate,proving-worth|moderate
+    sub_thoughts:
+      - type: affect-observation
+        text: "The handshake between two strangers who'd helped each other — something about its simplicity landed heavy."
+      - type: self-schema
+        text: "The determined feeling wasn't about cars or roads. It was about being the kind of person who stops."
 
   - id: le-peter-bridge
     confidence_origin: STATED
@@ -95,6 +110,11 @@ entries:
       autonomy: 0.4
     catalogue: bandura-mastery-efficacy
     serves: proving-worth|strong
+    sub_thoughts:
+      - type: affect-observation
+        text: "Something released in his chest — a tension he hadn't known he was carrying."
+      - type: self-schema
+        text: "Her 'show-off' landed like praise. He grinned so hard his face hurt."
 
   - id: le-peter-bullies
     confidence_origin: STATED
@@ -119,3 +139,8 @@ entries:
       autonomy: 0.3
     catalogue: cbt-positive-self
     serves: gallantry|strong,proving-worth|strong
+    sub_thoughts:
+      - type: affect-observation
+        text: "The pain was real but it didn't matter — what mattered was the shape of the gesture."
+      - type: self-schema
+        text: "He felt like he'd won every race ever run. Not because he'd fought. Because he'd shown up."

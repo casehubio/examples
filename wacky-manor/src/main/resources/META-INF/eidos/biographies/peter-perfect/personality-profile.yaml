@@ -7,7 +7,17 @@ entries:
         callousness: 5
         manipulativeness: 5
         grandiosity: 30
-        evidence: "honest, protective, mild competence pride"
+        deceitfulness: 5
+        attention-seeking: 15
+        hostility: 10
+        suspiciousness: 20
+        intimacy-avoidance: 10
+        emotional-lability: 20
+        anxiousness: 25
+        risk-taking: 35
+        impulsivity: 15
+        withdrawal: 10
+        evidence: "honest, protective, mild competence pride, slight performance anxiety around beloved, deliberate not impulsive"
         confidence: 0.9
         source: "character-definition"
       attachment:
@@ -31,12 +41,68 @@ entries:
         evidence: "protective, detail-oriented, duty-bound, traditional values"
         confidence: 0.7
         source: "derived"
+      jungian_stack:
+        - function: "si"
+          weight: 0.32
+          evidence: "duty-bound — draws on father's example, tradition of service and craftsmanship"
+        - function: "fe"
+          weight: 0.28
+          evidence: "social responsibility — positions himself between danger and the people he cares about"
+        - function: "ti"
+          weight: 0.22
+          evidence: "analytical problem-solving — bridges, mechanisms, engineering approach to protection"
+        - function: "ne"
+          weight: 0.13
+          evidence: "weak — doesn't naturally explore possibilities, prefers proven approaches"
       enneagram:
         type: "type-1"
         wing: "2"
         evidence: "principled with helper orientation, proving worth through doing right"
         confidence: 0.65
         source: "derived"
+      disc:
+        primary: "steadiness"
+        secondary: "conscientiousness"
+        evidence: "reliable, methodical, follows through on commitments, quality-driven"
+        confidence: 0.7
+        source: "derived"
+      belbin:
+        primary: "implementer"
+        evidence: "turns ideas into practical action, stays up three nights to build the bridge"
+        confidence: 0.7
+        source: "derived"
+      thomas_kilmann:
+        primary: "collaborating"
+        evidence: "seeks win-win solutions, avoids conflict for self but engages forcefully to protect"
+        confidence: 0.7
+        source: "derived"
+      sdi:
+        primary: "blue"
+        evidence: "people-focused through action — proves care by building, fixing, protecting"
+        confidence: 0.7
+        source: "derived"
+      locus_of_control:
+        general: "internal"
+        domains:
+          competence: "internal"
+          relationships: "internal"
+          fate: "internal"
+        evidence: "strongly self-directed — if something needs fixing, he's the one who should fix it"
+        confidence: 0.75
+        source: "derived"
+    archetypes:
+      - rank: 1
+        family: "hero"
+        sub_archetype: "knight"
+        adjectives: ["gallant", "dutiful", "earnest"]
+        evidence: "intervened in bullying, takes beatings for others, positions self between threat and vulnerable"
+        confidence: 0.9
+      - rank: 2
+        family: "creator"
+        sub_archetype: "craftsman"
+        adjectives: ["competent", "persistent", "detail-driven"]
+        evidence: "three nights building the bridge, engineering competition, hands-on problem solving"
+        confidence: 0.8
     disposition:
       socialOrient:
         score: 0.75

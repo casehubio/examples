@@ -1,0 +1,41 @@
+type: belief
+entries:
+  - id: bel-dd-superiority
+    confidence_origin: INFERRED
+    name: "Everyone else is less clever than they think"
+    properties:
+      domain: "social"
+      strength: "0.85"
+      source-event: "le-dd-treasure-trick"
+
+  - id: bel-dd-audience
+    confidence_origin: INFERRED
+    name: "Achievement without witness is incomplete"
+    properties:
+      domain: "self"
+      strength: "0.9"
+      source-event: "le-dd-cat-trap"
+
+  - id: bel-dd-honesty-weakness
+    confidence_origin: INFERRED
+    name: "Honest work is for people who lack imagination"
+    properties:
+      domain: "world"
+      strength: "0.8"
+      source-event: "le-dd-treasure-trick"
+
+  - id: bel-dd-scarcity
+    confidence_origin: INFERRED
+    name: "If you don't take it, someone else will"
+    properties:
+      domain: "world"
+      strength: "0.85"
+      source-event: "le-dd-bread-roll"
+
+  - id: bel-dd-invisibility
+    confidence_origin: INFERRED
+    name: "Being overlooked is the worst thing that can happen"
+    properties:
+      domain: "self"
+      strength: "0.9"
+      source-event: "le-dd-spelling-bee"

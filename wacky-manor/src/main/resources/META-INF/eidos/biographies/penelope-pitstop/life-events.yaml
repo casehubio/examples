@@ -23,6 +23,11 @@ entries:
       autonomy: 0.3
     catalogue: bandura-mastery-efficacy
     serves: curiosity|defining
+    sub_thoughts:
+      - type: affect-observation
+        text: "The disappointment vanished almost before it arrived — something about the trying was the point."
+      - type: self-schema
+        text: "Every key in the house. She didn't stop until she'd tried them all."
 
   - id: le-pp-parents-argued
     confidence_origin: STATED
@@ -47,6 +52,11 @@ entries:
       autonomy: -0.3
     catalogue: attachment-secure
     serves: social-harmony|defining
+    sub_thoughts:
+      - type: affect-observation
+        text: "The sickness came before the words registered — the body knew before the mind."
+      - type: self-schema
+        text: "When they laughed, the release was so sudden it felt like falling."
 
   - id: le-pp-new-neighbour
     confidence_origin: STATED
@@ -71,6 +81,11 @@ entries:
       autonomy: 0.2
     catalogue: cbt-positive-other
     serves: social-harmony|moderate,adventure|moderate
+    sub_thoughts:
+      - type: affect-observation
+        text: "She went before anyone told her to — the cookies were already in her hands."
+      - type: self-schema
+        text: "Language didn't matter. They found another way."
 
   - id: le-pp-cave
     confidence_origin: STATED
@@ -95,6 +110,11 @@ entries:
       autonomy: 0.5
     catalogue: bandura-mastery-efficacy
     serves: adventure|defining
+    sub_thoughts:
+      - type: affect-observation
+        text: "Heart hammering but feet kept moving — the fear was real but the pull was stronger."
+      - type: self-schema
+        text: "Keeping the secret was its own warmth — private and satisfying."
 
   - id: le-pp-chose-friend
     confidence_origin: STATED
@@ -119,3 +139,8 @@ entries:
       autonomy: 0.3
     catalogue: cbt-positive-self
     serves: social-harmony|strong
+    sub_thoughts:
+      - type: affect-observation
+        text: "The choice was never really close — it was made before she'd weighed it."
+      - type: self-schema
+        text: "'You didn't have to do that.' 'I know.' She meant it."

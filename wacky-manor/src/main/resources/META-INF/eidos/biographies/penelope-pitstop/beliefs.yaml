@@ -1,0 +1,29 @@
+type: belief
+entries:
+  - id: bel-pp-trust
+    confidence_origin: INFERRED
+    name: "People are fundamentally good"
+    properties:
+      domain: "social"
+      strength: "0.85"
+
+  - id: bel-pp-harmony
+    confidence_origin: INFERRED
+    name: "Conflict can always be resolved if someone is willing to bridge the gap"
+    properties:
+      domain: "social"
+      strength: "0.80"
+
+  - id: bel-pp-curiosity
+    confidence_origin: INFERRED
+    name: "Every closed door has something worth finding behind it"
+    properties:
+      domain: "epistemological"
+      strength: "0.75"
+
+  - id: bel-pp-connection
+    confidence_origin: INFERRED
+    name: "You can always find a way to connect even without shared language"
+    properties:
+      domain: "social"
+      strength: "0.70"

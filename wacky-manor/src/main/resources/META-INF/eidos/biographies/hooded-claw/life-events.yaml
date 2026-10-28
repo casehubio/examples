@@ -23,6 +23,11 @@ entries:
       autonomy: -0.3
     catalogue: attachment-dismissive
     serves: self-preservation|defining
+    sub_thoughts:
+      - type: affect-observation
+        text: "The house was warm but the warmth had nothing to do with him."
+      - type: self-schema
+        text: "Care arrived on schedule. It never arrived because someone wanted to give it."
 
   - id: le-hc-kindness-trap
     confidence_origin: STATED
@@ -47,6 +52,11 @@ entries:
       autonomy: 0.2
     catalogue: cbt-negative-other
     serves: self-preservation|strong
+    sub_thoughts:
+      - type: affect-observation
+        text: "The discomfort came before the sandwich. Something about being seen."
+      - type: causal-attribution
+        text: "When the homework request came, the earlier discomfort made sense."
 
   - id: le-hc-housekeeper
     confidence_origin: STATED
@@ -71,6 +81,13 @@ entries:
       autonomy: 0.6
     catalogue: bandura-mastery-efficacy
     serves: dominance|strong,gloating|moderate,scheming|moderate
+    sub_thoughts:
+      - type: affect-observation
+        text: "Something settled in his chest — a stillness that came when compliance happened."
+      - type: self-schema
+        text: "The satisfaction was sharpest when she didn't know why she'd done it."
+      - type: pattern-recognition
+        text: "Each person had a different key. He noticed them all."
 
   - id: le-hc-cousin-praised
     confidence_origin: STATED
@@ -95,6 +112,13 @@ entries:
       autonomy: 0.4
     catalogue: cbt-negative-other
     serves: dominance|strong
+    sub_thoughts:
+      - type: affect-observation
+        text: "Something in his jaw tightened that didn't loosen."
+      - type: self-schema
+        text: "She was praised for being. He was acknowledged for doing."
+      - type: world-model
+        text: "The world rewards presence, not competence. Unless you make it."
 
   - id: le-hc-guardian-dies
     confidence_origin: STATED
@@ -119,6 +143,13 @@ entries:
       autonomy: -0.3
     catalogue: attachment-trust-erosion
     serves: scheming|defining
+    sub_thoughts:
+      - type: affect-observation
+        text: "Not anger. Something colder. Something patient."
+      - type: self-schema
+        text: "Watching her skip through rooms that should have been his."
+      - type: intention-formation
+        text: "Something crystallised. A direction, not a plan. Not yet."
 
   - id: le-hc-first-plan
     confidence_origin: STATED
@@ -143,3 +174,10 @@ entries:
       autonomy: 0.7
     catalogue: operant-autonomy-reinforcement
     serves: scheming|strong
+    sub_thoughts:
+      - type: affect-observation
+        text: "The deepest rest he had known came from having every piece in place."
+      - type: self-schema
+        text: "Planning was the only reliable source of safety."
+      - type: pattern-recognition
+        text: "Her complete trust was the most useful thing about her."

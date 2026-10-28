@@ -23,6 +23,11 @@ entries:
       autonomy: -0.2
     catalogue: attachment-secure
     serves: loyalty|defining
+    sub_thoughts:
+      - type: affect-observation
+        text: "Leaving felt like something breaking inside — a physical impossibility, not a choice."
+      - type: self-schema
+        text: "'Where else would I be?' — he meant it. There was nowhere else."
 
   - id: le-ahm-clean-suit
     confidence_origin: STATED
@@ -47,6 +52,11 @@ entries:
       autonomy: 0.3
     catalogue: trauma-hypervigilance
     serves: suspicion|defining
+    sub_thoughts:
+      - type: affect-observation
+        text: "The stomach knew first. The brain caught up days later when the kids didn't come back."
+      - type: self-schema
+        text: "Smooth words and clean clothes — the body learned to read them as warnings, not invitations."
 
   - id: le-ahm-took-beating
     confidence_origin: STATED
@@ -71,6 +81,11 @@ entries:
       autonomy: 0.1
     catalogue: cbt-positive-self
     serves: protection|defining
+    sub_thoughts:
+      - type: affect-observation
+        text: "The ribs ached but the ache was clean — not like the ache of watching someone else get hurt."
+      - type: self-schema
+        text: "Said nothing because there was nothing to say. You don't explain breathing."
 
   - id: le-ahm-boss-medicine
     confidence_origin: STATED
@@ -95,6 +110,11 @@ entries:
       autonomy: 0.0
     catalogue: attachment-earned-security
     serves: loyalty|strong
+    sub_thoughts:
+      - type: affect-observation
+        text: "The word 'family' landed differently after the medicine. The body believed it before the mind did."
+      - type: self-schema
+        text: "Trust isn't a word. It's medicine at three in the morning with no invoice."
 
   - id: le-ahm-new-kid-stole
     confidence_origin: STATED
@@ -122,3 +142,8 @@ entries:
       autonomy: 0.2
     catalogue: attachment-trust-erosion
     serves: suspicion|strong
+    sub_thoughts:
+      - type: affect-observation
+        text: "Everyone was shocked. The neck had known for three weeks."
+      - type: self-schema
+        text: "The gut was right on the streets, and it's right here. The ones who laugh too easily are the ones to watch."

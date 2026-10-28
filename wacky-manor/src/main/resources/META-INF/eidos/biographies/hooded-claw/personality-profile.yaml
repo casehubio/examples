@@ -7,11 +7,17 @@ entries:
         callousness: 90
         manipulativeness: 85
         grandiosity: 80
+        deceitfulness: 85
+        attention-seeking: 15
+        hostility: 45
         suspiciousness: 70
         intimacy-avoidance: 75
-        restricted-affectivity: 80
-        deceitfulness: 85
-        evidence: "dismissive-avoidant with high dark triad markers"
+        emotional-lability: 10
+        anxiousness: 10
+        risk-taking: 40
+        impulsivity: 10
+        withdrawal: 70
+        evidence: "high dark triad, controlled emotional range, patient and strategic"
         confidence: 0.9
         source: "character-definition"
       attachment:
@@ -35,12 +41,68 @@ entries:
         evidence: "strategic, long-range planning, detached from emotional considerations"
         confidence: 0.7
         source: "derived"
+      jungian_stack:
+        - function: "ti"
+          weight: 0.35
+          evidence: "systems-level analysis of people and situations as mechanisms"
+        - function: "ni"
+          weight: 0.28
+          evidence: "long-range vision, patient multi-step planning, crystallised at 15"
+        - function: "te"
+          weight: 0.20
+          evidence: "efficient execution, household accounts, estate management"
+        - function: "se"
+          weight: 0.10
+          evidence: "reads rooms, posture, micro-expressions — but as data, not feeling"
       enneagram:
         type: "type-3"
         wing: "8"
-        evidence: "image-conscious achiever with power orientation"
+        evidence: "image-conscious achiever with power orientation, competence as identity"
         confidence: 0.65
         source: "derived"
+      disc:
+        primary: "conscientiousness"
+        secondary: "dominance"
+        evidence: "methodical planner who controls through structure, not charisma"
+        confidence: 0.7
+        source: "derived"
+      belbin:
+        primary: "shaper"
+        evidence: "drives toward objectives through others, comfortable with pressure"
+        confidence: 0.65
+        source: "derived"
+      thomas_kilmann:
+        primary: "competing"
+        evidence: "zero-sum orientation, wins through positioning not confrontation"
+        confidence: 0.7
+        source: "derived"
+      sdi:
+        primary: "green"
+        evidence: "autonomy-driven, self-reliant, values independence over connection"
+        confidence: 0.65
+        source: "derived"
+      locus_of_control:
+        general: "internal"
+        domains:
+          relationships: "internal"
+          outcomes: "internal"
+          trust: "internal"
+        evidence: "learned early that only person who looks out for you is you"
+        confidence: 0.8
+        source: "derived"
+    archetypes:
+      - rank: 1
+        family: "ruler"
+        sub_archetype: "mastermind"
+        adjectives: ["patient", "calculating", "controlled"]
+        evidence: "long-range scheming, estate management as power base, positioned authority"
+        confidence: 0.85
+      - rank: 2
+        family: "shadow"
+        sub_archetype: "shadow-ruler"
+        adjectives: ["covert", "resentful", "entitled"]
+        evidence: "power exercised through disguise and manipulation, grievance-fuelled"
+        confidence: 0.8
     disposition:
       socialOrient:
         score: 0.15

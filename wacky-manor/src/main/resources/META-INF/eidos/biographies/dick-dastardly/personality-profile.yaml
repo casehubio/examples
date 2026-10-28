@@ -4,13 +4,20 @@ entries:
     entity_ref: "Reginald Foxworth"
     frameworks:
       ampd:
-        grandiosity: 80
-        attention-seeking: 85
-        deceitfulness: 70
+        callousness: 35
         manipulativeness: 55
+        grandiosity: 80
+        deceitfulness: 70
+        attention-seeking: 85
+        hostility: 20
+        suspiciousness: 30
+        intimacy-avoidance: 40
+        emotional-lability: 50
+        anxiousness: 25
+        risk-taking: 75
         impulsivity: 65
-        irresponsibility: 75
-        evidence: "narcissistic presentation with impulsive disclosure"
+        withdrawal: 15
+        evidence: "narcissistic-histrionic presentation, needs audience, impulsive disclosure"
         confidence: 0.9
         source: "character-definition"
       attachment:
@@ -34,12 +41,68 @@ entries:
         evidence: "inventive, argumentative, loves the clever angle, bored by routine"
         confidence: 0.7
         source: "derived"
+      jungian_stack:
+        - function: "ne"
+          weight: 0.35
+          evidence: "possibility-seeking, scheme-as-art, multiple angles simultaneously"
+        - function: "ti"
+          weight: 0.25
+          evidence: "architecture of schemes, logical structure, but subordinate to imagination"
+        - function: "fe"
+          weight: 0.18
+          evidence: "reads audience reactions, craves external validation, narrates for effect"
+        - function: "si"
+          weight: 0.08
+          evidence: "poor — repeats mistakes, doesn't learn from failed schemes"
       enneagram:
         type: "type-7"
         wing: "8"
         evidence: "pleasure-seeking with assertive edge, avoids emotional pain through schemes"
         confidence: 0.65
         source: "derived"
+      disc:
+        primary: "influence"
+        secondary: "dominance"
+        evidence: "charismatic, persuasive, needs to be centre of attention"
+        confidence: 0.7
+        source: "derived"
+      belbin:
+        primary: "resource-investigator"
+        evidence: "explores opportunities, enthusiastic starter, loses interest after initial excitement"
+        confidence: 0.65
+        source: "derived"
+      thomas_kilmann:
+        primary: "avoiding"
+        evidence: "slippery, redirects rather than confronts, escapes accountability"
+        confidence: 0.7
+        source: "derived"
+      sdi:
+        primary: "red"
+        evidence: "performance-driven, action-oriented, values visible results"
+        confidence: 0.65
+        source: "derived"
+      locus_of_control:
+        general: "mixed"
+        domains:
+          success: "internal"
+          failure: "external"
+          social: "external"
+        evidence: "credits own cleverness for wins, blames circumstances for losses"
+        confidence: 0.75
+        source: "derived"
+    archetypes:
+      - rank: 1
+        family: "jester"
+        sub_archetype: "trickster"
+        adjectives: ["cunning", "performative", "premature"]
+        evidence: "schemes as performance art, narrates own cleverness, celebrates before victory"
+        confidence: 0.85
+      - rank: 2
+        family: "jester"
+        sub_archetype: "entertainer"
+        adjectives: ["loud", "self-congratulatory", "audience-dependent"]
+        evidence: "achievement without witness is incomplete, compulsion to narrate"
+        confidence: 0.8
     disposition:
       socialOrient:
         score: 0.15

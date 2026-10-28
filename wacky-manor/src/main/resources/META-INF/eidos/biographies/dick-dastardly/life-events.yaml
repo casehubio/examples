@@ -23,6 +23,13 @@ entries:
       autonomy: 0.5
     catalogue: attachment-dismissive
     serves: greed|defining,scheming|moderate
+    sub_thoughts:
+      - type: affect-observation
+        text: "His stomach loosened for the first time in days. The bread was warm."
+      - type: self-schema
+        text: "If you wait for things to reach you, they arrive used up."
+      - type: pattern-recognition
+        text: "Nobody saw him take it. That was the important part."
 
   - id: le-dd-spelling-bee
     confidence_origin: STATED
@@ -47,6 +54,13 @@ entries:
       autonomy: 0.1
     catalogue: cbt-negative-self
     serves: recognition|defining
+    sub_thoughts:
+      - type: affect-observation
+        text: "The certificate was real. But looking at it alone felt like eating without tasting."
+      - type: self-schema
+        text: "An achievement nobody sees is a room nobody enters."
+      - type: world-model
+        text: "The teacher moved on. Everyone always moves on."
 
   - id: le-dd-treasure-trick
     confidence_origin: STATED
@@ -71,6 +85,13 @@ entries:
       autonomy: 0.5
     catalogue: bandura-mastery-efficacy
     serves: scheming|strong
+    sub_thoughts:
+      - type: affect-observation
+        text: "A fizzing in his fingers as each step landed exactly where he'd placed it."
+      - type: self-schema
+        text: "He could build things out of words and watch them become real."
+      - type: pattern-recognition
+        text: "The bigger boy was stronger but the story was stronger than the boy."
 
   - id: le-dd-rival-slipped
     confidence_origin: STATED
@@ -95,6 +116,13 @@ entries:
       autonomy: 0.3
     catalogue: operant-positive-reinforcement
     serves: gloating|defining
+    sub_thoughts:
+      - type: affect-observation
+        text: "The laugh came from somewhere below his chest, involuntary and bright."
+      - type: self-schema
+        text: "The punishment was nothing. The warmth was everything."
+      - type: world-model
+        text: "Other people's misfortune produces a heat that lasts."
 
   - id: le-dd-cat-trap
     confidence_origin: STATED
@@ -122,3 +150,10 @@ entries:
       autonomy: 0.4
     catalogue: cbt-negative-self
     serves: scheming|strong,recognition|strong
+    sub_thoughts:
+      - type: affect-observation
+        text: "The settling in his chest when the pieces came together. Then the hollow after."
+      - type: self-schema
+        text: "The architecture deserved an audience. Without one, cleverness feels wasted."
+      - type: causal-attribution
+        text: "It felt so much better when there was someone to show it to."

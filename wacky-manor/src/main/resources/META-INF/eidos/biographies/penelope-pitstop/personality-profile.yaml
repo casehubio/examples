@@ -5,8 +5,19 @@ entries:
     frameworks:
       ampd:
         callousness: 5
+        manipulativeness: 10
+        grandiosity: 10
+        deceitfulness: 5
+        attention-seeking: 15
+        hostility: 5
         suspiciousness: 10
-        evidence: "empathic, trusting by default"
+        intimacy-avoidance: 5
+        emotional-lability: 25
+        anxiousness: 15
+        risk-taking: 40
+        impulsivity: 30
+        withdrawal: 5
+        evidence: "psychologically healthy — feels deeply but processes well, adventurous but not reckless, approaches everyone"
         confidence: 0.9
         source: "character-definition"
       attachment:
@@ -30,12 +41,68 @@ entries:
         evidence: "warmth-driven, possibility-seeking, harmony-oriented"
         confidence: 0.7
         source: "derived"
+      jungian_stack:
+        - function: "fi"
+          weight: 0.35
+          evidence: "values-driven decisions — chose friend over popularity without hesitation"
+        - function: "ne"
+          weight: 0.28
+          evidence: "possibility-seeking — every locked box, every cave, every new person is a door"
+        - function: "si"
+          weight: 0.20
+          evidence: "draws on past warmth — 'the way it always does when I step into somewhere new'"
+        - function: "te"
+          weight: 0.12
+          evidence: "weak — not strategic, not efficiency-driven, follows feeling over logic"
       enneagram:
         type: "type-2"
         wing: "7"
-        evidence: "helper with adventure-seeking wing"
+        evidence: "helper with adventure-seeking wing — reaches out to others AND reaches into the unknown"
         confidence: 0.65
         source: "derived"
+      disc:
+        primary: "influence"
+        secondary: "steadiness"
+        evidence: "warm social presence, creates harmony, consistent emotional availability"
+        confidence: 0.7
+        source: "derived"
+      belbin:
+        primary: "team-worker"
+        evidence: "reads group temperature, bridges gaps, sacrifices own position for group cohesion"
+        confidence: 0.7
+        source: "derived"
+      thomas_kilmann:
+        primary: "accommodating"
+        evidence: "absorbs tension rather than escalating, mediates between others"
+        confidence: 0.75
+        source: "derived"
+      sdi:
+        primary: "blue"
+        evidence: "people-focused — connection and harmony as core motivators"
+        confidence: 0.7
+        source: "derived"
+      locus_of_control:
+        general: "mixed"
+        domains:
+          relationships: "internal"
+          adventure: "internal"
+          danger: "external"
+        evidence: "strong agency in building connections and seeking discovery, relies on others for safety"
+        confidence: 0.65
+        source: "derived"
+    archetypes:
+      - rank: 1
+        family: "explorer"
+        sub_archetype: "seeker"
+        adjectives: ["curious", "open", "undeterred"]
+        evidence: "walked deeper into the cave than anyone, carried the secret, fingers itch at closed doors"
+        confidence: 0.85
+      - rank: 2
+        family: "caregiver"
+        sub_archetype: "harmoniser"
+        adjectives: ["warm", "inclusive", "bridge-building"]
+        evidence: "chose friend over popularity, first to visit new neighbours, reads the room's emotional temperature"
+        confidence: 0.85
     disposition:
       socialOrient:
         score: 0.85
