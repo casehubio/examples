@@ -202,18 +202,26 @@ public class PlaybookOrchestrator {
             cacheRestored = ConsolidationCache.restore(mmStore, ManorConstants.TENANCY_ID, profileMode.name(), cacheDir);
         }
 
+        for (var entry : world.characters().entrySet()) {
+            agentRegistry.findById(entry.getKey(), ManorConstants.TENANCY_ID).ifPresent(desc -> {
+                if (desc.name() != null && !desc.name().isBlank()) {
+                    entry.getValue().setName(desc.name());
+                }
+            });
+            if (activeSet != null && !activeSet.contains(entry.getKey())) {
+                entry.getValue().setActive(false);
+            }
+        }
+
         var activeSocialConfigs = new java.util.HashMap<String, SocialConfig>();
         for (var entry : world.characters().entrySet()) {
-            if (activeSet != null && !activeSet.contains(entry.getKey())) continue;
+            if (!entry.getValue().isActive()) continue;
             var desc = agentRegistry.findById(entry.getKey(), ManorConstants.TENANCY_ID)
                     .orElseThrow(() -> new IllegalStateException("No Eidos descriptor for character: " + entry.getKey()));
             var tags = desc.capabilities().stream()
                     .flatMap(c -> c.tags().stream())
                     .collect(java.util.stream.Collectors.toSet());
             entry.getValue().setCapabilityTags(tags);
-            if (desc.name() != null && !desc.name().isBlank()) {
-                entry.getValue().setName(desc.name());
-            }
             activeSocialConfigs.put(entry.getKey(), socialConfigs.getOrDefault(entry.getKey(), SocialConfig.empty()));
         }
 
