@@ -87,6 +87,8 @@ public class PlaybookOrchestrator {
     ClassificationModeRegistry                            classificationModeRegistry;
     @Inject
     ManorNeedSatisfactionConfigProvider                   needSatisfactionConfigProvider;
+    @Inject
+    io.casehub.neocortex.memory.seeding.biography.BiographyImportRunner biographyImportRunner;
 
     @Inject
     io.casehub.platform.agent.session.SessionPoolRegistry sessionPoolRegistry;
@@ -232,6 +234,16 @@ public class PlaybookOrchestrator {
 
         if (!cacheRestored && mmStore != null) {
             new ManorCognitiveSeeder(mmStore).seedPeople(socialConfigs, ManorConstants.TENANCY_ID);
+
+            var biographyDir = java.nio.file.Path.of("src/main/resources/META-INF/eidos/biographies");
+            if (java.nio.file.Files.isDirectory(biographyDir)) {
+                log.info("Loading biography engrams from " + biographyDir);
+                var loader = new io.casehub.neocortex.memory.seeding.biography.BiographyLoader();
+                var bioProfile = loader.loadAll(biographyDir, "manor-characters", ManorConstants.TENANCY_ID);
+                biographyImportRunner.run(bioProfile, "manor-characters", ManorConstants.TENANCY_ID);
+                log.infof("Biography import complete — %d personality profiles, %d life events, %d goals",
+                    bioProfile.personalityProfiles().size(), bioProfile.lifeEvents().size(), bioProfile.goals().size());
+            }
         }
 
         if (config.consolidation().enabled() && !cacheRestored) {
