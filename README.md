@@ -35,6 +35,20 @@ mvn quarkus:dev -pl ledger-examples/order-processing
 ./sync.sh
 ```
 
+### Work example prerequisites
+
+The Work examples use current `0.4-SNAPSHOT` artifacts, including the AI module.
+With the workspace dependencies installed, prepare them in a checkout of
+[casehubio/work](https://github.com/casehubio/work):
+
+```bash
+mvn -Pexamples -pl examples -am install -DskipTests
+```
+
+Then, from this repository, run `mvn -pl work-examples clean verify` to execute
+the Work scenario tests on H2 and package the application. This does not require
+an LLM service or credentials.
+
 ## Example Sets
 
 | Example Set | Type | Description |

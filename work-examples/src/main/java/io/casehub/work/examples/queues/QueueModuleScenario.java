@@ -1,11 +1,23 @@
 package io.casehub.work.examples.queues;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import io.casehub.work.runtime.model.WorkItemEntity;
+import io.casehub.platform.api.identity.TenancyConstants;
+import io.casehub.platform.api.view.SubjectViewSpec;
+import io.casehub.platform.api.view.SubjectViewStore;
+import io.casehub.work.api.AuditEntryResponse;
+import io.casehub.work.api.LabelPersistence;
+import io.casehub.work.api.WorkItemCreateRequest;
+import io.casehub.work.api.WorkItemLabelRequest;
+import io.casehub.work.api.WorkItemPriority;
+import io.casehub.work.examples.StepLog;
+import io.casehub.work.queues.model.WorkItemQueueState;
+import io.casehub.work.queues.repository.QueueStateStore;
+import io.casehub.work.api.WorkItemLifecycleEvent;
+import io.casehub.work.runtime.model.AuditEntry;
+import io.casehub.work.api.WorkItem;
+import io.casehub.work.runtime.repository.AuditEntryStore;
+import io.casehub.work.api.WorkItemQuery;
+import io.casehub.work.api.spi.WorkItemStore;
+import io.casehub.work.runtime.service.WorkItemService;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -13,24 +25,12 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-
 import org.jboss.logging.Logger;
 
-import io.casehub.work.examples.StepLog;
-import io.casehub.platform.api.identity.TenancyConstants;
-import io.casehub.work.queues.model.QueueView;
-import io.casehub.work.queues.model.WorkItemQueueState;
-import io.casehub.work.api.AuditEntryResponse;
-import io.casehub.work.api.WorkItemLabelRequest;
-import io.casehub.work.runtime.event.WorkItemLifecycleEvent;
-import io.casehub.work.runtime.model.AuditEntry;
-import io.casehub.work.api.LabelPersistence;
-import io.casehub.work.api.WorkItemCreateRequest;
-import io.casehub.work.api.WorkItemPriority;
-import io.casehub.work.runtime.repository.AuditEntryStore;
-import io.casehub.work.runtime.repository.WorkItemQuery;
-import io.casehub.work.runtime.repository.WorkItemStore;
-import io.casehub.work.runtime.service.WorkItemService;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Scenario 8 — Queue Module: Label-Based Specialist Queues with Soft-Claim Handoff.
@@ -67,6 +67,9 @@ import io.casehub.work.runtime.service.WorkItemService;
 @Path("/examples/queues")
 @Produces(MediaType.APPLICATION_JSON)
 public class QueueModuleScenario {
+    @Inject
+    SubjectViewStore viewStore;
+
 
     private static final Logger LOG = Logger.getLogger(QueueModuleScenario.class);
 
@@ -84,6 +87,9 @@ public class QueueModuleScenario {
 
     @Inject
     AuditEntryStore auditStore;
+
+    @Inject
+    QueueStateStore queueStateStore;
 
     @Inject
     Event<WorkItemLifecycleEvent> lifecycleEvent;
@@ -104,7 +110,7 @@ public class QueueModuleScenario {
         final String description1 = "legal-system creates WorkItem A with label contract-review/nda";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 1, total, description1);
 
-        final WorkItemEntity wiA = workItemService.create(WorkItemCreateRequest.builder()
+        final WorkItem wiA = workItemService.create(WorkItemCreateRequest.builder()
                                                                                .title("Review NDA with TechPartner Inc")
                                                                                .description("Non-disclosure agreement for technology partnership — standard NDA, review for compliance with IP policy")
                                                                                .types(List.of("legal"))
@@ -115,13 +121,13 @@ public class QueueModuleScenario {
                                                                                .payload("{\"contractRef\": \"TECHPARTNER-NDA-2026-Q2\"}")
                                                                                .labels(List.of(new WorkItemLabelRequest("contract-review/nda", LabelPersistence.MANUAL, ACTOR_CREATOR)))
                                                                                .build());
-        steps.add(new StepLog(1, description1, wiA.id));
+        steps.add(new StepLog(1, description1, wiA.id()));
 
         // Step 2: create WorkItem B — compliance/gdpr
         final String description2 = "legal-system creates WorkItem B with label compliance/gdpr";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 2, total, description2);
 
-        final WorkItemEntity wiB = workItemService.create(WorkItemCreateRequest.builder()
+        final WorkItem wiB = workItemService.create(WorkItemCreateRequest.builder()
                                                                                .title("GDPR data processing agreement — EU vendor")
                                                                                .description("Data Processing Agreement required for new EU-based data analytics vendor")
                                                                                .types(List.of("legal"))
@@ -132,13 +138,13 @@ public class QueueModuleScenario {
                                                                                .payload("{\"contractRef\": \"EU-DPA-2026-0031\"}")
                                                                                .labels(List.of(new WorkItemLabelRequest("compliance/gdpr", LabelPersistence.MANUAL, ACTOR_CREATOR)))
                                                                                .build());
-        steps.add(new StepLog(2, description2, wiB.id));
+        steps.add(new StepLog(2, description2, wiB.id()));
 
         // Step 3: create WorkItem C — contract-review/ip
         final String description3 = "legal-system creates WorkItem C with label contract-review/ip";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 3, total, description3);
 
-        final WorkItemEntity wiC = workItemService.create(WorkItemCreateRequest.builder()
+        final WorkItem wiC = workItemService.create(WorkItemCreateRequest.builder()
                                                                                .title("Review IP licensing agreement — ResearchCo")
                                                                                .description("Intellectual property licensing agreement covering patent and know-how transfer")
                                                                                .types(List.of("legal"))
@@ -149,75 +155,73 @@ public class QueueModuleScenario {
                                                                                .payload("{\"contractRef\": \"RESEARCHCO-IP-2026-Q2\"}")
                                                                                .labels(List.of(new WorkItemLabelRequest("contract-review/ip", LabelPersistence.MANUAL, ACTOR_CREATOR)))
                                                                                .build());
-        steps.add(new StepLog(3, description3, wiC.id));
+        steps.add(new StepLog(3, description3, wiC.id()));
 
         // Step 4: create the contract-review queue view
         final String description4 = "Create queue view for contract-review/* pattern";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 4, total, description4);
 
-        final QueueView queueView = new QueueView();
-        queueView.name = "Contract Review Queue";
-        queueView.labelPattern = QUEUE_PATTERN;
-        queueView.scope = io.casehub.platform.api.path.Path.of("team");
-        queueView.sortField = "createdAt";
-        queueView.sortDirection = "ASC";
-        queueView.tenancyId = TenancyConstants.DEFAULT_TENANT_ID;
-        queueView.persist();
-        final UUID queueId = queueView.id;
+        final SubjectViewSpec queueView = viewStore.save(new SubjectViewSpec(
+                UUID.randomUUID(), "Contract Review Queue", TenancyConstants.DEFAULT_TENANT_ID,
+                QUEUE_PATTERN, io.casehub.platform.api.path.Path.of("team"),
+                "createdAt", "ASC", null, java.time.Instant.now()));
+        final UUID queueId = queueView.id();
         steps.add(new StepLog(4, description4, null));
 
         // Step 5: query the queue — expect WorkItems A and C
         final String description5 = "Query contract-review/* queue — expect WorkItems A (nda) and C (ip)";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 5, total, description5);
 
-        final List<WorkItemEntity> queueContents = workItemStore.scan(WorkItemQuery.byLabelPattern(QUEUE_PATTERN));
+        final List<WorkItem> queueContents = workItemStore.scan(WorkItemQuery.byLabelPattern(QUEUE_PATTERN));
         final int                  queueSize     = queueContents.size();
         steps.add(new StepLog(5, String.format("%s — found %d items", description5, queueSize), null));
 
         // Step 6: contract-specialist picks up WorkItem A (standard claim from PENDING)
         final String description6 = "contract-specialist picks up WorkItem A from the contract-review queue";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 6, total, description6);
-        workItemService.claim(wiA.id, ACTOR_CONTRACT);
-        steps.add(new StepLog(6, description6, wiA.id));
+        workItemService.claim(wiA.id(), ACTOR_CONTRACT);
+        steps.add(new StepLog(6, description6, wiA.id()));
 
         // Step 7: contract-specialist marks WorkItem A as relinquishable (handoff signal)
         final String description7 = "contract-specialist marks WorkItem A as relinquishable — needs senior review";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 7, total, description7);
-        final WorkItemQueueState state = WorkItemQueueState.findOrCreate(wiA.id);
+        final WorkItemQueueState state = queueStateStore.findOrCreate(wiA.id());
         state.relinquishable = true;
-        steps.add(new StepLog(7, description7, wiA.id));
+        steps.add(new StepLog(7, description7, wiA.id()));
 
         // Step 8: senior-specialist picks up WorkItem A via soft takeover
         final String description8 = "senior-specialist picks up relinquishable WorkItem A (ownership transfer)";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 8, total, description8);
-        final WorkItemEntity wiARefreshed = workItemStore.get(wiA.id)
-                                                         .orElseThrow(() -> new IllegalStateException("WorkItem A not found: " + wiA.id));
-        wiARefreshed.assigneeId = ACTOR_SENIOR;
-        wiARefreshed.assignedAt = Instant.now();
-        final WorkItemEntity wiASaved = workItemStore.put(wiARefreshed);
+        final WorkItem wiARefreshed = workItemStore.get(wiA.id())
+                                                         .orElseThrow(() -> new IllegalStateException("WorkItem A not found: " + wiA.id()));
+        final WorkItem wiAReassigned = wiARefreshed.toBuilder()
+                .assigneeId(ACTOR_SENIOR)
+                .assignedAt(Instant.now())
+                .build();
+        final WorkItem wiASaved = workItemStore.put(wiAReassigned);
         // Clear relinquishable flag — signal consumed
         state.relinquishable = false;
         lifecycleEvent.fire(WorkItemLifecycleEvent.of("ASSIGNED", wiASaved, ACTOR_SENIOR,
                 "Queue pickup (relinquishable takeover)"));
-        steps.add(new StepLog(8, description8, wiA.id));
+        steps.add(new StepLog(8, description8, wiA.id()));
 
         // Step 9: senior-specialist starts and completes WorkItem A
         final String description9 = "senior-specialist starts and completes WorkItem A";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 9, total, description9);
-        workItemService.start(wiA.id, ACTOR_SENIOR);
-        workItemService.complete(wiA.id, ACTOR_SENIOR,
+        workItemService.start(wiA.id(), ACTOR_SENIOR);
+        workItemService.complete(wiA.id(), ACTOR_SENIOR,
                 "{\"outcome\": \"APPROVED\", \"notes\": \"NDA reviewed by senior specialist — standard terms confirmed\"}", null);
-        steps.add(new StepLog(9, description9, wiA.id));
+        steps.add(new StepLog(9, description9, wiA.id()));
 
         // Collect audit trail for WorkItem A (the focus of the handoff story)
-        final List<AuditEntry> auditEntries = auditStore.findByWorkItemId(wiA.id);
+        final List<AuditEntry> auditEntries = auditStore.findByWorkItemId(wiA.id());
         final List<AuditEntryResponse> auditTrail = auditEntries.stream()
                 .map(a -> new AuditEntryResponse(a.id, a.event, a.actor, a.detail, a.occurredAt))
                 .toList();
 
         // Determine final assignee from the refreshed WorkItem
-        final String finalAssignee = workItemStore.get(wiA.id)
-                .map(wi -> wi.assigneeId)
+        final String finalAssignee = workItemStore.get(wiA.id())
+                .map(wi -> wi.assigneeId())
                 .orElse(ACTOR_SENIOR);
 
         return new QueueModuleResponse(
@@ -225,7 +229,7 @@ public class QueueModuleScenario {
                 steps,
                 queueId,
                 queueSize,
-                wiA.id,
+                wiA.id(),
                 finalAssignee,
                 auditTrail);
     }

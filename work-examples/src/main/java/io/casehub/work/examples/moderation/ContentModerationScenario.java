@@ -3,7 +3,7 @@ package io.casehub.work.examples.moderation;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.casehub.work.runtime.model.WorkItemEntity;
+import io.casehub.work.api.WorkItem;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.POST;
@@ -15,9 +15,9 @@ import org.jboss.logging.Logger;
 
 import io.casehub.platform.api.identity.ActorType;
 import io.casehub.ledger.api.model.AttestationVerdict;
-import io.casehub.ledger.runtime.model.LedgerAttestation;
-import io.casehub.ledger.runtime.model.supplement.JpaComplianceSupplement;
-import io.casehub.ledger.runtime.model.supplement.JpaProvenanceSupplement;
+import io.casehub.ledger.jpa.LedgerAttestation;
+import io.casehub.ledger.jpa.JpaComplianceSupplement;
+import io.casehub.ledger.jpa.JpaProvenanceSupplement;
 import io.casehub.work.examples.ScenarioResponse;
 import io.casehub.work.examples.StepLog;
 import io.casehub.work.examples.moderation.MockAIClassifier.ContentFlag;
@@ -73,8 +73,7 @@ public class ContentModerationScenario {
     @Inject
     AuditEntryStore auditStore;
 
-    @Inject
-    MockAIClassifier classifier;
+    final MockAIClassifier classifier = new MockAIClassifier();
 
     /**
      * Run the content moderation scenario from end to end and return the full ledger and audit trail.
@@ -105,11 +104,11 @@ public class ContentModerationScenario {
                 .payload("{\"postId\": \"POST-9912\", \"flagReason\": \"hate-speech\"}")
                 .build();
 
-        final WorkItemEntity wi = workItemService.create(request);
-        steps.add(new StepLog(1, description1, wi.id));
+        final WorkItem wi = workItemService.create(request);
+        steps.add(new StepLog(1, description1, wi.id()));
 
         // Set evidence and provenance on the creation ledger entry
-        final WorkItemLedgerEntry creationEntry = ledgerRepo.findByWorkItemId(wi.id).stream()
+        final WorkItemLedgerEntry creationEntry = ledgerRepo.findByWorkItemId(wi.id()).stream()
                 .filter(e -> e.sequenceNumber == 1)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No creation ledger entry found"));
@@ -125,33 +124,33 @@ public class ContentModerationScenario {
         // Step 2: moderator-dana claims the WorkItem
         final String description2 = "moderator-dana claims the moderation WorkItem";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 2, total, description2);
-        workItemService.claim(wi.id, ACTOR_MODERATOR);
-        steps.add(new StepLog(2, description2, wi.id));
+        workItemService.claim(wi.id(), ACTOR_MODERATOR);
+        steps.add(new StepLog(2, description2, wi.id()));
 
         // Step 3: moderator-dana starts the WorkItem
         final String description3 = "moderator-dana starts reviewing the flagged post";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 3, total, description3);
-        workItemService.start(wi.id, ACTOR_MODERATOR);
-        steps.add(new StepLog(3, description3, wi.id));
+        workItemService.start(wi.id(), ACTOR_MODERATOR);
+        steps.add(new StepLog(3, description3, wi.id()));
 
         // Step 4: moderator-dana rejects with reason + rationale (5-arg overload)
         final String description4 = "moderator-dana rejects — content is satire, not hate speech";
         LOG.infof("[SCENARIO] Step %d/%d: %s", 4, total, description4);
         workItemService.reject(
-                wi.id,
+                wi.id(),
                 ACTOR_MODERATOR,
                 "Content violates community guidelines",
                 null,
                 "Context review: satire, not hate speech");
-        steps.add(new StepLog(4, description4, wi.id));
+        steps.add(new StepLog(4, description4, wi.id()));
 
         // Add ENDORSED attestation from compliance bot (AGENT) on the rejection entry
-        final WorkItemLedgerEntry rejectionEntry = ledgerRepo.findLatestByWorkItemId(wi.id)
+        final WorkItemLedgerEntry rejectionEntry = ledgerRepo.findLatestByWorkItemId(wi.id())
                 .orElseThrow(() -> new IllegalStateException("No rejection ledger entry found"));
 
         final LedgerAttestation attestation = new LedgerAttestation();
         attestation.ledgerEntryId = rejectionEntry.id;
-        attestation.subjectId = wi.id;
+        attestation.subjectId = wi.id();
         attestation.attestorId = ACTOR_COMPLIANCE_BOT;
         attestation.attestorType = ActorType.AGENT;
         attestation.verdict = AttestationVerdict.ENDORSED;
@@ -160,18 +159,18 @@ public class ContentModerationScenario {
         ledgerRepo.saveAttestation(attestation);
 
         // Collect ledger entries
-        final List<WorkItemLedgerEntry> entries = ledgerRepo.findByWorkItemId(wi.id);
+        final List<WorkItemLedgerEntry> entries = ledgerRepo.findByWorkItemId(wi.id());
         entries.forEach(WorkItemLedgerEntry::syncSupplementsFromJpa);
         final List<LedgerEntryResponse> ledgerEntries = entries.stream()
                 .map(e -> LedgerMapper.toResponse(e, ledgerRepo.findAttestationsByEntryId(e.id)))
                 .toList();
 
         // Collect audit trail
-        final List<AuditEntry> auditEntries = auditStore.findByWorkItemId(wi.id);
+        final List<AuditEntry> auditEntries = auditStore.findByWorkItemId(wi.id());
         final List<AuditEntryResponse> auditTrail = auditEntries.stream()
                 .map(a -> new AuditEntryResponse(a.id, a.event, a.actor, a.detail, a.occurredAt))
                 .toList();
 
-        return new ScenarioResponse(SCENARIO_ID, steps, wi.id, ledgerEntries, auditTrail);
+        return new ScenarioResponse(SCENARIO_ID, steps, wi.id(), ledgerEntries, auditTrail);
     }
 }
