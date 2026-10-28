@@ -239,13 +239,7 @@ public final class CharacterCognition {
                     "Your body state may be ambiguous. Racing heart could be excitement or " +
                     "fear. Tightness could be grief or fury. You do not always know what you " +
                     "feel. Stay with the uncertainty — do not resolve it.\n\n" +
-                    "FROM BODY TO ACTION\n" +
-                    "The body acts before the mind decides. What your muscles are preparing " +
-                    "becomes what you do. What your face is already doing becomes what they see. " +
-                    "A high-intensity drive doesn't whisper — it moves your hands, changes " +
-                    "your voice, reshapes your posture before you choose it. Let the body's " +
-                    "urgency into your words and your actions. The stronger the drive, the " +
-                    "less it asks permission."));
+                    "Do not conclude. Do not explain. Discover."));
         }
 
         var internalState = cognitiveObservation.renderInternalState(
