@@ -155,7 +155,7 @@ class ObservationBuilderTest {
         var character = world.character("penelope-pitstop");
         character.setLastActionResult("You moved to the Kitchen.");
         var obs = buildObs(character);
-        assertThat(obs).contains("== Last Action Result ==");
+        assertThat(obs).contains("== A Moment Ago ==");
         assertThat(obs).contains("You moved to the Kitchen.");
     }
 

@@ -164,6 +164,6 @@ public final class ObservationBuilder {
 
     private static io.casehub.agency.perception.observation.affordance.ObservationSection lastActionResultSection(io.casehub.examples.manor.model.CharacterState character) {
         return io.casehub.agency.perception.observation.affordance.ObservationSection.text(
-                "Last Action Result", character.lastActionResult());
+                "A Moment Ago", character.lastActionResult());
     }
 }
