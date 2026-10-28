@@ -103,7 +103,7 @@ public class ManorWorldObservationProvider implements WorldObservationProvider {
                                            .toList();
         var entities = others.stream()
                              .map(c -> new ObservableEntity(
-                                     c.agentId(), c.name(), null,
+                                     WorldState.slug(c.name()), c.name(), null,
                                      List.of(new Affordance("GIVE", "to hand an item"))))
                              .toList();
         return ObservationSection.entities("Characters Present", "You are alone.", entities);

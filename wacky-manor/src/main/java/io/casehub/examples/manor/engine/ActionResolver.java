@@ -86,7 +86,7 @@ public final class ActionResolver {
         if (action.withItem() == null || !character.hasItem(action.withItem())) {
             return new ActionResult.Failed("You don't have " + action.withItem() + ".");
         }
-        CharacterState target = world.character(action.target());
+        CharacterState target = world.resolveCharacter(action.target());
         if (target == null) {
             return new ActionResult.Failed("Unknown character: " + action.target());
         }
@@ -101,7 +101,7 @@ public final class ActionResolver {
     }
 
     private ActionResult resolveSteal(CharacterState character, Action action, WorldState world) {
-        CharacterState target = world.character(action.target());
+        CharacterState target = world.resolveCharacter(action.target());
         if (target == null) {
             return new ActionResult.Failed("Unknown character: " + action.target());
         }

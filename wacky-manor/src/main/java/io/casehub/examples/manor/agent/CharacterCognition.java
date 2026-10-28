@@ -248,7 +248,7 @@ public final class CharacterCognition {
             sections.add(toAgency(internalState));
         }
 
-        if (briefingMode && !socialConfig.formationMemories().isEmpty()) {
+        if (!socialConfig.formationMemories().isEmpty()) {
             sections.add(renderFormationMemories());
         }
 

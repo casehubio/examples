@@ -499,10 +499,10 @@ public class PlaybookOrchestrator {
                 var response = responses.get(c.agentId());
                 if (response == null) continue;
                 if (response.action() != null && response.action().type() == io.casehub.examples.manor.model.ActionType.PULL_ASIDE) {
-                    String targetId = response.action().target();
-                    var target = world.character(targetId);
+                    var target = world.resolveCharacter(response.action().target());
+                    String targetId = target != null ? target.agentId() : response.action().target();
                     if (target == null || !target.isActive() || !target.currentRoom().equals(c.currentRoom()) || suppressed.contains(c.agentId()) || suppressed.contains(targetId) || agentRegistry.findById(targetId, ManorConstants.TENANCY_ID).isEmpty()) {
-                        c.setLastActionResult("Could not pull " + targetId + " aside.");
+                        c.setLastActionResult("Could not pull " + (target != null ? target.name() : targetId) + " aside.");
                     } else {
                         suppressed.add(c.agentId());
                         suppressed.add(targetId);
@@ -530,13 +530,16 @@ public class PlaybookOrchestrator {
                 if (response.dialogue() != null) {
                     String validatedTalkTo = response.talkTo();
                     if (validatedTalkTo != null) {
-                        var target = world.character(validatedTalkTo);
-                        if (target == null || !target.currentRoom().equals(c.currentRoom())) {
+                        var talkTarget = world.resolveCharacter(validatedTalkTo);
+                        if (talkTarget == null || !talkTarget.currentRoom().equals(c.currentRoom())) {
                             validatedTalkTo = null;
+                        } else {
+                            validatedTalkTo = talkTarget.agentId();
                         }
                     }
                     if (validatedTalkTo != null) {
-                        var narr = NarrativeEventBuilder.describeDirectedDialogue(c.name(), validatedTalkTo, response.dialogue());
+                        var talkTargetName = world.character(validatedTalkTo).name();
+                        var narr = NarrativeEventBuilder.describeDirectedDialogue(c.name(), talkTargetName, response.dialogue());
                         var event = new io.casehub.examples.manor.model.ManorEvent.Dialogue(
                                 java.time.Instant.now(), c.agentId(), c.currentRoom(),
                                 narr.publicText(), narr.detailedText(), validatedTalkTo, response.thinking());
@@ -586,9 +589,11 @@ public class PlaybookOrchestrator {
                 String dialogueText = response.dialogue();
                 String validatedTarget = response.talkTo();
                 if (validatedTarget != null) {
-                    var tgt = world.character(validatedTarget);
+                    var tgt = world.resolveCharacter(validatedTarget);
                     if (tgt == null || !tgt.currentRoom().equals(c.currentRoom())) {
                         validatedTarget = null;
+                    } else {
+                        validatedTarget = tgt.agentId();
                     }
                 }
                 extractDialogueKnowledge(dialogueText, c.agentId(), validatedTarget,
@@ -637,7 +642,8 @@ public class PlaybookOrchestrator {
                 if (response.action() != null && response.action().type() != io.casehub.examples.manor.model.ActionType.WAIT) {
                     String departureRoom = c.currentRoom();
                     var result = actionResolver.resolve(c, response.action(), world);
-                    var narration = NarrativeEventBuilder.describeRich(c, response.action(), result);
+                    var narrativeAction = resolveNarrativeAction(response.action(), world);
+                    var narration = NarrativeEventBuilder.describeRich(c, narrativeAction, result);
                     if (narration != null) {
                         var actionType = response.action().type();
                         boolean concealed = c.capabilityTags().contains("deception")
@@ -657,7 +663,7 @@ public class PlaybookOrchestrator {
                         String aTarget = response.action() != null ? response.action().target() : "";
                         planEvaluator.reviseOnFailure(c.agentId(), aType, aTarget, failure, currentTick);
                     }
-                    String trustTarget = extractTargetAgent(response);
+                    String trustTarget = resolveTargetAgent(response, world);
                     if (trustTarget != null) {
                         var trustActionType = response.action().type();
                         boolean trustConcealed = c.capabilityTags().contains("deception")
@@ -680,9 +686,11 @@ public class PlaybookOrchestrator {
                 }
                 var cognition = cognitions.get(c.agentId());
                 double importance = cognition.computeImportance(response.action() != null ? response.action().type() : null);
-                String targetAgentId = extractTargetAgent(response);
+                String targetAgentId = resolveTargetAgent(response, world);
+                String actionTargetName = response.action() != null && response.action().target() != null
+                        ? resolveDisplayName(response.action().target(), world) : null;
                 String desc = (response.dialogue() != null ? response.dialogue() + " " : "")
-                              + (response.action() != null ? response.action().type() + " " + response.action().target() : "WAIT");
+                              + (response.action() != null ? response.action().type() + " " + actionTargetName : "WAIT");
                 cognition.recordExperience(c.currentRoom(), desc.strip(), response.thinking(), importance, targetAgentId, currentTick);
             }
 
@@ -979,6 +987,30 @@ public class PlaybookOrchestrator {
     private static int cadence(io.casehub.examples.manor.model.CharacterState c) {
         return Math.max(1, (int) (c.thinkDelayMs() / 2000));
     }
+
+
+    private static String resolveTargetAgent(AgentResponse response, WorldState world) {
+        String raw = extractTargetAgent(response);
+        if (raw == null) {return null;}
+        var resolved = world.resolveCharacter(raw);
+        return resolved != null ? resolved.agentId() : raw;
+    }
+
+    private static String resolveDisplayName(String ref, WorldState world) {
+        var resolved = world.resolveCharacter(ref);
+        return resolved != null ? resolved.name() : ref;
+    }
+
+    private static io.casehub.examples.manor.model.Action resolveNarrativeAction(
+            io.casehub.examples.manor.model.Action action, WorldState world) {
+        if (action.target() == null) {return action;}
+        return switch (action.type()) {
+            case GIVE, STEAL, PULL_ASIDE -> new io.casehub.examples.manor.model.Action(
+                    action.type(), resolveDisplayName(action.target(), world), action.withItem());
+            default -> action;
+        };
+    }
+
 
     private static String extractTargetAgent(AgentResponse response) {
         if (response.talkTo() != null) {return response.talkTo();}
