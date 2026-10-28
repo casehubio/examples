@@ -63,7 +63,7 @@ public final class ActionResolver {
             return new ActionResult.ItemReceived(obj.yields(),
                                                  "You received " + obj.yields() + " from " + obj.name() + ".");
         }
-        return new ActionResult.Success("You interacted with " + obj.name() + ".");
+        return new ActionResult.Success("You examined the " + obj.name() + ". " + obj.description());
     }
 
     private ActionResult resolveTake(CharacterState character, Action action, WorldState world) {

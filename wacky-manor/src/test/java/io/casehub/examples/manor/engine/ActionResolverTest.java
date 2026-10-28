@@ -297,4 +297,26 @@ class ActionResolverTest {
         var result    = resolver.resolve(dastardly, new Action(ActionType.STEAL, "nobody", "brass-key"), world);
         assertThat(result).isInstanceOf(ActionResult.Failed.class);
     }
+
+    @Test
+    void interact_result_describes_experience_not_action_label() {
+        var character = world.character("penelope-pitstop");
+        var result = resolver.resolve(character,
+                                      new Action(ActionType.INTERACT, "guest-book", null), world);
+        assertThat(result).isInstanceOf(ActionResult.Success.class);
+        assertThat(result.text())
+                .as("INTERACT should describe what the character experienced, not the action label")
+                .doesNotContain("interacted with")
+                .contains("guest book");
+    }
+
+    @Test
+    void interact_result_includes_object_description() {
+        var character = world.character("penelope-pitstop");
+        var result = resolver.resolve(character,
+                                      new Action(ActionType.INTERACT, "guest-book", null), world);
+        assertThat(result.text())
+                .as("INTERACT should include sensory details from the object")
+                .containsIgnoringCase("leather");
+    }
 }
