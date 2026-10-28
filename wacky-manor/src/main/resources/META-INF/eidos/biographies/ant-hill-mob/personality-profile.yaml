@@ -5,7 +5,7 @@ entries:
     frameworks:
       ampd:
         callousness: 15
-        manipulativeness: 20
+        manipulativeness: 10
         grandiosity: 10
         deceitfulness: 15
         attention-seeking: 10
@@ -42,12 +42,12 @@ entries:
         confidence: 0.7
         source: "derived"
       jungian_stack:
-        - function: "se"
-          weight: 0.32
-          evidence: "street awareness — reads rooms, exits, postures, micro-expressions before processing words"
         - function: "fi"
-          weight: 0.28
+          weight: 0.32
           evidence: "loyalty values — 'where else would I be?' is not reasoned, it's felt"
+        - function: "se"
+          weight: 0.28
+          evidence: "street awareness — reads rooms, exits, postures, micro-expressions before processing words"
         - function: "ni"
           weight: 0.22
           evidence: "gut intuition — neck prickled at the new kid, stomach knew before brain"

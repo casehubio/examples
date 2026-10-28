@@ -42,15 +42,15 @@ entries:
         confidence: 0.7
         source: "derived"
       jungian_stack:
-        - function: "ti"
-          weight: 0.35
-          evidence: "systems-level analysis of people and situations as mechanisms"
         - function: "ni"
-          weight: 0.28
+          weight: 0.35
           evidence: "long-range vision, patient multi-step planning, crystallised at 15"
         - function: "te"
-          weight: 0.20
+          weight: 0.28
           evidence: "efficient execution, household accounts, estate management"
+        - function: "fi"
+          weight: 0.20
+          evidence: "internal value system — knows what he deserves, what is owed"
         - function: "se"
           weight: 0.10
           evidence: "reads rooms, posture, micro-expressions — but as data, not feeling"
@@ -67,8 +67,8 @@ entries:
         confidence: 0.7
         source: "derived"
       belbin:
-        primary: "shaper"
-        evidence: "drives toward objectives through others, comfortable with pressure"
+        primary: "monitor-evaluator"
+        evidence: "strategic, discerning, sees all options before acting, patient analysis"
         confidence: 0.65
         source: "derived"
       thomas_kilmann:

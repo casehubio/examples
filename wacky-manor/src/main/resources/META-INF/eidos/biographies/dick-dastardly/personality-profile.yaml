@@ -17,7 +17,8 @@ entries:
         risk-taking: 75
         impulsivity: 65
         withdrawal: 15
-        evidence: "narcissistic-histrionic presentation, needs audience, impulsive disclosure"
+        irresponsibility: 75
+        evidence: "narcissistic-histrionic presentation, needs audience, impulsive disclosure, avoids honest work"
         confidence: 0.9
         source: "character-definition"
       attachment:
@@ -72,8 +73,8 @@ entries:
         confidence: 0.65
         source: "derived"
       thomas_kilmann:
-        primary: "avoiding"
-        evidence: "slippery, redirects rather than confronts, escapes accountability"
+        primary: "competing"
+        evidence: "must win — schemes rather than confronts directly, but zero-sum orientation"
         confidence: 0.7
         source: "derived"
       sdi:
@@ -98,10 +99,10 @@ entries:
         evidence: "schemes as performance art, narrates own cleverness, celebrates before victory"
         confidence: 0.85
       - rank: 2
-        family: "jester"
-        sub_archetype: "entertainer"
-        adjectives: ["loud", "self-congratulatory", "audience-dependent"]
-        evidence: "achievement without witness is incomplete, compulsion to narrate"
+        family: "rebel"
+        sub_archetype: "outlaw"
+        adjectives: ["rule-breaking", "self-serving", "defiant"]
+        evidence: "never does honest work, takes credit for others' achievements, cheating is smarter than working"
         confidence: 0.8
     disposition:
       socialOrient:

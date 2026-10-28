@@ -14,8 +14,8 @@ entries:
         intimacy-avoidance: 5
         emotional-lability: 25
         anxiousness: 15
-        risk-taking: 40
-        impulsivity: 30
+        risk-taking: 25
+        impulsivity: 15
         withdrawal: 5
         evidence: "psychologically healthy — feels deeply but processes well, adventurous but not reckless, approaches everyone"
         confidence: 0.9
@@ -42,12 +42,12 @@ entries:
         confidence: 0.7
         source: "derived"
       jungian_stack:
-        - function: "fi"
-          weight: 0.35
-          evidence: "values-driven decisions — chose friend over popularity without hesitation"
         - function: "ne"
-          weight: 0.28
+          weight: 0.35
           evidence: "possibility-seeking — every locked box, every cave, every new person is a door"
+        - function: "fi"
+          weight: 0.28
+          evidence: "values-driven decisions — chose friend over popularity without hesitation"
         - function: "si"
           weight: 0.20
           evidence: "draws on past warmth — 'the way it always does when I step into somewhere new'"
