@@ -1,0 +1,316 @@
+{
+  "baselines": {
+    "B0": "generic-colloquial-20261002",
+    "B1": "emotional-core-baseline1-generic-20261004",
+    "V2": "full-cognitive-run-2026-10-26",
+    "Computed": "computed-engram-run-20261028"
+  },
+  "scorecard": {
+    "ant-hill-mob/loyalty": {
+      "B0": {
+        "quality": 3.5,
+        "register": 1.5
+      },
+      "B1": {
+        "quality": 3.75,
+        "register": 1.75
+      },
+      "V2": {
+        "quality": 3.8,
+        "register": 2.2
+      },
+      "Computed": {
+        "quality": 4.0,
+        "register": 2.25
+      }
+    },
+    "ant-hill-mob/protection": {
+      "B0": {
+        "quality": 3.83,
+        "register": 1.67
+      },
+      "B1": {
+        "quality": 4.75,
+        "register": 3.75
+      },
+      "V2": {
+        "quality": 4.5,
+        "register": 3.67
+      },
+      "Computed": {
+        "quality": 5.0,
+        "register": 4.33
+      }
+    },
+    "ant-hill-mob/suspicion": {
+      "B0": {
+        "quality": 4.2,
+        "register": 2.8
+      },
+      "B1": {
+        "quality": 3.75,
+        "register": 3.5
+      },
+      "V2": {
+        "quality": 4.0,
+        "register": 3.5
+      },
+      "Computed": {
+        "quality": 4.5,
+        "register": 4.17
+      }
+    },
+    "dick-dastardly/greed": {
+      "B0": {
+        "quality": 4.17,
+        "register": 1.0
+      },
+      "B1": {
+        "quality": 4.12,
+        "register": 1.38
+      },
+      "V2": {
+        "quality": 4.33,
+        "register": 3.83
+      },
+      "Computed": {
+        "quality": 3.83,
+        "register": 2.83
+      }
+    },
+    "dick-dastardly/recognition": {
+      "B0": {
+        "quality": 3.83,
+        "register": 1.0
+      },
+      "B1": {
+        "quality": 3.88,
+        "register": 1.12
+      },
+      "V2": {
+        "quality": 3.33,
+        "register": 1.5
+      },
+      "Computed": {
+        "quality": 2.67,
+        "register": 1.0
+      }
+    },
+    "dick-dastardly/scheming": {
+      "B0": {
+        "quality": 5.0,
+        "register": 1.5
+      },
+      "B1": {
+        "quality": 4.88,
+        "register": 3.12
+      },
+      "V2": {
+        "quality": 5.0,
+        "register": 3.83
+      },
+      "Computed": {
+        "quality": 5.0,
+        "register": 4.5
+      }
+    },
+    "dick-dastardly/gloating": {
+      "B0": {
+        "quality": 3.5,
+        "register": 1.5
+      },
+      "B1": {
+        "quality": 4.0,
+        "register": 2.75
+      },
+      "V2": {
+        "quality": 2.4,
+        "register": 2.8
+      },
+      "Computed": {
+        "quality": 3.0,
+        "register": 3.0
+      }
+    },
+    "hooded-claw/scheming": {
+      "B0": {
+        "quality": 4.5,
+        "register": 1.5
+      },
+      "B1": {
+        "quality": 5.0,
+        "register": 3.83
+      },
+      "V2": {
+        "quality": 5.0,
+        "register": 4.0
+      },
+      "Computed": {
+        "quality": 5.0,
+        "register": 4.0
+      }
+    },
+    "hooded-claw/self-preservation": {
+      "B0": {
+        "quality": 2.75,
+        "register": 2.0
+      },
+      "B1": {
+        "quality": 3.17,
+        "register": 2.17
+      },
+      "V2": {
+        "quality": 3.83,
+        "register": 3.33
+      },
+      "Computed": {
+        "quality": 3.83,
+        "register": 3.67
+      }
+    },
+    "hooded-claw/dominance": {
+      "B0": {
+        "quality": 3.6,
+        "register": 1.0
+      },
+      "B1": {
+        "quality": 4.0,
+        "register": 2.67
+      },
+      "V2": {
+        "quality": 3.17,
+        "register": 2.5
+      },
+      "Computed": {
+        "quality": 3.33,
+        "register": 2.67
+      }
+    },
+    "hooded-claw/gloating": {
+      "B0": {
+        "quality": 4.0,
+        "register": 2.25
+      },
+      "B1": {
+        "quality": 3.6,
+        "register": 4.2
+      },
+      "V2": {
+        "quality": 4.0,
+        "register": 4.5
+      },
+      "Computed": {
+        "quality": 2.5,
+        "register": 1.75
+      }
+    },
+    "penelope-pitstop/curiosity": {
+      "B0": {
+        "quality": 4.0,
+        "register": 2.0
+      },
+      "B1": {
+        "quality": 4.67,
+        "register": 4.5
+      },
+      "V2": {
+        "quality": 4.5,
+        "register": 4.0
+      },
+      "Computed": {
+        "quality": 4.67,
+        "register": 4.0
+      }
+    },
+    "penelope-pitstop/social-harmony": {
+      "B0": {
+        "quality": 2.6,
+        "register": 1.4
+      },
+      "B1": {
+        "quality": 3.0,
+        "register": 2.0
+      },
+      "V2": {
+        "quality": 2.83,
+        "register": 2.83
+      },
+      "Computed": {
+        "quality": 3.0,
+        "register": 2.67
+      }
+    },
+    "penelope-pitstop/adventure": {
+      "B0": {
+        "quality": 4.0,
+        "register": 1.67
+      },
+      "B1": {
+        "quality": 4.4,
+        "register": 4.0
+      },
+      "V2": {
+        "quality": 3.25,
+        "register": 4.25
+      },
+      "Computed": {
+        "quality": 3.25,
+        "register": 3.25
+      }
+    },
+    "peter-perfect/gallantry": {
+      "B0": {
+        "quality": 2.4,
+        "register": 1.0
+      },
+      "B1": {
+        "quality": 3.0,
+        "register": 1.2
+      },
+      "V2": {
+        "quality": 4.0,
+        "register": 3.4
+      },
+      "Computed": {
+        "quality": 3.33,
+        "register": 1.17
+      }
+    },
+    "peter-perfect/proving-worth": {
+      "B0": {
+        "quality": 4.0,
+        "register": 1.0
+      },
+      "B1": {
+        "quality": 3.6,
+        "register": 1.6
+      },
+      "V2": {
+        "quality": 3.4,
+        "register": 2.8
+      },
+      "Computed": {
+        "quality": 4.5,
+        "register": 2.33
+      }
+    },
+    "peter-perfect/protection": {
+      "B0": {
+        "quality": 2.0,
+        "register": 1.0
+      },
+      "B1": {
+        "quality": 3.5,
+        "register": 2.75
+      },
+      "V2": {
+        "quality": 4.6,
+        "register": 4.0
+      },
+      "Computed": {
+        "quality": 2.83,
+        "register": 2.33
+      }
+    }
+  }
+}
