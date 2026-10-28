@@ -319,7 +319,7 @@ public final class CharacterCognition {
         var items = socialConfig.personalityFacets().stream()
                 .map(f -> f.facet() + ": " + f.score() + "/100")
                 .toList();
-        return ObservationSection.items("Personality Profile", null, items);
+        return ObservationSection.items("Who You Are", null, items);
     }
 
     ObservationSection renderInternalState(List<String> activatedCategories, String situationText) {

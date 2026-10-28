@@ -690,7 +690,7 @@ public class PlaybookOrchestrator {
                             result.text(), effectiveWitnesses, ManorConstants.TENANCY_ID));
                     }
                 } else {
-                    c.setLastActionResult("You waited and observed.");
+                    c.setLastActionResult("You stood still, watching.");
                 }
                 if (response.thinking() != null) {
                     c.setCurrentThinking(response.thinking());

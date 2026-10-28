@@ -100,10 +100,10 @@ public class AutonomousScenarioRunner {
                             response.action().type().name(), response.action().target(),
                             null, null, null, result.text()));
                 } else {
-                    character.setLastActionResult("You waited and observed.");
+                    character.setLastActionResult("You stood still, watching.");
                     recorder.record(new TranscriptRecorder.Event(
                             turnCount, agentId, "action", "WAIT", null,
-                            null, null, null, "You waited and observed."));
+                            null, null, null, "You stood still, watching."));
                 }
 
                 if (experienceService != null) {

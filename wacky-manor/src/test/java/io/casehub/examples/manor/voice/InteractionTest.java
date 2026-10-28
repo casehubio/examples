@@ -29,7 +29,7 @@ class InteractionTest {
     @Test
     void muttley_trades_key_for_medal() {
         var response = support.askCharacter("muttley",
-            "== Your Inventory ==\n- brass-key\n\n"
+            "== What You're Carrying ==\n- brass-key\n\n"
             + "== Recent Activity ==\n"
             + "Dick Dastardly handed you a shiny medal and said "
             + "'Here Muttley, a medal for you! Now give me that key.'\n\n"

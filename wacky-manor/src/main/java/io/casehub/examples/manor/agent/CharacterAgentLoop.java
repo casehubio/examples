@@ -147,7 +147,7 @@ public final class CharacterAgentLoop {
                     actionQueue.put(pending);
                     pending.awaitResult(60);
                 } else {
-                    character.setLastActionResult("You waited and observed.");
+                    character.setLastActionResult("You stood still, watching.");
                 }
 
                 if (experienceService != null) {

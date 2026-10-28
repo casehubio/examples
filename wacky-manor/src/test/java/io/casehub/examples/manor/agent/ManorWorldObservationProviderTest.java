@@ -34,8 +34,8 @@ class ManorWorldObservationProviderTest {
         assertThat(rendered).contains("== Current Location ==");
         assertThat(rendered).contains("Entrance Hall");
         assertThat(rendered).contains("== Exits ==");
-        assertThat(rendered).contains("== Visible Objects ==");
-        assertThat(rendered).contains("== Characters Present ==");
+        assertThat(rendered).contains("== What You See ==");
+        assertThat(rendered).contains("== Who's Here ==");
     }
 
     @Test

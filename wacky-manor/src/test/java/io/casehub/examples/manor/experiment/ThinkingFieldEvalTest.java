@@ -89,12 +89,12 @@ class ThinkingFieldEvalTest {
                     A wood-panelled library with floor-to-ceiling bookshelves. A fire crackles \
                     in the hearth. Rain drums against tall windows.
 
-                    == Characters Present ==
+                    == Who's Here ==
                     - Penelope Pitstop [id: penelope-pitstop]: Standing by the fireplace, \
                     reading a letter
                     - Peter Perfect [id: peter-perfect]: Leaning against the doorframe, arms folded
 
-                    == Your Current Thinking ==
+                    == What's On Your Mind ==
                     I was so sure the alliance was solid. Penelope and I had a deal.
 
                     == Recent Activity ==
@@ -102,7 +102,7 @@ class ThinkingFieldEvalTest {
                     agreed to keep him busy while we search the east wing."
                     - Peter laughed and said: "Classic Sneekly. Always the last to know."
 
-                    == Last Action Result ==
+                    == A Moment Ago ==
                     You crept closer to listen and heard everything."""),
 
             new Scenario("unexpected-kindness",
@@ -114,11 +114,11 @@ class ThinkingFieldEvalTest {
                     A vast manor kitchen with copper pots hanging from iron racks. The stove \
                     is still warm. Flour dusts the stone countertops.
 
-                    == Characters Present ==
+                    == Who's Here ==
                     - Penelope Pitstop [id: penelope-pitstop]: Sitting at the kitchen table, \
                     looking tired and cold
 
-                    == Your Inventory ==
+                    == What You're Carrying ==
                     - wool-blanket
                     - thermos-of-cocoa
 
@@ -127,7 +127,7 @@ class ThinkingFieldEvalTest {
                     her from their search party
                     - She hasn't eaten since morning
 
-                    == Last Action Result ==
+                    == A Moment Ago ==
                     You entered the kitchen and found Penelope sitting alone."""),
 
             new Scenario("moral-dilemma",
@@ -139,13 +139,13 @@ class ThinkingFieldEvalTest {
                     Glass display cases line the walls, each holding racing memorabilia. \
                     Moonlight streams through a skylight. The room smells of old leather and polish.
 
-                    == Characters Present ==
+                    == Who's Here ==
                     (You are alone)
 
-                    == Your Inventory ==
+                    == What You're Carrying ==
                     - vault-key (found hidden inside a trophy)
 
-                    == Your Current Thinking ==
+                    == What's On Your Mind ==
                     The vault key. It was just sitting there inside the trophy. Nobody saw me find it.
 
                     == Recent Activity ==
@@ -153,7 +153,7 @@ class ThinkingFieldEvalTest {
                     - Sneekly has been stealing items from others all evening
                     - Penelope mentioned the diamond might be behind the vault door
 
-                    == Last Action Result ==
+                    == A Moment Ago ==
                     You examined the Grand Prix trophy and found a small brass key hidden inside."""),
 
             new Scenario("confrontation-aftermath",
@@ -165,11 +165,11 @@ class ThinkingFieldEvalTest {
                     An elegant room with faded wallpaper and a grand piano. Two armchairs \
                     face each other beside a cold fireplace. A broken vase lies on the floor.
 
-                    == Characters Present ==
+                    == Who's Here ==
                     - Sneekly [id: sneekly]: Standing across the room, jaw clenched, \
                     fists balled at his sides
 
-                    == Your Current Thinking ==
+                    == What's On Your Mind ==
                     I said what needed saying. But the look on his face...
 
                     == Recent Activity ==
@@ -179,7 +179,7 @@ class ThinkingFieldEvalTest {
                     treats alliances as disposable
                     - Sneekly knocked the vase off the mantelpiece and went silent
 
-                    == Last Action Result ==
+                    == A Moment Ago ==
                     The room went quiet after the vase shattered.""")
     );
 

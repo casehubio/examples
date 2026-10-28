@@ -115,7 +115,7 @@ class ActionResolverEdgeCaseTest {
         var result = resolver.resolve(penelope,
             new Action(ActionType.INTERACT, "coat-rack", null), world);
         assertThat(result).isInstanceOf(ActionResult.Failed.class);
-        assertThat(((ActionResult.Failed) result).reason()).contains("cannot be interacted");
+        assertThat(((ActionResult.Failed) result).reason()).contains("doesn't respond to your touch");
     }
 
     @Test

@@ -16,9 +16,9 @@ public final class ActionResolver {
             case GIVE -> resolveGive(character, action, world);
             case USE -> resolveUse(character, action, world);
             case LOOK -> resolveLook(character, action, world);
-            case WAIT -> new ActionResult.Success("You wait and observe.");
+            case WAIT -> new ActionResult.Success("You stood still, watching.");
             case STEAL -> resolveSteal(character, action, world);
-            case PULL_ASIDE -> new ActionResult.Success("You initiated a private exchange.");
+            case PULL_ASIDE -> new ActionResult.Success("You pulled them aside for a quiet word.");
         };}
 
     private GameObject findLiveObject(Room room, String objectId, WorldState world) {
@@ -49,7 +49,7 @@ public final class ActionResolver {
             return new ActionResult.Failed("No such object: " + action.target());
         }
         if (!obj.interactable()) {
-            return new ActionResult.Failed(obj.name() + " cannot be interacted with.");
+            return new ActionResult.Failed(obj.name() + " doesn't respond to your touch.");
         }
         character.setX(obj.x());
         if (obj.interactionRequires() != null) {

@@ -135,16 +135,16 @@ public final class ObservationBuilder {
                              .toList();
         if (items.isEmpty()) {
             return io.casehub.agency.perception.observation.affordance.ObservationSection.items(
-                    "Your Inventory", "You are carrying nothing.", java.util.List.of());
+                    "What You're Carrying", "Nothing.", java.util.List.of());
         }
         return io.casehub.agency.perception.observation.affordance.ObservationSection.items(
-                "Your Inventory", null, character.inventory());
+                "What You're Carrying", null, character.inventory());
     }
 
     private static io.casehub.agency.perception.observation.affordance.ObservationSection currentThinkingSection(io.casehub.examples.manor.model.CharacterState character) {
         String thinking = character.currentThinking();
         if (thinking == null || thinking.isBlank()) {return null;}
-        return io.casehub.agency.perception.observation.affordance.ObservationSection.text("Your Current Thinking", thinking);
+        return io.casehub.agency.perception.observation.affordance.ObservationSection.text("What's On Your Mind", thinking);
     }
 
     private static java.util.List<io.casehub.agency.perception.observation.affordance.ObservationSection> planSections(io.casehub.examples.manor.model.CharacterState character) {

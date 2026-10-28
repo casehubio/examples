@@ -80,7 +80,7 @@ public class ManorWorldObservationProvider implements WorldObservationProvider {
         var entities = objects.stream()
                               .map(ManorWorldObservationProvider::toObservableEntity)
                               .toList();
-        return ObservationSection.entities("Visible Objects", "Nothing notable here.", entities);
+        return ObservationSection.entities("What You See", "Nothing notable here.", entities);
     }
 
     private static ObservableEntity toObservableEntity(GameObject obj) {
@@ -106,7 +106,7 @@ public class ManorWorldObservationProvider implements WorldObservationProvider {
                                      WorldState.slug(c.name()), c.name(), null,
                                      List.of(new Affordance("GIVE", "to hand an item"))))
                              .toList();
-        return ObservationSection.entities("Characters Present", "You are alone.", entities);
+        return ObservationSection.entities("Who's Here", "You are alone.", entities);
     }
 
     private static ObservationSection keenObservationsSection(CharacterState character, WorldState world) {

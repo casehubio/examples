@@ -73,7 +73,7 @@ class ObservationBuilderTest {
     @Test
     void observation_lists_other_characters_in_room() {
         var obs = buildObs(world.character("penelope-pitstop"));
-        assertThat(obs).contains("== Characters Present ==");
+        assertThat(obs).contains("== Who's Here ==");
         assertThat(obs).contains("The Hooded Claw");
         assertThat(obs).doesNotContain("Penelope Pitstop");
     }
@@ -89,14 +89,14 @@ class ObservationBuilderTest {
     void observation_shows_inventory() {
         var dastardly = world.character("dick-dastardly");
         var obs       = buildObs(dastardly);
-        assertThat(obs).contains("== Your Inventory ==");
+        assertThat(obs).contains("== What You're Carrying ==");
         assertThat(obs).contains("fake-medal");
     }
 
     @Test
     void observation_shows_empty_inventory() {
         var obs = buildObs(world.character("penelope-pitstop"));
-        assertThat(obs).contains("You are carrying nothing.");
+        assertThat(obs).contains("Nothing.");
     }
 
     @Test
@@ -232,7 +232,7 @@ class ObservationBuilderTest {
         var character = world.character("hooded-claw");
         character.setCurrentThinking("I see the poison on the shelf — I should take it now.");
         var obs = buildObs(character, character.capabilityTags());
-        assertThat(obs).contains("== Your Current Thinking ==");
+        assertThat(obs).contains("== What's On Your Mind ==");
         assertThat(obs).contains("I see the poison on the shelf");
     }
 
@@ -240,7 +240,7 @@ class ObservationBuilderTest {
     void observation_omits_thinking_section_when_null() {
         var character = world.character("hooded-claw");
         var obs       = buildObs(character, character.capabilityTags());
-        assertThat(obs).doesNotContain("Your Current Thinking");
+        assertThat(obs).doesNotContain("What's On Your Mind");
     }
 
     @Test
@@ -250,7 +250,7 @@ class ObservationBuilderTest {
         var obs       = ObservationBuilder.buildObservation(provider, null, java.util.Set.of(), character, java.util.List.of(), emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of());
         assertThat(obs).contains("Entrance Hall");
         assertThat(obs).contains("What do you need, boss?");
-        assertThat(obs).doesNotContain("== Visible Objects ==");
+        assertThat(obs).doesNotContain("== What You See ==");
         assertThat(obs).doesNotContain("== Exits ==");
     }
 
@@ -260,7 +260,7 @@ class ObservationBuilderTest {
         character.setCurrentThinking("Get Muttley to fetch the key.");
         var provider = new ManorExchangeObservationProvider(character, "Hehehehe!", world);
         var obs      = ObservationBuilder.buildObservation(provider, null, java.util.Set.of(), character, java.util.List.of(), emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of());
-        assertThat(obs).contains("Your Current Thinking");
+        assertThat(obs).contains("What's On Your Mind");
         assertThat(obs).contains("Get Muttley to fetch the key.");
     }
 
