@@ -211,6 +211,9 @@ public class PlaybookOrchestrator {
                     .flatMap(c -> c.tags().stream())
                     .collect(java.util.stream.Collectors.toSet());
             entry.getValue().setCapabilityTags(tags);
+            if (desc.name() != null && !desc.name().isBlank()) {
+                entry.getValue().setName(desc.name());
+            }
             activeSocialConfigs.put(entry.getKey(), socialConfigs.getOrDefault(entry.getKey(), SocialConfig.empty()));
         }
 
