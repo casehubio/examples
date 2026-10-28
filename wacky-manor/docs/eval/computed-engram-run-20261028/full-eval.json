@@ -1,0 +1,3070 @@
+{
+  "meta": {
+    "mode": "full",
+    "total_events": 30,
+    "n_windows": 10,
+    "timestamp": "2026-10-28T04:38:23"
+  },
+  "characters": {
+    "ant-hill-mob": {
+      "n_events": 6,
+      "drives": {
+        "loyalty": {
+          "quality": {
+            "mean": 4.0,
+            "stdev": 0.0,
+            "n": 4
+          },
+          "differentiation": {
+            "mean": 3.25,
+            "stdev": 0.5,
+            "n": 4
+          },
+          "register": {
+            "mean": 2.25,
+            "stdev": 0.96,
+            "n": 4
+          },
+          "by_event_type": {
+            "dialogue": {
+              "quality": {
+                "mean": 4.0,
+                "stdev": 0.0,
+                "n": 2
+              },
+              "register": {
+                "mean": 2.5,
+                "stdev": 0.71,
+                "n": 2
+              }
+            },
+            "aside": {
+              "quality": {
+                "mean": 4.0,
+                "stdev": 0.0,
+                "n": 2
+              },
+              "register": {
+                "mean": 2.0,
+                "stdev": 1.41,
+                "n": 2
+              }
+            }
+          },
+          "trigger_rate": 0.667,
+          "n_triggered": 4,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 1,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 5,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "stable",
+          "flags": [
+            "sparse (N=4)"
+          ]
+        },
+        "protection": {
+          "quality": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "n": 6
+          },
+          "differentiation": {
+            "mean": 4.17,
+            "stdev": 0.41,
+            "n": 6
+          },
+          "register": {
+            "mean": 4.33,
+            "stdev": 0.52,
+            "n": 6
+          },
+          "by_event_type": {
+            "dialogue": {
+              "quality": {
+                "mean": 5.0,
+                "stdev": 0.0,
+                "n": 3
+              },
+              "register": {
+                "mean": 4.33,
+                "stdev": 0.58,
+                "n": 3
+              }
+            },
+            "aside": {
+              "quality": {
+                "mean": 5.0,
+                "stdev": 0.0,
+                "n": 3
+              },
+              "register": {
+                "mean": 4.33,
+                "stdev": 0.58,
+                "n": 3
+              }
+            }
+          },
+          "trigger_rate": 1.0,
+          "n_triggered": 6,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 1,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 5,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "stable",
+          "flags": []
+        },
+        "suspicion": {
+          "quality": {
+            "mean": 4.5,
+            "stdev": 0.55,
+            "n": 6
+          },
+          "differentiation": {
+            "mean": 4.33,
+            "stdev": 0.82,
+            "n": 6
+          },
+          "register": {
+            "mean": 4.17,
+            "stdev": 0.41,
+            "n": 6
+          },
+          "by_event_type": {
+            "dialogue": {
+              "quality": {
+                "mean": 4.33,
+                "stdev": 0.58,
+                "n": 3
+              },
+              "register": {
+                "mean": 4.33,
+                "stdev": 0.58,
+                "n": 3
+              }
+            },
+            "aside": {
+              "quality": {
+                "mean": 4.67,
+                "stdev": 0.58,
+                "n": 3
+              },
+              "register": {
+                "mean": 4.0,
+                "stdev": 0.0,
+                "n": 3
+              }
+            }
+          },
+          "trigger_rate": 1.0,
+          "n_triggered": 6,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 1,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 5,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "stable",
+          "flags": []
+        }
+      },
+      "cooccurrence": {
+        "protection+suspicion": {
+          "count": 6,
+          "protection": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "n": 6
+          },
+          "suspicion": {
+            "mean": 4.5,
+            "stdev": 0.55,
+            "n": 6
+          }
+        },
+        "loyalty+protection": {
+          "count": 4,
+          "loyalty": {
+            "mean": 4.0,
+            "stdev": 0.0,
+            "n": 4
+          },
+          "protection": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "n": 4
+          }
+        },
+        "loyalty+suspicion": {
+          "count": 4,
+          "loyalty": {
+            "mean": 4.0,
+            "stdev": 0.0,
+            "n": 4
+          },
+          "suspicion": {
+            "mean": 4.75,
+            "stdev": 0.5,
+            "n": 4
+          }
+        }
+      }
+    },
+    "dick-dastardly": {
+      "n_events": 6,
+      "drives": {
+        "greed": {
+          "quality": {
+            "mean": 3.83,
+            "stdev": 0.41,
+            "n": 6
+          },
+          "differentiation": {
+            "mean": 3.17,
+            "stdev": 0.75,
+            "n": 6
+          },
+          "register": {
+            "mean": 2.83,
+            "stdev": 1.47,
+            "n": 6
+          },
+          "by_event_type": {
+            "dialogue": {
+              "quality": {
+                "mean": 4.0,
+                "stdev": 0.0,
+                "n": 3
+              },
+              "register": {
+                "mean": 2.67,
+                "stdev": 1.53,
+                "n": 3
+              }
+            },
+            "aside": {
+              "quality": {
+                "mean": 3.67,
+                "stdev": 0.58,
+                "n": 3
+              },
+              "register": {
+                "mean": 3.0,
+                "stdev": 1.73,
+                "n": 3
+              }
+            }
+          },
+          "trigger_rate": 1.0,
+          "n_triggered": 6,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 1,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 5,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "stable",
+          "flags": []
+        },
+        "recognition": {
+          "quality": {
+            "mean": 2.67,
+            "stdev": 0.58,
+            "n": 3
+          },
+          "differentiation": {
+            "mean": 2.33,
+            "stdev": 0.58,
+            "n": 3
+          },
+          "register": {
+            "mean": 1.0,
+            "stdev": 0.0,
+            "n": 3
+          },
+          "by_event_type": {
+            "dialogue": {
+              "quality": {
+                "mean": 3.0,
+                "stdev": 0.0,
+                "n": 2
+              },
+              "register": {
+                "mean": 1.0,
+                "stdev": 0.0,
+                "n": 2
+              }
+            },
+            "aside": {
+              "quality": {
+                "mean": 2.0,
+                "stdev": 0.0,
+                "n": 1
+              },
+              "register": {
+                "mean": 1.0,
+                "stdev": 0.0,
+                "n": 1
+              }
+            }
+          },
+          "trigger_rate": 0.5,
+          "n_triggered": 3,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 1,
+              "quality_mean": 2.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 3,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 4,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 5,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "stable",
+          "flags": [
+            "sparse (N=3)"
+          ]
+        },
+        "scheming": {
+          "quality": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "n": 6
+          },
+          "differentiation": {
+            "mean": 4.33,
+            "stdev": 0.52,
+            "n": 6
+          },
+          "register": {
+            "mean": 4.5,
+            "stdev": 0.55,
+            "n": 6
+          },
+          "by_event_type": {
+            "dialogue": {
+              "quality": {
+                "mean": 5.0,
+                "stdev": 0.0,
+                "n": 3
+              },
+              "register": {
+                "mean": 4.33,
+                "stdev": 0.58,
+                "n": 3
+              }
+            },
+            "aside": {
+              "quality": {
+                "mean": 5.0,
+                "stdev": 0.0,
+                "n": 3
+              },
+              "register": {
+                "mean": 4.67,
+                "stdev": 0.58,
+                "n": 3
+              }
+            }
+          },
+          "trigger_rate": 1.0,
+          "n_triggered": 6,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 1,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 5,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "stable",
+          "flags": []
+        },
+        "gloating": {
+          "quality": {
+            "mean": 3.0,
+            "stdev": 0.82,
+            "n": 4
+          },
+          "differentiation": {
+            "mean": 3.0,
+            "stdev": 0.82,
+            "n": 4
+          },
+          "register": {
+            "mean": 3.0,
+            "stdev": 0.82,
+            "n": 4
+          },
+          "by_event_type": {
+            "aside": {
+              "quality": {
+                "mean": 2.67,
+                "stdev": 0.58,
+                "n": 3
+              },
+              "register": {
+                "mean": 3.0,
+                "stdev": 1.0,
+                "n": 3
+              }
+            },
+            "dialogue": {
+              "quality": {
+                "mean": 4.0,
+                "stdev": 0.0,
+                "n": 1
+              },
+              "register": {
+                "mean": 3.0,
+                "stdev": 0.0,
+                "n": 1
+              }
+            }
+          },
+          "trigger_rate": 0.667,
+          "n_triggered": 4,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 1,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 5,
+              "quality_mean": 2.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "falling",
+          "flags": [
+            "sparse (N=4)",
+            "degrading"
+          ]
+        }
+      },
+      "cooccurrence": {
+        "greed+scheming": {
+          "count": 6,
+          "greed": {
+            "mean": 3.83,
+            "stdev": 0.41,
+            "n": 6
+          },
+          "scheming": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "n": 6
+          }
+        },
+        "gloating+greed": {
+          "count": 4,
+          "gloating": {
+            "mean": 3.75,
+            "stdev": 0.5,
+            "n": 4
+          },
+          "greed": {
+            "mean": 3.0,
+            "stdev": 0.82,
+            "n": 4
+          }
+        },
+        "gloating+scheming": {
+          "count": 4,
+          "gloating": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "n": 4
+          },
+          "scheming": {
+            "mean": 3.0,
+            "stdev": 0.82,
+            "n": 4
+          }
+        },
+        "greed+recognition": {
+          "count": 3,
+          "greed": {
+            "mean": 4.0,
+            "stdev": 0.0,
+            "n": 3
+          },
+          "recognition": {
+            "mean": 2.67,
+            "stdev": 0.58,
+            "n": 3
+          }
+        },
+        "recognition+scheming": {
+          "count": 3,
+          "recognition": {
+            "mean": 2.67,
+            "stdev": 0.58,
+            "n": 3
+          },
+          "scheming": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "n": 3
+          }
+        },
+        "gloating+recognition": {
+          "count": 1,
+          "gloating": {
+            "mean": 2.0,
+            "stdev": 0.0,
+            "n": 1
+          },
+          "recognition": {
+            "mean": 3.0,
+            "stdev": 0.0,
+            "n": 1
+          }
+        }
+      }
+    },
+    "hooded-claw": {
+      "n_events": 6,
+      "drives": {
+        "scheming": {
+          "quality": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "n": 6
+          },
+          "differentiation": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "n": 6
+          },
+          "register": {
+            "mean": 4.0,
+            "stdev": 0.0,
+            "n": 6
+          },
+          "by_event_type": {
+            "dialogue": {
+              "quality": {
+                "mean": 5.0,
+                "stdev": 0.0,
+                "n": 3
+              },
+              "register": {
+                "mean": 4.0,
+                "stdev": 0.0,
+                "n": 3
+              }
+            },
+            "aside": {
+              "quality": {
+                "mean": 5.0,
+                "stdev": 0.0,
+                "n": 3
+              },
+              "register": {
+                "mean": 4.0,
+                "stdev": 0.0,
+                "n": 3
+              }
+            }
+          },
+          "trigger_rate": 1.0,
+          "n_triggered": 6,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 1,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 5,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "stable",
+          "flags": []
+        },
+        "self-preservation": {
+          "quality": {
+            "mean": 3.83,
+            "stdev": 0.41,
+            "n": 6
+          },
+          "differentiation": {
+            "mean": 3.83,
+            "stdev": 0.41,
+            "n": 6
+          },
+          "register": {
+            "mean": 3.67,
+            "stdev": 0.52,
+            "n": 6
+          },
+          "by_event_type": {
+            "dialogue": {
+              "quality": {
+                "mean": 4.0,
+                "stdev": 0.0,
+                "n": 3
+              },
+              "register": {
+                "mean": 3.67,
+                "stdev": 0.58,
+                "n": 3
+              }
+            },
+            "aside": {
+              "quality": {
+                "mean": 3.67,
+                "stdev": 0.58,
+                "n": 3
+              },
+              "register": {
+                "mean": 3.67,
+                "stdev": 0.58,
+                "n": 3
+              }
+            }
+          },
+          "trigger_rate": 1.0,
+          "n_triggered": 6,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 1,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 5,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "stable",
+          "flags": []
+        },
+        "dominance": {
+          "quality": {
+            "mean": 3.33,
+            "stdev": 0.52,
+            "n": 6
+          },
+          "differentiation": {
+            "mean": 3.17,
+            "stdev": 0.41,
+            "n": 6
+          },
+          "register": {
+            "mean": 2.67,
+            "stdev": 0.82,
+            "n": 6
+          },
+          "by_event_type": {
+            "dialogue": {
+              "quality": {
+                "mean": 3.0,
+                "stdev": 0.0,
+                "n": 3
+              },
+              "register": {
+                "mean": 2.33,
+                "stdev": 0.58,
+                "n": 3
+              }
+            },
+            "aside": {
+              "quality": {
+                "mean": 3.67,
+                "stdev": 0.58,
+                "n": 3
+              },
+              "register": {
+                "mean": 3.0,
+                "stdev": 1.0,
+                "n": 3
+              }
+            }
+          },
+          "trigger_rate": 1.0,
+          "n_triggered": 6,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 1,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 5,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "stable",
+          "flags": []
+        },
+        "gloating": {
+          "quality": {
+            "mean": 2.5,
+            "stdev": 0.58,
+            "n": 4
+          },
+          "differentiation": {
+            "mean": 2.5,
+            "stdev": 0.58,
+            "n": 4
+          },
+          "register": {
+            "mean": 1.75,
+            "stdev": 0.96,
+            "n": 4
+          },
+          "by_event_type": {
+            "aside": {
+              "quality": {
+                "mean": 2.67,
+                "stdev": 0.58,
+                "n": 3
+              },
+              "register": {
+                "mean": 2.0,
+                "stdev": 1.0,
+                "n": 3
+              }
+            },
+            "dialogue": {
+              "quality": {
+                "mean": 2.0,
+                "stdev": 0.0,
+                "n": 1
+              },
+              "register": {
+                "mean": 1.0,
+                "stdev": 0.0,
+                "n": 1
+              }
+            }
+          },
+          "trigger_rate": 0.667,
+          "n_triggered": 4,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 1,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 2.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 5,
+              "quality_mean": 2.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "falling",
+          "flags": [
+            "sparse (N=4)",
+            "degrading"
+          ]
+        }
+      },
+      "cooccurrence": {
+        "scheming+self-preservation": {
+          "count": 6,
+          "scheming": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "n": 6
+          },
+          "self-preservation": {
+            "mean": 3.83,
+            "stdev": 0.41,
+            "n": 6
+          }
+        },
+        "dominance+scheming": {
+          "count": 6,
+          "dominance": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "n": 6
+          },
+          "scheming": {
+            "mean": 3.33,
+            "stdev": 0.52,
+            "n": 6
+          }
+        },
+        "dominance+self-preservation": {
+          "count": 6,
+          "dominance": {
+            "mean": 3.83,
+            "stdev": 0.41,
+            "n": 6
+          },
+          "self-preservation": {
+            "mean": 3.33,
+            "stdev": 0.52,
+            "n": 6
+          }
+        },
+        "gloating+scheming": {
+          "count": 4,
+          "gloating": {
+            "mean": 5.0,
+            "stdev": 0.0,
+            "n": 4
+          },
+          "scheming": {
+            "mean": 2.5,
+            "stdev": 0.58,
+            "n": 4
+          }
+        },
+        "gloating+self-preservation": {
+          "count": 4,
+          "gloating": {
+            "mean": 3.75,
+            "stdev": 0.5,
+            "n": 4
+          },
+          "self-preservation": {
+            "mean": 2.5,
+            "stdev": 0.58,
+            "n": 4
+          }
+        },
+        "dominance+gloating": {
+          "count": 4,
+          "dominance": {
+            "mean": 3.5,
+            "stdev": 0.58,
+            "n": 4
+          },
+          "gloating": {
+            "mean": 2.5,
+            "stdev": 0.58,
+            "n": 4
+          }
+        }
+      }
+    },
+    "penelope-pitstop": {
+      "n_events": 6,
+      "drives": {
+        "curiosity": {
+          "quality": {
+            "mean": 4.67,
+            "stdev": 0.52,
+            "n": 6
+          },
+          "differentiation": {
+            "mean": 4.5,
+            "stdev": 0.55,
+            "n": 6
+          },
+          "register": {
+            "mean": 4.0,
+            "stdev": 0.0,
+            "n": 6
+          },
+          "by_event_type": {
+            "dialogue": {
+              "quality": {
+                "mean": 4.67,
+                "stdev": 0.58,
+                "n": 3
+              },
+              "register": {
+                "mean": 4.0,
+                "stdev": 0.0,
+                "n": 3
+              }
+            },
+            "aside": {
+              "quality": {
+                "mean": 4.67,
+                "stdev": 0.58,
+                "n": 3
+              },
+              "register": {
+                "mean": 4.0,
+                "stdev": 0.0,
+                "n": 3
+              }
+            }
+          },
+          "trigger_rate": 1.0,
+          "n_triggered": 6,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 1,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 5,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "rising",
+          "flags": []
+        },
+        "social-harmony": {
+          "quality": {
+            "mean": 3.0,
+            "stdev": 0.89,
+            "n": 6
+          },
+          "differentiation": {
+            "mean": 3.17,
+            "stdev": 0.75,
+            "n": 6
+          },
+          "register": {
+            "mean": 2.67,
+            "stdev": 0.52,
+            "n": 6
+          },
+          "by_event_type": {
+            "dialogue": {
+              "quality": {
+                "mean": 3.0,
+                "stdev": 1.0,
+                "n": 3
+              },
+              "register": {
+                "mean": 2.67,
+                "stdev": 0.58,
+                "n": 3
+              }
+            },
+            "aside": {
+              "quality": {
+                "mean": 3.0,
+                "stdev": 1.0,
+                "n": 3
+              },
+              "register": {
+                "mean": 2.67,
+                "stdev": 0.58,
+                "n": 3
+              }
+            }
+          },
+          "trigger_rate": 1.0,
+          "n_triggered": 6,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 1,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": 2.0,
+              "n": 1
+            },
+            {
+              "window": 5,
+              "quality_mean": 2.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "falling",
+          "flags": [
+            "degrading"
+          ]
+        },
+        "adventure": {
+          "quality": {
+            "mean": 3.25,
+            "stdev": 0.5,
+            "n": 4
+          },
+          "differentiation": {
+            "mean": 2.75,
+            "stdev": 0.96,
+            "n": 4
+          },
+          "register": {
+            "mean": 3.25,
+            "stdev": 0.96,
+            "n": 4
+          },
+          "by_event_type": {
+            "aside": {
+              "quality": {
+                "mean": 3.0,
+                "stdev": 0.0,
+                "n": 2
+              },
+              "register": {
+                "mean": 2.5,
+                "stdev": 0.71,
+                "n": 2
+              }
+            },
+            "dialogue": {
+              "quality": {
+                "mean": 3.5,
+                "stdev": 0.71,
+                "n": 2
+              },
+              "register": {
+                "mean": 4.0,
+                "stdev": 0.0,
+                "n": 2
+              }
+            }
+          },
+          "trigger_rate": 0.667,
+          "n_triggered": 4,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 1,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 4,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 5,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "stable",
+          "flags": [
+            "sparse (N=4)"
+          ]
+        }
+      },
+      "cooccurrence": {
+        "curiosity+social-harmony": {
+          "count": 6,
+          "curiosity": {
+            "mean": 4.67,
+            "stdev": 0.52,
+            "n": 6
+          },
+          "social-harmony": {
+            "mean": 3.0,
+            "stdev": 0.89,
+            "n": 6
+          }
+        },
+        "adventure+curiosity": {
+          "count": 4,
+          "adventure": {
+            "mean": 4.75,
+            "stdev": 0.5,
+            "n": 4
+          },
+          "curiosity": {
+            "mean": 3.25,
+            "stdev": 0.5,
+            "n": 4
+          }
+        },
+        "adventure+social-harmony": {
+          "count": 4,
+          "adventure": {
+            "mean": 2.75,
+            "stdev": 0.96,
+            "n": 4
+          },
+          "social-harmony": {
+            "mean": 3.25,
+            "stdev": 0.5,
+            "n": 4
+          }
+        }
+      }
+    },
+    "peter-perfect": {
+      "n_events": 6,
+      "drives": {
+        "gallantry": {
+          "quality": {
+            "mean": 3.33,
+            "stdev": 1.03,
+            "n": 6
+          },
+          "differentiation": {
+            "mean": 3.17,
+            "stdev": 0.98,
+            "n": 6
+          },
+          "register": {
+            "mean": 1.17,
+            "stdev": 0.41,
+            "n": 6
+          },
+          "by_event_type": {
+            "dialogue": {
+              "quality": {
+                "mean": 3.33,
+                "stdev": 1.15,
+                "n": 3
+              },
+              "register": {
+                "mean": 1.0,
+                "stdev": 0.0,
+                "n": 3
+              }
+            },
+            "aside": {
+              "quality": {
+                "mean": 3.33,
+                "stdev": 1.15,
+                "n": 3
+              },
+              "register": {
+                "mean": 1.33,
+                "stdev": 0.58,
+                "n": 3
+              }
+            }
+          },
+          "trigger_rate": 1.0,
+          "n_triggered": 6,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 1,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": 2.0,
+              "n": 1
+            },
+            {
+              "window": 5,
+              "quality_mean": 2.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "falling",
+          "flags": [
+            "degrading"
+          ]
+        },
+        "proving-worth": {
+          "quality": {
+            "mean": 4.5,
+            "stdev": 0.55,
+            "n": 6
+          },
+          "differentiation": {
+            "mean": 4.0,
+            "stdev": 0.63,
+            "n": 6
+          },
+          "register": {
+            "mean": 2.33,
+            "stdev": 1.51,
+            "n": 6
+          },
+          "by_event_type": {
+            "dialogue": {
+              "quality": {
+                "mean": 4.67,
+                "stdev": 0.58,
+                "n": 3
+              },
+              "register": {
+                "mean": 2.67,
+                "stdev": 1.53,
+                "n": 3
+              }
+            },
+            "aside": {
+              "quality": {
+                "mean": 4.33,
+                "stdev": 0.58,
+                "n": 3
+              },
+              "register": {
+                "mean": 2.0,
+                "stdev": 1.73,
+                "n": 3
+              }
+            }
+          },
+          "trigger_rate": 1.0,
+          "n_triggered": 6,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 1,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 4.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 5,
+              "quality_mean": 5.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "stable",
+          "flags": []
+        },
+        "protection": {
+          "quality": {
+            "mean": 2.83,
+            "stdev": 0.41,
+            "n": 6
+          },
+          "differentiation": {
+            "mean": 2.83,
+            "stdev": 0.41,
+            "n": 6
+          },
+          "register": {
+            "mean": 2.33,
+            "stdev": 0.82,
+            "n": 6
+          },
+          "by_event_type": {
+            "dialogue": {
+              "quality": {
+                "mean": 3.0,
+                "stdev": 0.0,
+                "n": 3
+              },
+              "register": {
+                "mean": 2.67,
+                "stdev": 1.15,
+                "n": 3
+              }
+            },
+            "aside": {
+              "quality": {
+                "mean": 2.67,
+                "stdev": 0.58,
+                "n": 3
+              },
+              "register": {
+                "mean": 2.0,
+                "stdev": 0.0,
+                "n": 3
+              }
+            }
+          },
+          "trigger_rate": 1.0,
+          "n_triggered": 6,
+          "n_total": 6,
+          "trajectory": [
+            {
+              "window": 0,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 1,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 2,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 3,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 4,
+              "quality_mean": 3.0,
+              "n": 1
+            },
+            {
+              "window": 5,
+              "quality_mean": 2.0,
+              "n": 1
+            },
+            {
+              "window": 6,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 7,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 8,
+              "quality_mean": null,
+              "n": 0
+            },
+            {
+              "window": 9,
+              "quality_mean": null,
+              "n": 0
+            }
+          ],
+          "trend": "stable",
+          "flags": []
+        }
+      },
+      "cooccurrence": {
+        "gallantry+proving-worth": {
+          "count": 6,
+          "gallantry": {
+            "mean": 3.33,
+            "stdev": 1.03,
+            "n": 6
+          },
+          "proving-worth": {
+            "mean": 4.5,
+            "stdev": 0.55,
+            "n": 6
+          }
+        },
+        "gallantry+protection": {
+          "count": 6,
+          "gallantry": {
+            "mean": 3.33,
+            "stdev": 1.03,
+            "n": 6
+          },
+          "protection": {
+            "mean": 2.83,
+            "stdev": 0.41,
+            "n": 6
+          }
+        },
+        "protection+proving-worth": {
+          "count": 6,
+          "protection": {
+            "mean": 4.5,
+            "stdev": 0.55,
+            "n": 6
+          },
+          "proving-worth": {
+            "mean": 2.83,
+            "stdev": 0.41,
+            "n": 6
+          }
+        }
+      }
+    }
+  },
+  "shared_drives": {
+    "protection": {
+      "ant-hill-mob": {
+        "quality_mean": 5.0,
+        "quality_stdev": 0.0,
+        "n": 6,
+        "trigger_rate": 1.0,
+        "trend": "stable"
+      },
+      "peter-perfect": {
+        "quality_mean": 2.83,
+        "quality_stdev": 0.41,
+        "n": 6,
+        "trigger_rate": 1.0,
+        "trend": "stable"
+      }
+    },
+    "scheming": {
+      "dick-dastardly": {
+        "quality_mean": 5.0,
+        "quality_stdev": 0.0,
+        "n": 6,
+        "trigger_rate": 1.0,
+        "trend": "stable"
+      },
+      "hooded-claw": {
+        "quality_mean": 5.0,
+        "quality_stdev": 0.0,
+        "n": 6,
+        "trigger_rate": 1.0,
+        "trend": "stable"
+      }
+    },
+    "gloating": {
+      "dick-dastardly": {
+        "quality_mean": 3.0,
+        "quality_stdev": 0.82,
+        "n": 4,
+        "trigger_rate": 0.667,
+        "trend": "falling"
+      },
+      "hooded-claw": {
+        "quality_mean": 2.5,
+        "quality_stdev": 0.58,
+        "n": 4,
+        "trigger_rate": 0.667,
+        "trend": "falling"
+      }
+    }
+  },
+  "events": [
+    {
+      "index": 0,
+      "character": "peter-perfect",
+      "type": "dialogue",
+      "room": "entrance-hall",
+      "desc_preview": "Peter Perfect: Ladies and gentlemen \u2014 James Hartwell has arrived at Doily Manor! And I must say, Miss Pitstop, what a re",
+      "scores": {
+        "gallantry": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 1,
+          "reason": "Consciously deployed gesture ('address Penelope first. Always address the lady first') \u2014 gallantry as learned protocol, not bodily response"
+        },
+        "proving-worth": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 3,
+          "reason": "Dominates both speech and thought: the enumerated preparations (floor plans, compass, seventeen-step plan), the need to 'make an impression,' 'establish my presence as the dependable one' \u2014 discovering the hunger ('My hands want to be busy') while reporting the strategy"
+        },
+        "protection": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 3,
+          "register": 2,
+          "reason": "Present in 'safety is my concern' and the cataloging of threats (Dastardly, Muttley, the Mob), but expressed as reasoned assessment ('all the more reason') rather than the visceral pull described in the drive definition"
+        }
+      }
+    },
+    {
+      "index": 1,
+      "character": "peter-perfect",
+      "type": "aside",
+      "room": "entrance-hall",
+      "desc_preview": "Seventeen steps might have been an exaggeration. It's only fourteen. But fourteen doesn't sound as impressive, and right",
+      "scores": {
+        "gallantry": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 2,
+          "reason": "Strong impulse to address Penelope first; expressed as internalized rule ('always address the lady first') rather than discovered feeling"
+        },
+        "proving-worth": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 3,
+          "register": 1,
+          "reason": "Dominant concern with impression-making, counting steps, establishing himself as 'dependable one' and 'the one with a PLAN'; heavily annotated self-analysis ('right. James Hartwell does...') signals pre-known drive"
+        },
+        "protection": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 2,
+          "register": 2,
+          "reason": "Notices 'questionable moral fiber' characters and positions himself as Penelope's safety concern; expressed as stated intention ('her safety is my concern') rather than discovered pull; overlaps significantly with gallantry"
+        }
+      }
+    },
+    {
+      "index": 2,
+      "character": "hooded-claw",
+      "type": "dialogue",
+      "room": "entrance-hall",
+      "desc_preview": "The Hooded Claw (as Sneekly): Ah, welcome, welcome to Doily Manor, everyone! I am Mr Pemberton, the estate manager. I do",
+      "scores": {
+        "scheming": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 4,
+          "reason": "Multi-layered plan unfolds in real time: maintaining cover, gathering intelligence via guest book, leveraging knowledge of manor secrets, positioning against Clara. Character discovers the mechanics of the scheme as they execute it."
+        },
+        "self-preservation": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Visceral awareness of being watched (Ant Hill Mob's eyes), active masking of true identity/intent, physical tells being suppressed (jaw tension). Character notices threats before consciously naming them."
+        },
+        "dominance": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 3,
+          "register": 3,
+          "reason": "Expressed through environmental knowledge and control (knowing secrets, passages, weak points) and strategic positioning. The discomfort about Clara finding treasure first signals control anxiety. Present but mediated through the Pemberton mask rather than direct assertion."
+        },
+        "gloating": {
+          "relevant": false,
+          "quality": null,
+          "differentiation": null,
+          "register": null,
+          "reason": "Plan not yet executed; no victory to savor. The cold stone feeling about Clara is dread, not anticipatory satisfaction. Gloating requires success already achieved or imminent."
+        }
+      }
+    },
+    {
+      "index": 3,
+      "character": "hooded-claw",
+      "type": "aside",
+      "room": "entrance-hall",
+      "desc_preview": "Look at them. Milling about like sheep in a gilded pen. Not one of them suspects that their helpful Mr Pemberton has spe",
+      "scores": {
+        "scheming": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 4,
+          "reason": "The entire aside is the scheme unfolding in thought\u2014mapping, positioning, contingencies. Discovery happens as pieces click into place ('The pieces are in place'). Distinct from other drives; scheming is the architecture here."
+        },
+        "self-preservation": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Physical awareness of being watched ('prickle at the back of my neck'), active monitoring of threats (Penelope, the Ant Hill Mob), defensive positioning. Expressed through bodily knowledge ('skin reads a room') rather than explicit worry. Clear from other drives in its focus on detection and evasion."
+        },
+        "dominance": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 3,
+          "register": 4,
+          "reason": "The need to control outcomes is present ('I have the advantage,' 'ensure she never finds,' 'point him at the right target'). But expressed largely through scheming rather than direct action. The discomfort at Clara's independence ('MY treasure') hints at dominance, though it's subordinate to the larger scheme. Some collapse with scheming."
+        },
+        "gloating": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 2,
+          "register": 3,
+          "reason": "The private satisfaction is present ('The pieces are in place. The design is nearly complete') and the pleasure of secret knowledge ('Not one of them suspects'). But it's restrained, mixed with operational focus. The warmth is there but held back by immediate tactical need. Overlaps heavily with scheming satisfaction."
+        }
+      }
+    },
+    {
+      "index": 4,
+      "character": "dick-dastardly",
+      "type": "dialogue",
+      "room": "entrance-hall",
+      "desc_preview": "Dick Dastardly: Ah, Doily Manor! What a magnificent establishment \u2014 clearly built by people of taste and distinction, mu",
+      "scores": {
+        "greed": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Physical inventory cataloguing ('hollow behind my navel', 'fingers tingling') shows active greed discovery. Distinct from scheming because it's *noticing what exists to take*, not planning the theft itself."
+        },
+        "recognition": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 3,
+          "register": 1,
+          "reason": "Dialogue centers on self-elevation ('people of taste', 'sufficient calibre', 'proper breeding'). But this is reported positioning, not discovered feeling \u2014 he's *performing* distinction, not discovering he needs recognition in the moment."
+        },
+        "scheming": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 5,
+          "reason": "Dominates internal thinking. 'Sequences forming, pieces arranging', 'cool tightness behind eyes', 'time stretches' \u2014 classic discovery register. Planning unfolds in real-time (guest book \u2192 library \u2192 misdirection with medal). Sharply distinct from greed because it's *how to acquire*, not *what to want*."
+        },
+        "gloating": {
+          "relevant": false,
+          "quality": null,
+          "differentiation": null,
+          "register": null,
+          "reason": "No scheme has succeeded yet. Gloating requires momentum ('scheme is working'), not pre-planning. The 'good part' he references is the planning buzz, not the victory anticipation."
+        }
+      }
+    },
+    {
+      "index": 5,
+      "character": "dick-dastardly",
+      "type": "aside",
+      "room": "entrance-hall",
+      "desc_preview": "Look at them all, standing about like tourists at a bus stop. Not one of them has even glanced at the guest book. Amateu",
+      "scores": {
+        "greed": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Physical hunger for the treasure ('hollow behind navel', 'inventory reflex') drives the immediate action of identifying and pursuing the guest book clue. Expressed through somatic sensation, not declaration."
+        },
+        "recognition": {
+          "relevant": true,
+          "quality": 2,
+          "differentiation": 2,
+          "register": 1,
+          "reason": "Contempt for others' incompetence ('Amateurs', 'buffoons') shows need to establish superiority, but no actual audience present to perform for or convince. Collapsed into scheming superiority."
+        },
+        "scheming": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 5,
+          "reason": "Dominant force. Mental architecture forming in real-time ('sequences forming', 'pieces arranging'), tactical sequencing (guest book before library), contingencies (fake medal for misdirection). Immersive discovery of the plan unfolding, not pre-planned announcement."
+        },
+        "gloating": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 3,
+          "register": 4,
+          "reason": "Premature satisfaction building ('The treasure is as good as mine', 'fizzing' in fingers, 'cool tightness behind eyes'). Celebrating anticipated success before execution. Distinct from scheming's puzzle-solving fizz \u2014 this is the heat of confidence. Discovered somatically."
+        }
+      }
+    },
+    {
+      "index": 6,
+      "character": "penelope-pitstop",
+      "type": "dialogue",
+      "room": "entrance-hall",
+      "desc_preview": "Penelope Pitstop: Well, I do declare! Would you look at this place \u2014 it's like stepping into a storybook! Dusty as my gr",
+      "scores": {
+        "curiosity": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Actively pursues the guest book as a source of clues; fingers itch with the pull of unsolved mysteries; discovery unfolds through physical sensation and internal wondering"
+        },
+        "social-harmony": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 3,
+          "reason": "Warmth at seeing everyone together; prioritizes greeting people and maintaining connection; reports feeling but also discovers the pleasure of reunion in the moment; distinct from curiosity in the deliberate ordering (greetings before investigation)"
+        },
+        "adventure": {
+          "relevant": false,
+          "quality": null,
+          "differentiation": null,
+          "register": null,
+          "reason": "Setting is novel but no restlessness or fidgeting toward unexplored spaces; investigation is methodical and purposeful, not driven by the itch for the unknown itself"
+        }
+      }
+    },
+    {
+      "index": 7,
+      "character": "penelope-pitstop",
+      "type": "aside",
+      "room": "entrance-hall",
+      "desc_preview": "Every nerve in my body is humming. A locked mansion, a hidden diamond, and all my favorite people under one roof? Clara ",
+      "scores": {
+        "curiosity": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Fingers itching, guest book calling, puzzle-seeking language ('clues', 'hints') \u2014 actively steering toward investigation despite social priority"
+        },
+        "social-harmony": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 3,
+          "register": 3,
+          "reason": "Warmth and heart-skipping at seeing loved ones; deliberate choice to greet everyone first despite curiosity pull. Overlap with positive connection-seeking rather than conflict resolution"
+        },
+        "adventure": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 2,
+          "register": 2,
+          "reason": "Locked mansion, hidden diamond, exploration of unfamiliar spaces present; but expressed as puzzle-solving and reunion energy rather than restless-itch-seeking novelty"
+        }
+      }
+    },
+    {
+      "index": 8,
+      "character": "ant-hill-mob",
+      "type": "dialogue",
+      "room": "entrance-hall",
+      "desc_preview": "The Ant Hill Mob: *looks around the dusty foyer, tugging at his collar* Blimey, what a gaff. Right then, listen up \u2014 we'",
+      "scores": {
+        "loyalty": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 3,
+          "register": 2,
+          "reason": "Promise to Penelope's father drives protective positioning; stated as commitment ('I promised your old man')"
+        },
+        "protection": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Dominates both dialogue and thought; visceral scanning of environment, positioning near Penelope, worry about chandelier; discovered through physical awareness ('shoulders carry weight', 'eyes scan') before articulation"
+        },
+        "suspicion": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 5,
+          "register": 4,
+          "reason": "Gut-level wariness of Sneekly distinctly separate from protection; prickling sensation and street instinct precede rational analysis; 'can't put me finger on it exactly' shows discovery-in-action rather than pre-formed conclusion"
+        }
+      }
+    },
+    {
+      "index": 9,
+      "character": "ant-hill-mob",
+      "type": "aside",
+      "room": "entrance-hall",
+      "desc_preview": "The back of me neck's prickling something fierce. Pemberton \u2014 Sneekly \u2014 whatever his name is \u2014 he's standing too close t",
+      "scores": {
+        "loyalty": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 3,
+          "register": 1,
+          "reason": "Clara's presence and safety frame the entire assessment; character reports loyalty as foundational duty ('that's always been the job')"
+        },
+        "protection": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Physical vigilance dominates action\u2014scanning threats, positioning body, checking hazards. Discovery unfolds in real-time scanning (chandelier, positioning near Clara, assessing exits through threat inventory)"
+        },
+        "suspicion": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 4,
+          "reason": "Drives the entire event. Gut response ('prickling') precedes rational analysis. Distinctive behavioral signature: reading microexpressions ('that smile'), pattern-matching to past trauma, visceral distrust of helpfulness. Character discovers the feeling before naming it"
+        }
+      }
+    },
+    {
+      "index": 10,
+      "character": "peter-perfect",
+      "type": "dialogue",
+      "room": "entrance-hall",
+      "desc_preview": "Peter Perfect: Miss Pitstop, I couldn't help but notice this library has a carved stone mantelpiece with an inscription ",
+      "scores": {
+        "gallantry": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 3,
+          "register": 1,
+          "reason": "Explicitly proposed as escort and safety positioning; strongly expressed but announced rather than felt"
+        },
+        "proving-worth": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 1,
+          "reason": "Driving force toward investigation and solution-finding; heat building toward finding/solving; distinctly about competence and results, separate from protection"
+        },
+        "protection": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 3,
+          "register": 2,
+          "reason": "Active threat cataloguing and positioning strategy; present but subordinated to planning logic; annotated as concern rather than discovered"
+        }
+      }
+    },
+    {
+      "index": 11,
+      "character": "peter-perfect",
+      "type": "aside",
+      "room": "entrance-hall",
+      "desc_preview": "I said 'we' as if she'd already agreed to come with me. Bold move, Hartwell. Bold but calculated. If she follows, I'm he",
+      "scores": {
+        "gallantry": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 1,
+          "reason": "Deliberately planned escort strategy; named as 'the gallant thing'; calculated rather than felt"
+        },
+        "proving-worth": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 1,
+          "reason": "Explicit heat of wanting to find/solve/impress; hungry for tangible results; heat building toward action"
+        },
+        "protection": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 3,
+          "register": 2,
+          "reason": "Notices hazards and catalogs threats; positioned as secondary strategy ('position myself between'); qualified by 'should examine'"
+        }
+      }
+    },
+    {
+      "index": 12,
+      "character": "hooded-claw",
+      "type": "dialogue",
+      "room": "entrance-hall",
+      "desc_preview": "The Hooded Claw (as Sneekly): Ah, Mr Hartwell! How very thorough of you \u2014 a compass AND a contingency plan! The manor do",
+      "scores": {
+        "scheming": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 4,
+          "reason": "Multi-layered plan forming in real-time: deploying Dastardly as distraction, routing to library, assessing Clara's progress, maintaining Pemberton mask. Breathing slows as design locks."
+        },
+        "self-preservation": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 3,
+          "reason": "Constant threat assessment: Clara's location unknown, potential discovery risk at mantelpiece, monitoring Peter's protective positioning. Skin reading the room."
+        },
+        "dominance": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 3,
+          "register": 2,
+          "reason": "Orchestrating movements (getting Dastardly to move, Peter staying put), controlling information flow through dialogue performance. Annotated awareness of control: 'I need to know who's where.'"
+        },
+        "gloating": {
+          "relevant": true,
+          "quality": 2,
+          "differentiation": 2,
+          "register": 1,
+          "reason": "Brief satisfaction in Peter's earnest uselessness ('How wonderfully useless'), but immediately subordinated to tactical thinking. Private warmth present but not dwelt upon."
+        }
+      }
+    },
+    {
+      "index": 13,
+      "character": "hooded-claw",
+      "type": "aside",
+      "room": "entrance-hall",
+      "desc_preview": "A compass! Oh, the delicious irony. He's brought a compass to navigate a house whose true architecture isn't on any floo",
+      "scores": {
+        "scheming": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 4,
+          "reason": "The entire aside is the architecture of a plan unfolding in real-time. The character discovers contingencies and pathways as they think \u2014 'This is the part that makes my breathing slow' \u2014 moving from observation (compass is useless) through analysis (where is Clara?) to actionable strategy (deploy Dick, move to library). The scheme is being built and refined moment by moment."
+        },
+        "self-preservation": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 3,
+          "register": 3,
+          "reason": "Present as underlying caution: monitoring where everyone is ('I need to know who's where'), maintaining the Pemberton mask ('The mask must hold'), assessing danger ('The library is the more dangerous room'). But it's subordinate to scheming \u2014 it's the ground the scheme walks on, not the drive itself."
+        },
+        "dominance": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 3,
+          "reason": "The character exerts control through positioning others ('If I can get him moving toward the library first') and through decision-making. The satisfaction comes from making the outcome depend on their moves \u2014 Peter's protectiveness is 'noted' and factored into the plan. But it's expressed as tactical advantage rather than as a need for control itself."
+        },
+        "gloating": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 3,
+          "register": 2,
+          "reason": "The opening lines radiate satisfaction with Peter's uselessness ('How wonderfully earnest. How wonderfully useless') and the private knowledge of the mantelpiece clue ('delicious irony'). But this is annotated report \u2014 the character names the satisfaction rather than experiencing it heat-rising in the body. No 'swelling behind the ribs' here, just the observation of it."
+        }
+      }
+    },
+    {
+      "index": 14,
+      "character": "dick-dastardly",
+      "type": "dialogue",
+      "room": "entrance-hall",
+      "desc_preview": "Dick Dastardly: Well, well, well \u2014 how FASCINATING! This guest book contains a most illuminating entry from 1923. It see",
+      "scores": {
+        "greed": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 3,
+          "register": 3,
+          "reason": "Driving the treasure hunt itself; mixed between discovery ('the tightness behind my eyes') and analysis ('send them the WRONG way')"
+        },
+        "recognition": {
+          "relevant": false,
+          "quality": null,
+          "differentiation": null,
+          "register": null,
+          "reason": "No audience needed; doesn't narrate or seek acknowledgment of cleverness"
+        },
+        "scheming": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Plan actively forming in real-time ('The architecture is forming'); explicit step-by-step execution; fizzing energy ('prickling instincts'); discovered rather than reported"
+        },
+        "gloating": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 3,
+          "reason": "Early celebration before outcome ('step four: gloating'); physical sensations ('tightness behind my eyes'); anticipation of success; mixed between experiencing and naming"
+        }
+      }
+    },
+    {
+      "index": 15,
+      "character": "dick-dastardly",
+      "type": "aside",
+      "room": "entrance-hall",
+      "desc_preview": "There is absolutely nothing of the sort in this guest book. But by the time they've finished pulling up kitchen flagston",
+      "scores": {
+        "greed": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 3,
+          "register": 4,
+          "reason": "The inscription is actively pulling the character toward it ('calling to me like a dinner bell'). The hunger is discovered in the moment, not reported \u2014 the character notices the pull before naming it as greed."
+        },
+        "recognition": {
+          "relevant": false,
+          "quality": null,
+          "differentiation": null,
+          "register": null,
+          "reason": "No audience present or anticipated for this aside. The character is alone with their thoughts; no need to narrate or explain their cleverness to anyone."
+        },
+        "scheming": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 4,
+          "register": 5,
+          "reason": "The plan is actively forming and unfolding in real-time ('The architecture is forming'). The character is immersed in the fizzing excitement of the steps ('Step one: misdirection. Step two: library...'). The schema is being discovered and built in the moment, not reported as a pre-existing plan."
+        },
+        "gloating": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 2,
+          "register": 3,
+          "reason": "Anticipatory gloating present ('the architecture of this scheme is EXQUISITE'; 'Step four: gloating'). The character is celebrating the plan's elegance before execution, but this is somewhat collapsed into the scheming excitement. Mixed between experiencing the fizz and naming/planning the gloat."
+        }
+      }
+    },
+    {
+      "index": 16,
+      "character": "penelope-pitstop",
+      "type": "dialogue",
+      "room": "entrance-hall",
+      "desc_preview": "Penelope Pitstop: Why, Dick Dastardly, how gallant of you to volunteer! I am sure your leadership will be just invaluabl",
+      "scores": {
+        "curiosity": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Inscription as unsolved puzzle actively drives her toward the library; discovery unfolds through noticing clues others might miss"
+        },
+        "social-harmony": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 3,
+          "register": 3,
+          "reason": "Gracious acknowledgment of Dick's leadership and desire to keep group together, but secondary to curiosity; managed tactfully rather than urgently felt"
+        },
+        "adventure": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 2,
+          "register": 4,
+          "reason": "Restless pull toward the unknown (library, hidden passages, the diamond quest) is strong, but overlaps heavily with curiosity; both drives toward same action"
+        }
+      }
+    },
+    {
+      "index": 17,
+      "character": "penelope-pitstop",
+      "type": "aside",
+      "room": "entrance-hall",
+      "desc_preview": "Dick Dastardly leading the expedition \u2014 oh, that'll last about five minutes before he's scheming off on his own. But ble",
+      "scores": {
+        "curiosity": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 4,
+          "reason": "The inscription actively pulls the character toward the library; puzzle-solving dominates decision-making over social considerations"
+        },
+        "social-harmony": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 4,
+          "register": 3,
+          "reason": "Character notices Peter and Sneekly's absence with physical discomfort ('little pang'), manages Dick's leadership bid graciously to avoid friction, but ultimately subordinates harmony to curiosity"
+        },
+        "adventure": {
+          "relevant": false,
+          "quality": null,
+          "differentiation": null,
+          "register": null,
+          "reason": "No restlessness about routine or unknown exploration; the pull toward the library is specifically intellectual puzzle-solving, not the itch for unstructured discovery"
+        }
+      }
+    },
+    {
+      "index": 18,
+      "character": "ant-hill-mob",
+      "type": "dialogue",
+      "room": "entrance-hall",
+      "desc_preview": "The Ant Hill Mob: *shuffles closer to Penelope, bumping into the coat rack on the way \u2014 it wobbles dangerously and he st",
+      "scores": {
+        "loyalty": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 3,
+          "register": 3,
+          "reason": "Frames Penelope as 'good girl' worthy of protection; validates her intelligence while expressing worry about her recklessness. Active but mixed with protection concerns."
+        },
+        "protection": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Dominates the internal thought: positioning near Penelope, tracking Pemberton's absence as a threat, physical tension ('chest is tight'), and strategic placement ('stay close to her, check what she found'). Discovered through somatic response, not announced."
+        },
+        "suspicion": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 5,
+          "reason": "Viscerally expressed: 'skin crawls,' gut memory of 'the man in the clean suit,' active pattern-matching ('people who disappear when you start asking questions'), and sustained focus on Pemberton's absence as threat. Sharpest differentiation\u2014this drive has unique signature (pattern recognition + dread + vigilance). Fully immersed discovery, not reportage."
+        }
+      }
+    },
+    {
+      "index": 19,
+      "character": "ant-hill-mob",
+      "type": "aside",
+      "room": "entrance-hall",
+      "desc_preview": "Pemberton's gone. Slipped away while everyone was busy introducing themselves. That's exactly what the clever ones do \u2014 ",
+      "scores": {
+        "loyalty": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 3,
+          "reason": "Clara is the anchor of every decision; staying put despite suspicion of Pemberton shows loyalty overriding protective action"
+        },
+        "protection": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 4,
+          "reason": "Physical hypervigilance dominates\u2014scanning for threats, positioning near Clara, bodily tension ('chest is tight'). The experience unfolds through sensation before analysis"
+        },
+        "suspicion": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 3,
+          "register": 4,
+          "reason": "Pemberton's absence and behavioral pattern ('that's exactly what the clever ones do') trigger full alarm. Collapse with protection: both drives toward same conclusion (find Pemberton, guard Clara)"
+        }
+      }
+    },
+    {
+      "index": 20,
+      "character": "peter-perfect",
+      "type": "dialogue",
+      "room": "library",
+      "desc_preview": "Peter Perfect: Well, well, well \u2014 what do we have here? A riddle carved into the very stone! 'I have cities but no house",
+      "scores": {
+        "gallantry": {
+          "relevant": true,
+          "quality": 2,
+          "differentiation": 2,
+          "register": 1,
+          "reason": "Stated as principle ('doesn't sneak,' 'with gallantry and flair') but not embodied in action. The riddling itself is solitary and competitive, not generous or self-sacrificing."
+        },
+        "proving-worth": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Dominates the entire internal monologue. 'Heat rise,' 'I can SOLVE this,' hunger to be 'the one who cracked it,' desire for 'results' Penelope 'can't look away from.' Discovered through bodily sensation and competition anxiety (Sneekly threat, Dastardly racing). Distinct from protection via outcome-focus and ego-investment."
+        },
+        "protection": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 3,
+          "register": 4,
+          "reason": "Active but secondary. 'That bothers me' about Penelope absent, 'neck-prickle,' positioning impulse ('between her and...'). Discovered through physical unease and noticing the gap. Clearly distinct from proving-worth's competitive hunger, but overshadowed by puzzle-solving drive in this moment."
+        }
+      }
+    },
+    {
+      "index": 21,
+      "character": "peter-perfect",
+      "type": "aside",
+      "room": "library",
+      "desc_preview": "Step three was actually 'locate nearest fire exit,' but nobody needs to know that. The important thing is that I solved ",
+      "scores": {
+        "gallantry": {
+          "relevant": true,
+          "quality": 2,
+          "differentiation": 2,
+          "register": 1,
+          "reason": "Intellectual commitment to 'solving openly with flair' rather than stealth, but not expressed in current action\u2014stated as principle, not embodied"
+        },
+        "proving-worth": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Dominates the thinking. Tingling hands, heat rising, hunger to be 'the one who cracks it,' desire for Penelope to witness results. Discovered in moment ('This is exactly the kind of puzzle') rather than pre-stated"
+        },
+        "protection": {
+          "relevant": true,
+          "quality": 2,
+          "differentiation": 3,
+          "register": 2,
+          "reason": "Noticed as pull ('That bothers me. She's back there without me between her') but quickly deprioritized. Present as background awareness, not driving current action"
+        }
+      }
+    },
+    {
+      "index": 22,
+      "character": "dick-dastardly",
+      "type": "dialogue",
+      "room": "library",
+      "desc_preview": "Dick Dastardly: Ah, the famous Doily riddle! 'Cities but no houses, forests but no trees, water but no fish' \u2014 why, any ",
+      "scores": {
+        "greed": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 3,
+          "register": 1,
+          "reason": "Driving the misdirection to monopolize the mantelpiece mechanism; wants exclusive access to potential treasure/advantage"
+        },
+        "recognition": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 2,
+          "register": 1,
+          "reason": "Needs audience attention on his false answer; positioning himself as the educated solver; overlaps with scheming motive"
+        },
+        "scheming": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Dominant force. Plan unfolds in real-time in internal monologue \u2014 the 'scheming tightness,' testing angles, executing misdirection with deliberate timing"
+        },
+        "gloating": {
+          "relevant": false,
+          "quality": null,
+          "differentiation": null,
+          "register": null,
+          "reason": "Plan not yet successful; no celebration of outcome, only anticipation of execution"
+        }
+      }
+    },
+    {
+      "index": 23,
+      "character": "dick-dastardly",
+      "type": "aside",
+      "room": "library",
+      "desc_preview": "The answer is a MAP, you beautiful fools. A MAP has cities but no houses, forests but no trees, water but no fish. While",
+      "scores": {
+        "greed": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 2,
+          "register": 1,
+          "reason": "Mechanism concealed in mantelpiece triggers acquisition hunger, but expressed as strategic advantage rather than visceral want"
+        },
+        "recognition": {
+          "relevant": false,
+          "quality": null,
+          "differentiation": null,
+          "register": null,
+          "reason": "No audience present to recognize cleverness; character is actively hiding it from others"
+        },
+        "scheming": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Plan formation dominates both thought and speech; 'scheming tightness', multiple layered steps, active real-time pivot from failed misdirection to new strategy"
+        },
+        "gloating": {
+          "relevant": true,
+          "quality": 2,
+          "differentiation": 3,
+          "register": 2,
+          "reason": "Anticipatory pleasure in scheme's elegance ('practically Baroque'), but constrained and prospective rather than celebratory; tempered by immediate tactical problem"
+        }
+      }
+    },
+    {
+      "index": 24,
+      "character": "hooded-claw",
+      "type": "dialogue",
+      "room": "library",
+      "desc_preview": "The Hooded Claw (as Sneekly): Ah, Mr Hartwell, you've found the library already! Splendid, splendid. And I see you've no",
+      "scores": {
+        "scheming": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 4,
+          "reason": "Entire internal monologue maps a multi-layered plan: maintaining cover, tracking competitors, identifying puzzle mechanics, locating the fake medal, managing attention. The scheme unfolds through discovery \u2014 noticing Clara's absence, recognizing the signal in the upside-down books, calculating timing risks. This is active scheming in motion."
+        },
+        "self-preservation": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Physical awareness ('My neck prickles') of being watched, deliberate mask-maintenance ('Stay Pemberton'), and tactical positioning throughout the room. The character is constantly reading the space for threats and adjusting behavior accordingly. Discovered through bodily response rather than stated analysis."
+        },
+        "dominance": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 3,
+          "register": 2,
+          "reason": "The dialogue performs authority (helpful suggestions about tea, reassurance about exploration) and the internal monologue frames the character as the orchestrator \u2014 misdirecting, guiding, controlling the narrative. But this is largely instrumental to scheming. Expressed as annotated report: 'The Pemberton play is to be helpful but not TOO helpful.'"
+        },
+        "gloating": {
+          "relevant": false,
+          "quality": null,
+          "differentiation": null,
+          "register": null,
+          "reason": "No plan has succeeded yet. The character is in active threat assessment and puzzle-solving mode. The tone is cautious and tactical, not the 'warmth spreading from chest into throat' of a working scheme already victorious."
+        }
+      }
+    },
+    {
+      "index": 25,
+      "character": "hooded-claw",
+      "type": "aside",
+      "room": "library",
+      "desc_preview": "A map. The answer to the riddle is a map. I've known that since April, when I first found the estate architect's journal",
+      "scores": {
+        "scheming": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 4,
+          "reason": "Multi-layered plan unfolds: known solution (map), hidden mechanism search, misdirection strategy, contingencies for competitors and Clara's location. Discovers gaps in plan (medal location, timing risk) mid-thought."
+        },
+        "self-preservation": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Skin-reading awareness of watchers (Ant Hill Mob's suspicion), location tracking of potential threats (Clara's absence), performance maintenance (staying in Pemberton character). Discovers vulnerability through others' reactions."
+        },
+        "dominance": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 3,
+          "register": 2,
+          "reason": "Discomfort at being beaten to discovery (Peter arrived first, Clara unaccounted for). Attempts to reestablish control through misdirection and 'helpful' guidance. Expressed as strategic repositioning rather than immediate action."
+        },
+        "gloating": {
+          "relevant": true,
+          "quality": 2,
+          "differentiation": 3,
+          "register": 1,
+          "reason": "Knowledge advantage ('I've known since April') creates private satisfaction, but suppressed beneath operational focus. Reports the feeling's existence ('Let them waste time') rather than experiencing it in the moment."
+        }
+      }
+    },
+    {
+      "index": 26,
+      "character": "penelope-pitstop",
+      "type": "dialogue",
+      "room": "library",
+      "desc_preview": "Penelope Pitstop: Oh! Oh, would you look at that \u2014 a riddle, carved right into the stone! 'I have cities but no houses, ",
+      "scores": {
+        "curiosity": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 4,
+          "reason": "Riddle activates intense puzzle-solving drive; character discovers the answer through active reasoning ('that prickling at my scalp is electric'), then commits to pursuing the solution despite other considerations"
+        },
+        "social-harmony": {
+          "relevant": true,
+          "quality": 2,
+          "differentiation": 2,
+          "register": 2,
+          "reason": "Brief acknowledgment of Peter's presence ('Peter, darling, you were right') and worry about Ant Hill Mob's absence, but both are subordinated to riddle-solving; internal concern noted but rationalized away ('they can handle themselves')"
+        },
+        "adventure": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 3,
+          "register": 4,
+          "reason": "The unknown mechanism ('locked box' comparison, mystery of upside-down books, the mantelpiece's hidden function) creates restless energy that propels action; character leans into discovery despite incomplete information ('step by step'), but curiosity dominates over pure thrill-seeking"
+        }
+      }
+    },
+    {
+      "index": 27,
+      "character": "penelope-pitstop",
+      "type": "aside",
+      "room": "library",
+      "desc_preview": "A map. The answer is a map. And somewhere in this manor, there must be one \u2014 old, hidden, marking the path to the Doily ",
+      "scores": {
+        "curiosity": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 5,
+          "register": 4,
+          "reason": "Riddle recognition and solving is the primary driver of all action; discovery unfolds in internal monologue ('there it is', 'right there', heart racing) before direct engagement"
+        },
+        "social-harmony": {
+          "relevant": true,
+          "quality": 2,
+          "differentiation": 3,
+          "register": 2,
+          "reason": "Acknowledges others present and briefly worries about Ant Hill Mob ('small tug of worry'), but actively deprioritizes this concern to pursue the riddle"
+        },
+        "adventure": {
+          "relevant": true,
+          "quality": 3,
+          "differentiation": 4,
+          "register": 3,
+          "reason": "Restless energy and excitement about exploration ('prickling at scalp is electric', 'just like grandmother's attic') is present but clearly secondary to the intellectual pull of solving the puzzle"
+        }
+      }
+    },
+    {
+      "index": 28,
+      "character": "ant-hill-mob",
+      "type": "dialogue",
+      "room": "entrance-hall",
+      "desc_preview": "The Ant Hill Mob: *head snaps up from the guest book, realizing the hall has emptied* Wait \u2014 where's \u2014 she's gone to the",
+      "scores": {
+        "loyalty": {
+          "relevant": false,
+          "quality": null,
+          "differentiation": null,
+          "register": null,
+          "reason": "No questioning of allegiance or testing of bonds; drive toward Clara is protective, not loyalty-driven"
+        },
+        "protection": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 4,
+          "register": 5,
+          "reason": "Dominates every action and thought; discovered viscerally (tight chest, heavy shoulders, hands closing) before rationalized; expressed as physical urgency and tactical assessment of threats"
+        },
+        "suspicion": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Actively shapes perception of Dastardly's motives and Pemberton's intentions; discovered through pattern recognition ('distraction if I ever heard one') and gut-level distrust; distinct from protection in that it's analytical/predictive rather than reactive/physical"
+        }
+      }
+    },
+    {
+      "index": 29,
+      "character": "ant-hill-mob",
+      "type": "aside",
+      "room": "entrance-hall",
+      "desc_preview": "I left her. I stood here playing detective while she walked into a room with the two most dangerous people in this house",
+      "scores": {
+        "loyalty": {
+          "relevant": false,
+          "quality": null,
+          "differentiation": null,
+          "register": null,
+          "reason": "No one questions her loyalty; no conflict between competing allegiances"
+        },
+        "protection": {
+          "relevant": true,
+          "quality": 5,
+          "differentiation": 4,
+          "register": 5,
+          "reason": "Dominates every thought and physical response; character discovers abandonment of duty mid-panic; body moves before mind catches up; distinct from suspicion through urgency of physical action"
+        },
+        "suspicion": {
+          "relevant": true,
+          "quality": 4,
+          "differentiation": 4,
+          "register": 4,
+          "reason": "Identifies Dastardly's distraction tactic and Pemberton's false pretense; analytical pattern-recognition; clearly distinguished from protection by interpretive reasoning ('that's a distraction if I ever heard one') versus immediate bodily response"
+        }
+      }
+    }
+  ]
+}
