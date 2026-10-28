@@ -1,0 +1,25 @@
+type: disposition-profile
+entries:
+  - id: disp-hooded-claw
+    entity_ref: "Vincent Marsh"
+    social_orient: competitive
+    rule_following: flexible
+    risk_appetite: calculated
+    autonomy: high
+    conflict_mode: competitive
+
+  - id: disp-penelope-pitstop
+    entity_ref: "Clara Bellingham"
+    social_orient: cooperative
+    rule_following: moderate
+    risk_appetite: cautious
+    autonomy: moderate
+    conflict_mode: accommodating
+
+  - id: disp-peter-perfect
+    entity_ref: "James Hartwell"
+    social_orient: cooperative
+    rule_following: principled
+    risk_appetite: measured
+    autonomy: moderate
+    conflict_mode: protective
