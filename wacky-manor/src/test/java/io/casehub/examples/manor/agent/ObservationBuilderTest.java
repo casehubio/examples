@@ -134,7 +134,7 @@ class ObservationBuilderTest {
     void observation_shows_interactable_hints() {
         world.moveCharacter("penelope-pitstop", "kitchen");
         var obs = buildObs(world.character("penelope-pitstop"));
-        assertThat(obs).contains("[INTERACT, requires: brass-key]");
+        assertThat(obs).contains("[EXAMINE, requires: brass-key]");
     }
 
     @Test

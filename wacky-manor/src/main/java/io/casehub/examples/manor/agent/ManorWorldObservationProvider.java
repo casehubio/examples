@@ -86,7 +86,7 @@ public class ManorWorldObservationProvider implements WorldObservationProvider {
     private static ObservableEntity toObservableEntity(GameObject obj) {
         var affordances = new ArrayList<Affordance>();
         if (obj.interactable()) {
-            affordances.add(new Affordance("INTERACT", null, obj.interactionRequires(), List.of()));
+            affordances.add(new Affordance("EXAMINE", null, obj.interactionRequires(), List.of()));
         }
         if (obj.portable()) {
             affordances.add(new Affordance("TAKE", "to pick up"));
