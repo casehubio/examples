@@ -51,6 +51,23 @@ public record SocialConfig(
                                 List.of(), List.of(), null, List.of(), null, null);
     }
 
+    public SocialConfig remapIds(java.util.Map<String, String> idMap) {
+        var remappedSchemas = relationalSchemas.stream()
+                                               .map(rs -> new RelationalSchema(
+                                                       idMap.getOrDefault(rs.target(), rs.target()),
+                                                       rs.role(), rs.trust(), rs.intimacy(), rs.utility(), rs.description()))
+                                               .toList();
+        var remappedRelationships = relationships.stream()
+                                                 .map(r -> new Relationship(
+                                                         idMap.getOrDefault(r.targetAgentId(), r.targetAgentId()),
+                                                         r.pleasure(), r.arousal(), r.dominance()))
+                                                 .toList();
+        return new SocialConfig(goals, drives, norms, initialBeliefs, remappedRelationships,
+                                reinforcement, stageConfig, personaConstraint, tendencies, personalityFacets,
+                                remappedSchemas, attachment, formationMemories, substrate, disposition);
+    }
+
+
     public record GoalConfig(String name, String description, String axis,
                              double intensity, String formationReason) {
         public GoalConfig {

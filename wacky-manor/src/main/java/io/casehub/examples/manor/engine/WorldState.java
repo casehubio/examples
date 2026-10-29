@@ -47,6 +47,21 @@ public final class WorldState {
         return null;
     }
 
+    public void remapCharacterIds(Map<String, String> idMap) {
+        var toRemap = new java.util.ArrayList<Map.Entry<String, String>>();
+        for (var entry : idMap.entrySet()) {
+            if (characters.containsKey(entry.getKey())) {
+                toRemap.add(entry);
+            }
+        }
+        for (var entry : toRemap) {
+            var character = characters.remove(entry.getKey());
+            character.setAgentId(entry.getValue());
+            characters.put(entry.getValue(), character);
+        }
+    }
+
+
     public static String slug(String name) {
         if (name == null) {return "";}
         return name.toLowerCase(java.util.Locale.ROOT).replaceAll("[^a-z0-9]+", "-").replaceAll("^-|-$", "");

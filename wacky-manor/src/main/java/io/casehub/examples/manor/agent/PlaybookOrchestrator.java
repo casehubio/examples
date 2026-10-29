@@ -99,7 +99,11 @@ public class PlaybookOrchestrator {
     private volatile AgentProvider gatedProvider;
     private volatile io.casehub.platform.agent.session.SessionPipeline scenePipeline;
     private final    java.util.Map<String, String> subgraphIdCache = new java.util.concurrent.ConcurrentHashMap<>();
+    private volatile java.util.Map<String, String> idReverseMap    = java.util.Map.of();
 
+    private String registryId(String agentId) {
+        return idReverseMap.getOrDefault(agentId, agentId);
+    }
 
 
     public Thread startScenario(WorldState world, io.casehub.examples.manor.model.PlaybookMode mode) {
@@ -184,6 +188,51 @@ public class PlaybookOrchestrator {
 
         var socialConfigs = ManorSocialConfigLoader.loadForProfile(profileMode.name());
 
+        var reverseIdMap = new java.util.HashMap<String, String>();
+        if (profileMode == io.casehub.examples.manor.model.ProfileMode.GENERIC) {
+            var idMap = new java.util.HashMap<String, String>();
+            for (var entry : world.characters().entrySet()) {
+                agentRegistry.findById(entry.getKey(), ManorConstants.TENANCY_ID).ifPresent(desc -> {
+                    if (desc.name() != null && !desc.name().isBlank()) {
+                        String genericId = WorldState.slug(desc.name());
+                        if (!genericId.equals(entry.getKey())) {
+                            idMap.put(entry.getKey(), genericId);
+                            reverseIdMap.put(genericId, entry.getKey());
+                        }
+                        entry.getValue().setName(desc.name());
+                    }
+                });
+            }
+            world.remapCharacterIds(idMap);
+            var remapped = new java.util.HashMap<String, SocialConfig>();
+            for (var entry : socialConfigs.entrySet()) {
+                String newKey = idMap.getOrDefault(entry.getKey(), entry.getKey());
+                remapped.put(newKey, entry.getValue().remapIds(idMap));
+            }
+            socialConfigs = remapped;
+            if (activeSet != null) {
+                activeSet = activeSet.stream()
+                    .map(id -> idMap.getOrDefault(id, id))
+                    .collect(java.util.stream.Collectors.toSet());
+            }
+            this.idReverseMap = java.util.Map.copyOf(reverseIdMap);
+            log.infof("GENERIC ID rewrite: %d characters remapped", idMap.size());
+        } else {
+            for (var entry : world.characters().entrySet()) {
+                agentRegistry.findById(entry.getKey(), ManorConstants.TENANCY_ID).ifPresent(desc -> {
+                    if (desc.name() != null && !desc.name().isBlank()) {
+                        entry.getValue().setName(desc.name());
+                    }
+                });
+            }
+        }
+
+        for (var entry : world.characters().entrySet()) {
+            if (activeSet != null && !activeSet.contains(entry.getKey())) {
+                entry.getValue().setActive(false);
+            }
+        }
+
         var dispositions = new java.util.HashMap<String, SocialConfig.Disposition>();
         for (var entry : socialConfigs.entrySet()) {
             if (entry.getValue().disposition() != null) {
@@ -202,21 +251,11 @@ public class PlaybookOrchestrator {
             cacheRestored = ConsolidationCache.restore(mmStore, ManorConstants.TENANCY_ID, profileMode.name(), cacheDir);
         }
 
-        for (var entry : world.characters().entrySet()) {
-            agentRegistry.findById(entry.getKey(), ManorConstants.TENANCY_ID).ifPresent(desc -> {
-                if (desc.name() != null && !desc.name().isBlank()) {
-                    entry.getValue().setName(desc.name());
-                }
-            });
-            if (activeSet != null && !activeSet.contains(entry.getKey())) {
-                entry.getValue().setActive(false);
-            }
-        }
-
         var activeSocialConfigs = new java.util.HashMap<String, SocialConfig>();
         for (var entry : world.characters().entrySet()) {
             if (!entry.getValue().isActive()) continue;
-            var desc = agentRegistry.findById(entry.getKey(), ManorConstants.TENANCY_ID)
+            String registryId = reverseIdMap.getOrDefault(entry.getKey(), entry.getKey());
+            var desc = agentRegistry.findById(registryId, ManorConstants.TENANCY_ID)
                     .orElseThrow(() -> new IllegalStateException("No Eidos descriptor for character: " + entry.getKey()));
             var tags = desc.capabilities().stream()
                     .flatMap(c -> c.tags().stream())
@@ -395,7 +434,7 @@ public class PlaybookOrchestrator {
             long cogStart = System.currentTimeMillis();
             for (var c : activeAgents) {
                 if (!c.isActive()) continue;
-                var desc0 = agentRegistry.findById(c.agentId(), ManorConstants.TENANCY_ID).orElse(null);
+                var desc0 = agentRegistry.findById(registryId(c.agentId()), ManorConstants.TENANCY_ID).orElse(null);
                 String situation = c.lastActionResult() != null ? c.lastActionResult() : "You are in the " + c.currentRoom() + ".";
                 cognitionCore.tick(c.agentId(), ManorConstants.TENANCY_ID, desc0, subjectResolver, situation);
             }
@@ -512,7 +551,7 @@ public class PlaybookOrchestrator {
                 if (response.action() != null && response.action().type() == io.casehub.examples.manor.model.ActionType.PULL_ASIDE) {
                     var target = world.resolveCharacter(response.action().target());
                     String targetId = target != null ? target.agentId() : response.action().target();
-                    if (target == null || !target.isActive() || !target.currentRoom().equals(c.currentRoom()) || suppressed.contains(c.agentId()) || suppressed.contains(targetId) || agentRegistry.findById(targetId, ManorConstants.TENANCY_ID).isEmpty()) {
+                    if (target == null || !target.isActive() || !target.currentRoom().equals(c.currentRoom()) || suppressed.contains(c.agentId()) || suppressed.contains(targetId) || agentRegistry.findById(registryId(targetId), ManorConstants.TENANCY_ID).isEmpty()) {
                         c.setLastActionResult("Could not pull " + (target != null ? target.name() : targetId) + " aside.");
                     } else {
                         suppressed.add(c.agentId());
@@ -738,7 +777,7 @@ public class PlaybookOrchestrator {
                             io.casehub.neocortex.mindmap.intelligence.tom.ThreatLevel.NONE);
                     }
                     if (innerLife != null && observationText != null) {
-                        agentRegistry.findById(observer.agentId(), ManorConstants.TENANCY_ID).ifPresent(observerDesc -> {
+                        agentRegistry.findById(registryId(observer.agentId()), ManorConstants.TENANCY_ID).ifPresent(observerDesc -> {
                             var levelEvent = new io.casehub.neocortex.summarisation.LevelEvent<>(
                                     observationText, System.currentTimeMillis(),
                                     new io.casehub.neocortex.summarisation.EventLevel("SOCIAL", 1),
@@ -955,7 +994,7 @@ public class PlaybookOrchestrator {
     }
 
     private java.util.List<io.casehub.eidos.api.AgentGoal> resolveGoals(String agentId) {
-        return agentRegistry.findById(agentId, ManorConstants.TENANCY_ID)
+        return agentRegistry.findById(registryId(agentId), ManorConstants.TENANCY_ID)
                             .map(desc -> desc.goals())
                             .orElse(java.util.List.of());
     }
@@ -978,7 +1017,7 @@ public class PlaybookOrchestrator {
     }
 
     private String renderPrompt(String agentId) {
-        var desc = agentRegistry.findById(agentId, ManorConstants.TENANCY_ID)
+        var desc = agentRegistry.findById(registryId(agentId), ManorConstants.TENANCY_ID)
                                 .orElseThrow(() -> new IllegalArgumentException("No descriptor: " + agentId));
         var ctx      = AgentPromptContext.forFormat(RenderFormat.MARKDOWN);
         var rendered = renderer.render(desc, ctx);

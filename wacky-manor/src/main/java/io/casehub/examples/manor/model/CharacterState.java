@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.model;
 
 public final class CharacterState {
-    private final    String                                            agentId;
+    private          String                                            agentId;
     private          String                                            name;
     private volatile String                                            currentRoom;
     private          double                                            x;
@@ -32,6 +32,9 @@ public final class CharacterState {
     }
 
     public String agentId()                                   {return agentId;}
+
+    public void setAgentId(String agentId)                    {this.agentId = agentId;}
+
 
     public String name()                                      {return name;}
 

@@ -17,7 +17,7 @@ public final class CharacterAgentLoop {
             new io.casehub.agency.perception.observation.affordance.ActionDescriptor("TAKE", "pick up a portable object into your inventory", "target = object-id"),
             new io.casehub.agency.perception.observation.affordance.ActionDescriptor("USE", "apply an inventory item to an object", "target = object-id, withItem = item from your inventory"),
             new io.casehub.agency.perception.observation.affordance.ActionDescriptor("GIVE", "hand an inventory item to another character", "target = character-id, withItem = item from your inventory"),
-            new io.casehub.agency.perception.observation.affordance.ActionDescriptor("INTERACT", "activate an object's built-in mechanism (levers, locks, puzzles)", "target = object-id, withItem = required item if any"),
+            new io.casehub.agency.perception.observation.affordance.ActionDescriptor("EXAMINE", "activate an object's built-in mechanism (levers, locks, puzzles)", "target = object-id, withItem = required item if any"),
             new io.casehub.agency.perception.observation.affordance.ActionDescriptor("LOOK", "examine an object or room closely", "target = object-id or null for room"),
             new io.casehub.agency.perception.observation.affordance.ActionDescriptor("STEAL", "take an item from another character's inventory", "target = character-id, withItem = item to steal"),
             new io.casehub.agency.perception.observation.affordance.ActionDescriptor("PULL_ASIDE", "pull a character aside for a private multi-turn conversation", "target = character-id"),
