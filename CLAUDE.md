@@ -28,7 +28,7 @@ Multi-example repository for CaseHub platform modules. Each subdirectory is an i
 
 **GitHub repo:** casehubio/examples
 
-**Fork model:** origin = personal fork (`mdproctor/examples`), upstream = blessed (`casehubio/examples`)
+**Fork model:** origin = blessed (`casehubio/examples`), fork = personal (`mdproctor/examples`)
 
 ## Build and Test
 
