@@ -152,7 +152,7 @@ class PipelineToRenderingTest {
         seedFormativeMemory("The girl from school was in trouble", "gallantry");
         seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
 
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> {
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> {
             if (desc.contains("struggling"))
                 return List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.6));
             return List.of();
@@ -179,7 +179,7 @@ class PipelineToRenderingTest {
         seedCompetition("gallantry", "proving-worth",
             "How they differ:\nOne pull is the gesture. The other is the result.\nNotice which one moved your hands.");
 
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> {
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> {
             if (desc.contains("door"))
                 return List.of(new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.7));
             return List.of();
@@ -221,7 +221,7 @@ class PipelineToRenderingTest {
         seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
         seedProfile("proving-worth", "competence:0.8,mastery:0.6");
 
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) ->
                                                                            List.of(new io.casehub.neocortex.caps.SituationActivation("competence", 0.7));
 
         var section = renderInternalStateWithClassifier(
@@ -246,7 +246,7 @@ class PipelineToRenderingTest {
         seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
         seedProfile("proving-worth", "competence:0.8,mastery:0.6");
 
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) ->
                                                                            List.of(
                                                                                    new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.6),
                                                                                    new io.casehub.neocortex.caps.SituationActivation("competence", 0.5));
@@ -273,7 +273,7 @@ class PipelineToRenderingTest {
         seedGenerated("proving-worth", "Proving-worth: tension in hands, the gap not yet built");
         seedProfile("proving-worth", "competence:0.8,mastery:0.6");
 
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) ->
                                                                            List.of(new io.casehub.neocortex.caps.SituationActivation("competence", 0.7));
 
         var section = renderInternalStateWithClassifier(
@@ -299,7 +299,7 @@ class PipelineToRenderingTest {
         seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
         seedProfile("proving-worth", "competence:0.8,mastery:0.6");
 
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) ->
                                                                            List.of(
                                                                                    new io.casehub.neocortex.caps.SituationActivation("mastery", 0.7),
                                                                                    new io.casehub.neocortex.caps.SituationActivation("competence", 0.6));
@@ -326,7 +326,7 @@ class PipelineToRenderingTest {
         seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
         seedProfile("proving-worth", "competence:0.8,mastery:0.6");
 
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) ->
                                                                            List.of(
                                                                                    new io.casehub.neocortex.caps.SituationActivation("acceptance", 0.6),
                                                                                    new io.casehub.neocortex.caps.SituationActivation("mastery", 0.5));
@@ -354,7 +354,7 @@ class PipelineToRenderingTest {
         seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
         seedProfile("proving-worth", "competence:0.8,mastery:0.6");
 
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> List.of();
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> List.of();
 
         var section = renderInternalStateWithClassifier(
                 List.of(), "An unfamiliar sound echoes through the corridor", classifier);
@@ -380,7 +380,7 @@ class PipelineToRenderingTest {
         seedCompetition("gallantry", "proving-worth",
                         "How they differ:\nOne is gesture. The other is result.\nNotice which moved your hands.");
 
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> List.of();
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> List.of();
 
         var section = renderInternalStateWithClassifier(
                 List.of(), "An unfamiliar sound echoes through the corridor", classifier);
@@ -406,7 +406,7 @@ class PipelineToRenderingTest {
         seedProfile("scheming", "autonomy:0.8,competition:0.7");
         seedProfile("dominance", "agency_granted:0.8");
 
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) ->
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) ->
                                                                            List.of(new io.casehub.neocortex.caps.SituationActivation("secure_attachment", 0.85));
 
         var section = renderInternalStateWithClassifier(
@@ -431,7 +431,7 @@ class PipelineToRenderingTest {
         seedProfile("gallantry", "acceptance:0.7,sharing:0.5");
         seedProfile("proving-worth", "competence:0.8,mastery:0.6");
 
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> {
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> {
             throw new AssertionError("Classifier should not be called with null/blank situation");
         };
 

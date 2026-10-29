@@ -129,7 +129,7 @@ class TickExecutorTest {
         var characters = List.of(alice, bob);
 
         var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> {
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> {
             if (desc.contains("stole")) {
                 return List.of(new io.casehub.neocortex.caps.SituationActivation("reward", 0.8));
             }
@@ -158,7 +158,7 @@ class TickExecutorTest {
         var slow = character("slow");
         slow.setLastActionResult("Slow acted.");
 
-        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta) -> {
+        io.casehub.neocortex.caps.SituationClassifier classifier = (desc, meta, ctx) -> {
             try {Thread.sleep(5000);} catch (InterruptedException e) {Thread.currentThread().interrupt();}
             return List.of();
         };

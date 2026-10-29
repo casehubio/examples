@@ -58,7 +58,7 @@ class ChannelWeightingEvalTest {
 
         String systemPrompt = buildClassifierPrompt(topology, validNodeIds);
 
-        return (description, metadata) -> {
+        return (description, metadata, classCtx) -> {
             if (description == null || description.isBlank()) return List.of();
             String result = provider.invoke(AgentSessionConfig.of(systemPrompt,
                     "Classify this situation:\n" + description, Duration.ofSeconds(60)))
