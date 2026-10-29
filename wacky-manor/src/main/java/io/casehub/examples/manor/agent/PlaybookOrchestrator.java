@@ -740,7 +740,7 @@ public class PlaybookOrchestrator {
                 String actionTargetName = response.action() != null && response.action().target() != null
                         ? resolveDisplayName(response.action().target(), world) : null;
                 String desc = (response.dialogue() != null ? response.dialogue() + " " : "")
-                              + (response.action() != null ? response.action().type() + " " + actionTargetName : "WAIT");
+                              + (response.action() != null ? response.action().type().verb() + " " + actionTargetName : "waited");
                 cognition.recordExperience(c.currentRoom(), desc.strip(), response.thinking(), importance, targetAgentId, currentTick);
             }
 
@@ -761,7 +761,7 @@ public class PlaybookOrchestrator {
                     }
                     if (response.action() != null && response.action().type() != io.casehub.examples.manor.model.ActionType.WAIT) {
                         if (!sb.isEmpty()) sb.append(" ");
-                        sb.append(c.name()).append(" ").append(response.action().type().name().toLowerCase());
+                        sb.append(c.name()).append(" ").append(response.action().type().verb());
                         if (response.action().target() != null) sb.append(" ").append(response.action().target());
                     }
                     observationText = sb.isEmpty() ? null : sb.toString();
