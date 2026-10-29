@@ -528,11 +528,35 @@ public class PlaybookOrchestrator {
             int aimdWindowPost = sessionPipeline.admission().currentWindow();
 
             // Phase 3: parse responses (outside pipeline — parse errors don't consume tickets)
-            var responses = TickExecutor.parseResponses(actingThisTick, pipelineResults);
+            long succeeded = pipelineResults.values().stream().filter(java.util.Objects::nonNull).count();
             log.infof("Phase: query %dms — %d agents, %d succeeded — AIMD window %d→%d (avail %d pre-query)",
-                    queryMs, actingThisTick.size(),
-                    pipelineResults.values().stream().filter(java.util.Objects::nonNull).count(),
+                    queryMs, actingThisTick.size(), succeeded,
                     aimdWindowPre, aimdWindowPost, aimdAvailPre);
+            if (succeeded == 0 && !actingThisTick.isEmpty()) {
+                log.warnf("Tick %d: all %d queries failed — API likely unreachable, auto-pausing", currentTick, actingThisTick.size());
+                world.setPaused(true);
+                webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scenario("paused"));
+                while (world.isPaused() && !world.isScenarioComplete()) {
+                    try { Thread.sleep(30_000); } catch (InterruptedException e) { Thread.currentThread().interrupt(); return; }
+                    try {
+                        var healthResult = sessionPipeline.executeSingle(actingThisTick.getFirst().agentId(),
+                                session -> AgentInvocationService.querySessionRaw(
+                                        (io.casehub.platform.agent.session.ManagedSession) session, "ping", "health"),
+                                java.time.Duration.ofSeconds(15));
+                        if (healthResult != null) {
+                            log.info("API recovered — auto-resuming");
+                            world.setPaused(false);
+                            webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.scenario("resumed"));
+                        } else {
+                            log.info("API still unreachable — waiting 30s");
+                        }
+                    } catch (Exception e) {
+                        log.infof("Health check failed: %s — waiting 30s", e.getMessage());
+                    }
+                }
+                continue;
+            }
+            var responses = TickExecutor.parseResponses(actingThisTick, pipelineResults);
             for (var c : actingThisTick) {
                 String prompt = prompts.get(c.agentId());
                 String result = pipelineResults.get(c.agentId());
