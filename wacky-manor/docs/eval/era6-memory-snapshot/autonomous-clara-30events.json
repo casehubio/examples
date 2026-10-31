@@ -1,0 +1,2586 @@
+{
+    "characterId": "clara-bellingham",
+    "tenantId": "wacky-manor",
+    "mindMapStoreClass": "io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore_ClientProxy",
+    "memoryStoreClass": "io.casehub.neocortex.memory.inmem.InMemoryMemoryStore_ClientProxy",
+    "mindMap": {
+        "totalSubgraphs": 25,
+        "characterNodeCount": 124,
+        "nodesByType": {
+            "cognitive": {
+                "totalNodesThisType": 386,
+                "characterNodes": 72,
+                "nodes": [
+                    {
+                        "id": "197a0eeb-cef1-4974-a79e-2b12bf9d1f57",
+                        "name": "need-self_expression",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "SELF_EXPRESSION",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.4",
+                            "satisfaction": "0.495"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.395763Z"
+                    },
+                    {
+                        "id": "055bd2fe-26e3-4e62-9b13-a56c90e4f562",
+                        "name": "rel-the-brixton-boys-clara-bellingham",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "ward",
+                            "rel.intimacy": "0.8",
+                            "rel.utility": "0.0",
+                            "rel.description": "You knew her father. When he died you swore to protect her. She calls you 'her boys.'",
+                            "rel.trust": "0.95",
+                            "agent-id": "the-brixton-boys",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.314Z"
+                    },
+                    {
+                        "id": "59162c85-e0ae-41cd-ad13-534931d35535",
+                        "name": "Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 1.0,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "developmental-period": "adolescence",
+                            "caps-processed": "true",
+                            "source-memory-id": "073f56a0-41b7-4db1-bc66-a0585a389f3d",
+                            "cognitiveKind": "formative-experience",
+                            "reinforcement-schedule": "continuous",
+                            "catalogue-entry-id": "cbt-positive-self",
+                            "graduation-score": "1.0",
+                            "event-type": "formative",
+                            "situation-types": "formation,adolescence,social-harmony",
+                            "salience-multiplier": "1.5"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.307070Z"
+                    },
+                    {
+                        "id": "5ec97d1d-cec0-43bf-a360-00320f1b45d6",
+                        "name": "need-understanding",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "UNDERSTANDING",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.4",
+                            "satisfaction": "0.497"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.395781Z"
+                    },
+                    {
+                        "id": "788c14cc-de52-4722-9f96-ec6014e558f2",
+                        "name": "attachment-style",
+                        "subgraphType": "cognitive",
+                        "provenance": "personality-seed",
+                        "traits": [],
+                        "confidence": 0.9,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "avoidance": "0.1",
+                            "cognitiveKind": "attachment-style",
+                            "anxiety": "0.2",
+                            "style": "secure"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.305107Z"
+                    },
+                    {
+                        "id": "5dc6186d-309f-4282-bbb9-194deae1c040",
+                        "name": "rel-clara-bellingham-vincent-marsh",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.7802242768794607,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "guardian",
+                            "rel.intimacy": "0.7",
+                            "rel.utility": "0.3",
+                            "rel.description": "The man who raised her after her parents died. She cannot believe he would harm her.",
+                            "rel.trust": "0.95",
+                            "agent-id": "clara-bellingham",
+                            "rel.target-id": "vincent-marsh"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.299350Z"
+                    },
+                    {
+                        "id": "5070dd98-5ad0-415e-8515-e93413aef001",
+                        "name": "adventure",
+                        "subgraphType": "cognitive",
+                        "provenance": "drive-adaptation",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "intensity": "0.6",
+                            "initial-intensity": "0.6",
+                            "drive-type": "adventure",
+                            "cognitiveKind": "drive-intensity",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.304988Z"
+                    },
+                    {
+                        "id": "7a6b183b-6d3d-408c-9699-11a5ef5ebc75",
+                        "name": "rel-james-hartwell-clara-bellingham",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.7802242768794607,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "beloved",
+                            "rel.intimacy": "0.7",
+                            "rel.utility": "0.2",
+                            "rel.description": "When she's in the room, something in your chest shifts. You've felt it since school. You don't have a word for it \u2014 you just know where she is, always.",
+                            "rel.trust": "0.9",
+                            "agent-id": "james-hartwell",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.301754Z"
+                    },
+                    {
+                        "id": "14cd4bef-4b9f-4255-b1d4-78eb1917348f",
+                        "name": "Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "developmental-period": "childhood",
+                            "caps-processed": "true",
+                            "source-memory-id": "afdc2a88-3a5a-491e-a903-f29297f346d8",
+                            "cognitiveKind": "formative-experience",
+                            "reinforcement-schedule": "continuous",
+                            "catalogue-entry-id": "attachment-secure",
+                            "graduation-score": "1.0",
+                            "event-type": "formative",
+                            "situation-types": "formation,childhood,social-harmony",
+                            "salience-multiplier": "1.5"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.306999Z"
+                    },
+                    {
+                        "id": "4785af23-9fdb-4ff0-a53f-a723becc4c63",
+                        "name": "need-social",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "SOCIAL",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.4",
+                            "satisfaction": "0.492"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.395747Z"
+                    },
+                    {
+                        "id": "6df6a1df-a517-4609-9f3e-2fd4dd10198c",
+                        "name": "You found a locked box in your grandmother's attic. You spent the whole afternoon trying every key i...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 1.0,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "developmental-period": "early-childhood",
+                            "caps-processed": "true",
+                            "source-memory-id": "6a5511f6-cecb-4f52-902f-80a9613df51c",
+                            "cognitiveKind": "formative-experience",
+                            "reinforcement-schedule": "continuous",
+                            "catalogue-entry-id": "bandura-mastery-efficacy",
+                            "graduation-score": "1.0",
+                            "event-type": "formative",
+                            "situation-types": "formation,early-childhood,curiosity",
+                            "salience-multiplier": "1.5"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.306930Z"
+                    },
+                    {
+                        "id": "8068697c-fd40-4322-8e87-bdae481beed6",
+                        "name": "rel-clara-bellingham-james-hartwell",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "romantic-interest",
+                            "rel.intimacy": "0.6",
+                            "rel.utility": "0.2",
+                            "rel.description": "He makes her feel safe and excited. They've known each other since school.",
+                            "rel.trust": "0.8",
+                            "agent-id": "clara-bellingham",
+                            "rel.target-id": "james-hartwell"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.305303Z"
+                    },
+                    {
+                        "id": "9fe4cbeb-e7c0-4521-bd82-d60987358549",
+                        "name": "Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 1.0,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "developmental-period": "childhood",
+                            "caps-processed": "true",
+                            "source-memory-id": "679cda5e-ad30-4533-a75f-5910cd243d1e",
+                            "cognitiveKind": "formative-experience",
+                            "reinforcement-schedule": "continuous",
+                            "catalogue-entry-id": "bandura-mastery-efficacy",
+                            "graduation-score": "1.0",
+                            "event-type": "formative",
+                            "situation-types": "formation,childhood,adventure",
+                            "salience-multiplier": "1.5"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.505070Z"
+                    },
+                    {
+                        "id": "5e83f0ea-b70f-42e7-a21d-fcbf1d9990d1",
+                        "name": "need-social",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.7802242768794607,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "SOCIAL",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.4",
+                            "satisfaction": "0.47786880000000004"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.299119Z"
+                    },
+                    {
+                        "id": "53cce230-1aa7-48a6-a0b9-d33e4f9fd7dd",
+                        "name": "need-understanding",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "UNDERSTANDING",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.4",
+                            "satisfaction": "0.49409000000000003"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.305143Z"
+                    },
+                    {
+                        "id": "83f8a9d1-ab0c-40e6-b969-49d609174e5a",
+                        "name": "need-tasks",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.7802242768794607,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "TASKS",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.3",
+                            "satisfaction": "0.4458"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.298923Z"
+                    },
+                    {
+                        "id": "3f5a4c30-dbe2-486a-88f3-273aad28cf5f",
+                        "name": "rel-clara-bellingham-james-hartwell",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "romantic-interest",
+                            "rel.intimacy": "0.6",
+                            "rel.utility": "0.2",
+                            "rel.description": "He makes her feel safe and excited. They've known each other since school.",
+                            "rel.trust": "0.8",
+                            "agent-id": "clara-bellingham",
+                            "rel.target-id": "james-hartwell"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.395829Z"
+                    },
+                    {
+                        "id": "8a2530b2-cd74-4dfb-93e6-00defa3ca1b6",
+                        "name": "You found a locked box in your grandmother's attic. You spent the whole afternoon trying every key i...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "developmental-period": "early-childhood",
+                            "caps-processed": "true",
+                            "source-memory-id": "7c2f11f8-eb1c-4866-b081-b324c7f189c5",
+                            "cognitiveKind": "formative-experience",
+                            "reinforcement-schedule": "continuous",
+                            "catalogue-entry-id": "bandura-mastery-efficacy",
+                            "graduation-score": "1.0",
+                            "event-type": "formative",
+                            "situation-types": "formation,early-childhood,curiosity",
+                            "salience-multiplier": "1.5"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.307090Z"
+                    },
+                    {
+                        "id": "de37408f-aba5-4324-a13a-feaa0de52664",
+                        "name": "adventure",
+                        "subgraphType": "cognitive",
+                        "provenance": "drive-adaptation",
+                        "traits": [],
+                        "confidence": 0.7802242768794607,
+                        "properties": {
+                            "intensity": "0.6",
+                            "initial-intensity": "0.6",
+                            "drive-type": "adventure",
+                            "cognitiveKind": "drive-intensity",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.299055Z"
+                    },
+                    {
+                        "id": "b5631284-753f-4e40-a4fb-bfe8263a4fd5",
+                        "name": "facet-callousness",
+                        "subgraphType": "cognitive",
+                        "provenance": "personality-seed",
+                        "traits": [],
+                        "confidence": 0.9,
+                        "properties": {
+                            "facet": "Callousness",
+                            "cognitiveKind": "personality-facet",
+                            "agent-id": "clara-bellingham",
+                            "score": "5"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.305281Z"
+                    },
+                    {
+                        "id": "c95733e2-6d53-40fe-a37c-3460831b3cd2",
+                        "name": "competition-adventure-social-harmony",
+                        "subgraphType": "cognitive",
+                        "provenance": null,
+                        "traits": [
+                            "DriveCompetitionInferred"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "differentiation-text": "How they differ:\nOne pull traces through A new family moved in next door. {{serves: social-harmony|moderate: You were the..., Your class went on a field trip to a cave. Most children were scared. You walked....\nThe other traces through A new family moved in next door. {{serves: social-harmony|moderate: You were the..., Your best friend was being excluded by the popular group. {{serves:....\nBoth are real. They're not the same.",
+                            "drive-b": "social-harmony",
+                            "drive-a": "adventure",
+                            "shared-mediating": "cbt-positive-other",
+                            "anchor-memories-a": "A new family moved in next door. {{serves: social-harmony|moderate: You were the...|Your class went on a field trip to a cave. Most children were scared. You walked...",
+                            "anchor-memories-b": "A new family moved in next door. {{serves: social-harmony|moderate: You were the...|Your best friend was being excluded by the popular group. {{serves:...|Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in...",
+                            "unique-mediating-b": "cbt-positive-self,attachment-secure",
+                            "unique-mediating-a": "bandura-mastery-efficacy"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.299221Z"
+                    },
+                    {
+                        "id": "f4ed3ebb-2374-461a-b501-fa0e59a40261",
+                        "name": "rel-the-brixton-boys-clara-bellingham",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.7802242768794607,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "ward",
+                            "rel.intimacy": "0.8",
+                            "rel.utility": "0.0",
+                            "rel.description": "You knew her father. When he died you swore to protect her. She calls you 'her boys.'",
+                            "rel.trust": "0.95",
+                            "agent-id": "the-brixton-boys",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.309245Z"
+                    },
+                    {
+                        "id": "d490e1be-0e7a-4dce-8a7a-a7a1ce026609",
+                        "name": "Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 1.0,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "developmental-period": "childhood",
+                            "caps-processed": "true",
+                            "source-memory-id": "3e7d1521-25b8-4cb2-98dc-6da4769bdd82",
+                            "cognitiveKind": "formative-experience",
+                            "reinforcement-schedule": "continuous",
+                            "catalogue-entry-id": "bandura-mastery-efficacy",
+                            "graduation-score": "1.0",
+                            "event-type": "formative",
+                            "situation-types": "formation,childhood,adventure",
+                            "salience-multiplier": "1.5"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.306724Z"
+                    },
+                    {
+                        "id": "459673ec-2c11-4878-948e-9a07d8e2387f",
+                        "name": "need-safety",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.7802242768794607,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "SAFETY",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.6",
+                            "satisfaction": "0.5385875"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.299025Z"
+                    },
+                    {
+                        "id": "e929d9d8-bbec-460b-8f1d-1a84affba327",
+                        "name": "need-social",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "SOCIAL",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.4",
+                            "satisfaction": "0.48464"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.305062Z"
+                    },
+                    {
+                        "id": "ac9e6d36-7aa0-44eb-856d-802d4d86cbc4",
+                        "name": "curiosity",
+                        "subgraphType": "cognitive",
+                        "provenance": "drive-adaptation",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "intensity": "0.7",
+                            "body-location": "fingertips tracing, chest fizzing",
+                            "drive-type": "curiosity",
+                            "cognitiveKind": "drive-intensity",
+                            "agent-id": "clara-bellingham",
+                            "initial-intensity": "0.7",
+                            "channel-emphasis": "attention + action-readiness"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.395585Z"
+                    },
+                    {
+                        "id": "cb7542af-80b6-48e7-9f2f-155f281bf6e7",
+                        "name": "competition-curiosity-social-harmony",
+                        "subgraphType": "cognitive",
+                        "provenance": null,
+                        "traits": [
+                            "DriveCompetitionInferred"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "differentiation-text": "How they differ:\nOne pull traces through You found a locked box in your grandmother's attic. You spent the whole....\nThe other traces through A new family moved in next door. {{serves: social-harmony|moderate: You were the..., Your best friend was being excluded by the popular group. {{serves:....\nBoth are real. They're not the same.",
+                            "drive-b": "social-harmony",
+                            "drive-a": "curiosity",
+                            "shared-mediating": "",
+                            "anchor-memories-a": "You found a locked box in your grandmother's attic. You spent the whole...",
+                            "anchor-memories-b": "A new family moved in next door. {{serves: social-harmony|moderate: You were the...|Your best friend was being excluded by the popular group. {{serves:...|Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in...",
+                            "unique-mediating-b": "cbt-positive-self,cbt-positive-other,attachment-secure",
+                            "unique-mediating-a": "bandura-mastery-efficacy"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.299286Z"
+                    },
+                    {
+                        "id": "b86352d1-e629-4258-b2ba-6400aebc3c4c",
+                        "name": "rel-vincent-marsh-clara-bellingham",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "prey",
+                            "rel.intimacy": "0.0",
+                            "rel.utility": "0.9",
+                            "rel.description": "She inherited everything you built. Her trust in you is the most useful thing about her \u2014 it gives you unrestricted access to everything she has.",
+                            "rel.trust": "0.1",
+                            "agent-id": "vincent-marsh",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.350020Z"
+                    },
+                    {
+                        "id": "3f0fb6a6-35bf-42d0-a074-5efd3b6fbf1c",
+                        "name": "rel-the-brixton-boys-clara-bellingham",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "ward",
+                            "rel.intimacy": "0.8",
+                            "rel.utility": "0.0",
+                            "rel.description": "You knew her father. When he died you swore to protect her. She calls you 'her boys.'",
+                            "rel.trust": "0.95",
+                            "agent-id": "the-brixton-boys",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.391093Z"
+                    },
+                    {
+                        "id": "23b6cdcc-0636-4a01-9040-c08704e8179c",
+                        "name": "facet-suspiciousness",
+                        "subgraphType": "cognitive",
+                        "provenance": "personality-seed",
+                        "traits": [],
+                        "confidence": 0.9,
+                        "properties": {
+                            "facet": "Suspiciousness",
+                            "cognitiveKind": "personality-facet",
+                            "agent-id": "clara-bellingham",
+                            "score": "10"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.395673Z"
+                    },
+                    {
+                        "id": "317a09d7-5cba-432e-b81f-5c94e9fcdf7a",
+                        "name": "social-harmony",
+                        "subgraphType": "cognitive",
+                        "provenance": "drive-adaptation",
+                        "traits": [],
+                        "confidence": 0.7802242768794607,
+                        "properties": {
+                            "intensity": "0.8",
+                            "body-location": "chest settling, jaw softening",
+                            "drive-type": "social-harmony",
+                            "cognitiveKind": "drive-intensity",
+                            "agent-id": "clara-bellingham",
+                            "initial-intensity": "0.8",
+                            "channel-emphasis": "body + attention"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.298957Z"
+                    },
+                    {
+                        "id": "15347444-6d16-43a2-ad22-3e9342b783f5",
+                        "name": "You found a locked box in your grandmother's attic. You spent the whole afternoon trying every key i...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 1.0,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "catalogue-entry-id": "bandura-mastery-efficacy",
+                            "event-type": "formative",
+                            "cognitiveKind": "formative-experience",
+                            "developmental-period": "early-childhood",
+                            "situation-types": "formation,early-childhood,curiosity",
+                            "source-memory-id": "c4944a2c-c860-4ee8-a785-6e9cafa7e831",
+                            "salience-multiplier": "1.5",
+                            "reinforcement-schedule": "continuous",
+                            "graduation-score": "1.0"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.505045Z"
+                    },
+                    {
+                        "id": "50354d85-fb4c-4780-9c02-c3667be04217",
+                        "name": "need-safety",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "SAFETY",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.6",
+                            "satisfaction": "0.52775"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.304929Z"
+                    },
+                    {
+                        "id": "e36e8f87-c727-4027-accb-226571193323",
+                        "name": "rel-james-hartwell-clara-bellingham",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "beloved",
+                            "rel.intimacy": "0.7",
+                            "rel.utility": "0.2",
+                            "rel.description": "When she's in the room, something in your chest shifts. You've felt it since school. You don't have a word for it \u2014 you just know where she is, always.",
+                            "rel.trust": "0.9",
+                            "agent-id": "james-hartwell",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.387630Z"
+                    },
+                    {
+                        "id": "c484081c-2197-4ed4-8a0f-613c8c3b787b",
+                        "name": "Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "developmental-period": "adolescence",
+                            "caps-processed": "true",
+                            "source-memory-id": "ccedb900-5c7c-4082-99ff-95f4c28ae34e",
+                            "cognitiveKind": "formative-experience",
+                            "reinforcement-schedule": "continuous",
+                            "catalogue-entry-id": "cbt-positive-self",
+                            "graduation-score": "1.0",
+                            "event-type": "formative",
+                            "situation-types": "formation,adolescence,social-harmony",
+                            "salience-multiplier": "1.5"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.307247Z"
+                    },
+                    {
+                        "id": "843d0630-9049-44ee-92e6-22e6bdd429d6",
+                        "name": "competition-adventure-curiosity",
+                        "subgraphType": "cognitive",
+                        "provenance": null,
+                        "traits": [
+                            "DriveCompetitionInferred"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "differentiation-text": "How they differ:\nOne pull traces through A new family moved in next door. {{serves: social-harmony|moderate: You were the..., Your class went on a field trip to a cave. Most children were scared. You walked....\nThe other traces through You found a locked box in your grandmother's attic. You spent the whole....\nBoth are real. They're not the same.",
+                            "drive-b": "curiosity",
+                            "drive-a": "adventure",
+                            "shared-mediating": "bandura-mastery-efficacy",
+                            "anchor-memories-a": "A new family moved in next door. {{serves: social-harmony|moderate: You were the...|Your class went on a field trip to a cave. Most children were scared. You walked...",
+                            "anchor-memories-b": "You found a locked box in your grandmother's attic. You spent the whole...",
+                            "unique-mediating-b": "",
+                            "unique-mediating-a": "cbt-positive-other"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.298889Z"
+                    },
+                    {
+                        "id": "510fbb2e-d024-4e23-98f4-ec5b5025efd3",
+                        "name": "facet-suspiciousness",
+                        "subgraphType": "cognitive",
+                        "provenance": "personality-seed",
+                        "traits": [],
+                        "confidence": 0.9,
+                        "properties": {
+                            "facet": "Suspiciousness",
+                            "cognitiveKind": "personality-facet",
+                            "agent-id": "clara-bellingham",
+                            "score": "10"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.305258Z"
+                    },
+                    {
+                        "id": "ac7aba92-d0ad-4623-9940-94e978bb2e0d",
+                        "name": "adventure",
+                        "subgraphType": "cognitive",
+                        "provenance": "drive-adaptation",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "intensity": "0.6",
+                            "initial-intensity": "0.6",
+                            "drive-type": "adventure",
+                            "cognitiveKind": "drive-intensity",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.395639Z"
+                    },
+                    {
+                        "id": "b2772468-3d98-4689-b5e0-c5c75f9f2c4e",
+                        "name": "rel-clara-bellingham-vincent-marsh",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "guardian",
+                            "rel.intimacy": "0.7",
+                            "rel.utility": "0.3",
+                            "rel.description": "The man who raised her after her parents died. She cannot believe he would harm her.",
+                            "rel.trust": "0.95",
+                            "agent-id": "clara-bellingham",
+                            "rel.target-id": "vincent-marsh"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.395804Z"
+                    },
+                    {
+                        "id": "c169296c-32e1-4e4b-a5f7-6245393b11bb",
+                        "name": "social-harmony",
+                        "subgraphType": "cognitive",
+                        "provenance": "drive-adaptation",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "intensity": "0.8",
+                            "body-location": "chest settling, jaw softening",
+                            "drive-type": "social-harmony",
+                            "cognitiveKind": "drive-intensity",
+                            "agent-id": "clara-bellingham",
+                            "initial-intensity": "0.8",
+                            "channel-emphasis": "body + attention"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.395619Z"
+                    },
+                    {
+                        "id": "e2b07ca8-ec3a-4169-9935-697426c59959",
+                        "name": "rel-vincent-marsh-clara-bellingham",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.7802242768794607,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "prey",
+                            "rel.intimacy": "0.0",
+                            "rel.utility": "0.9",
+                            "rel.description": "She inherited everything you built. Her trust in you is the most useful thing about her \u2014 it gives you unrestricted access to everything she has.",
+                            "rel.trust": "0.1",
+                            "agent-id": "vincent-marsh",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.307848Z"
+                    },
+                    {
+                        "id": "b96d6ca6-d354-480f-93db-fb4d4a39e1c5",
+                        "name": "rel-clara-bellingham-the-brixton-boys",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "family",
+                            "rel.intimacy": "0.8",
+                            "rel.utility": "0.1",
+                            "rel.description": "Her boys \u2014 they knew her father. Chosen family who've been with her since childhood.",
+                            "rel.trust": "0.85",
+                            "agent-id": "clara-bellingham",
+                            "rel.target-id": "the-brixton-boys"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.395854Z"
+                    },
+                    {
+                        "id": "0bcef210-b2eb-4b65-a71d-8080d4be5415",
+                        "name": "Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 1.0,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "catalogue-entry-id": "attachment-secure",
+                            "event-type": "formative",
+                            "cognitiveKind": "formative-experience",
+                            "developmental-period": "childhood",
+                            "situation-types": "formation,childhood,social-harmony",
+                            "source-memory-id": "282f202e-5fa5-4f06-890a-8bbdd8ecbfa6",
+                            "salience-multiplier": "1.5",
+                            "reinforcement-schedule": "continuous",
+                            "graduation-score": "1.0"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.505053Z"
+                    },
+                    {
+                        "id": "cf10f528-8fb8-44d1-b41c-26fcfafaf273",
+                        "name": "rel-clara-bellingham-james-hartwell",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.7802242768794607,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "romantic-interest",
+                            "rel.intimacy": "0.6",
+                            "rel.utility": "0.2",
+                            "rel.description": "He makes her feel safe and excited. They've known each other since school.",
+                            "rel.trust": "0.8",
+                            "agent-id": "clara-bellingham",
+                            "rel.target-id": "james-hartwell"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.298992Z"
+                    },
+                    {
+                        "id": "14e563a1-f393-425b-b52e-b6a20f86cd4e",
+                        "name": "curiosity",
+                        "subgraphType": "cognitive",
+                        "provenance": "drive-adaptation",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "intensity": "0.7",
+                            "body-location": "fingertips tracing, chest fizzing",
+                            "drive-type": "curiosity",
+                            "cognitiveKind": "drive-intensity",
+                            "agent-id": "clara-bellingham",
+                            "initial-intensity": "0.7",
+                            "channel-emphasis": "attention + action-readiness"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.305176Z"
+                    },
+                    {
+                        "id": "403f428a-4a72-4117-b7b2-cb3638351a48",
+                        "name": "Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 1.0,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "developmental-period": "childhood",
+                            "caps-processed": "true",
+                            "source-memory-id": "c1d0a709-678d-4c20-97e2-4995c8dea358",
+                            "cognitiveKind": "formative-experience",
+                            "reinforcement-schedule": "continuous",
+                            "catalogue-entry-id": "attachment-secure",
+                            "graduation-score": "1.0",
+                            "event-type": "formative",
+                            "situation-types": "formation,childhood,social-harmony",
+                            "salience-multiplier": "1.5"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.307049Z"
+                    },
+                    {
+                        "id": "ecc63db8-7555-4b78-9382-daf1f786cea1",
+                        "name": "need-tasks",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "TASKS",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.3",
+                            "satisfaction": "0.48"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.395732Z"
+                    },
+                    {
+                        "id": "1c9357fc-389e-4c4b-aa8b-831589ade81a",
+                        "name": "facet-callousness",
+                        "subgraphType": "cognitive",
+                        "provenance": "personality-seed",
+                        "traits": [],
+                        "confidence": 0.9,
+                        "properties": {
+                            "facet": "Callousness",
+                            "cognitiveKind": "personality-facet",
+                            "agent-id": "clara-bellingham",
+                            "score": "5"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.395657Z"
+                    },
+                    {
+                        "id": "ae47ba06-1929-4f62-9de8-d6fdd55f17d7",
+                        "name": "drive-profile-curiosity",
+                        "subgraphType": "cognitive",
+                        "provenance": null,
+                        "traits": [
+                            "DriveProfileInferred"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "drive-type": "curiosity",
+                            "mediating-nodes": "",
+                            "inferred-inputs": "",
+                            "source-memory-count": "1"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.298815Z"
+                    },
+                    {
+                        "id": "65caf5cf-62cc-41cb-b486-d52c92ab029c",
+                        "name": "rel-clara-bellingham-the-brixton-boys",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.7802242768794607,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "family",
+                            "rel.intimacy": "0.8",
+                            "rel.utility": "0.1",
+                            "rel.description": "Her boys \u2014 they knew her father. Chosen family who've been with her since childhood.",
+                            "rel.trust": "0.85",
+                            "agent-id": "clara-bellingham",
+                            "rel.target-id": "the-brixton-boys"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.298214Z"
+                    },
+                    {
+                        "id": "f619288c-a0ae-4c18-8c7e-6f93192c6ae6",
+                        "name": "rel-clara-bellingham-vincent-marsh",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "guardian",
+                            "rel.intimacy": "0.7",
+                            "rel.utility": "0.3",
+                            "rel.description": "The man who raised her after her parents died. She cannot believe he would harm her.",
+                            "rel.trust": "0.95",
+                            "agent-id": "clara-bellingham",
+                            "rel.target-id": "vincent-marsh"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.305202Z"
+                    },
+                    {
+                        "id": "762ba696-4fee-44ee-9419-91d7329837d2",
+                        "name": "facet-callousness",
+                        "subgraphType": "cognitive",
+                        "provenance": "personality-seed",
+                        "traits": [],
+                        "confidence": 0.8777523114893933,
+                        "properties": {
+                            "facet": "Callousness",
+                            "cognitiveKind": "personality-facet",
+                            "agent-id": "clara-bellingham",
+                            "score": "5"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.299388Z"
+                    },
+                    {
+                        "id": "aa857625-80a2-4dd6-928e-d3d551dae4a6",
+                        "name": "attachment-style",
+                        "subgraphType": "cognitive",
+                        "provenance": "personality-seed",
+                        "traits": [],
+                        "confidence": 0.9,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "avoidance": "0.1",
+                            "cognitiveKind": "attachment-style",
+                            "anxiety": "0.2",
+                            "style": "secure"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.395690Z"
+                    },
+                    {
+                        "id": "33a61f8c-604f-46c6-9ec4-52aeca2aeb57",
+                        "name": "attachment-style",
+                        "subgraphType": "cognitive",
+                        "provenance": "personality-seed",
+                        "traits": [],
+                        "confidence": 0.8777523114893933,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "avoidance": "0.1",
+                            "cognitiveKind": "attachment-style",
+                            "anxiety": "0.2",
+                            "style": "secure"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.298088Z"
+                    },
+                    {
+                        "id": "2502d320-43bb-44b1-bfb5-b1b380745fbc",
+                        "name": "curiosity",
+                        "subgraphType": "cognitive",
+                        "provenance": "drive-adaptation",
+                        "traits": [],
+                        "confidence": 0.7802242768794607,
+                        "properties": {
+                            "intensity": "0.7",
+                            "body-location": "fingertips tracing, chest fizzing",
+                            "drive-type": "curiosity",
+                            "cognitiveKind": "drive-intensity",
+                            "agent-id": "clara-bellingham",
+                            "initial-intensity": "0.7",
+                            "channel-emphasis": "attention + action-readiness"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.299084Z"
+                    },
+                    {
+                        "id": "7311ecc4-e0bf-4dbc-9135-b1ae99f22638",
+                        "name": "facet-suspiciousness",
+                        "subgraphType": "cognitive",
+                        "provenance": "personality-seed",
+                        "traits": [],
+                        "confidence": 0.8777523114893933,
+                        "properties": {
+                            "facet": "Suspiciousness",
+                            "cognitiveKind": "personality-facet",
+                            "agent-id": "clara-bellingham",
+                            "score": "10"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.298854Z"
+                    },
+                    {
+                        "id": "cf0cfa43-1696-44ec-9339-ed3a90801adc",
+                        "name": "need-understanding",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.7802242768794607,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "UNDERSTANDING",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.4",
+                            "satisfaction": "0.4912673"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.299317Z"
+                    },
+                    {
+                        "id": "11e49746-c2f6-4782-b7b0-f58d237d6f6e",
+                        "name": "need-self_expression",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "SELF_EXPRESSION",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.4",
+                            "satisfaction": "0.49024999999999996"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.305228Z"
+                    },
+                    {
+                        "id": "23dacbce-37b2-492d-8d39-ddedc4bfe8f5",
+                        "name": "rel-vincent-marsh-clara-bellingham",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "prey",
+                            "rel.intimacy": "0.0",
+                            "rel.utility": "0.9",
+                            "rel.description": "She inherited everything you built. Her trust in you is the most useful thing about her \u2014 it gives you unrestricted access to everything she has.",
+                            "rel.trust": "0.1",
+                            "agent-id": "vincent-marsh",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.311258Z"
+                    },
+                    {
+                        "id": "20a54b3a-ebe4-4ced-83fb-0fb11e427475",
+                        "name": "A new family moved in next door. {{serves: social-harmony|moderate: You were the first to visit, bri...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "developmental-period": "childhood",
+                            "caps-processed": "true",
+                            "source-memory-id": "64ecd913-c3d8-4f9e-9745-29ac4a9d2606",
+                            "cognitiveKind": "formative-experience",
+                            "reinforcement-schedule": "continuous",
+                            "catalogue-entry-id": "cbt-positive-other",
+                            "graduation-score": "1.0",
+                            "event-type": "formative",
+                            "situation-types": "formation,childhood,social-harmony,adventure",
+                            "salience-multiplier": "1.5"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.307520Z"
+                    },
+                    {
+                        "id": "f008ec77-37ed-4c3f-9068-be2d196c2954",
+                        "name": "rel-james-hartwell-clara-bellingham",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "beloved",
+                            "rel.intimacy": "0.7",
+                            "rel.utility": "0.2",
+                            "rel.description": "When she's in the room, something in your chest shifts. You've felt it since school. You don't have a word for it \u2014 you just know where she is, always.",
+                            "rel.trust": "0.9",
+                            "agent-id": "james-hartwell",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.305938Z"
+                    },
+                    {
+                        "id": "138c64f0-c778-4f26-9f2b-54ff9aad95f7",
+                        "name": "need-self_expression",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.7802242768794607,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "SELF_EXPRESSION",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.4",
+                            "satisfaction": "0.48573749999999993"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.299418Z"
+                    },
+                    {
+                        "id": "a986cd54-8f6f-4dd3-823c-8ad90744f953",
+                        "name": "A new family moved in next door. {{serves: social-harmony|moderate: You were the first to visit, bri...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 1.0,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "developmental-period": "childhood",
+                            "caps-processed": "true",
+                            "source-memory-id": "40fe1914-ca7c-4e63-b999-0988fd661686",
+                            "cognitiveKind": "formative-experience",
+                            "reinforcement-schedule": "continuous",
+                            "catalogue-entry-id": "cbt-positive-other",
+                            "graduation-score": "1.0",
+                            "event-type": "formative",
+                            "situation-types": "formation,childhood,social-harmony,adventure",
+                            "salience-multiplier": "1.5"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.306968Z"
+                    },
+                    {
+                        "id": "9b3bd8a9-4e7e-4228-b1f1-cfcd579f3b42",
+                        "name": "Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "developmental-period": "childhood",
+                            "caps-processed": "true",
+                            "source-memory-id": "b9385b09-d7fd-46d9-be40-15ac2c9b10ff",
+                            "cognitiveKind": "formative-experience",
+                            "reinforcement-schedule": "continuous",
+                            "catalogue-entry-id": "bandura-mastery-efficacy",
+                            "graduation-score": "1.0",
+                            "event-type": "formative",
+                            "situation-types": "formation,childhood,adventure",
+                            "salience-multiplier": "1.5"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.307025Z"
+                    },
+                    {
+                        "id": "fa495d3d-86cf-4604-802f-887933b4d668",
+                        "name": "Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 1.0,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "catalogue-entry-id": "cbt-positive-self",
+                            "event-type": "formative",
+                            "cognitiveKind": "formative-experience",
+                            "developmental-period": "adolescence",
+                            "situation-types": "formation,adolescence,social-harmony",
+                            "source-memory-id": "96f639da-805a-4f57-b96e-af9b72424a95",
+                            "salience-multiplier": "1.5",
+                            "reinforcement-schedule": "continuous",
+                            "graduation-score": "1.0"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.505080Z"
+                    },
+                    {
+                        "id": "2f9aa486-ef5e-409a-b2c1-8f5012a9f730",
+                        "name": "A new family moved in next door. {{serves: social-harmony|moderate: You were the first to visit, bri...",
+                        "subgraphType": "cognitive",
+                        "provenance": "experience-consolidation",
+                        "traits": [],
+                        "confidence": 1.0,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "catalogue-entry-id": "cbt-positive-other",
+                            "event-type": "formative",
+                            "cognitiveKind": "formative-experience",
+                            "developmental-period": "childhood",
+                            "situation-types": "formation,childhood,social-harmony,adventure",
+                            "source-memory-id": "e619a3e2-f48d-44ce-afce-ed201f3f9cbd",
+                            "salience-multiplier": "1.5",
+                            "reinforcement-schedule": "continuous",
+                            "graduation-score": "1.0"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.505061Z"
+                    },
+                    {
+                        "id": "a594076b-c2d4-4842-9194-78c2b781a93b",
+                        "name": "drive-profile-social-harmony",
+                        "subgraphType": "cognitive",
+                        "provenance": null,
+                        "traits": [
+                            "DriveProfileInferred"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "drive-type": "social-harmony",
+                            "mediating-nodes": "",
+                            "inferred-inputs": "",
+                            "source-memory-count": "3"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.299152Z"
+                    },
+                    {
+                        "id": "7989d182-874c-44f8-9b28-ae8f97840382",
+                        "name": "need-safety",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "SAFETY",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.6",
+                            "satisfaction": "0.515"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.395709Z"
+                    },
+                    {
+                        "id": "56fc2fab-b658-46b2-b434-f36a66888de7",
+                        "name": "rel-clara-bellingham-the-brixton-boys",
+                        "subgraphType": "cognitive",
+                        "provenance": "manor-seed",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "cognitiveKind": "relational-schema",
+                            "rel.role": "family",
+                            "rel.intimacy": "0.8",
+                            "rel.utility": "0.1",
+                            "rel.description": "Her boys \u2014 they knew her father. Chosen family who've been with her since childhood.",
+                            "rel.trust": "0.85",
+                            "agent-id": "clara-bellingham",
+                            "rel.target-id": "the-brixton-boys"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.305330Z"
+                    },
+                    {
+                        "id": "d228d89b-4198-4a34-abfb-498c0e04c015",
+                        "name": "need-tasks",
+                        "subgraphType": "cognitive",
+                        "provenance": "need-satisfaction",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "tier": "TASKS",
+                            "cognitiveKind": "need-satisfaction",
+                            "resting-level": "0.3",
+                            "satisfaction": "0.46199999999999997"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.304843Z"
+                    },
+                    {
+                        "id": "5b37c79b-53f5-4cfc-928d-c2285a3edb15",
+                        "name": "drive-profile-adventure",
+                        "subgraphType": "cognitive",
+                        "provenance": null,
+                        "traits": [
+                            "DriveProfileInferred"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "agent-id": "clara-bellingham",
+                            "drive-type": "adventure",
+                            "mediating-nodes": "",
+                            "inferred-inputs": "",
+                            "source-memory-count": "2"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.299448Z"
+                    },
+                    {
+                        "id": "7ad73068-5573-4fa3-ad8f-bf510ba59469",
+                        "name": "social-harmony",
+                        "subgraphType": "cognitive",
+                        "provenance": "drive-adaptation",
+                        "traits": [],
+                        "confidence": 0.8,
+                        "properties": {
+                            "intensity": "0.8",
+                            "body-location": "chest settling, jaw softening",
+                            "drive-type": "social-harmony",
+                            "cognitiveKind": "drive-intensity",
+                            "agent-id": "clara-bellingham",
+                            "initial-intensity": "0.8",
+                            "channel-emphasis": "body + attention"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.304713Z"
+                    }
+                ]
+            },
+            "behavioral": {
+                "totalNodesThisType": 125,
+                "characterNodes": 25,
+                "nodes": [
+                    {
+                        "id": "256ef7f2-a9d0-4d97-95c6-ecc99effd06f",
+                        "name": "distance_maintain",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "distance_maintain",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "social",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.296162Z"
+                    },
+                    {
+                        "id": "99c2b377-7b9c-47b0-81c2-348368dee217",
+                        "name": "freeze",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "freeze",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6925563703720675",
+                            "category": "conflict",
+                            "previous-strength": "0.6295967003382432",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.287459Z"
+                    },
+                    {
+                        "id": "3fddedd0-afab-44dc-8a33-45c3512ab166",
+                        "name": "risk_take",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "risk_take",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "achievement",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.294028Z"
+                    },
+                    {
+                        "id": "e0b8d294-4621-437b-af50-a4d1f199fc8d",
+                        "name": "comply",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "comply",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "autonomy",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.293126Z"
+                    },
+                    {
+                        "id": "bae8f95e-2d43-4c64-8ee9-a6d27dd3e0fe",
+                        "name": "abandon",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "abandon",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "achievement",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.291496Z"
+                    },
+                    {
+                        "id": "da12ad5b-02fb-4efd-895c-44fb3b976613",
+                        "name": "explore",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "explore",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "learning",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.290393Z"
+                    },
+                    {
+                        "id": "c65920fb-9e43-43f2-b7b7-4882a008d80f",
+                        "name": "consolidate",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "consolidate",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "learning",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.290882Z"
+                    },
+                    {
+                        "id": "7ebd8b12-2549-4323-972d-6e89e3bfe74c",
+                        "name": "self_direct",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "self_direct",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "autonomy",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.289172Z"
+                    },
+                    {
+                        "id": "c0b58077-935a-484b-80a2-5157f0a2c4c6",
+                        "name": "cautious_approach",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "cautious_approach",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.9434966328512164",
+                            "category": "approach_avoidance",
+                            "previous-strength": "0.8869932657024328",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.295311Z"
+                    },
+                    {
+                        "id": "0f0ad5d3-559a-46ad-9fff-d024ac3dd54a",
+                        "name": "flight",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "flight",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.8214149297077487",
+                            "category": "conflict",
+                            "previous-strength": "0.7467408451888624",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.291064Z"
+                    },
+                    {
+                        "id": "a83c7bc9-35ef-40ab-8639-b1638b15adbb",
+                        "name": "approach",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "approach",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.7898584606160312",
+                            "category": "approach_avoidance",
+                            "previous-strength": "0.7180531460145738",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.295752Z"
+                    },
+                    {
+                        "id": "30bccbd6-8550-4c41-a7fb-c7ae2d1605dc",
+                        "name": "assert",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "assert",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "conflict",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.286985Z"
+                    },
+                    {
+                        "id": "0920b8ce-458d-4917-a7d9-6df44c58b986",
+                        "name": "perfectionism",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "perfectionism",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "achievement",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.290487Z"
+                    },
+                    {
+                        "id": "40cb539f-3df1-422e-9eb9-28dcc0d35fc2",
+                        "name": "submit",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "submit",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "conflict",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.294357Z"
+                    },
+                    {
+                        "id": "b956b488-6b37-432c-a7b7-9840693a7219",
+                        "name": "withdraw",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "withdraw",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.8074277363108935",
+                            "category": "approach_avoidance",
+                            "previous-strength": "0.734025214828085",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.291763Z"
+                    },
+                    {
+                        "id": "2acaadf5-e440-45b0-9900-da77659a5317",
+                        "name": "fawn",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "fawn",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.825",
+                            "category": "conflict",
+                            "previous-strength": "0.75",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.296670Z"
+                    },
+                    {
+                        "id": "3ab715d7-25b4-4f6a-9347-7873c49ecdae",
+                        "name": "persist",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "persist",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "achievement",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.296916Z"
+                    },
+                    {
+                        "id": "f391a772-81f7-4431-952d-4d24c4e26b8a",
+                        "name": "depend",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "depend",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "autonomy",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.295909Z"
+                    },
+                    {
+                        "id": "4ef6d186-9ba2-4b8e-905f-2f92d9e53bd0",
+                        "name": "proximity_seek",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "proximity_seek",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.89375",
+                            "category": "social",
+                            "previous-strength": "0.8125",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.291123Z"
+                    },
+                    {
+                        "id": "a6e10ff8-1b8b-4ac2-93b1-9598b45ed4db",
+                        "name": "fight",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "fight",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.7533529394075109",
+                            "category": "conflict",
+                            "previous-strength": "0.6848663085522827",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.287361Z"
+                    },
+                    {
+                        "id": "92d6fdb1-94f0-44f3-b09f-94e07fdfe289",
+                        "name": "discriminate",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "discriminate",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "learning",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.291610Z"
+                    },
+                    {
+                        "id": "f0122c41-4dcf-429d-bd8c-fbce0d3280ce",
+                        "name": "generalize",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "generalize",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "learning",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.293435Z"
+                    },
+                    {
+                        "id": "32ccfcfc-c31e-44d8-817f-a05f89cccd13",
+                        "name": "trust",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "trust",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.9188519125377131",
+                            "category": "social",
+                            "previous-strength": "0.8377038250754263",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.288298Z"
+                    },
+                    {
+                        "id": "2a3c7f40-6d57-41a5-b856-336130f10b89",
+                        "name": "rebel",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "rebel",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "autonomy",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.296281Z"
+                    },
+                    {
+                        "id": "af010e13-eb9d-45e8-846c-a205c97110de",
+                        "name": "distrust",
+                        "subgraphType": "behavioral",
+                        "provenance": null,
+                        "traits": [
+                            "CapsGenerated"
+                        ],
+                        "confidence": 0.9752803460993258,
+                        "properties": {
+                            "source-count": "11",
+                            "caps-node-id": "distrust",
+                            "generation": "0",
+                            "source-names": "bri..., Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wou..., Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose..., Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone ...",
+                            "strength": "0.6875",
+                            "category": "social",
+                            "previous-strength": "0.625",
+                            "dominant-input": "",
+                            "agent-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.289896Z"
+                    }
+                ]
+            },
+            "social": {
+                "totalNodesThisType": 75,
+                "characterNodes": 27,
+                "nodes": [
+                    {
+                        "id": "c84a8ed7-f29b-4b22-9f14-be6fd8d13f75",
+                        "name": "clara-bellingham-sees-the-brixton-boys",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "rel.trust": "0.85",
+                            "rel.intimacy": "0.8",
+                            "agentId": "clara-bellingham",
+                            "rel.target-id": "the-brixton-boys",
+                            "rel.description": "Her boys \u2014 they knew her father. Chosen family who've been with her since childhood.",
+                            "rel.role": "family",
+                            "rel.utility": "0.1"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.407195Z"
+                    },
+                    {
+                        "id": "0523f22d-f013-4019-9051-737b76f429ff",
+                        "name": "clara-bellingham-sees-james-hartwell",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "rel.trust": "0.8",
+                            "familiarity-score": "0.0",
+                            "rel.description": "He makes her feel safe and excited. They've known each other since school.",
+                            "rel.intimacy": "0.6",
+                            "familiarity-interaction-count": "0",
+                            "rel.role": "romantic-interest",
+                            "familiarity-stage": "stranger",
+                            "rel.utility": "0.2",
+                            "agentId": "clara-bellingham",
+                            "rel.target-id": "james-hartwell"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.300337Z"
+                    },
+                    {
+                        "id": "0609c546-c337-442f-8691-753804ef1ec1",
+                        "name": "clara-bellingham-sees-james-hartwell",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.682696242269528,
+                        "properties": {
+                            "rel.trust": "0.8",
+                            "familiarity-score": "0.0",
+                            "rel.description": "He makes her feel safe and excited. They've known each other since school.",
+                            "rel.intimacy": "0.6",
+                            "familiarity-interaction-count": "0",
+                            "rel.role": "romantic-interest",
+                            "familiarity-stage": "stranger",
+                            "rel.utility": "0.2",
+                            "agentId": "clara-bellingham",
+                            "rel.target-id": "james-hartwell"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.312268Z"
+                    },
+                    {
+                        "id": "2ab4893d-d7b4-4195-aa78-d9b6ef576172",
+                        "name": "clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "Entitylike"
+                        ],
+                        "confidence": 0.9,
+                        "properties": {
+                            "agentId": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.406479Z"
+                    },
+                    {
+                        "id": "a2bab058-87dc-4adc-a380-bfdcbe2e1b59",
+                        "name": "clara-bellingham-sees-reginald-foxworth",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "agentId": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.407176Z"
+                    },
+                    {
+                        "id": "3c20e62e-639b-4c98-89b1-4f2016055318",
+                        "name": "james-hartwell-sees-clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "rel.trust": "0.9",
+                            "rel.intimacy": "0.7",
+                            "agentId": "james-hartwell",
+                            "rel.target-id": "clara-bellingham",
+                            "rel.description": "When she's in the room, something in your chest shifts. You've felt it since school. You don't have a word for it \u2014 you just know where she is, always.",
+                            "rel.role": "beloved",
+                            "rel.utility": "0.2"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.406990Z"
+                    },
+                    {
+                        "id": "5857bfec-7f8f-4587-aba9-11f1d9ee1dce",
+                        "name": "clara-bellingham-sees-vincent-marsh",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "rel.trust": "0.95",
+                            "familiarity-score": "0.0",
+                            "rel.description": "The man who raised her after her parents died. She cannot believe he would harm her.",
+                            "rel.intimacy": "0.7",
+                            "familiarity-interaction-count": "0",
+                            "rel.role": "guardian",
+                            "familiarity-stage": "stranger",
+                            "rel.utility": "0.3",
+                            "agentId": "clara-bellingham",
+                            "rel.target-id": "vincent-marsh"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.300876Z"
+                    },
+                    {
+                        "id": "174fd588-466c-4d68-a2c6-1351e6754914",
+                        "name": "clara-bellingham-sees-vincent-marsh",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "rel.trust": "0.95",
+                            "rel.intimacy": "0.7",
+                            "agentId": "clara-bellingham",
+                            "rel.target-id": "vincent-marsh",
+                            "rel.description": "The man who raised her after her parents died. She cannot believe he would harm her.",
+                            "rel.role": "guardian",
+                            "rel.utility": "0.3"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.407144Z"
+                    },
+                    {
+                        "id": "d7428de7-ace8-4aa1-a59e-09a4ceb196b2",
+                        "name": "reginald-foxworth-sees-clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.682696242269528,
+                        "properties": {
+                            "familiarity-score": "0.0",
+                            "familiarity-stage": "stranger",
+                            "familiarity-interaction-count": "0",
+                            "agentId": "reginald-foxworth"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.313281Z"
+                    },
+                    {
+                        "id": "42e76e98-b39b-4d6c-91c0-e9c2fd980e3c",
+                        "name": "the-brixton-boys-sees-clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "rel.trust": "0.95",
+                            "rel.intimacy": "0.8",
+                            "agentId": "the-brixton-boys",
+                            "rel.target-id": "clara-bellingham",
+                            "rel.description": "You knew her father. When he died you swore to protect her. She calls you 'her boys.'",
+                            "rel.role": "ward",
+                            "rel.utility": "0.0"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.407061Z"
+                    },
+                    {
+                        "id": "59530a98-6df3-4034-895e-5a3a8adf5cad",
+                        "name": "the-brixton-boys-sees-clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "rel.trust": "0.95",
+                            "familiarity-score": "0.0",
+                            "rel.description": "You knew her father. When he died you swore to protect her. She calls you 'her boys.'",
+                            "rel.intimacy": "0.8",
+                            "familiarity-interaction-count": "0",
+                            "rel.role": "ward",
+                            "familiarity-stage": "stranger",
+                            "rel.utility": "0.0",
+                            "agentId": "the-brixton-boys",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.300434Z"
+                    },
+                    {
+                        "id": "503d25f3-d94d-42f2-80bb-483a5be49598",
+                        "name": "clara-bellingham-sees-the-brixton-boys",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.682696242269528,
+                        "properties": {
+                            "rel.trust": "0.85",
+                            "familiarity-score": "0.0",
+                            "rel.description": "Her boys \u2014 they knew her father. Chosen family who've been with her since childhood.",
+                            "rel.intimacy": "0.8",
+                            "familiarity-interaction-count": "0",
+                            "rel.role": "family",
+                            "familiarity-stage": "stranger",
+                            "rel.utility": "0.1",
+                            "agentId": "clara-bellingham",
+                            "rel.target-id": "the-brixton-boys"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.313051Z"
+                    },
+                    {
+                        "id": "f0a664d1-3c0b-41f1-bde1-43b20e68fadb",
+                        "name": "clara-bellingham-sees-reginald-foxworth",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.682696242269528,
+                        "properties": {
+                            "familiarity-score": "0.0",
+                            "familiarity-stage": "stranger",
+                            "familiarity-interaction-count": "0",
+                            "agentId": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.312027Z"
+                    },
+                    {
+                        "id": "d9359acc-9cbc-442f-8acc-496483d602c4",
+                        "name": "the-brixton-boys-sees-clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.682696242269528,
+                        "properties": {
+                            "rel.trust": "0.95",
+                            "familiarity-score": "0.0",
+                            "rel.description": "You knew her father. When he died you swore to protect her. She calls you 'her boys.'",
+                            "rel.intimacy": "0.8",
+                            "familiarity-interaction-count": "0",
+                            "rel.role": "ward",
+                            "familiarity-stage": "stranger",
+                            "rel.utility": "0.0",
+                            "agentId": "the-brixton-boys",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.312247Z"
+                    },
+                    {
+                        "id": "05f3d76b-7e42-4bdf-a66b-501be0fddcb8",
+                        "name": "clara-bellingham-sees-james-hartwell",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "rel.trust": "0.8",
+                            "rel.intimacy": "0.6",
+                            "agentId": "clara-bellingham",
+                            "rel.target-id": "james-hartwell",
+                            "rel.description": "He makes her feel safe and excited. They've known each other since school.",
+                            "rel.role": "romantic-interest",
+                            "rel.utility": "0.2"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.407163Z"
+                    },
+                    {
+                        "id": "87399d53-48b1-4ef2-af99-550df9716f5b",
+                        "name": "james-hartwell-sees-clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.682696242269528,
+                        "properties": {
+                            "rel.trust": "0.9",
+                            "familiarity-score": "0.0",
+                            "rel.description": "When she's in the room, something in your chest shifts. You've felt it since school. You don't have a word for it \u2014 you just know where she is, always.",
+                            "rel.intimacy": "0.7",
+                            "familiarity-interaction-count": "0",
+                            "rel.role": "beloved",
+                            "familiarity-stage": "stranger",
+                            "rel.utility": "0.2",
+                            "agentId": "james-hartwell",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.312346Z"
+                    },
+                    {
+                        "id": "39452b3c-6fc6-4896-a2cb-710e53fb48f0",
+                        "name": "clara-bellingham-sees-reginald-foxworth",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "familiarity-score": "0.0",
+                            "familiarity-stage": "stranger",
+                            "familiarity-interaction-count": "0",
+                            "agentId": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.301378Z"
+                    },
+                    {
+                        "id": "7baa82e8-0503-41d8-bddb-8b70c75dc619",
+                        "name": "vincent-marsh-sees-clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "rel.trust": "0.1",
+                            "rel.intimacy": "0.0",
+                            "agentId": "vincent-marsh",
+                            "rel.target-id": "clara-bellingham",
+                            "rel.description": "She inherited everything you built. Her trust in you is the most useful thing about her \u2014 it gives you unrestricted access to everything she has.",
+                            "rel.role": "prey",
+                            "rel.utility": "0.9"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.406891Z"
+                    },
+                    {
+                        "id": "3b0939a2-1ffb-4103-a311-d21f45b6c5a0",
+                        "name": "clara-bellingham-sees-vincent-marsh",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.682696242269528,
+                        "properties": {
+                            "rel.trust": "0.95",
+                            "familiarity-score": "0.0",
+                            "rel.description": "The man who raised her after her parents died. She cannot believe he would harm her.",
+                            "rel.intimacy": "0.7",
+                            "familiarity-interaction-count": "0",
+                            "rel.role": "guardian",
+                            "familiarity-stage": "stranger",
+                            "rel.utility": "0.3",
+                            "agentId": "clara-bellingham",
+                            "rel.target-id": "vincent-marsh"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.312223Z"
+                    },
+                    {
+                        "id": "8ebff8e9-b8fe-42cf-a031-32f6c7a65b32",
+                        "name": "reginald-foxworth-sees-clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "agentId": "reginald-foxworth"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.407225Z"
+                    },
+                    {
+                        "id": "d1a83565-f248-42a6-9fbe-756292bd0b3d",
+                        "name": "clara-bellingham-sees-the-brixton-boys",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "rel.trust": "0.85",
+                            "familiarity-score": "0.0",
+                            "rel.description": "Her boys \u2014 they knew her father. Chosen family who've been with her since childhood.",
+                            "rel.intimacy": "0.8",
+                            "familiarity-interaction-count": "0",
+                            "rel.role": "family",
+                            "familiarity-stage": "stranger",
+                            "rel.utility": "0.1",
+                            "agentId": "clara-bellingham",
+                            "rel.target-id": "the-brixton-boys"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.301045Z"
+                    },
+                    {
+                        "id": "9e93cebf-f865-4a35-ae5f-4443fb2cc368",
+                        "name": "vincent-marsh-sees-clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "rel.trust": "0.1",
+                            "familiarity-score": "0.0",
+                            "rel.description": "She inherited everything you built. Her trust in you is the most useful thing about her \u2014 it gives you unrestricted access to everything she has.",
+                            "rel.intimacy": "0.0",
+                            "familiarity-interaction-count": "0",
+                            "rel.role": "prey",
+                            "familiarity-stage": "stranger",
+                            "rel.utility": "0.9",
+                            "agentId": "vincent-marsh",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.301259Z"
+                    },
+                    {
+                        "id": "e59c02a8-5939-4aca-8ecd-c74c327cf93a",
+                        "name": "reginald-foxworth-sees-clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "familiarity-score": "0.0",
+                            "familiarity-stage": "stranger",
+                            "familiarity-interaction-count": "0",
+                            "agentId": "reginald-foxworth"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.300290Z"
+                    },
+                    {
+                        "id": "019b9680-fefb-42c0-8c5b-ef142a47990c",
+                        "name": "clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "Entitylike"
+                        ],
+                        "confidence": 0.8777523114893933,
+                        "properties": {
+                            "agentId": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.313232Z"
+                    },
+                    {
+                        "id": "50095304-cfab-4142-8690-638ac62737b7",
+                        "name": "clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "Entitylike"
+                        ],
+                        "confidence": 0.9,
+                        "properties": {
+                            "agentId": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.301180Z"
+                    },
+                    {
+                        "id": "9b4e00fa-26d5-4caa-80d7-6aabdbea788a",
+                        "name": "james-hartwell-sees-clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.7,
+                        "properties": {
+                            "rel.trust": "0.9",
+                            "familiarity-score": "0.0",
+                            "rel.description": "When she's in the room, something in your chest shifts. You've felt it since school. You don't have a word for it \u2014 you just know where she is, always.",
+                            "rel.intimacy": "0.7",
+                            "familiarity-interaction-count": "0",
+                            "rel.role": "beloved",
+                            "familiarity-stage": "stranger",
+                            "rel.utility": "0.2",
+                            "agentId": "james-hartwell",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.300475Z"
+                    },
+                    {
+                        "id": "43b3fd30-5ea2-4574-871b-ab5ed3cf741f",
+                        "name": "vincent-marsh-sees-clara-bellingham",
+                        "subgraphType": "social",
+                        "provenance": "manor-seed",
+                        "traits": [
+                            "overlay"
+                        ],
+                        "confidence": 0.682696242269528,
+                        "properties": {
+                            "rel.trust": "0.1",
+                            "familiarity-score": "0.0",
+                            "rel.description": "She inherited everything you built. Her trust in you is the most useful thing about her \u2014 it gives you unrestricted access to everything she has.",
+                            "rel.intimacy": "0.0",
+                            "familiarity-interaction-count": "0",
+                            "rel.role": "prey",
+                            "familiarity-stage": "stranger",
+                            "rel.utility": "0.9",
+                            "agentId": "vincent-marsh",
+                            "rel.target-id": "clara-bellingham"
+                        },
+                        "createdAt": "2026-10-31T16:01:42.311958Z"
+                    }
+                ]
+            }
+        },
+        "edgesInCognitiveSubgraph": []
+    },
+    "memories": {
+        "totalMemoriesAllDomains": 40,
+        "experienceMemories": 36,
+        "characterExperienceMemories": 7,
+        "memoryDetails": [
+            {
+                "memoryId": "6bb5b617-1425-4784-84ca-c2641d1852f7",
+                "subject": "clara-bellingham",
+                "domain": "experience",
+                "text": "James Hartwell, you are a man after my own heart \u2014 always consultatin' the records before chargin' in! That is precisely the kind of thorough gentlemanly conduct a girl can rely on. Now, while you've got the guest book well in hand, I do believe that library is callin' my name somethin' fierce. Did y'all see? A carved stone mantelpiece with an inscription! An inscription, James! That's practically a puzzle gift-wrapped with a bow on top. I simply cannot resist. If anyone needs me, I'll be in the library, solvin' mysteries and havin' the time of my life! moved to library",
+                "attributes": {
+                    "timestamp": "2026-10-31T16:02:50.602898Z",
+                    "thinking": "James is already at the guest book \u2014 of course he is, always one step ahead with the research. That makes me smile. I can feel the warmth in my chest just watching him be so... James about it. 'Thorough reconnaissance' \u2014 bless his heart. But I already looked at it too, and now I'm itching to go deeper into this house. The library pulls at me \u2014 floor-to-ceiling bookshelves, a carved mantelpiece with an inscription. An inscription! That's practically a riddle waiting to be solved. Grandmother's attic, the locked box, every key in the house \u2014 that same fizzing feeling in my fingertips is back. The diamond could be anywhere but a library full of secrets feels like the right place to start. I want to make sure everyone's settled first though \u2014 Vincent looks comfortable, the Boys are here, Reginald is... well, Reginald is Reginald. Everyone seems fine. Good. That settles the tightness. Now I can explore.",
+                    "room": "library",
+                    "capability": "manor-action",
+                    "target-agent": "james-hartwell",
+                    "event-type": "action"
+                },
+                "createdAt": "2026-10-31T16:02:50.602937Z"
+            },
+            {
+                "memoryId": "eec48ddd-9558-46fc-86ba-78fcb5553020",
+                "subject": "clara-bellingham",
+                "domain": "experience",
+                "text": "Well, would you look at this place! Dusty as my grandmother's attic and twice as mysterious \u2014 I am absolutely enchanted! Now, I don't know about the rest of y'all, but I have a feelin' this old house has been waitin' for us. James, darlin', doesn't it just give you chills? The good kind! And boys \u2014 oh, my boys \u2014 stay close now, this is going to be a delightful adventure. But first things first \u2014 let's see who else has signed this guest book. A lady always signs the guest book, and a clever lady reads what everyone else wrote first! examined guest-book",
+                "attributes": {
+                    "capability": "manor-action",
+                    "event-type": "action",
+                    "room": "entrance-hall",
+                    "timestamp": "2026-10-31T16:02:14.648612Z",
+                    "thinking": "The air smells of dust and old wood \u2014 something sweet underneath, like dried lavender tucked in drawers decades ago. My chest is warm. Everyone is here \u2014 Vincent, James, the Boys, even Reginald. That settles something in me, having them close. The chandelier above looks like it could come down any second but I barely notice it \u2014 my eyes keep drifting to that guest book on the side table. Who else has been here? What did they write? My fingers are already itching to open it. The Doily Diamond is somewhere in this house and that guest book might just have a clue tucked between the pleasantries."
+                },
+                "createdAt": "2026-10-31T16:02:14.648627Z"
+            },
+            {
+                "memoryId": "96f639da-805a-4f57-b96e-af9b72424a95",
+                "subject": "clara-bellingham",
+                "domain": "experience",
+                "text": "Your best friend was being excluded by the popular group. {{serves: social-harmony|strong: You chose the friend over the group.}} The popular girls stopped talking to you. {{serves: social-harmony|moderate: Your friend said 'You didn't have to do that.' You said 'I know.'}}",
+                "attributes": {
+                    "timestamp": "2021-11-01T16:01:42.396375Z",
+                    "developmental-period": "adolescence",
+                    "age": "13",
+                    "turn-id": "age-13",
+                    "catalogue-entry-id": "cbt-positive-self",
+                    "salience-multiplier": "1.5",
+                    "reinforcement-schedule": "continuous",
+                    "situation-types": "formation,adolescence,social-harmony",
+                    "event-type": "formative"
+                },
+                "createdAt": "2026-10-31T16:01:42.397752Z"
+            },
+            {
+                "memoryId": "679cda5e-ad30-4533-a75f-5910cd243d1e",
+                "subject": "clara-bellingham",
+                "domain": "experience",
+                "text": "Your class went on a field trip to a cave. Most children were scared. You walked deeper than anyone else, your heart hammering. You found a crystal formation no one else had seen. You didn't tell anyone about it for a week \u2014 you just carried the secret, warm and private.",
+                "attributes": {
+                    "timestamp": "2019-11-02T16:01:42.396370Z",
+                    "developmental-period": "childhood",
+                    "age": "11",
+                    "turn-id": "age-11",
+                    "catalogue-entry-id": "bandura-mastery-efficacy",
+                    "salience-multiplier": "1.5",
+                    "reinforcement-schedule": "continuous",
+                    "situation-types": "formation,childhood,adventure",
+                    "event-type": "formative"
+                },
+                "createdAt": "2026-10-31T16:01:42.397738Z"
+            },
+            {
+                "memoryId": "e619a3e2-f48d-44ce-afce-ed201f3f9cbd",
+                "subject": "clara-bellingham",
+                "domain": "experience",
+                "text": "A new family moved in next door. {{serves: social-harmony|moderate: You were the first to visit, bringing cookies before your mother told you to.}} The girl spoke a different language. {{serves: adventure|moderate: You communicated in drawings all summer \u2014 maps of the neighbourhood, portraits of each other's pets, elaborate treasure hunts.}} It was the most fun you'd ever had, and you never shared a word.",
+                "attributes": {
+                    "timestamp": "2017-11-02T16:01:42.396366Z",
+                    "developmental-period": "childhood",
+                    "age": "9",
+                    "turn-id": "age-9",
+                    "catalogue-entry-id": "cbt-positive-other",
+                    "salience-multiplier": "1.5",
+                    "reinforcement-schedule": "continuous",
+                    "situation-types": "formation,childhood,social-harmony,adventure",
+                    "event-type": "formative"
+                },
+                "createdAt": "2026-10-31T16:01:42.397713Z"
+            },
+            {
+                "memoryId": "282f202e-5fa5-4f06-890a-8bbdd8ecbfa6",
+                "subject": "clara-bellingham",
+                "domain": "experience",
+                "text": "Your parents argued at dinner. You felt sick \u2014 physically sick, a tightness in your stomach that wouldn't let you eat. The argument went on for what felt like hours. When they finally laughed about something, the tightness dissolved so suddenly it left you dizzy.",
+                "attributes": {
+                    "timestamp": "2015-11-03T16:01:42.396361Z",
+                    "developmental-period": "childhood",
+                    "age": "7",
+                    "turn-id": "age-7",
+                    "catalogue-entry-id": "attachment-secure",
+                    "salience-multiplier": "1.5",
+                    "reinforcement-schedule": "continuous",
+                    "situation-types": "formation,childhood,social-harmony",
+                    "event-type": "formative"
+                },
+                "createdAt": "2026-10-31T16:01:42.397676Z"
+            },
+            {
+                "memoryId": "c4944a2c-c860-4ee8-a785-6e9cafa7e831",
+                "subject": "clara-bellingham",
+                "domain": "experience",
+                "text": "You found a locked box in your grandmother's attic. You spent the whole afternoon trying every key in the house \u2014 drawer keys, cupboard keys, the tiny key from your music box. When you finally opened it and found just old letters, the disappointment lasted only a moment.",
+                "attributes": {
+                    "timestamp": "2013-11-03T16:01:42.396346Z",
+                    "developmental-period": "early-childhood",
+                    "age": "5",
+                    "turn-id": "age-5",
+                    "catalogue-entry-id": "bandura-mastery-efficacy",
+                    "salience-multiplier": "1.5",
+                    "reinforcement-schedule": "continuous",
+                    "situation-types": "formation,early-childhood,curiosity",
+                    "event-type": "formative"
+                },
+                "createdAt": "2026-10-31T16:01:42.397622Z"
+            }
+        ],
+        "memoriesWithSubThoughts": 0
+    },
+    "contextResetAssessment": {
+        "characterWouldKnow": [
+            "Drive intensities (9 drives)",
+            "Personality facets (6)",
+            "Attachment style",
+            "Need satisfaction levels (15 tiers)",
+            "Relational schemas (9 relationships)"
+        ],
+        "characterWouldNOTKnow": [
+            "What happened this session (no experience memories persisted)",
+            "Who said what (no dialogue transcript stored)",
+            "What room they're in (no location tracking persisted)",
+            "Who else is present (no co-presence tracking persisted)",
+            "What they were doing (no action history persisted)",
+            "Sub-thoughts about events (no sub-thought graduation)",
+            "Emotional reactions to events (computed per-tick, discarded)",
+            "Narrator summaries (broadcast via WebSocket, never stored)",
+            "Formation memories (seeded to NoOp store, lost)",
+            "Tiered observation summaries (computed every tick, discarded)"
+        ],
+        "verdict": "After context clear, character retains only static personality profile. All experiential knowledge (what happened, who said what, emotional reactions) is lost. The character would have amnesia about everything that occurred."
+    }
+}
