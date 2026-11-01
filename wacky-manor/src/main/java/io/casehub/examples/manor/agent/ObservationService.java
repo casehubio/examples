@@ -1,10 +1,10 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.agency.summarisation.EventLevel;
 import io.casehub.agency.perception.observation.ObservationResult;
 import io.casehub.agency.perception.observation.PartitionedDrain;
 import io.casehub.agency.perception.observation.PartitionedObservationService;
 import io.casehub.agency.perception.observation.VisibilityPolicy;
+import io.casehub.agency.summarisation.EventLevel;
 import io.casehub.examples.manor.engine.WorldState;
 import io.casehub.examples.manor.model.ActionType;
 import io.casehub.examples.manor.model.CharacterState;
@@ -52,9 +52,6 @@ public final class ObservationService {
         this.delegate = new PartitionedObservationService<>(
                 renderer, policy, e -> e.timestamp().toEpochMilli(),
                 ObservationService::resolveLevel);
-        for (var entry : worldState.characters().entrySet()) {
-            delegate.addObserver(entry.getKey(), entry.getValue().currentRoom());
-        }
     }
 
     public void setMindMapStore(MindMapStore mindMapStore, String tenantId) {

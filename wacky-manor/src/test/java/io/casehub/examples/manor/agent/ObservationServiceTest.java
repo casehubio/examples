@@ -261,5 +261,52 @@ class ObservationServiceTest {
         assertThat(drain.currentPartition().eventCount()).isEqualTo(1);
     }
 
+    @Test
+    void publishEvent_autoRegistersObserverAfterIdRemap() {
+        var world   = createWorld();
+        var service = createService();
+        service.init(world);
+
+        var idMap = new java.util.HashMap<String, String>();
+        idMap.put("penelope-pitstop", "clara-bellingham");
+        idMap.put("hooded-claw", "vincent-marsh");
+        world.remapCharacterIds(idMap);
+
+        var event = new ManorEvent.Dialogue(Instant.now(), "clara-bellingham",
+                                            "entrance-hall", "Clara: Hello everyone!");
+        service.publishEvent(event);
+
+        var drain = service.drain("vincent-marsh", System.currentTimeMillis());
+        assertThat(drain.currentPartition().eventCount()).isEqualTo(1);
+    }
+
+    @Test
+    void drain_persistsObservationAfterIdRemap() {
+        var world   = createWorld();
+        var service = createService();
+        service.init(world);
+        var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        service.setMindMapStore(store, "test-tenant");
+
+        var idMap = new java.util.HashMap<String, String>();
+        idMap.put("penelope-pitstop", "clara-bellingham");
+        idMap.put("hooded-claw", "vincent-marsh");
+        world.remapCharacterIds(idMap);
+
+        var event = new ManorEvent.Dialogue(Instant.now(), "clara-bellingham",
+                                            "entrance-hall", "Clara: Hello!");
+        service.publishEvent(event);
+        service.drain("vincent-marsh", System.currentTimeMillis());
+
+        var subgraphs = store.listSubgraphs("test-tenant");
+        assertThat(subgraphs).hasSize(1);
+        assertThat(subgraphs.getFirst().name()).isEqualTo("observations-vincent-marsh");
+
+        var nodes = store.nodesIn(subgraphs.getFirst().id(), "test-tenant");
+        assertThat(nodes).hasSize(1);
+        assertThat(nodes.getFirst().properties().get("content")).contains("Hello!");
+        assertThat(nodes.getFirst().properties().get("room")).isEqualTo("entrance-hall");
+    }
+
 
 }
