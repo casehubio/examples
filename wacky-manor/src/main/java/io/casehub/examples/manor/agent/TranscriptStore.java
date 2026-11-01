@@ -33,6 +33,8 @@ public final class TranscriptStore {
 
     public void appendTick(int tick, Map<String, String> prompts, Map<String, String> responses) {
         var timestamp = Instant.now().toString();
+        record Pending(String path, byte[] data, String agentId) {}
+        var pending = new java.util.ArrayList<Pending>();
         for (var entry : prompts.entrySet()) {
             String agentId = entry.getKey();
             String prompt = entry.getValue();
@@ -41,15 +43,17 @@ public final class TranscriptStore {
 
             String path = agentId + "/tick-" + String.format("%04d", tick) + ".json";
             String json = toJson(tick, agentId, timestamp, prompt, response);
-
-            Thread.ofVirtual().name("transcript-" + agentId + "-" + tick).start(() -> {
-                try {
-                    store.append(path, json.getBytes(StandardCharsets.UTF_8));
-                } catch (Exception e) {
-                    log.warnf("Failed to persist transcript for %s tick %d: %s", agentId, tick, e.getMessage());
-                }
-            });
+            pending.add(new Pending(path, json.getBytes(StandardCharsets.UTF_8), agentId));
         }
+        Thread.ofVirtual().name("transcript-tick-" + tick).start(() -> {
+            for (var p : pending) {
+                try {
+                    store.append(p.path(), p.data());
+                } catch (Exception e) {
+                    log.warnf("Failed to persist transcript for %s tick %d: %s", p.agentId(), tick, e.getMessage());
+                }
+            }
+        });
     }
 
     static String toJson(int tick, String agentId, String timestamp, String prompt, String response) {
