@@ -176,6 +176,9 @@ public class PlaybookOrchestrator {
 
         var cogProfile = cognitiveProfileInstance.isResolvable() ? cognitiveProfileInstance.get() : null;
         var mmStore = mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null;
+        if (mmStore != null) {
+            observationService.setMindMapStore(mmStore, ManorConstants.TENANCY_ID);
+        }
 
         NarratorAgent narratorAgent = null;
 

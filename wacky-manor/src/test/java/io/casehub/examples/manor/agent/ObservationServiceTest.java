@@ -207,4 +207,59 @@ class ObservationServiceTest {
                 .isEqualTo(ObservationService.MOVEMENT);
     }
 
+    @Test
+    void drain_withMindMapStore_persistsObservationNode() {
+        var world   = createWorld();
+        var service = createService();
+        service.init(world);
+        var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        service.setMindMapStore(store, "test-tenant");
+
+        var event = new ManorEvent.Dialogue(Instant.now(), "penelope-pitstop",
+                                            "entrance-hall", "Penelope: Hello!");
+        service.publishEvent(event);
+        service.drain("hooded-claw", System.currentTimeMillis());
+
+        var subgraphs = store.listSubgraphs("test-tenant");
+        assertThat(subgraphs).hasSize(1);
+        assertThat(subgraphs.getFirst().name()).isEqualTo("observations-hooded-claw");
+
+        var nodes = store.nodesIn(subgraphs.getFirst().id(), "test-tenant");
+        assertThat(nodes).hasSize(1);
+        var node = nodes.getFirst();
+        assertThat(node.properties().get("content")).contains("Hello!");
+        assertThat(node.properties().get("tier")).isEqualTo("verbatim");
+        assertThat(node.properties().get("eventCount")).isEqualTo("1");
+        assertThat(node.properties().get("room")).isEqualTo("entrance-hall");
+        assertThat(node.provenance()).isEqualTo("tiered-observation-renderer");
+    }
+
+    @Test
+    void drain_emptyRoom_doesNotPersistNode() {
+        var world   = createWorld();
+        var service = createService();
+        service.init(world);
+        var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        service.setMindMapStore(store, "test-tenant");
+
+        service.drain("hooded-claw", System.currentTimeMillis());
+
+        assertThat(store.listSubgraphs("test-tenant")).isEmpty();
+    }
+
+    @Test
+    void drain_withoutMindMapStore_noError() {
+        var world   = createWorld();
+        var service = createService();
+        service.init(world);
+
+        var event = new ManorEvent.Dialogue(Instant.now(), "penelope-pitstop",
+                                            "entrance-hall", "Penelope: Hello!");
+        service.publishEvent(event);
+
+        var drain = service.drain("hooded-claw", System.currentTimeMillis());
+        assertThat(drain.currentPartition().eventCount()).isEqualTo(1);
+    }
+
+
 }
