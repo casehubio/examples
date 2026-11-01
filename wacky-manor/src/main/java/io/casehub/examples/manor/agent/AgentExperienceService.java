@@ -6,6 +6,7 @@ import io.casehub.neocortex.memory.MemoryDomain;
 import io.casehub.neocortex.memory.MemoryOrder;
 import io.casehub.neocortex.memory.MemoryQuery;
 import io.casehub.neocortex.memory.experience.Action;
+import io.casehub.neocortex.memory.experience.ExperienceEvents;
 import io.casehub.neocortex.memory.experience.ExperienceRecorder;
 import org.jboss.logging.Logger;
 
@@ -19,7 +20,7 @@ import java.util.concurrent.TimeoutException;
 public class AgentExperienceService {
 
     private static final Logger       log          = Logger.getLogger(AgentExperienceService.class);
-    private static final MemoryDomain MANOR_DOMAIN = new MemoryDomain("manor");
+    private static final MemoryDomain MANOR_DOMAIN = ExperienceEvents.DOMAIN;
 
     private final ExperienceRecorder                                                recorder;
     private final CaseMemoryStore                                                   store;
