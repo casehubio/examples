@@ -1,0 +1,32 @@
+{
+    "characterId": "penelope-pitstop",
+    "tenantId": "wacky-manor",
+    "mindMapStoreClass": "io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore_ClientProxy",
+    "memoryStoreClass": "io.casehub.neocortex.memory.inmem.InMemoryMemoryStore_ClientProxy",
+    "mindMap": {
+        "totalSubgraphs": 0,
+        "characterNodeCount": 0,
+        "nodesByType": {}
+    },
+    "memories": {
+        "totalMemoriesAllDomains": 0,
+        "experienceMemories": 0,
+        "characterExperienceMemories": 0
+    },
+    "contextResetAssessment": {
+        "characterWouldKnow": [],
+        "characterWouldNOTKnow": [
+            "What happened this session (no experience memories persisted)",
+            "Who said what (no dialogue transcript stored)",
+            "What room they're in (no location tracking persisted)",
+            "Who else is present (no co-presence tracking persisted)",
+            "What they were doing (no action history persisted)",
+            "Sub-thoughts about events (no sub-thought graduation)",
+            "Emotional reactions to events (computed per-tick, discarded)",
+            "Narrator summaries (broadcast via WebSocket, never stored)",
+            "Formation memories (seeded to NoOp store, lost)",
+            "Tiered observation summaries (computed every tick, discarded)"
+        ],
+        "verdict": "After context clear, character retains only static personality profile. All experiential knowledge (what happened, who said what, emotional reactions) is lost. The character would have amnesia about everything that occurred."
+    }
+}
