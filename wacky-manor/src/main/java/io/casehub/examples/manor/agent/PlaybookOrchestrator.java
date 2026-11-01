@@ -341,7 +341,12 @@ public class PlaybookOrchestrator {
                     narratorAgent.start(world);
                     dispatcher.setNarrator(narratorAgent);
                 }
-                runAutonomousTicks(world, activeSet, actionResolver, dispatcher, sessionPipeline, narratorAgent, cognitions, planEvaluator, cognitionCore);
+                TranscriptStore transcriptStore = null;
+                if (config.transcript().enabled()) {
+                    transcriptStore = new TranscriptStore(
+                            java.nio.file.Path.of(config.transcript().storagePath()), profileMode.name());
+                }
+                runAutonomousTicks(world, activeSet, actionResolver, dispatcher, sessionPipeline, narratorAgent, cognitions, planEvaluator, cognitionCore, transcriptStore);
             } else {
                 var invocationService = new AgentInvocationService(sessionLifecycleManager, "claude", 60, 2, 2000);
                 runScripted(world, activeSet, actionResolver, dispatcher, invocationService,
@@ -376,7 +381,8 @@ public class PlaybookOrchestrator {
                                      io.casehub.platform.agent.session.SessionPipeline sessionPipeline, NarratorAgent narratorAgent,
                                      java.util.Map<String, CharacterCognition> cognitions,
                                      ManorPlanEvaluator planEvaluator,
-                                     io.casehub.neocortex.cognition.core.CognitionCore cognitionCore) {
+                                     io.casehub.neocortex.cognition.core.CognitionCore cognitionCore,
+                                     TranscriptStore transcriptStore) {
         var activeAgents = world.characters().values().stream()
                 .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
                 .toList();
@@ -571,6 +577,10 @@ public class PlaybookOrchestrator {
                 int resultChars = result != null ? result.length() : 0;
                 log.infof("  %s: prompt %d chars (~%d tokens), response %d chars (~%d tokens)",
                         c.agentId(), promptChars, promptChars / 4, resultChars, resultChars / 4);
+            }
+
+            if (transcriptStore != null) {
+                transcriptStore.appendTick(currentTick, prompts, pipelineResults);
             }
 
             var suppressed = new java.util.HashSet<String>();

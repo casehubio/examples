@@ -168,6 +168,13 @@
       <version>${langchain4j.version}</version>
     </dependency>
 
+    <!-- CaseHub Neocortex Corpus — ZIP-chain transcript persistence -->
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-neocortex-corpus</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+
     <!-- CaseHub Qhorus — channels + message dispatch -->
     <dependency>
       <groupId>io.casehub</groupId>

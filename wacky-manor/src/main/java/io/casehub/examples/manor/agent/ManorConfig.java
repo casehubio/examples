@@ -15,6 +15,7 @@ public record ManorConfig(
         AppraisalConfig appraisal,
         ClassificationConfig classification,
         MoodTuningConfig mood,
+        TranscriptConfig transcript,
         SessionConfig session,
         String activeCharacters,
         int maxConcurrentAgents,
@@ -43,6 +44,8 @@ public record ManorConfig(
     public record CognitiveSnapshotConfig(int intervalTicks) {}
 
     public record AppraisalConfig(boolean enabled) {}
+
+    public record TranscriptConfig(boolean enabled, String storagePath) {}
 
     public record SessionConfig(int clearAtTokens) {
         public static int parseClearAtTokens(String value, int modelContextTokens) {

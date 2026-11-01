@@ -98,11 +98,18 @@ public class ManorConfigProducer {
     String clearAtTokensRaw;
     @ConfigProperty(name = "manor.session.model-context-tokens", defaultValue = "200000")
     int    modelContextTokens;
+    @ConfigProperty(name = "manor.transcript.enabled", defaultValue = "true")
+    boolean transcriptEnabled;
+    @ConfigProperty(name = "manor.transcript.storage-path", defaultValue = "")
+    String transcriptStoragePath;
 
 
     @Produces
     @jakarta.inject.Singleton
     public ManorConfig produce() {
+        String resolvedPath = transcriptStoragePath.isBlank()
+                              ? System.getProperty("user.home") + "/claude/casehub/transcripts"
+                              : transcriptStoragePath;
         return new ManorConfig(
                 maxTurns,
                 new ManorConfig.ObservationConfig(verbatimThreshold, groupedThreshold),
@@ -119,6 +126,7 @@ public class ManorConfigProducer {
                 new ManorConfig.ClassificationConfig(classificationAuditEnabled, classificationAuditLogPath, classificationExternalCharacters.orElse(""),
                                                      accumulatorAllowance, accumulatorThreshold, accumulatorDecay, accumulatorSlowAllowance, accumulatorSlowThreshold),
                 new ManorConfig.MoodTuningConfig(moodDecayMinutes, moodMaxDisplacement),
+                new ManorConfig.TranscriptConfig(transcriptEnabled, resolvedPath),
                 new ManorConfig.SessionConfig(ManorConfig.SessionConfig.parseClearAtTokens(clearAtTokensRaw, modelContextTokens)),
                 activeCharactersConfig.orElse(""),
                 maxConcurrentAgents,
