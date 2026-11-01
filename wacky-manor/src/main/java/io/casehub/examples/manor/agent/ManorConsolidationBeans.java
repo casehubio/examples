@@ -56,6 +56,18 @@ public class ManorConsolidationBeans {
                 relationshipIntervalMs);
     }
 
+    @Produces
+    @Singleton
+    @jakarta.annotation.Priority(50)
+    ObservationCompactionPhase observationCompactionPhase(
+            MindMapStore mindMapStore,
+            ManorConfig config) {
+        return new ObservationCompactionPhase(mindMapStore,
+                                              config.observation().compactionRecentWindow(),
+                                              config.observation().compactionBatchSize());
+    }
+
+
     // BeliefRevisionPhase removed — direct agentProvider.invoke() bypasses elastic
     // scheduler, causing consolidation hangs. Re-enable after platform elastic fix.
 

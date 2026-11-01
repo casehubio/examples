@@ -13,6 +13,10 @@ public class ManorConfigProducer {
     int verbatimThreshold;
     @ConfigProperty(name = "manor.observation.grouped-threshold", defaultValue = "15")
     int groupedThreshold;
+    @ConfigProperty(name = "manor.observation.compaction-recent-window", defaultValue = "10")
+    int compactionRecentWindow;
+    @ConfigProperty(name = "manor.observation.compaction-batch-size", defaultValue = "5")
+    int compactionBatchSize;
     @ConfigProperty(name = "manor.narrator.enabled", defaultValue = "true")
     boolean narratorEnabled;
     @ConfigProperty(name = "manor.narrator.event-threshold", defaultValue = "5")
@@ -112,7 +116,7 @@ public class ManorConfigProducer {
                               : transcriptStoragePath;
         return new ManorConfig(
                 maxTurns,
-                new ManorConfig.ObservationConfig(verbatimThreshold, groupedThreshold),
+                new ManorConfig.ObservationConfig(verbatimThreshold, groupedThreshold, compactionRecentWindow, compactionBatchSize),
                 new ManorConfig.NarratorConfig(narratorEnabled, narratorEventThreshold, narratorTimerSeconds),
                 new ManorConfig.ReflectionConfig(reflectionEnabled, maxUnreflected, reflectionImportanceThreshold, maxSourceMemories),
                 new ManorConfig.GoalConfig(goalEnabled, goalCooldownTicks, goalMaxNewPerReflection),

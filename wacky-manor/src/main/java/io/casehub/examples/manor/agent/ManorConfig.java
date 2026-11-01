@@ -21,7 +21,8 @@ public record ManorConfig(
         int maxConcurrentAgents,
         boolean briefingMode
 ) {
-    public record ObservationConfig(int verbatimThreshold, int groupedThreshold) {}
+    public record ObservationConfig(int verbatimThreshold, int groupedThreshold,
+                                    int compactionRecentWindow, int compactionBatchSize) {}
 
     public record NarratorConfig(boolean enabled, int eventThreshold, int timerSeconds) {}
 
