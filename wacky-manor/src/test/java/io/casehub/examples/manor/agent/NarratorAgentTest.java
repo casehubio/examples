@@ -100,4 +100,29 @@ class NarratorAgentTest {
         assertThat(dispatched).hasSize(1);
         assertThat(dispatched.get(0)).isEqualTo("DRAMATIC narration!");
     }
+
+    @Test
+    void narration_persisted_as_mindmap_node() {
+        var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
+        var agent = new NarratorAgent(
+                new MechanicalCompactor(), echoSession,
+                null, null, 5, 15,
+                store, "test-tenant");
+
+        for (int i = 0; i < 5; i++) {
+            agent.collect(new ManorEvent.Action(Instant.now(), "char-" + i,
+                                                "kitchen", "event " + i, null, null, null, null));
+        }
+        agent.tickNow();
+
+        var subgraphs = store.listSubgraphs("test-tenant");
+        assertThat(subgraphs).hasSize(1);
+        assertThat(subgraphs.getFirst().name()).isEqualTo("narrator-summaries");
+
+        var nodes = store.nodesIn(subgraphs.getFirst().id(), "test-tenant");
+        assertThat(nodes).hasSize(1);
+        assertThat(nodes.getFirst().properties().get("content")).isEqualTo("DRAMATIC narration!");
+        assertThat(nodes.getFirst().provenance()).isEqualTo("narrator-agent");
+    }
+
 }

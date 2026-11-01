@@ -29,9 +29,48 @@ public final class NarratorAgent {
                          ManorEventBus webEventBus,
                          int eventThreshold,
                          int timerSeconds) {
+        this(compactor, narratorSession, manorChannels, webEventBus, eventThreshold, timerSeconds, null, null);
+    }
+
+    public NarratorAgent(Compactor<ManorEvent> compactor,
+                         io.casehub.platform.agent.AgentSession narratorSession,
+                         ManorChannels manorChannels,
+                         ManorEventBus webEventBus,
+                         int eventThreshold,
+                         int timerSeconds,
+                         io.casehub.neocortex.mindmap.MindMapStore mindMapStore,
+                         String tenantId) {
         this.outputBus = new EventStreamBus<>();
-        if (manorChannels != null || webEventBus != null) {
+        if (manorChannels != null || webEventBus != null || mindMapStore != null) {
+            String narratorSubgraphId;
+            if (mindMapStore != null) {
+                var created = mindMapStore.createSubgraph(
+                        new io.casehub.neocortex.mindmap.SubgraphInput(
+                                "narrator-summaries", io.casehub.neocortex.mindmap.SubgraphTypes.ACTIVITY, null),
+                        tenantId);
+                narratorSubgraphId = created != null && !created.isBlank() ? created : "narrator-summaries";
+            } else {
+                narratorSubgraphId = null;
+            }
+            final String                                    sgId  = narratorSubgraphId;
+            final io.casehub.neocortex.mindmap.MindMapStore store = mindMapStore;
+            final String                                    tid   = tenantId;
             outputBus.subscribe(s -> true, event -> {
+                if (store != null) {
+                    try {
+                        var now   = java.time.Instant.now();
+                        var props = new java.util.HashMap<String, String>();
+                        props.put("content", event.payload());
+                        var nodeInput = io.casehub.neocortex.mindmap.NodeInput.of(
+                                                  "narration-" + now.toEpochMilli(), sgId)
+                                                                              .withProperties(props)
+                                                                              .withProvenance("narrator-agent")
+                                                                              .withValidFrom(now);
+                        store.addNode(nodeInput, tid);
+                    } catch (Exception e) {
+                        log.warn("Narrator memory persistence failed", e);
+                    }
+                }
                 if (manorChannels != null) {
                     try {manorChannels.dispatchNarration(event.payload());} catch (Exception e) {
                         log.warn("Qhorus narration dispatch failed", e);
@@ -50,6 +89,7 @@ public final class NarratorAgent {
                                                 outputBus, NARRATOR_LEVEL,
                                                 batch -> log.warnf("Narrator summarisation failed, batch size=%d", batch.size()));
     }
+
 
     public void collect(ManorEvent event) {
         runner.collect(new LevelEvent<>(event, event.timestamp().toEpochMilli(), NARRATOR_LEVEL, null));

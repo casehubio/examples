@@ -336,7 +336,8 @@ public class PlaybookOrchestrator {
                             io.casehub.platform.agent.AgentSessionInit.of(NarratorSummariser.SYSTEM_PROMPT));
                     narratorAgent = new NarratorAgent(
                             compactor, narratorSession, manorChannels, webEventBus,
-                            config.narrator().eventThreshold(), config.narrator().timerSeconds());
+                            config.narrator().eventThreshold(), config.narrator().timerSeconds(),
+                            mmStore, ManorConstants.TENANCY_ID);
                     narratorAgent.start(world);
                     dispatcher.setNarrator(narratorAgent);
                 }
