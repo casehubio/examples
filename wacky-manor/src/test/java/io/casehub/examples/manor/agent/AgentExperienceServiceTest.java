@@ -137,7 +137,7 @@ class AgentExperienceServiceTest {
         var service = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), stubStore(List.of()), "test-tenant"));
         service.ingest("agent-1", "kitchen", "Made tea", null);
 
-        assertThat(recorded.getFirst().metadata()).containsEntry("room", "kitchen");
+        assertThat(((io.casehub.neocortex.memory.experience.Action) recorded.getFirst()).room()).isEqualTo("kitchen");
     }
 
     @Test
@@ -169,8 +169,7 @@ class AgentExperienceServiceTest {
                        null, 0.7, "penelope");
 
         assertThat(recorded).hasSize(1);
-        assertThat(recorded.getFirst().metadata())
-                .containsEntry(io.casehub.neocortex.memory.experience.ExperienceAttributeKeys.TARGET_AGENT, "penelope");
+        assertThat(((io.casehub.neocortex.memory.experience.Action) recorded.getFirst()).targetAgent()).isEqualTo("penelope");
     }
 
     @Test
@@ -179,8 +178,7 @@ class AgentExperienceServiceTest {
 
         service.ingest("agent-1", "kitchen", "looked around", null, 0.2, null);
 
-        assertThat(recorded.getFirst().metadata())
-                .doesNotContainKey(io.casehub.neocortex.memory.experience.ExperienceAttributeKeys.TARGET_AGENT);
+        assertThat(((io.casehub.neocortex.memory.experience.Action) recorded.getFirst()).targetAgent()).isNull();
     }
 
     @Test

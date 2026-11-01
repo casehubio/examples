@@ -79,13 +79,10 @@ public class AgentExperienceService {
                        String thinking, double importance, String targetAgentId, int currentTick) {
         try {
             var metadata = new HashMap<String, String>();
-            metadata.put("room", room);
             if (thinking != null) {metadata.put("thinking", thinking);}
-            if (targetAgentId != null) {
-                metadata.put(io.casehub.neocortex.memory.experience.ExperienceAttributeKeys.TARGET_AGENT, targetAgentId);
-            }
             var event = new Action(agentId, tenantId, null, null, null,
-                                   description, importance, Map.copyOf(metadata), "manor-action");
+                                   description, importance, Map.copyOf(metadata), "manor-action",
+                                   room, targetAgentId);
             recorder.record(event);
             if (reflectionEnabled && reflectionTrigger != null
                 && reflectionTrigger.shouldReflect(agentId, importance)) {
