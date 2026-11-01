@@ -341,7 +341,7 @@ public class PlaybookOrchestrator {
             } else {
                 var invocationService = new AgentInvocationService(sessionLifecycleManager, "claude", 60, 2, 2000);
                 runScripted(world, activeSet, actionResolver, dispatcher, invocationService,
-                            triggerEvaluator, sceneDirector, narratorAgent, cognitions);
+                            triggerEvaluator, sceneDirector, narratorAgent, cognitions, experienceService);
             }
         } finally {
             sessionPipeline.shutdown();
@@ -940,7 +940,8 @@ public class PlaybookOrchestrator {
                               AgentInvocationService invocationService,
                               TriggerEvaluator triggerEvaluator, SceneDirector sceneDirector,
                               NarratorAgent narratorAgent,
-                              java.util.Map<String, CharacterCognition> cognitions) {
+                              java.util.Map<String, CharacterCognition> cognitions,
+                              AgentExperienceService experienceService) {
         var actionQueue = new LinkedBlockingQueue<PendingAction>();
         var threads = world.characters().values().stream()
                 .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
@@ -955,7 +956,7 @@ public class PlaybookOrchestrator {
                             .start(() -> {
                                 String systemPrompt = renderPrompt(c.agentId());
                                 new CharacterAgentLoop().run(
-                                        c, world, invocationService, null,
+                                        c, world, invocationService, experienceService,
                                         systemPrompt, actionQueue, dispatcher, goals,
                                         cognition);
                             });
