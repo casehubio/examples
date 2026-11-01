@@ -180,6 +180,13 @@ public class PlaybookOrchestrator {
             observationService.setMindMapStore(mmStore, ManorConstants.TENANCY_ID);
         }
 
+        ObservationSegmentCache observationCache = null;
+        if (mmStore != null) {
+            observationCache = new ObservationSegmentCache(
+                    mmStore, ManorConstants.TENANCY_ID,
+                    config.session().clearAtTokens() / 40, 5);
+        }
+
         NarratorAgent narratorAgent = null;
 
         var dispatcher = new ManorEventDispatcher(
@@ -346,7 +353,7 @@ public class PlaybookOrchestrator {
                     transcriptStore = new TranscriptStore(
                             java.nio.file.Path.of(config.transcript().storagePath()), profileMode.name());
                 }
-                runAutonomousTicks(world, activeSet, actionResolver, dispatcher, sessionPipeline, narratorAgent, cognitions, planEvaluator, cognitionCore, transcriptStore);
+                runAutonomousTicks(world, activeSet, actionResolver, dispatcher, sessionPipeline, narratorAgent, cognitions, planEvaluator, cognitionCore, transcriptStore, observationCache);
             } else {
                 var invocationService = new AgentInvocationService(sessionLifecycleManager, "claude", 60, 2, 2000);
                 runScripted(world, activeSet, actionResolver, dispatcher, invocationService,
@@ -382,7 +389,8 @@ public class PlaybookOrchestrator {
                                      java.util.Map<String, CharacterCognition> cognitions,
                                      ManorPlanEvaluator planEvaluator,
                                      io.casehub.neocortex.cognition.core.CognitionCore cognitionCore,
-                                     TranscriptStore transcriptStore) {
+                                     TranscriptStore transcriptStore,
+                                     ObservationSegmentCache observationCache) {
         var activeAgents = world.characters().values().stream()
                 .filter(c -> activeSet == null || activeSet.contains(c.agentId()))
                 .toList();
@@ -467,6 +475,11 @@ public class PlaybookOrchestrator {
                     .toList();
             if (actingThisTick.isEmpty()) continue;
 
+            if (observationCache != null) {
+                observationCache.refreshAll(actingThisTick.stream()
+                        .map(io.casehub.examples.manor.model.CharacterState::agentId)::iterator);
+            }
+
             // Phase 1: build observations (render is now purely mechanical — no LLM calls)
             var preCogSections = new java.util.HashMap<String, java.util.List<io.casehub.agency.perception.observation.affordance.ObservationSection>>();
             var preTagSections = new java.util.HashMap<String, java.util.List<String>>();
@@ -526,6 +539,7 @@ public class PlaybookOrchestrator {
                         .withMemories(memories, reflections, relationships)
                         .withCognitiveSections(preCogSections.get(c.agentId()))
                         .withTaggedSections(preTagSections.get(c.agentId()))
+                        .withObservationHistory(observationCache != null ? observationCache.getHistory(c.agentId()) : null)
                         .build() + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION
                         + (classificationDue.contains(c.agentId())
                             ? "\n\n" + inlinePromptBuilder.buildAssessmentInstruction(trajectoryBuffers.getOrDefault(c.agentId(), new java.util.ArrayList<>()))

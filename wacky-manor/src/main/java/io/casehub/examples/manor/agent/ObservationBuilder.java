@@ -17,6 +17,8 @@ public final class ObservationBuilder {
     private java.util.Map<String, java.util.List<io.casehub.neocortex.memory.Memory>>                 relationshipMemories = java.util.Map.of();
     private java.util.List<io.casehub.agency.perception.observation.affordance.ObservationSection> cognitiveSections    = java.util.List.of();
     private java.util.List<String>                                                                    taggedSections       = java.util.List.of();
+    private String                                                                                    observationHistory;
+
 
     public ObservationBuilder(io.casehub.agency.perception.observation.affordance.WorldObservationProvider worldProvider,
                               io.casehub.agency.perception.observation.affordance.ObservationPipeline pipeline,
@@ -60,6 +62,12 @@ public final class ObservationBuilder {
         return this;
     }
 
+    public ObservationBuilder withObservationHistory(String history) {
+        this.observationHistory = history;
+        return this;
+    }
+
+
     public String build() {
         var sections = new java.util.ArrayList<io.casehub.agency.perception.observation.affordance.ObservationSection>();
 
@@ -83,6 +91,10 @@ public final class ObservationBuilder {
 
         sections.add(io.casehub.agency.perception.observation.affordance.CognitiveObservationSections.goalsSection(goals));
         planSections(character).forEach(sections::add);
+        if (observationHistory != null && !observationHistory.isBlank()) {
+            sections.add(io.casehub.agency.perception.observation.affordance.ObservationSection.text(
+                    "What You've Experienced", observationHistory));
+        }
         if (drain != null) {
             sections.add(io.casehub.agency.perception.observation.affordance.CognitiveObservationSections.recentActivitySection(drain));
         }
