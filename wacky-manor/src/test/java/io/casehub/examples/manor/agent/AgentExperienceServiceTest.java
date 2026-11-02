@@ -303,5 +303,40 @@ class AgentExperienceServiceTest {
         assertThat(evaluatedTicks.getFirst()).isEqualTo(5);
     }
 
+    @Test
+    void recallUsesRetrieverWhenProvided() {
+        var storeMemories = List.of(memory("store-mem", "from store"));
+        var retrieverMemories = List.of(memory("ret-mem", "from retriever"));
+        var store = stubStore(storeMemories);
+        var retriever = new io.casehub.neocortex.cognitive.index.CognitiveMemoryRetriever(
+                new CaseMemoryStore() {
+                    @Override public String store(MemoryInput input) { return "id"; }
+                    @Override public List<Memory> query(MemoryQuery q) { return retrieverMemories; }
+                    @Override public int erase(EraseRequest r) { return 0; }
+                },
+                List.of()
+        );
 
+        var config = new ExperienceConfig(
+                stubRecorder(), store, "t1", null, null, false, false, 7, 0.2, 15, 20, null, null, retriever);
+        var service = new AgentExperienceService(config);
+
+        var result = service.recall("a1", 10);
+        assertThat(result).isEqualTo(retrieverMemories);
+        assertThat(result).isNotEqualTo(storeMemories);
+    }
+
+    @Test
+    void recallFallsBackToStoreWhenNoRetriever() {
+        var storeMemories = List.of(memory("store-mem", "from store"));
+        var service = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), stubStore(storeMemories), "t1"));
+
+        var result = service.recall("a1", 10);
+        assertThat(result).isEqualTo(storeMemories);
+    }
+
+    private static Memory memory(String id, String text) {
+        return new Memory(id, "a1", new MemoryDomain("manor"), "t1",
+                null, text, Map.of(), Instant.now(), null, null, null, null);
+    }
 }
