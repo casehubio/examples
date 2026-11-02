@@ -224,7 +224,7 @@ class AgentExperienceServiceTest {
         };
         var trigger = new ManorReflectionTrigger(2, 100.0);
         var service = new AgentExperienceService(new ExperienceConfig(
-                stubRecorder(), reflectStore, "t1", synthesizer, trigger, true, false, 7, 0.2, 15, 20, null, null));
+                stubRecorder(), reflectStore, "t1", synthesizer, trigger, true, false, 7, 0.2, 15, 20, null, null, null));
 
         service.ingest("a1", "room", "action 1", null, 0.5, null);
         service.ingest("a1", "room", "action 2", null, 0.5, null);
@@ -291,7 +291,7 @@ class AgentExperienceServiceTest {
         };
 
         var service = new AgentExperienceService(new ExperienceConfig(
-                stubRecorder(), reflectStore, "t1", synthesizer, trigger, true, false, 7, 0.2, 15, 20, mockEvaluator, null));
+                stubRecorder(), reflectStore, "t1", synthesizer, trigger, true, false, 7, 0.2, 15, 20, mockEvaluator, null, null));
 
         service.ingest("a1", "room", "action 1", null, 0.5, null, 5);
         service.ingest("a1", "room", "action 2", null, 0.5, null, 5);

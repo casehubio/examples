@@ -1,5 +1,6 @@
 package io.casehub.examples.manor.agent;
 
+import io.casehub.neocortex.cognitive.index.CognitiveMemoryRetriever;
 import io.casehub.neocortex.memory.CaseMemoryStore;
 import io.casehub.neocortex.memory.experience.ExperienceRecorder;
 
@@ -16,9 +17,10 @@ public record ExperienceConfig(
     int maxSourceMemories,
     int recallLimit,
     ManorGoalEvaluator goalEvaluator,
-    ManorPlanEvaluator planEvaluator
+    ManorPlanEvaluator planEvaluator,
+    CognitiveMemoryRetriever retriever
 ) {
     public static ExperienceConfig minimal(ExperienceRecorder recorder, CaseMemoryStore store, String tenantId) {
-        return new ExperienceConfig(recorder, store, tenantId, null, null, false, false, 7, 0.2, 15, 20, null, null);
+        return new ExperienceConfig(recorder, store, tenantId, null, null, false, false, 7, 0.2, 15, 20, null, null, null);
     }
 }

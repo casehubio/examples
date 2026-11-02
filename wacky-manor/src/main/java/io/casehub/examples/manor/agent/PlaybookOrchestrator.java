@@ -172,7 +172,7 @@ public class PlaybookOrchestrator {
             experienceRecorder, caseMemoryStore, ManorConstants.TENANCY_ID,
             reflectionSynthesizer, reflectionTrigger,
             config.reflection().enabled(), config.memory().decayEnabled(), config.memory().decayMaxAgeDays(), config.memory().decayMinImportance(),
-            config.reflection().maxSourceMemories(), config.memory().recallLimit(), goalEvaluator, planEvaluator));
+            config.reflection().maxSourceMemories(), config.memory().recallLimit(), goalEvaluator, planEvaluator, null));
 
         var cogProfile = cognitiveProfileInstance.isResolvable() ? cognitiveProfileInstance.get() : null;
         var mmStore = mindMapStoreInstance.isResolvable() ? mindMapStoreInstance.get() : null;
