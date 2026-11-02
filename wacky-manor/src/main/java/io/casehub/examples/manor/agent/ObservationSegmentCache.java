@@ -1,6 +1,6 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.neocortex.mindmap.MindMapNode;
+import io.casehub.neocortex.cognitive.observability.ObservationCacheObserver;
 import io.casehub.neocortex.mindmap.MindMapStore;
 import io.casehub.neocortex.mindmap.SubgraphTypes;
 
@@ -21,14 +21,24 @@ public final class ObservationSegmentCache {
     private final int recentNodeLimit;
     private final Map<String, CachedSegment> cache = new ConcurrentHashMap<>();
     private final Map<String, String> subgraphIds = new ConcurrentHashMap<>();
+    private final List<ObservationCacheObserver> observers;
+
 
     public ObservationSegmentCache(MindMapStore store, String tenantId,
                                    int maxTokenBudget, int recentNodeLimit) {
-        this.store = store;
-        this.tenantId = tenantId;
-        this.maxTokenBudget = maxTokenBudget;
-        this.recentNodeLimit = recentNodeLimit;
+        this(store, tenantId, maxTokenBudget, recentNodeLimit, List.of());
     }
+
+    public ObservationSegmentCache(MindMapStore store, String tenantId,
+                                   int maxTokenBudget, int recentNodeLimit,
+                                   List<ObservationCacheObserver> observers) {
+        this.store           = store;
+        this.tenantId        = tenantId;
+        this.maxTokenBudget  = maxTokenBudget;
+        this.recentNodeLimit = recentNodeLimit;
+        this.observers       = observers.isEmpty() ? List.of() : List.copyOf(observers);
+    }
+
 
     public String getHistory(String characterId) {
         resolveSubgraphId(characterId);
@@ -38,7 +48,7 @@ public final class ObservationSegmentCache {
 
     public void refresh(String characterId) {
         String sgId = resolveSubgraphId(characterId);
-        if (sgId == null) return;
+        if (sgId == null) {return;}
 
         var allNodes = store.nodesIn(sgId, tenantId);
         if (allNodes.isEmpty()) {
@@ -47,26 +57,26 @@ public final class ObservationSegmentCache {
         }
 
         var condensed = allNodes.stream()
-                .filter(n -> n.traits().contains(CONDENSED_TRAIT))
-                .sorted(Comparator.comparing(n -> n.validFrom() != null ? n.validFrom() : n.createdAt()))
-                .toList();
+                                .filter(n -> n.traits().contains(CONDENSED_TRAIT))
+                                .sorted(Comparator.comparing(n -> n.validFrom() != null ? n.validFrom() : n.createdAt()))
+                                .toList();
 
         var recent = allNodes.stream()
-                .filter(n -> !n.traits().contains(CONDENSED_TRAIT))
-                .sorted(Comparator.comparing(n -> n.validFrom() != null ? n.validFrom() : n.createdAt()))
-                .toList();
+                             .filter(n -> !n.traits().contains(CONDENSED_TRAIT))
+                             .sorted(Comparator.comparing(n -> n.validFrom() != null ? n.validFrom() : n.createdAt()))
+                             .toList();
 
-        int recentCount = Math.min(recentNodeLimit, recent.size());
+        int recentCount  = Math.min(recentNodeLimit, recent.size());
         var recentWindow = recent.subList(recent.size() - recentCount, recent.size());
 
-        var sb = new StringBuilder();
+        var sb         = new StringBuilder();
         int charBudget = maxTokenBudget * 4;
 
         if (!condensed.isEmpty()) {
             sb.append("Earlier:\n");
             for (var node : condensed) {
                 String content = node.properties().getOrDefault("content", "");
-                String rooms = node.properties().getOrDefault("rooms", "");
+                String rooms   = node.properties().getOrDefault("rooms", "");
                 if (!content.isBlank()) {
                     if (!rooms.isBlank()) {
                         sb.append("[").append(rooms).append("] ");
@@ -74,16 +84,16 @@ public final class ObservationSegmentCache {
                     sb.append(content.length() > 200 ? content.substring(0, 200) + "..." : content);
                     sb.append("\n");
                 }
-                if (sb.length() > charBudget / 2) break;
+                if (sb.length() > charBudget / 2) {break;}
             }
         }
 
         if (!recentWindow.isEmpty()) {
-            if (!sb.isEmpty()) sb.append("\n");
+            if (!sb.isEmpty()) {sb.append("\n");}
             sb.append("Recently:\n");
             for (var node : recentWindow) {
                 String content = node.properties().getOrDefault("content", "");
-                String room = node.properties().getOrDefault("room", "");
+                String room    = node.properties().getOrDefault("room", "");
                 if (!content.isBlank()) {
                     if (!room.isBlank()) {
                         sb.append("[").append(room).append("] ");
@@ -91,15 +101,20 @@ public final class ObservationSegmentCache {
                     sb.append(content);
                     sb.append("\n");
                 }
-                if (sb.length() > charBudget) break;
+                if (sb.length() > charBudget) {break;}
             }
         }
 
-        String text = sb.toString().strip();
+        String text         = sb.toString().strip();
+        int    actualTokens = text.length() / 4;
         if (text.isEmpty()) {
             cache.remove(characterId);
         } else {
             cache.put(characterId, new CachedSegment(text, allNodes.size()));
+        }
+
+        for (var observer : observers) {
+            observer.onRefresh(characterId, condensed.size(), recentWindow.size(), maxTokenBudget, actualTokens);
         }
     }
 
