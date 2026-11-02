@@ -937,12 +937,10 @@ public class PlaybookOrchestrator {
                     && config.consolidation().intervalTicks() > 0
                     && tick > 0
                     && tick % config.consolidation().intervalTicks() == 0) {
-                log.info("Night falls on the mansion. Characters rest and reflect...");
+                log.info("Consolidation dispatched to background — tick loop continues");
                 webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.narrator(
-                    "Night falls. The characters rest and reflect on the day's events..."));
+                    "Night falls. Memories consolidate while life goes on..."));
                 consolidationScheduler.consolidateNow(ManorConstants.TENANCY_ID);
-                webEventBus.broadcast(io.casehub.examples.manor.web.ManorWebSocketEvent.narrator(
-                    "Dawn breaks. A new day begins..."));
             }
 
             if (tick >= config.maxTurns()) {

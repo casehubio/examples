@@ -524,9 +524,9 @@ class PipelineToRenderingTest {
         var content = ((ObservationSection.TextBlock) howToFeel).content();
 
         assertThat(content).contains("STRUCTURE IN YOUR THINKING");
-        assertThat(content).contains("bold body-location anchor");
-        assertThat(content).contains("discovery verbs");
-        assertThat(content).contains("subordinate clause");
+        assertThat(content).contains("bold scene anchors");
+        assertThat(content).contains("Discovery verbs");
+        assertThat(content).contains("Stay with the uncertainty");
     }
 
     @Test
