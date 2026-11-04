@@ -73,6 +73,8 @@ public class ManorConfigProducer {
     int     cognitiveSnapshotIntervalTicks;
     @ConfigProperty(name = "manor.appraisal.enabled", defaultValue = "false")
     boolean appraisalEnabled;
+    @ConfigProperty(name = "manor.regulation.enabled", defaultValue = "false")
+    boolean regulationEnabled;
     @ConfigProperty(name = "manor.cognitive.briefing-mode", defaultValue = "true")
     boolean briefingMode;
     @ConfigProperty(name = "manor.mood.decay-minutes", defaultValue = "240")
@@ -127,6 +129,7 @@ public class ManorConfigProducer {
                 new ManorConfig.ConsolidationConfig(consolidationEnabled, consolidationIntervalTicks),
                 new ManorConfig.CognitiveSnapshotConfig(cognitiveSnapshotIntervalTicks),
                 new ManorConfig.AppraisalConfig(appraisalEnabled),
+                new ManorConfig.RegulationConfig(regulationEnabled),
                 new ManorConfig.ClassificationConfig(classificationAuditEnabled, classificationAuditLogPath, classificationExternalCharacters.orElse(""),
                                                      accumulatorAllowance, accumulatorThreshold, accumulatorDecay, accumulatorSlowAllowance, accumulatorSlowThreshold),
                 new ManorConfig.MoodTuningConfig(moodDecayMinutes, moodMaxDisplacement),

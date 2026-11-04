@@ -145,6 +145,9 @@ public class ManorCognitivePipelineBuilder {
 
     public ManorCognitivePipeline build() {
         var effectiveConfig = cognitionConfig != null ? cognitionConfig : CognitionConfig.all();
+        if (config != null && config.regulation().enabled()) {
+            effectiveConfig = effectiveConfig.with("regulation", true);
+        }
 
         var moodOrch = new io.casehub.neocortex.cognition.mood.MoodOrchestrator(
                 config != null ? config.mood().toMoodConfig()
@@ -207,6 +210,7 @@ public class ManorCognitivePipelineBuilder {
         var defaultsRegistry = new CognitiveDefaultsRegistry();
         var cogBuilder = CognitivePipelineBuilder
                 .create(moodOrch, driveOrch)
+                .config(effectiveConfig)
                 .userModel(userModelOrch)
                 .mentalModel(mentalModelOrch)
                 .strategy(strategyOrch)

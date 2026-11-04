@@ -13,6 +13,7 @@ public record ManorConfig(
         ConsolidationConfig consolidation,
         CognitiveSnapshotConfig cognitiveSnapshot,
         AppraisalConfig appraisal,
+        RegulationConfig regulation,
         ClassificationConfig classification,
         MoodTuningConfig mood,
         TranscriptConfig transcript,
@@ -45,6 +46,8 @@ public record ManorConfig(
     public record CognitiveSnapshotConfig(int intervalTicks) {}
 
     public record AppraisalConfig(boolean enabled) {}
+
+    public record RegulationConfig(boolean enabled) {}
 
     public record TranscriptConfig(boolean enabled, String storagePath) {}
 
