@@ -145,6 +145,9 @@ public class ManorCognitivePipelineBuilder {
 
     public ManorCognitivePipeline build() {
         var effectiveConfig = cognitionConfig != null ? cognitionConfig : CognitionConfig.all();
+        if (config != null && config.appraisal().enabled()) {
+            effectiveConfig = effectiveConfig.with("appraisal", true).with("salience", true);
+        }
         if (config != null && config.regulation().enabled()) {
             effectiveConfig = effectiveConfig.with("regulation", true);
         }
