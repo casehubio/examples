@@ -11,6 +11,12 @@ type: java
 
 Research documents, literature reviews, era journals, and cognitive architecture findings belong in the foundation repo they are best suited to (typically **casehubio/neocortex** `docs/research/`), not in this examples repo. Only content that is specifically about the example application itself (eval transcripts, app architecture, scenario configurations) belongs here.
 
+## Reference Documents
+
+| Document | What it covers |
+|----------|---------------|
+| `../neocortex/docs/research/cognitive-exploration-testing-strategy.md` | Five-tier testing strategy for cognitive pipeline — component, plumbing, emergence, quality, differentiation. Adapts Barrett 4-channel model. Follow when writing or evaluating cognitive tests (applies to both neocortex and examples eval tests). |
+
 ## Design Decisions — Literature First
 
 Never guess at psychological, cognitive, or architectural models. Always base design decisions on literature, using empirically proven and respected models. Search the internet and Google Scholar to find the literature to undertake review and verification before committing to an approach. Intuitive reasoning that "sounds right" is not sufficient — the published computational models are the authority.
