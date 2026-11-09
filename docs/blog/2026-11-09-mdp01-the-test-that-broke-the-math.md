@@ -34,7 +34,7 @@ effort = alpha × discrepancy / D_MAX
 
 As fatigue grows, alpha shrinks. As alpha shrinks, effort shrinks. As effort shrinks, fatigue grows slower. This is a negative feedback loop — a convergent geometric series. Each tick's fatigue increment is smaller than the last.
 
-![Fatigue accumulation: linear assumption vs actual convergent series](svg/2026-11-09-fatigue-convergent-series.svg)
+![Fatigue accumulation: linear assumption vs actual convergent series](2026-11-09-fatigue-convergent-series.svg)
 
 At tick 5, the assumed model predicts fatigue of 0.75. The actual model produces 0.30. The spec was off by a factor of 2.5 at five ticks, and the gap widens: the actual model asymptotically approaches but never reaches 1.0.
 
@@ -52,7 +52,7 @@ Every component had unit tests. The proactive participant's test manually constr
 
 The eval test failed. Zero avoidance goals, three runs.
 
-![The pipeline gap — unit tests pass but the pipeline never provides RegulationContext](svg/2026-11-09-api-gap-pipeline.svg)
+![The pipeline gap — unit tests pass but the pipeline never provides RegulationContext](2026-11-09-api-gap-pipeline.svg)
 
 The problem was in `CognitionCore.tick()` — the single method that orchestrates the full cognitive pipeline. It constructs a `CognitionTickContext` using a 7-argument constructor that passes `null` for `regulationContext`. Always. On every tick. The 8-argument constructor that accepts a `RegulationContext` existed — it just was never called.
 
@@ -84,7 +84,7 @@ We did not design this. The eval test surfaced it.
 
 ## What Multi-Tick Eval Actually Tests
 
-![Four modalities, four temporal patterns, four eval approaches](svg/2026-11-09-four-modality-eval.svg)
+![Four modalities, four temporal patterns, four eval approaches](2026-11-09-four-modality-eval.svg)
 
 Single-tick tests tell you whether a function returns the right value for a given input. Multi-tick tests tell you whether a system changes over time the way a theory says it should. The distinction matters because temporal behaviours are where cognitive architectures diverge from simple prompt engineering.
 
