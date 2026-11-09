@@ -57,7 +57,47 @@ The solution is an SPI — a Service Provider Interface defined in the observabi
 
 One subtlety that only surfaces in practice: not all pipeline stages run per-tick. CAPS settling runs during consolidation — a periodic background process, not part of the tick pipeline. The attractors that influence per-tick behavior were computed during the last consolidation and stored in the knowledge graph. A pipeline trace needs to capture "what was the CAPS state when this tick ran," even though that state did not change during this tick. The trace is a snapshot of the cognitive background that produced the behavior, not a log of computations that happened during it.
 
-## 5. What This Enables
+## 5. What the Trace Actually Captures
+
+The implementation centres on a single record — `PipelineTrace` — that captures the nine pipeline stages in one snapshot:
+
+| Field | Source | What it tells you |
+|-------|--------|-------------------|
+| `appraisalResult` | `AppraisalTickParticipant` | Which emotion was appraised, its type (OCC taxonomy), intensity, action tendencies |
+| `concernSalience` | `AppraisalTickParticipant` | Which concerns are active and how strongly — maps drive names to salience scores |
+| `capsInputActivations` | `BehavioralSynthesisPhase` cache | What activation values entered CAPS settling — experience classifications plus drive intensities |
+| `capsSettling` | `BehavioralSynthesisPhase` cache | How CAPS resolved: output activations, iteration count, convergence type, saturation ratio |
+| `regulationResult` | `EmotionRegulationTickParticipant` | Which Gross strategy was selected, at what intensity, with what environmental directives |
+| `channelWeights` | `AppraisalTickParticipant` | Barrett four-channel weights that shaped how emotion rendered into prompt text |
+| `habituation` | `AppraisalTickParticipant` | Whether repeated exposure has dampened the emotional response |
+| `activatedDriveCategories` | `CognitionCore` | Which drives exceeded their activation threshold this tick |
+| `promptSections` | All `CognitionPromptRenderer` instances | The exact text the LLM received — every prompt section, keyed by block tag |
+
+The last field is the most operationally useful. `promptSections` captures the rendered output of every cognitive prompt section — mood, drives, appraisal, behavioral attractors, narrative, strategy, goals, curiosity, search budget, attention, regulation. This is not metadata about what was rendered. It is the text itself. When you are debugging why an agent behaved a certain way, you can read the exact prompt context the LLM was operating under at that tick.
+
+Three practical details that matter more than they sound:
+
+**CAPS settling data reflects the last consolidation, not the current tick.** `CapsEngine.settle()` runs during consolidation — a periodic background process, not part of the tick pipeline. The attractors that shape per-tick behavior were computed when memories were last consolidated. `BehavioralSynthesisPhase` caches its last `SettlingResult` and input activations per agent. The trace captures "what was the CAPS background when this tick ran," not "what CAPS computation happened during this tick." This distinction is critical for interpreting the trace correctly: if CAPS data looks stale, it is — by design.
+
+**The render loop degrades gracefully.** Not every pipeline stage is active in every configuration. An agent without regulation configured will have `null` for `regulationResult`. An agent without appraisal will have `null` for `appraisalResult` and empty `concernSalience`. Prompt sections with unresolvable optional dependencies are caught and skipped — the trace contains what the pipeline actually produced, not what it theoretically could produce. A partial trace is still a useful trace.
+
+**CognitionStateProvider is an SPI on CognitionCore.** The observability module does not reach up into the pipeline implementation. It defines a `CognitionStateProvider` interface. CognitionCore implements it. The dependency flows downward — the same pattern used throughout the architecture to keep layer boundaries clean. No new coupling, no privileged access.
+
+### Query Modes
+
+The `pipelineDump` endpoint exposes three query modes through a single `@PlatformQuery` method:
+
+![Three query modes for pipeline state](2026-11-09-mdp02-trace-query-modes.svg)
+
+**Live** — no tick arguments. Returns the current pipeline state from `CognitionStateProvider.currentTrace()`. This is in-memory, zero-cost, and reflects whatever the last tick produced. Use it during development or live debugging.
+
+**Historical (single tick)** — pass `tick=N`. Returns the stored snapshot from `PipelineSnapshotStore.findByTick()`. The SQLite implementation persists every tick's trace as a JSON-serialized record with a unique constraint on `(tenant_id, agent_id, tick_number)`. Use it for postmortem analysis of a specific moment.
+
+**Historical (range)** — pass `fromTick` and `toTick`. Returns all snapshots in the range, ordered by tick number. This is the trajectory query — the one that reveals dynamics like fatigue accumulation, drive adaptation curves, and regulation strategy switches over time. For a 300-tick scenario with 17 agents, that is 5,100 snapshots at roughly 2-5 KB each — 10 to 25 MB in SQLite. Small enough to persist routinely, large enough to be useful.
+
+The tick counter is a monotonic `AtomicInteger` on CognitionCore, incremented at the end of each `tick()` call after the TERMINAL phase completes. Capture is conditional — if no `PipelineSnapshotStore` is wired, the trace is still available via the live query path but is not persisted.
+
+## 6. What This Enables
 
 Per-tick pipeline snapshots, persisted alongside the behavioral transcript, create a new class of diagnostic capability:
 
@@ -68,6 +108,8 @@ Per-tick pipeline snapshots, persisted alongside the behavioral transcript, crea
 **Pipeline coherence validation.** The most interesting future use: eval tests that assert on pipeline trace content rather than behavioral outcomes. Given a shame-inducing observation, does the trace show elevated shame in the appraisal result, the correct CAPS attractor activation, the expected regulation strategy selection, and the corresponding prompt section? This is not testing what the agent *said* — it is testing whether the cognitive pipeline produced an internally coherent chain of reasoning. It separates "did the agent behave appropriately" (behavioral eval) from "did the pipeline produce this behavior for the right reasons" (cognitive eval).
 
 The behavioral eval tells you whether the output is correct. The pipeline eval tells you whether the system's reasoning is correct. Both can pass independently. When they diverge — correct behavior for wrong reasons, or wrong behavior from correct reasoning — you have found something that no amount of transcript analysis would reveal.
+
+This is not hypothetical. The next step is pipeline coherence eval tests that run full cognitive ticks with known observations and assert cross-stage consistency using LLM classification. A shame-inducing observation should produce elevated shame in the appraisal result, suppression-related CAPS attractor activation, RESPONSE_MODULATION selection in the regulation result, and suppression-related prompt sections. If any link in that chain breaks — shame was appraised but regulation selected the wrong strategy, or the right strategy was selected but the prompt section rendered something unrelated — the eval catches it. The infrastructure is built. The question is no longer whether to instrument the pipeline. It is whether the instrumented pipeline tells a coherent story.
 
 ---
 
