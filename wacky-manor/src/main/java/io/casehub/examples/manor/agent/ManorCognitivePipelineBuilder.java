@@ -188,7 +188,9 @@ public class ManorCognitivePipelineBuilder {
                 noOpReflection,
                 io.casehub.neocortex.cognition.strategy.StrategyLearningConfig.defaults(), java.time.Clock.systemUTC(), sessionPipeline);
 
-        var curiosityDrive = new io.casehub.neocortex.cognition.drive.CuriosityDrive(memoryHygieneAdapter);
+        var gapDetector = new io.casehub.neocortex.mindmap.intelligence.InformationGapDetector(mindMapStore);
+        var curiosityDrive = new io.casehub.neocortex.cognition.drive.CuriosityDrive(
+                gapDetector, new io.casehub.neocortex.mindmap.intelligence.CuriosityChannelComputer(), 0.5);
         var competenceDrive = new io.casehub.neocortex.cognition.drive.CompetenceDrive(strategyOrch);
         var affiliationDrive = new io.casehub.neocortex.cognition.drive.AffiliationDrive(
                 userModelOrch, 0.3, java.time.Duration.ofHours(1));

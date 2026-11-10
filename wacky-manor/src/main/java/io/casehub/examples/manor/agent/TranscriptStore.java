@@ -48,7 +48,7 @@ public final class TranscriptStore {
         Thread.ofVirtual().name("transcript-tick-" + tick).start(() -> {
             for (var p : pending) {
                 try {
-                    store.append(p.path(), p.data());
+                    store.write(p.path(), p.data());
                 } catch (Exception e) {
                     log.warnf("Failed to persist transcript for %s tick %d: %s", p.agentId(), tick, e.getMessage());
                 }

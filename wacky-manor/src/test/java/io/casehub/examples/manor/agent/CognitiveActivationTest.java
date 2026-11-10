@@ -84,7 +84,7 @@ public class CognitiveActivationTest {
                 StrategyLearningConfig.defaults(), java.time.Clock.systemUTC(), sessionPipeline);
 
         var drives = new DriveOrchestrator(
-                new CuriosityDrive(memoryHygieneAdapter), new CompetenceDrive(strategy),
+                new CuriosityDrive(new io.casehub.neocortex.mindmap.intelligence.InformationGapDetector(new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore()), new io.casehub.neocortex.mindmap.intelligence.CuriosityChannelComputer(), 0.5), new CompetenceDrive(strategy),
                 new AffiliationDrive(userModel, 0.3, Duration.ofHours(1)),
                 new AutonomyDrive(mentalModel, 0.5),
                 mood, new DriveComposer(), DriveConfig.defaults());
