@@ -368,6 +368,7 @@
             <configuration>
               <groups>llm-eval</groups>
               <excludedGroups combine.self="override"/>
+              <forkedProcessTimeoutInSeconds>3600</forkedProcessTimeoutInSeconds>
               <systemPropertyVariables>
                 <eval.characters>${eval.characters}</eval.characters>
                 <eval.layers>${eval.layers}</eval.layers>

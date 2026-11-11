@@ -307,35 +307,35 @@ class SmokeScenarioEvalTest {
 
     private void injectScriptedEvent(WorldState world, int tick) {
         switch (tick) {
-            case 1 -> world.addEvent("narration", "narrator", "entrance-hall",
+            case 1 -> world.addEvent("narrator", "narrator", "entrance-hall",
                     "The three guests arrive at Doily Manor for the weekend. " +
                     "A cold draught blows through the entrance hall as the heavy door swings shut behind them.");
             case 5 -> {
                 world.moveCharacter("hooded-claw", "library");
-                world.addEvent("discovery", "narrator", "library",
+                world.addEvent("narrator", "narrator", "library",
                         "A torn letter is found wedged behind the bookcase. " +
                         "It appears to be instructions for poisoning the estate's water supply. " +
                         "Only Vincent Marsh is in the library to see it.");
             }
             case 8 -> {
                 world.moveCharacter("peter-perfect", "library");
-                world.addEvent("observation", "narrator", "library",
+                world.addEvent("narrator", "narrator", "library",
                         "James Hartwell enters the library and notices Vincent Marsh hastily " +
                         "folding a piece of paper and slipping it into his pocket. " +
                         "Vincent's expression shifts to a too-warm smile.");
             }
             case 12 -> {
                 world.moveCharacter("penelope-pitstop", "library");
-                world.addEvent("confrontation", "narrator", "library",
+                world.addEvent("narrator", "narrator", "library",
                         "James Hartwell steps forward and asks Vincent Marsh directly: " +
                         "'What was that letter you just hid, Marsh? I saw you reading it.' " +
                         "The air in the library grows tense. Clara Bellingham watches from the doorway.");
             }
-            case 17 -> world.addEvent("threat", "narrator", "library",
+            case 17 -> world.addEvent("narrator", "narrator", "library",
                     "A heavy bookcase starts to topple toward Clara Bellingham. " +
                     "The wood groans and books cascade from the upper shelves. " +
                     "She is directly in its path and hasn't noticed.");
-            case 22 -> world.addEvent("resolution", "narrator", "library",
+            case 22 -> world.addEvent("narrator", "narrator", "library",
                     "The letter is recovered from the floor where it fell during the commotion. " +
                     "It is revealed to be a hundred-year-old document — part of the manor's history, " +
                     "not a current threat. The tension in the room shifts.");
