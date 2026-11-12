@@ -1,4 +1,4 @@
-# Phase 2.6 — ObservationAccumulator Wiring with casehub-agency
+# Phase 2.6 — ObservationAccumulator Wiring with casehub-blocks
 
 **Date:** 2026-08-01
 **Status:** Approved
@@ -9,7 +9,7 @@
 ## Goal
 
 Replace raw event tail reading in character observations with accumulated,
-compacted, and optionally LLM-summarised context via casehub-agency
+compacted, and optionally LLM-summarised context via casehub-blocks
 `ObservationAccumulator`. Characters should act on batched context, not raw
 event tails, and retain cross-room memory that is mechanically compacted
 and semantically compressed when it exceeds a configurable budget.

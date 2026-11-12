@@ -1,6 +1,7 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.yaml.jackson.YamlMappers;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +37,7 @@ public final class ManorSocialConfigLoader {
             throw new IllegalStateException("Social config not found: " + resourcePath);
         }
 
-        var mapper = YamlMappers.create();
+        var mapper = new ObjectMapper(new YAMLFactory());
 
         try (is) {
             Map<String, Map<String, Object>> raw = mapper.readValue(is, Map.class);
@@ -70,8 +71,7 @@ public final class ManorSocialConfigLoader {
                                                                       .map(m -> new SocialConfig.Drive(
                                                                               (String) m.get("type"),
                                                                               ((Number) m.get("intensity")).doubleValue(),
-                                                                              (String) m.get("description"),
-                                                                              (String) m.get("context")))
+                                                                              (String) m.get("description")))
                                                                       .toList()
                      : List.<SocialConfig.Drive>of();
 
@@ -153,69 +153,6 @@ public final class ManorSocialConfigLoader {
                          ? ((List<String>) raw.get("tendencies"))
                          : List.<String>of();
 
-        var personalityFacets = raw.containsKey("personality-facets")
-                ? ((List<Map<String, Object>>) raw.get("personality-facets")).stream()
-                        .map(m -> new SocialConfig.PersonalityFacet(
-                                (String) m.get("facet"),
-                                ((Number) m.get("score")).intValue(),
-                                (String) m.get("origin")))
-                        .toList()
-                : List.<SocialConfig.PersonalityFacet>of();
-
-        var relationalSchemas = raw.containsKey("relational-schemas")
-                ? ((List<Map<String, Object>>) raw.get("relational-schemas")).stream()
-                        .map(m -> new SocialConfig.RelationalSchema(
-                                (String) m.get("target"),
-                                (String) m.get("role"),
-                                ((Number) m.getOrDefault("trust", 0.5)).doubleValue(),
-                                ((Number) m.getOrDefault("intimacy", 0.0)).doubleValue(),
-                                ((Number) m.getOrDefault("utility", 0.0)).doubleValue(),
-                                (String) m.get("description")))
-                        .toList()
-                : List.<SocialConfig.RelationalSchema>of();
-
-        SocialConfig.AttachmentStyle attachment = null;
-        if (raw.containsKey("attachment")) {
-            var atRaw = (Map<String, Object>) raw.get("attachment");
-            attachment = new SocialConfig.AttachmentStyle(
-                    (String) atRaw.get("style"),
-                    ((Number) atRaw.getOrDefault("anxiety", 0.5)).doubleValue(),
-                    ((Number) atRaw.getOrDefault("avoidance", 0.5)).doubleValue());
-        }
-
-        var formationMemories = raw.containsKey("formation-memories")
-                ? ((List<Map<String, Object>>) raw.get("formation-memories")).stream()
-                        .map(m -> {
-                            var episode = (String) m.get("episode");
-                            var annotations = new java.util.ArrayList<>(FormationMemoryParser.extractAnnotations(episode));
-                            if (m.containsKey("serves")) {
-                                annotations.add(FormationMemoryParser.parseWholeMemory((String) m.get("serves"), episode));
-                            }
-                            return new SocialConfig.FormationMemory(
-                                    ((Number) m.get("age")).intValue(),
-                                    episode,
-                                    ((Number) m.getOrDefault("pleasure", 0.0)).doubleValue(),
-                                    ((Number) m.getOrDefault("arousal", 0.0)).doubleValue(),
-                                    ((Number) m.getOrDefault("dominance", 0.0)).doubleValue(),
-                                    (String) m.getOrDefault("catalogue", "formation-memory"),
-                                    annotations);
-                        })
-                        .toList()
-                : List.<SocialConfig.FormationMemory>of();
-
-        SocialConfig.Disposition disposition = null;
-        if (raw.containsKey("disposition")) {
-            var dRaw = (Map<String, Object>) raw.get("disposition");
-            disposition = new SocialConfig.Disposition(
-                    (String) dRaw.getOrDefault("social-orient", "cooperative"),
-                    (String) dRaw.getOrDefault("rule-following", "moderate"),
-                    (String) dRaw.getOrDefault("risk-appetite", "calculated"),
-                    (String) dRaw.getOrDefault("autonomy", "moderate"),
-                    (String) dRaw.getOrDefault("conflict-mode", "cooperative"));
-        }
-
-        String substrate = (String) raw.get("psychological-substrate");
-
-        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig, personaConstraint, tendencies, personalityFacets, relationalSchemas, attachment, formationMemories, substrate, disposition);
+        return new SocialConfig(goals, drives, norms, beliefs, relationships, reinforcement, stageConfig, personaConstraint, tendencies);
     }
 }

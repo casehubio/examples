@@ -1,16 +1,13 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.neocortex.cognition.testing.StubPipelines;
 import io.casehub.neocortex.memory.Memory;
 import io.casehub.neocortex.memory.MemoryDomain;
 import io.casehub.neocortex.memory.reflection.ReflectionEvent;
 import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentSession;
-import io.casehub.platform.agent.session.SessionPipeline;
+import io.casehub.platform.agent.AgentProvider;
 import io.smallrye.mutiny.Multi;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +24,7 @@ class ManorReflectionSynthesizerTest {
               {"insight": "Penelope trusts Sneekly too easily", "importance": 0.7}
             ]
             """;
-        var synthesizer = new ManorReflectionSynthesizer(mockPipeline(llmResponse));
+        var synthesizer = new ManorReflectionSynthesizer(mockProvider(llmResponse));
 
         var memories = List.of(
             new Memory("m1", "agent-1", new MemoryDomain("manor"), "t1",
@@ -49,7 +46,7 @@ class ManorReflectionSynthesizerTest {
 
     @Test
     void returnsEmptyOnLlmFailure() {
-        var synthesizer = new ManorReflectionSynthesizer(failingPipeline());
+        var synthesizer = new ManorReflectionSynthesizer(failingProvider());
 
         var memories = List.of(
             new Memory("m1", "agent-1", new MemoryDomain("manor"), "t1",
@@ -63,7 +60,7 @@ class ManorReflectionSynthesizerTest {
 
     @Test
     void returnsEmptyForEmptySources() {
-        var synthesizer = new ManorReflectionSynthesizer(mockPipeline("[]"));
+        var synthesizer = new ManorReflectionSynthesizer(mockProvider("[]"));
 
         List<ReflectionEvent> results = synthesizer.synthesize("agent-1", "t1", List.of(), 1);
 
@@ -75,7 +72,7 @@ class ManorReflectionSynthesizerTest {
         String llmResponse = """
             [{"insight": "something interesting", "importance": null}]
             """;
-        var synthesizer = new ManorReflectionSynthesizer(mockPipeline(llmResponse));
+        var synthesizer = new ManorReflectionSynthesizer(mockProvider(llmResponse));
 
         var memories = List.of(
             new Memory("m1", "a1", new MemoryDomain("manor"), "t1",
@@ -88,27 +85,29 @@ class ManorReflectionSynthesizerTest {
         assertThat(results.get(0).confidence()).isEqualTo(0.7);
     }
 
-    private SessionPipeline mockPipeline(String responseText) {
-        return StubPipelines.create(init -> new AgentSession() {
-            @Override public Multi<AgentEvent> query(String prompt) {
+    private AgentProvider mockProvider(String responseText) {
+        return new AgentProvider() {
+            @Override
+            public Multi<AgentEvent> invoke(io.casehub.platform.agent.AgentSessionConfig config) {
                 return Multi.createFrom().item(new AgentEvent.TextDelta(responseText));
             }
-            @Override public io.smallrye.mutiny.Uni<Void> interrupt() {
-                return io.smallrye.mutiny.Uni.createFrom().voidItem();
+            @Override
+            public io.casehub.platform.agent.AgentSession openSession(io.casehub.platform.agent.AgentSessionInit init) {
+                throw new UnsupportedOperationException();
             }
-            @Override public void close(Duration timeout) {}
-        });
+        };
     }
 
-    private SessionPipeline failingPipeline() {
-        return StubPipelines.create(init -> new AgentSession() {
-            @Override public Multi<AgentEvent> query(String prompt) {
+    private AgentProvider failingProvider() {
+        return new AgentProvider() {
+            @Override
+            public Multi<AgentEvent> invoke(io.casehub.platform.agent.AgentSessionConfig config) {
                 return Multi.createFrom().failure(new RuntimeException("LLM unavailable"));
             }
-            @Override public io.smallrye.mutiny.Uni<Void> interrupt() {
-                return io.smallrye.mutiny.Uni.createFrom().voidItem();
+            @Override
+            public io.casehub.platform.agent.AgentSession openSession(io.casehub.platform.agent.AgentSessionInit init) {
+                throw new UnsupportedOperationException();
             }
-            @Override public void close(Duration timeout) {}
-        });
+        };
     }
 }

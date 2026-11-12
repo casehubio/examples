@@ -5,9 +5,7 @@ import java.util.List;
 
 public final class ManorContextStrategy {
     private static final java.util.Set<String> SOCIAL_AWARENESS_DRIVES          = java.util.Set.of("scheming", "suspicion");
-    // CAPS activation threshold for social cognition gating (Mischel & Shoda 1995)
     private static final double                SOCIAL_AWARENESS_DRIVE_THRESHOLD = 0.5;
-    // Relationship stage progression — Altman & Taylor (1973) social penetration theory
     private static final java.util.List<String> STAGE_ORDER                     = java.util.List.of(
             "stranger", "acquaintance", "familiar", "friend", "confidant");
 
@@ -27,12 +25,6 @@ public final class ManorContextStrategy {
 
     public boolean shouldCompareSocially(java.util.List<SocialConfig.Drive> drives, boolean isPullAside) {
         if (isPullAside) {return true;}
-        return drives.stream()
-                     .anyMatch(d -> SOCIAL_AWARENESS_DRIVES.contains(d.type())
-                                    && d.intensity() > SOCIAL_AWARENESS_DRIVE_THRESHOLD);
-    }
-
-    public boolean shouldCompareSociallyBySnapshot(java.util.List<io.casehub.neocortex.cognition.prompt.observation.DriveSnapshot> drives) {
         return drives.stream()
                      .anyMatch(d -> SOCIAL_AWARENESS_DRIVES.contains(d.type())
                                     && d.intensity() > SOCIAL_AWARENESS_DRIVE_THRESHOLD);

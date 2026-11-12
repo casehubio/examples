@@ -168,14 +168,6 @@ class WorldStateTest {
     }
 
     @Test
-    void old_furniture_in_cellar_is_interactable() {
-        var oldFurniture = world.findObject("old-furniture");
-        assertThat(oldFurniture).isNotNull();
-        assertThat(oldFurniture.interactable()).isTrue();
-    }
-
-
-    @Test
     void is_object_taken_returns_false_for_untaken() {
         assertThat(world.isObjectTaken("poison")).isFalse();
     }
@@ -213,31 +205,5 @@ class WorldStateTest {
                 .contains("laboratory");
         assertThat(world.room("entrance-hall").adjacentRooms())
                 .contains("library");
-    }
-
-    @Test
-    void remapCharacterIds_replaces_keys_and_agentIds() {
-        var idMap = java.util.Map.of(
-                "penelope-pitstop", "clara-bellingham",
-                "hooded-claw", "vincent-marsh",
-                "dick-dastardly", "reginald-foxworth"
-                                    );
-        world.remapCharacterIds(idMap);
-
-        assertThat(world.character("clara-bellingham")).isNotNull();
-        assertThat(world.character("clara-bellingham").agentId()).isEqualTo("clara-bellingham");
-        assertThat(world.character("penelope-pitstop")).isNull();
-        assertThat(world.character("vincent-marsh")).isNotNull();
-        assertThat(world.character("vincent-marsh").agentId()).isEqualTo("vincent-marsh");
-    }
-
-    @Test
-    void remapCharacterIds_preserves_unmapped_characters() {
-        var idMap = java.util.Map.of("penelope-pitstop", "clara-bellingham");
-        world.remapCharacterIds(idMap);
-
-        assertThat(world.character("clara-bellingham")).isNotNull();
-        assertThat(world.character("peter-perfect")).isNotNull();
-        assertThat(world.character("peter-perfect").agentId()).isEqualTo("peter-perfect");
     }
 }

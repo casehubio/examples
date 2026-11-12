@@ -1,10 +1,11 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.agency.summarisation.LevelEvent;
-import io.casehub.agency.summarisation.Summariser;
+import io.casehub.blocks.summarisation.LevelEvent;
+import io.casehub.blocks.summarisation.Summariser;
 import io.casehub.examples.manor.model.ManorEvent;
 import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentSession;
+import io.casehub.platform.agent.AgentProvider;
+import io.casehub.platform.agent.AgentSessionConfig;
 import org.jboss.logging.Logger;
 
 import java.time.Duration;
@@ -37,10 +38,10 @@ public final class NarratorSummariser implements Summariser<ManorEvent, String> 
         adjusts his disguise and flashes a smile SO sinister it could curdle MILK!"
         """;
 
-    private final io.casehub.platform.agent.AgentSession session;
+    private final AgentProvider agentProvider;
 
-    public NarratorSummariser(io.casehub.platform.agent.AgentSession session) {
-        this.session = session;
+    public NarratorSummariser(AgentProvider agentProvider) {
+        this.agentProvider = agentProvider;
     }
 
     @Override
@@ -50,7 +51,8 @@ public final class NarratorSummariser implements Summariser<ManorEvent, String> 
         }
         String prompt = formatPrompt(batch);
         try {
-            String narration = session.query(prompt)
+            String narration = agentProvider.invoke(
+                            AgentSessionConfig.of(SYSTEM_PROMPT, prompt, Duration.ofSeconds(30)))
                     .filter(e -> e instanceof AgentEvent.TextDelta)
                     .map(e -> ((AgentEvent.TextDelta) e).text())
                     .collect().with(Collectors.joining())

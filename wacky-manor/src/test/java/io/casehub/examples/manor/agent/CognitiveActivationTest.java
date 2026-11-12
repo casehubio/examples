@@ -30,12 +30,12 @@ import io.casehub.neocortex.cognition.prompt.MoodPromptSection;
 import io.casehub.neocortex.cognition.prompt.NarrativePromptSection;
 import io.casehub.neocortex.cognition.prompt.StrategyPromptSection;
 import io.casehub.neocortex.cognition.prompt.UserModelPromptSection;
-import io.casehub.agency.social.memory.ArousalScorer;
-import io.casehub.agency.social.memory.CompositeConfidenceScorer;
-import io.casehub.agency.social.memory.MemoryHygieneOrchestrator;
-import io.casehub.agency.social.memory.RetentionConfig;
-import io.casehub.agency.social.memory.SurpriseScorer;
-import io.casehub.agency.social.memory.WeightedScorer;
+import io.casehub.blocks.memory.ArousalScorer;
+import io.casehub.blocks.memory.CompositeConfidenceScorer;
+import io.casehub.blocks.memory.MemoryHygieneOrchestrator;
+import io.casehub.blocks.memory.RetentionConfig;
+import io.casehub.blocks.memory.SurpriseScorer;
+import io.casehub.blocks.memory.WeightedScorer;
 import io.casehub.neocortex.memory.cbr.ScopeDecay;
 import io.casehub.neocortex.memory.cbr.TemporalDecay;
 import io.casehub.neocortex.memory.cbr.inmem.InMemoryCbrRecordStore;
@@ -57,7 +57,7 @@ public class CognitiveActivationTest {
         return buildCore(config, null);
     }
 
-    public static CognitionCore buildCore(CognitionConfig config, io.casehub.platform.agent.session.SessionPipeline sessionPipeline) {
+    public static CognitionCore buildCore(CognitionConfig config, io.casehub.platform.agent.AgentProvider agentProvider) {
         var mood = new MoodOrchestrator(MoodConfig.defaults());
         var cbrStore = new InMemoryCbrRecordStore();
         var narrativeOrch = new NarrativeOrchestrator(new io.casehub.neocortex.cognition.narrative.NarrativeMemory(cbrStore, io.casehub.neocortex.cognition.narrative.NarrativeConfig.defaults()));
@@ -71,26 +71,26 @@ public class CognitiveActivationTest {
                 StrategyLearningConfig.defaults().memoryDomain(),
                 List.of(StrategyLearningConfig.defaults().engagementCaseType()),
                 RetentionConfig.DEFAULT, 10, 0.7, event -> {});
-        var memoryHygieneAdapter = new io.casehub.agency.social.cognition.MemoryHygieneSpiAdapter(memoryHygiene);
+        var memoryHygieneAdapter = new io.casehub.blocks.agentic.cognition.MemoryHygieneSpiAdapter(memoryHygiene);
 
         io.casehub.neocortex.memory.reflection.ReflectionOrchestrator noOpReflection =
                 (agentId, tenantId, since, maxEntries) -> List.of();
         var userModel = new UserModelOrchestrator(
-                new io.casehub.neocortex.cognition.usermodel.UserProfileMemory(cbrStore, UserModelConfig.defaults()), UserModelConfig.defaults(), sessionPipeline);
+                new io.casehub.neocortex.cognition.usermodel.UserProfileMemory(cbrStore, UserModelConfig.defaults()), agentProvider, UserModelConfig.defaults());
         var mentalModel = new MentalModelOrchestrator(
-                new io.casehub.neocortex.cognition.mentalmodel.MentalModelMemory(cbrStore, MentalModelConfig.defaults()), MentalModelConfig.defaults(), java.time.Clock.systemUTC(), sessionPipeline);
+                new io.casehub.neocortex.cognition.mentalmodel.MentalModelMemory(cbrStore, MentalModelConfig.defaults()), agentProvider, MentalModelConfig.defaults());
         var strategy = new StrategyLearningOrchestrator(
                 new io.casehub.neocortex.cognition.strategy.StrategyMemory(cbrStore, StrategyLearningConfig.defaults()), noOpReflection,
-                StrategyLearningConfig.defaults(), java.time.Clock.systemUTC(), sessionPipeline);
+                agentProvider, StrategyLearningConfig.defaults());
 
         var drives = new DriveOrchestrator(
-                new CuriosityDrive(new io.casehub.neocortex.mindmap.intelligence.InformationGapDetector(new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore()), new io.casehub.neocortex.mindmap.intelligence.CuriosityChannelComputer(), 0.5), new CompetenceDrive(strategy),
+                new CuriosityDrive(memoryHygieneAdapter), new CompetenceDrive(strategy),
                 new AffiliationDrive(userModel, 0.3, Duration.ofHours(1)),
                 new AutonomyDrive(mentalModel, 0.5),
                 mood, new DriveComposer(), DriveConfig.defaults());
 
         var innerLife = new InnerLifeOrchestrator(
-                noOpReflection, List.of(), InnerLifeConfig.defaults(), drives, sessionPipeline);
+                noOpReflection, agentProvider, List.of(), InnerLifeConfig.defaults(), drives);
 
         var goals = new GoalProposalOrchestrator(
                 drives, List.of(), null, Optional.empty(),
@@ -98,9 +98,8 @@ public class CognitiveActivationTest {
                 GoalProposalConfig.defaults(), GoalEscalationConfig.defaults(),
                 java.time.Clock.systemUTC());
 
-        var core = new CognitionCore(mood, drives, userModel, mentalModel, strategy,
-                narrativeOrch, goals, memoryHygieneAdapter, innerLife, config, null, null, null, null, null, null, null, sessionPipeline);
-        return core;
+        return new CognitionCore(mood, drives, userModel, mentalModel, strategy,
+                narrativeOrch, goals, memoryHygieneAdapter, innerLife, agentProvider, config, null, null, null, null, null, null, null);
     }
 
     @Test void tickRunsWithoutErrorOnFullConfig() {

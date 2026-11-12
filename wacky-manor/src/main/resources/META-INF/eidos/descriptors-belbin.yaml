@@ -5,11 +5,11 @@ descriptors:
     slotVocabulary: urn:casehub:vocab:belbin
     tenancyId: wacky-manor
     disposition:
-      socialOrient: cooperative
-      ruleFollowing: strict
+      socialOrient: collaborative
+      ruleFollowing: conforming
       riskAppetite: moderate
-      autonomy: low
-      conflictMode: cooperative
+      autonomy: directed
+      conflictMode: accommodating
       delegation: false
     capabilities:
       - name: riddle-solving
@@ -17,7 +17,7 @@ descriptors:
       - name: charm
         tags: [social]
     templates:
-      - ref: theatrical-eccentric-style
+      - ref: hanna-barbera-cartoon-style
     goals:
       - name: find-diamond
         description: Find the legendary Doily Diamond hidden in the mansion
@@ -55,9 +55,9 @@ descriptors:
     disposition:
       socialOrient: competitive
       ruleFollowing: flexible
-      riskAppetite: bold
-      autonomy: high
-      conflictMode: competitive
+      riskAppetite: extreme
+      autonomy: autonomous
+      conflictMode: competing
       delegation: false
     capabilities:
       - name: discover-hidden-dangers
@@ -65,7 +65,7 @@ descriptors:
       - name: disguise
         tags: [social, deception]
     templates:
-      - ref: theatrical-eccentric-style
+      - ref: hanna-barbera-cartoon-style
       - ref: cartoon-villain
         args:
           catchphrase: "Nyah-ha-ha-HA!"
@@ -115,11 +115,11 @@ descriptors:
     slotVocabulary: urn:casehub:vocab:belbin
     tenancyId: wacky-manor
     disposition:
-      socialOrient: cooperative
-      ruleFollowing: flexible
+      socialOrient: collaborative
+      ruleFollowing: adaptive
       riskAppetite: bold
-      autonomy: low
-      conflictMode: cooperative
+      autonomy: reactive
+      conflictMode: accommodating
       delegation: false
     capabilities:
       - name: detect-suspicious-behavior
@@ -127,7 +127,7 @@ descriptors:
       - name: accidental-heroism
         tags: [physical, comedy]
     templates:
-      - ref: theatrical-eccentric-style
+      - ref: hanna-barbera-cartoon-style
       - ref: cartoon-protector
         args:
           protection_style: bumbling and accidental
@@ -164,10 +164,10 @@ descriptors:
     tenancyId: wacky-manor
     disposition:
       socialOrient: competitive
-      ruleFollowing: flexible
+      ruleFollowing: defiant
       riskAppetite: bold
-      autonomy: high
-      conflictMode: competitive
+      autonomy: autonomous
+      conflictMode: competing
       delegation: false
     capabilities:
       - name: deception
@@ -175,7 +175,7 @@ descriptors:
       - name: scheming
         tags: [intellect, villain]
     templates:
-      - ref: theatrical-eccentric-style
+      - ref: hanna-barbera-cartoon-style
       - ref: cartoon-villain
         args:
           catchphrase: "Drat, drat, and double DRAT!"
@@ -212,11 +212,11 @@ descriptors:
     slotVocabulary: urn:casehub:vocab:belbin
     tenancyId: wacky-manor
     disposition:
-      socialOrient: cooperative
-      ruleFollowing: strict
+      socialOrient: collaborative
+      ruleFollowing: conforming
       riskAppetite: bold
-      autonomy: low
-      conflictMode: cooperative
+      autonomy: directed
+      conflictMode: accommodating
       delegation: false
     capabilities:
       - name: bravery
@@ -224,7 +224,7 @@ descriptors:
       - name: gallantry
         tags: [social]
     templates:
-      - ref: theatrical-eccentric-style
+      - ref: hanna-barbera-cartoon-style
       - ref: cartoon-hero
         args:
           heroic_trait: gallant chivalry

@@ -3,8 +3,8 @@ package io.casehub.examples.helpdesk.demo;
 import io.casehub.examples.helpdesk.NotificationService;
 import io.casehub.examples.helpdesk.mcp.HelpdeskOperations;
 import io.casehub.examples.helpdesk.mcp.ClassificationInput;
-import io.casehub.pages.playbook.client.ActionContext;
-import io.casehub.pages.playbook.client.PlaybookAction;
+import io.casehub.pages.scenario.client.ActionContext;
+import io.casehub.pages.scenario.client.ScenarioAction;
 import io.quarkus.arc.profile.IfBuildProfile;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 @ApplicationScoped
 @IfBuildProfile("demo")
-public class HelpDeskPlaybookActions {
+public class HelpDeskScenarioActions {
 
     @Inject
     HelpdeskOperations operations;
@@ -22,7 +22,7 @@ public class HelpDeskPlaybookActions {
     @Inject
     NotificationService notificationService;
 
-    @PlaybookAction("create-ticket")
+    @ScenarioAction("create-ticket")
     Map<String, Object> createTicket(ActionContext ctx) {
         var classifications = List.of(new ClassificationInput(
             ctx.data("subject"),
@@ -41,7 +41,7 @@ public class HelpDeskPlaybookActions {
             "channelId", result.channelId());
     }
 
-    @PlaybookAction("verify-ticket-exists")
+    @ScenarioAction("verify-ticket-exists")
     Map<String, Object> verifyTicketExists(ActionContext ctx) {
         var tickets = operations.tickets();
         var matchStatus = ctx.awaitMatch("status");
@@ -65,12 +65,12 @@ public class HelpDeskPlaybookActions {
             "category", ticket.category() != null ? ticket.category() : "");
     }
 
-    @PlaybookAction("resolve-ticket")
+    @ScenarioAction("resolve-ticket")
     Map<String, Object> resolveTicket(ActionContext ctx) {
         return Map.of("status", "RESOLVED", "resolution", ctx.data("resolution"));
     }
 
-    @PlaybookAction("claim-work-item")
+    @ScenarioAction("claim-work-item")
     Map<String, Object> claimWorkItem(ActionContext ctx) {
         String port = org.eclipse.microprofile.config.ConfigProvider.getConfig()
                 .getOptionalValue("quarkus.http.port", String.class).orElse("8090");
@@ -113,7 +113,7 @@ public class HelpDeskPlaybookActions {
         }
     }
 
-    @PlaybookAction("complete-work-item")
+    @ScenarioAction("complete-work-item")
     Map<String, Object> completeWorkItem(ActionContext ctx) {
         String port = org.eclipse.microprofile.config.ConfigProvider.getConfig()
                 .getOptionalValue("quarkus.http.port", String.class).orElse("8090");
@@ -153,7 +153,7 @@ public class HelpDeskPlaybookActions {
         }
     }
 
-    @PlaybookAction("verify-notification")
+    @ScenarioAction("verify-notification")
     Map<String, Object> verifyNotification(ActionContext ctx) {
         var notifications = operations.notifications(null);
         if (notifications.isEmpty()) {
@@ -162,7 +162,7 @@ public class HelpDeskPlaybookActions {
         return Map.of("count", notifications.size(), "verified", true);
     }
 
-    @PlaybookAction("bootstrap-classifications")
+    @ScenarioAction("bootstrap-classifications")
     Map<String, Object> bootstrapClassifications(ActionContext ctx) {
         @SuppressWarnings("unchecked")
         var entries = (List<Map<String, String>>) (List<?>) ctx.dataMap().get("entries");
@@ -176,7 +176,7 @@ public class HelpDeskPlaybookActions {
         return Map.of("loaded", 0);
     }
 
-    @PlaybookAction("rest-inject-chat")
+    @ScenarioAction("rest-inject-chat")
     Map<String, Object> restInjectChat(ActionContext ctx) {
         String from = ctx.data("from") != null ? ctx.data("from") : "demo-customer";
         String channelId = ctx.data("channelId") != null ? ctx.data("channelId") : "support";

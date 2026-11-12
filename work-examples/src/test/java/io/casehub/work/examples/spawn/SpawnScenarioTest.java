@@ -35,7 +35,7 @@ class SpawnScenarioTest {
 
         childIds.forEach(childId -> {
             final String ref = given()
-                    .when().get("/api/work/items/get-by-id/" + childId)
+                    .when().get("/workitems/" + childId)
                     .then().statusCode(200)
                     .extract().path("callerRef");
             assertThat(ref).isNotNull().startsWith("case:loan");

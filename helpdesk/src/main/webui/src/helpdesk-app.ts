@@ -3,7 +3,7 @@ import { customElement, state } from 'lit/decorators.js';
 import { EventStreamController } from '@casehubio/pages-component';
 import { fromRows, ColumnType, columnId } from '@casehubio/pages-data';
 import type { TypedDataSet, ColumnId } from '@casehubio/pages-data';
-import type { MetricDefinition } from '@casehubio/agency-ui-kpi-metric-row';
+import type { MetricDefinition } from '@casehubio/blocks-ui-kpi-metric-row';
 import type { TableColumnConfig } from '@casehubio/pages-table';
 import { HelpdeskPipelineStrategy } from './pipeline-strategy.js';
 import type { TicketSnapshot } from './pipeline-strategy.js';
@@ -11,8 +11,8 @@ import { HELPDESK_SCENARIO } from './scenarios/help-desk-basic.js';
 import type { ScenarioStep } from './scenarios/help-desk-basic.js';
 
 // side-effect imports — register custom elements
-import '@casehubio/agency-ui-kpi-metric-row';
-import '@casehubio/agency-ui-blocks-timeline';
+import '@casehubio/blocks-ui-kpi-metric-row';
+import '@casehubio/blocks-ui-blocks-timeline';
 import '@casehubio/pages-table';
 
 interface TicketEvent {
@@ -271,11 +271,11 @@ export class HelpdeskApp extends LitElement {
 
       <div class="split-layout">
         <div class="dashboard">
-          <agency-kpi-metric-row
+          <blocks-kpi-metric-row
             .metrics=${this._metricDefs}
             columns="4"
             density="compact"
-          ></agency-kpi-metric-row>
+          ></blocks-kpi-metric-row>
 
           <div class="panel">
             <h2>Tickets</h2>
@@ -298,10 +298,10 @@ export class HelpdeskApp extends LitElement {
           ${this._tickets.length > 0 ? html`
             <div class="panel">
               <h2>Pipeline</h2>
-              <agency-timeline
+              <blocks-timeline
                 .data=${this._ticketSnapshots}
                 .strategy=${this._pipelineStrategy}
-              ></agency-timeline>
+              ></blocks-timeline>
             </div>
           ` : nothing}
 

@@ -1,16 +1,16 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.agency.summarisation.Compactor;
-import io.casehub.agency.summarisation.EventLevel;
-import io.casehub.agency.summarisation.EventStreamBus;
-import io.casehub.agency.summarisation.LevelEvent;
-import io.casehub.agency.summarisation.SummarisationRunner;
-import io.casehub.agency.summarisation.WindowPolicy;
+import io.casehub.blocks.summarisation.Compactor;
+import io.casehub.blocks.summarisation.EventLevel;
+import io.casehub.blocks.summarisation.EventStreamBus;
+import io.casehub.blocks.summarisation.LevelEvent;
+import io.casehub.blocks.summarisation.SummarisationRunner;
+import io.casehub.blocks.summarisation.WindowPolicy;
 import io.casehub.examples.manor.engine.WorldState;
 import io.casehub.examples.manor.model.ManorEvent;
 import io.casehub.examples.manor.web.ManorEventBus;
 import io.casehub.examples.manor.web.ManorWebSocketEvent;
-import io.casehub.platform.agent.AgentSession;
+import io.casehub.platform.agent.AgentProvider;
 import org.jboss.logging.Logger;
 
 public final class NarratorAgent {
@@ -24,53 +24,14 @@ public final class NarratorAgent {
     private          Thread                                  narratorThread;
 
     public NarratorAgent(Compactor<ManorEvent> compactor,
-                         io.casehub.platform.agent.AgentSession narratorSession,
+                         AgentProvider agentProvider,
                          ManorChannels manorChannels,
                          ManorEventBus webEventBus,
                          int eventThreshold,
                          int timerSeconds) {
-        this(compactor, narratorSession, manorChannels, webEventBus, eventThreshold, timerSeconds, null, null);
-    }
-
-    public NarratorAgent(Compactor<ManorEvent> compactor,
-                         io.casehub.platform.agent.AgentSession narratorSession,
-                         ManorChannels manorChannels,
-                         ManorEventBus webEventBus,
-                         int eventThreshold,
-                         int timerSeconds,
-                         io.casehub.neocortex.mindmap.MindMapStore mindMapStore,
-                         String tenantId) {
         this.outputBus = new EventStreamBus<>();
-        if (manorChannels != null || webEventBus != null || mindMapStore != null) {
-            String narratorSubgraphId;
-            if (mindMapStore != null) {
-                var created = mindMapStore.createSubgraph(
-                        new io.casehub.neocortex.mindmap.SubgraphInput(
-                                "narrator-summaries", io.casehub.neocortex.mindmap.SubgraphTypes.ACTIVITY, null),
-                        tenantId);
-                narratorSubgraphId = created != null && !created.isBlank() ? created : "narrator-summaries";
-            } else {
-                narratorSubgraphId = null;
-            }
-            final String                                    sgId  = narratorSubgraphId;
-            final io.casehub.neocortex.mindmap.MindMapStore store = mindMapStore;
-            final String                                    tid   = tenantId;
+        if (manorChannels != null || webEventBus != null) {
             outputBus.subscribe(s -> true, event -> {
-                if (store != null) {
-                    try {
-                        var now   = java.time.Instant.now();
-                        var props = new java.util.HashMap<String, String>();
-                        props.put("content", event.payload());
-                        var nodeInput = io.casehub.neocortex.mindmap.NodeInput.of(
-                                                  "narration-" + now.toEpochMilli(), sgId)
-                                                                              .withProperties(props)
-                                                                              .withProvenance("narrator-agent")
-                                                                              .withValidFrom(now);
-                        store.addNode(nodeInput, tid);
-                    } catch (Exception e) {
-                        log.warn("Narrator memory persistence failed", e);
-                    }
-                }
                 if (manorChannels != null) {
                     try {manorChannels.dispatchNarration(event.payload());} catch (Exception e) {
                         log.warn("Qhorus narration dispatch failed", e);
@@ -84,12 +45,11 @@ public final class NarratorAgent {
             });
         }
         var policy     = WindowPolicy.of(timerSeconds * 1000L, eventThreshold);
-        var summariser = new NarratorSummariser(narratorSession);
+        var summariser = new NarratorSummariser(agentProvider);
         this.runner = new SummarisationRunner<>(policy, compactor, summariser,
                                                 outputBus, NARRATOR_LEVEL,
                                                 batch -> log.warnf("Narrator summarisation failed, batch size=%d", batch.size()));
     }
-
 
     public void collect(ManorEvent event) {
         runner.collect(new LevelEvent<>(event, event.timestamp().toEpochMilli(), NARRATOR_LEVEL, null));

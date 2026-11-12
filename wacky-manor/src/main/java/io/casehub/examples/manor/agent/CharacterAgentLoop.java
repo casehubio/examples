@@ -12,27 +12,24 @@ public final class CharacterAgentLoop {
 
     private static final Logger log = Logger.getLogger(CharacterAgentLoop.class);
 
-    public static final java.util.List<io.casehub.agency.perception.observation.affordance.ActionDescriptor> ACTION_DESCRIPTORS = java.util.List.of(
-            new io.casehub.agency.perception.observation.affordance.ActionDescriptor("MOVE", "walk to an adjacent room", "target = room-id"),
-            new io.casehub.agency.perception.observation.affordance.ActionDescriptor("TAKE", "pick up a portable object into your inventory", "target = object-id"),
-            new io.casehub.agency.perception.observation.affordance.ActionDescriptor("USE", "apply an inventory item to an object", "target = object-id, withItem = item from your inventory"),
-            new io.casehub.agency.perception.observation.affordance.ActionDescriptor("GIVE", "hand an inventory item to another character", "target = character-id, withItem = item from your inventory"),
-            new io.casehub.agency.perception.observation.affordance.ActionDescriptor("EXAMINE", "activate an object's built-in mechanism (levers, locks, puzzles)", "target = object-id, withItem = required item if any"),
-            new io.casehub.agency.perception.observation.affordance.ActionDescriptor("LOOK", "examine an object or room closely", "target = object-id or null for room"),
-            new io.casehub.agency.perception.observation.affordance.ActionDescriptor("STEAL", "take an item from another character's inventory", "target = character-id, withItem = item to steal"),
-            new io.casehub.agency.perception.observation.affordance.ActionDescriptor("PULL_ASIDE", "pull a character aside for a private multi-turn conversation", "target = character-id"),
-            new io.casehub.agency.perception.observation.affordance.ActionDescriptor("WAIT", "do nothing this turn", null)
+    public static final java.util.List<io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor> ACTION_DESCRIPTORS = java.util.List.of(
+            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("MOVE", "walk to an adjacent room", "target = room-id"),
+            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("TAKE", "pick up a portable object into your inventory", "target = object-id"),
+            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("USE", "apply an inventory item to an object", "target = object-id, withItem = item from your inventory"),
+            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("GIVE", "hand an inventory item to another character", "target = character-id, withItem = item from your inventory"),
+            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("INTERACT", "activate an object's built-in mechanism (levers, locks, puzzles)", "target = object-id, withItem = required item if any"),
+            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("LOOK", "examine an object or room closely", "target = object-id or null for room"),
+            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("STEAL", "take an item from another character's inventory", "target = character-id, withItem = item to steal"),
+            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("PULL_ASIDE", "pull a character aside for a private multi-turn conversation", "target = character-id"),
+            new io.casehub.blocks.summarisation.observation.affordance.ActionDescriptor("WAIT", "do nothing this turn", null)
                                                                                                                                                        );
 
-    // Multi-channel thinking calibration — somatic (Damasio 1994; Barrett 2017),
-    // attentional (Easterbrook 1959), temporal (Barrett 2017), action tendency (Frijda 1986)
     public static final String RESPONSE_FORMAT_INSTRUCTION = "\n" +
-                                                             new io.casehub.agency.perception.observation.affordance.AffordanceRenderer().renderActionVocabulary(
+                                                             new io.casehub.blocks.summarisation.observation.affordance.AffordanceRenderer().renderActionVocabulary(
                                                                      """
                                                                      You MUST respond with ONLY a JSON object in this exact format:
                                                                      {
-                                                                       "thinking": "your private inner monologue — you are inside this moment, not watching it. Attend to what feels vivid: body (tension, warmth), attention (what pulls, what you avoid), time (urgent or suspended), action pull. Raw, unperformed, sometimes confused — the character's voice belongs in dialogue. Shown to you next turn.",
-                                                                       "situationChangeDegree": 0.0-1.0,
+                                                                       "thinking": "your immediate reasoning about the current situation — what you notice, how it affects your plans, what to do next. Shown to you next turn as 'Your Current Thinking'",
                                                                        "dialogue": "what you say aloud (or null if silent)",
                                                                        "talkTo": "character-id to direct dialogue at (or null for broadcast)",
                                                                        "aside": "private thoughts for the audience only (or null)",
@@ -40,17 +37,8 @@ public final class CharacterAgentLoop {
                                                                          "type": "one of the action types below",
                                                                          "target": "room-id or object-id or character-id (or null for WAIT)",
                                                                          "withItem": "inventory-item-id to use (or null)"
-                                                                       },
-                                                                       "moodImpact": {
-                                                                         "pleasure": -0.3 to +0.3,
-                                                                         "arousal": -0.3 to +0.3,
-                                                                         "dominance": -0.3 to +0.3,
-                                                                         "cause": "brief reason for this emotional shift"
                                                                        }
                                                                      }
-                                                                     
-                                                                     situationChangeDegree: 0.0 = nothing happened, 1.0 = dramatic shift.
-                                                                     moodImpact: PAD deltas — your actual emotional change from neutral. Negative is valid.
                                                                      
                                                                      ACTION TYPES — use the right one for your intent:""",
                                                                      ACTION_DESCRIPTORS) +
@@ -63,18 +51,6 @@ public final class CharacterAgentLoop {
                     BlockingQueue<PendingAction> actionQueue,
                     ManorEventDispatcher dispatcher,
                     java.util.List<io.casehub.eidos.api.AgentGoal> goals) {
-        run(character, world, invocationService, experienceService,
-            systemPrompt, actionQueue, dispatcher, goals, null);
-    }
-
-    public void run(CharacterState character, WorldState world,
-                    AgentInvocationService invocationService,
-                    AgentExperienceService experienceService,
-                    String systemPrompt,
-                    BlockingQueue<PendingAction> actionQueue,
-                    ManorEventDispatcher dispatcher,
-                    java.util.List<io.casehub.eidos.api.AgentGoal> goals,
-                    CharacterCognition cognition) {
         while (!world.isScenarioComplete() && character.isActive()) {
             try {
                 if (character.sceneContext() != null) {
@@ -91,39 +67,8 @@ public final class CharacterAgentLoop {
                 java.util.List<io.casehub.neocortex.memory.Memory> memories = experienceService != null
                                                                               ? experienceService.recall(character.agentId(), 10) : java.util.List.of();
                 var worldProvider = new ManorWorldObservationProvider(character, world, drain);
-                var pipeline = new io.casehub.agency.perception.observation.affordance.ObservationPipeline(new io.casehub.agency.perception.observation.affordance.PerceptionFilter());
-
-                String observation;
-                if (cognition != null) {
-                    var nearbyIds = world.charactersInRoom(character.currentRoom()).stream()
-                        .map(io.casehub.examples.manor.model.CharacterState::agentId)
-                        .filter(id -> !id.equals(character.agentId()))
-                        .toList();
-                    var agentNameMap = new java.util.HashMap<String, String>();
-                    for (var id : nearbyIds) {
-                        var nearby = world.character(id);
-                        if (nearby != null) agentNameMap.put(id, nearby.name());
-                    }
-                    var reflections = cognition.recallReflections(5);
-                    var relationships = new java.util.HashMap<String, java.util.List<io.casehub.neocortex.memory.Memory>>();
-                    for (var other : world.charactersInRoom(character.currentRoom())) {
-                        if (!other.agentId().equals(character.agentId())) {
-                            var relMems = cognition.recallRelationships(other.agentId(), 3);
-                            if (!relMems.isEmpty()) relationships.put(other.name(), relMems);
-                        }
-                    }
-                    var situationCtx = cognition.classifySituation(character.lastActionResult(), nearbyIds);
-                    observation = new ObservationBuilder(worldProvider, pipeline, character.capabilityTags())
-                        .withCharacter(character)
-                        .withGoals(goals)
-                        .withDrain(drain)
-                        .withMemories(memories, reflections, relationships)
-                        .withCognitiveSections(cognition.renderCognitiveSections(character, nearbyIds, agentNameMap, situationCtx))
-                        .withTaggedSections(cognition.renderTaggedSections())
-                        .build();
-                } else {
-                    observation = ObservationBuilder.buildObservation(worldProvider, pipeline, character.capabilityTags(), character, goals, drain, memories, java.util.List.of(), java.util.Map.of());
-                }
+                var pipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
+                String observation = ObservationBuilder.buildObservation(worldProvider, pipeline, character.capabilityTags(), character, goals, drain, memories, java.util.List.of(), java.util.Map.of());
                 String userPrompt  = observation + RESPONSE_FORMAT_INSTRUCTION;
 
                 AgentResponse response = invocationService.invoke(systemPrompt, userPrompt, character.agentId());
@@ -131,14 +76,13 @@ public final class CharacterAgentLoop {
                 if (response.dialogue() != null) {
                     var dialogueEvent = new io.casehub.examples.manor.model.ManorEvent.Dialogue(
                             java.time.Instant.now(), character.agentId(),
-                            character.currentRoom(), character.name() + ": " + response.dialogue(),
-                            null, null, response.thinking());
+                            character.currentRoom(), character.name() + ": " + response.dialogue());
                     dispatcher.publishDialogue(dialogueEvent, response.dialogue());
                 }
                 if (response.aside() != null) {
                     var asideEvent = new io.casehub.examples.manor.model.ManorEvent.Aside(
                             java.time.Instant.now(), character.agentId(),
-                            character.currentRoom(), response.aside(), response.thinking());
+                            character.currentRoom(), response.aside());
                     dispatcher.publishAside(asideEvent, response.aside());
                 }
 
@@ -147,7 +91,7 @@ public final class CharacterAgentLoop {
                     actionQueue.put(pending);
                     pending.awaitResult(60);
                 } else {
-                    character.setLastActionResult("You stood still, watching.");
+                    character.setLastActionResult("You waited and observed.");
                 }
 
                 if (experienceService != null) {

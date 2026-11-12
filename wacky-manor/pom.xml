@@ -18,7 +18,7 @@
     <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <quarkus.version>3.32.2</quarkus.version>
-    <casehub.version>0.4-SNAPSHOT</casehub.version>
+    <casehub.version>0.2-SNAPSHOT</casehub.version>
     <langchain4j.version>1.14.1</langchain4j.version>
     <quarkus-langchain4j.version>1.9.2</quarkus-langchain4j.version>
     <assertj.version>3.27.3</assertj.version>
@@ -33,11 +33,6 @@
         <version>${quarkus.version}</version>
         <type>pom</type>
         <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>io.casehub</groupId>
-        <artifactId>casehub-neocortex-inference-bayes</artifactId>
-        <version>${casehub.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -65,13 +60,6 @@
       <version>${casehub.version}</version>
     </dependency>
 
-    <!-- YAML 1.2 parsing via centralised factory -->
-    <dependency>
-      <groupId>io.casehub</groupId>
-      <artifactId>casehub-platform-yaml-jackson</artifactId>
-      <version>${casehub.version}</version>
-    </dependency>
-
     <!-- Eidos runtime needs a datasource -->
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -86,27 +74,7 @@
     </dependency>
     <dependency>
       <groupId>io.casehub</groupId>
-      <artifactId>casehub-neocortex-cognitive-eidos</artifactId>
-      <version>${casehub.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.casehub</groupId>
-      <artifactId>casehub-neocortex-cognitive-observability-api</artifactId>
-      <version>${casehub.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.casehub</groupId>
       <artifactId>casehub-neocortex-cognition</artifactId>
-      <version>${casehub.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.casehub</groupId>
-      <artifactId>casehub-neocortex-entity-token-cdi</artifactId>
-      <version>${casehub.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.casehub</groupId>
-      <artifactId>casehub-platform-agent-session-core</artifactId>
       <version>${casehub.version}</version>
     </dependency>
     <dependency>
@@ -144,26 +112,6 @@
     </dependency>
     <dependency>
       <groupId>io.casehub</groupId>
-      <artifactId>casehub-neocortex-memory-seeding</artifactId>
-      <version>${casehub.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.casehub</groupId>
-      <artifactId>casehub-neocortex-caps-engine</artifactId>
-      <version>${casehub.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.casehub</groupId>
-      <artifactId>casehub-neocortex-caps-llm-classifier</artifactId>
-      <version>${casehub.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.casehub</groupId>
-      <artifactId>casehub-neocortex-caps-testing</artifactId>
-      <version>${casehub.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.casehub</groupId>
       <artifactId>casehub-platform-agent-api</artifactId>
       <version>${casehub.version}</version>
     </dependency>
@@ -178,16 +126,14 @@
       <version>${casehub.version}</version>
     </dependency>
     <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-platform-agent-langchain4j</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+    <dependency>
       <groupId>dev.langchain4j</groupId>
       <artifactId>langchain4j-core</artifactId>
       <version>${langchain4j.version}</version>
-    </dependency>
-
-    <!-- CaseHub Neocortex Corpus — ZIP-chain transcript persistence -->
-    <dependency>
-      <groupId>io.casehub</groupId>
-      <artifactId>casehub-neocortex-corpus</artifactId>
-      <version>${casehub.version}</version>
     </dependency>
 
     <!-- CaseHub Qhorus — channels + message dispatch -->
@@ -219,7 +165,7 @@
     <!-- CaseHub Blocks — ObservationAccumulator for event batching -->
     <dependency>
       <groupId>io.casehub</groupId>
-      <artifactId>casehub-agency</artifactId>
+      <artifactId>casehub-blocks</artifactId>
       <version>${casehub.version}</version>
     </dependency>
 
@@ -287,12 +233,6 @@
     </dependency>
     <dependency>
       <groupId>io.casehub</groupId>
-      <artifactId>casehub-neocortex-cognition-testing</artifactId>
-      <version>${casehub.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.casehub</groupId>
       <artifactId>casehub-engine-support-core</artifactId>
       <version>${casehub.version}</version>
       <scope>test</scope>
@@ -327,36 +267,12 @@
         <configuration>
           <excludedGroups>llm-eval,cognitive-eval</excludedGroups>
           <argLine>-Daether.metadataResolver.threads=1 -Dquarkus.test.flat-class-path=true</argLine>
-          <forkedProcessTimeoutInSeconds>300</forkedProcessTimeoutInSeconds>
         </configuration>
       </plugin>
     </plugins>
   </build>
 
   <profiles>
-    <profile>
-      <id>fast</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>${surefire.version}</version>
-            <configuration>
-              <excludedGroups>llm-eval,cognitive-eval</excludedGroups>
-              <excludes>
-                <exclude>**/experiment/*.java</exclude>
-                <exclude>**/voice/*.java</exclude>
-                <exclude>**/*IntegrationTest.java</exclude>
-                <exclude>**/*SmokeTest.java</exclude>
-                <exclude>**/PersonalityCompositionVerificationTest.java</exclude>
-                <exclude>**/ManorResourceProfileTest.java</exclude>
-              </excludes>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
     <profile>
       <id>llm-eval</id>
       <build>
@@ -368,7 +284,6 @@
             <configuration>
               <groups>llm-eval</groups>
               <excludedGroups combine.self="override"/>
-              <forkedProcessTimeoutInSeconds>3600</forkedProcessTimeoutInSeconds>
               <systemPropertyVariables>
                 <eval.characters>${eval.characters}</eval.characters>
                 <eval.layers>${eval.layers}</eval.layers>

@@ -16,9 +16,9 @@ public final class ActionResolver {
             case GIVE -> resolveGive(character, action, world);
             case USE -> resolveUse(character, action, world);
             case LOOK -> resolveLook(character, action, world);
-            case WAIT -> new ActionResult.Success("You stood still, watching.");
+            case WAIT -> new ActionResult.Success("You wait and observe.");
             case STEAL -> resolveSteal(character, action, world);
-            case PULL_ASIDE -> new ActionResult.Success("You pulled them aside for a quiet word.");
+            case PULL_ASIDE -> new ActionResult.Success("You initiated a private exchange.");
         };}
 
     private GameObject findLiveObject(Room room, String objectId, WorldState world) {
@@ -49,7 +49,7 @@ public final class ActionResolver {
             return new ActionResult.Failed("No such object: " + action.target());
         }
         if (!obj.interactable()) {
-            return new ActionResult.Failed(obj.name() + " doesn't respond to your touch.");
+            return new ActionResult.Failed(obj.name() + " cannot be interacted with.");
         }
         character.setX(obj.x());
         if (obj.interactionRequires() != null) {
@@ -63,7 +63,7 @@ public final class ActionResolver {
             return new ActionResult.ItemReceived(obj.yields(),
                                                  "You received " + obj.yields() + " from " + obj.name() + ".");
         }
-        return new ActionResult.Success("You examined the " + obj.name() + ". " + obj.description());
+        return new ActionResult.Success("You interacted with " + obj.name() + ".");
     }
 
     private ActionResult resolveTake(CharacterState character, Action action, WorldState world) {
@@ -86,7 +86,7 @@ public final class ActionResolver {
         if (action.withItem() == null || !character.hasItem(action.withItem())) {
             return new ActionResult.Failed("You don't have " + action.withItem() + ".");
         }
-        CharacterState target = world.resolveCharacter(action.target());
+        CharacterState target = world.character(action.target());
         if (target == null) {
             return new ActionResult.Failed("Unknown character: " + action.target());
         }
@@ -101,7 +101,7 @@ public final class ActionResolver {
     }
 
     private ActionResult resolveSteal(CharacterState character, Action action, WorldState world) {
-        CharacterState target = world.resolveCharacter(action.target());
+        CharacterState target = world.character(action.target());
         if (target == null) {
             return new ActionResult.Failed("Unknown character: " + action.target());
         }

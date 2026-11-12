@@ -1,13 +1,11 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.neocortex.cognitive.index.CognitiveMemoryRetriever;
 import io.casehub.neocortex.memory.CaseMemoryStore;
 import io.casehub.neocortex.memory.Memory;
 import io.casehub.neocortex.memory.MemoryDomain;
 import io.casehub.neocortex.memory.MemoryOrder;
 import io.casehub.neocortex.memory.MemoryQuery;
 import io.casehub.neocortex.memory.experience.Action;
-import io.casehub.neocortex.memory.experience.ExperienceEvents;
 import io.casehub.neocortex.memory.experience.ExperienceRecorder;
 import org.jboss.logging.Logger;
 
@@ -21,7 +19,7 @@ import java.util.concurrent.TimeoutException;
 public class AgentExperienceService {
 
     private static final Logger       log          = Logger.getLogger(AgentExperienceService.class);
-    private static final MemoryDomain MANOR_DOMAIN = ExperienceEvents.DOMAIN;
+    private static final MemoryDomain MANOR_DOMAIN = new MemoryDomain("manor");
 
     private final ExperienceRecorder                                                recorder;
     private final CaseMemoryStore                                                   store;
@@ -38,7 +36,6 @@ public class AgentExperienceService {
     private final java.util.concurrent.ConcurrentHashMap<String, java.time.Instant> lastReflectionTime = new java.util.concurrent.ConcurrentHashMap<>();
     private final ManorGoalEvaluator                                                goalEvaluator;
     private final ManorPlanEvaluator                                                planEvaluator;
-    private final CognitiveMemoryRetriever                                         retriever;
 
 
     public AgentExperienceService(ExperienceConfig config) {
@@ -55,7 +52,6 @@ public class AgentExperienceService {
         this.recallLimit        = config.recallLimit();
         this.goalEvaluator      = config.goalEvaluator();
         this.planEvaluator      = config.planEvaluator();
-        this.retriever          = config.retriever();
     }
 
 
@@ -82,10 +78,13 @@ public class AgentExperienceService {
                        String thinking, double importance, String targetAgentId, int currentTick) {
         try {
             var metadata = new HashMap<String, String>();
+            metadata.put("room", room);
             if (thinking != null) {metadata.put("thinking", thinking);}
+            if (targetAgentId != null) {
+                metadata.put(io.casehub.neocortex.memory.experience.ExperienceAttributeKeys.TARGET_AGENT, targetAgentId);
+            }
             var event = new Action(agentId, tenantId, null, null, null,
-                                   description, importance, Map.copyOf(metadata), "manor-action",
-                                   room, targetAgentId);
+                                   description, importance, Map.copyOf(metadata), "manor-action");
             recorder.record(event);
             if (reflectionEnabled && reflectionTrigger != null
                 && reflectionTrigger.shouldReflect(agentId, importance)) {
@@ -111,10 +110,10 @@ public class AgentExperienceService {
 
     public List<Memory> recall(String agentId, int limit) {
         try {
-            var query = MemoryQuery.forEntity(agentId, MANOR_DOMAIN, tenantId)
-                                   .withLimit(limit)
-                                   .withOrder(MemoryOrder.SALIENCE);
-            var future = CompletableFuture.supplyAsync(() -> queryStore(query));
+            var future = CompletableFuture.supplyAsync(() ->
+                                                               store.query(MemoryQuery.forEntity(agentId, MANOR_DOMAIN, tenantId)
+                                                                                      .withLimit(limit)
+                                                                                      .withOrder(MemoryOrder.SALIENCE)));
             return future.get(recallTimeoutMs, TimeUnit.MILLISECONDS);
         } catch (TimeoutException e) {
             log.debugf("%s: experience recall timed out after %dms", agentId, recallTimeoutMs);
@@ -131,7 +130,7 @@ public class AgentExperienceService {
                                 .forPair(agentId, otherAgentId, tenantId)
                                 .withLimit(limit)
                                 .withOrder(MemoryOrder.SALIENCE);
-            return queryStore(query);
+            return store.query(query);
         } catch (Exception e) {
             log.warnf("%s: relationship recall failed (non-fatal): %s", agentId, e.getMessage());
             return List.of();
@@ -140,23 +139,15 @@ public class AgentExperienceService {
 
     public List<Memory> recallReflections(String agentId, int limit) {
         try {
-            var query = MemoryQuery.forEntity(agentId,
-                                              io.casehub.neocortex.memory.reflection.ReflectionEvents.DOMAIN, tenantId)
-                                   .withLimit(limit)
-                                   .withOrder(MemoryOrder.SALIENCE);
-            return queryStore(query);
+            return store.query(MemoryQuery.forEntity(agentId,
+                                                     io.casehub.neocortex.memory.reflection.ReflectionEvents.DOMAIN, tenantId)
+                                          .withLimit(limit)
+                                          .withOrder(MemoryOrder.SALIENCE));
         } catch (Exception e) {
             log.warnf("%s: reflection recall failed (non-fatal): %s",
                       agentId, e.getMessage());
             return List.of();
         }
-    }
-
-    private List<Memory> queryStore(MemoryQuery query) {
-        if (retriever != null) {
-            return retriever.query(query);
-        }
-        return store.query(query);
     }
 
 

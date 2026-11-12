@@ -16,13 +16,7 @@ public record SocialConfig(
         Map<String, List<ReinforcementMapping>> reinforcement,
         RelationshipStageConfig stageConfig,
         @Nullable PersonaConstraintMapping personaConstraint,
-        List<String> tendencies,
-        List<PersonalityFacet> personalityFacets,
-        List<RelationalSchema> relationalSchemas,
-        @Nullable AttachmentStyle attachment,
-        List<FormationMemory> formationMemories,
-        @Nullable String substrate,
-        @Nullable Disposition disposition
+        List<String> tendencies
 ) {
     public SocialConfig {
         goals          = goals != null ? List.copyOf(goals) : List.of();
@@ -32,41 +26,19 @@ public record SocialConfig(
         relationships  = relationships != null ? List.copyOf(relationships) : List.of();
         reinforcement  = reinforcement != null ? Map.copyOf(reinforcement) : Map.of();
         if (stageConfig == null) {stageConfig = RelationshipStageConfig.defaults();}
-        tendencies        = tendencies != null ? List.copyOf(tendencies) : List.of();
-        personalityFacets = personalityFacets != null ? List.copyOf(personalityFacets) : List.of();
-        relationalSchemas = relationalSchemas != null ? List.copyOf(relationalSchemas) : List.of();
-        formationMemories = formationMemories != null ? List.copyOf(formationMemories) : List.of();
+        tendencies = tendencies != null ? List.copyOf(tendencies) : List.of();
     }
 
     public SocialConfig(List<GoalConfig> goals, List<Drive> drives, List<NormEntry> norms,
                         List<InitialBelief> initialBeliefs, List<Relationship> relationships,
                         Map<String, List<ReinforcementMapping>> reinforcement,
                         RelationshipStageConfig stageConfig) {
-        this(goals, drives, norms, initialBeliefs, relationships, reinforcement, stageConfig, null, List.of(),
-             List.of(), List.of(), null, List.of(), null, null);
+        this(goals, drives, norms, initialBeliefs, relationships, reinforcement, stageConfig, null, List.of());
     }
 
     public static SocialConfig empty() {
-        return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null, null, List.of(),
-                                List.of(), List.of(), null, List.of(), null, null);
+        return new SocialConfig(List.of(), List.of(), List.of(), List.of(), List.of(), Map.of(), null, null, List.of());
     }
-
-    public SocialConfig remapIds(java.util.Map<String, String> idMap) {
-        var remappedSchemas = relationalSchemas.stream()
-                                               .map(rs -> new RelationalSchema(
-                                                       idMap.getOrDefault(rs.target(), rs.target()),
-                                                       rs.role(), rs.trust(), rs.intimacy(), rs.utility(), rs.description()))
-                                               .toList();
-        var remappedRelationships = relationships.stream()
-                                                 .map(r -> new Relationship(
-                                                         idMap.getOrDefault(r.targetAgentId(), r.targetAgentId()),
-                                                         r.pleasure(), r.arousal(), r.dominance()))
-                                                 .toList();
-        return new SocialConfig(goals, drives, norms, initialBeliefs, remappedRelationships,
-                                reinforcement, stageConfig, personaConstraint, tendencies, personalityFacets,
-                                remappedSchemas, attachment, formationMemories, substrate, disposition);
-    }
-
 
     public record GoalConfig(String name, String description, String axis,
                              double intensity, String formationReason) {
@@ -80,26 +52,13 @@ public record SocialConfig(
         }
     }
 
-    public record Drive(
-            @com.fasterxml.jackson.annotation.JsonProperty("type") String type,
-            @com.fasterxml.jackson.annotation.JsonProperty("intensity") double intensity,
-            @com.fasterxml.jackson.annotation.JsonProperty("description") String description,
-            @com.fasterxml.jackson.annotation.JsonProperty("context") String context) {
+    public record Drive(String type, double intensity, String description) {
         public Drive {
             Objects.requireNonNull(type);
-            if (description == null) {description = "";}
-            if (context == null) {context = "any";}
+            Objects.requireNonNull(description);
             if (intensity < 0.0 || intensity > 1.0) {
                 throw new IllegalArgumentException("intensity must be in [0,1], got " + intensity);
             }
-        }
-
-        public Drive(String type, double intensity, String description) {
-            this(type, intensity, description, "any");
-        }
-
-        public boolean requiresSocialContext() {
-            return "social".equals(context);
         }
     }
 
@@ -146,81 +105,4 @@ public record SocialConfig(
             Objects.requireNonNull(whenInactive);
         }
     }
-
-    public record PersonalityFacet(String facet, int score, String origin) {
-        public PersonalityFacet {
-            Objects.requireNonNull(facet);
-            if (score < 0 || score > 100) {
-                throw new IllegalArgumentException("score must be in [0,100], got " + score);
-            }
-            if (origin == null) {origin = "";}
-        }
-    }
-
-    public record RelationalSchema(String target, String role, double trust, double intimacy, double utility,
-                                   String description) {
-        public RelationalSchema {
-            Objects.requireNonNull(target);
-            Objects.requireNonNull(role);
-            if (description == null) {description = "";}
-        }
-    }
-
-    // Bartholomew & Horowitz (1991) two-dimensional model — anxiety × avoidance
-    public record AttachmentStyle(String style, double anxiety, double avoidance) {
-        public AttachmentStyle {
-            Objects.requireNonNull(style);
-            if (anxiety < 0.0 || anxiety > 1.0) {
-                throw new IllegalArgumentException("anxiety must be in [0,1], got " + anxiety);
-            }
-            if (avoidance < 0.0 || avoidance > 1.0) {
-                throw new IllegalArgumentException("avoidance must be in [0,1], got " + avoidance);
-            }
-        }
-    }
-
-    // PAD emotional encoding — Mehrabian & Russell (1974)
-    public record FormationMemory(int age, String episode, double pleasure, double arousal, double dominance,
-                                  String catalogue, List<ConcernAnnotation> annotations) {
-        public FormationMemory {
-            Objects.requireNonNull(episode);
-            catalogue   = catalogue != null ? catalogue : "formation-memory";
-            annotations = annotations != null ? List.copyOf(annotations) : List.of();
-        }
-
-        public FormationMemory(int age, String episode, double pleasure, double arousal, double dominance,
-                               List<ConcernAnnotation> annotations) {
-            this(age, episode, pleasure, arousal, dominance, "formation-memory", annotations);
-        }
-
-        public FormationMemory(int age, String episode, double pleasure, double arousal, double dominance) {
-            this(age, episode, pleasure, arousal, dominance, "formation-memory", List.of());
-        }
-
-        public FormationMemory(int age, String episode) {
-            this(age, episode, 0.0, 0.0, 0.0, "formation-memory", List.of());
-        }
-
-        public record ConcernAnnotation(String drive, String degree, String text,
-                                        int startOffset, int endOffset) {
-            public ConcernAnnotation {
-                Objects.requireNonNull(drive);
-                Objects.requireNonNull(degree);
-                Objects.requireNonNull(text);
-            }
-        }
-    }
-
-    public record Disposition(
-            String socialOrient,
-            String ruleFollowing,
-            String riskAppetite,
-            String autonomy,
-            String conflictMode
-    ) {
-        public static final Disposition NEUTRAL = new Disposition(
-                "cooperative", "moderate", "calculated", "moderate", "cooperative");
-    }
-
-
 }

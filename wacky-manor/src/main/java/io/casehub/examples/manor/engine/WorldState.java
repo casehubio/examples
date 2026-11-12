@@ -5,6 +5,7 @@ import io.casehub.examples.manor.model.GameObject;
 import io.casehub.examples.manor.model.ManorEvent;
 import io.casehub.examples.manor.model.Room;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,38 +36,6 @@ public final class WorldState {
     public Map<String, CharacterState> characters() {return java.util.Collections.unmodifiableMap(characters);}
     public Room room(String id) { return rooms.get(id); }
     public CharacterState character(String id) { return characters.get(id); }
-
-    public CharacterState resolveCharacter(String ref) {
-        if (ref == null) {return null;}
-        CharacterState direct = characters.get(ref);
-        if (direct != null) {return direct;}
-        String refSlug = slug(ref);
-        for (CharacterState c : characters.values()) {
-            if (refSlug.equals(slug(c.name()))) {return c;}
-        }
-        return null;
-    }
-
-    public void remapCharacterIds(Map<String, String> idMap) {
-        var toRemap = new java.util.ArrayList<Map.Entry<String, String>>();
-        for (var entry : idMap.entrySet()) {
-            if (characters.containsKey(entry.getKey())) {
-                toRemap.add(entry);
-            }
-        }
-        for (var entry : toRemap) {
-            var character = characters.remove(entry.getKey());
-            character.setAgentId(entry.getValue());
-            characters.put(entry.getValue(), character);
-        }
-    }
-
-
-    public static String slug(String name) {
-        if (name == null) {return "";}
-        return name.toLowerCase(java.util.Locale.ROOT).replaceAll("[^a-z0-9]+", "-").replaceAll("^-|-$", "");
-    }
-
 
     public List<GameObject> visibleObjects(String roomId, String characterId) {
         return room(roomId).objects().values().stream()

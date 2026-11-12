@@ -1,8 +1,8 @@
 # MemoryHygiene Pattern — Design Spec
 
-**Issue:** casehubio/agency#120
-**Epic:** casehubio/agency#126 (Autonomous Agent Patterns)
-**Package:** `io.casehub.agency.social.memory`
+**Issue:** casehubio/blocks#120
+**Epic:** casehubio/blocks#126 (Autonomous Agent Patterns)
+**Package:** `io.casehub.blocks.memory`
 
 ## Overview
 
@@ -226,7 +226,7 @@ Consumers wire the event sink to their observability infrastructure (platform Ev
 ## Dependencies
 
 **Compile:** `casehub-neocortex-memory-api` (CbrCaseMemoryStore, TemporalDecay, ScopeDecay, CbrRetentionPolicy, ReflectionOrchestrator, MemoryDomain, CbrCase, CbrQuery, FeatureValue, SupersessionStatus, EraseRequest)
-**Compile:** `casehub-agency` (ContentSummariser, TieredContentSummariser, SummarisationRunner — same module, different package)
+**Compile:** `casehub-blocks` (ContentSummariser, TieredContentSummariser, SummarisationRunner — same module, different package)
 **Provided:** `casehub-platform-agent-api` (AgentProvider — for LLM-backed implementations)
 **Test:** JUnit 5, Mockito, AssertJ
 

@@ -1,11 +1,11 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.agency.perception.observation.PartitionedDrain;
-import io.casehub.agency.perception.observation.RememberedPartition;
-import io.casehub.agency.perception.observation.affordance.Affordance;
-import io.casehub.agency.perception.observation.affordance.ObservableEntity;
-import io.casehub.agency.perception.observation.affordance.ObservationSection;
-import io.casehub.agency.perception.observation.affordance.WorldObservationProvider;
+import io.casehub.blocks.summarisation.observation.PartitionedDrain;
+import io.casehub.blocks.summarisation.observation.RememberedPartition;
+import io.casehub.blocks.summarisation.observation.affordance.Affordance;
+import io.casehub.blocks.summarisation.observation.affordance.ObservableEntity;
+import io.casehub.blocks.summarisation.observation.affordance.ObservationSection;
+import io.casehub.blocks.summarisation.observation.affordance.WorldObservationProvider;
 import io.casehub.examples.manor.engine.WorldState;
 import io.casehub.examples.manor.model.CharacterState;
 import io.casehub.examples.manor.model.GameObject;
@@ -49,10 +49,10 @@ public class ManorWorldObservationProvider implements WorldObservationProvider {
                     : ObservationSection.items("Keen Observations", null, java.util.List.of());
             var fallbackSection = directed != null ? directed
                     : ObservationSection.items("Directed to You", null, java.util.List.of());
-            sections.add(io.casehub.agency.perception.observation.affordance.AnnotatedSection.withResolution(
+            sections.add(io.casehub.blocks.summarisation.observation.affordance.AnnotatedSection.withResolution(
                     fullSection,
                     java.util.Set.of("perception"),
-                    io.casehub.agency.perception.observation.affordance.ResolutionTier.REDUCED,
+                    io.casehub.blocks.summarisation.observation.affordance.ResolutionTier.REDUCED,
                     fallbackSection));
         }
         return sections;
@@ -80,13 +80,13 @@ public class ManorWorldObservationProvider implements WorldObservationProvider {
         var entities = objects.stream()
                               .map(ManorWorldObservationProvider::toObservableEntity)
                               .toList();
-        return ObservationSection.entities("What You See", "Nothing notable here.", entities);
+        return ObservationSection.entities("Visible Objects", "Nothing notable here.", entities);
     }
 
     private static ObservableEntity toObservableEntity(GameObject obj) {
         var affordances = new ArrayList<Affordance>();
         if (obj.interactable()) {
-            affordances.add(new Affordance("EXAMINE", null, obj.interactionRequires(), List.of()));
+            affordances.add(new Affordance("INTERACT", null, obj.interactionRequires(), List.of()));
         }
         if (obj.portable()) {
             affordances.add(new Affordance("TAKE", "to pick up"));
@@ -103,10 +103,10 @@ public class ManorWorldObservationProvider implements WorldObservationProvider {
                                            .toList();
         var entities = others.stream()
                              .map(c -> new ObservableEntity(
-                                     WorldState.slug(c.name()), c.name(), null,
+                                     c.agentId(), c.name(), null,
                                      List.of(new Affordance("GIVE", "to hand an item"))))
                              .toList();
-        return ObservationSection.entities("Who's Here", "You are alone.", entities);
+        return ObservationSection.entities("Characters Present", "You are alone.", entities);
     }
 
     private static ObservationSection keenObservationsSection(CharacterState character, WorldState world) {

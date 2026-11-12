@@ -1,10 +1,11 @@
 package io.casehub.work.examples.moderation;
 
-
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * Stub AI content classifier. Returns a hardcoded classification — no external API call.
  */
+@ApplicationScoped
 public class MockAIClassifier {
 
     /** Represents the output of the AI content classification model. */

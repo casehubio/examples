@@ -1,7 +1,7 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.agency.perception.observation.ObservationResult;
-import io.casehub.agency.perception.observation.ObservationTier;
+import io.casehub.blocks.summarisation.observation.ObservationResult;
+import io.casehub.blocks.summarisation.observation.ObservationTier;
 import io.casehub.examples.manor.engine.MansionLoader;
 import io.casehub.examples.manor.engine.WorldState;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,12 +12,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ObservationBuilderTest {
 
     private WorldState                                                           world;
-    private io.casehub.agency.perception.observation.PartitionedDrain<String> emptyDrain;
+    private io.casehub.blocks.summarisation.observation.PartitionedDrain<String> emptyDrain;
 
     @BeforeEach
     void setUp() {
         world      = MansionLoader.loadWorld();
-        emptyDrain = new io.casehub.agency.perception.observation.PartitionedDrain<>(ObservationResult.empty(0), java.util.Map.of());
+        emptyDrain = new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(ObservationResult.empty(0), java.util.Map.of());
     }
 
     private String buildObs(io.casehub.examples.manor.model.CharacterState character) {
@@ -30,13 +30,13 @@ class ObservationBuilderTest {
 
     private String buildObs(io.casehub.examples.manor.model.CharacterState character,
                             java.util.List<io.casehub.eidos.api.AgentGoal> goals,
-                            io.casehub.agency.perception.observation.PartitionedDrain<String> drain,
+                            io.casehub.blocks.summarisation.observation.PartitionedDrain<String> drain,
                             java.util.List<io.casehub.neocortex.memory.Memory> memories,
                             java.util.List<io.casehub.neocortex.memory.Memory> reflections,
                             java.util.Map<String, java.util.List<io.casehub.neocortex.memory.Memory>> relationships,
                             java.util.Set<String> tags) {
         var provider = new ManorWorldObservationProvider(character, world, drain);
-        var pipeline = new io.casehub.agency.perception.observation.affordance.ObservationPipeline(new io.casehub.agency.perception.observation.affordance.PerceptionFilter());
+        var pipeline = new io.casehub.blocks.summarisation.observation.affordance.ObservationPipeline(new io.casehub.blocks.summarisation.observation.affordance.PerceptionFilter());
         return ObservationBuilder.buildObservation(provider, pipeline, tags, character, goals, drain, memories, reflections, relationships);
     }
 
@@ -73,7 +73,7 @@ class ObservationBuilderTest {
     @Test
     void observation_lists_other_characters_in_room() {
         var obs = buildObs(world.character("penelope-pitstop"));
-        assertThat(obs).contains("== Who's Here ==");
+        assertThat(obs).contains("== Characters Present ==");
         assertThat(obs).contains("The Hooded Claw");
         assertThat(obs).doesNotContain("Penelope Pitstop");
     }
@@ -89,21 +89,21 @@ class ObservationBuilderTest {
     void observation_shows_inventory() {
         var dastardly = world.character("dick-dastardly");
         var obs       = buildObs(dastardly);
-        assertThat(obs).contains("== What You're Carrying ==");
+        assertThat(obs).contains("== Your Inventory ==");
         assertThat(obs).contains("fake-medal");
     }
 
     @Test
     void observation_shows_empty_inventory() {
         var obs = buildObs(world.character("penelope-pitstop"));
-        assertThat(obs).contains("Nothing.");
+        assertThat(obs).contains("You are carrying nothing.");
     }
 
     @Test
     void observation_renders_recent_activity_from_drain() {
         var currentRoom = new ObservationResult("- [1s ago] Penelope: Hello!\n",
                                                 java.util.List.of(), 1, 1000, ObservationTier.VERBATIM);
-        var drain = new io.casehub.agency.perception.observation.PartitionedDrain<String>(currentRoom, java.util.Map.of());
+        var drain = new io.casehub.blocks.summarisation.observation.PartitionedDrain<String>(currentRoom, java.util.Map.of());
         var obs   = buildObs(world.character("penelope-pitstop"), java.util.List.of(), drain, java.util.List.of(), java.util.List.of(), java.util.Map.of(), java.util.Set.of());
         assertThat(obs).contains("== Recent Activity ==");
         assertThat(obs).contains("Penelope: Hello!");
@@ -121,9 +121,9 @@ class ObservationBuilderTest {
         var currentRoom = ObservationResult.empty(0);
         var rememberedResult = new ObservationResult("Sneekly examined the cabinet.\n",
                                                      java.util.List.of(), 1, 5000, ObservationTier.GROUPED);
-        var remembered = new java.util.LinkedHashMap<String, io.casehub.agency.perception.observation.RememberedPartition>();
-        remembered.put("kitchen", new io.casehub.agency.perception.observation.RememberedPartition(rememberedResult, System.currentTimeMillis() - 30000));
-        var drain = new io.casehub.agency.perception.observation.PartitionedDrain<>(currentRoom, remembered);
+        var remembered = new java.util.LinkedHashMap<String, io.casehub.blocks.summarisation.observation.RememberedPartition>();
+        remembered.put("kitchen", new io.casehub.blocks.summarisation.observation.RememberedPartition(rememberedResult, System.currentTimeMillis() - 30000));
+        var drain = new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(currentRoom, remembered);
         var obs   = buildObs(world.character("penelope-pitstop"), java.util.List.of(), drain, java.util.List.of(), java.util.List.of(), java.util.Map.of(), java.util.Set.of());
         assertThat(obs).contains("== Remembered ==");
         assertThat(obs).contains("Kitchen");
@@ -134,7 +134,7 @@ class ObservationBuilderTest {
     void observation_shows_interactable_hints() {
         world.moveCharacter("penelope-pitstop", "kitchen");
         var obs = buildObs(world.character("penelope-pitstop"));
-        assertThat(obs).contains("[EXAMINE, requires: brass-key]");
+        assertThat(obs).contains("[INTERACT, requires: brass-key]");
     }
 
     @Test
@@ -155,7 +155,7 @@ class ObservationBuilderTest {
         var character = world.character("penelope-pitstop");
         character.setLastActionResult("You moved to the Kitchen.");
         var obs = buildObs(character);
-        assertThat(obs).contains("== A Moment Ago ==");
+        assertThat(obs).contains("== Last Action Result ==");
         assertThat(obs).contains("You moved to the Kitchen.");
     }
 
@@ -232,7 +232,7 @@ class ObservationBuilderTest {
         var character = world.character("hooded-claw");
         character.setCurrentThinking("I see the poison on the shelf — I should take it now.");
         var obs = buildObs(character, character.capabilityTags());
-        assertThat(obs).contains("== What's On Your Mind ==");
+        assertThat(obs).contains("== Your Current Thinking ==");
         assertThat(obs).contains("I see the poison on the shelf");
     }
 
@@ -240,7 +240,7 @@ class ObservationBuilderTest {
     void observation_omits_thinking_section_when_null() {
         var character = world.character("hooded-claw");
         var obs       = buildObs(character, character.capabilityTags());
-        assertThat(obs).doesNotContain("What's On Your Mind");
+        assertThat(obs).doesNotContain("Your Current Thinking");
     }
 
     @Test
@@ -250,7 +250,7 @@ class ObservationBuilderTest {
         var obs       = ObservationBuilder.buildObservation(provider, null, java.util.Set.of(), character, java.util.List.of(), emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of());
         assertThat(obs).contains("Entrance Hall");
         assertThat(obs).contains("What do you need, boss?");
-        assertThat(obs).doesNotContain("== What You See ==");
+        assertThat(obs).doesNotContain("== Visible Objects ==");
         assertThat(obs).doesNotContain("== Exits ==");
     }
 
@@ -260,7 +260,7 @@ class ObservationBuilderTest {
         character.setCurrentThinking("Get Muttley to fetch the key.");
         var provider = new ManorExchangeObservationProvider(character, "Hehehehe!", world);
         var obs      = ObservationBuilder.buildObservation(provider, null, java.util.Set.of(), character, java.util.List.of(), emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of());
-        assertThat(obs).contains("What's On Your Mind");
+        assertThat(obs).contains("Your Current Thinking");
         assertThat(obs).contains("Get Muttley to fetch the key.");
     }
 

@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import '@casehubio/agency-ui-core';
+import '@casehubio/blocks-ui-core';
 
 const SAMPLE_SCHEMA = {
   type: 'object',

@@ -9,8 +9,8 @@ import io.casehub.api.spi.routing.GoalFormationStrategy;
 import io.casehub.eidos.api.AgentGoal;
 import io.casehub.eidos.api.GoalPriority;
 import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentSessionInit;
-import io.casehub.platform.agent.session.SessionPipeline;
+import io.casehub.platform.agent.AgentProvider;
+import io.casehub.platform.agent.AgentSessionConfig;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.jboss.logging.Logger;
@@ -36,11 +36,11 @@ public class ManorGoalFormationStrategy implements GoalFormationStrategy {
         "suggestedPriority": "PRIMARY"|"SECONDARY"|null, "formationReason": "..."}], \
         "rationale": "..."}""";
 
-    private final SessionPipeline sessionPipeline;
+    private final AgentProvider agentProvider;
 
     @Inject
-    public ManorGoalFormationStrategy(SessionPipeline sessionPipeline) {
-        this.sessionPipeline = sessionPipeline;
+    public ManorGoalFormationStrategy(AgentProvider agentProvider) {
+        this.agentProvider = agentProvider;
     }
 
     @Override
@@ -50,13 +50,12 @@ public class ManorGoalFormationStrategy implements GoalFormationStrategy {
     public GoalFormationProposal propose(GoalFormationContext context) {
         try {
             String userPrompt = buildPrompt(context);
-            var session = sessionPipeline.openSession("goal-formation", AgentSessionInit.of(SYSTEM_PROMPT));
-            var responseBuilder = new StringBuilder();
-            session.query(userPrompt).subscribe().asStream()
+            String response = agentProvider.invoke(
+                    AgentSessionConfig.of(SYSTEM_PROMPT, userPrompt))
                 .filter(e -> e instanceof AgentEvent.TextDelta)
                 .map(e -> ((AgentEvent.TextDelta) e).text())
-                .forEach(responseBuilder::append);
-            String response = responseBuilder.toString();
+                .collect().with(Collectors.joining())
+                .await().atMost(Duration.ofSeconds(120));
             return parseResponse(response);
         } catch (Exception e) {
             log.warnf("Goal formation failed (non-fatal): %s", e.getMessage());

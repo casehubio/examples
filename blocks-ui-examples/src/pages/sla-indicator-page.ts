@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import '@casehubio/agency-ui-sla-indicator';
+import '@casehubio/blocks-ui-sla-indicator';
 
 function futureISO(ms: number): string {
   return new Date(Date.now() + ms).toISOString();

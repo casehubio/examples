@@ -5,10 +5,10 @@ import io.casehub.engine.plan.adaptation.AdaptationContext;
 import io.casehub.engine.plan.adaptation.PlanStepDescriptor;
 import io.casehub.engine.plan.adaptation.RevisedPlan;
 import io.casehub.engine.plan.adaptation.RevisionContext;
-import io.casehub.neocortex.cognition.testing.StubPipelines;
 import io.casehub.platform.agent.AgentEvent;
+import io.casehub.platform.agent.AgentProvider;
 import io.casehub.platform.agent.AgentSession;
-import io.casehub.platform.agent.session.SessionPipeline;
+import io.casehub.platform.agent.AgentSessionInit;
 import io.smallrye.mutiny.Multi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,9 +29,10 @@ class ManorPlanRevisionStrategyTest {
 
     @BeforeEach
     void setUp() {
-        var pipeline = StubPipelines.create(init -> new AgentSession() {
-            @Override public Multi<AgentEvent> query(String prompt) {
-                lastPrompt = prompt;
+        AgentProvider mockProvider = new AgentProvider() {
+            @Override
+            public Multi<AgentEvent> invoke(io.casehub.platform.agent.AgentSessionConfig config) {
+                lastPrompt = config.userPrompt();
                 String response = """
                     {"steps": [
                       {"id": "alt-route", "description": "Find another way to the kitchen"},
@@ -40,12 +41,13 @@ class ManorPlanRevisionStrategyTest {
                     """;
                 return Multi.createFrom().item(new AgentEvent.TextDelta(response));
             }
-            @Override public io.smallrye.mutiny.Uni<Void> interrupt() {
-                return io.smallrye.mutiny.Uni.createFrom().voidItem();
+
+            @Override
+            public AgentSession openSession(AgentSessionInit init) {
+                throw new UnsupportedOperationException();
             }
-            @Override public void close(java.time.Duration timeout) {}
-        });
-        strategy = new ManorPlanRevisionStrategy(pipeline);
+        };
+        strategy = new ManorPlanRevisionStrategy(mockProvider);
     }
 
     @Test
@@ -83,16 +85,18 @@ class ManorPlanRevisionStrategyTest {
 
     @Test
     void revise_returns_empty_on_malformed_response() {
-        var badPipeline = StubPipelines.create(init -> new AgentSession() {
-            @Override public Multi<AgentEvent> query(String prompt) {
+        AgentProvider badProvider = new AgentProvider() {
+            @Override
+            public Multi<AgentEvent> invoke(io.casehub.platform.agent.AgentSessionConfig config) {
                 return Multi.createFrom().item(new AgentEvent.TextDelta("not json"));
             }
-            @Override public io.smallrye.mutiny.Uni<Void> interrupt() {
-                return io.smallrye.mutiny.Uni.createFrom().voidItem();
+
+            @Override
+            public AgentSession openSession(AgentSessionInit init) {
+                throw new UnsupportedOperationException();
             }
-            @Override public void close(java.time.Duration timeout) {}
-        });
-        var badStrategy = new ManorPlanRevisionStrategy(badPipeline);
+        };
+        var badStrategy = new ManorPlanRevisionStrategy(badProvider);
         var adaptCtx = new AdaptationContext(UUID.randomUUID(), "wacky-manor", "",
                 "goal", List.of(), List.of(), List.of(),
                 null, new CaseDefinition("manor", "wacky-manor", "1.0"), TaskStatus.COMPLETED, "", 0);

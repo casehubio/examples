@@ -61,7 +61,7 @@ public class AutonomousScenarioRunner {
                 if (character == null || world.isScenarioComplete()) {break;}
 
                 var goals = goalsByAgent.getOrDefault(agentId, List.of());
-                var emptyDrain = new io.casehub.agency.perception.observation.PartitionedDrain<String>(io.casehub.agency.perception.observation.ObservationResult.empty(0), java.util.Map.of());
+                var emptyDrain = new io.casehub.blocks.summarisation.observation.PartitionedDrain<String>(io.casehub.blocks.summarisation.observation.ObservationResult.empty(0), java.util.Map.of());
                 var worldProvider = new ManorWorldObservationProvider(character, world, emptyDrain);
                 String observation = ObservationBuilder.buildObservation(worldProvider, null, java.util.Set.of(), character, goals, emptyDrain, java.util.List.of(), java.util.List.of(), java.util.Map.of())
                                      + CharacterAgentLoop.RESPONSE_FORMAT_INSTRUCTION;
@@ -100,10 +100,10 @@ public class AutonomousScenarioRunner {
                             response.action().type().name(), response.action().target(),
                             null, null, null, result.text()));
                 } else {
-                    character.setLastActionResult("You stood still, watching.");
+                    character.setLastActionResult("You waited and observed.");
                     recorder.record(new TranscriptRecorder.Event(
                             turnCount, agentId, "action", "WAIT", null,
-                            null, null, null, "You stood still, watching."));
+                            null, null, null, "You waited and observed."));
                 }
 
                 if (experienceService != null) {

@@ -137,7 +137,7 @@ class AgentExperienceServiceTest {
         var service = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), stubStore(List.of()), "test-tenant"));
         service.ingest("agent-1", "kitchen", "Made tea", null);
 
-        assertThat(((io.casehub.neocortex.memory.experience.Action) recorded.getFirst()).room()).isEqualTo("kitchen");
+        assertThat(recorded.getFirst().metadata()).containsEntry("room", "kitchen");
     }
 
     @Test
@@ -169,7 +169,8 @@ class AgentExperienceServiceTest {
                        null, 0.7, "penelope");
 
         assertThat(recorded).hasSize(1);
-        assertThat(((io.casehub.neocortex.memory.experience.Action) recorded.getFirst()).targetAgent()).isEqualTo("penelope");
+        assertThat(recorded.getFirst().metadata())
+                .containsEntry(io.casehub.neocortex.memory.experience.ExperienceAttributeKeys.TARGET_AGENT, "penelope");
     }
 
     @Test
@@ -178,7 +179,8 @@ class AgentExperienceServiceTest {
 
         service.ingest("agent-1", "kitchen", "looked around", null, 0.2, null);
 
-        assertThat(((io.casehub.neocortex.memory.experience.Action) recorded.getFirst()).targetAgent()).isNull();
+        assertThat(recorded.getFirst().metadata())
+                .doesNotContainKey(io.casehub.neocortex.memory.experience.ExperienceAttributeKeys.TARGET_AGENT);
     }
 
     @Test
@@ -224,7 +226,7 @@ class AgentExperienceServiceTest {
         };
         var trigger = new ManorReflectionTrigger(2, 100.0);
         var service = new AgentExperienceService(new ExperienceConfig(
-                stubRecorder(), reflectStore, "t1", synthesizer, trigger, true, false, 7, 0.2, 15, 20, null, null, null));
+                stubRecorder(), reflectStore, "t1", synthesizer, trigger, true, false, 7, 0.2, 15, 20, null, null));
 
         service.ingest("a1", "room", "action 1", null, 0.5, null);
         service.ingest("a1", "room", "action 2", null, 0.5, null);
@@ -291,7 +293,7 @@ class AgentExperienceServiceTest {
         };
 
         var service = new AgentExperienceService(new ExperienceConfig(
-                stubRecorder(), reflectStore, "t1", synthesizer, trigger, true, false, 7, 0.2, 15, 20, mockEvaluator, null, null));
+                stubRecorder(), reflectStore, "t1", synthesizer, trigger, true, false, 7, 0.2, 15, 20, mockEvaluator, null));
 
         service.ingest("a1", "room", "action 1", null, 0.5, null, 5);
         service.ingest("a1", "room", "action 2", null, 0.5, null, 5);
@@ -303,40 +305,5 @@ class AgentExperienceServiceTest {
         assertThat(evaluatedTicks.getFirst()).isEqualTo(5);
     }
 
-    @Test
-    void recallUsesRetrieverWhenProvided() {
-        var storeMemories = List.of(memory("store-mem", "from store"));
-        var retrieverMemories = List.of(memory("ret-mem", "from retriever"));
-        var store = stubStore(storeMemories);
-        var retriever = new io.casehub.neocortex.cognitive.index.CognitiveMemoryRetriever(
-                new CaseMemoryStore() {
-                    @Override public String store(MemoryInput input) { return "id"; }
-                    @Override public List<Memory> query(MemoryQuery q) { return retrieverMemories; }
-                    @Override public int erase(EraseRequest r) { return 0; }
-                },
-                List.of()
-        );
 
-        var config = new ExperienceConfig(
-                stubRecorder(), store, "t1", null, null, false, false, 7, 0.2, 15, 20, null, null, retriever);
-        var service = new AgentExperienceService(config);
-
-        var result = service.recall("a1", 10);
-        assertThat(result).isEqualTo(retrieverMemories);
-        assertThat(result).isNotEqualTo(storeMemories);
-    }
-
-    @Test
-    void recallFallsBackToStoreWhenNoRetriever() {
-        var storeMemories = List.of(memory("store-mem", "from store"));
-        var service = new AgentExperienceService(ExperienceConfig.minimal(stubRecorder(), stubStore(storeMemories), "t1"));
-
-        var result = service.recall("a1", 10);
-        assertThat(result).isEqualTo(storeMemories);
-    }
-
-    private static Memory memory(String id, String text) {
-        return new Memory(id, "a1", new MemoryDomain("manor"), "t1",
-                null, text, Map.of(), Instant.now(), null, null, null, null);
-    }
 }

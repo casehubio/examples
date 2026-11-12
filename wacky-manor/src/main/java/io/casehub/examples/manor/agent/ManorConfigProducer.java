@@ -13,10 +13,6 @@ public class ManorConfigProducer {
     int verbatimThreshold;
     @ConfigProperty(name = "manor.observation.grouped-threshold", defaultValue = "15")
     int groupedThreshold;
-    @ConfigProperty(name = "manor.observation.compaction-recent-window", defaultValue = "10")
-    int compactionRecentWindow;
-    @ConfigProperty(name = "manor.observation.compaction-batch-size", defaultValue = "5")
-    int compactionBatchSize;
     @ConfigProperty(name = "manor.narrator.enabled", defaultValue = "true")
     boolean narratorEnabled;
     @ConfigProperty(name = "manor.narrator.event-threshold", defaultValue = "5")
@@ -69,56 +65,14 @@ public class ManorConfigProducer {
     boolean consolidationEnabled;
     @ConfigProperty(name = "manor.consolidation.interval-ticks", defaultValue = "50")
     int     consolidationIntervalTicks;
-    @ConfigProperty(name = "manor.cognitive.snapshot-interval-ticks", defaultValue = "0")
-    int     cognitiveSnapshotIntervalTicks;
-    @ConfigProperty(name = "manor.appraisal.enabled", defaultValue = "false")
-    boolean appraisalEnabled;
-    @ConfigProperty(name = "manor.regulation.enabled", defaultValue = "false")
-    boolean regulationEnabled;
-    @ConfigProperty(name = "manor.cognitive.briefing-mode", defaultValue = "true")
-    boolean briefingMode;
-    @ConfigProperty(name = "manor.mood.decay-minutes", defaultValue = "240")
-    int moodDecayMinutes;
-    @ConfigProperty(name = "manor.mood.max-displacement", defaultValue = "1.0")
-    double moodMaxDisplacement;
-
-    @ConfigProperty(name = "manor.classification.audit-enabled", defaultValue = "true")
-    boolean classificationAuditEnabled;
-    @ConfigProperty(name = "manor.classification.audit-log-path", defaultValue = "docs/eval/classification-audit.jsonl")
-    String classificationAuditLogPath;
-    @ConfigProperty(name = "manor.classification.external-characters")
-    java.util.Optional<String> classificationExternalCharacters;
-    @ConfigProperty(name = "manor.classification.accumulator.allowance", defaultValue = "0.2")
-    double accumulatorAllowance;
-    @ConfigProperty(name = "manor.classification.accumulator.threshold", defaultValue = "1.0")
-    double accumulatorThreshold;
-    @ConfigProperty(name = "manor.classification.accumulator.decay", defaultValue = "0.85")
-    double accumulatorDecay;
-    @ConfigProperty(name = "manor.classification.accumulator.slow-allowance", defaultValue = "0.15")
-    double accumulatorSlowAllowance;
-    @ConfigProperty(name = "manor.classification.accumulator.slow-threshold", defaultValue = "2.0")
-    double accumulatorSlowThreshold;
-
-
-    @ConfigProperty(name = "manor.session.clear-at-tokens", defaultValue = "80k")
-    String clearAtTokensRaw;
-    @ConfigProperty(name = "manor.session.model-context-tokens", defaultValue = "200000")
-    int    modelContextTokens;
-    @ConfigProperty(name = "manor.transcript.enabled", defaultValue = "true")
-    boolean transcriptEnabled;
-    @ConfigProperty(name = "manor.transcript.storage-path", defaultValue = "")
-    String transcriptStoragePath;
 
 
     @Produces
     @jakarta.inject.Singleton
     public ManorConfig produce() {
-        String resolvedPath = transcriptStoragePath.isBlank()
-                              ? System.getProperty("user.home") + "/claude/casehub/transcripts"
-                              : transcriptStoragePath;
         return new ManorConfig(
                 maxTurns,
-                new ManorConfig.ObservationConfig(verbatimThreshold, groupedThreshold, compactionRecentWindow, compactionBatchSize),
+                new ManorConfig.ObservationConfig(verbatimThreshold, groupedThreshold),
                 new ManorConfig.NarratorConfig(narratorEnabled, narratorEventThreshold, narratorTimerSeconds),
                 new ManorConfig.ReflectionConfig(reflectionEnabled, maxUnreflected, reflectionImportanceThreshold, maxSourceMemories),
                 new ManorConfig.GoalConfig(goalEnabled, goalCooldownTicks, goalMaxNewPerReflection),
@@ -127,17 +81,7 @@ public class ManorConfigProducer {
                 new ManorConfig.DispositionConfig(dispositionEnabled, dispositionEvolutionCheckInterval),
                 new ManorConfig.MemoryConfig(recallLimit, personalityWeightedRetrieval, decayEnabled, decayMaxAgeDays, decayMinImportance),
                 new ManorConfig.ConsolidationConfig(consolidationEnabled, consolidationIntervalTicks),
-                new ManorConfig.CognitiveSnapshotConfig(cognitiveSnapshotIntervalTicks),
-                new ManorConfig.AppraisalConfig(appraisalEnabled),
-                new ManorConfig.RegulationConfig(regulationEnabled),
-                new ManorConfig.ClassificationConfig(classificationAuditEnabled, classificationAuditLogPath, classificationExternalCharacters.orElse(""),
-                                                     accumulatorAllowance, accumulatorThreshold, accumulatorDecay, accumulatorSlowAllowance, accumulatorSlowThreshold),
-                new ManorConfig.MoodTuningConfig(moodDecayMinutes, moodMaxDisplacement),
-                new ManorConfig.TranscriptConfig(transcriptEnabled, resolvedPath),
-                new ManorConfig.SessionConfig(ManorConfig.SessionConfig.parseClearAtTokens(clearAtTokensRaw, modelContextTokens)),
                 activeCharactersConfig.orElse(""),
-                maxConcurrentAgents,
-                briefingMode
-        );
-    }
+                maxConcurrentAgents
+        );}
 }

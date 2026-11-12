@@ -22,7 +22,7 @@ class ConversationTest {
             + "Penelope Pitstop is in the next room about to drink tea. "
             + "Sneekly is suspiciously close to the tea service. "
             + "You are deeply suspicious of Sneekly.\n\n"
-            + "== What's On Your Mind ==\n"
+            + "== Your Current Thinking ==\n"
             + "Keep an eye on Sneekly. Something ain't right about that guy.\n\n";
 
     private static final String DIRECTED_SCENARIO =

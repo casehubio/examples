@@ -39,56 +39,10 @@ public final class ManorCognitiveSetup {
                 .map(g -> g.description())
                 .toList();
 
-        return new DescriptorView(descriptor.agentId(), axes, profile, goals, null);
+        return new DescriptorView(descriptor.agentId(), axes, profile, goals);
     }
-
-    public static DescriptorView toDescriptorView(AgentDescriptor descriptor, SocialConfig socialConfig) {
-        var disposition = descriptor.disposition();
-        var axes = disposition != null
-                   ? new DispositionAxes(
-                disposition.primaryTerm(DispositionAxis.SOCIAL_ORIENTATION),
-                disposition.primaryTerm(DispositionAxis.RULE_FOLLOWING),
-                disposition.primaryTerm(DispositionAxis.RISK_APPETITE),
-                disposition.primaryTerm(DispositionAxis.AUTONOMY),
-                disposition.primaryTerm(DispositionAxis.CONFLICT_MODE))
-                   : null;
-
-        var profile = disposition != null
-                      ? disposition.dispositionProfile().stream()
-                                   .map(dv -> new WeightedTerm(dv.term(), dv.weight()))
-                                   .toList()
-                      : List.<WeightedTerm>of();
-
-        var goals = descriptor.goals().stream()
-                              .map(g -> g.description())
-                              .toList();
-
-        var padSummary = computeFormationPadSummary(socialConfig);
-        return new DescriptorView(descriptor.agentId(), axes, profile, goals, padSummary);
-    }
-
 
     public static CognitiveDefaults deriveDefaults(AgentDescriptor descriptor) {
         return CognitiveDerivationEngine.derive(toDescriptorView(descriptor));
     }
-
-    public static CognitiveDefaults deriveDefaults(AgentDescriptor descriptor, SocialConfig socialConfig) {
-        return CognitiveDerivationEngine.derive(toDescriptorView(descriptor, socialConfig));
-    }
-
-
-    private static io.casehub.neocortex.cognitive.index.FormationPadSummary computeFormationPadSummary(SocialConfig config) {
-        if (config == null || config.formationMemories().isEmpty()) {return null;}
-
-        double dominanceWeightedReward = 0.0;
-        double totalPositivePleasure   = 0.0;
-        for (var mem : config.formationMemories()) {
-            double p = Math.max(0.0, mem.pleasure());
-            dominanceWeightedReward += p * mem.dominance();
-            totalPositivePleasure += p;
-        }
-        return new io.casehub.neocortex.cognitive.index.FormationPadSummary(
-                dominanceWeightedReward, totalPositivePleasure, config.formationMemories().size());
-    }
-
 }

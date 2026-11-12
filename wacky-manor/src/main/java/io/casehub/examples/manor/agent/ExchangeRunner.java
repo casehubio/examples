@@ -37,7 +37,7 @@ public final class ExchangeRunner {
 
     public List<ManorEvent> run(CharacterState initiator, CharacterState target,
                                  String openingDialogue, WorldState world,
-                                 io.casehub.platform.agent.session.SessionPipeline sessionPipeline,
+                                 AgentInvocationService invocationService,
                                  Function<String, String> systemPromptRenderer) {
         var events = new ArrayList<ManorEvent>();
         long deadline = System.currentTimeMillis() + timeoutMs;
@@ -62,18 +62,10 @@ public final class ExchangeRunner {
             String responderPrompt = responder == initiator ? initiatorPrompt : targetPrompt;
 
             var exchangeProvider = new ManorExchangeObservationProvider(responder, lastDialogue, world);
-            String observation = ObservationBuilder.buildObservation(exchangeProvider, null, java.util.Set.of(), responder, java.util.List.of(), new io.casehub.agency.perception.observation.PartitionedDrain<>(io.casehub.agency.perception.observation.ObservationResult.empty(0), java.util.Map.of()), java.util.List.of(), java.util.List.of(), java.util.Map.of());
+            String observation = ObservationBuilder.buildObservation(exchangeProvider, null, java.util.Set.of(), responder, java.util.List.of(), new io.casehub.blocks.summarisation.observation.PartitionedDrain<>(io.casehub.blocks.summarisation.observation.ObservationResult.empty(0), java.util.Map.of()), java.util.List.of(), java.util.List.of(), java.util.Map.of());
             String userPrompt = observation + EXCHANGE_FORMAT_INSTRUCTION;
 
-            AgentResponse response;
-            try {
-                var session = sessionPipeline.sessionFor(responder.agentId());
-                String raw = AgentInvocationService.querySessionRaw(session, userPrompt, responder.agentId());
-                response = AgentResponse.parse(raw);
-            } catch (Exception e) {
-                log.warnf("Exchange query failed for %s: %s", responder.agentId(), e.getMessage());
-                response = AgentResponse.idle();
-            }
+            AgentResponse response = invocationService.invoke(responderPrompt, userPrompt, responder.agentId());
 
             if (response.thinking() != null) {
                 responder.setCurrentThinking(response.thinking());
@@ -102,9 +94,8 @@ public final class ExchangeRunner {
     }
 
     private ManorEvent createExchangeEvent(CharacterState speaker, String targetId, String dialogue, WorldState world) {
-        var targetName = world.resolveCharacter(targetId) != null ? world.resolveCharacter(targetId).name() : targetId;
-        var narr = NarrativeEventBuilder.describeDirectedDialogue(speaker.name(), targetName, dialogue);
+        var narr = NarrativeEventBuilder.describeDirectedDialogue(speaker.name(), targetId, dialogue);
         return new ManorEvent.Dialogue(Instant.now(), speaker.agentId(), speaker.currentRoom(),
-                narr.publicText(), narr.detailedText(), targetId, null);
+                narr.publicText(), narr.detailedText(), targetId);
     }
 }

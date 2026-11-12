@@ -10,7 +10,6 @@ import java.util.Optional;
 
 public final class PerceptionTranslator {
 
-    // Minimum PAD-space distance for perceptible personality difference — Mehrabian (1996)
     static final double DISTANCE_THRESHOLD = 0.4;
 
     private PerceptionTranslator() {}

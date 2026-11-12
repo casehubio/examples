@@ -2,12 +2,11 @@ package io.casehub.examples.manor.agent;
 
 import io.casehub.examples.manor.model.ManorEvent;
 import io.casehub.platform.agent.AgentEvent;
-import io.casehub.platform.agent.AgentSession;
+import io.casehub.platform.agent.AgentProvider;
+import io.casehub.platform.agent.AgentSessionConfig;
 import io.smallrye.mutiny.Multi;
-import io.smallrye.mutiny.Uni;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -15,20 +14,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class NarratorAgentTest {
 
-    static final AgentSession echoSession = new AgentSession() {
-        @Override public Multi<AgentEvent> query(String prompt) {
+    static final AgentProvider echoProvider = new AgentProvider() {
+        @Override public Multi<AgentEvent> invoke(AgentSessionConfig config) {
             return Multi.createFrom().item(new AgentEvent.TextDelta("DRAMATIC narration!"));
         }
-        @Override public Uni<Void> interrupt() { return Uni.createFrom().voidItem(); }
-        @Override public void clear() {}
-        @Override public void close(Duration maxWait) {}
+        @Override public io.casehub.platform.agent.AgentSession openSession(io.casehub.platform.agent.AgentSessionInit init) {
+            throw new UnsupportedOperationException();
+        }
     };
 
     @Test
     void collect_5_events_then_tick_dispatches_narration() {
         var dispatched = new ArrayList<String>();
         var agent = new NarratorAgent(
-                new MechanicalCompactor(), echoSession,
+                new MechanicalCompactor(), echoProvider,
                 null, null, 5, 15);
         agent.testSubscribe(dispatched::add);
 
@@ -46,7 +45,7 @@ class NarratorAgentTest {
     void below_threshold_does_not_narrate() {
         var dispatched = new ArrayList<String>();
         var agent = new NarratorAgent(
-                new MechanicalCompactor(), echoSession,
+                new MechanicalCompactor(), echoProvider,
                 null, null, 5, 15);
         agent.testSubscribe(dispatched::add);
 
@@ -63,7 +62,7 @@ class NarratorAgentTest {
     void timer_fires_when_events_below_threshold_but_old_enough() {
         var dispatched = new ArrayList<String>();
         var agent = new NarratorAgent(
-                new MechanicalCompactor(), echoSession,
+                new MechanicalCompactor(), echoProvider,
                 null, null, 5, 15);
         agent.testSubscribe(dispatched::add);
 
@@ -77,7 +76,7 @@ class NarratorAgentTest {
     @Test
     void collect_after_stop_does_not_throw() {
         var agent = new NarratorAgent(
-                new MechanicalCompactor(), echoSession,
+                new MechanicalCompactor(), echoProvider,
                 null, null, 5, 15);
         agent.stop();
         agent.collect(new ManorEvent.Action(Instant.now(), "x", "kitchen", "event", null, null, null, null));
@@ -87,7 +86,7 @@ class NarratorAgentTest {
     void flush_captures_remaining_events_below_threshold() {
         var dispatched = new ArrayList<String>();
         var agent = new NarratorAgent(
-                new MechanicalCompactor(), echoSession,
+                new MechanicalCompactor(), echoProvider,
                 null, null, 5, 15);
         agent.testSubscribe(dispatched::add);
 
@@ -100,29 +99,4 @@ class NarratorAgentTest {
         assertThat(dispatched).hasSize(1);
         assertThat(dispatched.get(0)).isEqualTo("DRAMATIC narration!");
     }
-
-    @Test
-    void narration_persisted_as_mindmap_node() {
-        var store = new io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore();
-        var agent = new NarratorAgent(
-                new MechanicalCompactor(), echoSession,
-                null, null, 5, 15,
-                store, "test-tenant");
-
-        for (int i = 0; i < 5; i++) {
-            agent.collect(new ManorEvent.Action(Instant.now(), "char-" + i,
-                                                "kitchen", "event " + i, null, null, null, null));
-        }
-        agent.tickNow();
-
-        var subgraphs = store.listSubgraphs("test-tenant");
-        assertThat(subgraphs).hasSize(1);
-        assertThat(subgraphs.getFirst().name()).isEqualTo("narrator-summaries");
-
-        var nodes = store.nodesIn(subgraphs.getFirst().id(), "test-tenant");
-        assertThat(nodes).hasSize(1);
-        assertThat(nodes.getFirst().properties().get("content")).isEqualTo("DRAMATIC narration!");
-        assertThat(nodes.getFirst().provenance()).isEqualTo("narrator-agent");
-    }
-
 }

@@ -1,6 +1,6 @@
 package io.casehub.examples.manor.web;
 
-import io.casehub.examples.manor.agent.PlaybookOrchestrator;
+import io.casehub.examples.manor.agent.ScenarioOrchestrator;
 import io.casehub.examples.manor.engine.MansionLoader;
 import io.casehub.examples.manor.engine.WorldState;
 import jakarta.inject.Inject;
@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.Response;
 public class ManorResource {
 
     @Inject
-    PlaybookOrchestrator orchestrator;
+    ScenarioOrchestrator orchestrator;
     @Inject
     ManorEventBus        eventBus;
     @Inject
@@ -40,7 +40,7 @@ public class ManorResource {
         eventBus.broadcast(ManorWebSocketEvent.scenario("started"));
         eventBus.broadcast(eventBus.buildSnapshot(activeWorld));
 
-        var mode = io.casehub.examples.manor.model.PlaybookMode.valueOf(scenarioModeConfig.toUpperCase());
+        var mode = io.casehub.examples.manor.model.ScenarioMode.valueOf(scenarioModeConfig.toUpperCase());
         orchestrator.startScenario(activeWorld, mode);
 
         return Response.accepted()
@@ -56,28 +56,19 @@ public class ManorResource {
             return Response.status(Response.Status.NOT_FOUND).entity("{\"error\":\"No scenario\"}").build();
         }
         var events = activeWorld.allEvents();
-        var mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-        var root   = mapper.createObjectNode();
-        root.put("complete", activeWorld.isScenarioComplete());
-        root.put("reason", activeWorld.completionReason() != null ? activeWorld.completionReason().name() : "running");
-        var eventsArray = mapper.createArrayNode();
-        for (var e : events) {
-            var node = mapper.createObjectNode();
-            node.put("type", e.type());
-            node.put("character", e.characterId() != null ? e.characterId() : "");
-            node.put("room", e.room() != null ? e.room() : "");
-            node.put("desc", e.description() != null ? e.description() : "");
-            if (e.thinking() != null) {
-                node.put("thinking", e.thinking());
-            }
-            eventsArray.add(node);
+        var sb     = new StringBuilder("[");
+        for (int i = 0; i < events.size(); i++) {
+            var e = events.get(i);
+            if (i > 0) {sb.append(",");}
+            sb.append("{\"type\":\"").append(e.type())
+              .append("\",\"character\":\"").append(e.characterId() != null ? e.characterId() : "")
+              .append("\",\"room\":\"").append(e.room() != null ? e.room() : "")
+              .append("\",\"desc\":\"").append(e.description().replace("\"", "\\\"")).append("\"}");
         }
-        root.set("events", eventsArray);
-        try {
-            return Response.ok(mapper.writeValueAsString(root)).build();
-        } catch (com.fasterxml.jackson.core.JsonProcessingException ex) {
-            return Response.serverError().entity("{\"error\":\"JSON serialization failed\"}").build();
-        }
+        sb.append("]");
+        String reason   = activeWorld.completionReason() != null ? activeWorld.completionReason().name() : "running";
+        String complete = activeWorld.isScenarioComplete() ? "true" : "false";
+        return Response.ok("{\"complete\":" + complete + ",\"reason\":\"" + reason + "\",\"events\":" + sb + "}").build();
     }
 
     @POST

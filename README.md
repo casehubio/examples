@@ -35,20 +35,6 @@ mvn quarkus:dev -pl ledger-examples/order-processing
 ./sync.sh
 ```
 
-### Work example prerequisites
-
-The Work examples use current `0.4-SNAPSHOT` artifacts, including the AI module.
-With the workspace dependencies installed, prepare them in a checkout of
-[casehubio/work](https://github.com/casehubio/work):
-
-```bash
-mvn -Pexamples -pl examples -am install -DskipTests
-```
-
-Then, from this repository, run `mvn -pl work-examples clean verify` to execute
-the Work scenario tests on H2 and package the application. This does not require
-an LLM service or credentials.
-
 ## Example Sets
 
 | Example Set | Type | Description |
@@ -60,7 +46,7 @@ an LLM service or credentials.
 | [desiredstate-examples](desiredstate-examples/) | Quarkus | Desired-state reconciliation, drift detection, pipelines |
 | [neocortex-examples](neocortex-examples/) | Quarkus | RAG pipelines, case-based reasoning, text analysis |
 | [openclaw-examples](openclaw-examples/) | Docker Compose | Multi-agent rule authoring scenarios |
-| [mosaic-examples](mosaic-examples/) | TypeScript | Visual block builder |
+| [blocks-ui-examples](blocks-ui-examples/) | TypeScript | Visual block builder |
 | [pages-examples](pages-examples/) | TypeScript | Dashboard and layout editor |
 
 ## Non-Maven Examples
@@ -69,7 +55,7 @@ an LLM service or credentials.
 [openclaw-examples/README.md](openclaw-examples/README.md).
 
 **blocks-ui** (TypeScript/Vite): Requires Node.js 20+. See
-[mosaic-examples/README.md](mosaic-examples/README.md).
+[blocks-ui-examples/README.md](blocks-ui-examples/README.md).
 
 **pages** (TypeScript/webpack): Requires Node.js 20+. See
 [pages-examples/README.md](pages-examples/README.md).
@@ -101,7 +87,7 @@ To fix a bug or add an example, make the change in the source repo:
 | desiredstate-examples | [casehubio/desiredstate](https://github.com/casehubio/casehub-desiredstate) |
 | neocortex-examples | [casehubio/neocortex](https://github.com/casehubio/neocortex) |
 | openclaw-examples | [casehubio/openclaw](https://github.com/casehubio/openclaw) |
-| mosaic-examples | [casehubio/agency-ui](https://github.com/casehubio/casehub-pages) |
+| blocks-ui-examples | [casehubio/blocks-ui](https://github.com/casehubio/casehub-pages) |
 | pages-examples | [casehubio/pages](https://github.com/casehubio/casehub-pages) |
 
 Changes flow to this repo on the next successful full build.

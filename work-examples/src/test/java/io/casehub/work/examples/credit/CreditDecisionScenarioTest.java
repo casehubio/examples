@@ -15,12 +15,6 @@ import io.restassured.response.Response;
 @QuarkusTest
 class CreditDecisionScenarioTest {
 
-    @jakarta.inject.Inject
-    io.casehub.ledger.api.spi.LedgerMerkleFrontierRepository frontierRepository;
-
-    @jakarta.inject.Inject
-    io.casehub.platform.api.identity.CurrentPrincipal currentPrincipal;
-
     @Test
     @SuppressWarnings("unchecked")
     void run_creditDecision_demonstratesComplianceFeatures() {
@@ -84,11 +78,6 @@ class CreditDecisionScenarioTest {
         ledger.forEach(entry -> assertThat(entry.get("digest"))
                 .as("digest missing on entry seq=%s", entry.get("sequenceNumber"))
                 .isNotNull());
-
-        var frontier = frontierRepository.findBySubjectId(
-                java.util.UUID.fromString(response.jsonPath().getString("workItemId")), currentPrincipal.tenancyId());
-        assertThat(frontier).hasSize(2);
-        assertThat(frontier).allSatisfy(node -> assertThat(node.hash).isNotBlank());
 
         // All 9 entries have decisionContext
         ledger.forEach(entry -> assertThat(entry.get("decisionContext"))

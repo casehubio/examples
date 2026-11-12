@@ -1,8 +1,8 @@
 package io.casehub.examples.manor.model;
 
 public final class CharacterState {
-    private          String                                            agentId;
-    private          String                                            name;
+    private final    String                                            agentId;
+    private final    String                                            name;
     private volatile String                                            currentRoom;
     private          double                                            x;
     private final    java.util.concurrent.CopyOnWriteArrayList<String> inventory;
@@ -33,13 +33,7 @@ public final class CharacterState {
 
     public String agentId()                                   {return agentId;}
 
-    public void setAgentId(String agentId)                    {this.agentId = agentId;}
-
-
     public String name()                                      {return name;}
-
-    public void setName(String name)                          {this.name = name;}
-
 
     public String currentRoom()                               {return currentRoom;}
 

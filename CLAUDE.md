@@ -7,14 +7,6 @@ type: java
 
 **DSL parity:** YAML and Java are peer representations — see [DSL Style Guide](https://raw.githubusercontent.com/casehubio/parent/main/docs/DSL-STYLE-GUIDE.md) §YAML/Java Parity Principle
 
-## Research and Journal Placement
-
-Research documents, literature reviews, era journals, and cognitive architecture findings belong in the foundation repo they are best suited to (typically **casehubio/neocortex** `docs/research/`), not in this examples repo. Only content that is specifically about the example application itself (eval transcripts, app architecture, scenario configurations) belongs here.
-
-## Design Decisions — Literature First
-
-Never guess at psychological, cognitive, or architectural models. Always base design decisions on literature, using empirically proven and respected models. Search the internet and Google Scholar to find the literature to undertake review and verification before committing to an approach. Intuitive reasoning that "sounds right" is not sufficient — the published computational models are the authority.
-
 ## What This Project Is
 
 Multi-example repository for CaseHub platform modules. Each subdirectory is an independent Quarkus application demonstrating a platform capability.
@@ -28,7 +20,7 @@ Multi-example repository for CaseHub platform modules. Each subdirectory is an i
 
 **GitHub repo:** casehubio/examples
 
-**Fork model:** origin = blessed (`casehubio/examples`), fork = personal (`mdproctor/examples`)
+**Fork model:** origin = personal fork (`mdproctor/examples`), upstream = blessed (`casehubio/examples`)
 
 ## Build and Test
 
@@ -36,12 +28,7 @@ Multi-example repository for CaseHub platform modules. Each subdirectory is an i
 # Build wacky-manor only (from wacky-manor pom — parent reactor has unresolvable desiredstate deps)
 JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml install -Dmaven.test.skip=true -s .mvn/slot-settings.xml
 
-# Run wacky-manor fast tests (~30s, excludes experiment/ voice/ and integration tests)
-JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml test -Pfast -s .mvn/slot-settings.xml
-
-# Run wacky-manor full tests (~50 min, includes all non-eval @QuarkusTest classes)
-# Quarkus container reuse is active — no @TestProfile or @QuarkusTestResource overrides.
-# Time is dominated by experiment/ tests with heavy CDI/MindMap work, not container restarts.
+# Run wacky-manor tests (standard suite)
 JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml test -s .mvn/slot-settings.xml
 
 # Run LLM evaluation tests (requires API key, non-deterministic)
@@ -84,49 +71,8 @@ Phase 0–2.8 complete. 17 characters across 6 rooms. Phase 2.9 next: scale test
 
 **Profiles:** `BASELINE` (default, Wacky Races), `JUNGIAN`, `BELBIN`, `COMPOSITE`, `GENERIC` (renamed characters, no pop-culture refs — for taxonomy validation). Set via `manor.scenario.profile`.
 
-## Evaluation Framework
-
-**Results location:** `wacky-manor/docs/eval/`
-
-Three eval instruments, each measuring different dimensions:
-
-### 1. Drive expression eval (per-drive, scenario-level)
-**Script:** `wacky-manor/docs/eval/classify_emotions.py`
-**Tracker:** `casehubio/neocortex docs/research/CHARACTER-EMERGENCE-FINDINGS.md` (relocated from examples)
-**Profile:** GENERIC (no pop-culture priors)
-
-Scores each drive (scheming, gloating, gallantry, etc.) 1-5 per event across a 200+ event scenario run. Produces per-character, per-drive averages. Baseline: BASELINE0 (mean 3.93).
-
-```bash
-# Run GENERIC scenario, save transcript to docs/eval/<run-name>/transcript.json
-# Then classify:
-python3 wacky-manor/docs/eval/classify_emotions.py docs/eval/<run-name>
-```
-
-### 2. Personality emergence eval (per-test, unit-level)
-**Test:** `RelationalModelEvalTest` (tag: llm-eval)
-**Tracker:** `wacky-manor/docs/eval/RELATIONAL-MODEL-EVAL-TRACKER.md`
-
-14 tests scoring personality consistency 0-5. Single score per test. Current: 68/70.
-
-### 3. Sleep derivation eval (per-dimension, cognitive quality)
-**Test:** `SleepDerivationEvalTest` (tag: llm-eval)
-**Results:** `wacky-manor/docs/eval/sleep-derivation-eval-*.json`
-
-9 dimensions (behavioral-tendencies, emotional-capacity, somatic-markers, relational-expectations, differentiation) each scored 0-5. Current average: 4.1.
-
-### Running evals
-```bash
-# Personality + sleep derivation (unit tests, ~15 min)
-JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f wacky-manor/pom.xml test -Pllm-eval -Dtest="RelationalModelEvalTest,SleepDerivationEvalTest" -s .mvn/slot-settings.xml
-
-# Drive expression (scenario run + classification, ~30 min)
-# Start server with GENERIC profile, wait for 300+ events, save, classify
-```
-
 **Dependencies beyond Eidos/Qhorus/Blocks:**
 - `casehub-engine-api` — GoalFormationStrategy/GoalRevisionStrategy SPIs for reflection-driven goal lifecycle
 - `casehub-neocortex-memory-api` + `casehub-neocortex-memory` — salience-scored memory, reflection, relationship tracking
 - `casehub-neocortex-cognitive-index` — CognitiveDerivationEngine for personality-derived cognitive defaults
 - `casehub-neocortex-mindmap-intelligence` — ConsolidationScheduler for sleep-cycle memory consolidation
-- `casehub-neocortex-caps-engine` + `casehub-neocortex-caps-api` — CAPS behavioral synthesis (disposition-weighted attractor settling)
