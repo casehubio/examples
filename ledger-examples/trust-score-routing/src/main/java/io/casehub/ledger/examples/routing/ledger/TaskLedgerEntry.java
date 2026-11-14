@@ -12,4 +12,9 @@ public class TaskLedgerEntry extends JpaLedgerEntry {
 
     @Column(name = "task_type")
     public String taskType;
+    @Override
+    public byte[] domainContentBytes() {
+        return (taskType == null ? "-" : taskType.length() + ":" + taskType)
+                .getBytes(java.nio.charset.StandardCharsets.UTF_8);
+    }
 }
