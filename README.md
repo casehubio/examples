@@ -55,6 +55,18 @@ mvn -Pwith-signing -pl signing/aws-kms-quarkus,signing/azure-keyvault-quarkus,si
 The PR workflow prepares these adapters from a pinned Ledger commit. Wacky Manor's
 live LLM tests remain opt-in through its `llm-eval` profile.
 
+### Evaluation harness prerequisite
+
+Wacky Manor compiles its opt-in evaluation tests against the unpublished Eidos eval
+harness. In a checkout of [casehubio/eidos](https://github.com/casehubio/eidos), prepare it with:
+
+```bash
+mvn -f eval/pom.xml install -DskipTests
+```
+
+The PR workflow also prepares this harness from a pinned source commit. Its live LLM
+evaluations remain opt-in.
+
 ## Example Sets
 
 | Example Set | Type | Description |
