@@ -1,7 +1,6 @@
 package io.casehub.desiredstate.example.spatial.distribution;
 
 import io.casehub.desiredstate.api.*;
-import io.casehub.desiredstate.example.spatial.specs.*;
 import io.casehub.desiredstate.example.spatial.terrain.*;
 import io.casehub.desiredstate.example.spatial.world.*;
 import io.casehub.desiredstate.ras.NodeFaultGanglion;
@@ -10,8 +9,9 @@ import io.casehub.desiredstate.runtime.ReconciliationEventEmitter;
 import io.casehub.ras.api.*;
 import io.casehub.ras.persistence.memory.InMemorySituationStore;
 import io.casehub.ras.runtime.DefaultRasTriggerPolicy;
+import io.casehub.ras.runtime.RasMetrics;
 import io.casehub.ras.runtime.SituationEvaluator;
-import io.casehub.ras.runtime.TestSituationDefinitionRegistry;
+import io.casehub.ras.runtime.SituationDefinitionRegistry;
 import io.casehub.ras.testing.MockCaseTrigger;
 import io.cloudevents.CloudEvent;
 import jakarta.enterprise.event.Event;
@@ -98,7 +98,7 @@ class SituationDetectionTest {
             () -> List.of(new SituationRegistration(situationDef))
         );
         var ganglia = List.<Ganglion>of(ganglion);
-        var registry = TestSituationDefinitionRegistry.create(providers, ganglia);
+        var registry = SituationDefinitionRegistry.forTesting(providers, ganglia);
 
         // Wire SituationEvaluator with all dependencies
         evaluator = new SituationEvaluator(
@@ -107,7 +107,8 @@ class SituationDetectionTest {
             caseTrigger,
             registry,
             3, // max retries
-            new TestChangeEvent()
+            new TestChangeEvent(),
+            new RasMetrics(registry)
         );
     }
 
@@ -141,8 +142,7 @@ class SituationDetectionTest {
         assertThat(caseTrigger.firedCases())
             .as("After 1 fault, no case triggered yet")
             .isEmpty();
-        assertThat(situationStore.find("repeated-node-fault", targetNodeId.value(), TENANCY_ID)
-            .await().indefinitely())
+        assertThat(situationStore.find("repeated-node-fault", targetNodeId.value(), TENANCY_ID))
             .as("Situation context saved with 1 detection")
             .isPresent()
             .get()
@@ -160,8 +160,7 @@ class SituationDetectionTest {
         assertThat(caseTrigger.firedCases())
             .as("After 2 faults, no case triggered yet")
             .isEmpty();
-        assertThat(situationStore.find("repeated-node-fault", targetNodeId.value(), TENANCY_ID)
-            .await().indefinitely())
+        assertThat(situationStore.find("repeated-node-fault", targetNodeId.value(), TENANCY_ID))
             .as("Situation context has 2 detections")
             .isPresent()
             .get()
@@ -242,8 +241,7 @@ class SituationDetectionTest {
             .as("Count mode: 3 total DETECTED signals (faults) triggers case")
             .hasSize(1);
 
-        var ctx = situationStore.find("repeated-node-fault", targetNodeId.value(), TENANCY_ID)
-            .await().indefinitely();
+        var ctx = situationStore.find("repeated-node-fault", targetNodeId.value(), TENANCY_ID);
         assertThat(ctx)
             .as("Situation context contains all signals including ANTI")
             .isPresent()

@@ -49,6 +49,18 @@ Then, from this repository, run `mvn -pl work-examples clean verify` to execute
 the Work scenario tests on H2 and package the application. This does not require
 an LLM service or credentials.
 
+### Ledger signing prerequisites
+
+The cloud signing examples require the unpublished `0.4-SNAPSHOT` signing adapters.
+In a checkout of [casehubio/ledger](https://github.com/casehubio/ledger), install them first:
+
+```bash
+mvn -Pwith-signing -pl signing/aws-kms-quarkus,signing/azure-keyvault-quarkus,signing/gcp-kms-quarkus,signing/vault-transit-quarkus -am install
+```
+
+The PR workflow prepares these adapters from a pinned Ledger commit. Wacky Manor's
+live LLM tests remain opt-in through its `llm-eval` profile.
+
 ## Example Sets
 
 | Example Set | Type | Description |

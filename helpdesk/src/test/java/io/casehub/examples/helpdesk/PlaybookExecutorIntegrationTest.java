@@ -38,12 +38,11 @@ class PlaybookExecutorIntegrationTest {
 
         String stepsJson = JSON.writeValueAsString(List.of(
             Map.of("name", "create-ticket", "label", "Create support ticket",
-                "commands", List.of(Map.of(
-                    "action", "create-ticket",
-                    "data", Map.of(
+                "action", "create-ticket",
+                "params", Map.of(
                         "subject", "Laptop won't boot",
                         "category", "HARDWARE",
-                        "priority", "HIGH"))))
+                        "priority", "HIGH"))
         ));
 
         client.onMessage(PushMessage.dispatchSequence(
@@ -69,9 +68,8 @@ class PlaybookExecutorIntegrationTest {
         String stepsJson = JSON.writeValueAsString(List.of(
             Map.of("name", "resolve", "label", "Resolve ticket",
                 "actor", "hw-specialist",
-                "commands", List.of(Map.of(
-                    "action", "resolve-ticket",
-                    "data", Map.of("resolution", "BIOS reset fixed it"))))
+                "action", "resolve-ticket",
+                "params", Map.of("resolution", "BIOS reset fixed it"))
         ));
 
         client.onMessage(PushMessage.dispatchSequence(

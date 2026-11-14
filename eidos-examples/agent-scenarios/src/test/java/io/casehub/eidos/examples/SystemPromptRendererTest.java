@@ -1,7 +1,16 @@
 package io.casehub.eidos.examples;
 
-import io.casehub.eidos.api.*;
+import io.casehub.eidos.api.AgentCapability;
+import io.casehub.eidos.api.AgentDescriptor;
+import io.casehub.eidos.api.AgentDisposition;
+import io.casehub.eidos.api.AgentPromptContext;
+import io.casehub.eidos.api.AgentRegistry;
+import io.casehub.eidos.api.DispositionAxis;
+import io.casehub.eidos.api.GoalContext;
+import io.casehub.eidos.api.Resource;
+import io.casehub.eidos.api.SystemPromptRenderer;
 import io.casehub.eidos.api.SystemPromptRenderer.RenderFormat;
+import io.casehub.eidos.api.VocabularyRegistry;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @QuarkusTest
 class SystemPromptRendererTest {
@@ -194,27 +203,27 @@ class SystemPromptRendererTest {
     @Test
     void a2a_card_thomas_kilmann_conflict_mode_in_frameworks() {
         final var descriptor = AgentDescriptor.builder()
-            .agentId("tk-a2a-1").name("TK Agent")
-            .slot("reviewer")
-            .axisVocabularies(Map.of(DispositionAxis.CONFLICT_MODE,
-                "urn:casehub:vocab:thomas-kilmann"))
-            .disposition(AgentDisposition.builder().conflictMode("collaborating").build())
-            .tenancyId("default").build();
+                                              .agentId("tk-a2a-1").name("TK Agent")
+                                              .slot("reviewer")
+                                              .axisVocabularies(Map.of(DispositionAxis.CONFLICT_MODE,
+                                                                       "urn:casehub:vocab:thomas-kilmann"))
+                                              .disposition(AgentDisposition.builder().conflictMode("collaborating").build())
+                                              .tenancyId("default").build();
         registry.register(descriptor);
 
-        final var card = renderA2aCard(registry.findById("tk-a2a-1", "default").orElseThrow());
+        final var card         = renderA2aCard(registry.findById("tk-a2a-1", "default").orElseThrow());
         final var conflictMode = card.get("disposition").get("conflictMode");
-        assertThat(conflictMode.get("value").asText()).isEqualTo("collaborating");
-        assertThat(conflictMode.get("label").asText()).isEqualTo("Collaborating");
+        assertThat(conflictMode.get("values").get(0).get("term").asText()).isEqualTo("collaborating");
+        assertThat(conflictMode.get("values").get(0).get("label").asText()).isEqualTo("Collaborating");
         assertThat(conflictMode.get("vocabularyUri").asText())
-            .isEqualTo("urn:casehub:vocab:thomas-kilmann");
+                .isEqualTo("urn:casehub:vocab:thomas-kilmann");
         assertThat(conflictMode.get("vocabularyName").asText())
-            .isEqualTo("Thomas-Kilmann Conflict Modes");
+                .isEqualTo("Thomas-Kilmann Conflict Modes");
 
         final var frameworks = card.get("frameworks");
         assertThat(frameworks.isArray()).isTrue();
         assertThat(frameworks.get(0).get("uri").asText())
-            .isEqualTo("urn:casehub:vocab:thomas-kilmann");
+                .isEqualTo("urn:casehub:vocab:thomas-kilmann");
     }
 
     @Test

@@ -6,7 +6,20 @@ import io.casehub.api.model.CaseDefinition;
 import io.casehub.api.model.event.CaseEventLogRecord;
 import io.casehub.api.model.event.CaseHubEventType;
 import io.casehub.api.model.event.EventStreamType;
-import io.casehub.desiredstate.api.*;
+import io.casehub.desiredstate.api.ActualState;
+import io.casehub.desiredstate.api.ApprovalCheckResult;
+import io.casehub.desiredstate.api.CompilationResult;
+import io.casehub.desiredstate.api.DesiredNode;
+import io.casehub.desiredstate.api.DesiredStateGraph;
+import io.casehub.desiredstate.api.DesiredStateGraphFactory;
+import io.casehub.desiredstate.api.HumanGating;
+import io.casehub.desiredstate.api.NodeId;
+import io.casehub.desiredstate.api.OrderedStep;
+import io.casehub.desiredstate.api.PendingApprovalHandler;
+import io.casehub.desiredstate.api.StepAction;
+import io.casehub.desiredstate.api.StepOutcome;
+import io.casehub.desiredstate.api.TransitionPlan;
+import io.casehub.desiredstate.api.TransitionResult;
 import io.casehub.desiredstate.engine.CaseTransitionExecutor;
 import io.casehub.desiredstate.engine.DesiredStateExecutionRegistry;
 import io.casehub.desiredstate.engine.TransitionWorkflowGenerator;
@@ -19,8 +32,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -80,11 +91,10 @@ class PipelineCaseTransitionTest {
         ActualState empty = new ActualState(Map.of());
         TransitionPlan plan = planner.plan(graph, empty);
 
-        TransitionResult transitionResult = executor.execute(plan, "pipeline-tenant")
-            .await().indefinitely();
+        TransitionResult transitionResult = executor.execute(plan, "pipeline-tenant");
 
         assertThat(runtime.lastDefinition).isNotNull();
-        assertThat(transitionResult.outcomes()).hasSize(plan.additions().size());
+        assertThat(transitionResult.outcomes()).hasSize(plan.flatAdditions().size());
         transitionResult.outcomes().forEach((id, outcome) ->
             assertThat(outcome)
                 .as("Node %s should succeed optimistically", id.value())
@@ -93,25 +103,18 @@ class PipelineCaseTransitionTest {
 
     @Test
     void pruneAndGrow_producesResultForBothPhases() {
-        DesiredNode oldNode = new DesiredNode(
-            NodeId.of("old-stage"), PipelineNodeTypes.TRANSFORMER,
-            new TransformerSpec(List.of("old-agg"), List.of("old-rule"), "parquet"),
-            false);
-        DesiredNode newNode = new DesiredNode(
-            NodeId.of("new-stage"), PipelineNodeTypes.TRANSFORMER,
-            new TransformerSpec(List.of("new-agg"), List.of("new-rule"), "parquet"),
-            false);
+        DesiredNode oldNode = new DesiredNode(NodeId.of("old-stage"), new TransformerSpec(List.of("old-agg"), List.of("old-rule"), "parquet"), HumanGating.NONE);
+        DesiredNode newNode = new DesiredNode(NodeId.of("new-stage"), new TransformerSpec(List.of("new-agg"), List.of("new-rule"), "parquet"), HumanGating.NONE);
 
         DesiredStateGraph graph = factory.of(List.of(newNode), List.of());
 
-        TransitionPlan plan = new TransitionPlan(
+        TransitionPlan plan = TransitionPlan.ofFlat(
             List.of(new OrderedStep(oldNode, StepAction.DEPROVISION)),
             List.of(new OrderedStep(newNode, StepAction.PROVISION)),
             graph, graph
         );
 
-        TransitionResult result = executor.execute(plan, "pipeline-tenant")
-            .await().indefinitely();
+        TransitionResult result = executor.execute(plan, "pipeline-tenant");
 
         assertThat(result.outcomes()).hasSize(2);
         assertThat(result.outcomes().get(NodeId.of("old-stage")))
@@ -122,35 +125,30 @@ class PipelineCaseTransitionTest {
 
     @Test
     void humanReviewNode_skippedInResult() {
-        DesiredNode humanNode = new DesiredNode(
-            NodeId.of("human-review"), PipelineNodeTypes.HUMAN_REVIEW,
-            new HumanReviewSpec(NodeId.of("failing-stage"), "schema mismatch", "auto-fix exhausted"),
-            true);
+        DesiredNode humanNode = new DesiredNode(NodeId.of("human-review"), new HumanReviewSpec(NodeId.of("failing-stage"), "schema mismatch", "auto-fix exhausted"), HumanGating.ALL);
 
         DesiredStateGraph graph = factory.of(List.of(humanNode), List.of());
 
-        TransitionPlan plan = new TransitionPlan(
+        TransitionPlan plan = TransitionPlan.ofFlat(
             List.of(),
             List.of(new OrderedStep(humanNode, StepAction.PROVISION)),
             graph, graph
         );
 
-        TransitionResult result = executor.execute(plan, "pipeline-tenant")
-            .await().indefinitely();
+        TransitionResult result = executor.execute(plan, "pipeline-tenant");
 
         assertThat(result.outcomes().get(NodeId.of("human-review")))
             .isInstanceOf(StepOutcome.Skipped.class);
         assertThat(((StepOutcome.Skipped) result.outcomes().get(NodeId.of("human-review"))).reason())
-            .contains("WorkItem");
+            .contains("human task binding");
     }
 
     @Test
     void emptyPlan_noCase() {
         DesiredStateGraph graph = factory.empty();
-        TransitionPlan plan = new TransitionPlan(List.of(), List.of(), graph, graph);
+        TransitionPlan plan = TransitionPlan.ofFlat(List.of(), List.of(), graph, graph);
 
-        TransitionResult result = executor.execute(plan, "pipeline-tenant")
-            .await().indefinitely();
+        TransitionResult result = executor.execute(plan, "pipeline-tenant");
 
         assertThat(result.outcomes()).isEmpty();
         assertThat(runtime.lastDefinition).isNull();
@@ -159,43 +157,68 @@ class PipelineCaseTransitionTest {
     static class CapturingCaseHubRuntime implements CaseHubRuntime {
         CaseDefinition lastDefinition;
 
-        @Override public CompletionStage<UUID> startCase(CaseDefinition definition) {
+        @Override
+        public UUID startCase(CaseDefinition definition) {
             lastDefinition = definition;
-            return CompletableFuture.completedFuture(UUID.randomUUID());
+            return UUID.randomUUID();
         }
-        @Override public CompletionStage<UUID> startCase(CaseDefinition definition, Object inputData) {
+
+        @Override
+        public UUID startCase(CaseDefinition definition, Object inputData) {
             lastDefinition = definition;
-            return CompletableFuture.completedFuture(UUID.randomUUID());
+            return UUID.randomUUID();
         }
-        @Override public CompletionStage<UUID> startCase(CaseDefinition definition, Object inputData, UUID parentCaseId, PropagationContext ctx) {
-            return CompletableFuture.completedFuture(UUID.randomUUID());
+
+        @Override
+        public UUID startCase(CaseDefinition definition, Object inputData, UUID parentCaseId, PropagationContext ctx) {
+            return UUID.randomUUID();
         }
-        @Override public CompletionStage<UUID> startCase(CaseDefinition definition, Object inputData, Map<String, Object> semanticData) {
-            return CompletableFuture.completedFuture(UUID.randomUUID());
+
+        @Override
+        public UUID startCase(CaseDefinition definition, Object inputData, Map<String, Object> semanticData) {
+            return UUID.randomUUID();
         }
-        @Override public CompletionStage<UUID> startCase(CaseDefinition definition, Object inputData, Map<String, Object> semanticData, UUID parentCaseId, PropagationContext ctx) {
-            return CompletableFuture.completedFuture(UUID.randomUUID());
+
+        @Override
+        public UUID startCase(CaseDefinition definition, Object inputData, Map<String, Object> semanticData, UUID parentCaseId, PropagationContext ctx) {
+            return UUID.randomUUID();
         }
-        @Override public CompletionStage<Void> signal(UUID caseId, String path, Object value) {
-            return CompletableFuture.completedFuture(null);
+
+        @Override
+        public void signal(UUID caseId, String path, Object value) {}
+
+        @Override
+        public void cancelCase(UUID caseId)                        {}
+
+        @Override
+        public void suspendCase(UUID caseId)                       {}
+
+        @Override
+        public void resumeCase(UUID caseId)                        {}
+
+        @Override
+        public Object query(UUID caseId, String path) {
+            return null;
         }
-        @Override public void cancelCase(UUID caseId) {}
-        @Override public void suspendCase(UUID caseId) {}
-        @Override public void resumeCase(UUID caseId) {}
-        @Override public CompletionStage<Object> query(UUID caseId, String path) {
-            return CompletableFuture.completedFuture(null);
+
+        @Override
+        public <T> T query(UUID caseId, String path, Class<T> clazz) {
+            return null;
         }
-        @Override public <T> CompletionStage<T> query(UUID caseId, String path, Class<T> clazz) {
-            return CompletableFuture.completedFuture(null);
+
+        @Override
+        public List<CaseEventLogRecord> eventLog(UUID caseId) {
+            return List.of();
         }
-        @Override public CompletionStage<List<CaseEventLogRecord>> eventLog(UUID caseId) {
-            return CompletableFuture.completedFuture(List.of());
+
+        @Override
+        public List<CaseEventLogRecord> eventLog(UUID caseId, Set<CaseHubEventType> eventTypes) {
+            return List.of();
         }
-        @Override public CompletionStage<List<CaseEventLogRecord>> eventLog(UUID caseId, Set<CaseHubEventType> eventTypes) {
-            return CompletableFuture.completedFuture(List.of());
-        }
-        @Override public CompletionStage<List<CaseEventLogRecord>> eventLog(UUID caseId, Set<CaseHubEventType> eventTypes, Set<EventStreamType> streamTypes) {
-            return CompletableFuture.completedFuture(List.of());
+
+        @Override
+        public List<CaseEventLogRecord> eventLog(UUID caseId, Set<CaseHubEventType> eventTypes, Set<EventStreamType> streamTypes) {
+            return List.of();
         }
     }
 }

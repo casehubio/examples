@@ -7,7 +7,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-import io.casehub.ledger.runtime.model.jpa.JpaLedgerEntry;
+import io.casehub.ledger.jpa.JpaLedgerEntry;
 
 /**
  * Domain-specific ledger entry for the Order aggregate.
@@ -42,4 +42,10 @@ public class OrderLedgerEntry extends JpaLedgerEntry {
     /** The order status after this transition (snapshot for quick querying). */
     @Column(name = "order_status")
     public String orderStatus;
+
+    @Override
+    public byte[] domainContentBytes() {
+        return ("%s|%s|%s|%s".formatted(
+                orderId, commandType, eventType, orderStatus)).getBytes(java.nio.charset.StandardCharsets.UTF_8);
+    }
 }

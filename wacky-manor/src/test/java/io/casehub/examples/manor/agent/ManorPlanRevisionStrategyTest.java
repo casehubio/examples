@@ -5,7 +5,7 @@ import io.casehub.engine.plan.adaptation.AdaptationContext;
 import io.casehub.engine.plan.adaptation.PlanStepDescriptor;
 import io.casehub.engine.plan.adaptation.RevisedPlan;
 import io.casehub.engine.plan.adaptation.RevisionContext;
-import io.casehub.neocortex.cognition.testing.StubPipelines;
+import io.casehub.neocortex.session.testing.StubPipelines;
 import io.casehub.platform.agent.AgentEvent;
 import io.casehub.platform.agent.AgentSession;
 import io.casehub.platform.agent.session.SessionPipeline;

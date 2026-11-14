@@ -12,9 +12,13 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
+import static io.casehub.desiredstate.testing.TestTimeouts.AWAIT;
 import static org.assertj.core.api.Assertions.*;
+import static org.awaitility.Awaitility.await;
 
 class ExpansionLifecycleTest {
+
+    private static final LifecycleStepExecutor noOpStepExecutor = (step, tenancyId) -> new StepOutcome.Succeeded();
 
     private DesiredStateGraphFactory factory;
     private ExpansionGoalCompiler compiler;
@@ -33,15 +37,12 @@ class ExpansionLifecycleTest {
         adapter = new ExpansionActualStateAdapter(world);
 
         DefaultNodeProvisionerRouter router = new DefaultNodeProvisionerRouter(List.of(provisioner));
-        SimpleTransitionExecutor executor = new SimpleTransitionExecutor(
-            router, new NoOpHumanNodeHandler(), new NoOpPendingApprovalHandler());
+        SimpleTransitionExecutor executor = new SimpleTransitionExecutor(new NodeStepExecutor(router, new NoOpHumanNodeHandler(), new NoOpPendingApprovalHandler(), noOpStepExecutor));
 
         var adapterRouter = new DefaultActualStateAdapterRouter(List.of(adapter));
-        loop = new ReconciliationLoop(
-            new TransitionPlanner(), executor, adapterRouter,
-            new FaultPolicyEngine(List.of()),
-            () -> Multi.createFrom().nothing(),
-            Duration.ofMillis(50), Duration.ofMillis(200));
+        loop = ReconciliationLoop.builder(new TransitionPlanner(), executor, adapterRouter,
+            new FaultPolicyEngine(List.of()), () -> Multi.createFrom().nothing())
+            .debounceWindow(Duration.ofMillis(50)).resyncInterval(Duration.ofMillis(200)).build();
         manager = new LifecycleManager(loop);
     }
 
@@ -65,16 +66,13 @@ class ExpansionLifecycleTest {
 
         manager.start("t1", result);
 
-        // Wait for build phase to complete and defend phase to start
-        Thread.sleep(1000);
-
-        DesiredStateGraph current = loop.getDesired("t1");
-        // Defend phase should be active — contains defense node types
-        boolean hasDefenseNodes = current.nodes().values().stream()
-            .anyMatch(n -> n.type().equals(ExpansionNodeTypes.PATROL)
-                        || n.type().equals(ExpansionNodeTypes.MONITOR)
-                        || n.type().equals(ExpansionNodeTypes.RESPONSE));
-        assertThat(hasDefenseNodes).isTrue();
+        await().atMost(AWAIT).until(() -> {
+            DesiredStateGraph g = loop.getDesired("t1");
+            return g != null && g.nodes().values().stream()
+                .anyMatch(n -> n.type().equals(ExpansionNodeTypes.PATROL)
+                            || n.type().equals(ExpansionNodeTypes.MONITOR)
+                            || n.type().equals(ExpansionNodeTypes.RESPONSE));
+        });
     }
 
     @Test
@@ -83,16 +81,23 @@ class ExpansionLifecycleTest {
             List.of("nexus"), DefensePosture.PATROL);
 
         manager.start("t1", compiler.compile(goal, factory));
-        Thread.sleep(500);
+        await().atMost(AWAIT).until(() -> {
+            DesiredStateGraph g = loop.getDesired("t1");
+            if (g == null) return false;
+            ActualState a = adapter.readActual(g, "t1");
+            return g.nodes().values().stream()
+                .filter(n -> n.type().equals(ExpansionNodeTypes.PATROL))
+                .anyMatch(n -> a.statusOf(n.id()).orElse(NodeStatus.ABSENT) == NodeStatus.PRESENT);
+        });
 
-        // Destroy a defense node — reconciliation should re-provision
         NodeId patrolId = loop.getDesired("t1").nodes().keySet().stream()
             .filter(id -> loop.getDesired("t1").nodes().get(id).type().equals(ExpansionNodeTypes.PATROL))
             .findFirst().orElseThrow();
         world.destroy(patrolId);
 
-        Thread.sleep(500);
-        // Patrol provisioning sets PATROLLING state — check via adapter for PRESENT
+        await().atMost(AWAIT).until(() ->
+            adapter.readActual(loop.getDesired("t1"), "t1")
+                .statusOf(patrolId).orElse(NodeStatus.ABSENT) == NodeStatus.PRESENT);
         ActualState actual = adapter.readActual(loop.getDesired("t1"), "t1");
         assertThat(actual.statusOf(patrolId).orElseThrow()).isEqualTo(NodeStatus.PRESENT);
     }
@@ -103,7 +108,14 @@ class ExpansionLifecycleTest {
             List.of("nexus"), DefensePosture.PATROL);
 
         manager.start("t1", compiler.compile(goal, factory));
-        Thread.sleep(500);
+        await().atMost(AWAIT).until(() -> {
+            DesiredStateGraph g = loop.getDesired("t1");
+            if (g == null) return false;
+            ActualState a = adapter.readActual(g, "t1");
+            return g.nodes().values().stream()
+                .filter(n -> n.type().equals(ExpansionNodeTypes.PATROL))
+                .anyMatch(n -> a.statusOf(n.id()).orElse(NodeStatus.ABSENT) == NodeStatus.PRESENT);
+        });
 
         // Verify nexus is in defend phase graph (carry-forward)
         DesiredStateGraph current = loop.getDesired("t1");
@@ -117,8 +129,7 @@ class ExpansionLifecycleTest {
             .findFirst().orElseThrow();
         world.destroy(nexusId);
 
-        Thread.sleep(500);
-        assertThat(world.isBuilt(nexusId)).isTrue();
+        await().atMost(AWAIT).until(() -> world.isBuilt(nexusId));
     }
 
     @Test
@@ -137,8 +148,8 @@ class ExpansionLifecycleTest {
             "nexus-failure", "loc-1", "t1", 0.95,
             Map.of("failedNode", "nexus"), Instant.now(), Instant.now(), 5);
 
-        Optional<CompilationResult> replanned = recompiler.recompile(
-            buildGraph, situation, factory);
+        Optional<CompilationResult> replanned = recompiler.recompile("tenant-1",
+            buildGraph, new ActualState(Map.of()), situation, factory);
 
         assertThat(replanned).isPresent();
         // Replanned result should have FORTIFY defense posture
@@ -149,14 +160,12 @@ class ExpansionLifecycleTest {
     @Test
     void singlePhaseBackwardCompat() throws Exception {
         // Compile a single-phase result (non-lifecycle)
-        DesiredNode node = new DesiredNode(NodeId.of("standalone"),
-            ExpansionNodeTypes.NEXUS, new NexusSpec("loc-1"), false);
+        DesiredNode node = new DesiredNode(NodeId.of("standalone"), new NexusSpec("loc-1"), HumanGating.NONE);
         DesiredStateGraph graph = factory.of(List.of(node), List.of());
 
         manager.start("t1", CompilationResult.single(graph));
-        Thread.sleep(300);
 
+        await().atMost(AWAIT).until(() -> world.isBuilt(NodeId.of("standalone")));
         assertThat(loop.getDesired("t1").nodes()).containsKey(NodeId.of("standalone"));
-        assertThat(world.isBuilt(NodeId.of("standalone"))).isTrue();
     }
 }

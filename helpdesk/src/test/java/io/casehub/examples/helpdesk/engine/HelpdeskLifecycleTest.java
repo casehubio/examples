@@ -57,27 +57,27 @@ class HelpdeskLifecycleTest {
         // Wait for WorkItem to be created by humanTask binding
         await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
             var workItems = given()
-                    .when().get("/workitems")
+                    .when().get("/api/work/items/list-all")
                     .then().statusCode(200)
                     .extract().jsonPath()
-                    .getList("findAll { it.title.contains('lifecycle-test') && it.status == 'PENDING' }", Map.class);
+                    .getList("items.findAll { it.title.contains('lifecycle-test') && it.status == 'PENDING' }", Map.class);
             assertFalse(workItems.isEmpty(), "WorkItem should be created for hw-specialist");
         });
 
         // Specialist claims, starts, and completes the WorkItem
         String workItemId = given()
-                .when().get("/workitems")
+                .when().get("/api/work/items/list-all")
                 .then().statusCode(200)
                 .extract().jsonPath()
-                .getString("find { it.title.contains('lifecycle-test') && it.status == 'PENDING' }.id");
+                .getString("items.find { it.title.contains('lifecycle-test') && it.status == 'PENDING' }.id");
 
         // Claim (PENDING → ASSIGNED)
         given().queryParam("claimant", "hw-specialist")
-                .when().put("/workitems/" + workItemId + "/claim")
+                .when().post("/api/work/lifecycle/claim/" + workItemId)
                 .then().statusCode(200);
 
         // Start (ASSIGNED → IN_PROGRESS)
-        given().when().put("/workitems/" + workItemId + "/start")
+        given().queryParam("actor", "hw-specialist").when().post("/api/work/lifecycle/start/" + workItemId)
                 .then().statusCode(200);
 
         // Complete with JSON resolution for outputMapping JQ evaluation
@@ -89,9 +89,9 @@ class HelpdeskLifecycleTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        given().contentType("application/json")
+        given().queryParam("actor", "hw-specialist").contentType("application/json")
                 .body(Map.of("resolution", resolutionJson))
-                .when().put("/workitems/" + workItemId + "/complete")
+                .when().post("/api/work/lifecycle/complete/" + workItemId)
                 .then().statusCode(200);
 
         // Wait for case to complete (notification fired, goal met)

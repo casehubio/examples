@@ -39,10 +39,10 @@ class ForceDistributionTest {
 
     private void executeAll(TransitionPlan plan, DesiredStateGraph graph,
                            DesiredStateGraph beforeGraph) {
-        for (var step : plan.removals()) {
+        for (var step : plan.flatRemovals()) {
             provisioner.deprovision(step.node(), new DeprovisionContext("test", beforeGraph));
         }
-        for (var step : plan.additions()) {
+        for (var step : plan.flatAdditions()) {
             provisioner.provision(step.node(), new ProvisionContext("test", graph));
         }
     }
@@ -122,8 +122,8 @@ class ForceDistributionTest {
         var plan2 = planner.plan(graph2, actual2);
 
         // Old units orphaned, new units provisioned
-        assertThat(plan2.removals()).isNotEmpty();
-        assertThat(plan2.additions()).isNotEmpty();
+        assertThat(plan2.flatRemovals()).isNotEmpty();
+        assertThat(plan2.flatAdditions()).isNotEmpty();
 
         executeAll(plan2, graph2, graph1);
         renderer.printFrame("After frontier expansion");
@@ -202,8 +202,8 @@ class ForceDistributionTest {
 
         // Old single zone deprovisioned, two new zones provisioned
         // This is a teardown-rebuild — expected finding #2
-        assertThat(plan2.removals()).isNotEmpty();
-        assertThat(plan2.additions()).isNotEmpty();
+        assertThat(plan2.flatRemovals()).isNotEmpty();
+        assertThat(plan2.flatAdditions()).isNotEmpty();
 
         executeAll(plan2, graph2, graph1);
         renderer.printFrame("After zone split");
@@ -238,7 +238,7 @@ class ForceDistributionTest {
 
         // ZoneRebalanceFaultPolicy attempts redistribution
         var policy = new ZoneRebalanceFaultPolicy();
-        var mutations = policy.onFault(faultEvent, graph, actual);
+        var mutations = policy.onFault("tenant-1", faultEvent, graph, actual);
 
         // FIXED: Policy now uses ActualState to identify ABSENT unit and redistribute
         assertThat(mutations).as(
@@ -249,12 +249,12 @@ class ForceDistributionTest {
         // Zone spec updated with redistributed ratios
         assertThat(mutations).anyMatch(m ->
             m instanceof GraphMutation.UpdateNode u
-            && u.id().equals(NodeId.of("zone-frontier")));
+            && u.id().equals("zone-frontier"));
 
         // Surviving unit spec updated with new strength
         assertThat(mutations).anyMatch(m ->
             m instanceof GraphMutation.UpdateNode u
-            && u.id().equals(NodeId.of("unit-cell-4-1")));
+            && u.id().equals("unit-cell-4-1"));
     }
 
     // --- Layer 4: Strategic pivot ---
@@ -273,7 +273,7 @@ class ForceDistributionTest {
         executeAll(planner.plan(graph, adapter.readActual(graph, "test")), graph, graph);
 
         var policy = new ZoneRebalanceFaultPolicy();
-        var allMutations = new ArrayList<List<GraphMutation>>();
+        var allMutations = new ArrayList<List<GraphMutation<DesiredNode>>>();
 
         // 3 consecutive cycles of losses
         for (int cycle = 0; cycle < 3; cycle++) {
@@ -282,7 +282,7 @@ class ForceDistributionTest {
             var faultEvent = new FaultEvent(
                 NodeId.of("zone-frontier"), FaultType.NODE_DEGRADED,
                 "Cycle " + cycle + ": zone member destroyed");
-            allMutations.add(policy.onFault(faultEvent, graph, actual));
+            allMutations.add(policy.onFault("tenant-1", faultEvent, graph, actual));
 
             // Planner restores the unit
             var plan = planner.plan(graph, actual);

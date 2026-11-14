@@ -26,7 +26,7 @@ import static org.awaitility.Awaitility.await;
 
 @QuarkusTest
 @TestProfile(DemoTestProfile.class)
-class ScenarioE2ETest {
+class PlaybookE2ETest {
 
     private static final ObjectMapper JSON = new ObjectMapper();
 
@@ -90,31 +90,27 @@ class ScenarioE2ETest {
         Thread.sleep(200);
 
         var scenarioYaml = """
-            scenario: e2e-test
+            playbook: e2e-test
             steps:
               - label: "Create ticket"
-                name: create-step
+                step: create-step
                 target: helpdesk
-                commands:
-                  - action: create-ticket
-                    data:
-                      subject: "E2E test ticket"
-                      category: HARDWARE
-                      priority: HIGH
+                create-ticket:
+                  subject: "E2E test ticket"
+                  category: HARDWARE
+                  priority: HIGH
               - label: "Resolve ticket"
-                name: resolve-step
+                step: resolve-step
                 target: helpdesk
                 actor: hw-specialist
-                commands:
-                  - action: resolve-ticket
-                    data:
-                      resolution: "Fixed in e2e test"
+                resolve-ticket:
+                  resolution: "Fixed in e2e test"
             """;
 
         given()
             .contentType("application/json")
             .body(Map.of("yaml", scenarioYaml))
-            .when().post("/scenario/start")
+            .when().post("/playbook/start")
             .then().statusCode(200);
 
         await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
@@ -126,7 +122,7 @@ class ScenarioE2ETest {
 
         await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
             var state = orchestrator.state();
-            assertThat(state.scenario()).isEqualTo("e2e-test");
+            assertThat(state.playbook()).isEqualTo("e2e-test");
             assertThat(state.progress()).isGreaterThan(0.0);
         });
 
@@ -136,7 +132,7 @@ class ScenarioE2ETest {
     @Test
     void scenarioStateEndpointReflectsProgress() {
         var state = given()
-            .when().get("/scenario/state")
+            .when().get("/playbook/state")
             .then().statusCode(200)
             .extract().as(Map.class);
 

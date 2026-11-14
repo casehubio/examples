@@ -23,12 +23,14 @@ import jakarta.ws.rs.core.Response;
 
 import io.casehub.ledger.examples.order.ledger.OrderLedgerEntry;
 import io.casehub.ledger.examples.order.ledger.OrderLedgerEntryRepository;
+import jakarta.persistence.EntityManager;
+import io.casehub.platform.api.identity.TenancyConstants;
 import io.casehub.ledger.examples.order.model.Order;
 import io.casehub.ledger.examples.order.service.OrderService;
 import io.casehub.platform.api.identity.ActorType;
 import io.casehub.ledger.api.model.AttestationVerdict;
-import io.casehub.ledger.runtime.model.LedgerAttestation;
-import io.casehub.ledger.runtime.service.LedgerMerkleTree;
+import io.casehub.ledger.api.model.LedgerAttestation;
+import io.casehub.ledger.core.merkle.LedgerMerkleTree;
 
 /**
  * REST API for the order-processing example.
@@ -55,6 +57,9 @@ import io.casehub.ledger.runtime.service.LedgerMerkleTree;
 @Path("/orders")
 @Produces(APPLICATION_JSON)
 public class OrderResource {
+
+    @Inject
+    EntityManager em;
 
     @Inject
     OrderService orderService;
@@ -111,13 +116,13 @@ public class OrderResource {
 
     @GET
     public List<Order> listOrders() {
-        return Order.listAll();
+        return em.createQuery("SELECT o FROM Order o", Order.class).getResultList();
     }
 
     @GET
     @Path("/{id}")
     public Order getOrder(@PathParam("id") final UUID orderId) {
-        return Order.findById(orderId);
+        return em.find(Order.class, orderId);
     }
 
     // -------------------------------------------------------------------------
@@ -132,7 +137,7 @@ public class OrderResource {
     public List<LedgerEntryView> getLedger(@PathParam("id") final UUID orderId) {
         final List<OrderLedgerEntry> entries = ledgerRepo.findByOrderId(orderId);
         return entries.stream().map(e -> {
-            final List<LedgerAttestation> attestations = ledgerRepo.findAttestationsByEntryId(e.id);
+            final List<LedgerAttestation> attestations = ledgerRepo.findAttestationsByEntryId(e.id, TenancyConstants.DEFAULT_TENANT_ID);
             return new LedgerEntryView(e, attestations);
         }).toList();
     }
@@ -178,7 +183,7 @@ public class OrderResource {
             @PathParam("entryId") final UUID entryId,
             final AttestationRequest req) {
 
-        final LedgerAttestation attestation = new LedgerAttestation();
+        final io.casehub.ledger.jpa.LedgerAttestation attestation = new io.casehub.ledger.jpa.LedgerAttestation();
         attestation.ledgerEntryId = entryId;
         attestation.subjectId = orderId;
         attestation.attestorId = req.attestorId();
@@ -186,7 +191,7 @@ public class OrderResource {
         attestation.verdict = req.verdict();
         attestation.evidence = req.evidence();
         attestation.confidence = req.confidence();
-        ledgerRepo.saveAttestation(attestation);
+        ledgerRepo.saveAttestation(attestation, TenancyConstants.DEFAULT_TENANT_ID);
 
         return Response.status(Response.Status.CREATED).build();
     }
@@ -208,7 +213,7 @@ public class OrderResource {
             @QueryParam("actorId") final String actorId,
             @QueryParam("from") final String from,
             @QueryParam("to") final String to) {
-        return ledgerRepo.findByActorId(actorId, Instant.parse(from), Instant.parse(to))
+        return ledgerRepo.findByActorId(actorId, Instant.parse(from), Instant.parse(to), TenancyConstants.DEFAULT_TENANT_ID)
                 .stream()
                 .map(e -> (Object) Map.of(
                         "id", String.valueOf(e.id),

@@ -80,27 +80,30 @@ class DraftHouseReviewerScenarioTest {
     }
 
     @Test
-    void structural_reviewer_shows_thomas_kilmann_label() {
+    void structural_reviewer_shows_weighted_conflict_mode() {
         var desc = registry.findById("drafthouse-structural-reviewer", "drafthouse").orElseThrow();
         var result = renderer.render(desc, AgentPromptContext.forFormat(RenderFormat.MARKDOWN));
 
-        assertThat(result.content()).contains("Collaborating (Thomas-Kilmann Conflict Modes)");
+        assertThat(result.content()).contains("primarily Collaborating (0.7)");
+        assertThat(result.content()).contains("Compromising tendencies (0.3)");
     }
 
     @Test
-    void content_reviewer_shows_competing_label() {
+    void content_reviewer_shows_weighted_conflict_mode() {
         var desc = registry.findById("drafthouse-content-reviewer", "drafthouse").orElseThrow();
         var result = renderer.render(desc, AgentPromptContext.forFormat(RenderFormat.MARKDOWN));
 
-        assertThat(result.content()).contains("Competing (Thomas-Kilmann Conflict Modes)");
+        assertThat(result.content()).contains("primarily Competing (0.8)");
+        assertThat(result.content()).contains("Collaborating tendencies (0.2)");
     }
 
     @Test
-    void readability_reviewer_shows_accommodating_label() {
+    void readability_reviewer_shows_weighted_conflict_mode() {
         var desc = registry.findById("drafthouse-readability-reviewer", "drafthouse").orElseThrow();
         var result = renderer.render(desc, AgentPromptContext.forFormat(RenderFormat.MARKDOWN));
 
-        assertThat(result.content()).contains("Accommodating (Thomas-Kilmann Conflict Modes)");
+        assertThat(result.content()).contains("primarily Accommodating (0.6)");
+        assertThat(result.content()).contains("Compromising tendencies (0.4)");
     }
 
     @ParameterizedTest

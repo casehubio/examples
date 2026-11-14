@@ -65,11 +65,11 @@ class DungeonTest {
 
         // Plan transitions
         TransitionPlan plan = planner.plan(graph, actual);
-        assertEquals(0, plan.removals().size(), "No removals needed for empty dungeon");
-        assertEquals(4, plan.additions().size(), "Should add all 4 nodes");
+        assertEquals(0, plan.flatRemovals().size(), "No removals needed for empty dungeon");
+        assertEquals(4, plan.flatAdditions().size(), "Should add all 4 nodes");
 
         // Verify ordering: roots before leaves
-        List<OrderedStep> additions = plan.additions();
+        List<OrderedStep> additions = plan.flatAdditions();
         // Rooms (roots) should come before dark-wizard (depends on library)
         int libraryIndex = -1;
         int wizardIndex = -1;
@@ -131,11 +131,11 @@ class DungeonTest {
         );
 
         // Policy should return AddNode mutation
-        List<GraphMutation> mutations = policy.onFault(fault, graph, new ActualState(Map.of()));
+        List<GraphMutation<DesiredNode>> mutations = policy.onFault("tenant-1", fault, graph, new ActualState(Map.of()));
         assertEquals(1, mutations.size(), "Should return one mutation");
         assertInstanceOf(GraphMutation.AddNode.class, mutations.get(0));
 
-        GraphMutation.AddNode addNode = (GraphMutation.AddNode) mutations.get(0);
+        var addNode = (GraphMutation.AddNode<DesiredNode>) mutations.get(0);
         assertEquals(NodeId.of("library"), addNode.node().id());
         assertEquals(DungeonNodeTypes.ROOM, addNode.node().type());
     }
@@ -195,7 +195,7 @@ class DungeonTest {
         TransitionPlan plan = planner.plan(graph, actual);
 
         // Execute provisioning
-        for (OrderedStep step : plan.additions()) {
+        for (OrderedStep step : plan.flatAdditions()) {
             ProvisionContext context = new ProvisionContext("test-tenancy", graph);
             provisioner.provision(step.node(), context);
         }
@@ -255,7 +255,7 @@ class DungeonTest {
             "Failed to provision"
         );
 
-        List<GraphMutation> mutations = policy.onFault(fault, graph, new ActualState(Map.of()));
+        List<GraphMutation<DesiredNode>> mutations = policy.onFault("tenant-1", fault, graph, new ActualState(Map.of()));
         assertTrue(mutations.isEmpty(), "Policy should ignore non-destruction faults");
     }
 }

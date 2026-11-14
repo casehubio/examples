@@ -1,6 +1,6 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.neocortex.cognition.testing.StubPipelines;
+import io.casehub.neocortex.session.testing.StubPipelines;
 import io.casehub.neocortex.memory.Memory;
 import io.casehub.neocortex.memory.MemoryDomain;
 import io.casehub.neocortex.memory.reflection.ReflectionEvent;

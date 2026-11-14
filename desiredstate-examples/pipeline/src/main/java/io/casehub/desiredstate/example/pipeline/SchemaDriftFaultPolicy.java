@@ -1,6 +1,12 @@
 package io.casehub.desiredstate.example.pipeline;
 
-import io.casehub.desiredstate.api.*;
+import io.casehub.desiredstate.api.ActualState;
+import io.casehub.desiredstate.api.DesiredNode;
+import io.casehub.desiredstate.api.DesiredStateGraph;
+import io.casehub.desiredstate.api.FaultEvent;
+import io.casehub.desiredstate.api.FaultPolicy;
+import io.casehub.desiredstate.api.FaultType;
+import io.casehub.desiredstate.api.GraphMutation;
 
 import java.util.List;
 
@@ -14,8 +20,11 @@ import java.util.List;
  */
 public class SchemaDriftFaultPolicy implements FaultPolicy {
 
-    @Override
-    public List<GraphMutation> onFault(FaultEvent event, DesiredStateGraph current, ActualState actual) {
+
+    private final FaultPolicy reviewPolicy = FaultPolicy.addReviewNode(
+            (event, graph) -> new HumanReviewSpec(event.node(), event.detail(), "Schema drift requires approval"));
+
+    public List<GraphMutation<DesiredNode>> onFault(String tenancyId, FaultEvent event, DesiredStateGraph current, ActualState actual) {
         if (event.type() != FaultType.NODE_DEGRADED) {
             return List.of();
         }
@@ -25,15 +34,6 @@ public class SchemaDriftFaultPolicy implements FaultPolicy {
             return List.of();
         }
 
-        NodeId humanReviewId = NodeId.of("human-review-" + event.node().value());
-
-        // Idempotency: don't create if already in graph
-        if (current.nodes().containsKey(humanReviewId)) {
-            return List.of();
-        }
-
-        DesiredNode humanNode = new DesiredNode(humanReviewId, PipelineNodeTypes.HUMAN_REVIEW,
-            new HumanReviewSpec(event.node(), event.detail(), "Schema drift requires approval"), true);
-        return List.of(new GraphMutation.AddNode(humanNode));
+        return reviewPolicy.onFault(tenancyId, event, current, actual);
     }
 }
