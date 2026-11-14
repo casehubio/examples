@@ -1,11 +1,9 @@
 package io.casehub.examples.manor.agent;
 
-import io.casehub.neocortex.cognitive.observability.ObservationCacheObserver;
 import io.casehub.neocortex.mindmap.MindMapStore;
 import io.casehub.neocortex.mindmap.SubgraphTypes;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
@@ -21,22 +19,14 @@ public final class ObservationSegmentCache {
     private final int recentNodeLimit;
     private final Map<String, CachedSegment> cache = new ConcurrentHashMap<>();
     private final Map<String, String> subgraphIds = new ConcurrentHashMap<>();
-    private final List<ObservationCacheObserver> observers;
 
 
     public ObservationSegmentCache(MindMapStore store, String tenantId,
                                    int maxTokenBudget, int recentNodeLimit) {
-        this(store, tenantId, maxTokenBudget, recentNodeLimit, List.of());
-    }
-
-    public ObservationSegmentCache(MindMapStore store, String tenantId,
-                                   int maxTokenBudget, int recentNodeLimit,
-                                   List<ObservationCacheObserver> observers) {
         this.store           = store;
         this.tenantId        = tenantId;
         this.maxTokenBudget  = maxTokenBudget;
         this.recentNodeLimit = recentNodeLimit;
-        this.observers       = observers.isEmpty() ? List.of() : List.copyOf(observers);
     }
 
 
@@ -106,15 +96,10 @@ public final class ObservationSegmentCache {
         }
 
         String text         = sb.toString().strip();
-        int    actualTokens = text.length() / 4;
         if (text.isEmpty()) {
             cache.remove(characterId);
         } else {
             cache.put(characterId, new CachedSegment(text, allNodes.size()));
-        }
-
-        for (var observer : observers) {
-            observer.onRefresh(characterId, condensed.size(), recentWindow.size(), maxTokenBudget, actualTokens);
         }
     }
 
