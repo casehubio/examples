@@ -14,4 +14,9 @@ public class DecisionEntry extends JpaLedgerEntry {
 
     @Column(name = "decision_category", length = 100)
     public String decisionCategory;
+    @Override
+    public byte[] domainContentBytes() {
+        return (decisionCategory == null ? "-" : decisionCategory.length() + ":" + decisionCategory)
+                .getBytes(java.nio.charset.StandardCharsets.UTF_8);
+    }
 }

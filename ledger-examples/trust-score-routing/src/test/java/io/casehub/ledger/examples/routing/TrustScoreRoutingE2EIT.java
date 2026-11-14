@@ -23,6 +23,7 @@ import io.casehub.platform.api.identity.ActorType;
 import io.casehub.ledger.api.model.AttestationVerdict;
 import io.casehub.ledger.jpa.LedgerAttestation;
 import io.casehub.ledger.api.model.LedgerEntryType;
+import io.casehub.ledger.api.spi.LedgerEntryRepository;
 import io.casehub.ledger.runtime.service.TrustScoreJob;
 import io.quarkus.test.junit.QuarkusTest;
 
@@ -37,6 +38,9 @@ class TrustScoreRoutingE2EIT {
 
     @Inject
     TaskRouter taskRouter;
+
+    @Inject
+    LedgerEntryRepository ledgerEntryRepository;
 
     @BeforeEach
     void resetLatch() {
@@ -126,7 +130,6 @@ class TrustScoreRoutingE2EIT {
 
         final TaskLedgerEntry entry = new TaskLedgerEntry();
         entry.subjectId = UUID.randomUUID();
-        entry.sequenceNumber = 1;
         entry.entryType = LedgerEntryType.EVENT;
         entry.actorId = actorId;
         entry.actorType = ActorType.AGENT;
@@ -134,7 +137,7 @@ class TrustScoreRoutingE2EIT {
         entry.occurredAt = now;
         entry.taskType = "classification";
         entry.tenancyId = "default";
-        em.persist(entry);
+        ledgerEntryRepository.save(entry, "default");
         em.flush(); // ensure id is assigned before referencing in attestation
 
         final LedgerAttestation att = new LedgerAttestation();

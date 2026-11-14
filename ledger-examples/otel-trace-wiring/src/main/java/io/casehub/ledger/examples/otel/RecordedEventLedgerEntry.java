@@ -26,4 +26,9 @@ public class RecordedEventLedgerEntry extends JpaLedgerEntry {
     /** The name of the event being recorded. */
     @Column(name = "event_name")
     public String eventName;
+    @Override
+    public byte[] domainContentBytes() {
+        return (eventName == null ? "-" : eventName.length() + ":" + eventName)
+                .getBytes(java.nio.charset.StandardCharsets.UTF_8);
+    }
 }
