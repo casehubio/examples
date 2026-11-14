@@ -50,9 +50,9 @@ class HelpDeskScenarioTest {
 
         await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
             var workItems = given()
-                    .when().get("/workitems")
+                    .when().get("/api/work/items/list-all")
                     .then().statusCode(200)
-                    .extract().jsonPath().getList("$");
+                    .extract().jsonPath().getList("items");
             assertThat(workItems).isNotEmpty();
         });
     }
@@ -76,32 +76,32 @@ class HelpDeskScenarioTest {
 
         await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
             var workItems = given()
-                    .when().get("/workitems")
+                    .when().get("/api/work/items/list-all")
                     .then().statusCode(200)
                     .extract().jsonPath()
-                    .getList("findAll { it.title.contains('printer') }", Map.class);
+                    .getList("items.findAll { it.title.contains('printer') }", Map.class);
             assertThat(workItems).isNotEmpty();
         });
 
         String workItemId = given()
-                .when().get("/workitems")
+                .when().get("/api/work/items/list-all")
                 .then().statusCode(200)
                 .extract().jsonPath()
-                .getString("find { it.title.contains('printer') }.id");
+                .getString("items.find { it.title.contains('printer') }.id");
 
         given().queryParam("claimant", "hw-specialist")
-                .when().put("/workitems/" + workItemId + "/claim")
+                .when().post("/api/work/lifecycle/claim/" + workItemId)
                 .then().statusCode(200);
 
-        given().when().put("/workitems/" + workItemId + "/start")
+        given().queryParam("actor", "hw-specialist").when().post("/api/work/lifecycle/start/" + workItemId)
                 .then().statusCode(200);
 
         String resolutionJson = new ObjectMapper().writeValueAsString(Map.of(
                 "resolution", "Cleared the paper jam",
                 "assigneeId", "hw-specialist"));
-        given().contentType("application/json")
+        given().queryParam("actor", "hw-specialist").contentType("application/json")
                 .body(Map.of("resolution", resolutionJson))
-                .when().put("/workitems/" + workItemId + "/complete")
+                .when().post("/api/work/lifecycle/complete/" + workItemId)
                 .then().statusCode(200);
 
         await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {

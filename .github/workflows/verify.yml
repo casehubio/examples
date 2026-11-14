@@ -1,0 +1,42 @@
+name: Verify Examples
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+      # shortcut: signing snapshots are unpublished; remove bootstrap once they are published.
+      - name: Check out Ledger signing adapters
+        uses: actions/checkout@v4
+        with:
+          repository: casehubio/ledger
+          ref: 9b5e2a9768c3660ddb6a65148b421a2c3d6abe4f
+          path: .upstream/ledger
+          persist-credentials: false
+      - name: Install Ledger signing adapters
+        run: >-
+          mvn --batch-mode -f .upstream/ledger/pom.xml -Pwith-signing
+          -pl signing/aws-kms-quarkus,signing/azure-keyvault-quarkus,signing/gcp-kms-quarkus,signing/vault-transit-quarkus
+          -am install -DskipTests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and test
+        run: mvn --batch-mode --fail-at-end verify
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

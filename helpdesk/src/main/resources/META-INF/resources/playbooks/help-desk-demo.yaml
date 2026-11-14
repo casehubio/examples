@@ -1,424 +1,502 @@
-scenario: help-desk-demo
-description: "Helpdesk case lifecycle — REST injection, AI classification, and spotlight narration"
+---
+playbook: help-desk-demo
+description: Helpdesk case lifecycle — REST injection, AI classification, and spotlight
+  narration
 speed: 1.0
 on-error: pause
-
 sections:
-  - label: "Bootstrap"
-    steps:
-      - label: "Load classification rules"
-        name: bootstrap
-        target: helpdesk
-        commands:
-          - action: bootstrap-classifications
-            data:
-              entries:
-                - { match: laptop, category: HARDWARE, priority: HIGH }
-                - { match: password, category: ACCESS, priority: LOW }
-                - { match: install, category: SOFTWARE, priority: MEDIUM }
-                - { match: printer, category: HARDWARE, priority: MEDIUM }
+- label: Bootstrap
+  steps:
+  - label: Load classification rules
+    step: bootstrap
+    target: helpdesk
+    bootstrap-classifications:
+      entries:
+      - match: laptop
+        category: HARDWARE
+        priority: HIGH
+      - match: password
+        category: ACCESS
+        priority: LOW
+      - match: install
+        category: SOFTWARE
+        priority: MEDIUM
+      - match: printer
+        category: HARDWARE
+        priority: MEDIUM
+- label: Platform concepts
+  steps:
+  - label: What is a Case?
+    step: slide-case
+    target: browser
+    trigger:
+      after: bootstrap
+      delay: 500
+    show-markdown:
+      display: modal
+      content: |
+        ## What is a Case?
 
-  - label: "Platform concepts"
-    steps:
-      - label: "What is a Case?"
-        name: slide-case
-        target: browser
-        trigger: { after: bootstrap, delay: 500 }
-        commands:
-          - action: show-markdown
-            data:
-              display: modal
-              content: |
-                ## What is a Case?
+        A **case** is a managed lifecycle — a unit of work that moves through defined stages from creation to completion.
 
-                A **case** is a managed lifecycle — a unit of work that moves through defined stages from creation to completion.
+        In this helpdesk, each support ticket is a case. The case definition (written in YAML) declares:
 
-                In this helpdesk, each support ticket is a case. The case definition (written in YAML) declares:
+        - **Bindings** — reactive rules that fire when the case context changes: classify the ticket, assign a specialist, notify the customer
+        - **Workers** — the implementations that execute each binding's capability
+        - **Goals** — success conditions that complete the case
+        - **Data** — the case context: subject, category, priority, customer reference
 
-                - **Bindings** — reactive rules that fire when the case context changes: classify the ticket, assign a specialist, notify the customer
-                - **Workers** — the implementations that execute each binding's capability
-                - **Goals** — success conditions that complete the case
-                - **Data** — the case context: subject, category, priority, customer reference
+        This is a **choreography**, not an orchestration. There is no central controller sequencing steps. Each binding watches for context changes and fires independently — the order emerges from the data.
 
-                This is a **choreography**, not an orchestration. There is no central controller sequencing steps. Each binding watches for context changes and fires independently — the order emerges from the data.
+        === Lifecycle
+        ![Case lifecycle diagram](/diagrams/case-lifecycle.svg)
 
-                === Lifecycle
-                ![Case lifecycle diagram](/diagrams/case-lifecycle.svg)
+        === Architecture
+        ![Case architecture diagram](/diagrams/case-architecture.svg)
 
-                === Architecture
-                ![Case architecture diagram](/diagrams/case-architecture.svg)
+        === YAML
+        ```yaml
+        bindings:
+          - name: triage
+            capability: classify-ticket
+            on:
+              contextChange:
+                filter: '.status == "OPEN" and .category == null'
 
-                === YAML
-                ```yaml
-                bindings:
-                  - name: triage
-                    capability: classify-ticket
-                    on:
-                      contextChange:
-                        filter: '.status == "OPEN" and .category == null'
+          - name: assign-specialist
+            humanTask:
+              candidateGroups: '["hw-specialist"]'
+            on:
+              contextChange:
+                filter: '.status == "TRIAGED"'
 
-                  - name: assign-specialist
-                    humanTask:
-                      candidateGroups: '["hw-specialist"]'
-                    on:
-                      contextChange:
-                        filter: '.status == "TRIAGED"'
+          - name: notify-resolution
+            capability: notify-customer
+            on:
+              contextChange:
+                filter: '.status == "RESOLVED" and .notified == null'
+        ```
+  - label: Workers and Bindings
+    step: slide-workers
+    target: browser
+    trigger:
+      after: slide-case
+    show-markdown:
+      display: modal
+      content: |
+        ## Hybrid Execution
 
-                  - name: notify-resolution
-                    capability: notify-customer
-                    on:
-                      contextChange:
-                        filter: '.status == "RESOLVED" and .notified == null'
-                ```
+        CaseHub is a **hybrid execution platform**. A single case definition can mix execution models — the engine selects the right one based on how each binding is declared.
 
-      - label: "Workers and Bindings"
-        name: slide-workers
-        target: browser
-        trigger: { after: slide-case }
-        commands:
-          - action: show-markdown
-            data:
-              display: modal
-              content: |
-                ## Hybrid Execution
+        | Model | How it works | Use case |
+        | --- | --- | --- |
+        | **Choreography** | Bindings fire reactively on context changes — no central controller | Case lifecycle, event-driven flows |
+        | **Orchestration** | Explicit work submission with suspend/resume | Multi-step agent tasks, blocking waits |
+        | **HTN decomposition** | Goals decompose into compound task trees | Complex multi-agent planning |
+        | **GOAP planning** | Goal-oriented action planning with preconditions and effects | Adaptive agent strategies |
+        | **DAG execution** | Parallel task graphs with dependency scheduling | Pipeline processing |
+        | **Human tasks** | Work items routed to specialist groups | Manual review, approvals |
 
-                CaseHub is a **hybrid execution platform**. A single case definition can mix execution models — the engine selects the right one based on how each binding is declared.
+        All models share the same worker selection infrastructure and the same YAML case definition format.
 
-                | Model | How it works | Use case |
-                | --- | --- | --- |
-                | **Choreography** | Bindings fire reactively on context changes — no central controller | Case lifecycle, event-driven flows |
-                | **Orchestration** | Explicit work submission with suspend/resume | Multi-step agent tasks, blocking waits |
-                | **HTN decomposition** | Goals decompose into compound task trees | Complex multi-agent planning |
-                | **GOAP planning** | Goal-oriented action planning with preconditions and effects | Adaptive agent strategies |
-                | **DAG execution** | Parallel task graphs with dependency scheduling | Pipeline processing |
-                | **Human tasks** | Work items routed to specialist groups | Manual review, approvals |
+        ### This helpdesk uses choreography
 
-                All models share the same worker selection infrastructure and the same YAML case definition format.
+        In a choreography, the flow *emerges* from data changes. No binding knows about the others:
 
-                ### This helpdesk uses choreography
+        1. Ticket arrives → context has `status: OPEN` → **triage** fires
+        2. Triage sets `category` and `status: TRIAGED` → **assign-specialist** fires
+        3. Specialist resolves → `status: RESOLVED` → **notify-resolution** fires
 
-                In a choreography, the flow *emerges* from data changes. No binding knows about the others:
+        Add a new binding and it participates automatically — no rewiring. The workers are SPIs injected at runtime: swap a keyword classifier for an ML model, the case definition doesn't change.
+- label: Customer submits ticket
+  steps:
+  - label: Introduction
+    step: intro-markdown
+    target: browser
+    trigger:
+      after: slide-workers
+      delay: 500
+    show-markdown:
+      value: |
+        ## IT Helpdesk Tutorial
 
-                1. Ticket arrives → context has `status: OPEN` → **triage** fires
-                2. Triage sets `category` and `status: TRIAGED` → **assign-specialist** fires
-                3. Specialist resolves → `status: RESOLVED` → **notify-resolution** fires
+        This scenario walks through a **complete helpdesk case lifecycle** — from ticket submission to resolution and customer notification.
 
-                Add a new binding and it participates automatically — no rewiring. The workers are SPIs injected at runtime: swap a keyword classifier for an ML model, the case definition doesn't change.
+        You'll see how the CaseHub platform:
+        - Accepts tickets through a web form
+        - Classifies and routes them automatically
+        - Injects tickets via REST API
+        - Manages specialist work items
+        - Sends resolution notifications
 
-  - label: "Customer submits ticket"
-    steps:
-      - label: "Introduction"
-        name: intro-markdown
-        target: browser
-        trigger: { after: slide-workers, delay: 500 }
-        commands:
-          - action: show-markdown
-            value: |
-              ## IT Helpdesk Tutorial
+        *Press Step or Resume to continue.*
+  - label: Spotlight the intake form
+    step: spotlight-form
+    target: browser
+    trigger:
+      after: intro-markdown
+      delay: 500
+    spotlight:
+      content: 'The intake form captures customer details and routes to the right
+        specialist team. The scenario fills in a hardware issue and submits it — just
+        like a real user.
 
-              This scenario walks through a **complete helpdesk case lifecycle** — from ticket submission to resolution and customer notification.
+'
+      position: right
+      duration: 0
+      target:
+        role: textbox
+        name: Your name
+  - label: Fill in customer name
+    step: fill-name
+    target: browser
+    trigger:
+      after: spotlight-form
+      delay: 500
+    fill:
+      target:
+        role: textbox
+        name: Your name
+      value: Alice
+  - label: Describe the issue
+    step: fill-issue
+    target: browser
+    trigger:
+      after: fill-name
+      delay: 300
+    fill:
+      target:
+        role: textbox
+        name: Issue description
+      value: My laptop won't boot after yesterday's firmware update. It shows a blue
+        screen with error code 0xDEAD001 for about two seconds, then powers off. I've
+        tried holding the power button for 30 seconds but it keeps cycling. This is
+        blocking all my work — I can't access any of my files or attend meetings.
+  - label: Submit the ticket
+    step: submit-ticket
+    target: browser
+    trigger:
+      after: fill-issue
+      delay: 500
+    click:
+      target:
+        role: button
+        name: Submit ticket
+- label: Backend processes ticket
+  steps:
+  - label: Spotlight the confirmation
+    step: spotlight-ack
+    target: browser
+    trigger:
+      after: submit-ticket
+      delay: 1500
+    spotlight:
+      content: 'The platform created a case, ran the keyword classifier, and matched
+        "laptop" to HARDWARE with HIGH priority. A work item is now assigned to the
+        hardware specialist group.
 
-              You'll see how the CaseHub platform:
-              - Accepts tickets through a web form
-              - Classifies and routes them automatically
-              - Injects tickets via REST API
-              - Manages specialist work items
-              - Sends resolution notifications
+'
+      position: right
+      duration: 0
+      target:
+        role: status
+        name: Ticket confirmation
+  - label: Verify ticket classified
+    step: verify-ticket
+    target: helpdesk
+    trigger:
+      after: spotlight-ack
+      delay: 500
+    verify-ticket-exists:
+      await:
+        match:
+          status: TRIAGED
+          category: HARDWARE
+        timeout: 5000
+- label: Operations dashboard
+  steps:
+  - label: Navigate to operations
+    step: view-ops
+    target: browser
+    trigger:
+      after: verify-ticket
+      delay: 500
+    click:
+      target:
+        role: button
+        name: View operations
+  - label: Spotlight the dashboard
+    step: spotlight-ops
+    target: browser
+    trigger:
+      after: view-ops
+      delay: 1000
+    spotlight:
+      content: 'Alice''s case is running — classified as HARDWARE, HIGH priority.
+        A work item is waiting for a specialist to claim it. Next, a second ticket
+        arrives via the REST API.
 
-              *Press Step or Resume to continue.*
+'
+      position: bottom
+      duration: 0
+      target:
+        role: status
+        name: Case metrics
+- label: REST injection
+  steps:
+  - label: REST API explained
+    step: rest-markdown
+    target: browser
+    trigger:
+      after: spotlight-ops
+      delay: 500
+    show-markdown:
+      value: |
+        ## REST API Integration
 
-      - label: "Spotlight the intake form"
-        name: spotlight-form
-        target: browser
-        trigger: { after: intro-markdown, delay: 500 }
-        commands:
-          - action: spotlight
-            target: { role: textbox, name: "Your name" }
-            data:
-              content: >
-                The intake form captures customer details and routes
-                to the right specialist team. The scenario fills in a
-                hardware issue and submits it — just like a real user.
-              position: right
-              duration: 0
+        Tickets don't only come from the web form. The platform exposes a **REST endpoint** that external systems can call directly.
 
-      - label: "Fill in customer name"
-        name: fill-name
-        target: browser
-        trigger: { after: spotlight-form, delay: 500 }
-        commands:
-          - action: fill
-            target: { role: textbox, name: "Your name" }
-            value: "Alice"
+        The next step injects a ticket from "Bob" via the same `POST /scenario/inject/chat` endpoint — simulating a Slack integration, email gateway, or any external channel.
 
-      - label: "Describe the issue"
-        name: fill-issue
-        target: browser
-        trigger: { after: fill-name, delay: 300 }
-        commands:
-          - action: fill
-            target: { role: textbox, name: "Issue description" }
-            value: "My laptop won't boot after yesterday's firmware update. It shows a blue screen with error code 0xDEAD001 for about two seconds, then powers off. I've tried holding the power button for 30 seconds but it keeps cycling. This is blocking all my work — I can't access any of my files or attend meetings."
+        The engine processes it identically: classify, route, assign.
+  - label: Inject a second ticket via REST
+    step: rest-inject
+    target: helpdesk
+    trigger:
+      after: rest-markdown
+      delay: 1000
+    rest-inject-chat:
+      from: Bob
+      channelId: slack
+      text: Need to install VS Code on my locked-down machine
+  - label: Spotlight the live update
+    step: spotlight-live
+    target: browser
+    trigger:
+      after: rest-inject
+      delay: 2000
+    spotlight:
+      content: 'Bob''s ticket just arrived via REST — the same chat injection endpoint,
+        called directly by the scenario. The dashboard now shows two cases with work
+        items for each specialist group.
 
-      - label: "Submit the ticket"
-        name: submit-ticket
-        target: browser
-        trigger: { after: fill-issue, delay: 500 }
-        commands:
-          - action: click
-            target: { role: button, name: "Submit ticket" }
+'
+      position: bottom
+      duration: 0
+      also:
+      - role: row
+        name: Bob
+        content: Bob's ticket — injected via REST, classified as SOFTWARE
+        position: right
+      target:
+        role: status
+        name: Case metrics
+- label: Work item lifecycle
+  steps:
+  - label: What are Work Items?
+    step: slide-workitems
+    target: browser
+    trigger:
+      after: spotlight-live
+      delay: 1000
+    show-markdown:
+      display: modal
+      content: |
+        ## Work Items
 
-  - label: "Backend processes ticket"
-    steps:
-      - label: "Spotlight the confirmation"
-        name: spotlight-ack
-        target: browser
-        trigger: { after: submit-ticket, delay: 1500 }
-        commands:
-          - action: spotlight
-            target: { role: status, name: "Ticket confirmation" }
-            data:
-              content: >
-                The platform created a case, ran the keyword classifier,
-                and matched "laptop" to HARDWARE with HIGH priority.
-                A work item is now assigned to the hardware specialist group.
-              position: right
-              duration: 0
+        A **work item** is a task assigned to a person or group. When the case engine classifies a ticket, it creates a work item and assigns it to the matching specialist group.
 
-      - label: "Verify ticket classified"
-        name: verify-ticket
-        target: helpdesk
-        trigger: { after: spotlight-ack, delay: 500 }
-        commands:
-          - action: verify-ticket-exists
-            await:
-              match: { status: TRIAGED, category: HARDWARE }
-              timeout: 5000
+        Work items have their own lifecycle:
 
-  - label: "Operations dashboard"
-    steps:
-      - label: "Navigate to operations"
-        name: view-ops
-        target: browser
-        trigger: { after: verify-ticket, delay: 500 }
-        commands:
-          - action: click
-            target: { role: button, name: "View operations" }
+        - **PENDING** — created, waiting for someone to claim it
+        - **IN_PROGRESS** — a specialist claimed the item and is working on it
+        - **COMPLETED** — the specialist resolved the issue
 
-      - label: "Spotlight the dashboard"
-        name: spotlight-ops
-        target: browser
-        trigger: { after: view-ops, delay: 1000 }
-        commands:
-          - action: spotlight
-            target: { role: status, name: "Case metrics" }
-            data:
-              content: >
-                Alice's case is running — classified as HARDWARE, HIGH
-                priority. A work item is waiting for a specialist to claim it.
-                Next, a second ticket arrives via the REST API.
-              position: bottom
-              duration: 0
+        The operations dashboard you just saw shows work items in real time. Each status change fires a push event — no polling, no refresh. The specialist claims the item, the dashboard updates instantly.
 
-  - label: "REST injection"
-    steps:
-      - label: "REST API explained"
-        name: rest-markdown
-        target: browser
-        trigger: { after: spotlight-ops, delay: 500 }
-        commands:
-          - action: show-markdown
-            value: |
-              ## REST API Integration
+        Work items are separate from cases. A single case can spawn multiple work items (e.g., a hardware issue that also needs a software install). Each item routes to the right group independently.
+  - label: Claim, Resolve, Notify
+    step: slide-resolve
+    target: browser
+    trigger:
+      after: slide-workitems
+    show-markdown:
+      display: modal
+      content: |
+        ## Claim, Resolve, Notify
 
-              Tickets don't only come from the web form. The platform exposes a **REST endpoint** that external systems can call directly.
+        The resolution flow demonstrates three platform capabilities working together:
 
-              The next step injects a ticket from "Bob" via the same `POST /scenario/inject/chat` endpoint — simulating a Slack integration, email gateway, or any external channel.
+        **1. Claim** — the specialist claims the work item. This is a state transition (PENDING → IN_PROGRESS) that the engine tracks. In production, claim rules can enforce SLAs, round-robin assignment, or skill-based routing.
 
-              The engine processes it identically: classify, route, assign.
+        **2. Resolve** — the specialist enters a resolution and completes the work item. The engine fires the *resolve* binding on the case, transitioning it from RUNNING to COMPLETED.
 
-      - label: "Inject a second ticket via REST"
-        name: rest-inject
-        target: helpdesk
-        trigger: { after: rest-markdown, delay: 1000 }
-        commands:
-          - action: rest-inject-chat
-            data:
-              from: "Bob"
-              channelId: "slack"
-              text: "Need to install VS Code on my locked-down machine"
+        **3. Notify** — the case's *notify-customer* binding fires automatically on resolution. It sends the customer a message with the resolution text. The notification appears in the dashboard — same push channel, same real-time pattern.
 
-      - label: "Spotlight the live update"
-        name: spotlight-live
-        target: browser
-        trigger: { after: rest-inject, delay: 2000 }
-        commands:
-          - action: spotlight
-            target: { role: status, name: "Case metrics" }
-            data:
-              content: >
-                Bob's ticket just arrived via REST — the same chat injection
-                endpoint, called directly by the scenario. The dashboard now
-                shows two cases with work items for each specialist group.
-              position: bottom
-              duration: 0
-              also:
-                - role: row
-                  name: Bob
-                  content: "Bob's ticket — injected via REST, classified as SOFTWARE"
-                  position: right
+        === Flow
+        ![Claim, Resolve, Notify flow](/diagrams/claim-resolve-notify.svg)
 
-  - label: "Work item lifecycle"
-    steps:
-      - label: "What are Work Items?"
-        name: slide-workitems
-        target: browser
-        trigger: { after: spotlight-live, delay: 1000 }
-        commands:
-          - action: show-markdown
-            data:
-              display: modal
-              content: |
-                ## Work Items
+        This chain — claim → resolve → notify — is entirely driven by the case definition. No application code orchestrates the sequence. The engine follows the YAML.
 
-                A **work item** is a task assigned to a person or group. When the case engine classifies a ticket, it creates a work item and assigns it to the matching specialist group.
+        Next, you'll see this flow in action.
+- label: Specialist resolves ticket
+  steps:
+  - label: Claim Alice's work item
+    step: claim-ticket-1
+    target: browser
+    trigger:
+      after: slide-resolve
+      delay: 1000
+    wait:
+      timeout: 5000
+      target:
+        role: button
+        name: Claim work item
+        within:
+          role: row
+          name: Alice
+  - label: Claim Alice's work item
+    step: claim-ticket
+    target: browser
+    trigger:
+      after: claim-ticket-1
+    click:
+      target:
+        role: button
+        name: Claim work item
+        within:
+          role: row
+          name: Alice
+  - label: Spotlight the claimed item
+    step: spotlight-claimed-1
+    target: browser
+    trigger:
+      after: claim-ticket
+      delay: 2500
+    wait:
+      timeout: 5000
+      target:
+        role: button
+        name: Complete work item
+        within:
+          role: row
+          name: Alice
+  - label: Spotlight the claimed item
+    step: spotlight-claimed
+    target: browser
+    trigger:
+      after: spotlight-claimed-1
+    spotlight:
+      content: 'The hardware specialist claimed Alice''s ticket. Status changed from
+        PENDING to IN_PROGRESS. Now clicking Resolve to enter the resolution.
 
-                Work items have their own lifecycle:
+'
+      position: right
+      duration: 0
+      target:
+        role: row
+        name: Alice
+  - label: Click resolve
+    step: click-resolve
+    target: browser
+    trigger:
+      after: spotlight-claimed
+      delay: 1000
+    click:
+      target:
+        role: button
+        name: Complete work item
+        within:
+          role: row
+          name: Alice
+  - label: Enter resolution
+    step: enter-resolution-1
+    target: browser
+    trigger:
+      after: click-resolve
+      delay: 800
+    wait:
+      timeout: 3000
+      target:
+        role: textbox
+        name: Resolution
+        within:
+          role: dialog
+          name: Resolve ticket
+  - label: Enter resolution
+    step: enter-resolution
+    target: browser
+    trigger:
+      after: enter-resolution-1
+    fill:
+      target:
+        role: textbox
+        name: Resolution
+        within:
+          role: dialog
+          name: Resolve ticket
+      value: BIOS reset resolved the boot loop. Firmware rollback applied.
+  - label: Confirm resolution
+    step: confirm-resolution
+    target: browser
+    trigger:
+      after: enter-resolution
+      delay: 500
+    click:
+      target:
+        role: button
+        name: Confirm resolution
+        within:
+          role: dialog
+          name: Resolve ticket
+  - label: Verify notification sent
+    step: verify-notif
+    target: helpdesk
+    trigger:
+      after: confirm-resolution
+      delay: 2000
+    verify-notification:
+      await:
+        match:
+          verified: 'true'
+        timeout: 5000
+  - label: Spotlight the resolution
+    step: spotlight-resolved
+    target: browser
+    trigger:
+      after: verify-notif
+      delay: 1000
+    spotlight:
+      content: 'Case resolved. The engine fired the notify-customer binding, sending
+        Alice a resolution message. The full lifecycle — intake, classification, routing,
+        specialist resolution, and customer notification — all driven by the case
+        definition YAML.
 
-                - **PENDING** — created, waiting for someone to claim it
-                - **IN_PROGRESS** — a specialist claimed the item and is working on it
-                - **COMPLETED** — the specialist resolved the issue
+'
+      position: left
+      duration: 0
+      target:
+        role: table
+        name: Customer notifications
+  - label: Lifecycle summary
+    step: summary-markdown
+    target: browser
+    trigger:
+      after: spotlight-resolved
+      delay: 1000
+    show-markdown:
+      value: |
+        ## Lifecycle Complete
 
-                The operations dashboard you just saw shows work items in real time. Each status change fires a push event — no polling, no refresh. The specialist claims the item, the dashboard updates instantly.
+        The full helpdesk lifecycle ran end-to-end:
 
-                Work items are separate from cases. A single case can spawn multiple work items (e.g., a hardware issue that also needs a software install). Each item routes to the right group independently.
+        1. **Intake** — customer submitted a ticket via the web form
+        2. **Classification** — the engine matched "laptop" to HARDWARE/HIGH
+        3. **Routing** — a work item was created and assigned to the hardware group
+        4. **REST injection** — a second ticket arrived via the REST API
+        5. **Resolution** — a specialist claimed, resolved, and closed the ticket
+        6. **Notification** — the customer received a resolution message
 
-      - label: "Claim, Resolve, Notify"
-        name: slide-resolve
-        target: browser
-        trigger: { after: slide-workitems }
-        commands:
-          - action: show-markdown
-            data:
-              display: modal
-              content: |
-                ## Claim, Resolve, Notify
+        Every stage is an **SPI boundary** — swap the classifier, notification channel, or routing logic without changing application code.
 
-                The resolution flow demonstrates three platform capabilities working together:
-
-                **1. Claim** — the specialist claims the work item. This is a state transition (PENDING → IN_PROGRESS) that the engine tracks. In production, claim rules can enforce SLAs, round-robin assignment, or skill-based routing.
-
-                **2. Resolve** — the specialist enters a resolution and completes the work item. The engine fires the *resolve* binding on the case, transitioning it from RUNNING to COMPLETED.
-
-                **3. Notify** — the case's *notify-customer* binding fires automatically on resolution. It sends the customer a message with the resolution text. The notification appears in the dashboard — same push channel, same real-time pattern.
-
-                This chain — claim → resolve → notify — is entirely driven by the case definition. No application code orchestrates the sequence. The engine follows the YAML.
-
-                Next, you'll see this flow in action.
-
-  - label: "Specialist resolves ticket"
-    steps:
-      - label: "Claim Alice's work item"
-        name: claim-ticket
-        target: browser
-        trigger: { after: slide-resolve, delay: 1000 }
-        commands:
-          - action: wait
-            target: { role: button, name: "Claim work item", within: { role: row, name: "Alice" } }
-            data: { timeout: 5000 }
-          - action: click
-            target: { role: button, name: "Claim work item", within: { role: row, name: "Alice" } }
-
-      - label: "Spotlight the claimed item"
-        name: spotlight-claimed
-        target: browser
-        trigger: { after: claim-ticket, delay: 2500 }
-        commands:
-          - action: wait
-            target: { role: button, name: "Complete work item", within: { role: row, name: "Alice" } }
-            data: { timeout: 5000 }
-          - action: spotlight
-            target: { role: row, name: "Alice" }
-            data:
-              content: >
-                The hardware specialist claimed Alice's ticket.
-                Status changed from PENDING to IN_PROGRESS.
-                Now clicking Resolve to enter the resolution.
-              position: right
-              duration: 0
-
-      - label: "Click resolve"
-        name: click-resolve
-        target: browser
-        trigger: { after: spotlight-claimed, delay: 1000 }
-        commands:
-          - action: click
-            target: { role: button, name: "Complete work item", within: { role: row, name: "Alice" } }
-
-      - label: "Enter resolution"
-        name: enter-resolution
-        target: browser
-        trigger: { after: click-resolve, delay: 800 }
-        commands:
-          - action: wait
-            target: { role: textbox, name: "Resolution", within: { role: dialog, name: "Resolve ticket" } }
-            data: { timeout: 3000 }
-          - action: fill
-            target: { role: textbox, name: "Resolution", within: { role: dialog, name: "Resolve ticket" } }
-            value: "BIOS reset resolved the boot loop. Firmware rollback applied."
-
-      - label: "Confirm resolution"
-        name: confirm-resolution
-        target: browser
-        trigger: { after: enter-resolution, delay: 500 }
-        commands:
-          - action: click
-            target: { role: button, name: "Confirm resolution", within: { role: dialog, name: "Resolve ticket" } }
-
-      - label: "Verify notification sent"
-        name: verify-notif
-        target: helpdesk
-        trigger: { after: confirm-resolution, delay: 2000 }
-        commands:
-          - action: verify-notification
-            await:
-              match: { verified: "true" }
-              timeout: 5000
-
-      - label: "Spotlight the resolution"
-        name: spotlight-resolved
-        target: browser
-        trigger: { after: verify-notif, delay: 1000 }
-        commands:
-          - action: spotlight
-            target: { role: table, name: "Customer notifications" }
-            data:
-              content: >
-                Case resolved. The engine fired the notify-customer binding,
-                sending Alice a resolution message. The full lifecycle —
-                intake, classification, routing, specialist resolution,
-                and customer notification — all driven by the case definition YAML.
-              position: left
-              duration: 0
-
-      - label: "Lifecycle summary"
-        name: summary-markdown
-        target: browser
-        trigger: { after: spotlight-resolved, delay: 1000 }
-        commands:
-          - action: show-markdown
-            value: |
-              ## Lifecycle Complete
-
-              The full helpdesk lifecycle ran end-to-end:
-
-              1. **Intake** — customer submitted a ticket via the web form
-              2. **Classification** — the engine matched "laptop" to HARDWARE/HIGH
-              3. **Routing** — a work item was created and assigned to the hardware group
-              4. **REST injection** — a second ticket arrived via the REST API
-              5. **Resolution** — a specialist claimed, resolved, and closed the ticket
-              6. **Notification** — the customer received a resolution message
-
-              Every stage is an **SPI boundary** — swap the classifier, notification channel, or routing logic without changing application code.
-
-              The same scenario YAML that drove this demo also runs as an automated test in CI.
+        The same scenario YAML that drove this demo also runs as an automated test in CI.

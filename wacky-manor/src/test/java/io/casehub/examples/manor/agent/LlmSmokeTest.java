@@ -6,11 +6,13 @@ import io.casehub.platform.agent.AgentSessionConfig;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
 import java.time.Duration;
 import java.util.stream.Collectors;
 
 @QuarkusTest
+@Tag("llm-eval")
 class LlmSmokeTest {
 
     @Inject AgentProvider agentProvider;

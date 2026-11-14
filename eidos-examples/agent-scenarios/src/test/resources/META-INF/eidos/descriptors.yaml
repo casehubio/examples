@@ -7,12 +7,23 @@ descriptors:
       CONFLICT_MODE: urn:casehub:vocab:thomas-kilmann
       RULE_FOLLOWING: urn:casehub:vocab:conscientiousness
     disposition:
-      conflictMode: collaborating
+      conflictMode:
+        - term: collaborating
+          weight: 0.7
+        - term: compromising
+          weight: 0.3
       ruleFollowing: strict
       delegation: false
     capabilities:
       - name: document-review
         tags: [structural]
+        qualityHint: 0.88
+    templates:
+      - ref: document-review-conventions
+      - ref: communication-style
+        args:
+          formality: professional
+          feedback_approach: collaborative
     briefing: >-
       You are the Structural Reviewer for DraftHouse. Your focus is document
       organisation, logical flow, and section coherence. You verify that headings
@@ -30,12 +41,17 @@ descriptors:
       CONFLICT_MODE: urn:casehub:vocab:thomas-kilmann
       RISK_APPETITE: urn:casehub:vocab:conscientiousness
     disposition:
-      conflictMode: competing
+      conflictMode:
+        - term: competing
+          weight: 0.8
+        - term: collaborating
+          weight: 0.2
       riskAppetite: conservative
       delegation: false
     capabilities:
       - name: document-review
         tags: [content]
+        qualityHint: 0.92
     briefing: >-
       You are the Content Reviewer for DraftHouse. Your focus is factual accuracy,
       technical correctness, and completeness of claims. You challenge assertions
@@ -53,12 +69,17 @@ descriptors:
       CONFLICT_MODE: urn:casehub:vocab:thomas-kilmann
       AUTONOMY: urn:casehub:vocab:conscientiousness
     disposition:
-      conflictMode: accommodating
+      conflictMode:
+        - term: accommodating
+          weight: 0.6
+        - term: compromising
+          weight: 0.4
       autonomy: directed
       delegation: false
     capabilities:
       - name: document-review
         tags: [readability]
+        qualityHint: 0.85
     briefing: >-
       You are the Readability Reviewer for DraftHouse. Your focus is clarity,
       sentence structure, jargon density, and audience appropriateness. You ensure
@@ -77,11 +98,16 @@ descriptors:
       RULE_FOLLOWING: urn:casehub:vocab:conscientiousness
     disposition:
       conflictMode: collaborating
-      ruleFollowing: strict
+      ruleFollowing:
+        - term: strict
+          weight: 0.8
+        - term: flexible
+          weight: 0.2
       delegation: false
     capabilities:
       - name: document-review
         tags: [completeness]
+        qualityHint: 0.90
     briefing: >-
       You are the Completeness Reviewer for DraftHouse. Your focus is coverage —
       whether the document addresses all stated goals, whether edge cases are
@@ -90,3 +116,121 @@ descriptors:
       Work collaboratively — missing coverage is often unintentional. Frame
       findings as gaps to fill rather than failures. Follow strict checklist
       conventions when they exist for the document type.
+
+  - agentId: premium-reviewer
+    name: Premium Code Reviewer
+    slot: reviewer
+    tenancyId: cost-routing
+    capabilities:
+      - name: code-review
+        capabilityVocabulary: urn:casehub:vocab:capability
+        qualityHint: 0.95
+        latencyHintP50Ms: 30000
+        costHint: premium
+        epistemicDomains:
+          java: 0.95
+          rust: 0.85
+
+  - agentId: standard-reviewer
+    name: Standard Code Reviewer
+    slot: reviewer
+    tenancyId: cost-routing
+    capabilities:
+      - name: code-review
+        capabilityVocabulary: urn:casehub:vocab:capability
+        qualityHint: 0.70
+        latencyHintP50Ms: 2000
+        costHint: standard
+        epistemicDomains:
+          java: 0.80
+          python: 0.90
+
+  - agentId: security-specialist
+    name: Security Code Review Specialist
+    slot: security-reviewer
+    tenancyId: cost-routing
+    capabilities:
+      - name: security-code-review
+        capabilityVocabulary: urn:casehub:vocab:capability
+        qualityHint: 0.90
+        latencyHintP50Ms: 5000
+        costHint: premium
+        epistemicDomains:
+          java: 0.95
+        excludedDomains: [rust]
+
+  # ── Model Selection Scenarios (issue-173) ────────────────────────────
+
+  - agentId: flagship-analyst
+    name: Flagship Analyst
+    slot: analyst
+    tenancyId: model-selection
+    provider: anthropic
+    modelFamily: claude
+    capabilities:
+      - name: deep-analysis
+        model:
+          tier: FLAGSHIP
+          capabilities: [text, tool-use]
+        qualityHint: 0.98
+        latencyHintP50Ms: 15000
+        costHint: premium
+      - name: document-summary
+        model:
+          tier: STANDARD
+          capabilities: [text]
+        qualityHint: 0.85
+        latencyHintP50Ms: 3000
+        costHint: low
+
+  - agentId: vision-reviewer
+    name: Vision Reviewer
+    slot: reviewer
+    tenancyId: model-selection
+    provider: anthropic
+    modelFamily: claude
+    capabilities:
+      - name: visual-code-review
+        model:
+          tier: FLAGSHIP
+          capabilities: [text, vision, tool-use]
+        qualityHint: 0.92
+        latencyHintP50Ms: 20000
+        costHint: premium
+      - name: text-code-review
+        model:
+          tier: STANDARD
+          capabilities: [text]
+        qualityHint: 0.80
+        latencyHintP50Ms: 5000
+        costHint: standard
+
+  - agentId: fast-linter
+    name: Fast Linter
+    slot: linter
+    tenancyId: model-selection
+    provider: anthropic
+    modelFamily: claude
+    capabilities:
+      - name: lint-check
+        model:
+          tier: FAST
+          capabilities: [text]
+        qualityHint: 0.70
+        latencyHintP50Ms: 500
+        costHint: low
+
+  - agentId: embedding-indexer
+    name: Embedding Indexer
+    slot: indexer
+    tenancyId: model-selection
+    provider: anthropic
+    modelFamily: claude
+    capabilities:
+      - name: document-embedding
+        model:
+          tier: EMBEDDING
+          capabilities: [text]
+        qualityHint: 0.95
+        latencyHintP50Ms: 200
+        costHint: low

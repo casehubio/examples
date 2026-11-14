@@ -6,7 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-import io.casehub.ledger.runtime.model.jpa.JpaLedgerEntry;
+import io.casehub.ledger.jpa.JpaLedgerEntry;
 
 /**
  * Domain-specific ledger entry for document risk classification decisions.
@@ -23,4 +23,10 @@ public class DocumentClassificationLedgerEntry extends JpaLedgerEntry {
     /** Risk level assigned by the classifying agent: "LOW", "MEDIUM", or "HIGH". */
     @Column(name = "risk_level")
     public String riskLevel;
+
+    @Override
+    public byte[] domainContentBytes() {
+        return ("%s|%s".formatted(documentId, riskLevel))
+                       .getBytes(java.nio.charset.StandardCharsets.UTF_8);
+    }
 }

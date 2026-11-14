@@ -11,7 +11,7 @@ import io.casehub.neocortex.cognitive.Confidence;
 import io.casehub.neocortex.mindmap.NodeInput;
 import io.casehub.neocortex.mindmap.SubgraphInput;
 import io.casehub.neocortex.mindmap.inmem.InMemoryMindMapStore;
-import io.casehub.neocortex.cognition.testing.StubPipelines;
+import io.casehub.neocortex.session.testing.StubPipelines;
 import io.casehub.platform.agent.AgentEvent;
 import io.casehub.platform.agent.AgentSession;
 import io.casehub.platform.agent.session.SessionPipeline;

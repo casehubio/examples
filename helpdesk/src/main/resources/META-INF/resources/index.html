@@ -182,10 +182,10 @@
     });
     async function restoreFromScenarioState() {
       try {
-        const resp = await fetch(API + '/scenario/state');
+        const resp = await fetch(API + '/playbook/state');
         if (!resp.ok) return;
         const state = await resp.json();
-        if (!state.scenario) return;
+        if (!state.playbook) return;
         const opsSteps = ['Navigate to operations', 'Spotlight the dashboard',
           'Inject a second ticket via REST', 'Spotlight the live update',
           'Claim Alice\'s work item', 'Spotlight the claimed item',
@@ -257,8 +257,8 @@
 
     async function claimAndStart(id, btn) {
       await busy(btn, async () => {
-        await fetch(API + '/workitems/' + id + '/claim?claimant=specialist', { method: 'PUT' });
-        await fetch(API + '/workitems/' + id + '/start', { method: 'PUT' });
+        await fetch(API + '/api/work/lifecycle/claim/' + id + '?claimant=specialist', { method: 'POST' });
+        await fetch(API + '/api/work/lifecycle/start/' + id + '?actor=specialist', { method: 'POST' });
         toast('Claimed and started');
         refresh();
       });
@@ -297,8 +297,8 @@
     async function submitResolution(id, resolution, btn, overlay) {
       if (!resolution) return toast('Enter a resolution');
       await busy(btn, async () => {
-        await fetch(API + '/workitems/' + id + '/complete', {
-          method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        await fetch(API + '/api/work/lifecycle/complete/' + id + '?actor=specialist', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ resolution: JSON.stringify({ resolution, assigneeId: 'specialist' }) })
         });
         overlay.remove();
@@ -315,7 +315,7 @@
         document.getElementById('m-running').textContent = items.filter(c => c.status === 'RUNNING').length;
         document.getElementById('m-completed').textContent = items.filter(c => c.status === 'COMPLETED').length;
 
-        const wi = await fetch(API + '/workitems').then(r => r.json());
+        const wi = await fetch(API + '/api/work/items/list-all').then(r => r.json()).then(page => page.items ?? []);
         document.getElementById('m-workitems').textContent = wi.filter(w => w.status !== 'COMPLETED').length;
 
         const wt = document.getElementById('wi-table');
@@ -354,11 +354,11 @@
     refresh();
     setInterval(refresh, 2000);
   </script>
-  <pages-scenario-controller mode="compact" scenario="help-desk-demo"></pages-scenario-controller>
-  <script>document.querySelector('pages-scenario-controller').setAttribute('baseurl', window.location.origin);</script>
+  <pages-playbook-controller mode="compact" scenario="help-desk-demo"></pages-playbook-controller>
+  <script>document.querySelector('pages-playbook-controller').setAttribute('baseurl', window.location.origin);</script>
   <script type="module">
-    const { createScenarioHandler } = await import('/scenario/controller.js?_=' + Date.now());
-    const controller = document.querySelector('pages-scenario-controller');
+    const { createPlaybookHandler } = await import('/playbook/controller.js?_=' + Date.now());
+    const controller = document.querySelector('pages-playbook-controller');
     let handler = null;
     const poll = setInterval(() => {
       const conn = controller._conn;
@@ -368,7 +368,7 @@
       if (!wsConn || !et) return;
       clearInterval(poll);
       controller.eventTarget = et;
-      handler = createScenarioHandler(wsConn, et);
+      handler = createPlaybookHandler(wsConn, et);
     }, 100);
   </script>
 </body>

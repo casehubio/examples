@@ -1,0 +1,14 @@
+templates:
+  - id: document-review-conventions
+    name: Document Review Conventions
+    content: |
+      When reviewing documents, always provide specific line references.
+      Categorise findings as structural, content, or stylistic.
+      Never suggest removing content without explaining what is lost.
+
+  - id: communication-style
+    name: Communication Style Template
+    parameters: [formality, feedback_approach]
+    content: |
+      Communicate in a ${formality} register. When providing feedback,
+      use a ${feedback_approach} approach — frame suggestions constructively.

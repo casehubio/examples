@@ -1,7 +1,12 @@
 package io.casehub.desiredstate.example.expansion;
 
-import io.casehub.desiredstate.api.*;
+import io.casehub.desiredstate.api.ActualState;
+import io.casehub.desiredstate.api.CompilationResult;
+import io.casehub.desiredstate.api.DesiredStateGraph;
+import io.casehub.desiredstate.api.DesiredStateGraphFactory;
+import io.casehub.desiredstate.api.SituationRecompiler;
 import io.casehub.ras.api.ActiveSituation;
+
 import java.util.Optional;
 
 public class ExpansionSituationRecompiler implements SituationRecompiler {
@@ -16,8 +21,9 @@ public class ExpansionSituationRecompiler implements SituationRecompiler {
 
     @Override
     public Optional<CompilationResult> recompile(
-            DesiredStateGraph current, ActiveSituation situation,
-            DesiredStateGraphFactory factory) {
+            String tenancyId,
+            DesiredStateGraph current, ActualState actual,
+            ActiveSituation situation, DesiredStateGraphFactory factory) {
         ExpansionGoal revised = originalGoal.withDefensePosture(DefensePosture.FORTIFY);
         return Optional.of(compiler.compile(revised, factory));
     }

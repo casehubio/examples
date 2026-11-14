@@ -1,14 +1,48 @@
 package io.casehub.desiredstate.example.pipeline;
 
-import io.casehub.desiredstate.api.*;
+import io.casehub.desiredstate.api.ActualState;
+import io.casehub.desiredstate.api.ApprovalCheckResult;
+import io.casehub.desiredstate.api.CompilationResult;
+import io.casehub.desiredstate.api.Dependency;
+import io.casehub.desiredstate.api.DeprovisionContext;
+import io.casehub.desiredstate.api.DeprovisionResult;
+import io.casehub.desiredstate.api.DesiredNode;
+import io.casehub.desiredstate.api.DesiredStateGraph;
+import io.casehub.desiredstate.api.DesiredStateGraphFactory;
+import io.casehub.desiredstate.api.FaultEvent;
+import io.casehub.desiredstate.api.FaultPolicy;
+import io.casehub.desiredstate.api.FaultType;
+import io.casehub.desiredstate.api.GraphMutation;
+import io.casehub.desiredstate.api.HumanGating;
+import io.casehub.desiredstate.api.LifecycleStepExecutor;
+import io.casehub.desiredstate.api.NodeId;
+import io.casehub.desiredstate.api.NodeProvisioner;
+import io.casehub.desiredstate.api.NodeProvisionerRouter;
+import io.casehub.desiredstate.api.NodeStatus;
+import io.casehub.desiredstate.api.NodeType;
+import io.casehub.desiredstate.api.OrderedStep;
+import io.casehub.desiredstate.api.PlanApproval;
+import io.casehub.desiredstate.api.ProvisionContext;
+import io.casehub.desiredstate.api.ProvisionResult;
+import io.casehub.desiredstate.api.StepAction;
+import io.casehub.desiredstate.api.StepOutcome;
+import io.casehub.desiredstate.api.ThresholdFaultPolicy;
+import io.casehub.desiredstate.api.TransitionPlan;
+import io.casehub.desiredstate.api.TransitionResult;
 import io.casehub.desiredstate.runtime.DefaultDesiredStateGraphFactory;
 import io.casehub.desiredstate.runtime.DefaultNodeProvisionerRouter;
 import io.casehub.desiredstate.runtime.NoOpHumanNodeHandler;
+import io.casehub.desiredstate.runtime.NodeStepExecutor;
 import io.casehub.desiredstate.runtime.NoOpPendingApprovalHandler;
 import io.casehub.desiredstate.runtime.SimpleTransitionExecutor;
 import io.casehub.desiredstate.runtime.TransitionPlanner;
 import io.casehub.desiredstate.testing.MockPendingApprovalHandler;
-import io.casehub.platform.agent.*;
+import io.casehub.platform.agent.AgentEvent;
+import io.casehub.platform.agent.AgentProvider;
+import io.casehub.platform.agent.AgentSession;
+import io.casehub.platform.agent.AgentSessionConfig;
+import io.casehub.platform.agent.AgentSessionInit;
+import io.casehub.platform.agent.NoOpAgentProvider;
 import io.smallrye.mutiny.Multi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +61,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Plain JUnit — no Quarkus container needed.
  */
 class PipelineTest {
+
+    private static final LifecycleStepExecutor noOpStepExecutor = (step, tenancyId) -> new StepOutcome.Succeeded();
 
     private DesiredStateGraphFactory factory;
     private PipelineGoalCompiler compiler;
@@ -61,6 +97,20 @@ class PipelineTest {
             .sink("warehouse", "s3://analytics/sessions", "parquet", List.of("date", "country"))
             .build();
     }
+
+    private PipelineBlueprint standardBlueprintWithApproval() {
+        return PipelineBlueprint.builder()
+                                .source("clickstream", "json", "kafka://clicks")
+                                .schema("click-schema", List.of("userId", "pageUrl", "timestamp"), 1)
+                                .ingestion("click-ingest", "clickstream", 1000, "json")
+                                .cleanser("click-clean", List.of("deduplicate", "normalize-timestamps"), true, "DROP")
+                                .enricher("geo-enrich", "geo-lookup", List.of("userId"), List.of("country", "city"))
+                                .validator("quality-gate", "click-schema", 0.95, true)
+                                .transformer("gold-agg", List.of("sessionize", "count-pages"), List.of("group-by-session"), "parquet", true)
+                                .sink("warehouse-sink", "s3://analytics/sessions", "parquet", List.of("date", "country"), true)
+                                .build();
+    }
+
 
     @Test
     void buildBasicPipeline() {
@@ -133,11 +183,11 @@ class PipelineTest {
         ActualState empty = new ActualState(Map.of());
         TransitionPlan plan = planner.plan(graph, empty);
 
-        assertThat(plan.removals()).isEmpty();
-        assertThat(plan.additions()).hasSize(8);
+        assertThat(plan.flatRemovals()).isEmpty();
+        assertThat(plan.flatAdditions()).hasSize(8);
 
         // Extract layer sequence from the planned additions
-        List<PipelineLayer> layerOrder = plan.additions().stream()
+        List<PipelineLayer> layerOrder = plan.flatAdditions().stream()
             .map(step -> PipelineNodeTypes.layerOf(step.node().type()).orElseThrow())
             .collect(Collectors.toList());
 
@@ -185,8 +235,8 @@ class PipelineTest {
 
         // Execute all additions via SimpleTransitionExecutor
         NodeProvisionerRouter router = new DefaultNodeProvisionerRouter(List.of(provisioner));
-        SimpleTransitionExecutor executor = new SimpleTransitionExecutor(router, new NoOpHumanNodeHandler(), new NoOpPendingApprovalHandler());
-        TransitionResult transitionResult = executor.execute(plan, "default").await().indefinitely();
+        SimpleTransitionExecutor executor = new SimpleTransitionExecutor(new NodeStepExecutor(router, new NoOpHumanNodeHandler(), new NoOpPendingApprovalHandler(), noOpStepExecutor));
+        TransitionResult transitionResult = executor.execute(plan, "default");
 
         // All 8 nodes should succeed
         assertThat(transitionResult.outcomes()).hasSize(8);
@@ -219,10 +269,7 @@ class PipelineTest {
     @Test
     void schemaIncompatibility_failsProvision() {
         // Create an enricher node that needs a lookup source
-        DesiredNode enricher = new DesiredNode(
-            NodeId.of("geo-enrich"), PipelineNodeTypes.ENRICHER,
-            new EnricherSpec("geo-lookup", List.of("userId"), List.of("country", "city")),
-            false);
+        DesiredNode enricher = new DesiredNode(NodeId.of("geo-enrich"), new EnricherSpec("geo-lookup", List.of("userId"), List.of("country", "city")), HumanGating.NONE);
 
         // Do NOT register the lookup source — provisioning should fail
         DesiredStateGraph graph = factory.of(List.of(enricher), List.of());
@@ -244,10 +291,10 @@ class PipelineTest {
         // Provision the full pipeline first
         world.registerLookupSource("geo-lookup", new PipelineWorld.LookupSourceEntry("geo-lookup"));
         NodeProvisionerRouter router = new DefaultNodeProvisionerRouter(List.of(provisioner));
-        SimpleTransitionExecutor executor = new SimpleTransitionExecutor(router, new NoOpHumanNodeHandler(), new NoOpPendingApprovalHandler());
+        SimpleTransitionExecutor executor = new SimpleTransitionExecutor(new NodeStepExecutor(router, new NoOpHumanNodeHandler(), new NoOpPendingApprovalHandler(), noOpStepExecutor));
         ActualState empty = new ActualState(Map.of());
         TransitionPlan plan = planner.plan(graph, empty);
-        executor.execute(plan, "default").await().indefinitely();
+        executor.execute(plan, "default");
 
         // All stages should be RUNNING before deprovision
         assertThat(world.stageState(NodeId.of("click-clean"))).isEqualTo(PipelineWorld.StageState.RUNNING);
@@ -271,84 +318,92 @@ class PipelineTest {
 
     @Test
     void provisionFailure_fullEscalationChain() {
-        ProvisionEscalationFaultPolicy policy = new ProvisionEscalationFaultPolicy(world);
+        ThresholdFaultPolicy policy = ThresholdFaultPolicy.builder()
+                .faultTypes(Set.of(FaultType.PROVISION_FAILED))
+                .tier(4, FaultPolicy.addReviewNode(
+                        (event, current) -> new AiReviewSpec(event.node(), event.detail())))
+                .tier(7, FaultPolicy.addReviewNode(
+                        (event, current) -> new HumanReviewSpec(event.node(), event.detail(), "Escalated")))
+                .build();
 
-        // Create an ingestion node and put it in a graph
-        DesiredNode ingestNode = new DesiredNode(
-            NodeId.of("ingest"), PipelineNodeTypes.INGESTION,
-            new IngestionSpec("clickstream", 1000, "json"), false);
+        DesiredNode ingestNode = new DesiredNode(NodeId.of("ingest"), new IngestionSpec("clickstream", 1000, "json"), HumanGating.NONE);
         DesiredStateGraph graph = factory.of(List.of(ingestNode), List.of());
 
         FaultEvent fault = new FaultEvent(NodeId.of("ingest"), FaultType.PROVISION_FAILED, "source unavailable");
 
         // Events 1-3: retry phase — all return empty
         for (int i = 0; i < 3; i++) {
-            assertThat(policy.onFault(fault, graph, new ActualState(Map.of())))
+            assertThat(policy.onFault("tenant-1", fault, graph, new ActualState(Map.of())))
                 .as("Fault %d should return empty (retry phase)", i + 1)
                 .isEmpty();
         }
 
-        // Event 4: creates AI_REVIEW node
-        List<GraphMutation> mutations4 = policy.onFault(fault, graph, new ActualState(Map.of()));
-        assertThat(mutations4).hasSize(1);
+        // Event 4: creates AI_REVIEW node with dependency edge
+        List<GraphMutation<DesiredNode>> mutations4 = policy.onFault("tenant-1", fault, graph, new ActualState(Map.of()));
+        assertThat(mutations4).hasSize(2);
         assertThat(mutations4.get(0)).isInstanceOf(GraphMutation.AddNode.class);
-        GraphMutation.AddNode addAiReview = (GraphMutation.AddNode) mutations4.get(0);
+        var addAiReview = (GraphMutation.AddNode<DesiredNode>) mutations4.get(0);
         assertThat(addAiReview.node().id()).isEqualTo(NodeId.of("ai-review-ingest"));
         assertThat(addAiReview.node().type()).isEqualTo(PipelineNodeTypes.AI_REVIEW);
-        assertThat(addAiReview.node().requiresHuman()).isFalse();
+        assertThat(mutations4.get(1)).isInstanceOf(GraphMutation.AddEdge.class);
 
-        // Apply mutation to graph
-        graph = graph.withMutation(addAiReview);
+        // Apply mutations to graph
+        for (GraphMutation m : mutations4) {
+            graph = graph.withMutation(m);
+        }
 
-        // Set AI_REVIEW as PENDING in world → next onFault returns empty (wait)
-        world.addReview(NodeId.of("ai-review-ingest"), NodeId.of("ingest"));
-        assertThat(policy.onFault(fault, graph, new ActualState(Map.of()))).isEmpty();
+        // Events 5-6: AI review present, below tier 2 threshold — addReviewNode duplicate guard
+        assertThat(policy.onFault("tenant-1", fault, graph, new ActualState(Map.of()))).isEmpty();
+        assertThat(policy.onFault("tenant-1", fault, graph, new ActualState(Map.of()))).isEmpty();
 
-        // Set AI_REVIEW as UNRESOLVED → next onFault creates HUMAN_REVIEW
-        world.setAiReviewOutcome(NodeId.of("ingest"), false);
-        List<GraphMutation> mutationsHuman = policy.onFault(fault, graph, new ActualState(Map.of()));
-        assertThat(mutationsHuman).hasSize(1);
+        // Event 7: tier 2 threshold reached, AI review present → HUMAN_REVIEW
+        List<GraphMutation<DesiredNode>> mutationsHuman = policy.onFault("tenant-1", fault, graph, new ActualState(Map.of()));
+        assertThat(mutationsHuman).hasSize(2);
         assertThat(mutationsHuman.get(0)).isInstanceOf(GraphMutation.AddNode.class);
-        GraphMutation.AddNode addHumanReview = (GraphMutation.AddNode) mutationsHuman.get(0);
+        var addHumanReview = (GraphMutation.AddNode<DesiredNode>) mutationsHuman.get(0);
         assertThat(addHumanReview.node().id()).isEqualTo(NodeId.of("human-review-ingest"));
         assertThat(addHumanReview.node().type()).isEqualTo(PipelineNodeTypes.HUMAN_REVIEW);
         assertThat(addHumanReview.node().requiresHuman()).isTrue();
 
-        // Apply mutation and add to world → next onFault returns empty (idempotency)
-        graph = graph.withMutation(addHumanReview);
-        world.addReview(NodeId.of("human-review-ingest"), NodeId.of("ingest"));
-        assertThat(policy.onFault(fault, graph, new ActualState(Map.of()))).isEmpty();
+        // Apply mutations — further faults return empty (duplicate guard)
+        for (GraphMutation m : mutationsHuman) {
+            graph = graph.withMutation(m);
+        }
+        assertThat(policy.onFault("tenant-1", fault, graph, new ActualState(Map.of()))).isEmpty();
     }
 
     @Test
-    void provisionFailure_aiReviewResolves() {
-        ProvisionEscalationFaultPolicy policy = new ProvisionEscalationFaultPolicy(world);
+    void provisionFailure_belowEscalation_noHumanReview() {
+        ThresholdFaultPolicy policy = ThresholdFaultPolicy.builder()
+                .faultTypes(Set.of(FaultType.PROVISION_FAILED))
+                .tier(4, FaultPolicy.addReviewNode(
+                        (event, current) -> new AiReviewSpec(event.node(), event.detail())))
+                .tier(7, FaultPolicy.addReviewNode(
+                        (event, current) -> new HumanReviewSpec(event.node(), event.detail(), "Escalated")))
+                .build();
 
-        DesiredNode ingestNode = new DesiredNode(
-            NodeId.of("ingest"), PipelineNodeTypes.INGESTION,
-            new IngestionSpec("clickstream", 1000, "json"), false);
+        DesiredNode ingestNode = new DesiredNode(NodeId.of("ingest"), new IngestionSpec("clickstream", 1000, "json"), HumanGating.NONE);
         DesiredStateGraph graph = factory.of(List.of(ingestNode), List.of());
 
         FaultEvent fault = new FaultEvent(NodeId.of("ingest"), FaultType.PROVISION_FAILED, "source unavailable");
 
         // Faults 1-3: retry phase
         for (int i = 0; i < 3; i++) {
-            policy.onFault(fault, graph, new ActualState(Map.of()));
+            policy.onFault("tenant-1", fault, graph, new ActualState(Map.of()));
         }
 
         // Fault 4: creates AI_REVIEW
-        List<GraphMutation> mutations = policy.onFault(fault, graph, new ActualState(Map.of()));
-        assertThat(mutations).hasSize(1);
-        graph = graph.withMutation(mutations.get(0));
+        List<GraphMutation<DesiredNode>> mutations = policy.onFault("tenant-1", fault, graph, new ActualState(Map.of()));
+        assertThat(mutations).hasSize(2);
+        for (GraphMutation m : mutations) {
+            graph = graph.withMutation(m);
+        }
 
-        // Set AI_REVIEW as RESOLVED in world
-        world.addReview(NodeId.of("ai-review-ingest"), NodeId.of("ingest"));
-        world.setAiReviewOutcome(NodeId.of("ingest"), true);
+        // Faults 5-6: below tier 2, AI review present — duplicate guard
+        assertThat(policy.onFault("tenant-1", fault, graph, new ActualState(Map.of()))).isEmpty();
+        assertThat(policy.onFault("tenant-1", fault, graph, new ActualState(Map.of()))).isEmpty();
 
-        // Next onFault returns empty — AI resolved it, no human escalation
-        assertThat(policy.onFault(fault, graph, new ActualState(Map.of()))).isEmpty();
-
-        // Verify no HUMAN_REVIEW was created
+        // Verify no HUMAN_REVIEW was created (count is 6, below tier 2 threshold of 7)
         assertThat(graph.nodes().containsKey(NodeId.of("human-review-ingest"))).isFalse();
     }
 
@@ -357,26 +412,29 @@ class PipelineTest {
         QuarantineFaultPolicy policy = new QuarantineFaultPolicy(world);
 
         // Create a validator node
-        DesiredNode validator = new DesiredNode(
-            NodeId.of("quality-gate"), PipelineNodeTypes.VALIDATOR,
-            new ValidatorSpec("click-schema", 0.95, true), false);
+        DesiredNode validator = new DesiredNode(NodeId.of("quality-gate"), new ValidatorSpec("click-schema", 0.95, true), HumanGating.NONE);
         DesiredStateGraph graph = factory.of(List.of(validator), List.of());
 
         // Set the validator as QUARANTINED in world
         world.setStage(NodeId.of("quality-gate"),
-            new PipelineWorld.StageEntry(PipelineNodeTypes.VALIDATOR, PipelineWorld.StageState.QUARANTINED,
-                "click-schema", null, 0, 0, 5, "quality threshold breached"));
+                       new PipelineWorld.StageEntry(PipelineNodeTypes.VALIDATOR, PipelineWorld.StageState.QUARANTINED,
+                                                    "click-schema", null, 0, 0, 5, "quality threshold breached"));
 
         FaultEvent fault = new FaultEvent(NodeId.of("quality-gate"), FaultType.NODE_DEGRADED,
-            "quality threshold breached");
+                                          "quality threshold breached");
 
-        List<GraphMutation> mutations = policy.onFault(fault, graph, new ActualState(Map.of()));
-        assertThat(mutations).hasSize(1);
+        List<GraphMutation<DesiredNode>> mutations = policy.onFault("tenant-1", fault, graph, new ActualState(Map.of()));
+        assertThat(mutations).hasSize(2);
         assertThat(mutations.get(0)).isInstanceOf(GraphMutation.AddNode.class);
-        GraphMutation.AddNode addHuman = (GraphMutation.AddNode) mutations.get(0);
+        var addHuman = (GraphMutation.AddNode<DesiredNode>) mutations.get(0);
         assertThat(addHuman.node().id()).isEqualTo(NodeId.of("human-review-quality-gate"));
         assertThat(addHuman.node().type()).isEqualTo(PipelineNodeTypes.HUMAN_REVIEW);
         assertThat(addHuman.node().requiresHuman()).isTrue();
+
+        assertThat(mutations.get(1)).isInstanceOf(GraphMutation.AddEdge.class);
+        var addEdge = (GraphMutation.AddEdge<?>) mutations.get(1);
+        assertThat(addEdge.from()).isEqualTo("human-review-quality-gate");
+        assertThat(addEdge.to()).isEqualTo("quality-gate");
     }
 
     @Test
@@ -384,24 +442,27 @@ class PipelineTest {
         SchemaDriftFaultPolicy policy = new SchemaDriftFaultPolicy();
 
         // Create a schema node
-        DesiredNode schema = new DesiredNode(
-            NodeId.of("click-schema"), PipelineNodeTypes.SCHEMA,
-            new SchemaSpec("click-schema", List.of("userId", "pageUrl", "timestamp"), 1), false);
+        DesiredNode schema = new DesiredNode(NodeId.of("click-schema"), new SchemaSpec("click-schema", List.of("userId", "pageUrl", "timestamp"), 1), HumanGating.NONE);
         DesiredStateGraph graph = factory.of(List.of(schema), List.of());
 
         FaultEvent fault = new FaultEvent(NodeId.of("click-schema"), FaultType.NODE_DEGRADED,
-            "schema version drift detected");
+                                          "schema version drift detected");
 
-        List<GraphMutation> mutations = policy.onFault(fault, graph, new ActualState(Map.of()));
-        assertThat(mutations).hasSize(1);
+        List<GraphMutation<DesiredNode>> mutations = policy.onFault("tenant-1", fault, graph, new ActualState(Map.of()));
+        assertThat(mutations).hasSize(2);
         assertThat(mutations.get(0)).isInstanceOf(GraphMutation.AddNode.class);
-        GraphMutation.AddNode addHuman = (GraphMutation.AddNode) mutations.get(0);
+        var addHuman = (GraphMutation.AddNode<DesiredNode>) mutations.get(0);
         assertThat(addHuman.node().id()).isEqualTo(NodeId.of("human-review-click-schema"));
 
+        assertThat(mutations.get(1)).isInstanceOf(GraphMutation.AddEdge.class);
+        var addEdge = (GraphMutation.AddEdge<?>) mutations.get(1);
+        assertThat(addEdge.from()).isEqualTo("human-review-click-schema");
+        assertThat(addEdge.to()).isEqualTo("click-schema");
+
         // Assert no RemoveNode mutations returned
-        Optional<GraphMutation> removeNode = mutations.stream()
-            .filter(m -> m instanceof GraphMutation.RemoveNode)
-            .findAny();
+        Optional<GraphMutation<DesiredNode>> removeNode = mutations.stream()
+                                                      .filter(m -> m instanceof GraphMutation.RemoveNode)
+                                                      .findAny();
         assertThat(removeNode).isEmpty();
     }
 
@@ -418,8 +479,8 @@ class PipelineTest {
         // Phase 1: All ABSENT → provision all
         ActualState actual = adapter.readActual(graph, "default");
         TransitionPlan plan = planner.plan(graph, actual);
-        assertThat(plan.additions()).hasSize(8);
-        for (OrderedStep step : plan.additions()) {
+        assertThat(plan.flatAdditions()).hasSize(8);
+        for (OrderedStep step : plan.flatAdditions()) {
             ProvisionResult provisionResult = provisioner.provision(step.node(), new ProvisionContext("test", graph));
             assertThat(provisionResult).isInstanceOf(ProvisionResult.Success.class);
         }
@@ -435,11 +496,11 @@ class PipelineTest {
         assertThat(actual.statusOf(NodeId.of("click-ingest"))).hasValue(NodeStatus.ABSENT);
         plan = planner.plan(graph, actual);
         assertThat(plan.isEmpty()).isFalse();
-        assertThat(plan.additions().stream().anyMatch(s -> s.node().id().equals(NodeId.of("click-ingest"))))
+        assertThat(plan.flatAdditions().stream().anyMatch(s -> s.node().id().equals(NodeId.of("click-ingest"))))
             .isTrue();
 
         world.clearStageError(NodeId.of("click-ingest"));
-        for (OrderedStep step : plan.additions()) {
+        for (OrderedStep step : plan.flatAdditions()) {
             provisioner.provision(step.node(), new ProvisionContext("test", graph));
         }
 
@@ -509,12 +570,8 @@ class PipelineTest {
     @Test
     void layerConstraint_rejectsBackwardDependency() {
         // Bronze node depending on a Gold node — backward
-        DesiredNode source = new DesiredNode(NodeId.of("raw-source"),
-            PipelineNodeTypes.DATA_SOURCE,
-            new DataSourceSpec("raw", "json", "kafka://raw"), false);
-        DesiredNode transformer = new DesiredNode(NodeId.of("session-agg"),
-            PipelineNodeTypes.TRANSFORMER,
-            new TransformerSpec(List.of("sessionize"), List.of("group-by-session"), "parquet"), false);
+        DesiredNode source = new DesiredNode(NodeId.of("raw-source"), new DataSourceSpec("raw", "json", "kafka://raw"), HumanGating.NONE);
+        DesiredNode transformer = new DesiredNode(NodeId.of("session-agg"), new TransformerSpec(List.of("sessionize"), List.of("group-by-session"), "parquet"), HumanGating.NONE);
 
         // source depends on transformer — backward (Bronze depends on Gold)
         DesiredStateGraph graph = factory.of(
@@ -531,12 +588,8 @@ class PipelineTest {
     @Test
     void layerConstraint_rejectsLayerSkip() {
         // Gold node depending directly on Bronze (skipping Silver)
-        DesiredNode source = new DesiredNode(NodeId.of("clickstream"),
-            PipelineNodeTypes.DATA_SOURCE,
-            new DataSourceSpec("clickstream", "json", "kafka://clicks"), false);
-        DesiredNode transformer = new DesiredNode(NodeId.of("session-agg"),
-            PipelineNodeTypes.TRANSFORMER,
-            new TransformerSpec(List.of("sessionize"), List.of("group-by-session"), "parquet"), false);
+        DesiredNode source = new DesiredNode(NodeId.of("clickstream"), new DataSourceSpec("clickstream", "json", "kafka://clicks"), HumanGating.NONE);
+        DesiredNode transformer = new DesiredNode(NodeId.of("session-agg"), new TransformerSpec(List.of("sessionize"), List.of("group-by-session"), "parquet"), HumanGating.NONE);
 
         // transformer depends on source — Gold depends on Bronze (skips Silver)
         DesiredStateGraph graph = factory.of(
@@ -552,12 +605,8 @@ class PipelineTest {
 
     @Test
     void layerConstraint_allowsSameLayerDependencies() {
-        DesiredNode source1 = new DesiredNode(NodeId.of("source-a"),
-            PipelineNodeTypes.DATA_SOURCE,
-            new DataSourceSpec("a", "json", "kafka://a"), false);
-        DesiredNode source2 = new DesiredNode(NodeId.of("source-b"),
-            PipelineNodeTypes.DATA_SOURCE,
-            new DataSourceSpec("b", "json", "kafka://b"), false);
+        DesiredNode source1 = new DesiredNode(NodeId.of("source-a"), new DataSourceSpec("a", "json", "kafka://a"), HumanGating.NONE);
+        DesiredNode source2 = new DesiredNode(NodeId.of("source-b"), new DataSourceSpec("b", "json", "kafka://b"), HumanGating.NONE);
 
         // source-b depends on source-a — same layer (Bronze → Bronze)
         DesiredStateGraph graph = factory.of(
@@ -570,12 +619,8 @@ class PipelineTest {
     @Test
     void layerConstraint_ignoresFaultNodes() {
         // AI_REVIEW node depending on a Gold node — no layer, should be ignored
-        DesiredNode transformer = new DesiredNode(NodeId.of("session-agg"),
-            PipelineNodeTypes.TRANSFORMER,
-            new TransformerSpec(List.of("sessionize"), List.of("group-by-session"), "parquet"), false);
-        DesiredNode aiReview = new DesiredNode(NodeId.of("ai-review-session-agg"),
-            PipelineNodeTypes.AI_REVIEW,
-            new AiReviewSpec(NodeId.of("session-agg"), "provision failure"), false);
+        DesiredNode transformer = new DesiredNode(NodeId.of("session-agg"), new TransformerSpec(List.of("sessionize"), List.of("group-by-session"), "parquet"), HumanGating.NONE);
+        DesiredNode aiReview = new DesiredNode(NodeId.of("ai-review-session-agg"), new AiReviewSpec(NodeId.of("session-agg"), "provision failure"), HumanGating.NONE);
 
         DesiredStateGraph graph = factory.of(
             List.of(transformer, aiReview),
@@ -631,8 +676,7 @@ class PipelineTest {
         // Create an AI_REVIEW node without pre-setting the outcome
         NodeId targetNode = NodeId.of("ingest");
         NodeId reviewNode = NodeId.of("ai-review-ingest");
-        DesiredNode aiReview = new DesiredNode(reviewNode, PipelineNodeTypes.AI_REVIEW,
-                new AiReviewSpec(targetNode, "source unavailable"), false);
+        DesiredNode aiReview = new DesiredNode(reviewNode, new AiReviewSpec(targetNode, "source unavailable"), HumanGating.NONE);
         DesiredStateGraph graph = factory.of(List.of(aiReview), List.of());
 
         // Provision the AI_REVIEW node
@@ -665,8 +709,7 @@ class PipelineTest {
 
         NodeId targetNode = NodeId.of("ingest");
         NodeId reviewNode = NodeId.of("ai-review-ingest");
-        DesiredNode aiReview = new DesiredNode(reviewNode, PipelineNodeTypes.AI_REVIEW,
-                new AiReviewSpec(targetNode, "source unavailable"), false);
+        DesiredNode aiReview = new DesiredNode(reviewNode, new AiReviewSpec(targetNode, "source unavailable"), HumanGating.NONE);
         DesiredStateGraph graph = factory.of(List.of(aiReview), List.of());
 
         ProvisionResult result = agentProvisioner.provision(aiReview, new ProvisionContext("default", graph));
@@ -683,8 +726,7 @@ class PipelineTest {
 
         NodeId targetNode = NodeId.of("ingest");
         NodeId reviewNode = NodeId.of("ai-review-ingest");
-        DesiredNode aiReview = new DesiredNode(reviewNode, PipelineNodeTypes.AI_REVIEW,
-                new AiReviewSpec(targetNode, "source unavailable"), false);
+        DesiredNode aiReview = new DesiredNode(reviewNode, new AiReviewSpec(targetNode, "source unavailable"), HumanGating.NONE);
         DesiredStateGraph graph = factory.of(List.of(aiReview), List.of());
 
         ProvisionResult result = noOpProvisioner.provision(aiReview, new ProvisionContext("default", graph));
@@ -715,12 +757,11 @@ class PipelineTest {
 
         MockPendingApprovalHandler approvalHandler = new MockPendingApprovalHandler();
         NodeProvisionerRouter router = new DefaultNodeProvisionerRouter(List.of(provisioner));
-        SimpleTransitionExecutor executor = new SimpleTransitionExecutor(
-            router, new NoOpHumanNodeHandler(), approvalHandler);
+        SimpleTransitionExecutor executor = new SimpleTransitionExecutor(new NodeStepExecutor(router, new NoOpHumanNodeHandler(), approvalHandler, noOpStepExecutor));
 
         ActualState empty = new ActualState(Map.of());
         TransitionPlan plan = planner.plan(graph, empty);
-        TransitionResult result = executor.execute(plan, "default").await().indefinitely();
+        TransitionResult result = executor.execute(plan, "default");
 
         // Transformer should be skipped (pending approval)
         assertThat(result.outcomes().get(NodeId.of("session-agg")))
@@ -736,7 +777,7 @@ class PipelineTest {
             new ApprovalCheckResult.Approved(approval));
 
         TransitionPlan replan = planner.plan(graph, adapter.readActual(graph, "default"));
-        TransitionResult reResult = executor.execute(replan, "default").await().indefinitely();
+        TransitionResult reResult = executor.execute(replan, "default");
 
         assertThat(reResult.outcomes().get(NodeId.of("session-agg")))
             .isInstanceOf(StepOutcome.Succeeded.class);
@@ -764,12 +805,11 @@ class PipelineTest {
             new ApprovalCheckResult.Rejected("gold-tier:session-agg", "Too expensive"));
 
         NodeProvisionerRouter router = new DefaultNodeProvisionerRouter(List.of(provisioner));
-        SimpleTransitionExecutor executor = new SimpleTransitionExecutor(
-            router, new NoOpHumanNodeHandler(), approvalHandler);
+        SimpleTransitionExecutor executor = new SimpleTransitionExecutor(new NodeStepExecutor(router, new NoOpHumanNodeHandler(), approvalHandler, noOpStepExecutor));
 
         ActualState empty = new ActualState(Map.of());
         TransitionPlan plan = planner.plan(graph, empty);
-        TransitionResult result = executor.execute(plan, "default").await().indefinitely();
+        TransitionResult result = executor.execute(plan, "default");
 
         assertThat(result.outcomes().get(NodeId.of("session-agg")))
             .isInstanceOf(StepOutcome.Rejected.class);
@@ -784,13 +824,49 @@ class PipelineTest {
         world.registerLookupSource("geo-lookup", new PipelineWorld.LookupSourceEntry("geo-lookup"));
 
         NodeProvisionerRouter router = new DefaultNodeProvisionerRouter(List.of(provisioner));
-        SimpleTransitionExecutor executor = new SimpleTransitionExecutor(
-            router, new NoOpHumanNodeHandler(), new NoOpPendingApprovalHandler());
+        SimpleTransitionExecutor executor = new SimpleTransitionExecutor(new NodeStepExecutor(router, new NoOpHumanNodeHandler(), new NoOpPendingApprovalHandler(), noOpStepExecutor));
         TransitionResult result = executor.execute(planner.plan(graph, new ActualState(Map.of())),
-            "default").await().indefinitely();
+            "default");
 
         // All nodes should succeed — no approval gate
         assertThat(result.outcomes().get(NodeId.of("session-agg")))
             .isInstanceOf(StepOutcome.Succeeded.class);
+    }
+
+    @Test
+    void goldTier_transformer_deprovisionOnly_gating() {
+        PipelineBlueprint blueprint = standardBlueprintWithApproval();
+        CompilationResult result    = compiler.compile(blueprint, factory);
+        DesiredStateGraph graph     = ((CompilationResult.SingleGraph) result).graph();
+
+        DesiredNode transformer = graph.nodes().get(NodeId.of("gold-agg"));
+        assertThat(transformer).isNotNull();
+        assertThat(transformer.requiresHuman(StepAction.PROVISION)).isFalse();
+        assertThat(transformer.requiresHuman(StepAction.DEPROVISION)).isTrue();
+        assertThat(transformer.humanGating()).isEqualTo(HumanGating.NONE);
+        assertThat(transformer.spec().humanGating()).isEqualTo(HumanGating.DEPROVISION_ONLY);
+    }
+
+    @Test
+    void goldTier_sink_deprovisionOnly_gating() {
+        PipelineBlueprint blueprint = standardBlueprintWithApproval();
+        CompilationResult result    = compiler.compile(blueprint, factory);
+        DesiredStateGraph graph     = ((CompilationResult.SingleGraph) result).graph();
+
+        DesiredNode sink = graph.nodes().get(NodeId.of("warehouse-sink"));
+        assertThat(sink).isNotNull();
+        assertThat(sink.requiresHuman(StepAction.PROVISION)).isFalse();
+        assertThat(sink.requiresHuman(StepAction.DEPROVISION)).isTrue();
+    }
+
+    @Test
+    void bronzeSilver_noHumanGating() {
+        PipelineBlueprint blueprint = standardBlueprint();
+        CompilationResult result    = compiler.compile(blueprint, factory);
+        DesiredStateGraph graph     = ((CompilationResult.SingleGraph) result).graph();
+
+        for (DesiredNode node : graph.nodes().values()) {
+            assertThat(node.requiresHuman()).as("Node %s should not require human", node.id()).isFalse();
+        }
     }
 }

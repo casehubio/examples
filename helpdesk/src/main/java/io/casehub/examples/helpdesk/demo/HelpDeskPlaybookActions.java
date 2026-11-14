@@ -5,6 +5,7 @@ import io.casehub.examples.helpdesk.mcp.HelpdeskOperations;
 import io.casehub.examples.helpdesk.mcp.ClassificationInput;
 import io.casehub.pages.playbook.client.ActionContext;
 import io.casehub.pages.playbook.client.PlaybookAction;
+import io.casehub.pages.playbook.runtime.PlaybookConfig;
 import io.quarkus.arc.profile.IfBuildProfile;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -21,6 +22,9 @@ public class HelpDeskPlaybookActions {
 
     @Inject
     NotificationService notificationService;
+
+    @Inject
+    PlaybookConfig playbookConfig;
 
     @PlaybookAction("create-ticket")
     Map<String, Object> createTicket(ActionContext ctx) {
@@ -72,20 +76,18 @@ public class HelpDeskPlaybookActions {
 
     @PlaybookAction("claim-work-item")
     Map<String, Object> claimWorkItem(ActionContext ctx) {
-        String port = org.eclipse.microprofile.config.ConfigProvider.getConfig()
-                .getOptionalValue("quarkus.http.port", String.class).orElse("8090");
-        String baseUrl = "http://localhost:" + port;
+        String baseUrl = playbookConfig.restBaseUrl();
         String claimant = ctx.actor() != null ? ctx.actor() : "specialist";
         String category = ctx.data("category");
 
         var client = java.net.http.HttpClient.newHttpClient();
         try {
             var wiResp = client.send(java.net.http.HttpRequest.newBuilder()
-                    .uri(java.net.URI.create(baseUrl + "/workitems"))
+                    .uri(java.net.URI.create(baseUrl + "/api/work/items/list-all"))
                     .GET().build(), java.net.http.HttpResponse.BodyHandlers.ofString());
 
             var items = new com.fasterxml.jackson.databind.ObjectMapper()
-                    .readTree(wiResp.body());
+                    .readTree(wiResp.body()).path("items");
             String workItemId = null;
             for (var item : items) {
                 if (!"PENDING".equals(item.path("status").asText())) continue;
@@ -99,12 +101,12 @@ public class HelpDeskPlaybookActions {
             if (workItemId == null) throw new IllegalStateException("No pending work item found");
 
             client.send(java.net.http.HttpRequest.newBuilder()
-                    .uri(java.net.URI.create(baseUrl + "/workitems/" + workItemId + "/claim?claimant=" + claimant))
-                    .PUT(java.net.http.HttpRequest.BodyPublishers.noBody()).build(),
+                    .uri(java.net.URI.create(baseUrl + "/api/work/lifecycle/claim/" + workItemId + "?claimant=" + java.net.URLEncoder.encode(claimant, java.nio.charset.StandardCharsets.UTF_8)))
+                    .POST(java.net.http.HttpRequest.BodyPublishers.noBody()).build(),
                     java.net.http.HttpResponse.BodyHandlers.ofString());
             client.send(java.net.http.HttpRequest.newBuilder()
-                    .uri(java.net.URI.create(baseUrl + "/workitems/" + workItemId + "/start"))
-                    .PUT(java.net.http.HttpRequest.BodyPublishers.noBody()).build(),
+                    .uri(java.net.URI.create(baseUrl + "/api/work/lifecycle/start/" + workItemId + "?actor=" + java.net.URLEncoder.encode(claimant, java.nio.charset.StandardCharsets.UTF_8)))
+                    .POST(java.net.http.HttpRequest.BodyPublishers.noBody()).build(),
                     java.net.http.HttpResponse.BodyHandlers.ofString());
 
             return Map.of("workItemId", workItemId, "claimant", claimant, "status", "IN_PROGRESS");
@@ -115,20 +117,18 @@ public class HelpDeskPlaybookActions {
 
     @PlaybookAction("complete-work-item")
     Map<String, Object> completeWorkItem(ActionContext ctx) {
-        String port = org.eclipse.microprofile.config.ConfigProvider.getConfig()
-                .getOptionalValue("quarkus.http.port", String.class).orElse("8090");
-        String baseUrl = "http://localhost:" + port;
+        String baseUrl = playbookConfig.restBaseUrl();
         String resolution = ctx.data("resolution") != null ? ctx.data("resolution") : "Resolved";
         String assigneeId = ctx.actor() != null ? ctx.actor() : "specialist";
 
         var client = java.net.http.HttpClient.newHttpClient();
         try {
             var wiResp = client.send(java.net.http.HttpRequest.newBuilder()
-                    .uri(java.net.URI.create(baseUrl + "/workitems"))
+                    .uri(java.net.URI.create(baseUrl + "/api/work/items/list-all"))
                     .GET().build(), java.net.http.HttpResponse.BodyHandlers.ofString());
 
             var items = new com.fasterxml.jackson.databind.ObjectMapper()
-                    .readTree(wiResp.body());
+                    .readTree(wiResp.body()).path("items");
             String workItemId = null;
             for (var item : items) {
                 if ("IN_PROGRESS".equals(item.path("status").asText())) {
@@ -142,9 +142,9 @@ public class HelpDeskPlaybookActions {
                     Map.of("resolution", new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(
                             Map.of("resolution", resolution, "assigneeId", assigneeId))));
             client.send(java.net.http.HttpRequest.newBuilder()
-                    .uri(java.net.URI.create(baseUrl + "/workitems/" + workItemId + "/complete"))
+                    .uri(java.net.URI.create(baseUrl + "/api/work/lifecycle/complete/" + workItemId + "?actor=" + java.net.URLEncoder.encode(assigneeId, java.nio.charset.StandardCharsets.UTF_8)))
                     .header("Content-Type", "application/json")
-                    .PUT(java.net.http.HttpRequest.BodyPublishers.ofString(body)).build(),
+                    .POST(java.net.http.HttpRequest.BodyPublishers.ofString(body)).build(),
                     java.net.http.HttpResponse.BodyHandlers.ofString());
 
             return Map.of("workItemId", workItemId, "status", "COMPLETED", "resolution", resolution);
@@ -182,9 +182,7 @@ public class HelpDeskPlaybookActions {
         String channelId = ctx.data("channelId") != null ? ctx.data("channelId") : "support";
         String text = ctx.data("text");
 
-        String port = org.eclipse.microprofile.config.ConfigProvider.getConfig()
-                .getOptionalValue("quarkus.http.port", String.class).orElse("8090");
-        String baseUrl = "http://localhost:" + port;
+        String baseUrl = playbookConfig.restBaseUrl();
         String body = "{\"from\":\"%s\",\"channelId\":\"%s\",\"text\":\"%s\"}"
                 .formatted(from, channelId, text);
 

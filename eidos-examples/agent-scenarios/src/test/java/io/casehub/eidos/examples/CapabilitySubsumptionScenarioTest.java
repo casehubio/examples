@@ -59,7 +59,7 @@ class CapabilitySubsumptionScenarioTest {
         registry.register(agent);
 
         // Query for specific capability "security-code-review"
-        var query = new AgentQuery(null, "security-code-review", tenancyId, null);
+        var query = new AgentQuery(null, "security-code-review", tenancyId, null, null, null);
         var matches = registry.find(query);
 
         // Assert agent is in results (subsumption: code-review subsumes security-code-review)
@@ -88,7 +88,7 @@ class CapabilitySubsumptionScenarioTest {
         registry.register(agent);
 
         // Query for general capability "code-review"
-        var query = new AgentQuery(null, "code-review", tenancyId, null);
+        var query = new AgentQuery(null, "code-review", tenancyId, null, null, null);
         var matches = registry.find(query);
 
         // Assert agent is in results (subsumption: sast-review is subsumed by code-review)
@@ -190,7 +190,7 @@ class CapabilitySubsumptionScenarioTest {
         registry.register(agent);
 
         // Query for "security-code-review"
-        var query = new AgentQuery(null, "security-code-review", tenancyId, null);
+        var query = new AgentQuery(null, "security-code-review", tenancyId, null, null, null);
         var matches = registry.find(query);
 
         // Assert NOT found (exact match only without vocabulary)
@@ -225,21 +225,21 @@ class CapabilitySubsumptionScenarioTest {
         registry.register(agent);
 
         // Query for "security-code-review" — should match via grounded "code-review"
-        var securityQuery = new AgentQuery(null, "security-code-review", tenancyId, null);
+        var securityQuery = new AgentQuery(null, "security-code-review", tenancyId, null, null, null);
         var securityMatches = registry.find(securityQuery);
         assertThat(securityMatches)
                 .extracting(m -> m.descriptor().agentId())
                 .contains("mixed-capabilities");
 
         // Query for "custom-review" — should match exact only
-        var customQuery = new AgentQuery(null, "custom-review", tenancyId, null);
+        var customQuery = new AgentQuery(null, "custom-review", tenancyId, null, null, null);
         var customMatches = registry.find(customQuery);
         assertThat(customMatches)
                 .extracting(m -> m.descriptor().agentId())
                 .contains("mixed-capabilities");
 
         // Query for "custom-review-specific" — should NOT match (ungrounded, no subsumption)
-        var noMatchQuery = new AgentQuery(null, "custom-review-specific", tenancyId, null);
+        var noMatchQuery = new AgentQuery(null, "custom-review-specific", tenancyId, null, null, null);
         var noMatches = registry.find(noMatchQuery);
         assertThat(noMatches)
                 .extracting(m -> m.descriptor().agentId())
@@ -297,7 +297,7 @@ class CapabilitySubsumptionScenarioTest {
         registry.register(pluginAgent);
 
         // Query for "security-code-review"
-        var query = new AgentQuery(null, "security-code-review", tenancyId, null);
+        var query = new AgentQuery(null, "security-code-review", tenancyId, null, null, null);
         var matches = registry.find(query);
 
         // All three should be in results, ordered by match quality: EXACT → PLUGIN → SPECIALIZATION
@@ -335,7 +335,7 @@ class CapabilitySubsumptionScenarioTest {
         registry.register(agent);
 
         // Query for "security-code-review" WITH taskDomain="java"
-        var query = new AgentQuery(null, "security-code-review", tenancyId, "java");
+        var query = new AgentQuery(null, "security-code-review", tenancyId, "java", null, null);
         var matches = registry.find(query);
 
         // Assert NOT found (excluded by domain even though subsumption matches)
@@ -344,7 +344,7 @@ class CapabilitySubsumptionScenarioTest {
                 .doesNotContain("non-java-reviewer");
 
         // Query for "security-code-review" WITHOUT taskDomain
-        var queryNoDomain = new AgentQuery(null, "security-code-review", tenancyId, null);
+        var queryNoDomain = new AgentQuery(null, "security-code-review", tenancyId, null, null, null);
         var matchesNoDomain = registry.find(queryNoDomain);
 
         // Assert found (no domain filter applied)

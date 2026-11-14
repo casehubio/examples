@@ -6,7 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-import io.casehub.ledger.runtime.model.jpa.JpaLedgerEntry;
+import io.casehub.ledger.jpa.JpaLedgerEntry;
 
 /**
  * Domain-specific ledger entry for credit application decisions.
@@ -36,4 +36,10 @@ public class CreditApplicationLedgerEntry extends JpaLedgerEntry {
      */
     @Column(name = "outcome")
     public String outcome;
+
+    @Override
+    public byte[] domainContentBytes() {
+        return ("%s|%s|%s".formatted(applicationId, decisionType, outcome))
+                       .getBytes(java.nio.charset.StandardCharsets.UTF_8);
+    }
 }

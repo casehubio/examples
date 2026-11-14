@@ -5,7 +5,7 @@ import io.casehub.api.spi.routing.GoalFormationProposal;
 import io.casehub.eidos.api.AgentGoal;
 import io.casehub.eidos.api.GoalPriority;
 import io.casehub.eidos.api.Visibility;
-import io.casehub.neocortex.cognition.testing.StubPipelines;
+import io.casehub.neocortex.session.testing.StubPipelines;
 import io.casehub.platform.agent.AgentEvent;
 import io.casehub.platform.agent.AgentSession;
 import io.casehub.platform.agent.session.SessionPipeline;

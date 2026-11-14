@@ -17,8 +17,8 @@
   <properties>
     <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <quarkus.version>3.32.2</quarkus.version>
-    <casehub.version>0.2-SNAPSHOT</casehub.version>
+    <quarkus.version>3.39.3</quarkus.version>
+    <casehub.version>0.4-SNAPSHOT</casehub.version>
     <assertj.version>3.27.3</assertj.version>
     <surefire.version>3.5.2</surefire.version>
   </properties>
@@ -26,7 +26,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>io.quarkus</groupId>
+        <groupId>io.quarkus.platform</groupId>
         <artifactId>quarkus-bom</artifactId>
         <version>${quarkus.version}</version>
         <type>pom</type>
@@ -36,6 +36,11 @@
   </dependencyManagement>
 
   <dependencies>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-platform-simulation-config</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
     <dependency>
       <groupId>io.casehub</groupId>
       <artifactId>casehub-connectors-chat-spi</artifactId>
@@ -112,7 +117,7 @@
     </dependency>
     <dependency>
       <groupId>io.casehub</groupId>
-      <artifactId>casehub-work-engine-adapter</artifactId>
+      <artifactId>casehub-engine-work-adapter</artifactId>
       <version>${casehub.version}</version>
     </dependency>
 
@@ -135,6 +140,13 @@
       <groupId>io.casehub</groupId>
       <artifactId>casehub-pages-playbook-runtime</artifactId>
       <version>${casehub.version}</version>
+      <!-- This demo exposes MCP/REST and does not use the script library GraphQL server. -->
+      <exclusions>
+        <exclusion>
+          <groupId>io.quarkus</groupId>
+          <artifactId>quarkus-smallrye-graphql</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
