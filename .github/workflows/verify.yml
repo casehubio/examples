@@ -20,7 +20,7 @@ jobs:
           distribution: 'temurin'
           server-id: github
           server-username: GITHUB_ACTOR
-          server-password: GITHUB_TOKEN
+          server-password: GH_PACKAGES_TOKEN
       # shortcut: signing snapshots are unpublished; remove bootstrap once they are published.
       - name: Check out Ledger signing adapters
         uses: actions/checkout@v4
@@ -31,12 +31,12 @@ jobs:
           persist-credentials: false
       - name: Install Ledger signing adapters
         run: >-
-          mvn --batch-mode -f .upstream/ledger/pom.xml -Pwith-signing
+          mvn --batch-mode --settings .github/maven-settings.xml -f .upstream/ledger/pom.xml -Pwith-signing
           -pl signing/aws-kms-quarkus,signing/azure-keyvault-quarkus,signing/gcp-kms-quarkus,signing/vault-transit-quarkus
           -am install -DskipTests
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
       - name: Build and test
-        run: mvn --batch-mode --fail-at-end verify
+        run: mvn --batch-mode --settings .github/maven-settings.xml --fail-at-end verify
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
