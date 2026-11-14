@@ -9,15 +9,9 @@ examples from every CaseHub module — no need to clone individual repos.
 - **Maven 3.9+**
 - **GitHub Packages access** (until CaseHub publishes to Maven Central):
 
-  Add to `~/.m2/settings.xml`:
-  ```xml
-  <server>
-    <id>github</id>
-    <username>YOUR_GITHUB_USERNAME</username>
-    <password>YOUR_GITHUB_TOKEN</password>
-  </server>
-  ```
-  The token needs `read:packages` scope.
+  Set `GITHUB_ACTOR` to your GitHub username and `GH_PACKAGES_TOKEN` to a token
+  with `read:packages`. The provided `.github/maven-settings.xml` configures both
+  authentication and the repository needed to resolve parent POMs in a clean cache.
 
 ## Quick Start
 
@@ -26,10 +20,10 @@ git clone https://github.com/casehubio/examples.git
 cd examples
 
 # Run all Maven examples
-mvn test
+mvn --settings .github/maven-settings.xml test
 
 # Run a specific example in dev mode
-mvn quarkus:dev -pl ledger-examples/order-processing
+mvn --settings .github/maven-settings.xml quarkus:dev -pl ledger-examples/order-processing
 
 # Update to latest HEAD (optional)
 ./sync.sh
