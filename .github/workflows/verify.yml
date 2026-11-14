@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: casehubio/ledger
-          ref: 9b5e2a9768c3660ddb6a65148b421a2c3d6abe4f
+          ref: c80c8089e2e977674bdca90fffad35a212d727fc
           path: .upstream/ledger
           persist-credentials: false
       - name: Install Ledger signing adapters
