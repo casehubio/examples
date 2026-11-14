@@ -4,6 +4,10 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   packages: read
@@ -34,6 +38,20 @@ jobs:
           mvn --batch-mode --settings .github/maven-settings.xml -f .upstream/ledger/pom.xml -Pwith-signing
           -pl signing/aws-kms-quarkus,signing/azure-keyvault-quarkus,signing/gcp-kms-quarkus,signing/vault-transit-quarkus
           -am install -DskipTests
+        env:
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+      # shortcut: the eval harness snapshot is unpublished; remove bootstrap after publication.
+      - name: Check out Eidos evaluation harness
+        uses: actions/checkout@v4
+        with:
+          repository: casehubio/eidos
+          ref: a072dc16e8a013f983b6a0c8a9a936ea5577325b
+          path: .upstream/eidos
+          persist-credentials: false
+      - name: Install Eidos evaluation harness
+        run: >-
+          mvn --batch-mode --settings .github/maven-settings.xml
+          -f .upstream/eidos/eval/pom.xml install -DskipTests
         env:
           GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
       - name: Build and test
