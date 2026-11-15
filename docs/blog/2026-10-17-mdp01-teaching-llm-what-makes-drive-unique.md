@@ -2,7 +2,7 @@
 layout: post
 title: "Teaching an LLM What Makes a Drive Unique"
 date: 2026-10-17
-entry_type: article
+entry_type: note
 subtype: diary
 projects: [casehubio/examples]
 tags: [cognitive-architecture, CAPS, drive-profiles, discriminative-classification, prompt-engineering, emotion-differentiation, Barrett]

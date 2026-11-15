@@ -2,7 +2,7 @@
 layout: post
 title: "The Personality That Wasn't There"
 date: 2026-11-10
-entry_type: article
+entry_type: note
 subtype: diary
 projects: [casehubio/neocortex]
 tags: [emotion-regulation, cognitive-architecture, CAPS, personality, disposition-mapping, calibration, connectionism, eval]

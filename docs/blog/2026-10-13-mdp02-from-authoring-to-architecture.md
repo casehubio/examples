@@ -2,7 +2,7 @@
 layout: post
 title: "From Authoring to Architecture"
 date: 2026-10-13
-entry_type: article
+entry_type: note
 subtype: diary
 projects: [casehubio/examples]
 tags: [cognitive-architecture, autobiographical-memory, Conway-SMS, Singer-SDM, Klinger, CAPS, formation-memories, testing-pyramid, LLM-bias]

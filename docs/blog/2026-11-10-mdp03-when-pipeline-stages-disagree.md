@@ -2,7 +2,7 @@
 layout: post
 title: "When Pipeline Stages Disagree"
 date: 2026-11-10
-entry_type: article
+entry_type: note
 subtype: diary
 projects: [casehubio/neocortex]
 tags: [emotion-regulation, cognitive-architecture, pipeline-coherence, eval, CAPS, personality, validation]

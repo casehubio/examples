@@ -2,7 +2,7 @@
 layout: post
 title: "Your Body Knows It's a Threat Before You Do"
 date: 2026-10-23
-entry_type: article
+entry_type: note
 subtype: diary
 projects: [casehubio/neocortex, casehubio/examples]
 tags: [drive-expression, channel-weighting, easterbrook, embodied-cognition, cognitive-architecture, affective-neuroscience]

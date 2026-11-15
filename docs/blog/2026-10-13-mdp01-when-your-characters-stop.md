@@ -2,7 +2,7 @@
 layout: post
 title: "When Your AI Characters Stop Being Themselves"
 date: 2026-10-13
-entry_type: article
+entry_type: note
 subtype: diary
 projects: [casehubio/examples]
 tags: [cognitive-architecture, personality-emergence, CAPS, formation-memories, evaluation]

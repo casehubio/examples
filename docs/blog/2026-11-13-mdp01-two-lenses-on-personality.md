@@ -2,7 +2,7 @@
 layout: post
 title: "Two Lenses on Personality"
 date: 2026-11-13
-entry_type: article
+entry_type: note
 subtype: diary
 projects: [casehubio/neocortex]
 tags: [pid-5, jungian, personality, cognitive-architecture, ampd, literature]

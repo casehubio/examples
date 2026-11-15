@@ -2,7 +2,7 @@
 layout: post
 title: "When Avoidance Stops Working"
 date: 2026-11-08
-entry_type: article
+entry_type: note
 subtype: diary
 projects: [casehubio/neocortex, casehubio/examples]
 tags: [emotion-regulation, regulatory-learning, CAPS, cognitive-architecture, personality-dynamics, experience-modulation]

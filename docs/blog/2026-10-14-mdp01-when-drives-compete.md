@@ -2,7 +2,7 @@
 layout: post
 title: "When Drives Compete"
 date: 2026-10-14
-entry_type: article
+entry_type: note
 subtype: diary
 projects: [casehubio/examples]
 tags: [cognitive-architecture, CAPS, drive-competition, metacognition, emotion-differentiation, formation-memories, experience-behaviour-catalogue]

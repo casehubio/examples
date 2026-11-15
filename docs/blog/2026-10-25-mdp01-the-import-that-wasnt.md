@@ -2,7 +2,7 @@
 layout: post
 title: "The Import That Wasn't: Closing the Loop Between Biography and CAPS"
 date: 2026-10-25
-entry_type: article
+entry_type: note
 subtype: diary
 projects: [casehubio/neocortex, casehubio/examples]
 tags: [cognitive-architecture, CAPS, personality-model, biography-import, connection-weights, Mischel-Shoda]

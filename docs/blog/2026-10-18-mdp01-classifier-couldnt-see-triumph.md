@@ -2,7 +2,7 @@
 layout: post
 title: "When the Classifier Couldn't See Triumph"
 date: 2026-10-18
-entry_type: article
+entry_type: note
 subtype: diary
 projects: [casehubio/examples]
 tags: [cognitive-architecture, CAPS, situation-classification, Barrett, Mischel-Shoda, emotional-granularity, drive-expression, evaluation]

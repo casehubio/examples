@@ -2,7 +2,7 @@
 layout: post
 title: "Wiring the Missing Connections: How CAPS Theory, Appraisal Models, and Current Concerns Theory Guide Cognitive Agent Architecture"
 date: 2026-10-09
-entry_type: article
+entry_type: note
 subtype: diary
 projects: [casehubio/examples]
 tags: [cognitive-architecture, CAPS, appraisal-theory, personality, emergence, drives, literature-review]

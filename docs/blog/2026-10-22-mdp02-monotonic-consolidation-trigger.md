@@ -2,7 +2,7 @@
 layout: post
 title: "Building the Monotonic Consolidation Trigger"
 date: 2026-10-22
-entry_type: article
+entry_type: note
 subtype: diary
 projects: [casehubio/examples, casehubio/neocortex]
 tags: [cognitive-architecture, memory-consolidation, CLS-theory, implementation, observability]
