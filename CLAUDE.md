@@ -21,6 +21,10 @@ Research documents, literature reviews, era journals, and cognitive architecture
 
 Never guess at psychological, cognitive, or architectural models. Always base design decisions on literature, using empirically proven and respected models. Search the internet and Google Scholar to find the literature to undertake review and verification before committing to an approach. Intuitive reasoning that "sounds right" is not sufficient — the published computational models are the authority.
 
+## Mechanical vs LLM — Semantic Resolution Boundary
+
+Mechanical/rule-based computation works well when operating on signals that are already semantically resolved — numeric values where meaning has already been extracted (personality scores, capacity metrics, intensity levels). Keyword-based approaches lack semantic context and consistently underperform. When a decision requires understanding situational meaning, narrative context, or semantic nuance, use LLM-based selection. The pattern: LLM resolves semantics into numeric signals; mechanical computation operates on those signals downstream.
+
 ## What This Project Is
 
 Multi-example repository for CaseHub platform modules. Each subdirectory is an independent Quarkus application demonstrating a platform capability.
