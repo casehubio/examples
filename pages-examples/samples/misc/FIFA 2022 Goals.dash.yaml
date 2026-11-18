@@ -4,7 +4,10 @@ properties:
 global:
   mode: dark
   displayer:
-    extraConfiguration: "{\n    \"color\": \"${SeriesColor}\"\n}"
+    extraConfiguration: |-
+      {
+          "color": "${SeriesColor}"
+      }
     axis:
       y:
         title: AVG Goals

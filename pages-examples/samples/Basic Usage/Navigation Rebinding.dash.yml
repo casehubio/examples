@@ -481,7 +481,13 @@ datasets:
   - id: Target
     type: NUMBER
 - uuid: ops
-  content: "[\n  [\"CPU\", 72],\n  [\"Memory\", 64],\n  [\"Disk\", 45],\n  [\"Network\", 31]\n]"
+  content: |-
+    [
+      ["CPU", 72],
+      ["Memory", 64],
+      ["Disk", 45],
+      ["Network", 31]
+    ]
   columns:
   - id: Metric
     type: LABEL
@@ -526,7 +532,12 @@ datasets:
   - id: Editable
     type: LABEL
 - uuid: report-stats
-  content: "[\n  [\"Generated\", 1247],\n  [\"AvgTime\", 3420],\n  [\"Failed\", 23]\n]"
+  content: |-
+    [
+      ["Generated", 1247],
+      ["AvgTime", 3420],
+      ["Failed", 23]
+    ]
   columns:
   - id: Metric
     type: LABEL

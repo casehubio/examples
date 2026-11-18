@@ -6,7 +6,12 @@ global:
       uuid: a
 datasets:
 - uuid: a
-  content: "[\n    [\"A\", 1],\n    [\"B\", 2],\n    [\"C\", 3],\n]            "
+  content: |-
+    [
+        ["A", 1],
+        ["B", 2],
+        ["C", 3],
+    ]            
 pages:
 - grid:
   - at: {x: 0, y: 0, w: 6, h: 1}

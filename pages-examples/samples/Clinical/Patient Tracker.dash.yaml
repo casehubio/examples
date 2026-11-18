@@ -133,7 +133,10 @@ datasets:
   - id: ward
     type: LABEL
 - uuid: nextReview
-  content: "[\n    [\"ICU Rounds\", \"2026-06-30T10:00:00\"]\n]"
+  content: |-
+    [
+        ["ICU Rounds", "2026-06-30T10:00:00"]
+    ]
   columns:
   - id: review
     type: TEXT

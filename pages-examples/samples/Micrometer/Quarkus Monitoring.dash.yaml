@@ -25,7 +25,10 @@ datasets:
   accumulate: true
   cacheMaxRows: 10000
   refreshTime: 3second
-  expression: "$map($, function($v){\n    [$v[0], $v[1], $v[2] = 'NaN' ? -1 : $v[2], $now() ~> $toMillis()]\n})"
+  expression: |-
+    $map($, function($v){
+        [$v[0], $v[1], $v[2] = 'NaN' ? -1 : $v[2], $now() ~> $toMillis()]
+    })
   columns:
   - id: metric
     type: LABEL
@@ -154,7 +157,10 @@ pages:
       columns:
       - id: Labels
         expression: value.replace("heap, ", "");
-      extraConfiguration: "{\n  \"color\" : [\"#5ec962\"]\n}"
+      extraConfiguration: |-
+        {
+          "color" : ["#5ec962"]
+        }
   - at: {x: 6, y: 1, w: 6, h: 1}
     type: bar-chart
     properties:
@@ -184,7 +190,10 @@ pages:
       columns:
       - id: Labels
         expression: value.replace("nonheap, ", "");
-      extraConfiguration: "{\n  \"color\" : [\"#5ec962\"]\n}"
+      extraConfiguration: |-
+        {
+          "color" : ["#5ec962"]
+        }
   - at: {x: 0, y: 2, w: 12, h: 1}
     type: bar-chart
     properties:
@@ -210,7 +219,10 @@ pages:
       columns:
       - id: Labels
         expression: value;
-      extraConfiguration: "{\n  \"color\" : [\"#4695EB\"]\n}"
+      extraConfiguration: |-
+        {
+          "color" : ["#4695EB"]
+        }
 - name: History
   grid:
   - at: {x: 0, y: 0, w: 6, h: 1}

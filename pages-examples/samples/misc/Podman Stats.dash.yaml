@@ -65,7 +65,12 @@ pages:
         height: '350'
         margin:
           left: '120'
-      extraConfiguration: "\"series\": {\n  \"label\": {\n      \"position\": \"top\"\n  }\n}\n"
+      extraConfiguration: |
+        "series": {
+          "label": {
+              "position": "top"
+          }
+        }
   - at: {x: 6, y: 0, w: 6, h: 1}
     type: markdown
     properties:
