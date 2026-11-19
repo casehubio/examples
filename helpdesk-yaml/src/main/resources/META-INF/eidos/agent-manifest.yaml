@@ -1,0 +1,21 @@
+providers:
+  - name: classifier-llm
+    type: anthropic
+    model: claude-haiku-5-5
+    source:
+      credential-ref: anthropic-api-key
+
+  - name: classifier-sim
+    type: simulator
+    responses:
+      classify-ticket:
+        rules:
+          - when: { subject-contains: [laptop, monitor, keyboard, printer, dock, wifi] }
+            then: { category: HARDWARE, priority: HIGH }
+          - when: { subject-contains: [password, access, login, vpn, membership, jira] }
+            then: { category: ACCESS, priority: LOW }
+          - when: { subject-contains: [install, update, license, ide, docker, slack] }
+            then: { category: SOFTWARE, priority: MEDIUM }
+          - default: { category: OTHER, priority: MEDIUM }
+
+active: classifier-sim

@@ -1,0 +1,379 @@
+datasets:
+  - uuid: tickets
+    url: /api/apps/helpdesk/tickets
+    mutable:
+      keyColumn: id
+      createUrl: /api/apps/helpdesk/tickets
+      updateUrl: /api/apps/helpdesk/tickets/{id}
+      deleteUrl: /api/apps/helpdesk/tickets/{id}
+    columns:
+      - id: id
+        type: TEXT
+      - id: subject
+        type: TEXT
+      - id: description
+        type: TEXT
+      - id: category
+        type: LABEL
+      - id: priority
+        type: LABEL
+      - id: status
+        type: LABEL
+      - id: customerRef
+        type: TEXT
+      - id: assigneeId
+        type: TEXT
+      - id: resolution
+        type: TEXT
+  - uuid: agents
+    url: /api/apps/helpdesk/agents
+    columns:
+      - id: id
+        type: TEXT
+      - id: name
+        type: TEXT
+      - id: email
+        type: TEXT
+      - id: speciality
+        type: LABEL
+      - id: active
+        type: LABEL
+pages:
+  - name: index
+    grid:
+      - at: { x: 0, y: 0, w: 12, h: 1 }
+        type: tabs
+        properties:
+          navGroupId: HelpdeskNav
+          width: 100%
+  - name: Dashboard
+    grid:
+      - at: { x: 0, y: 0, w: 3, h: 1 }
+        type: title
+        properties:
+          text: Open Tickets
+          size: h3
+      - at: { x: 0, y: 1, w: 3, h: 1 }
+        type: metric
+        properties:
+          lookup:
+            uuid: tickets
+            filter:
+              - column: status
+                function: NOT_EQUALS_TO
+                args:
+                  - CLOSED
+              - column: status
+                function: NOT_EQUALS_TO
+                args:
+                  - RESOLVED
+            group:
+              - functions:
+                  - source: id
+                    function: COUNT
+          columns:
+            - id: id
+              pattern: "#"
+      - at: { x: 3, y: 0, w: 3, h: 1 }
+        type: title
+        properties:
+          text: Urgent
+          size: h3
+      - at: { x: 3, y: 1, w: 3, h: 1 }
+        type: metric
+        properties:
+          lookup:
+            uuid: tickets
+            filter:
+              - column: priority
+                function: EQUALS_TO
+                args:
+                  - URGENT
+              - column: status
+                function: NOT_EQUALS_TO
+                args:
+                  - CLOSED
+            group:
+              - functions:
+                  - source: id
+                    function: COUNT
+          columns:
+            - id: id
+              pattern: "#"
+      - at: { x: 6, y: 0, w: 3, h: 1 }
+        type: title
+        properties:
+          text: Unassigned
+          size: h3
+      - at: { x: 6, y: 1, w: 3, h: 1 }
+        type: metric
+        properties:
+          lookup:
+            uuid: tickets
+            filter:
+              - column: assigneeId
+                function: IS_NULL
+              - column: status
+                function: NOT_EQUALS_TO
+                args:
+                  - CLOSED
+            group:
+              - functions:
+                  - source: id
+                    function: COUNT
+          columns:
+            - id: id
+              pattern: "#"
+      - at: { x: 9, y: 0, w: 3, h: 1 }
+        type: title
+        properties:
+          text: Resolved Today
+          size: h3
+      - at: { x: 9, y: 1, w: 3, h: 1 }
+        type: metric
+        properties:
+          lookup:
+            uuid: tickets
+            filter:
+              - column: status
+                function: EQUALS_TO
+                args:
+                  - RESOLVED
+            group:
+              - functions:
+                  - source: id
+                    function: COUNT
+          columns:
+            - id: id
+              pattern: "#"
+      - at: { x: 0, y: 2, w: 4, h: 1 }
+        type: title
+        properties:
+          text: By Category
+          size: h3
+      - at: { x: 0, y: 3, w: 4, h: 1 }
+        type: pie-chart
+        properties:
+          filter:
+            listening: true
+          lookup:
+            uuid: tickets
+            filter:
+              - column: status
+                function: NOT_EQUALS_TO
+                args:
+                  - CLOSED
+              - column: status
+                function: NOT_EQUALS_TO
+                args:
+                  - RESOLVED
+            group:
+              - columnGroup:
+                  source: category
+                functions:
+                  - source: category
+                  - source: id
+                    function: COUNT
+      - at: { x: 4, y: 2, w: 4, h: 1 }
+        type: title
+        properties:
+          text: By Priority
+          size: h3
+      - at: { x: 4, y: 3, w: 4, h: 1 }
+        type: bar-chart
+        properties:
+          filter:
+            listening: true
+          lookup:
+            uuid: tickets
+            filter:
+              - column: status
+                function: NOT_EQUALS_TO
+                args:
+                  - CLOSED
+              - column: status
+                function: NOT_EQUALS_TO
+                args:
+                  - RESOLVED
+            group:
+              - columnGroup:
+                  source: priority
+                functions:
+                  - source: priority
+                  - source: id
+                    function: COUNT
+      - at: { x: 8, y: 2, w: 4, h: 1 }
+        type: title
+        properties:
+          text: By Status
+          size: h3
+      - at: { x: 8, y: 3, w: 4, h: 1 }
+        type: pie-chart
+        properties:
+          subtype: donut
+          filter:
+            listening: true
+          lookup:
+            uuid: tickets
+            group:
+              - columnGroup:
+                  source: status
+                functions:
+                  - source: status
+                  - source: id
+                    function: COUNT
+      - at: { x: 0, y: 4, w: 12, h: 1 }
+        type: title
+        properties:
+          text: Recent Tickets
+          size: h3
+      - at: { x: 0, y: 5, w: 12, h: 1 }
+        type: data-table
+        properties:
+          pageSize: 10
+          sortable: true
+          filter:
+            notification: true
+            listening: true
+          lookup:
+            uuid: tickets
+            filter:
+              - column: status
+                function: NOT_EQUALS_TO
+                args:
+                  - CLOSED
+              - column: status
+                function: NOT_EQUALS_TO
+                args:
+                  - RESOLVED
+          columns:
+            - id: subject
+            - id: category
+            - id: priority
+            - id: status
+            - id: assigneeId
+  - name: Ticket Queue
+    grid:
+      - at: { x: 0, y: 0, w: 12, h: 1 }
+        type: selector
+        properties:
+          subtype: dropdown
+          filter:
+            selfApply: true
+            notification: true
+          lookup:
+            uuid: tickets
+            group:
+              - columnGroup:
+                  source: status
+                functions:
+                  - source: status
+      - at: { x: 0, y: 1, w: 12, h: 1 }
+        type: selector
+        properties:
+          subtype: labels
+          filter:
+            selfApply: true
+            notification: true
+          lookup:
+            uuid: tickets
+            group:
+              - columnGroup:
+                  source: category
+                functions:
+                  - source: category
+      - at: { x: 0, y: 2, w: 12, h: 1 }
+        type: data-table
+        properties:
+          pageSize: 15
+          sortable: true
+          filter:
+            listening: true
+            notification: true
+          lookup:
+            uuid: tickets
+          columns:
+            - id: id
+            - id: subject
+            - id: category
+            - id: priority
+            - id: status
+            - id: customerRef
+            - id: assigneeId
+  - name: Ticket Detail
+    dataScope:
+      dataset: tickets
+      idColumn: id
+    save:
+      trigger: auto
+      delay: 2000
+      adapter: rest
+    grid:
+      - at: { x: 0, y: 0, w: 12, h: 1 }
+        type: title
+        properties:
+          text: Ticket Detail
+          size: h2
+      - at: { x: 0, y: 1, w: 12, h: 1 }
+      - at: { x: 0, y: 2, w: 12, h: 1 }
+      - at: { x: 0, y: 3, w: 12, h: 1 }
+      - at: { x: 0, y: 4, w: 12, h: 1 }
+      - at: { x: 0, y: 5, w: 12, h: 1 }
+      - at: { x: 0, y: 6, w: 12, h: 1 }
+      - at: { x: 0, y: 7, w: 12, h: 1 }
+      - at: { x: 0, y: 8, w: 12, h: 1 }
+  - name: New Ticket
+    grid:
+      - at: { x: 0, y: 0, w: 12, h: 1 }
+        type: title
+        properties:
+          text: Create Ticket
+          size: h2
+      - at: { x: 0, y: 1, w: 12, h: 1 }
+  - name: Agents
+    grid:
+      - at: { x: 0, y: 0, w: 8, h: 1 }
+        type: title
+        properties:
+          text: Support Agents
+          size: h3
+      - at: { x: 0, y: 1, w: 8, h: 1 }
+        type: data-table
+        properties:
+          sortable: true
+          filter:
+            notification: true
+          lookup:
+            uuid: agents
+      - at: { x: 8, y: 0, w: 4, h: 1 }
+        type: title
+        properties:
+          text: By Speciality
+          size: h3
+      - at: { x: 8, y: 1, w: 4, h: 1 }
+        type: pie-chart
+        properties:
+          lookup:
+            uuid: agents
+            filter:
+              - column: active
+                function: EQUALS_TO
+                args:
+                  - "true"
+            group:
+              - columnGroup:
+                  source: speciality
+                functions:
+                  - source: speciality
+                  - source: id
+                    function: COUNT
+navTree:
+  root_items:
+    - type: GROUP
+      id: HelpdeskNav
+      children:
+        - page: Dashboard
+        - page: Ticket Queue
+        - page: Ticket Detail
+        - page: New Ticket
+        - page: Agents

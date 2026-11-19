@@ -31,6 +31,7 @@ Multi-example repository for CaseHub platform modules. Each subdirectory is an i
 
 **Active examples:**
 - `helpdesk/` — Helpdesk scenario demo (Pages scenario engine, push WebSocket, case lifecycle)
+- `helpdesk-yaml/` — YAML-only helpdesk (eidos agents, LLM/simulator dual-wiring, zero app Java)
 - `wacky-manor/` — Multi-agent LLM demo with Wacky Races characters
 - `ledger-examples/` — Ledger usage examples
 - `qhorus-examples/` — Qhorus messaging examples
@@ -84,6 +85,23 @@ JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn quarkus:dev -pl helpdesk -Dquarkus
 **`-Dquarkus.profile=demo` is required.** Without it, the scenario verification endpoints (`/scenario/verify/*`, `/scenario/bootstrap/*`) are not registered and the "Start Demo" button does nothing.
 
 The helpdesk serves its own UI at `http://127.0.0.1:8090/` — no separate frontend needed.
+
+## Helpdesk YAML
+
+YAML-only helpdesk — same case lifecycle as the Java helpdesk but defined entirely in YAML. Eidos agent descriptors, LLM/simulator dual-wiring, reactive bindings. Simulator mode is the default (no API key needed).
+
+```bash
+# Build helpdesk-yaml
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f helpdesk-yaml/pom.xml install -Dmaven.test.skip=true -s .mvn/slot-settings.xml
+
+# Run helpdesk-yaml dev mode (backend on 8190)
+JAVA_HOME=$(/usr/libexec/java_home -v 26) mvn -f helpdesk-yaml/pom.xml quarkus:dev -Dquarkus.http.port=8190 -s .mvn/slot-settings.xml
+```
+
+The helpdesk-yaml serves its own UI at `http://127.0.0.1:8190/` — no separate frontend needed.
+
+**Spec:** `specs/yaml-helpdesk-apps/2026-11-19-yaml-helpdesk-apps-design.md` (workspace)
+**Plan:** `plans/2026-11-19-yaml-helpdesk-apps.md` (workspace)
 
 ## Wacky Manor
 
