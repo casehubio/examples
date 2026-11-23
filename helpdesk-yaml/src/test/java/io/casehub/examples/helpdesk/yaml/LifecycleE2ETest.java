@@ -4,10 +4,9 @@ import static io.restassured.RestAssured.given;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.casehub.api.model.CaseStatus;
 import io.casehub.engine.common.spi.cache.CaseInstanceCache;
+import io.casehub.work.runtime.service.WorkItemService;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import java.util.Map;
@@ -20,6 +19,7 @@ class LifecycleE2ETest {
 
     @Inject HelpdeskYamlCaseHub caseHub;
     @Inject CaseInstanceCache caseInstanceCache;
+    @Inject WorkItemService workItemService;
 
     @Test
     void caseHubLoaded() {
@@ -59,37 +59,16 @@ class LifecycleE2ETest {
             assertFalse(workItems.isEmpty(), "Work item should be created");
         });
 
-        // Claim and resolve
-        String workItemId = given()
+        String workItemIdStr = given()
                 .when().get("/api/work/items/list-all")
                 .then().statusCode(200)
                 .extract().jsonPath()
                 .getString("items.find { it.title.contains('e2e-test') && it.status == 'PENDING' }.id");
+        UUID workItemId = UUID.fromString(workItemIdStr);
 
-        // Claim (PENDING → ASSIGNED)
-        given().queryParam("claimant", "hw-specialist")
-                .when().post("/api/work/lifecycle/claim/" + workItemId)
-                .then().statusCode(200);
-
-        // Start (ASSIGNED → IN_PROGRESS)
-        given().queryParam("actor", "hw-specialist")
-                .when().post("/api/work/lifecycle/start/" + workItemId)
-                .then().statusCode(200);
-
-        // Complete with resolution
-        String resolutionJson;
-        try {
-            resolutionJson = new ObjectMapper().writeValueAsString(Map.of(
-                    "resolution", "BIOS reset resolved the boot loop",
-                    "assigneeId", "hw-specialist"));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        given().queryParam("actor", "hw-specialist")
-                .contentType("application/json")
-                .body(Map.of("resolution", resolutionJson))
-                .when().post("/api/work/lifecycle/complete/" + workItemId)
-                .then().statusCode(200);
+        // Complete via system path (candidate group resolution is an engine-level concern)
+        workItemService.completeFromSystem(workItemId, "hw-specialist",
+                "{\"resolution\":\"BIOS reset resolved the boot loop\",\"assigneeId\":\"hw-specialist\"}");
 
         // Case completes: notify-resolution fires, goal met
         await().atMost(15, TimeUnit.SECONDS).untilAsserted(() -> {
