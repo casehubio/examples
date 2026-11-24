@@ -122,7 +122,19 @@
       </exclusions>
     </dependency>
 
-    <!-- Simulation -->
+    <!-- Eidos agent descriptors + registry -->
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-eidos</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
+
+    <!-- Agent routing + simulation -->
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-platform-agent-router</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
     <dependency>
       <groupId>io.casehub</groupId>
       <artifactId>casehub-platform-simulation-config</artifactId>
@@ -158,6 +170,10 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-rest</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-rest-client</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

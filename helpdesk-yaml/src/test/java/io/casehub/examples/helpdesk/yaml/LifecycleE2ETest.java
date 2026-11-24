@@ -4,8 +4,11 @@ import static io.restassured.RestAssured.given;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.*;
 
+import io.casehub.api.engine.CaseHub;
 import io.casehub.api.model.CaseStatus;
+import io.casehub.engine.common.spi.CaseDefinitionRegistry;
 import io.casehub.engine.common.spi.cache.CaseInstanceCache;
+import io.casehub.engine.runtime.engine.CaseHubRegistry;
 import io.casehub.work.runtime.service.WorkItemService;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -17,19 +20,26 @@ import org.junit.jupiter.api.Test;
 @QuarkusTest
 class LifecycleE2ETest {
 
-    @Inject HelpdeskYamlCaseHub caseHub;
+    @Inject CaseDefinitionRegistry registry;
+    @Inject CaseHubRegistry caseHubRegistry;
     @Inject CaseInstanceCache caseInstanceCache;
     @Inject WorkItemService workItemService;
 
     @Test
-    void caseHubLoaded() {
-        assertNotNull(caseHub.getDefinition(),
-                "helpdesk-ticket case definition should be loaded");
-        assertEquals("helpdesk-ticket", caseHub.getDefinition().getName());
+    void autoDiscoveredCaseHubExists() {
+        var definition = registry.findByName("helpdesk-ticket");
+        assertTrue(definition.isPresent(),
+                "helpdesk-ticket should be auto-discovered");
+
+        var caseHub = caseHubRegistry.get("helpdesk-ticket");
+        assertTrue(caseHub.isPresent(),
+                "CaseHub should be auto-created for helpdesk-ticket");
     }
 
     @Test
     void fullLifecycle_simulatorMode() {
+        CaseHub caseHub = caseHubRegistry.get("helpdesk-ticket")
+                .orElseThrow(() -> new AssertionError("CaseHub not found"));
 
         UUID caseId = caseHub.startCase(Map.of(
                 "subject", "e2e-test laptop won't boot",
@@ -39,7 +49,7 @@ class LifecycleE2ETest {
 
         await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
             Object category = caseHub.query(caseId, "category");
-            assertNotNull(category, "Ticket should be classified");
+            assertNotNull(category, "Ticket should be classified by eidos agent via simulation");
             assertEquals("HARDWARE", category);
         });
 

@@ -1,0 +1,46 @@
+descriptors:
+  - agentId: classifier-agent
+    slot: classifier-agent
+    name: Ticket Classifier
+    tenancyId: 278776f9-e1b0-46fb-9032-8bddebdcf9ce
+    capabilities:
+      - name: ticket-classification
+        domain: support-triage
+        qualityHint: 0.9
+    disposition:
+      conflictMode:
+        - term: analytical
+          weight: 1.0
+
+  - agentId: hw-specialist
+    slot: hw-specialist
+    name: Carlos Rivera
+    capabilities:
+      - name: hardware-support
+        domain: hardware-troubleshooting
+    disposition:
+      conflictMode:
+        - term: collaborating
+          weight: 1.0
+
+  - agentId: sw-specialist
+    slot: sw-specialist
+    name: Jordan Lee
+    capabilities:
+      - name: software-support
+        domain: software-troubleshooting
+    disposition:
+      conflictMode:
+        - term: competing
+          weight: 1.0
+
+  - agentId: access-specialist
+    slot: access-specialist
+    name: Alex Thompson
+    capabilities:
+      - name: access-support
+        domain: identity-access-management
+    disposition:
+      conflictMode:
+        - term: collaborating
+          weight: 1.0

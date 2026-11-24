@@ -24,10 +24,18 @@ spec:
     - name: ticket-classifier
       description: "Classifies tickets using eidos agent (LLM or simulator)"
       capabilities: [classify-ticket]
+      agent:
+        slot: classifier-agent
+        inputProjection: "{ subject: .subject, description: .description }"
+        outputProjection: "{ category: .category, priority: .priority }"
 
     - name: notification-sender
       description: "Sends customer notification via push topic"
       capabilities: [notify-customer]
+      do:
+        - setNotified:
+            set:
+              notified: true
 
   bindings:
     - name: triage

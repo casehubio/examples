@@ -10,4 +10,3 @@ methods:
         output:
           - type: TextDelta
             text: '{"category": "HARDWARE", "priority": "HIGH"}'
-          - type: InvocationComplete
