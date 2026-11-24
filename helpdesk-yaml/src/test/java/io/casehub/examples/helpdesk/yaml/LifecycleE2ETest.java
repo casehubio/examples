@@ -37,10 +37,9 @@ class LifecycleE2ETest {
                 "customerRef", "cust-e2e",
                 "status", "OPEN"));
 
-        // Triage binding fires: simulator classifies "laptop" → HARDWARE/HIGH
         await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
             Object category = caseHub.query(caseId, "category");
-            assertNotNull(category, "Ticket should be classified by simulator");
+            assertNotNull(category, "Ticket should be classified");
             assertEquals("HARDWARE", category);
         });
 
@@ -49,7 +48,6 @@ class LifecycleE2ETest {
             assertEquals("TRIAGED", status);
         });
 
-        // Assign-specialist binding fires: work item created
         await().atMost(10, TimeUnit.SECONDS).untilAsserted(() -> {
             var workItems = given()
                     .when().get("/api/work/items/list-all")
@@ -66,11 +64,9 @@ class LifecycleE2ETest {
                 .getString("items.find { it.title.contains('e2e-test') && it.status == 'PENDING' }.id");
         UUID workItemId = UUID.fromString(workItemIdStr);
 
-        // Complete via system path (candidate group resolution is an engine-level concern)
         workItemService.completeFromSystem(workItemId, "hw-specialist",
                 "{\"resolution\":\"BIOS reset resolved the boot loop\",\"assigneeId\":\"hw-specialist\"}");
 
-        // Case completes: notify-resolution fires, goal met
         await().atMost(15, TimeUnit.SECONDS).untilAsserted(() -> {
             var instance = caseInstanceCache.get(caseId);
             assertNotNull(instance);

@@ -1,0 +1,13 @@
+default-tenancy-id: 278776f9-e1b0-46fb-9032-8bddebdcf9ce
+
+methods:
+  agent-provider.invoke:
+    strategy: seq
+    corpus:
+      - input:
+          system-prompt: ""
+          user-prompt: ""
+        output:
+          - type: TextDelta
+            text: '{"category": "HARDWARE", "priority": "HIGH"}'
+          - type: InvocationComplete

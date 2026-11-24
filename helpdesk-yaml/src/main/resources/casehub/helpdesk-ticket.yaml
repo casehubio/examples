@@ -22,7 +22,7 @@ spec:
 
   workers:
     - name: ticket-classifier
-      description: "Classifies tickets using keyword matching (simulator mode)"
+      description: "Classifies tickets using eidos agent (LLM or simulator)"
       capabilities: [classify-ticket]
 
     - name: notification-sender
