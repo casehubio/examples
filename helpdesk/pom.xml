@@ -36,6 +36,12 @@
   </dependencyManagement>
 
   <dependencies>
+    <!-- Shared UI, seed data, conformance playbook -->
+    <dependency>
+      <groupId>io.casehub.examples</groupId>
+      <artifactId>casehub-examples-helpdesk-shared</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>io.casehub</groupId>
       <artifactId>casehub-platform-simulation-config</artifactId>
