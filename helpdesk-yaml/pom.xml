@@ -135,6 +135,11 @@
       <artifactId>casehub-eidos</artifactId>
       <version>${casehub.version}</version>
     </dependency>
+    <dependency>
+      <groupId>io.casehub</groupId>
+      <artifactId>casehub-eidos-memory</artifactId>
+      <version>${casehub.version}</version>
+    </dependency>
 
     <!-- Agent routing + simulation -->
     <dependency>

@@ -10,3 +10,27 @@ methods:
         output:
           - type: TextDelta
             text: '{"category": "HARDWARE", "priority": "HIGH"}'
+      - input:
+          system-prompt: ""
+          user-prompt: ""
+        output:
+          - type: TextDelta
+            text: '{"category": "SOFTWARE", "priority": "MEDIUM"}'
+      - input:
+          system-prompt: ""
+          user-prompt: ""
+        output:
+          - type: TextDelta
+            text: '{"category": "ACCESS", "priority": "LOW"}'
+      - input:
+          system-prompt: ""
+          user-prompt: ""
+        output:
+          - type: TextDelta
+            text: '{"category": "HARDWARE", "priority": "URGENT"}'
+      - input:
+          system-prompt: ""
+          user-prompt: ""
+        output:
+          - type: TextDelta
+            text: '{"category": "SOFTWARE", "priority": "HIGH"}'
